@@ -1,0 +1,26 @@
+// Header position
+// To use inside a page component with the following structure:
+// <div class="page">
+//    <app-header></app-header>
+//    <div class="main">
+//       ...
+//    </div>
+// </div>
+@mixin header-position {
+    .page {
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main {
+        position: relative;
+        flex: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+        .page {
+            flex-direction: column-reverse;
+        }
+    }
+}

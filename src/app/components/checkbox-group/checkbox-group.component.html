@@ -1,0 +1,17 @@
+<div class="checkbox-group" [formGroup]="form()">
+    <div class="list" formArrayName="options">
+        @for (option of options(); track $index) {
+            @if (!option.options) {
+                <div class="checkbox" [formGroup]="$any(optionsArray.controls[$index])">
+                    <input type="checkbox" [id]="option.id" formControlName="isChecked">
+                    <label [for]="option.id">{{option.id}}</label>
+                </div>
+            }
+            @else {
+                @if (option.options) {
+                    <app-checkbox-group [form]="$any(optionsArray.controls[$index])" [options]="option.options" [maxChoiches]="1"></app-checkbox-group>
+                }
+            }
+        }
+    </div>
+</div>

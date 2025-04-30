@@ -1,0 +1,12 @@
+<div class="nav-menu">
+    <ul class="menu">
+        @for (route of menu; track route.path) {
+            <div class="menu__item">
+                <a class="menu__item-link" [routerLink]="'/' + route.path" routerLinkActive="menu__item-link--active">
+                    <span class="menu__item-icon" [style.maskImage]="'url(' + route.iconUrl + ')'" [style.webkitMaskImage]="'url(' + route.iconUrl + ')'"></span>
+                    <span class="menu__item-text">{{route.label}}</span>
+                </a>
+            </div>
+        }
+    </ul>
+</div>

@@ -1,0 +1,18 @@
+<div class="sidebar"
+    [style.left]="side() === 'left' ? (!isOpen ? ('-' + currentWidth) : 0) : 'unset'"
+    [style.right]="side() === 'right' ? (!isOpen ? ('-' + currentWidth) : 0) : 'unset'"
+    [style.height]="height()"
+    [style.width]="currentWidth"
+    [style.border-width]="side() === 'left' ? '0 1px 0 0' : '0 0 0 1px'"
+>
+    <button type="button" class="sidebar__toggle fab"
+        [style.right]="side() === 'left' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
+        [style.left]="side() === 'right' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
+        (click)="isOpen=!isOpen"
+    >
+        <span class="sidebar__toggle-icon" [style.maskImage]="'url(' + iconUrl() + ')'" [style.webkitMaskImage]="'url(' + iconUrl() + ')'"></span>
+    </button>
+    <div class="sidebar__content">
+        <ng-content select="sidebar-content"></ng-content>
+    </div>
+</div>

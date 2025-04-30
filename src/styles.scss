@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+// Generic elements
+* {
+    font-family: 'Poppins', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+img {
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+// Variables
+:root {
+    font-size: 14px;
+    color: var(--primary-900);
+
+    --header-height: 48px;
+
+    --primary-900: #060527;
+    --primary-800: #06054D;
+    --primary-700: #060468;
+    --primary-600: #050385;
+    --primary-500: #0300A2;
+    --primary-400: #3B42B8;
+    --primary-300: #7781CD;
+    --primary-200: #B2BBE3;
+    --primary-100: #EEEEFF;
+
+    --neutral-900: #000000;
+    --neutral-800: #373737;
+    --neutral-700: #8F8F8F;
+    --neutral-600: #A6A6A6;
+    --neutral-500: #DDDDDD;
+    --neutral-400: #E6E6E6;
+    --neutral-300: #EEEEEE;
+    --neutral-200: #F1F1F1;
+    --neutral-100: #FFFFFF;
+}
+
+// Specific classes
+button.fab {
+    color: var(--primary-900, black);
+    background-color: var(--neutral-100, white);
+    border: 1px solid var(--neutral-500, lightgrey);
+    border-radius: 8px;
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    padding: 8px;
+
+    &:hover {
+        color: var(--primary-500, blue);
+        background-color: var(--primary-100, lightblue);
+    }
+}
