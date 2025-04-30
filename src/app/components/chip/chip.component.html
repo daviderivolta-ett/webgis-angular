@@ -1,0 +1,7 @@
+<div class="chip">
+    <span class="chip__icon" [style.maskImage]="'url(' + iconUrl() + ')'" [style.webkitMaskImage]="'url(' + iconUrl() + ')'"></span>
+    <p>{{text()}}</p>
+    @if (isDismissable()) {
+        <button type="button">X</button>
+    }
+</div>

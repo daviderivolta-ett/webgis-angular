@@ -102,9 +102,6 @@ export class CheckboxListComponent {
   }
 
   private _disableUncheckedControls(formArray: FormArray): void {
-    console.log('FORM ARRAY', formArray);
-    console.log('MAX SELECTIONS', this.maxSelections());
-
     formArray.controls.forEach((group: AbstractControl) => {
       if (!(group instanceof FormGroup)) return;
 

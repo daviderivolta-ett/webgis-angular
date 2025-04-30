@@ -4,7 +4,13 @@
         <!-- Start sidebar -->
         <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
             <div ngProjectAs="sidebar-content">
-                <app-checkbox-list (changed)="test($event)" ngProjectAs="sidebar-content" [options]="testData" [maxSelections]="5"></app-checkbox-list>
+                <input type="datetime-local" [value]="">
+            </div>
+            <div ngProjectAs="sidebar-content">
+                <app-checkbox-list ngProjectAs="sidebar-content" [options]="stationsData" [maxSelections]="3"></app-checkbox-list>
+            </div>
+            <div ngProjectAs="sidebar-content">
+                <app-checkbox-list ngProjectAs="sidebar-content" [options]="mapsData" [maxSelections]="1"></app-checkbox-list>
             </div>
         </app-sidebar>
         <!-- End sidebar -->
@@ -18,10 +24,10 @@
             </app-pop-up-menu>
             <app-pop-up-menu class="info-layers-menu" position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
                 <div ngProjectAs="pop-up-menu-content">
-                    <p>PIPPO</p>                
+                    <app-checkbox-list [options]="infoLayers"></app-checkbox-list>
                 </div>
             </app-pop-up-menu>
-        </div>
+        </div>        
         <!-- End layers menu -->
         
         <!-- Start map -->
@@ -29,3 +35,4 @@
         <!-- End map -->
     </div>
 </div>
+<!-- <app-chip iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" text="Pippo"></app-chip> -->

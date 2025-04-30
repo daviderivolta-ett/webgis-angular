@@ -1,0 +1,19 @@
+.chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+}
+
+.chip__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: red;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
