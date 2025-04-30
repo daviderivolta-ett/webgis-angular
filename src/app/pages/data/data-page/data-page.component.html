@@ -4,8 +4,7 @@
         <!-- Start sidebar -->
         <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
             <div ngProjectAs="sidebar-content">
-                <!-- <app-checkbox-group [options]="[{ id: 'temperature' }, { id: 'hydrometric_levels' }, { id: 'wind' }, { id: 'precipitation', options: [{ id: 'precipitation_0' }, { id: 'precipitation_6' }, { id: 'precipitation_12' }, { id: 'precipitation_18' }] }]"></app-checkbox-group> -->
-                <app-checkbox-group [options]="[{id: 'map_precipitation', options:[{id:'map_precipitation_0'},{id:'map_precipitation_12'},{id:'map_precipitation_18'}]},{id: 'map_humidity', options:[{id:'map_humidity_0'},{id:'map_humidity_12'},{id:'map_humidity_18'}]}]"></app-checkbox-group>
+                <app-checkbox-list (changed)="test($event)" ngProjectAs="sidebar-content" [options]="testData" [maxSelections]="5"></app-checkbox-list>
             </div>
         </app-sidebar>
         <!-- End sidebar -->
