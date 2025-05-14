@@ -40,12 +40,11 @@ export class CheckboxListComponent {
       group.setControl('options', controls, { emitEvent: false });
       this.form = group;
 
-      // if (!this.parentGroup()) {
       this.form.valueChanges.subscribe((changes: any) => {
         if ('options' in changes) this._enforceMaxSelection(changes.options);
-        // if (!this.parentGroup()) this.changed.emit(changes);
+        if (!this.parentGroup()) this.changed.emit(changes);
       });
-      // }
+
     });
   }
 
