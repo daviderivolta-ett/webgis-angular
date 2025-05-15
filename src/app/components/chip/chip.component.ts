@@ -1,5 +1,5 @@
 // Libraries
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 // Component
 @Component({
@@ -10,6 +10,15 @@ import { Component, input } from '@angular/core';
 })
 export class ChipComponent {
   public isDismissable = input<boolean>(true);
-  public iconUrl = input<string>('');
+  public iconUrl = input<string | null>(null);
   public text = input<string>('');
+  public dismiss = output<void>();
+
+  public primaryColor = input<string>('#FFF');
+  public secondaryColor = input<string>('#060527');
+
+  // Methods
+  public onButtonClick(): void {
+    this.dismiss.emit();
+  }
 }

@@ -1,19 +1,44 @@
 .chip {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
     width: max-content;
+    border: 1px solid red;
+    padding: 4px 8px;
+    border-radius: 8px;
+
+    &:hover {
+        opacity: .9;
+    }
 }
 
 .chip__icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     background-color: red;
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
+}
+
+.chip__btn {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+        opacity: .9;
+    }
 }
