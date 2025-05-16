@@ -1,0 +1,42 @@
+.scrollable-table {
+    overflow-x: auto;
+}
+
+.header {
+    display: flex;
+    min-width: max-content;
+    background-color: var(--primary-100, lightblue);
+}
+
+.body__row {
+    display: flex;
+    min-width: max-content;
+
+    &:nth-child(even) {
+        background-color: var(--neutral-200, lightgrey);
+
+        .data--first {
+            background-color: var(--neutral-200, lightgrey);
+        }
+    }
+}
+
+.header__element,
+.data {
+    flex: 0 0 100px;
+    text-align: center;
+}
+
+.header__element--first,
+.data--first {
+    position: sticky;
+    left: 0;
+}
+
+.header__element--first {
+    background-color: var(--primary-100, lightblue);
+}
+
+.data--first {
+    background-color: white;
+}

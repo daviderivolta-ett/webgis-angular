@@ -1,2 +1,7 @@
 @use 'mixins' as mixins;
 @include mixins.header-position;
+
+.table {
+    display: block;
+    width: 500px;
+}
