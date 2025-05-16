@@ -1,0 +1,14 @@
+.radio {
+    display: flex;
+    align-items: center;
+}
+
+.radio:has(.radio__input:checked) {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightblue);
+}
+
+.radio__label {
+    cursor: pointer;
+    flex: 1;
+}

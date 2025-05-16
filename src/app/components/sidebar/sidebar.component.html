@@ -8,7 +8,7 @@
     <button type="button" class="sidebar__toggle fab"
         [style.right]="side() === 'left' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
         [style.left]="side() === 'right' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
-        (click)="isOpen=!isOpen"
+        (click)="toggleSidebar(!isOpen)"
     >
         <span class="sidebar__toggle-icon" [style.maskImage]="'url(' + iconUrl() + ')'" [style.webkitMaskImage]="'url(' + iconUrl() + ')'"></span>
     </button>

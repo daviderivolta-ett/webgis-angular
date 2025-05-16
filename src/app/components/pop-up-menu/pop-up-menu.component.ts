@@ -1,5 +1,5 @@
 // Libraries
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 
 // Component
 @Component({
@@ -15,6 +15,8 @@ export class PopUpMenuComponent {
   public maxHeight = input<string>('50px');
   public position = input<string>('top-right');
   public finalPosition: ['top' | 'bottom', 'left' | 'right'] = ['top', 'right'];
+
+  public toggled = output<boolean>();
 
   constructor() {
     effect(() => this.finalPosition = this._parsePosition(this.position()));
@@ -53,7 +55,8 @@ export class PopUpMenuComponent {
     }
   }
 
-  public togglePopUpMenu(isOpen: boolean): void {
-    this.isOpen = isOpen;
+  public togglePopUpMenu(value: boolean): void {
+    this.isOpen = value;
+    this.toggled.emit(value);
   }
 }

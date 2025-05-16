@@ -1,5 +1,5 @@
 // Libraries
-import { Component, HostListener, input } from '@angular/core';
+import { Component, HostListener, input, output } from '@angular/core';
 
 // Component
 @Component({
@@ -17,6 +17,8 @@ export class SidebarComponent {
   public width = input<string>('360px');
   public currentWidth: string = this.width();
 
+  public toggled = output<boolean>();
+
   // Methods
   @HostListener('window:resize', ['$event'])
   private _onResize(event: UIEvent) {
@@ -24,7 +26,8 @@ export class SidebarComponent {
     this.currentWidth = (windowWidth < 768) ? '100%' : this.width();
   }
 
-  public toggleSidebar(isOpen: boolean): void {
-    this.isOpen = isOpen;
+  public toggleSidebar(value: boolean): void {
+    this.isOpen = value;
+    this.toggled.emit(value);
   }
 }

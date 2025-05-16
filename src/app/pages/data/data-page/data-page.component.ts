@@ -7,7 +7,8 @@ import { SidebarComponent } from '../../../components/sidebar/sidebar.component'
 import { MapComponent } from '../map/map.component';
 import { PopUpMenuComponent } from '../../../components/pop-up-menu/pop-up-menu.component';
 import { CheckboxListComponent } from '../../../components/checkbox-list/checkbox-list.component';
-import { ChipComponent } from "../../../components/chip/chip.component";
+import { ChipComponent } from '../../../components/chip/chip.component';
+import { RadioComponent } from '../../../components/radio/radio.component';
 
 // Component
 @Component({
@@ -18,8 +19,9 @@ import { ChipComponent } from "../../../components/chip/chip.component";
     MapComponent,
     PopUpMenuComponent,
     CheckboxListComponent,
-    ChipComponent
-],
+    ChipComponent,
+    RadioComponent
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -27,16 +29,19 @@ export class DataPageComponent {
   public windowWidth: number;
 
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
+  @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
+  @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.windowWidth = window.innerWidth;  
-  }
-
-  constructor(){
     this.windowWidth = window.innerWidth;
   }
 
+  constructor() {
+    this.windowWidth = window.innerWidth;
+  }
+
+  ////////// Mock data
   public stationsData = [
     {
       id: 'stations_precipitation',
@@ -140,9 +145,34 @@ export class DataPageComponent {
     { id: 'aree_inondabili_200' },
     { id: 'aree_inondabili_500' },
     { id: 'esposti_rischio_inondazione' },
-  ]
+  ];
+  //////////
 
-  public test(value: any) {
-    console.log('TEST', value);
+  // Methods
+  public handleMapClick(): void {
+    this._sidebar.toggleSidebar(false);
+    this._baseLayersMenu.togglePopUpMenu(false);
+    this._infoLayersMenu.togglePopUpMenu(false);
+  }
+
+  public handleSidebarToggle(isOpen: boolean): void {
+    if (isOpen) {
+      this._baseLayersMenu.togglePopUpMenu(false);
+      this._infoLayersMenu.togglePopUpMenu(false);
+    }
+  }
+
+  public handleBaseLayersMenuToggle(isOpen: boolean): void {
+    if (isOpen) {
+      this._sidebar.toggleSidebar(false);
+      this._infoLayersMenu.togglePopUpMenu(false);
+    }
+  }
+
+  public handleInfoLayersMenuToggle(isOpen: boolean): void {
+    if (isOpen) {
+      this._sidebar.toggleSidebar(false);
+      this._baseLayersMenu.togglePopUpMenu(false);
+    }
   }
 }
