@@ -8,6 +8,7 @@ import { generateTableStructure, sortTableData, Table } from '../../../utils';
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
+import { SortableTableComponent } from "../../../components/sortable-table/sortable-table.component";
 import { SortHeaderComponent } from '../../../components/sort-header/sort-header.component';
 import { InputAutocompleteComponent } from '../../../components/input-autocomplete/input-autocomplete.component';
 
@@ -21,10 +22,11 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     ReactiveFormsModule,
     HeaderComponent,
     SidebarComponent,
+    SortableTableComponent,
     SortHeaderComponent,
     InputAutocompleteComponent,
-    ScrollableTableDirective
-  ],
+    ScrollableTableDirective,
+],
   templateUrl: './tables-page.component.html',
   styleUrl: './tables-page.component.scss'
 })

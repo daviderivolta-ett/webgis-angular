@@ -12,6 +12,7 @@ export class ScrollableTableDirective {
     private renderer: Renderer2
   ) { }
 
+  // Directive lifecycle
   public ngAfterViewInit(): void {
     const table: HTMLTableElement | null = this.elementRef.nativeElement.querySelector('table');
     if (table) {
