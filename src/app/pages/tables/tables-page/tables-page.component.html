@@ -14,6 +14,8 @@
         <!-- END SIDEBAR -->
 
         <!-- START MAIN -->
+
+        <!-- START FILTERS -->
         <div [formGroup]="filters" class="filters">
             <app-input-autocomplete formControlName="name" class="autocomplete" type="text" placeholder="Nome" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
             <app-input-autocomplete formControlName="code" class="autocomplete" type="text" placeholder="Codice" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
@@ -22,29 +24,31 @@
             <app-input-autocomplete formControlName="area" class="autocomplete" type="text" placeholder="Area" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
             <app-input-autocomplete formControlName="basin" class="autocomplete" type="text" placeholder="Bacino" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
         </div>
+        <!-- END FILTERS -->
 
-        <div class="table-container" scrollableTable>
-            <app-sortable-table>
-                <table class="table">
-                    <thead>
+        <!-- START TABLE -->
+        <app-sortable-table scrollableTable>
+            <table class="table">
+                <thead>
+                    <tr>
+                        @for (d of sortedData.header; track $index) {
+                            <th><app-sort-header [sortBy]="d" (sortData)="sortData($event)">{{d}}</app-sort-header></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (r of sortedData.body; track $index) {
                         <tr>
-                            @for (d of sortedData.header; track $index) {
-                                <th><app-sort-header [sortBy]="d" (sortData)="sortData($event)">{{d}}</app-sort-header></th>
+                            @for (d of r; track $index) {
+                                <td>{{d[1]}}</td>
                             }
                         </tr>
-                    </thead>
-                    <tbody>
-                        @for (r of sortedData.body; track $index) {
-                            <tr>
-                                @for (d of r; track $index) {
-                                    <td>{{d[1]}}</td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </app-sortable-table>
-        </div>
+                    }
+                </tbody>
+            </table>
+        </app-sortable-table>
+        <!-- END TABLE -->
+
         <!-- END MAIN -->
     </div>
 </div>

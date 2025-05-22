@@ -23,6 +23,7 @@ export class ScrollableTableDirective {
 
   // Methods
   private _setTableProperties(container: HTMLDivElement): void {
+    this.renderer.setStyle(container, 'display', 'block');
     this.renderer.setStyle(container, 'overflowX', 'auto');
   }
 
