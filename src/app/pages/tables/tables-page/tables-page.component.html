@@ -27,13 +27,13 @@
             <table class="table">
                 <thead>
                     <tr>
-                        @for (d of data.header; track $index) {
-                            <th><app-sort-header [sortBy]="d">{{d}}</app-sort-header></th>
+                        @for (d of sortedData.header; track $index) {
+                            <th><app-sort-header [sortBy]="d" (sortData)="sortData($event)">{{d}}</app-sort-header></th>
                         }
                     </tr>
                 </thead>
                 <tbody>
-                    @for (r of data.body; track $index) {
+                    @for (r of sortedData.body; track $index) {
                         <tr>
                             @for (d of r; track $index) {
                                 <td>{{d[1]}}</td>

@@ -1,15 +1,15 @@
 // Libraries
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Utils
-import { generateTableStructure } from '../../../utils';
+import { generateTableStructure, sortTableData, Table } from '../../../utils';
 
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
-import { SortHeaderComponent } from '../../../components/sort-header/sort-header.component';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
-import { InputAutocompleteComponent } from "../../../components/input-autocomplete/input-autocomplete.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SortHeaderComponent } from '../../../components/sort-header/sort-header.component';
+import { InputAutocompleteComponent } from '../../../components/input-autocomplete/input-autocomplete.component';
 
 // Directives
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive';
@@ -20,8 +20,8 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
   imports: [
     ReactiveFormsModule,
     HeaderComponent,
-    SortHeaderComponent,
     SidebarComponent,
+    SortHeaderComponent,
     InputAutocompleteComponent,
     ScrollableTableDirective
   ],
@@ -53,47 +53,53 @@ export class TablesPageComponent {
     {
       name: 'Airole',
       code: 'AIROL',
-      citiy: 'Airole',
+      city: 'Airole',
       province: 'IM',
       area: 'A',
       zone: 'Roya',
       subZone: 'Roya',
-      last: '0.0',
-      max: '0.0',
-      min: '0.0'
+      last: 0.0,
+      max: 0.0,
+      min: 0.0
     },
     {
       name: 'Bordighera',
       code: 'BORDG',
-      citiy: 'Bordighera',
+      city: 'Bordighera',
       province: 'IM',
       area: 'B',
       zone: 'Ponente',
       subZone: 'Ligure',
-      last: '12.5',
-      max: '23.4',
-      min: '5.1'
+      last: 12.5,
+      max: 23.4,
+      min: 5.1
     },
     {
       name: 'Sanremo',
       code: 'SANRM',
-      citiy: 'Sanremo',
+      city: 'Sanremo',
       province: 'IM',
       area: 'C',
       zone: 'Riviera',
       subZone: 'Ligure',
-      last: '18.3',
-      max: '25.0',
-      min: '10.2',
+      last: 18.3,
+      max: 25.0,
+      min: 10.2,
       test: 'VAL'
     }
   ];
-
-  public data: { header: string[], body: [string, any][][] } = { header: [], body: [] };
+  public data: Table = { header: [], body: [] };
+  public sortedData: Table = { header: [], body: [] };
   //////////
 
   // Component lifecycle
   public ngOnInit(): void {
     this.data = generateTableStructure(this.rawData);
+    this.sortedData = { ...this.data };
+  }
+
+  // Methods
+  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
+    this.sortedData = sortTableData(this.data, sort.sortBy, sort.direction);    
   }
 }
