@@ -1,26 +1,55 @@
 // Libraries
 import { Component } from '@angular/core';
 
+// Utils
+import { generateTableStructure } from '../../../utils';
+
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
-import { ScrollableTableComponent } from '../../../components/scrollable-table/scrollable-table.component';
-import { SortHeaderComponent } from "../../../components/sort-header/sort-header.component";
+import { SortHeaderComponent } from '../../../components/sort-header/sort-header.component';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
+import { InputAutocompleteComponent } from "../../../components/input-autocomplete/input-autocomplete.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+// Directives
+import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive';
 
 // Component
 @Component({
   selector: 'app-tables-page',
   imports: [
+    ReactiveFormsModule,
     HeaderComponent,
-    ScrollableTableComponent,
-    SortHeaderComponent
-],
+    SortHeaderComponent,
+    SidebarComponent,
+    InputAutocompleteComponent,
+    ScrollableTableDirective
+  ],
   templateUrl: './tables-page.component.html',
   styleUrl: './tables-page.component.scss'
 })
 export class TablesPageComponent {
+  public filters: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    ////////// Filters testing
+    this.filters = this.fb.group({
+      name: [''],
+      code: [''],
+      city: [''],
+      province: [''],
+      area: [''],
+      basin: ['']
+    });
+
+    this.filters.valueChanges.subscribe((changes: any) => {
+      console.log(changes);
+    });
+    //////////
+  }
 
   ////////// Mock data
-  public data: Object[] = [
+  public rawData: any[] = [
     {
       name: 'Airole',
       code: 'AIROL',
@@ -59,5 +88,12 @@ export class TablesPageComponent {
       test: 'VAL'
     }
   ];
+
+  public data: { header: string[], body: [string, any][][] } = { header: [], body: [] };
   //////////
+
+  // Component lifecycle
+  public ngOnInit(): void {
+    this.data = generateTableStructure(this.rawData);
+  }
 }

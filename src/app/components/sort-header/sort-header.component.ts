@@ -1,5 +1,11 @@
 // Libraries
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+
+// Types
+type Sort = {
+  sortBy: string,
+  direction: 'asc' | 'desc' | 'none'
+}
 
 // Component
 @Component({
@@ -11,6 +17,8 @@ import { Component, input } from '@angular/core';
 export class SortHeaderComponent {
   public direction: 'asc' | 'desc' | 'none' = 'none';
   public sortBy = input<string>('');
+
+  public sortData = output<Sort>();
 
   // Methods
   public sort(value: 'asc' | 'desc' | 'none'): void {
@@ -27,5 +35,7 @@ export class SortHeaderComponent {
         this.direction = 'asc';
         break;
     }
+
+    this.sortData.emit({ sortBy: this.sortBy(), direction: this.direction });
   }
 }

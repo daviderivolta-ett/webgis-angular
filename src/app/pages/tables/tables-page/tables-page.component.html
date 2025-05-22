@@ -1,7 +1,48 @@
 <div class="page">
     <app-header></app-header>
     <div class="main">
-        <app-scrollable-table class="table" [data]="data"></app-scrollable-table>
-        <app-sort-header sortBy="pippo">Pippo</app-sort-header>
+        <!-- START SIDEBAR -->
+        <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+            <div ngProjectAs="sidebar-content">
+                <p>Tabelle</p>
+                <p>Massimi precipitazioni</p>
+                <p>Estremi temperatura e vento</p>
+                <p>Livelli idrometrici</p>
+                <p>Valori stazioni</p>
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <!-- START MAIN -->
+        <div [formGroup]="filters" class="filters">
+            <app-input-autocomplete formControlName="name" class="autocomplete" type="text" placeholder="Nome" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+            <app-input-autocomplete formControlName="code" class="autocomplete" type="text" placeholder="Codice" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+            <app-input-autocomplete formControlName="city" class="autocomplete" type="text" placeholder="Comune" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+            <app-input-autocomplete formControlName="province" class="autocomplete" type="text" placeholder="Provincia" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+            <app-input-autocomplete formControlName="area" class="autocomplete" type="text" placeholder="Area" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+            <app-input-autocomplete formControlName="basin" class="autocomplete" type="text" placeholder="Bacino" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+        </div>
+
+        <div class="table-container" scrollableTable>
+            <table class="table">
+                <thead>
+                    <tr>
+                        @for (d of data.header; track $index) {
+                            <th><app-sort-header [sortBy]="d">{{d}}</app-sort-header></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (r of data.body; track $index) {
+                        <tr>
+                            @for (d of r; track $index) {
+                                <td>{{d[1]}}</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- END MAIN -->
     </div>
 </div>

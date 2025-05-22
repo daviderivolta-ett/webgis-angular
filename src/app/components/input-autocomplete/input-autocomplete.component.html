@@ -1,0 +1,11 @@
+<div class="input-autocomplete" #container>
+    <input part="input" class="input" [type]="type()" [placeholder]="placeholder()" (focus)="onInputFocus()" (keydown)="onInputKeydown($event)" (input)="onInput($event)" #input>
+
+    @if (filteredOptions.length > 0) {
+        <div class="options" part="options">
+            @for (option of filteredOptions; track option.id; let index = $index) {
+                <span class="option" [attr.part]="'option ' + (focusedOption === index ? 'selected' : '')" [class.option--selected]="focusedOption === index" (click)="onOptionClick(option.id)">{{option.label ? option.label : option.id}}</span>
+            }
+        </div>
+    }
+</div>

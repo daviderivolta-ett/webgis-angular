@@ -1,0 +1,27 @@
+.input-autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+}
+
+.options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+}
+
+.option {
+    cursor: pointer;
+    width: 100%;
+    padding: 4px;
+}
+
+.option--selected,
+.option:hover {
+    background-color: lightgray;
+}
