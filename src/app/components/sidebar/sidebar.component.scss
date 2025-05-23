@@ -9,6 +9,7 @@
 
 .sidebar__toggle {
     position: absolute;
+    z-index: 99;
     top: 16px;
     transition: .2s ease-in-out;
 }

@@ -1,0 +1,33 @@
+.list {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox__icon {
+    background-color: var(--primary-900, darkblue);
+}
+
+.checkbox__label:has(.checkbox__input:checked) {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightblue);
+}
+
+.checkbox__input:checked+.checkbox__icon {
+    background-color: var(--primary-500, blue);
+}
+
+.checkbox__label:has(.checkbox__input:disabled) {
+    cursor: not-allowed;
+    color: var(--neutral-600, grey);
+}
+
+.checkbox__label,
+.summary {
+    padding: 8px 4px;
+}
+
+.summary__text {
+    display: flex;
+    gap: 4px;
+}

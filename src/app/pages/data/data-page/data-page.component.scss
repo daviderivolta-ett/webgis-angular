@@ -1,6 +1,23 @@
 @import 'index';
 @include header-position;
 
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.sidebar__checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.summary {
+    font-weight: 600;
+}
+
 .layers-menu {
     position: absolute;
     top: 16px;

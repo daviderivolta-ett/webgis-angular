@@ -2,29 +2,37 @@
     <app-header></app-header>
     <div class="main">
         <!-- Start sidebar -->
-        <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="handleSidebarToggle($event)">
-            <div ngProjectAs="sidebar-content">
-                <input type="datetime-local" [value]="">
-            </div>
-            <div ngProjectAs="sidebar-content">
-                <app-checkbox-list ngProjectAs="sidebar-content" [options]="stationsData" [maxSelections]="3"></app-checkbox-list>
-            </div>
-            <div ngProjectAs="sidebar-content">
-                <app-checkbox-list ngProjectAs="sidebar-content" [options]="mapsData" [maxSelections]="1"></app-checkbox-list>
+        <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onSidebarToggle($event)">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">            
+                <div>
+                    <input type="datetime-local" [value]="">
+                </div>
+                <div class="sidebar__checkboxes">
+                    @for (item of variables; track $index) {
+                        <div>
+                            <details class="styled-details">
+                                <summary class="summary">{{item.label ? item.label : item.id}}</summary>
+                                <div class="styled-details__content">
+                                    <app-checkbox-list [options]="item.options ?? []" [maxSelections]="item.maxSelections ?? 1" (changed)="onCheckboxListChange($event)"></app-checkbox-list>
+                                </div>
+                            </details>
+                        </div>
+                    }
+                </div>
             </div>
         </app-sidebar>
         <!-- End sidebar -->
 
         <!-- Start layers menu -->
         <div class="layers-menu">
-            <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="handleBaseLayersMenuToggle($event)">
+            <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content">
                     @for (item of ['pippo', 'topolino', 'paperino']; track $index) {
                         <app-radio [option]="item" name="base-layer" [checked]="$index === 0"></app-radio>
                     }
                 </div>
             </app-pop-up-menu>
-            <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="handleInfoLayersMenuToggle($event)">
+            <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content">
                     <app-checkbox-list [options]="infoLayers"></app-checkbox-list>
                 </div>
@@ -33,7 +41,7 @@
         <!-- End layers menu -->
         
         <!-- Start map -->
-        <app-map (click)="handleMapClick()"></app-map>
+        <app-map (click)="onMapClick()"></app-map>
         <!-- End map -->
     </div>
 </div>

@@ -2,15 +2,28 @@
     <div class="list" formArrayName="options">
         @for (option of options(); track $index) {
             @if (!option.options) {
-                <div [formGroup]="$any(optionsArray.controls[$index])">
-                    <app-checkbox formControlName="isChecked" [id]="option.id"></app-checkbox>
+                <div [formGroup]="$any(optionsArray.controls[$index])" class="checkbox">
+                    <label [style.paddingLeft]="parentGroup() && '24px'" [for]="option.id" class="checkbox__label">
+                        <input type="checkbox" class="checkbox__input" formControlName="isChecked" [id]="option.id">
+                        @if (option.iconUrl) {
+                            <span [style.maskImage]="'url(' + option.iconUrl + ')'" [style.webkitMaskImage]="'url(' + option.iconUrl + ')'" class="checkbox__icon"></span>
+                        }
+                        {{option.label ? option.label : option.id}}
+                    </label>
                 </div>
             }
             @else {
                 <details class="styled-details">
-                    <summary>Gruppo: {{option.id}}</summary>
-                    <div [formGroup]="$any(optionsArray.controls[$index])">
-                        <app-checkbox-list [parentGroup]="$any(optionsArray.controls[$index])" [maxSelections]="option.maxSelections ?? -1" [options]="option.options"></app-checkbox-list>
+                    <summary class="summary">
+                        <div class="summary__text">
+                            @if (option.iconUrl) {
+                                <span [style.maskImage]="'url(' + option.iconUrl + ')'" [style.webkitMaskImage]="'url(' + option.iconUrl + ')'" class="checkbox__icon"></span>
+                            }
+                            {{option.label ? option.label : option.id}}
+                        </div>
+                    </summary>
+                    <div [formGroup]="$any(optionsArray.controls[$index])" class="styled-details__content">
+                        <app-checkbox-list [parentGroup]="$any(optionsArray.controls[$index])" [maxSelections]="option.maxSelections ?? -1" [options]="option.options" [iconUrl]="option.iconUrl"></app-checkbox-list>
                     </div>
                 </details>
             }

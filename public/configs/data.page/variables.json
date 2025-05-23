@@ -1,0 +1,163 @@
+[
+    {
+        "id": "stations",
+        "label": "Stazioni",
+        "maxSelections": 3,
+        "options": [
+            {
+                "id": "station_precipitations",
+                "label": "Precipitazioni",
+                "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+            },
+            {
+                "id": "station_temperature",
+                "label": "Temperatura",
+                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_hydrometric_levels",
+                "label": "Livelli idrometrici",
+                "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_wind",
+                "label": "Vento",
+                "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_humidity",
+                "label": "Umidità",
+                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_heliophanies",
+                "label": "Eliofanie",
+                "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_radiations",
+                "label": "Radiazioni",
+                "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_leaf_wetting",
+                "label": "Bagnatura fogliare",
+                "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_lightning",
+                "label": "Fulminazioni",
+                "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            },
+            {
+                "id": "station_webcam",
+                "label": "Webcam",
+                "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+            }
+        ]
+    },
+    {
+        "id": "maps",
+        "label": "Mappe",
+        "maxSelections": 1,
+        "options": [
+            {
+                "id": "maps_precipitations",
+                "label": "Precipitazioni",
+                "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "maxSelections": 1,
+                "options": [
+                    {
+                        "id": "maps_precipitations_15m",
+                        "label": "Ultimi 15 minuti"
+                    },
+                    {
+                        "id": "maps_precipitations_30m",
+                        "label": "Ultimi 30 minuti"
+                    },
+                    {
+                        "id": "maps_precipitations_1h",
+                        "label": "Ultim'ora"
+                    },
+                    {
+                        "id": "maps_precipitations_3h",
+                        "label": "Ultime 3 ore"
+                    },
+                    {
+                        "id": "maps_precipitations_6h",
+                        "label": "Ultime 6 ore"
+                    },
+                    {
+                        "id": "maps_precipitations_12h",
+                        "label": "Ultime 12 ore"
+                    },
+                    {
+                        "id": "maps_precipitations_24h",
+                        "label": "Ultime 24 ore"
+                    },
+                    {
+                        "id": "maps_precipitations_7d",
+                        "label": "Ultimi 7 giorni"
+                    },
+                    {
+                        "id": "maps_precipitations_15d",
+                        "label": "Ultimi 15 giorni"
+                    },
+                    {
+                        "id": "maps_precipitations_30d",
+                        "label": "Ultimi 30 giorni"
+                    }
+                ]
+            },
+            {
+                "id": "maps_soil_humidity",
+                "label": "Umidità del suolo",
+                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "maxSelections": 1,
+                "options": [
+                    {
+                        "id": "maps_soil_humidity_00",
+                        "label": "h: 00.00"
+                    },
+                    {
+                        "id": "maps_soil_humidity_06",
+                        "label": "h: 06.00"
+                    },
+                    {
+                        "id": "maps_soil_humidity_12",
+                        "label": "h: 12.00"
+                    },
+                    {
+                        "id": "maps_soil_humidity_18",
+                        "label": "h: 18.00"
+                    }
+                ]
+            },
+            {
+                "id": "maps_temperature",
+                "label": "Temperatura",
+                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "maxSelections": 1,
+                "options": [
+                    {
+                        "id": "maps_temperature_min",
+                        "label": "Minima"
+                    },
+                    {
+                        "id": "maps_temperature_avg",
+                        "label": "Media"
+                    },
+                    {
+                        "id": "maps_temperature_max",
+                        "label": "Massima"
+                    },
+                    {
+                        "id": "maps_temperature_theta",
+                        "label": "Theta da media"
+                    }
+                ]
+            }
+        ]
+    }
+]

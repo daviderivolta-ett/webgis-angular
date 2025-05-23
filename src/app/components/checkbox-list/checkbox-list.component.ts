@@ -2,22 +2,20 @@
 import { Component, effect, input, output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-// Components
-import { CheckboxComponent } from '../checkbox/checkbox.component';
-
 // Types
-type CheckboxSingle = {
+export type CheckboxSingle = {
   id: string;
-  options?: CheckboxSingle[],
-  maxSelections?: number
+  label?: string,
+  iconUrl?: string;
+  maxSelections?: number,
+  options?: CheckboxSingle[]
 }
 
 // Component
 @Component({
   selector: 'app-checkbox-list',
   imports: [
-    ReactiveFormsModule,
-    CheckboxComponent
+    ReactiveFormsModule
   ],
   templateUrl: './checkbox-list.component.html',
   styleUrl: './checkbox-list.component.scss'
@@ -26,6 +24,7 @@ export class CheckboxListComponent {
   public form: FormGroup;
 
   public parentGroup = input<FormGroup | null>(null);
+  public iconUrl = input<string>();
   public maxSelections = input<number>(-1);
   public options = input<CheckboxSingle[]>([]);
 
@@ -43,6 +42,7 @@ export class CheckboxListComponent {
       this.form.valueChanges.subscribe((changes: any) => {
         if ('options' in changes) this._enforceMaxSelection(changes.options);
         if (!this.parentGroup()) this.changed.emit(changes);
+
       });
 
     });
@@ -145,8 +145,6 @@ export class CheckboxListComponent {
           }
         });
       }
-
-
     });
   }
 }

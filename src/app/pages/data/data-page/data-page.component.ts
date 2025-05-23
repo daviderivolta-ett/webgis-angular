@@ -1,6 +1,15 @@
 // Libraries
 import { Component, HostListener, ViewChild } from '@angular/core';
 
+// Utils
+import { confrontArrays, getUrlById, getValuesByNestedKey } from '../../../utils';
+
+// Models
+import { CheckboxSingle } from '../../../components/checkbox-list/checkbox-list.component';
+
+// Services
+import { ConfigService } from '../../../services/config.service';
+
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
@@ -14,6 +23,7 @@ import { RadioComponent } from '../../../components/radio/radio.component';
 @Component({
   selector: 'app-data-page',
   imports: [
+    // Components
     HeaderComponent,
     SidebarComponent,
     MapComponent,
@@ -26,6 +36,7 @@ import { RadioComponent } from '../../../components/radio/radio.component';
   styleUrl: './data-page.component.scss'
 })
 export class DataPageComponent {
+  // UI
   public windowWidth: number;
 
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -37,101 +48,15 @@ export class DataPageComponent {
     this.windowWidth = window.innerWidth;
   }
 
-  constructor() {
+  // Data
+  public variables: CheckboxSingle[] = [];
+  public currentLayers: string[] = [];
+
+  constructor(private configService: ConfigService) {
     this.windowWidth = window.innerWidth;
   }
 
   ////////// Mock data
-  public stationsData = [
-    {
-      id: 'stations_precipitation',
-      options: [
-        {
-          id: 'stations_precipitation_0'
-        },
-        {
-          id: 'stations_precipitation_12'
-        },
-        {
-          id: 'stations_precipitation_18'
-        }
-      ],
-      maxSelections: 1
-    },
-    {
-      id: 'station_humidity',
-      options: [
-        {
-          id: 'station_humidity_0'
-        },
-        {
-          id: 'station_humidity_12'
-        },
-        {
-          id: 'station_humidity_18'
-        }
-      ],
-      maxSelections: 2
-    },
-    {
-      id: 'station_temperature'
-    },
-    {
-      id: 'station_water-levels'
-    },
-    {
-      id: 'station_wind'
-    }
-  ];
-
-  public mapsData = [
-    {
-      id: 'map_precipitation',
-      options: [
-        {
-          id: 'map_precipitation_0'
-        },
-        {
-          id: 'map_precipitation_12'
-        },
-        {
-          id: 'map_precipitation_18'
-        }
-      ],
-      maxSelections: 1
-    },
-    {
-      id: 'map_humidity',
-      options: [
-        {
-          id: 'map_humidity_0'
-        },
-        {
-          id: 'map_humidity_12'
-        },
-        {
-          id: 'map_humidity_18'
-        }
-      ],
-      maxSelections: 1
-    },
-    {
-      id: 'map_temperature',
-      options: [
-        {
-          id: 'map_temperature_0'
-        },
-        {
-          id: 'map_temperature_12'
-        },
-        {
-          id: 'map_temperature_18'
-        }
-      ],
-      maxSelections: 1
-    }
-  ];
-
   public infoLayers = [
     { id: 'reticolo_idrografico' },
     { id: 'piccoli_bacini_idrografici_modellati' },
@@ -148,31 +73,67 @@ export class DataPageComponent {
   ];
   //////////
 
+  // Component lifecycle
+  public ngOnInit(): void {
+    this._getConfig('/configs/data.page/variables.json', (data: any) => {
+      console.log(data);
+      this.variables = [...data] as CheckboxSingle[];
+    });
+  }
+
   // Methods
-  public handleMapClick(): void {
+  // Getting data
+  private _getConfig(filename: string, callback: (data: any) => void) {
+    this.configService.getConfig(filename)
+      .subscribe({
+        next: (data: any) => {
+          callback(data)
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+      });
+  }
+
+  // Actions
+  public onMapClick(): void {
     this._sidebar.toggleSidebar(false);
     this._baseLayersMenu.togglePopUpMenu(false);
     this._infoLayersMenu.togglePopUpMenu(false);
   }
 
-  public handleSidebarToggle(isOpen: boolean): void {
+  public onSidebarToggle(isOpen: boolean): void {
     if (isOpen) {
       this._baseLayersMenu.togglePopUpMenu(false);
       this._infoLayersMenu.togglePopUpMenu(false);
     }
   }
 
-  public handleBaseLayersMenuToggle(isOpen: boolean): void {
+  public onBaseLayersMenuToggle(isOpen: boolean): void {
     if (isOpen) {
       this._sidebar.toggleSidebar(false);
       this._infoLayersMenu.togglePopUpMenu(false);
     }
   }
 
-  public handleInfoLayersMenuToggle(isOpen: boolean): void {
+  public onInfoLayersMenuToggle(isOpen: boolean): void {
     if (isOpen) {
       this._sidebar.toggleSidebar(false);
       this._baseLayersMenu.togglePopUpMenu(false);
+    }
+  }
+
+  public onCheckboxListChange(data: any): void {
+    if ('options' in data && Array.isArray(data.options)) {
+      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');      
+      const added: string[] = confrontArrays(this.currentLayers, keys).added;
+
+      if (added.length > 0) {
+        const url: string | null = getUrlById(added[0], this.variables);
+        console.log(url);        
+      }
+      
+      this.currentLayers = [...keys];
     }
   }
 }

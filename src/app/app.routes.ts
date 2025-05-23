@@ -9,7 +9,34 @@ export const routes: Routes = [
     {
         path: 'tabelle',
         title: 'OMIRL ARPAL - Tabelle',
-        loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent)
+        loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'stazioni'
+            },
+            {
+                path: 'stazioni',
+                title: 'OMIRL ARPAL - Stazioni',
+                loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent)
+            },
+            {
+                path: 'massimi-precipitazione',
+                title: 'OMIRL ARPAL - Massimi precipitazione',
+                loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent)
+            },
+            {
+                path: 'estremi-temperatura-vento',
+                title: 'OMIRL ARPAL - Estremi di temperatura e vento',
+                loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent)
+            },
+            {
+                path: 'livelli-idrometrici',
+                title: 'OMIRL ARPAL - Livelli idrometrici',
+                loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent)
+            }
+        ]
     },
     {
         path: 'radar',
