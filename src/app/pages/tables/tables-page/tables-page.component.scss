@@ -1,5 +1,5 @@
-@use 'mixins' as mixins;
-@include mixins.header-position;
+@import 'index';
+@include header-position;
 
 .main {
     width: 92%;

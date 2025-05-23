@@ -1,4 +1,4 @@
 <div class="radio">
-    <input type="radio" name="radio" class="radio__input" [id]="option()">
+    <input type="radio" [name]="name()" class="radio__input" [id]="option()" [checked]="checked()">
     <label [for]="option()" class="radio__label">{{option()}}</label>
 </div>

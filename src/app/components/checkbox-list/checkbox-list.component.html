@@ -7,7 +7,7 @@
                 </div>
             }
             @else {
-                <details>
+                <details class="styled-details">
                     <summary>Gruppo: {{option.id}}</summary>
                     <div [formGroup]="$any(optionsArray.controls[$index])">
                         <app-checkbox-list [parentGroup]="$any(optionsArray.controls[$index])" [maxSelections]="option.maxSelections ?? -1" [options]="option.options"></app-checkbox-list>

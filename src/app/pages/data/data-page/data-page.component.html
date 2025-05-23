@@ -20,7 +20,7 @@
             <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="handleBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content">
                     @for (item of ['pippo', 'topolino', 'paperino']; track $index) {
-                        <app-radio [option]="item"></app-radio>
+                        <app-radio [option]="item" name="base-layer" [checked]="$index === 0"></app-radio>
                     }
                 </div>
             </app-pop-up-menu>
