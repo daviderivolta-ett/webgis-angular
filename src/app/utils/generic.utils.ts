@@ -22,3 +22,11 @@ export function confrontArrays(firstArray: string[], secondArray: string[]): { a
 
     return { added, removed };
 }
+
+export function findObjectsByIds(ids: string[], objects: any[]): any[] {
+    let result: any[] = [];
+    objects.forEach((object: any) => {
+        if (ids.includes(object.id)) result.push(object);
+    });
+    return result;
+}

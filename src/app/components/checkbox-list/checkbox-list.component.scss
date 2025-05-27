@@ -1,5 +1,5 @@
 .list {
-    gap: 8px;
+    gap: 4px;
     display: flex;
     flex-direction: column;
 }
@@ -24,7 +24,7 @@
 
 .checkbox__label,
 .summary {
-    padding: 8px 4px;
+    padding: 4px 8px;
 }
 
 .summary__text {

@@ -1,0 +1,33 @@
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.radio {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.radio:has(.radio__input:checked) {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightblue);
+}
+
+.radio__label {
+    cursor: pointer;
+    flex: 1;
+    padding: 4px;
+}
+
+.radio__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+}

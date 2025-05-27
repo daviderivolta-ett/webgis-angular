@@ -1,14 +1,15 @@
 // Libraries
 import { Component, HostListener, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Utils
-import { confrontArrays, getUrlById, getValuesByNestedKey } from '../../../utils';
+import { confrontArrays, findObjectsByIds, getUrlById, getValuesByNestedKey } from '../../../utils';
 
 // Models
-import { CheckboxSingle } from '../../../components/checkbox-list/checkbox-list.component';
+import { MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 // Services
-import { ConfigService } from '../../../services/config.service';
+import { ConfigService, StationService } from '../../../services';
 
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
@@ -16,29 +17,30 @@ import { SidebarComponent } from '../../../components/sidebar/sidebar.component'
 import { MapComponent } from '../map/map.component';
 import { PopUpMenuComponent } from '../../../components/pop-up-menu/pop-up-menu.component';
 import { CheckboxListComponent } from '../../../components/checkbox-list/checkbox-list.component';
-import { ChipComponent } from '../../../components/chip/chip.component';
-import { RadioComponent } from '../../../components/radio/radio.component';
+import { ActivatedRoute } from '@angular/router';
 
 // Component
 @Component({
   selector: 'app-data-page',
   imports: [
+    // Libraries
+    ReactiveFormsModule,
+
     // Components
     HeaderComponent,
     SidebarComponent,
     MapComponent,
     PopUpMenuComponent,
-    CheckboxListComponent,
-    ChipComponent,
-    RadioComponent
+    CheckboxListComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
 export class DataPageComponent {
-  // UI
+  // User Interface
   public windowWidth: number;
 
+  @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
   @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
   @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
@@ -49,51 +51,54 @@ export class DataPageComponent {
   }
 
   // Data
-  public variables: CheckboxSingle[] = [];
+  public baseLayersForm: FormGroup = new FormGroup({
+    selectedLayer: new FormControl()
+  });
+
+  public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
+  public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
+
+  public variables: any[] = [];
   public currentLayers: string[] = [];
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private route: ActivatedRoute,
+    private configService: ConfigService,
+    private stationService: StationService
+  ) {
     this.windowWidth = window.innerWidth;
-  }
+    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
 
-  ////////// Mock data
-  public infoLayers = [
-    { id: 'reticolo_idrografico' },
-    { id: 'piccoli_bacini_idrografici_modellati' },
-    { id: 'bacini_idrografici' },
-    { id: 'comuni' },
-    { id: 'provincie' },
-    { id: 'zone_di_allerta' },
-    { id: 'comprensori_idrologici_base' },
-    { id: 'grandi_dighe_interesse_ligure' },
-    { id: 'aree_inondabili_30-50' },
-    { id: 'aree_inondabili_200' },
-    { id: 'aree_inondabili_500' },
-    { id: 'esposti_rischio_inondazione' },
-  ];
-  //////////
+    // Recovering data from resolvers
+    this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.baseLayers = this.route.snapshot.data['baseLayers'];
+    this.infoLayers = this.route.snapshot.data['infoLayers'];    
+  }
 
   // Component lifecycle
   public ngOnInit(): void {
-    this._getConfig('/configs/data.page/variables.json', (data: any) => {
-      console.log(data);
-      this.variables = [...data] as CheckboxSingle[];
-    });
+    // this._getLayers();
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.baseLayers.length > 0) this.baseLayersForm.get('selectedLayer')?.setValue(this.baseLayers[0].id);
   }
 
   // Methods
-  // Getting data
-  private _getConfig(filename: string, callback: (data: any) => void) {
-    this.configService.getConfig(filename)
-      .subscribe({
-        next: (data: any) => {
-          callback(data)
-        },
-        error: (err: any) => {
-          console.error(err);
-        }
-      });
-  }
+  // Getting data and setup
+
+  // private _getLayers() {
+  //   this.configService.getLayerConfigOptions()
+  //     .subscribe({
+  //       next: (data: any) => {
+  //         this.variables = [...data];
+  //       },
+  //       error: (err: any) => {
+  //         console.error(err.message)
+  //       }
+  //     })
+  // }
 
   // Actions
   public onMapClick(): void {
@@ -123,17 +128,55 @@ export class DataPageComponent {
     }
   }
 
+  private _onBaselayersRadioChange(changes: any): void {
+    const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['selectedLayer']);
+    if (!layer) return;
+    const { id, label, url, ...rest } = layer;
+    this._map.addBaseLayer(url, rest);
+  }
+
   public onCheckboxListChange(data: any): void {
     if ('options' in data && Array.isArray(data.options)) {
-      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');      
+      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
       const added: string[] = confrontArrays(this.currentLayers, keys).added;
 
-      if (added.length > 0) {
-        const url: string | null = getUrlById(added[0], this.variables);
-        console.log(url);        
-      }
-      
+      // if (added.length > 0) {
+      //   const url: string | null = getUrlById(added[0], this.variables);
+      //   if (url) {
+      //     this.stationService.getStations(url).subscribe((d) => console.log(d));
+      //   }
+      // }
+
+
+
       this.currentLayers = [...keys];
     }
+  }
+
+  public onInfoLayersCheckboxListChange(data: any): void {
+    if ('options' in data && Array.isArray(data.options)) {
+      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
+      const { added, removed } = confrontArrays(this.currentLayers, keys);
+
+      this.currentLayers = [...keys];
+
+      if (added.length > 0) this._addWMSLayersToMap(added, this.infoLayers);
+      if (removed.length > 0) this._removeWMSLayersFromMap(removed, this.infoLayers);
+    }
+  }
+
+  // Other methods
+  // Map interactions
+  private _addWMSLayersToMap(ids: string[], layers: WMSLayer[]): void {
+    const layersToAdd: WMSLayer[] = findObjectsByIds(ids, layers);
+    layersToAdd.forEach((layer: WMSLayer) => {
+      const { id, label, ...rest } = layer;
+      this._map.addWMSLayer(id, this.configService.appConfig.urls.infoLayers, rest);
+    });
+  }
+
+  private _removeWMSLayersFromMap(ids: string[], layers: WMSLayer[]): void {
+    const layersToRemove: WMSLayer[] = findObjectsByIds(ids, layers);
+    layersToRemove.forEach((layer: WMSLayer) => this._map.removeLayerById(layer.id));
   }
 }

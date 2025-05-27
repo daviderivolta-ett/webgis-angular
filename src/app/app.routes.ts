@@ -1,10 +1,20 @@
+// Libraries
 import { Routes } from '@angular/router';
 
+// Resolvers
+import { baseLayersResolver, infoLayersResolver, mapConfigResolver } from './resolvers';
+
+// Routes
 export const routes: Routes = [
     {
         path: 'dati',
         title: 'OMIRL ARPAL - Dati',
-        loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent)
+        loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent),
+        resolve: {
+            mapConfig: mapConfigResolver,
+            infoLayers: infoLayersResolver,
+            baseLayers: baseLayersResolver
+        }
     },
     {
         path: 'tabelle',

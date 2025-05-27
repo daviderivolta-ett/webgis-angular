@@ -1,0 +1,7 @@
+{
+    "urls": {
+        "base": "https://omirl.regione.liguria.it/",
+        "infoLayers": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+        "stations": "https://omirl.regione.liguria.it/Omirl/rest/stations/"
+    }
+}

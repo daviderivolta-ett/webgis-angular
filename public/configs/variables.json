@@ -13,47 +13,74 @@
             {
                 "id": "station_temperature",
                 "label": "Temperatura",
-                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Termo"
             },
             {
                 "id": "station_hydrometric_levels",
                 "label": "Livelli idrometrici",
-                "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Idro"
             },
             {
                 "id": "station_wind",
                 "label": "Vento",
-                "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Vento"
             },
             {
                 "id": "station_humidity",
                 "label": "Umidità",
-                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Igro"
             },
             {
                 "id": "station_heliophanies",
                 "label": "Eliofanie",
-                "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Elio"
             },
             {
                 "id": "station_radiations",
                 "label": "Radiazioni",
-                "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Radio"
             },
             {
                 "id": "station_leaf_wetting",
                 "label": "Bagnatura fogliare",
-                "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Foglie"
+            },
+            {
+                "id": "station_pression",
+                "label": "Pressione atmosferica",
+                "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Press"
+            },
+            {
+                "id": "station_sea_status",
+                "label": "Stato del mare",
+                "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Boa"
+            },
+            {
+                "id": "station_snow",
+                "label": "Neve",
+                "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Neve"
             },
             {
                 "id": "station_lightning",
                 "label": "Fulminazioni",
-                "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Sfloc"
             },
             {
                 "id": "station_webcam",
                 "label": "Webcam",
-                "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"
+                "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/webcam"
             }
         ]
     },
