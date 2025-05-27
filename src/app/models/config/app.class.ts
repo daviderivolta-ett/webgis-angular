@@ -1,9 +1,5 @@
 import { AppConfigUrls } from './urls.interface';
 
-// export interface AppConfig {
-//     urls: AppConfigUrls;
-// }
-
 export class AppConfig {
     private constructor(
         public urls: AppConfigUrls

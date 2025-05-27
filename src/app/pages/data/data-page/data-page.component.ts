@@ -128,6 +128,10 @@ export class DataPageComponent {
     }
   }
 
+  public onResetMapButtonClick(): void {
+    this._map.resetMap();
+  }
+
   private _onBaselayersRadioChange(changes: any): void {
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['selectedLayer']);
     if (!layer) return;

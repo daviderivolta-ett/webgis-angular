@@ -60,4 +60,9 @@ export class MapComponent {
     const layer: L.TileLayer | undefined = this._layers.get(id);
     if (layer) this._map.removeLayer(layer);
   }
+
+  // Reset position and zoom to default values
+  public resetMap(): void {
+    this._map.setView(this.position(), this.zoom());
+  }
 }

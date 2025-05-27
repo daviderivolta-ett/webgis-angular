@@ -1,7 +1,7 @@
 <div class="page">
     <app-header></app-header>
     <div class="main">
-        <!-- Start sidebar -->
+        <!-- START SIDEBAR -->
         <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onSidebarToggle($event)">
             <div ngProjectAs="sidebar-content" class="sidebar-content">            
                 <div>
@@ -21,9 +21,9 @@
                 </div>
             </div>
         </app-sidebar>
-        <!-- End sidebar -->
+        <!-- END SIDEBAR -->
 
-        <!-- Start layers menu -->
+        <!-- START LAYERS MENU -->
         <div class="layers-menu">
             <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="baseLayersForm">
@@ -45,11 +45,17 @@
                 </div>
             </app-pop-up-menu>
         </div>        
-        <!-- End layers menu -->
+        <!-- END LAYERS MENU -->
+
+        <!-- START RESET BUTTON -->
+         <button type="button" class="fab reset-btn" (click)="onResetMapButtonClick()">
+            <span class="mask-icon"></span>
+         </button>
+        <!-- END RESET BUTTON -->
         
-        <!-- Start map -->
+        <!-- START MAP -->
         <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" #map></app-map>
-        <!-- End map -->
+        <!-- END MAP -->
     </div>
 </div>
 <!-- <app-chip iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" text="Pippo"></app-chip> -->

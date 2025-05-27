@@ -38,3 +38,14 @@
     padding: 0 8px 8px 8px;
     margin: 0 0 8px 0;
 }
+
+.reset-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 16px;
+    z-index: 9998;
+}
+
+.mask-icon {
+    @include maskIcon('/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
+}
