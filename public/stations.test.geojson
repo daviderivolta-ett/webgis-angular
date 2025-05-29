@@ -1,0 +1,100 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.38773,
+                    44.46112
+                ]
+            },
+            "properties": {
+                "alt": 1040,
+                "municipality": "Borzonasca",
+                "name": "Giacopiane - Lago",
+                "refDate": "2025-05-28T14:30:00",
+                "shortCode": "GIACO",
+                "stationId": 1,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.83082,
+                    44.14029
+                ]
+            },
+            "properties": {
+                "alt": 330,
+                "municipality": "La Spezia",
+                "name": "Montalbano",
+                "refDate": "2025-05-28T14:30:00",
+                "shortCode": "MTBNO",
+                "stationId": 1,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.84904,
+                    44.19801
+                ]
+            },
+            "properties": {
+                "alt": 48,
+                "municipality": "Follo",
+                "name": "Piana Battolla - Ponte",
+                "refDate": "2025-05-28T14:30:00",
+                "shortCode": "PBATT",
+                "stationId": 1,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.77099,
+                    44.19514
+                ]
+            },
+            "properties": {
+                "alt": 75,
+                "municipality": "Beverino",
+                "name": "Padivarma",
+                "refDate": "2025-05-28T14:30:00",
+                "shortCode": "PDVRM",
+                "stationId": 1,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.82325,
+                    44.33964
+                ]
+            },
+            "properties": {
+                "alt": 955,
+                "municipality": "Pontremoli",
+                "name": "Pietra Piccata",
+                "refDate": "2025-05-28T14:20:00",
+                "shortCode": "PPICC",
+                "stationId": 1,
+                "value": 0
+            }
+        }
+    ]
+}

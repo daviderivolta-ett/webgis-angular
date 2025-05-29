@@ -1,6 +1,6 @@
-@import 'layout';
-@import 'table';
-@import 'details';
-@import 'checkbox';
-@import 'radio';
-@import 'fab';
+@forward 'layout';
+@forward 'table';
+@forward 'details';
+@forward 'checkbox';
+@forward 'radio';
+@forward 'fab';

@@ -1,4 +1,4 @@
-import { Geolocation } from './geographic.model';
+import { Geolocation } from './geographic/geolocation.interface';
 
 export class Station implements Geolocation {
     public id: string = '';

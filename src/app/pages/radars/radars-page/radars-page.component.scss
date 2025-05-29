@@ -1,2 +1,2 @@
-@import 'index';
-@include header-position;
+@use 'index' as mixins;
+@include mixins.header-position;

@@ -1,12 +1,13 @@
 // Libraries
 import { Component, HostListener, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Utils
-import { confrontArrays, findObjectsByIds, getUrlById, getValuesByNestedKey } from '../../../utils';
+import { Utils } from '../../../utils';
 
 // Models
-import { MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Checkbox, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 // Services
 import { ConfigService, StationService } from '../../../services';
@@ -17,7 +18,6 @@ import { SidebarComponent } from '../../../components/sidebar/sidebar.component'
 import { MapComponent } from '../map/map.component';
 import { PopUpMenuComponent } from '../../../components/pop-up-menu/pop-up-menu.component';
 import { CheckboxListComponent } from '../../../components/checkbox-list/checkbox-list.component';
-import { ActivatedRoute } from '@angular/router';
 
 // Component
 @Component({
@@ -56,10 +56,11 @@ export class DataPageComponent {
   });
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
+  public checkboxes: Checkbox[] = []; // Recovered from route resolver in constructor
 
-  public variables: any[] = [];
   public currentLayers: string[] = [];
 
   constructor(
@@ -73,12 +74,13 @@ export class DataPageComponent {
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.baseLayers = this.route.snapshot.data['baseLayers'];
-    this.infoLayers = this.route.snapshot.data['infoLayers'];    
+    this.infoLayers = this.route.snapshot.data['infoLayers'];
+    this.checkboxes = this.route.snapshot.data['mapCheckboxes'];
   }
 
   // Component lifecycle
   public ngOnInit(): void {
-    // this._getLayers();
+    console.log(this.checkboxes);
   }
 
   public ngAfterViewInit(): void {
@@ -86,20 +88,6 @@ export class DataPageComponent {
   }
 
   // Methods
-  // Getting data and setup
-
-  // private _getLayers() {
-  //   this.configService.getLayerConfigOptions()
-  //     .subscribe({
-  //       next: (data: any) => {
-  //         this.variables = [...data];
-  //       },
-  //       error: (err: any) => {
-  //         console.error(err.message)
-  //       }
-  //     })
-  // }
-
   // Actions
   public onMapClick(): void {
     this._sidebar.toggleSidebar(false);
@@ -141,8 +129,8 @@ export class DataPageComponent {
 
   public onCheckboxListChange(data: any): void {
     if ('options' in data && Array.isArray(data.options)) {
-      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
-      const added: string[] = confrontArrays(this.currentLayers, keys).added;
+      const keys: string[] = Utils.getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
+      const added: string[] = Utils.confrontArrays(this.currentLayers, keys).added;
 
       // if (added.length > 0) {
       //   const url: string | null = getUrlById(added[0], this.variables);
@@ -151,7 +139,10 @@ export class DataPageComponent {
       //   }
       // }
 
-
+      if (added.length > 0) {
+        const checkbox: Checkbox | undefined = Checkbox.getCheckboxById(added[0], this.checkboxes);
+        if (checkbox) checkbox.triggerAction();
+      }
 
       this.currentLayers = [...keys];
     }
@@ -159,8 +150,8 @@ export class DataPageComponent {
 
   public onInfoLayersCheckboxListChange(data: any): void {
     if ('options' in data && Array.isArray(data.options)) {
-      const keys: string[] = getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
-      const { added, removed } = confrontArrays(this.currentLayers, keys);
+      const keys: string[] = Utils.getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
+      const { added, removed } = Utils.confrontArrays(this.currentLayers, keys);
 
       this.currentLayers = [...keys];
 
@@ -172,7 +163,7 @@ export class DataPageComponent {
   // Other methods
   // Map interactions
   private _addWMSLayersToMap(ids: string[], layers: WMSLayer[]): void {
-    const layersToAdd: WMSLayer[] = findObjectsByIds(ids, layers);
+    const layersToAdd: WMSLayer[] = Utils.findObjectsByIds(ids, layers);
     layersToAdd.forEach((layer: WMSLayer) => {
       const { id, label, ...rest } = layer;
       this._map.addWMSLayer(id, this.configService.appConfig.urls.infoLayers, rest);
@@ -180,7 +171,7 @@ export class DataPageComponent {
   }
 
   private _removeWMSLayersFromMap(ids: string[], layers: WMSLayer[]): void {
-    const layersToRemove: WMSLayer[] = findObjectsByIds(ids, layers);
+    const layersToRemove: WMSLayer[] = Utils.findObjectsByIds(ids, layers);
     layersToRemove.forEach((layer: WMSLayer) => this._map.removeLayerById(layer.id));
   }
 }

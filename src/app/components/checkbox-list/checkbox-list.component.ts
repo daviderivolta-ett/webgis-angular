@@ -3,7 +3,7 @@ import { Component, effect, input, output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Types
-export type CheckboxSingle = {
+type CheckboxSingle = {
   id: string;
   label?: string,
   iconUrl?: string;

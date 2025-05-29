@@ -1,3 +1,4 @@
-export * from './layer.model';
-export * from './wms-layer.model';
-export * from './tile-layer.models';
+export * from './layer.class';
+export * from './wms-layer.class';
+export * from './tile-layer.class';
+export * from './station-layer.class';

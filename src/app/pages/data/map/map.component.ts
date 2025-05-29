@@ -50,7 +50,7 @@ export class MapComponent {
   }
 
   // Add WMSLayer from external
-  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
+  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {   
     const layer: L.TileLayer = L.tileLayer.wms(url, options).addTo(this._map);
     this._layers.set(id, layer);
   }

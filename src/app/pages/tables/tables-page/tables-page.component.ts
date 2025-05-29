@@ -2,8 +2,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-// Utils
-import { generateTableStructure, sortTableData, Table } from '../../../utils';
+// Models
+import { Table } from '../../../models';
 
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
@@ -90,18 +90,17 @@ export class TablesPageComponent {
       test: 'VAL'
     }
   ];
-  public data: Table = { header: [], body: [] };
-  public sortedData: Table = { header: [], body: [] };
+  public data: Table = new Table();
+  public sortedData: Table = new Table();
   //////////
 
   // Component lifecycle
   public ngOnInit(): void {
-    this.data = generateTableStructure(this.rawData);
-    this.sortedData = { ...this.data };
+    this.data = this.sortedData = Table.generateTableStructure(this.rawData);
   }
 
   // Methods
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
-    this.sortedData = sortTableData(this.data, sort.sortBy, sort.direction);    
+    this.sortedData = this.data.sortTableData(sort.sortBy, sort.direction);
   }
 }

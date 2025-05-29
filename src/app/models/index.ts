@@ -1,6 +1,5 @@
 export * from './layer';
 export * from './config';
-
-// export * from './config.model';
-export * from './geographic.model';
+export * from './ui';
+export * from './geographic';
 export * from './station.model';

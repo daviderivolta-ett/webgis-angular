@@ -1,3 +1,3 @@
 export * from './app.class';
-export * from './map.interface';
+export * from './map.class';
 export * from './urls.interface';

@@ -1,5 +1,5 @@
-@import 'index';
-@include header-position;
+@use 'index' as mixins;
+@include mixins.header-position;
 
 .sidebar-content {
     display: flex;
@@ -47,5 +47,5 @@
 }
 
 .mask-icon {
-    @include maskIcon('/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
+    @include mixins.maskIcon('/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
 }

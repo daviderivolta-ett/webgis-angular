@@ -25,3 +25,8 @@
     mask-position: center;
     mask-size: contain;
 }
+
+.sidebar__content {
+    height: 100%;
+    overflow-y: auto;
+}

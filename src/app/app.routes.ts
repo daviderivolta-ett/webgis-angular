@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, mapConfigResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, mapCheckboxResolver, mapConfigResolver } from './resolvers';
 
 // Routes
 export const routes: Routes = [
@@ -13,7 +13,8 @@ export const routes: Routes = [
         resolve: {
             mapConfig: mapConfigResolver,
             infoLayers: infoLayersResolver,
-            baseLayers: baseLayersResolver
+            baseLayers: baseLayersResolver,
+            mapCheckboxes: mapCheckboxResolver
         }
     },
     {
