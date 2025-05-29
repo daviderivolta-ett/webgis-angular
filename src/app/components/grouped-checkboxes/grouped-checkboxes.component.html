@@ -1,0 +1,23 @@
+<ng-template #treeTemplate let-node>
+    <div class="tree">
+        @if (node.options) {
+            <details>
+                <summary>{{node.label || node.id}}</summary>
+                <div>                    
+                    @for (child of node.options; track child.id) {
+                        <ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: child }"></ng-container>
+                    }
+                </div>
+            </details>
+        }
+        @else {
+            <label [for]="node.id">
+                <input type="checkbox" [id]="node.id" [(ngModel)]="node.isChecked" [disabled]="node.isDisabled" (change)="onCheckboxChange(node, $event)">
+                {{node.label || node.id}}
+            </label>
+        }
+    </div>
+</ng-template>
+
+
+<ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: tree() }"></ng-container>

@@ -8,16 +8,30 @@
                     <input type="datetime-local" [value]="">
                 </div>
                 <div class="sidebar__checkboxes">
+                    <!--
                     @for (item of checkboxes; track $index) {
                         <div>
                             <details class="styled-details">
                                 <summary class="summary">{{item.label ? item.label : item.id}}</summary>
                                 <div class="styled-details__content">
-                                    <app-checkbox-list [options]="item.options ?? []" [maxSelections]="item.maxSelections ?? 1" (changed)="onCheckboxListChange($event)"></app-checkbox-list>
+                                    <app-checkbox-list [options]="item.options ?? []" [maxSelections]="item.maxSelections ?? 1" (changed)="onMapLayersCheckboxListChange($event)"></app-checkbox-list>
                                 </div>
                             </details>
                         </div>
                     }
+                    -->
+                    <!--
+                    <app-tree [tree]="checkboxes[1]">
+                        <ng-template let-node>
+                            <label [for]="node.id">
+                                <input type="checkbox" [id]="node.id">
+                                {{node.label || node.id}}
+                            </label>
+                        </ng-template>
+                    </app-tree>
+                    -->
+                    <app-grouped-checkboxes [tree]="checkboxes[0]"></app-grouped-checkboxes>
+                    <app-grouped-checkboxes [tree]="checkboxes[1]"></app-grouped-checkboxes>
                 </div>
             </div>
         </app-sidebar>

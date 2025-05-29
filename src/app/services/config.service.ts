@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, lastValueFrom, map, Observable, throwError } from 'rxjs';
 
 // Models
-import { AppConfig, MapConfig, StationLayer, TileLayer, WMSLayer } from '../models';
-import { Checkbox } from '../models/ui/checkbox/checkbox.class';
+import { AppConfig, MapConfig, StationLayer, TileLayer, TreeNode, WMSLayer } from '../models';
+import { Checkbox } from '../models/ui/checkbox.class';
 
 // Service
 @Injectable({
@@ -75,13 +75,14 @@ export class ConfigService {
       )
   }
 
-  public getMapLayers() {
-    return this.http.get<any[]>(this.DATAPAGE_MAPLAYERS_URI)
+  public getMapLayers(): Observable<TreeNode[]> {
+    return this.http.get<TreeNode[]>(this.DATAPAGE_MAPLAYERS_URI)
       .pipe(
         map((data: any[]) => {
           return data.map((d) => {
             try {
-              return Checkbox.createFromObject(d);
+              // return Checkbox.createFromObject(d);
+              return TreeNode.createFromObject(d)
             } catch (error) {
               console.warn('Oggetto non valido, verrà ignorato:', d);
               return null;

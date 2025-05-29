@@ -1,0 +1,20 @@
+<ng-template #treeTemplate let-node>
+    <div class="tree">
+        <!-- <p>{{node.label ? node.label : node.id}}</p> -->
+
+        @if (node.options) {
+            @for (child of node.options; track child.id) {
+                <ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: child }"></ng-container>
+            }
+        }
+        @else {
+            <ng-container *ngTemplateOutlet="leafTemplate || defaultLeafTemplate ; context: { $implicit: node }"></ng-container>
+        }
+    </div>
+</ng-template>
+
+<ng-template #defaultLeafTemplate let-node>
+    <p>Tree component</p>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: tree() }"></ng-container>

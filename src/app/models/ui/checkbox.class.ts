@@ -1,17 +1,12 @@
-import { CheckboxAction } from './action.type';
-import { Command, GetStationsCommand } from '../commands';
-
 export class Checkbox {
     public id: string;
     public label?: string;
     public iconUrl?: string;
     public maxSelections?: number;
     public options?: Checkbox[];
-    public action?: CheckboxAction;
+    public action?: { name: string, params: any };
 
-    static actions: Map<string, Command> = new Map<string, Command>([
-        ['getStations', new GetStationsCommand()]
-    ]);
+    static actions: Map<string, any> = new Map<string, any>();
 
     constructor(id: string) {
         this.id = id;
@@ -27,11 +22,14 @@ export class Checkbox {
         if ('label' in object && typeof object['label'] === 'string') checkbox.label = object['label'];
         if ('iconUrl' in object && typeof object['iconUrl'] === 'string') checkbox.iconUrl = object['iconUrl'];
         if ('maxSelections' in object && typeof object['maxSelections'] === 'number') checkbox.maxSelections = object['maxSelections'];
-        if ('action' in object && typeof object['action'] === 'object') {
-            const action = { name: '', params: {} };
-            if ('name' in object['action']) action.name = object['action'].name;
-            if ('params' in object['action']) action.params = { ...object['action'].params };
-            checkbox.action = action;
+        if (object['action'] && typeof object['action'] === 'object') {
+            const { name, params } = object['action'];
+            if (typeof name === 'string') {
+                checkbox.action = {
+                    name,
+                    params: params ?? {}
+                };
+            }
         }
         if ('options' in object && Array.isArray(object['options'])) checkbox.options = object['options'].map((c: any) => Checkbox.createFromObject(c));
 
@@ -51,12 +49,14 @@ export class Checkbox {
         return undefined;
     }
 
-    public triggerAction(): void {
+    public async triggerAction(): Promise<any> {
         if (!this.action) return;
-        const command: Command | undefined = Checkbox.actions.get(this.action.name);
-        if (command) {
-            if (this.action.params) command.execute(this.action.params);
-            else command.execute();
-        }
+        console.log(this.action.name);
+
+        // const command: Command | undefined = Checkbox.actions.get(this.action.name);      
+        // if (command) {
+        //     if (this.action.params) return command.execute(this.action.params);
+        //     else return command.execute();
+        // }
     }
 }

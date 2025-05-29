@@ -4,18 +4,18 @@ import { ResolveFn } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 
 // Models
-import { Checkbox } from '../models';
+import { TreeNode } from '../models';
 
 // Services
 import { ConfigService } from '../services';
 
 // Resolver
-export const mapCheckboxResolver: ResolveFn<Checkbox[]> = (route, state) => {
+export const mapCheckboxResolver: ResolveFn<TreeNode[]> = (route, state) => {
   const configService: ConfigService = inject(ConfigService);
 
   return configService.getMapLayers()
   .pipe(
-    map((data: Checkbox[]) => {
+    map((data: TreeNode[]) => {
       return data;
     }),
     catchError((err) => {

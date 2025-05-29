@@ -7,17 +7,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Utils } from '../../../utils';
 
 // Models
-import { Checkbox, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { MapConfig, TileLayer, TreeNode, WMSLayer } from '../../../models';
 
 // Services
-import { ConfigService, StationService } from '../../../services';
+import { ConfigService } from '../../../services';
 
 // Components
-import { HeaderComponent } from '../../../components/header/header.component';
-import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
+import { CheckboxListComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
-import { PopUpMenuComponent } from '../../../components/pop-up-menu/pop-up-menu.component';
-import { CheckboxListComponent } from '../../../components/checkbox-list/checkbox-list.component';
 
 // Component
 @Component({
@@ -25,14 +22,15 @@ import { CheckboxListComponent } from '../../../components/checkbox-list/checkbo
   imports: [
     // Libraries
     ReactiveFormsModule,
-
+    
     // Components
     HeaderComponent,
     SidebarComponent,
     MapComponent,
     PopUpMenuComponent,
-    CheckboxListComponent
-  ],
+    CheckboxListComponent,
+    GroupedCheckboxesComponent
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -59,14 +57,13 @@ export class DataPageComponent {
 
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
-  public checkboxes: Checkbox[] = []; // Recovered from route resolver in constructor
+  public checkboxes: TreeNode[] = []; // Recovered from route resolver in constructor
 
   public currentLayers: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private configService: ConfigService,
-    private stationService: StationService
+    private configService: ConfigService
   ) {
     this.windowWidth = window.innerWidth;
     this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
@@ -127,25 +124,18 @@ export class DataPageComponent {
     this._map.addBaseLayer(url, rest);
   }
 
-  public onCheckboxListChange(data: any): void {
-    if ('options' in data && Array.isArray(data.options)) {
-      const keys: string[] = Utils.getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
-      const added: string[] = Utils.confrontArrays(this.currentLayers, keys).added;
+  public onMapLayersCheckboxListChange(data: any): void {
+    // if ('options' in data && Array.isArray(data.options)) {
+    //   const keys: string[] = Utils.getValuesByNestedKey(data.options, 'id', 'isChecked', 'options');
+    //   const added: string[] = Utils.confrontArrays(this.currentLayers, keys).added;
 
-      // if (added.length > 0) {
-      //   const url: string | null = getUrlById(added[0], this.variables);
-      //   if (url) {
-      //     this.stationService.getStations(url).subscribe((d) => console.log(d));
-      //   }
-      // }
+    //   if (added.length > 0) {
+    //     const checkbox: Checkbox | undefined = Checkbox.getCheckboxById(added[0], this.checkboxes);
+    //     if (checkbox) checkbox.triggerAction();
+    //   }
 
-      if (added.length > 0) {
-        const checkbox: Checkbox | undefined = Checkbox.getCheckboxById(added[0], this.checkboxes);
-        if (checkbox) checkbox.triggerAction();
-      }
-
-      this.currentLayers = [...keys];
-    }
+    //   this.currentLayers = [...keys];
+    // }
   }
 
   public onInfoLayersCheckboxListChange(data: any): void {
