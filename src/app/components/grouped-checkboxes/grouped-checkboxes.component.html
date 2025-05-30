@@ -1,23 +1,35 @@
-<ng-template #treeTemplate let-node>
+<ng-template #groupTemplate let-group let-parentDefined="parentDefined">
     <div class="tree">
-        @if (node.options) {
-            <details>
-                <summary>{{node.label || node.id}}</summary>
-                <div>                    
-                    @for (child of node.options; track child.id) {
-                        <ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: child }"></ng-container>
+        @if (group.options) {
+            <details class="styled-details">
+                <summary class="summary">
+                    <div class="summary__text">
+                        @if (group.iconUrl) {
+                            <span [style.maskImage]="'url(' + group.iconUrl + ')'" [style.webkitMaskImage]="'url(' + group.iconUrl + ')'" class="checkbox__icon"></span>
+                        }
+                        {{group.label || group.id}}
+                    </div>
+                </summary>
+                <div class="styled-details__content">                    
+                    @for (child of group.options; track child.id) {
+                        <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: child, parentDefined: true }"></ng-container>
                     }
                 </div>
             </details>
         }
         @else {
-            <label [for]="node.id">
-                <input type="checkbox" [id]="node.id" [(ngModel)]="node.isChecked" [disabled]="node.isDisabled" (change)="onCheckboxChange(node, $event)">
-                {{node.label || node.id}}
-            </label>
+            <div class="checkbox">
+                <label [style.paddingLeft]="parentDefined && '24px'" [for]="group.id" class="checkbox__label">
+                    <input type="checkbox" class="checkbox__input" [id]="group.id" [(ngModel)]="group.isChecked" [disabled]="group.isDisabled" (change)="onCheckboxChange(group, $event)">
+                    @if (group.iconUrl) {
+                        <span class="checkbox__icon" [style.maskImage]="'url(' + group.iconUrl + ')'" [style.webkitMaskImage]="'url(' + group.iconUrl + ')'"></span>
+                    }
+                    {{group.label || group.id}}
+                </label>
+            </div>
         }
     </div>
 </ng-template>
 
 
-<ng-container *ngTemplateOutlet="treeTemplate; context: { $implicit: tree() }"></ng-container>
+<ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: group(), parentDefined: false }"></ng-container>

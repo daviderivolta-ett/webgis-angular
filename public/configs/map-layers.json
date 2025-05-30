@@ -8,79 +8,144 @@
                 "id": "station_precipitations",
                 "label": "Precipitazioni",
                 "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_temperature",
                 "label": "Temperatura",
                 "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_hydrometric_levels",
                 "label": "Livelli idrometrici",
                 "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_wind",
                 "label": "Vento",
                 "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_humidity",
                 "label": "Umidità",
                 "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_heliophanies",
                 "label": "Eliofanie",
                 "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_radiations",
                 "label": "Radiazioni",
                 "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_leaf_wetting",
                 "label": "Bagnatura fogliare",
                 "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_pression",
                 "label": "Pressione atmosferica",
                 "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_sea_status",
                 "label": "Stato del mare",
                 "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_snow",
                 "label": "Neve",
                 "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_lightning",
                 "label": "Fulminazioni",
                 "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             },
             {
                 "id": "station_webcam",
                 "label": "Webcam",
                 "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "action": "getStations"
+                "action": {
+                    "id": "getStations",
+                    "params": {
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
+                    }
+                }
             }
         ]
     },
@@ -97,43 +162,193 @@
                 "options": [
                     {
                         "id": "maps_precipitations_15m",
-                        "label": "Ultimi 15 minuti"
+                        "label": "Ultimi 15 minuti",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_30m",
-                        "label": "Ultimi 30 minuti"
+                        "label": "Ultimi 30 minuti",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_1h",
-                        "label": "Ultim'ora"
+                        "label": "Ultim'ora",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_3h",
-                        "label": "Ultime 3 ore"
+                        "label": "Ultime 3 ore",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_6h",
-                        "label": "Ultime 6 ore"
+                        "label": "Ultime 6 ore",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_12h",
-                        "label": "Ultime 12 ore"
+                        "label": "Ultime 12 ore",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_24h",
-                        "label": "Ultime 24 ore"
+                        "label": "Ultime 24 ore",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_7d",
-                        "label": "Ultimi 7 giorni"
+                        "label": "Ultimi 7 giorni",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_15d",
-                        "label": "Ultimi 15 giorni"
+                        "label": "Ultimi 15 giorni",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     },
                     {
                         "id": "maps_precipitations_30d",
-                        "label": "Ultimi 30 giorni"
+                        "label": "Ultimi 30 giorni",
+                        "action": {
+                            "id": "getWms",
+                            "params": {
+                                "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                                "options": {
+                                    "layers": "20250530tempMax_std_1000",
+                                    "transparent": "true",
+                                    "format": "image/png",
+                                    "service": "WMS",
+                                    "version": "1.1.1",
+                                    "request": "GetMap",
+                                    "styles": ""
+                                }
+                            }
+                        }
                     }
                 ]
             },

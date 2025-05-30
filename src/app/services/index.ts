@@ -1,2 +1,5 @@
-export * from './config.service';
-export * from './station.service';
+export * from './config.service'
+export * from './get-stations.command.service'
+export * from './get-wms.command.service'
+export * from './registry.command.service'
+export * from './station.service'

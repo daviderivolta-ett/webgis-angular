@@ -2,9 +2,7 @@ export class TreeNode {
     public id: string;
     public label?: string;
     public iconUrl?: string;
-    public maxSelections?: number;
     public options?: TreeNode[];
-    public action?: string;
 
     constructor(id: string) {
         this.id = id;
@@ -19,8 +17,8 @@ export class TreeNode {
 
         if ('label' in object && typeof object['label'] === 'string') node.label = object['label'];
         if ('iconUrl' in object && typeof object['iconUrl'] === 'string') node.iconUrl = object['iconUrl'];
-        if ('maxSelections' in object && typeof object['maxSelections'] === 'number') node.maxSelections = object['maxSelections'];
-        if ('action' in object && typeof object['action'] === 'string') node.action = object['action'];
+        // if ('maxSelections' in object && typeof object['maxSelections'] === 'number') node.maxSelections = object['maxSelections'];
+        // if ('action' in object && typeof object['action'] === 'string') node.action = object['action'];
         // if (object['action'] && typeof object['action'] === 'object') {
         //     const { name, params } = object['action'];
         //     if (typeof name === 'string') {

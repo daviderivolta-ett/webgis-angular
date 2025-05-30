@@ -31,3 +31,12 @@
 .styled-details[open]>summary::after {
     transform: rotate(180deg);
 }
+
+.styled-details summary:has(+ .styled-details__content) {
+    padding: 4px 8px 8px 0px;
+}
+
+.summary__text {
+    display: flex;
+    gap: 4px;
+}

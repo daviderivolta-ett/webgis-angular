@@ -4,13 +4,14 @@ import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // Types
-type TreeNode = {
+type GroupedCheckbox = {
   id: string;
   label?: string;
-  maxSelections?: number,
-  options?: TreeNode[],
-  isChecked?: boolean,
-  isDisabled?: boolean
+  iconUrl?: string;
+  options?: GroupedCheckbox[];
+  maxSelections?: number;
+  isChecked?: boolean;
+  isDisabled?: boolean;
 }
 
 // Component
@@ -24,8 +25,8 @@ type TreeNode = {
   styleUrl: './grouped-checkboxes.component.scss'
 })
 export class GroupedCheckboxesComponent {
-  public tree = model<TreeNode>({ id: '' });
-  public changed = output<any>();
+  public group = model<GroupedCheckbox>({ id: '' });
+  public changed = output<{ id: string, isChecked: boolean }>();
 
   constructor() { }
 
@@ -34,48 +35,48 @@ export class GroupedCheckboxesComponent {
   }
 
   // Methods
-  public onCheckboxChange(node: TreeNode, event: Event): void {
+  public onCheckboxChange(group: GroupedCheckbox, event: Event): void {
     const value: boolean = (event.target as HTMLInputElement).checked;
-    const parent: TreeNode | null = this._getParentNode(this.tree(), node);
+    const parent: GroupedCheckbox | null = this._getParentGroup(this.group(), group);
     if (!parent || !parent.maxSelections || parent.maxSelections === -1) return;
 
     const parentSelected: number = this._countSelected(parent);
 
     if (parentSelected >= parent.maxSelections) {
-      const newNode = this._cloneTreeWithDisabledControls(parent);
-      this.tree.update((oldValue: TreeNode) => this._updateRootTree(oldValue, newNode));
+      const newGroup = this._cloneGroupWithDisabledControls(parent);
+      this.group.update((oldValue: GroupedCheckbox) => this._updateRootGroup(oldValue, newGroup));
     } else {
-      const newSubtree = this._cloneTreeWithAllEnabled(parent);
-      this.tree.update((oldValue: TreeNode) => this._updateRootTree(oldValue, newSubtree));
+      const newSubtree = this._cloneGroupWithAllEnabled(parent);
+      this.group.update((oldValue: GroupedCheckbox) => this._updateRootGroup(oldValue, newSubtree));
     }
 
-    this.changed.emit(node.id);
+    this.changed.emit({ id: group.id, isChecked: value });
   }
 
-  private _updateRootTree(oldValue: TreeNode, newNode: TreeNode): TreeNode {
-    if (oldValue.id === newNode.id) return newNode;
+  private _updateRootGroup(oldValue: GroupedCheckbox, newGroup: GroupedCheckbox): GroupedCheckbox {
+    if (oldValue.id === newGroup.id) return newGroup;
 
     return {
       ...oldValue,
-      options: oldValue.options?.map((node: TreeNode) => this._updateRootTree(node, newNode))
+      options: oldValue.options?.map((group: GroupedCheckbox) => this._updateRootGroup(group, newGroup))
     }
   }
 
-  private _getParentNode(current: TreeNode, target: TreeNode): TreeNode | null {
+  private _getParentGroup(current: GroupedCheckbox, target: GroupedCheckbox): GroupedCheckbox | null {
     if (!current.options) return null;
     for (const child of current.options) {
       if (child === target) return current;
-      const found = this._getParentNode(child, target);
+      const found = this._getParentGroup(child, target);
       if (found) return found;
     }
     return null;
   }
 
-  private _countSelected(tree: TreeNode, count: number = 0): number {
-    if (tree.isChecked) count++;
+  private _countSelected(group: GroupedCheckbox, count: number = 0): number {
+    if (group.isChecked) count++;
 
-    if (tree.options && Array.isArray(tree.options)) {
-      tree.options.forEach((node: TreeNode) => {
+    if (group.options && Array.isArray(group.options)) {
+      group.options.forEach((node: GroupedCheckbox) => {
         count = this._countSelected(node, count);
       });
     }
@@ -83,23 +84,23 @@ export class GroupedCheckboxesComponent {
     return count;
   }
 
-  private _cloneTreeWithDisabledControls(tree: TreeNode): TreeNode {
-    const isDisabled: boolean = tree.isChecked ? false : true;
+  private _cloneGroupWithDisabledControls(group: GroupedCheckbox): GroupedCheckbox {
+    const isDisabled: boolean = group.isChecked ? false : true;
 
     return {
-      ...tree,
-      options: tree.options?.map((node: TreeNode) => {
-        return this._cloneTreeWithDisabledControls(node)
+      ...group,
+      options: group.options?.map((child: GroupedCheckbox) => {
+        return this._cloneGroupWithDisabledControls(child)
       }),
       isDisabled
     }
   }
 
-  private _cloneTreeWithAllEnabled(tree: TreeNode): TreeNode {
+  private _cloneGroupWithAllEnabled(group: GroupedCheckbox): GroupedCheckbox {
     return {
-      ...tree,
+      ...group,
       isDisabled: false,
-      options: tree.options?.map(child => this._cloneTreeWithAllEnabled(child))
+      options: group.options?.map(child => this._cloneGroupWithAllEnabled(child))
     };
   }
 

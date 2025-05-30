@@ -8,30 +8,9 @@
                     <input type="datetime-local" [value]="">
                 </div>
                 <div class="sidebar__checkboxes">
-                    <!--
-                    @for (item of checkboxes; track $index) {
-                        <div>
-                            <details class="styled-details">
-                                <summary class="summary">{{item.label ? item.label : item.id}}</summary>
-                                <div class="styled-details__content">
-                                    <app-checkbox-list [options]="item.options ?? []" [maxSelections]="item.maxSelections ?? 1" (changed)="onMapLayersCheckboxListChange($event)"></app-checkbox-list>
-                                </div>
-                            </details>
-                        </div>
+                    @for (group of groupedCheckboxes; track $index) {
+                        <app-grouped-checkboxes [group]="group" (changed)="onGroupCheckboxChange($event)"></app-grouped-checkboxes>
                     }
-                    -->
-                    <!--
-                    <app-tree [tree]="checkboxes[1]">
-                        <ng-template let-node>
-                            <label [for]="node.id">
-                                <input type="checkbox" [id]="node.id">
-                                {{node.label || node.id}}
-                            </label>
-                        </ng-template>
-                    </app-tree>
-                    -->
-                    <app-grouped-checkboxes [tree]="checkboxes[0]"></app-grouped-checkboxes>
-                    <app-grouped-checkboxes [tree]="checkboxes[1]"></app-grouped-checkboxes>
                 </div>
             </div>
         </app-sidebar>
@@ -43,9 +22,9 @@
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="baseLayersForm">
                     <p class="pop-up-menu-content__title">Mappe base</p>
                     <div class="radio-group">
-                        @for (item of baseLayers; track $index) {
+                        @for (item of baseLayers; track item.id) {
                             <div class="radio">
-                                <input type="radio" class="radio__input" [id]="item.id" [value]="item.id" formControlName="selectedLayer">
+                                <input type="radio" class="radio__input" [id]="item.id" [value]="item.id" formControlName="baseLayer">
                                 <label class="radio__label" [for]="item.id">{{item.label}}</label>
                             </div>
                         }
@@ -55,7 +34,16 @@
             <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">
                     <p class="pop-up-menu-content__title">Livelli informativi</p>
-                    <app-checkbox-list [options]="infoLayers" (changed)="onInfoLayersCheckboxListChange($event)"></app-checkbox-list>
+                    <div class="pop-up-menu-content__body">
+                        @for (item of infoLayers; track item.id) {
+                            <div class="checkbox">
+                                <label [for]="item.id" class="checkbox__label">
+                                    <input type="checkbox" [id]="item.id" class="checkbox__input" (change)="onInfoLayerCheckboxChange($event, item)">
+                                    {{item.label || item.id}}
+                                </label>
+                            </div>
+                        }
+                    </div>
                 </div>
             </app-pop-up-menu>
         </div>        
