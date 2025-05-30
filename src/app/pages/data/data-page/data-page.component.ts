@@ -138,13 +138,28 @@ export class DataPageComponent {
 
     if (isChecked && checkbox.action && 'id' in checkbox.action) {
       this._executeAction(checkbox);
-    }    
+    }
+
+    // this._map.addTimeDimensionWMSLayer(
+    //   'timedimension',
+    //   'https://thredds.socib.es/thredds/wms/operational_models/oceanographical/wave/model_run_aggregation/sapo_ib/sapo_ib_best.ncd',
+    //   {
+    //     layers: 'significant_wave_height',
+    //     format: 'image/png',
+    //     transparent: true,
+    //     colorscalerange: '0,3',
+    //     abovemaxcolor: "extend",
+    //     belowmincolor: "extend",
+    //     numcolorbands: 100,
+    //     styles: 'areafill/scb_bugnylorrd'
+    //   }
+    // );
   }
 
   private async _executeAction(checkbox: GroupedCheckboxItem): Promise<void> {
     const command: Command | null = this.commandsRegistry.getCommand(checkbox.action.id);
     if (!command) return;
     const result = await command.execute(checkbox.action.params ?? null);
-    console.log(result);    
+    console.log(result);
   }
 }

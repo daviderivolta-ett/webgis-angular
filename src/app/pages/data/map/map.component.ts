@@ -1,7 +1,9 @@
 // Libraries
-import { Component, input, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import L from 'leaflet';
+import 'leaflet-timedimension';
+import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
 
 // Component
 @Component({
@@ -27,35 +29,44 @@ export class MapComponent {
   // Methods
   private _initMap(): void {
     // Map instance
-    this._map = new L.Map('map', { zoomControl: false })
+    this._map = new L.Map('map', {
+      zoomControl: false,
+      // @ts-ignore: time dimension plugin has no type declaration
+      timeDimension: true,
+      timeDimensionControl: true,
+    })
       .setView(this.position(), this.zoom());
-
-    // Add base layer
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    // }).addTo(this._map);
   }
 
-  // Add base layer fomr external
+  // Add base tile layer
   public addBaseLayer(url: string, options: Record<string, any>): void {
     this.removeLayerById('base');
     const layer = L.tileLayer(url, { zIndex: 0, ...options }).addTo(this._map);
     this._layers.set('base', layer);
   }
 
-  // Add layer from external
+  // Add layer
   public addLayer(id: string, url: string, options: Record<string, any>): void {
     const layer = L.tileLayer(url, options).addTo(this._map);
     this._layers.set(id, layer);
   }
 
-  // Add WMSLayer from external
-  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {   
+  // Add WMS layer
+  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, options).addTo(this._map);
     this._layers.set(id, layer);
   }
 
-  // Remove layer form external using id
+  // Add a time dimension layer
+  public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    const layer: L.TileLayer = L.tileLayer.wms(url, options);
+    // @ts-ignore: time dimension plugin has no type declaration
+    const timeDimensionLayer = L.timeDimension.layer.wms(layer);
+    timeDimensionLayer.addTo(this._map);
+    this._layers.set(id, layer);
+  }
+
+  // Remove layer using id
   public removeLayerById(id: string): void {
     const layer: L.TileLayer | undefined = this._layers.get(id);
     if (layer) this._map.removeLayer(layer);

@@ -12,8 +12,8 @@ export class GetWMSCommandService implements Command {
     public async execute(params?: any): Promise<any> {
         const { url, options } = params;
 
-        console.log(url, options);        
+        if (!url) console.warn('Parametro \'url\' non presente in \'params\'. Impossibile eseguire la ricerca del wms.');
 
-        return null;
+        console.log(url, options);        
     }
 }

@@ -2,7 +2,6 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { catchError, firstValueFrom, of } from 'rxjs';
 
 // Routes
 import { routes } from './app.routes';
@@ -19,15 +18,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAppInitializer(() => {
       const configService = inject(ConfigService);
-      return firstValueFrom(
-        configService.getAppConfig()
-          .pipe(
-            catchError((err) => {
-              console.error(err);
-              return of(AppConfig.createDefaultAppConfig())
-            })
-          )
-      )
+      return configService.getAppConfig()
+        .catch((err: any) => {
+          console.error(err);
+          return AppConfig.createDefaultAppConfig()
+        })
     })
   ]
 };

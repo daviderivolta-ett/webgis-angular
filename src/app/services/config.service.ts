@@ -29,67 +29,81 @@ export class ConfigService {
 
   // Methods
   // Get and parse app local config file
-  public getAppConfig(): Observable<void> {
-    return this.http.get<any>(this.APP_CONFIG_URI)
-      .pipe(
-        map((config: any) => {
-          this.appConfig = AppConfig.createFromObject(config);
-        }),
-        catchError((err: any) => {
-          return throwError(() => new Error('Errore nel recupero della configurazione dell\'app dal file /configs/app.config.json'));
-        })
-      )
+  public async getAppConfig(): Promise<void> {
+    return fetch(this.APP_CONFIG_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione dell\'app dal file /configs/app.config.json');
+        return res.json();
+      })
+      .then((config: any) => {
+        this.appConfig = AppConfig.createFromObject(config)
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione dell\'app dal file /configs/app.config.json ${err.message || err}`);
+      })
   }
 
   // Get and parse 'Data' page local json config files
-  public getMapConfig(): Observable<MapConfig> {
-    return this.http.get<any>(this.DATAPAGE_MAPCONFIG_URI)
-      .pipe(
-        map((config: any) => {
-          return MapConfig.createFromObject(config);
-        }),
-        catchError((err: any) => {
-          return throwError(() => new Error('Errore nel recupero della configurazione della mappa dal file /configs/map.config.json'));
-        })
-      )
+  public async getMapConfig(): Promise<MapConfig> {
+    return fetch(this.DATAPAGE_MAPCONFIG_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione della mappa dal file /configs/map.config.json');
+        return res.json();
+      })
+      .then((config: any) => {
+        return MapConfig.createFromObject(config);
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione della mappa dal file /configs/map.config.json ${err.message || err}`);
+      })
   }
 
-  public getBaseLayers(): Observable<TileLayer[]> {
-    return this.http.get<any[]>(this.DATAPAGE_BASELAYERS_URI)
-      .pipe(
-        map((data: any[]) => data.map((d: any) => TileLayer.createFromObject(d))),
-        catchError((err: any) => {
-          return throwError(() => new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json'));
-        })
-      )
+  public async getBaseLayers(): Promise<TileLayer[]> {
+    return fetch(this.DATAPAGE_BASELAYERS_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
+        return res.json();
+      })
+      .then((data: any[]) => {
+        return data.map((d: any) => TileLayer.createFromObject(d))
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json ${err.message || err}`);
+      })
   }
 
-  public getInfoLayers(): Observable<WMSLayer[]> {
-    return this.http.get<any[]>(this.DATAPAGE_INFOLAYERS_URI)
-      .pipe(
-        map((data: any[]) => data.map((d: any) => WMSLayer.createFromObject(d))),
-        catchError((err: any) => {
-          return throwError(() => new Error('Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json'));
-        })
-      )
+  public async getInfoLayers(): Promise<WMSLayer[]> {
+    return fetch(this.DATAPAGE_INFOLAYERS_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
+        return res.json();
+      })
+      .then((data: any[]) => {
+        return data.map((d: any) => WMSLayer.createFromObject(d))
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
+      })
   }
 
-  public getMapLayers(): Observable<GroupedCheckboxItem[]> {
-    return this.http.get<TreeNode[]>(this.DATAPAGE_MAPLAYERS_URI)
-      .pipe(
-        map((data: any[]) => {
-          return data.map((d) => {
-            try {
-              return GroupedCheckboxItem.createFromObject(d)
-            } catch (error) {
-              console.warn('Oggetto non valido, verrà ignorato:', d);
-              return null;
-            }
-          }).filter((checkbox) => checkbox !== null)
-        }),
-        catchError((err: any) => {
-          return throwError(() => new Error(err.message));
-        })
-      )
+  public getMapLayers(): Promise<GroupedCheckboxItem[]> {
+    return fetch(this.DATAPAGE_MAPLAYERS_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
+        return res.json();
+      })
+      .then((data: any[]) => {
+        return data.map((d: any) => {
+          try {
+            return GroupedCheckboxItem.createFromObject(d)
+          } catch (error) {
+            console.warn('Oggetto non valido, verrà ignorato:', d);
+            return null;
+          }
+        }).filter((checkbox) => checkbox !== null)
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione dei layer /configs/map-layers.config.json ${err.message || err}`);
+      })
   }
 }

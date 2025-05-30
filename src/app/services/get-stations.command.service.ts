@@ -16,12 +16,17 @@ export class GetStationsCommandService implements Command {
 
     return fetch(url)
       .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero dei dati delle stazioni');
+        if (!res.ok) throw new Error(`Errore nel recupero dei dati delle stazioni: ${res.status} ${res.statusText}`);
         return res.json();
       })
-      .then((data) => data)
+      .then((data: any) => {
+        // TO DO
+        // Transform data
+        console.log(data);        
+        return data;
+      })
       .catch((err: any) => {
-        throw new Error('Errore nel recupero dei dati delle stazioni', err);
+        throw new Error(`Errore nel recupero dei dati delle stazioni: ${err.message || err}`);
       });
   }
 }

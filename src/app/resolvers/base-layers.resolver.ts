@@ -1,7 +1,6 @@
 // Libraries
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { catchError, map, of } from 'rxjs';
 
 // Models
 import { TileLayer } from '../models';
@@ -10,17 +9,13 @@ import { TileLayer } from '../models';
 import { ConfigService } from '../services';
 
 // Resolver
-export const baseLayersResolver: ResolveFn<TileLayer[]> = (route, state) => {
+export const baseLayersResolver: ResolveFn<TileLayer[]> = async (route, state) => {
   const configService: ConfigService = inject(ConfigService);
 
   return configService.getBaseLayers()
-    .pipe(
-      map((data: TileLayer[]) => {
-        return data;
-      }),
-      catchError((err) => {
-        console.error(err);
-        return of([]);
-      })
-    )
+    .then((data: TileLayer[]) => data)
+    .catch((err: any) => {
+      console.error(err);
+      return []
+    });
 };
