@@ -1,10 +1,8 @@
 // Libraries
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, lastValueFrom, map, Observable, throwError } from 'rxjs';
 
 // Models
-import { AppConfig, GroupedCheckboxItem, MapConfig, TileLayer, TreeNode, WMSLayer } from '../models';
+import { AppConfig, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '../models';
 
 // Service
 @Injectable({
@@ -19,7 +17,7 @@ export class ConfigService {
 
   private _appConfig!: AppConfig;
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   // Getter and setter
   public get appConfig(): AppConfig { return this._appConfig }
