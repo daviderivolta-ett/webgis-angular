@@ -3,7 +3,7 @@ import { Injectable, Injector, Type } from '@angular/core';
 
 // Models
 import { Command } from '../models';
-import { GetStationsCommandService } from './get-stations.command.service';
+import { GetAndRenderStationsCommandService } from './get-stations.command.service';
 import { GetWMSCommandService } from './get-wms.command.service';
 
 // Service
@@ -12,7 +12,7 @@ import { GetWMSCommandService } from './get-wms.command.service';
 })
 export class CommandsRegistryService {
   static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([
-    ['getStations', GetStationsCommandService],
+    ['getStations', GetAndRenderStationsCommandService],
     ['getWms', GetWMSCommandService]
   ]);
 

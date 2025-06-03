@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
-import { Command, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Command, GroupedCheckboxItem, LeafletMapContext, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 // Services
 import { CommandsRegistryService, ConfigService } from '../../../services';
@@ -136,9 +136,9 @@ export class DataPageComponent {
 
     const checkbox: GroupedCheckboxItem = ids[0];
 
-    if (isChecked && checkbox.action && 'id' in checkbox.action) {
-      this._executeAction(checkbox);
-    }
+    if (isChecked && checkbox.action && 'id' in checkbox.action) this._executeAction(checkbox)
+    else this._map.removeLayerById(checkbox.id);
+
 
     // this._map.addTimeDimensionWMSLayer(
     //   'timedimension',
@@ -159,7 +159,17 @@ export class DataPageComponent {
   private async _executeAction(checkbox: GroupedCheckboxItem): Promise<void> {
     const command: Command | null = this.commandsRegistry.getCommand(checkbox.action.id);
     if (!command) return;
-    const result = await command.execute(checkbox.action.params ?? null);
-    console.log(result);
+
+    try {
+      await command.execute({
+        id: checkbox.id,
+        mapContext: new LeafletMapContext(this._map.getMap()),
+        layers: this._map.getLayers(),
+        ...checkbox.action.params ?? null
+      });
+
+    } catch (error) {
+      console.log(error);      
+    }
   }
 }

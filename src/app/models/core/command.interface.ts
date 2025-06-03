@@ -1,3 +1,3 @@
 export interface Command {
-    execute(params?: any): Promise<any>;
+    execute(params?: any): Promise<void>;
 }

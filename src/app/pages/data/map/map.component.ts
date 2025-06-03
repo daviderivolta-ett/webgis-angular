@@ -14,12 +14,16 @@ import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
 })
 export class MapComponent {
   private _map!: L.Map;
-  private _layers = new Map<string, L.TileLayer>();
+  private _layers = new Map<string, L.Layer>();
 
   public position = input<[number, number]>([0, 0]);
   public zoom = input<number>(0);
 
   constructor() { }
+
+  // Getters and setters
+  public getMap(): L.Map { return this._map }
+  public getLayers(): Map<string, L.Layer> { return this._layers }
 
   // Component lifecycle
   public ngAfterViewInit(): void {
@@ -36,6 +40,8 @@ export class MapComponent {
       timeDimensionControl: true,
     })
       .setView(this.position(), this.zoom());
+
+    // this._map.on('layeradd', (event) => console.log(event.layer));
   }
 
   // Add base tile layer
@@ -68,7 +74,7 @@ export class MapComponent {
 
   // Remove layer using id
   public removeLayerById(id: string): void {
-    const layer: L.TileLayer | undefined = this._layers.get(id);
+    const layer: L.Layer | undefined = this._layers.get(id);
     if (layer) this._map.removeLayer(layer);
   }
 
