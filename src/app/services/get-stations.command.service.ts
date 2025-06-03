@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { Command, LeafletMapContext } from '../models';
+import { Command } from '../models';
 
 // Service
 @Injectable({
@@ -11,7 +11,7 @@ import { Command, LeafletMapContext } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(params: any): Promise<void> {
     try {
-      const { id, url, mapContext, layers } = params;
+      const { id, url, mapContext, map, layers, ...rest } = params;
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
@@ -19,17 +19,16 @@ export class GetAndRenderStationsCommandService implements Command {
       if (!url) {
         throw new Error('Parametro \'url\' mancante. Non posso eseguire la ricerca delle stazioni senza un URL valido.');
       }
-      if (!mapContext || !(mapContext instanceof LeafletMapContext)) {
-        throw new Error('Oggetto \'mapContext\' non è un\'istanza di LeafletMapContext. Assicurati di passare un oggetto valido.');
+      if (!map) {
+        throw new Error('Oggetto \'map\' non è un\'istanza di MapComponent. Assicurati di passare un oggetto valido.');
       }
       if (!(layers instanceof Map)) {
         throw new Error('Oggetto \'layers\' non è un\'istanza di Map. Assicurati di passare una mappa valida dei layer attivi.');
       }
 
-      const data = await this._fetchData(url);
-      const geoJSON: GeoJSON.FeatureCollection = this._parseData(data);
-      const layer = mapContext.addGeoJSONLayer(geoJSON);
-      layers.set(id, layer);
+      const res = await fetch('stations.mock.geojson');
+      const geoJSON = await res.json();
+      map.addGeoJSONLayer(id, geoJSON);
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
@@ -68,5 +67,13 @@ export class GetAndRenderStationsCommandService implements Command {
       })
     }
 
+  }
+
+  private _countProgressiveClusterLayers(layers: Map<number, any>): number {
+    let count: number = 0;
+    for (const element of layers.entries()) {
+      if (element[1]?.options?.layerType === 'progressive_cluster') count++;
+    }
+    return count;
   }
 }

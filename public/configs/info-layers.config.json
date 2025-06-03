@@ -1,6 +1,7 @@
 [
     {
         "id": "reticolo_idrografico",
+        "layerType": "info",
         "label": "Reticolo idrografico",
         "layers": "ReticoloIdrografico_wgs84_epsg4326",
         "transparent": true,
@@ -11,6 +12,7 @@
     },
     {
         "id": "piccoli_bacini_idrografici_modellati",
+        "layerType": "info",
         "label": "Piccoli bacini idrografici modellati",
         "layers": "PiccoliBaciniIdrografici_wgs84_epsg4326",
         "transparent": true,
@@ -21,6 +23,7 @@
     },
     {
         "id": "bacini_idrografici",
+        "layerType": "info",
         "label": "Bacini idrografici",
         "layers": "BaciniIdrografici_wgs84_epsg4326",
         "transparent": true,
@@ -31,6 +34,7 @@
     },
     {
         "id": "comuni",
+        "layerType": "info",
         "label": "Comuni",
         "layers": "ComuniLiguria_wgs84_epsg4326",
         "transparent": true,
@@ -41,6 +45,7 @@
     },
     {
         "id": "province",
+        "layerType": "info",
         "label": "Province",
         "layers": "ProvinceLiguria_wgs84_epsg4326",
         "transparent": true,
@@ -51,6 +56,7 @@
     },
     {
         "id": "zone_di_allerta",
+        "layerType": "info",
         "label": "Zone di allerta",
         "layers": "ZoneAllertaLiguria_wgs84_epsg4326",
         "transparent": true,
@@ -61,6 +67,7 @@
     },
     {
         "id": "comprensori_idrologici_base",
+        "layerType": "info",
         "label": "Comprensori idrologici di base",
         "layers": "ComprensoriIdrologiciDiBase_wgs84_epsg4326",
         "transparent": true,
@@ -71,6 +78,7 @@
     },
     {
         "id": "grandi_dighe",
+        "layerType": "info",
         "label": "Grandi dighe",
         "layers": "GrandiDigheInteresseLigure_wgs84_epsg4326",
         "transparent": true,
@@ -81,6 +89,7 @@
     },
     {
         "id": "aree_inondabili_30-50",
+        "layerType": "info",
         "label": "Aree inondabili (30-50 anni)",
         "layers": "Aree_inondabili_H_-_tr_30-50_anni_wgs84_epsg4326",
         "transparent": true,
@@ -91,6 +100,7 @@
     },
     {
         "id": "aree_inondabili_200",
+        "layerType": "info",
         "label": "Aree inondabili (200 anni)",
         "layers": "Aree_inondabili_M_-_tr_200_anni_wgs84_epsg4326",
         "transparent": true,
@@ -101,6 +111,7 @@
     },
     {
         "id": "aree_inondabili_500",
+        "layerType": "info",
         "label": "Aree inondabili (500 anni)",
         "layers": "Aree_inondabili_L_-_tr_500_anni_wgs84_epsg4326",
         "transparent": true,
@@ -111,6 +122,7 @@
     },
     {
         "id": "esposti_rischio_inondazione",
+        "layerType": "info",
         "label": "Rischio inondazione",
         "layers": "Elementi_esposti_e_relative_classi_di_rischio_areali_wgs84_epsg4326",
         "transparent": true,

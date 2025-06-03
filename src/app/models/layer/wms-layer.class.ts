@@ -10,13 +10,14 @@ export class WMSLayer extends Layer {
 
     constructor(
         id: string,
+        layerType: string,
         layers: string,
         format: string,
         version: string,
         srs: string,
         label?: string
     ) {
-        super(id, label);
+        super(id, layerType, label);
         this.layers = layers;
         this.format = format;
         this.version = version;
@@ -26,6 +27,7 @@ export class WMSLayer extends Layer {
     static createFromObject(object: any): WMSLayer {
         const layer: WMSLayer = new WMSLayer(
             (typeof object['id'] === 'string' && object['id']) || '',
+            (typeof object['layerType'] === 'string' && object['layerType']) || '',
             (typeof object['layers'] === 'string' && object['layers']) || '',
             (typeof object['format'] === 'string' && object['format']) || 'image/png',
             (typeof object['version'] === 'string' && object['version']) || '1.1.1',

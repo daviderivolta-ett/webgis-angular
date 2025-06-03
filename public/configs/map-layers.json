@@ -11,6 +11,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -22,6 +23,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -33,6 +35,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -44,6 +47,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -55,6 +59,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -66,6 +71,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -77,6 +83,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -88,6 +95,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -99,6 +107,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -110,6 +119,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -121,6 +131,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -132,6 +143,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }
@@ -143,6 +155,7 @@
                 "action": {
                     "id": "getStations",
                     "params": {
+                        "layerType": "progressive_cluster",
                         "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio"
                     }
                 }

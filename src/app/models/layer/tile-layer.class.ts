@@ -4,8 +4,8 @@ export class TileLayer extends Layer {
     public url: string;
     public attribution: string;
 
-    constructor(id: string, url: string, attribution: string, label?: string) {
-        super(id, label);
+    constructor(id: string, layerType: string, url: string, attribution: string, label?: string) {
+        super(id, layerType, label);
         this.url = url;
         this.attribution = attribution;
     }
@@ -13,6 +13,7 @@ export class TileLayer extends Layer {
     static createFromObject(object: any): TileLayer {
         const layer: TileLayer = new TileLayer(
             (typeof object['id'] === 'string' && object['id']) || '',
+            (typeof object['layerType'] === 'string' && object['layerType']) || 'base',
             (typeof object['url'] === 'string' && object['url']) || '',
             (typeof object['attribution'] === 'string' && object['attribution']) || '',
           );

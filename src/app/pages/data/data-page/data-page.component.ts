@@ -139,7 +139,6 @@ export class DataPageComponent {
     if (isChecked && checkbox.action && 'id' in checkbox.action) this._executeAction(checkbox)
     else this._map.removeLayerById(checkbox.id);
 
-
     // this._map.addTimeDimensionWMSLayer(
     //   'timedimension',
     //   'https://thredds.socib.es/thredds/wms/operational_models/oceanographical/wave/model_run_aggregation/sapo_ib/sapo_ib_best.ncd',
@@ -163,13 +162,14 @@ export class DataPageComponent {
     try {
       await command.execute({
         id: checkbox.id,
-        mapContext: new LeafletMapContext(this._map.getMap()),
+        // mapContext: new LeafletMapContext(this._map.getMap(), this._map),
+        map: this._map,
         layers: this._map.getLayers(),
         ...checkbox.action.params ?? null
       });
 
     } catch (error) {
-      console.log(error);      
+      console.log(error);
     }
   }
 }
