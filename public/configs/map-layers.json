@@ -2,7 +2,7 @@
     {
         "id": "stations",
         "label": "Stazioni",
-        "maxSelections": 3,
+        "maxSelections": 4,
         "options": [
             {
                 "id": "station_precipitations",

@@ -4,14 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
-import { Command, GroupedCheckboxItem, LeafletMapContext, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, Command, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 // Services
 import { CommandsRegistryService, ConfigService } from '../../../services';
 
 // Components
-import { GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
+import { Utils } from '../../../utils';
 
 // Component
 @Component({
@@ -25,13 +26,17 @@ import { MapComponent } from '../map/map.component';
     SidebarComponent,
     MapComponent,
     PopUpMenuComponent,
-    GroupedCheckboxesComponent
+    GroupedCheckboxesComponent,
+    ChipComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
 export class DataPageComponent {
-  // User Interface
+  /*
+  * Class properties
+  */
+  /** User Interface */
   public windowWidth: number;
 
   @ViewChild('map') _map!: MapComponent;
@@ -44,17 +49,16 @@ export class DataPageComponent {
     this.windowWidth = window.innerWidth;
   }
 
-  // Data
+  /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
-
   public groupedCheckboxes: GroupedCheckboxItem[] = []; // Recovered from route resolver in constructor
-
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public baseLayersForm: FormGroup = new FormGroup({
     baseLayer: new FormControl()
   });
-
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
+
+  public currentLayers: Chip[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -80,8 +84,10 @@ export class DataPageComponent {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
   }
 
-  // Methods
-  // Actions
+  /*
+  * Methods
+  */
+  /** Actions */
   public onMapClick(): void {
     this._sidebar.toggleSidebar(false);
     this._baseLayersMenu.togglePopUpMenu(false);
@@ -111,6 +117,23 @@ export class DataPageComponent {
 
   public onResetMapButtonClick(): void {
     this._map.resetMap();
+  }
+
+  public onMapLayerAdded(event: Record<string, any>): void {
+    const id = event['id'];
+    if (!id) return;
+    const checkbox = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id) !== undefined)?.getNestedCheckbox(id);
+    let iconUrl: string = '';
+    if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
+    if (!checkbox) return;
+    const chip = new Chip(event['id'], checkbox.label ?? event['id'], iconUrl);
+    this.currentLayers.push(chip);
+  }
+
+  public onMapLayerRemoved(event: Record<string, any>): void {
+    const id = event['id'];
+    if (!id) return;
+    this.currentLayers = this.currentLayers.filter((c: Chip) => c.id !== id);
   }
 
   private _onBaselayersRadioChange(changes: any): void {
@@ -162,9 +185,7 @@ export class DataPageComponent {
     try {
       await command.execute({
         id: checkbox.id,
-        // mapContext: new LeafletMapContext(this._map.getMap(), this._map),
         map: this._map,
-        layers: this._map.getLayers(),
         ...checkbox.action.params ?? null
       });
 

@@ -16,6 +16,15 @@
         </app-sidebar>
         <!-- END SIDEBAR -->
 
+        <!-- START CHIPS SLIDER -->
+        <div class="chips-slider">
+            @for (chip of currentLayers; track $index) {
+                <!-- iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" -->
+                <app-chip [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id"></app-chip>
+            }
+        </div>
+        <!-- END CHIPS SLIDER -->
+
         <!-- START LAYERS MENU -->
         <div class="layers-menu">
             <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
@@ -56,7 +65,7 @@
         <!-- END RESET BUTTON -->
         
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" #map></app-map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" #map></app-map>
         <!-- END MAP -->
     </div>
 </div>

@@ -31,4 +31,14 @@ export class Utils {
         });
         return result;
     }
+
+    static svgElementToImgSrc(svg: SVGSVGElement): string {
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(svg);
+
+        if (!svgString.includes('xlmns')) svg.setAttribute('xlmns', 'http://www.w3.org/2000/svg');
+
+        const encoded = encodeURIComponent(svgString);
+        return `data:image/svg+xml,${encoded}`;
+    }
 }

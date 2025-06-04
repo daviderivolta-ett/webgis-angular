@@ -18,6 +18,17 @@
     font-weight: 600;
 }
 
+.chips-slider {
+    position: fixed;
+    z-index: 999;
+    top: 64px;
+    left: 0;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+}
+
 .layers-menu {
     position: absolute;
     top: 16px;

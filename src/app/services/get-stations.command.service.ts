@@ -11,7 +11,7 @@ import { Command } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(params: any): Promise<void> {
     try {
-      const { id, url, mapContext, map, layers, ...rest } = params;
+      const { id, url, map, ...rest } = params;
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
@@ -22,13 +22,10 @@ export class GetAndRenderStationsCommandService implements Command {
       if (!map) {
         throw new Error('Oggetto \'map\' non è un\'istanza di MapComponent. Assicurati di passare un oggetto valido.');
       }
-      if (!(layers instanceof Map)) {
-        throw new Error('Oggetto \'layers\' non è un\'istanza di Map. Assicurati di passare una mappa valida dei layer attivi.');
-      }
 
       const res = await fetch('stations.mock.geojson');
       const geoJSON = await res.json();
-      map.addGeoJSONLayer(id, geoJSON);
+      map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
