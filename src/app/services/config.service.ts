@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '../models';
+import { AppConfig, GroupedCheckboxItem, LayerGroup, MapConfig, TileLayer, WMSLayer } from '../models';
 
 // Service
 @Injectable({
@@ -10,8 +10,8 @@ import { AppConfig, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '
 })
 export class ConfigService {
   private APP_CONFIG_URI = '/configs/app.config.json';
-  private DATAPAGE_BASELAYERS_URI = '/configs/base-layers.config.json';
-  private DATAPAGE_INFOLAYERS_URI = '/configs/info-layers.config.json';
+  private DATAPAGE_BASELAYERS_URI = '/configs/base-layers.config.new.json';
+  private DATAPAGE_INFOLAYERS_URI = '/configs/info-layers.config.new.json';
   private DATAPAGE_MAPCONFIG_URI = '/configs/map.config.json';
   private DATAPAGE_MAPLAYERS_URI = '/configs/map-layers.json';
 
@@ -56,28 +56,56 @@ export class ConfigService {
       })
   }
 
-  public async getBaseLayers(): Promise<TileLayer[]> {
+  // public async getBaseLayers(): Promise<TileLayer[]> {
+  //   return fetch(this.DATAPAGE_BASELAYERS_URI)
+  //     .then((res: Response) => {
+  //       if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
+  //       return res.json();
+  //     })
+  //     .then((data: any[]) => {
+  //       return data.map((d: any) => TileLayer.createFromObject(d))
+  //     })
+  //     .catch((err: any) => {
+  //       throw new Error(`Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json ${err.message || err}`);
+  //     })
+  // }
+
+  public async getBaseLayers(): Promise<LayerGroup[]> {
     return fetch(this.DATAPAGE_BASELAYERS_URI)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
         return res.json();
       })
       .then((data: any[]) => {
-        return data.map((d: any) => TileLayer.createFromObject(d))
+        return data.map((d: any) => LayerGroup.createFromObject(d))
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json ${err.message || err}`);
       })
   }
 
-  public async getInfoLayers(): Promise<WMSLayer[]> {
+  // public async getInfoLayers(): Promise<WMSLayer[]> {
+  //   return fetch(this.DATAPAGE_INFOLAYERS_URI)
+  //     .then((res: Response) => {
+  //       if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
+  //       return res.json();
+  //     })
+  //     .then((data: any[]) => {
+  //       return data.map((d: any) => WMSLayer.createFromObject(d))
+  //     })
+  //     .catch((err: any) => {
+  //       throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
+  //     })
+  // }
+
+  public async getInfoLayers(): Promise<LayerGroup[]> {
     return fetch(this.DATAPAGE_INFOLAYERS_URI)
       .then((res: Response) => {
         if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
         return res.json();
       })
       .then((data: any[]) => {
-        return data.map((d: any) => WMSLayer.createFromObject(d))
+        return data.map((d: any) => LayerGroup.createFromObject(d))
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);

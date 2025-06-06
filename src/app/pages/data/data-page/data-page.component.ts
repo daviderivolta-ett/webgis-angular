@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
-import { Chip, Command, GroupedCheckboxItem, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, Command, GroupedCheckboxItem, LayerGroup, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 // Services
 import { CommandsRegistryService, ConfigService } from '../../../services';
@@ -52,7 +52,7 @@ export class DataPageComponent {
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
   public groupedCheckboxes: GroupedCheckboxItem[] = []; // Recovered from route resolver in constructor
-  public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
+  public baseLayers: LayerGroup[]; // Recovered from route resolver in constructor
   public baseLayersForm: FormGroup = new FormGroup({
     baseLayer: new FormControl()
   });
@@ -72,16 +72,23 @@ export class DataPageComponent {
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.baseLayers = this.route.snapshot.data['baseLayers'];
     this.infoLayers = this.route.snapshot.data['infoLayers'];
-    this.groupedCheckboxes = this.route.snapshot.data['groupedCheckboxes'];
+    // this.groupedCheckboxes = this.route.snapshot.data['groupedCheckboxes'];
+    // this.baseLayers = [];
+    // this.infoLayers = [];
+    this.groupedCheckboxes = [];
+
+
+    console.log(this.baseLayers);    
+    console.log(this.infoLayers);    
   }
 
   // Component lifecycle
   public ngOnInit(): void {
-    console.log(this.groupedCheckboxes);
+    // console.log(this.groupedCheckboxes);
   }
 
   public ngAfterViewInit(): void {
-    if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
+    if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].options?.[0].id);
   }
 
   /*
@@ -137,10 +144,10 @@ export class DataPageComponent {
   }
 
   private _onBaselayersRadioChange(changes: any): void {
-    const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
-    if (!layer) return;
-    const { id, label, url, ...rest } = layer;
-    this._map.addBaseLayer(url, rest);
+    // const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
+    // if (!layer) return;
+    // const { id, label, url, ...rest } = layer;
+    // this._map.addBaseLayer(url, rest);
   }
 
   public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {

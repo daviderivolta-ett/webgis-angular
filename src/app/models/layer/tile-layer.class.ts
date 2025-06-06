@@ -16,10 +16,10 @@ export class TileLayer extends Layer {
             (typeof object['layerType'] === 'string' && object['layerType']) || 'base',
             (typeof object['url'] === 'string' && object['url']) || '',
             (typeof object['attribution'] === 'string' && object['attribution']) || '',
-          );
-      
-          if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
-      
-          return layer;
+        );
+
+        if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
+
+        return layer;
     }
 }
