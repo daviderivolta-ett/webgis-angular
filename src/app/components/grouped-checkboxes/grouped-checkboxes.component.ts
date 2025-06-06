@@ -1,5 +1,5 @@
 // Libraries
-import { Component, model, output } from '@angular/core';
+import { Component, effect, model, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 

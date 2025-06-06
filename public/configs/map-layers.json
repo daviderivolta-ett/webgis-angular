@@ -181,13 +181,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -200,13 +201,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -219,13 +221,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -238,13 +241,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -257,13 +261,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -276,13 +281,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -295,13 +301,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -314,13 +321,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -333,13 +341,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }
@@ -352,13 +361,14 @@
                             "params": {
                                 "url": "https://omirl.regione.liguria.it/geoserver/wms",
                                 "options": {
-                                    "layers": "20250530tempMax_std_1000",
+                                    "layers": "20250605rainfall30d_std_1350",
                                     "transparent": "true",
                                     "format": "image/png",
                                     "service": "WMS",
                                     "version": "1.1.1",
                                     "request": "GetMap",
-                                    "styles": ""
+                                    "styles": "",
+                                    "opacity": 0.5
                                 }
                             }
                         }

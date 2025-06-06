@@ -76,7 +76,34 @@ export class MapComponent {
       timeDimension: true,
       timeDimensionControl: true,
     })
-      .setView(this.position(), this.zoom());
+      .setView(this.position(), this.zoom())
+  }
+
+  /** Click map event */
+  private _onMarkerClick(event: L.LeafletMouseEvent): void {
+    const clickedLatLng: L.LatLng = event.latlng;
+    const bbox = this._getLatLngBoundingBox(clickedLatLng, 100);
+    const nearbyMarkers: L.Marker[] = this._getNearbyMarkers(bbox);
+    console.log(nearbyMarkers);
+
+    // console.log(clickedLatLng);    
+    // const clickedLayers: L.Layer[] = [];
+
+    // this._map.eachLayer((layer: L.Layer) => {
+    //   if (layer instanceof L.Marker) {
+    //     console.log(layer.getLatLng());        
+    //     if (layer.getLatLng().equals(clickedLatLng)) {
+    //       clickedLayers.push(layer);
+    //     }
+    //   } else if (layer instanceof L.Circle) {
+    //     if (layer.getLatLng().distanceTo(clickedLatLng) <= layer.getRadius()) {
+    //       clickedLayers.push(layer);
+    //     }
+    //   } else if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
+    //   }
+    // });
+
+    // console.log(clickedLayers);    
   }
 
   /** Set layer in internal map and emit event to external */
@@ -105,13 +132,16 @@ export class MapComponent {
 
   /** Add WMS layer */
   public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
-    const layer: L.TileLayer = L.tileLayer.wms(url, options).addTo(this._map);
+    const layer: L.TileLayer = L.tileLayer.wms(url, {
+      opacity: options['opacity'] ?? 1,
+      ...options
+    }).addTo(this._map);
     this._registerLayer(id, layer);
   }
 
   /** Add GeoJSON layer */
   public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>): void {
-    const shapeKey: number = this._getNextAvailableMarkerShape();    
+    const shapeKey: number = this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
 
     const layer = L.geoJSON(geoJSON, {
@@ -119,8 +149,10 @@ export class MapComponent {
         const color: string = feature.properties.color ? feature.properties.color : ('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
         const shape: SVGSVGElement = shapeFactory(color);
         const html = shape.cloneNode(true) as HTMLElement;
-        const divIcon = L.divIcon({ html, className: 'custom-marker' });
+        const icon: HTMLElement = this._scaleMarkerIcon(html, (1 - shapeKey * 0.2));
+        const divIcon = L.divIcon({ html: icon, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
+        marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
         return marker;
       },
@@ -129,9 +161,6 @@ export class MapComponent {
       },
       ...options
     });
-
-    // this._clusterGroup.addLayer(layer);
-    // this._map.addLayer(this._clusterGroup);
 
     layer.addTo(this._map);
     this._registerLayer(id, layer, shapeFactory('grey'));
@@ -166,6 +195,23 @@ export class MapComponent {
     this._map.setView(this.position(), this.zoom());
   }
 
+  /** Util function to create a bounding box around a specific point at a certain distance */
+  private _getLatLngBoundingBox(center: L.LatLng, tolerance: number = 50): L.LatLngBounds {
+    const latAccuracy = tolerance / 111320; // Lat degrees per N meters (~constant)
+    const lngAccuracy = tolerance / (40075000 * Math.cos(center.lat * Math.PI / 180) / 360); // Fix lat cos
+    const southWest = L.latLng(center.lat - latAccuracy, center.lng - lngAccuracy);
+    const northEast = L.latLng(center.lat + latAccuracy, center.lng + lngAccuracy);
+    return L.latLngBounds(southWest, northEast);
+  }
+
+  private _getNearbyMarkers(bbox: L.LatLngBounds) {
+    const nearbyMarkers: L.Marker[] = [];
+    this._map.eachLayer((layer: L.Layer) => {
+      if (layer instanceof L.Marker && bbox.contains(layer.getLatLng())) nearbyMarkers.push(layer);
+    });
+    return nearbyMarkers;
+  }
+
   /** Custom marker shapes related methods */
   private _getNextAvailableMarkerShape(): number {
     for (let i = 0; i < this._markerShapes.size; i++) {
@@ -192,54 +238,65 @@ export class MapComponent {
     this._usedMarkerShapes.delete(index);
   }
 
+  private _scaleMarkerIcon(html: HTMLElement, scale: number): HTMLElement {
+    html.style.transform = `scale(${scale})`;
+    html.style.transformOrigin = 'center center';
+    html.style.display = 'inline-block';
+    html.style.width = '100%';
+    html.style.height = '100%';
+    return html;
+  }
+
   private _createCircleShape(color: string): SVGSVGElement {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 16 16');
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '16');
-  
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', '8');
-    circle.setAttribute('cy', '8');
-    circle.setAttribute('r', '8');
+    circle.setAttribute('cx', '12');
+    circle.setAttribute('cy', '12');
+    circle.setAttribute('r', '12');
     circle.setAttribute('fill', color);
+    circle.setAttribute('stroke', 'white');
     svg.appendChild(circle);
-    
+
     return svg;
   }
-  
 
   private _createSquareShape(color: string): SVGSVGElement {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '16');
-    svg.setAttribute('viewBox', '0 0 16 16');
-  
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+
     const rect = document.createElementNS(svgNS, 'rect');
     rect.setAttribute('x', '0');
     rect.setAttribute('y', '0');
-    rect.setAttribute('width', '16');
-    rect.setAttribute('height', '16');
-    rect.setAttribute('fill', color);  
+    rect.setAttribute('width', '24');
+    rect.setAttribute('height', '24');
+    rect.setAttribute('fill', color);
+    rect.setAttribute('stroke', 'white');
     svg.appendChild(rect);
 
     return svg;
-  
+
   }
 
   private _createDiamondShape(color: string): SVGSVGElement {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '16');
-    svg.setAttribute('viewBox', '0 0 16 16');
-  
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+
     const diamond = document.createElementNS(svgNS, 'polygon');
-    diamond.setAttribute('points', '8,0 16,8 8,16 0,8');
-    diamond.setAttribute('fill', color);  
+    diamond.setAttribute('points', '12,0 24,12 12,24 0,12');
+    diamond.setAttribute('fill', color);
+    diamond.setAttribute('stroke', 'white');
     svg.appendChild(diamond);
 
     return svg;
@@ -249,14 +306,15 @@ export class MapComponent {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '16');
-    svg.setAttribute('viewBox', '0 0 16 16');
-  
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+    svg.setAttribute('viewBox', '0 0 24 24');
+
     const hex = document.createElementNS(svgNS, 'polygon');
-    hex.setAttribute('points', '4,1 12,1 16,8 12,15 4,15 0,8');
-    hex.setAttribute('fill', color);  
+    hex.setAttribute('points', '6,2 18,2 24,12 18,22 6,22 0,12');
+    hex.setAttribute('fill', color);
     svg.appendChild(hex);
+    svg.setAttribute('stroke', 'white');
 
     return svg;
   }

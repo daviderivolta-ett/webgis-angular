@@ -1,0 +1,31 @@
+[
+    {
+        "id": "base",
+        "maxNumber": 1,
+        "incompatibleWith": []
+    },
+    {
+        "id": "wms_data",
+        "maxNumber": 1,
+        "incompatibleWith": []
+    },
+    {
+        "id": "wms_info",
+        "maxNumber": -1,
+        "incompatibleWith": []
+    },
+    {
+        "id": "geojson_point_cluster",
+        "maxNumber": 1,
+        "incompatibleWith": [
+            "geojson_point_no_cluster"
+        ]
+    },
+    {
+        "id": "geojson_point_no_cluster",
+        "maxNumber": 4,
+        "incompatibleWith": [
+            "geojson_point_cluster"
+        ]
+    }
+]

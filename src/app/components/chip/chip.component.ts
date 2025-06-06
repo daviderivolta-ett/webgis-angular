@@ -9,16 +9,17 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './chip.component.scss'
 })
 export class ChipComponent {
+  public id = input<string>('');
   public isDismissable = input<boolean>(true);
   public iconUrl = input<string | null>(null);
   public text = input<string>('');
-  public dismiss = output<void>();
+  public dismiss = output<string>();
 
   public primaryColor = input<string>('#FFF');
   public secondaryColor = input<string>('#060527');
 
   // Methods
   public onButtonClick(): void {
-    this.dismiss.emit();
+    this.dismiss.emit(this.id());
   }
 }

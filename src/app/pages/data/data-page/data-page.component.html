@@ -20,7 +20,7 @@
         <div class="chips-slider">
             @for (chip of currentLayers; track $index) {
                 <!-- iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" -->
-                <app-chip [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id"></app-chip>
+                <app-chip [id]="chip.id" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)"></app-chip>
             }
         </div>
         <!-- END CHIPS SLIDER -->

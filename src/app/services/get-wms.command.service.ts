@@ -10,10 +10,27 @@ import { Command } from '../models';
 })
 export class GetWMSCommandService implements Command {
     public async execute(params?: any): Promise<any> {
-        const { url, options } = params;
+        try {
+            const { id, url, map, options } = params;
 
-        if (!url) console.warn('Parametro \'url\' non presente in \'params\'. Impossibile eseguire la ricerca del wms.');
+            if (!id) {
+                throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
+            }
+            if (!url) {
+                throw new Error('Parametro \'url\' mancante. Non posso eseguire la ricerca del layer WMS senza un URL valido.');
+            }
+            if (!map) {
+                throw new Error('Oggetto \'map\' non è un\'istanza di MapComponent. Assicurati di passare un oggetto valido.');
+            }
+            if (!options) {
+                throw new Error('Oggetto \'options\' mancante. Assicurati di passare un oggetto valido.');
+            }
 
-        console.log(url, options);        
+            map.addWMSLayer(id, url, options);
+
+        } catch (error) {
+            console.error('Errore nell\'esecuzione del comando:', error);
+            throw error;
+        }
     }
 }

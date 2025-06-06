@@ -150,7 +150,7 @@ export class DataPageComponent {
     else this._map.removeLayerById(id);
   }
 
-  public onGroupCheckboxChange(data: any): void {
+  public onGroupCheckboxChange(data: any): void {    
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
@@ -178,10 +178,34 @@ export class DataPageComponent {
     // );
   }
 
+  /** Current layers chip dismiss */
+  /** Search for checkbox in array, clone it and rebuild original checkboxes array */
+  public onChipDismiss(id: string): void {
+    const groupToUpdate = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id));
+    if (!groupToUpdate) return;
+  
+    const checkbox = groupToUpdate.getNestedCheckbox(id);
+    if (!checkbox) return;
+  
+    const updatedCheckbox = checkbox.clone();
+    updatedCheckbox.isChecked = false;
+  
+    const updatedGroup = groupToUpdate.clone();
+    updatedGroup.options = updatedGroup.options?.map(opt =>
+      opt.id === updatedCheckbox.id ? updatedCheckbox : opt
+    );
+  
+    this.groupedCheckboxes = this.groupedCheckboxes.map(g =>
+      g.id === updatedGroup.id ? updatedGroup : g
+    );
+
+    this._map.removeLayerById(checkbox.id);
+  }
+
   private async _executeAction(checkbox: GroupedCheckboxItem): Promise<void> {
     const command: Command | null = this.commandsRegistry.getCommand(checkbox.action.id);
     if (!command) return;
-
+    
     try {
       await command.execute({
         id: checkbox.id,

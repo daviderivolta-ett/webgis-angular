@@ -7,7 +7,7 @@ export class GroupedCheckboxItem extends TreeNode {
     public action?: any;
     public declare options?: GroupedCheckboxItem[];
 
-    constructor(id: string) {
+    private constructor(id: string) {
         super(id);
     }
 
@@ -41,6 +41,18 @@ export class GroupedCheckboxItem extends TreeNode {
             }
         }
         return undefined;
+    }
+
+    public clone(): GroupedCheckboxItem {
+        const cloned = new GroupedCheckboxItem(this.id);
+        cloned.label = this.label;
+        cloned.iconUrl = this.iconUrl;
+        cloned.action = this.action ? { ...this.action } : undefined;
+        cloned.maxSelections = this.maxSelections;
+        cloned.isChecked = this.isChecked;
+        cloned.isDisabled = this.isDisabled;
+        cloned.options = this.options?.map(opt => opt.clone());
+        return cloned;
     }
 
 }
