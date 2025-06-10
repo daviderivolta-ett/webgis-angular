@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, GroupedCheckboxItem, LayerGroup, MapConfig, TileLayer, WMSLayer } from '../models';
+import { AppConfig, GroupedCheckboxItem, LayerCategory, LayerGroup, MapConfig, TileLayer, WMSLayer } from '../models';
 
 // Service
 @Injectable({
@@ -13,7 +13,9 @@ export class ConfigService {
   private DATAPAGE_BASELAYERS_URI = '/configs/base-layers.config.new.json';
   private DATAPAGE_INFOLAYERS_URI = '/configs/info-layers.config.new.json';
   private DATAPAGE_MAPCONFIG_URI = '/configs/map.config.json';
-  private DATAPAGE_MAPLAYERS_URI = '/configs/map-layers.json';
+  // private DATAPAGE_MAPLAYERS_URI = '/configs/map-layers.json';
+  private DATAPAGE_MAPLAYERS_URI = '/configs/data-layers.config.json';
+  private DATAPAGE_LAYERS_CATEGORIES_URI = '/configs/layer-categories.config.json';
 
   private _appConfig!: AppConfig;
 
@@ -112,7 +114,28 @@ export class ConfigService {
       })
   }
 
-  public getMapLayers(): Promise<GroupedCheckboxItem[]> {
+  // public async getMapLayers(): Promise<GroupedCheckboxItem[]> {
+  //   return fetch(this.DATAPAGE_MAPLAYERS_URI)
+  //     .then((res: Response) => {
+  //       if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
+  //       return res.json();
+  //     })
+  //     .then((data: any[]) => {
+  //       return data.map((d: any) => {
+  //         try {
+  //           return GroupedCheckboxItem.createFromObject(d)
+  //         } catch (error) {
+  //           console.warn('Oggetto non valido, verrà ignorato:', d);
+  //           return null;
+  //         }
+  //       }).filter((checkbox) => checkbox !== null)
+  //     })
+  //     .catch((err: any) => {
+  //       throw new Error(`Errore nel recupero della configurazione dei layer /configs/map-layers.config.json ${err.message || err}`);
+  //     })
+  // }
+
+  public async getMapLayers(): Promise<LayerGroup[]> {
     return fetch(this.DATAPAGE_MAPLAYERS_URI)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
@@ -121,7 +144,7 @@ export class ConfigService {
       .then((data: any[]) => {
         return data.map((d: any) => {
           try {
-            return GroupedCheckboxItem.createFromObject(d)
+            return LayerGroup.createFromObject(d);
           } catch (error) {
             console.warn('Oggetto non valido, verrà ignorato:', d);
             return null;
@@ -130,6 +153,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione dei layer /configs/map-layers.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getLayersCategories(): Promise<LayerCategory[]> {
+    return fetch(this.DATAPAGE_LAYERS_CATEGORIES_URI)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
+        return res.json();
+      })
+      .then((data: any[]) => {
+        return data.map((d: any) => LayerCategory.createFromObject(d))
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
       })
   }
 }

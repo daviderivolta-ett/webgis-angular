@@ -9,16 +9,6 @@ import { LayerGroup, WMSLayer } from '../models';
 import { ConfigService } from '../services';
 
 // Resolver
-// export const infoLayersResolver: ResolveFn<WMSLayer[]> = async (route, state) => {
-//   const configService: ConfigService = inject(ConfigService);
-
-//   return configService.getInfoLayers()
-//     .then((data: WMSLayer[]) => data)
-//     .catch((err: any) => {
-//       console.error(err);
-//       return []
-//     });
-// };
 export const infoLayersResolver: ResolveFn<LayerGroup[]> = async (route, state) => {
   const configService: ConfigService = inject(ConfigService);
 

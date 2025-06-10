@@ -9,7 +9,7 @@
                 </div>
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
-                        <app-grouped-checkboxes [group]="group" (changed)="onGroupCheckboxChange($event)"></app-grouped-checkboxes>
+                        <app-grouped-checkboxes [group]="group" (changed)="onGroupCheckboxChange($event)" #groupedCheckbox></app-grouped-checkboxes>
                     }
                 </div>
             </div>
@@ -18,8 +18,7 @@
 
         <!-- START CHIPS SLIDER -->
         <div class="chips-slider">
-            @for (chip of currentLayers; track $index) {
-                <!-- iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" -->
+            @for (chip of chips; track $index) {
                 <app-chip [id]="chip.id" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)"></app-chip>
             }
         </div>
@@ -29,7 +28,7 @@
         <div class="layers-menu">
             <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="baseLayersForm">
-                    <!-- <p class="pop-up-menu-content__title">Mappe base</p>
+                    <p class="pop-up-menu-content__title">Mappe base</p>
                     <div class="radio-group">
                         @for (item of baseLayers; track item.id) {
                             <div class="radio">
@@ -37,8 +36,8 @@
                                 <label class="radio__label" [for]="item.id">{{item.label}}</label>
                             </div>
                         }
-                    </div> -->
-                    @for (group of baseLayers; track $index) {
+                    </div>
+                    <!-- @for (group of baseLayers; track group.id) {
                         <p class="pop-up-menu-content__title">{{group.label ?? group.id}}</p>
                         @if (group.options) {
                             <div class="radio-group">
@@ -50,7 +49,7 @@
                                 }
                             </div>
                         }
-                    }
+                    } -->
                 </div>
             </app-pop-up-menu>
             <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
@@ -66,6 +65,21 @@
                             </div>
                         }
                     </div>
+                    <!-- @for (group of infoLayers; track group.id) {
+                        <p class="pop-up-menu-content__title">{{group.label ?? group.id}}</p>
+                        @if (group.options) {
+                            <div class="pop-up-menu-content__body">
+                                @for (item of group.options; track item.id) {
+                                    <div class="checkbox">
+                                        <label [for]="item.id" class="checkbox__label">
+                                            <input type="checkbox" [id]="item.id" class="checkbox__input" (change)="onInfoLayerCheckboxChange($event, item)">
+                                            {{item.label || item.id}}
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    } -->
                 </div>
             </app-pop-up-menu>
         </div>        

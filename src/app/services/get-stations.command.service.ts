@@ -9,9 +9,9 @@ import { Command } from '../models';
   providedIn: 'root'
 })
 export class GetAndRenderStationsCommandService implements Command {
-  public async execute(params: any): Promise<void> {
+  public async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, ...rest } = params;
+      const { id, url, map, ...rest } = args;     
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');

@@ -1,31 +1,31 @@
 [
     {
-        "id": "base",
+        "id": "base_tile",
         "maxNumber": 1,
         "incompatibleWith": []
     },
     {
-        "id": "wms_data",
+        "id": "data_wms",
         "maxNumber": 1,
         "incompatibleWith": []
     },
     {
-        "id": "wms_info",
+        "id": "info_wms",
         "maxNumber": -1,
         "incompatibleWith": []
     },
     {
-        "id": "geojson_point_cluster",
-        "maxNumber": 1,
+        "id": "data_geojson-point",
+        "maxNumber": 4,
         "incompatibleWith": [
-            "geojson_point_no_cluster"
+            "data_geojson-point--cluster"
         ]
     },
     {
-        "id": "geojson_point_no_cluster",
-        "maxNumber": 4,
+        "id": "data_geojson-point--cluster",
+        "maxNumber": 1,
         "incompatibleWith": [
-            "geojson_point_cluster"
+            "data_geojson-point"
         ]
     }
 ]

@@ -3,17 +3,17 @@ import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 
 // Models
-import { LayerGroup } from '../models';
+import { LayerCategory } from '../models';
 
 // Services
 import { ConfigService } from '../services';
 
 // Resolver
-export const baseLayersResolver: ResolveFn<LayerGroup[]> = async (route, state) => {
+export const layerCategoriesResolver: ResolveFn<LayerCategory[]> = async (route, state) => {
   const configService: ConfigService = inject(ConfigService);
 
-  return configService.getBaseLayers()
-    .then((data: LayerGroup[]) => data)
+  return configService.getLayersCategories()
+    .then((data: LayerCategory[]) => data)
     .catch((err: any) => {
       console.error(err);
       return []

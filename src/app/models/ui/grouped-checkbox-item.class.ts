@@ -7,14 +7,14 @@ export class GroupedCheckboxItem extends TreeNode {
     public action?: any;
     public declare options?: GroupedCheckboxItem[];
 
-    private constructor(id: string) {
+    constructor(id: string) {
         super(id);
     }
 
     static override createFromObject(object: any): GroupedCheckboxItem {
         if (!object || !object['id']) {
             throw new Error('Oggetto non valido: \'id\' mancante.');
-        }
+        }       
 
         const item = new GroupedCheckboxItem(object['id']);
 
@@ -24,9 +24,9 @@ export class GroupedCheckboxItem extends TreeNode {
         if ('maxSelections' in object && typeof object['maxSelections'] === 'number') item.maxSelections = object['maxSelections'];
         if ('options' in object && Array.isArray(object['options'])) {
             item.options = object['options'].map((c: any) => GroupedCheckboxItem.createFromObject(c));
-        } else {
-            item.isChecked = item['isChecked'] || false;
-            item.isDisabled = item['isDisabled'] || false;
+        } else {                    
+            item.isChecked = object['isChecked'] || false;
+            item.isDisabled = object['isDisabled'] || false;
         }
 
         return item;
@@ -41,6 +41,19 @@ export class GroupedCheckboxItem extends TreeNode {
             }
         }
         return undefined;
+    }
+
+    public checkNestedCheckbox(ids: string[], group: GroupedCheckboxItem = this): GroupedCheckboxItem {
+        const cloned: GroupedCheckboxItem = group.clone();
+
+        cloned.isChecked = ids.includes(cloned.id);
+        cloned.isDisabled = false; // TO ASK
+
+        if (cloned.options) {
+            cloned.options = cloned.options.map(child => this.checkNestedCheckbox(ids, child));
+        }
+
+        return cloned;
     }
 
     public clone(): GroupedCheckboxItem {

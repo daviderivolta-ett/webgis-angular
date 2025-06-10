@@ -117,6 +117,10 @@ export class MapComponent {
     this.layerRemoved.emit({ id, layer });
   }
 
+  public haslayer(id: string): boolean {
+    return this._layers.has(id);
+  }
+
   /** Add base tile layer */
   public addBaseLayer(url: string, options: Record<string, any>): void {
     this.removeLayerById('base');
