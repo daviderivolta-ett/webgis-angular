@@ -1,20 +1,20 @@
-// Libraries
+/** Libraries */
 import { Component, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-// Models
+/** Models */
 import { Chip, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
-// Services
+/** Services */
 import { CommandsRegistryService, LayersService } from '../../../services';
 
-// Components
+/** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { Utils } from '../../../utils';
 
-// Component
+/** Component */
 @Component({
   selector: 'app-data-page',
   imports: [
@@ -36,8 +36,15 @@ export class DataPageComponent {
   /*
   * Class properties
   */
+
   /** User Interface */
   public windowWidth: number;
+
+  public baseLayersForm: FormGroup = new FormGroup({
+    baseLayer: new FormControl()
+  });
+  public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
+  public chips: Chip[] = [];
 
   @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -52,46 +59,32 @@ export class DataPageComponent {
 
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
-  public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
-  public baseLayersForm: FormGroup = new FormGroup({
-    baseLayer: new FormControl()
-  });
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
-  public dataLayers: LayerGroup[];
-
-
-  // public currentLayers: Chip[] = [];
-
-
-
-
+  public dataLayers: LayerGroup[]; // Recovered from route resolver in constructor
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
   private _currentLayers: Map<string, string[]> = new Map();
 
-  public chips: Chip[] = [];
-
-
+  /** Constructor */
   constructor(
     private route: ActivatedRoute,
     private layersService: LayersService,
     private commandsRegistry: CommandsRegistryService
   ) {
     this.windowWidth = window.innerWidth;
-    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
 
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
     this.dataLayers = this.route.snapshot.data['groupedCheckboxes'];
-    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
-
-
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
+
+    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
+    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
   }
 
-  // Getter and setter
+  /** Getter and setter */
   public get currentLayers() {
     return {
       map: this._currentLayers,
@@ -99,7 +92,7 @@ export class DataPageComponent {
     }
   }
 
-  // Component lifecycle
+  /** Component lifecycle */
   public ngOnInit(): void {
     // console.log(this._layerCategories);
   }
@@ -174,9 +167,10 @@ export class DataPageComponent {
     else this._map.removeLayerById(id);
   }
 
-  /** Check layer number in each categories in order to avoid layer number to overpass category number limit
-    * Then redraw and reassign grouped checkboxes
-    */
+  /**
+  * Check layer number in each categories in order to avoid layer number to overpass category number limit
+  * Then redraw and reassign grouped checkboxes
+  */
   public onGroupCheckboxChange(data: any): void {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
@@ -217,8 +211,19 @@ export class DataPageComponent {
     // );
   }
 
-  /** Current layers chip dismiss */
-  /** Search for checkbox in array, clone it and rebuild original checkboxes array */
+  private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
+    const newCheckboxes: GroupedCheckboxItem[] = [];
+    for (const group of groupedCheckboxes) {
+      const newGroup = group.checkNestedCheckbox(this.currentLayers.toArray());
+      newCheckboxes.push(newGroup)
+    }
+    return newCheckboxes;
+  }
+
+  /**
+  * Current layers chip dismiss
+  * Search for checkbox in array, clone it and rebuild original checkboxes array
+  */
   public onChipDismiss(id: string): void {
     const groupToUpdate = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id));
     if (!groupToUpdate) return;
@@ -241,6 +246,7 @@ export class DataPageComponent {
     this._map.removeLayerById(checkbox.id);
   }
 
+  /** Get and execute generic action from commands registry service class */
   private async _executeAction(layer: Layer): Promise<void> {
     if (!layer.action || !('id' in layer.action)) return;
 
@@ -255,14 +261,5 @@ export class DataPageComponent {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
-    const newCheckboxes: GroupedCheckboxItem[] = [];
-    for (const group of groupedCheckboxes) {
-      const newGroup = group.checkNestedCheckbox(this.currentLayers.toArray());
-      newCheckboxes.push(newGroup)
-    }
-    return newCheckboxes;
   }
 }
