@@ -90,3 +90,13 @@ app-input-autocomplete::part(option selected) {
     --neutral-200: #F1F1F1;
     --neutral-100: #FFFFFF;
 }
+
+.custom-leaflet-popup {
+    .leaflet-popup-content {
+        margin: 16px;
+    }
+
+    .leaflet-popup-tip-container {
+        display: none;
+    }
+}

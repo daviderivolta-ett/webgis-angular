@@ -12,6 +12,9 @@ import { CommandsRegistryService, LayersService } from '../../../services';
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
+import { MapPopupComponent } from '../map-popup/map-popup.component';
+
+/** Utilities */
 import { Utils } from '../../../utils';
 
 /** Component */
@@ -20,14 +23,14 @@ import { Utils } from '../../../utils';
   imports: [
     // Libraries
     ReactiveFormsModule,
-
     // Components
     HeaderComponent,
     SidebarComponent,
     MapComponent,
     PopUpMenuComponent,
     GroupedCheckboxesComponent,
-    ChipComponent
+    ChipComponent,
+    MapPopupComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -64,6 +67,10 @@ export class DataPageComponent {
   public dataLayers: LayerGroup[]; // Recovered from route resolver in constructor
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
   private _currentLayers: Map<string, string[]> = new Map();
+
+  ///// START TEST
+  public popupData: Record<string, any> = {};
+  ///// END TEST
 
   /** Constructor */
   constructor(
@@ -153,6 +160,10 @@ export class DataPageComponent {
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
   }
 
+  public onMapMarkerClicked(data: Record<string, any>): void {
+    this.popupData = data;
+  }
+
   private _onBaselayersRadioChange(changes: any): void {
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
     if (!layer) return;
@@ -185,7 +196,6 @@ export class DataPageComponent {
     this.groupedCheckboxes = this._redrawGroupedCheckboxes(currentCheckboxes);
 
     const allLayers: Layer[] = LayerGroup.getAllLayers(this.dataLayers);
-
     allLayers.forEach((l: Layer) => {
       if (this.currentLayers.toArray().includes(l.id)) {
         if (!this._map.haslayer(l.id)) this._executeAction(l);

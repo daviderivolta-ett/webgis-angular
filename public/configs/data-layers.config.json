@@ -453,7 +453,11 @@
                         "id": "hydro_initial_condition_wvc",
                         "label": "Water Volume Column",
                         "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
+                        "layerCategory": "data_geojson-point--cluster",
+                        "url": "https://omirl.regione.liguria.it/Omirl/rest/sections/RunObservationsUmiditaSuolo",
+                        "action": {
+                            "id": "clusterStations"
+                        }
                     }
                 ]
             },

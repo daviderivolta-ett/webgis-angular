@@ -37,19 +37,6 @@
                             </div>
                         }
                     </div>
-                    <!-- @for (group of baseLayers; track group.id) {
-                        <p class="pop-up-menu-content__title">{{group.label ?? group.id}}</p>
-                        @if (group.options) {
-                            <div class="radio-group">
-                                @for (item of group.options; track item.id) {
-                                    <div class="radio">
-                                        <input type="radio" class="radio__input" [id]="item.id" [value]="item.id" formControlName="baseLayer">
-                                        <label class="radio__label" [for]="item.id">{{item.label}}</label>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    } -->
                 </div>
             </app-pop-up-menu>
             <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
@@ -65,21 +52,6 @@
                             </div>
                         }
                     </div>
-                    <!-- @for (group of infoLayers; track group.id) {
-                        <p class="pop-up-menu-content__title">{{group.label ?? group.id}}</p>
-                        @if (group.options) {
-                            <div class="pop-up-menu-content__body">
-                                @for (item of group.options; track item.id) {
-                                    <div class="checkbox">
-                                        <label [for]="item.id" class="checkbox__label">
-                                            <input type="checkbox" [id]="item.id" class="checkbox__input" (change)="onInfoLayerCheckboxChange($event, item)">
-                                            {{item.label || item.id}}
-                                        </label>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    } -->
                 </div>
             </app-pop-up-menu>
         </div>        
@@ -92,7 +64,9 @@
         <!-- END RESET BUTTON -->
         
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" #map></app-map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" #map>
+            <app-map-popup [data]="popupData" #popup></app-map-popup>
+        </app-map>
         <!-- END MAP -->
     </div>
 </div>

@@ -1,10 +1,13 @@
-// Libraries
+/** Libraries */
 import { Injectable, Injector, Type } from '@angular/core';
 
-// Models
+/** Models */
 import { Command } from '../models';
+
+/** Services */
 import { GetAndRenderStationsCommandService } from './get-stations.command.service';
 import { GetWMSCommandService } from './get-wms.command.service';
+import { ClusterStationsService } from './cluster-stations.command.service';
 
 // Service
 @Injectable({
@@ -13,7 +16,8 @@ import { GetWMSCommandService } from './get-wms.command.service';
 export class CommandsRegistryService {
   static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([
     ['getStations', GetAndRenderStationsCommandService],
-    ['getWms', GetWMSCommandService]
+    ['getWms', GetWMSCommandService],
+    ['clusterStations', ClusterStationsService]
   ]);
 
   constructor(private injector: Injector) { }

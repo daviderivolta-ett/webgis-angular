@@ -1,14 +1,16 @@
 /*
 * Libraries
 */
-import { Component, input, output } from '@angular/core';
+import { Component, ContentChild, ElementRef, input, output } from '@angular/core';
 
-import L from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import 'leaflet-timedimension';
 import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
+import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.js';
 
 /*
 * Component
@@ -28,12 +30,7 @@ export class MapComponent {
   private _map!: L.Map;
   private _layers = new Map<string, L.Layer>();
 
-  /** Marker and cluster specific properties */
-  // @ts-ignore: cluster marker plugin has no type declaration
-  private _clusterGroup = L.markerClusterGroup({
-    spiderfyOnMaxZoom: false,
-    disableClusteringAtZoom: 15
-  });
+  /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
     [0, this._createSquareShape.bind(this)],
     [1, this._createCircleShape.bind(this)],
@@ -49,6 +46,10 @@ export class MapComponent {
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
   public layerRemoved = output<Record<string, any>>();
+  public markerClicked = output<Record<string, any>>();
+
+  /** User Interface */
+  @ContentChild('popup', { read: ElementRef }) _popup!: ElementRef;
 
   constructor() { }
 
@@ -86,24 +87,70 @@ export class MapComponent {
     const nearbyMarkers: L.Marker[] = this._getNearbyMarkers(bbox);
     console.log(nearbyMarkers);
 
-    // console.log(clickedLatLng);    
-    // const clickedLayers: L.Layer[] = [];
+    const geojson: GeoJSON.FeatureCollection = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [9.2363, 44.6047]
+          },
+          properties: {
+            name: 'Alpe Gorreto',
+            municipality: 'Gorreto',
+            shortCode: 'AGORR',
+            refDate: '2025-06-02T21:30:00',
+            value: 5,
+            uom: '°C'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [9.2363, 44.6047]
+          },
+          properties: {
+            name: 'Alpe Gorreto',
+            municipality: 'Gorreto',
+            shortCode: 'AGORR',
+            refDate: '2025-06-02T21:30:00',
+            value: 15,
+            uom: 'kn'
+          }
+        }
+      ]
+    }
+    const testMarkers = geojson.features.map((f: GeoJSON.Feature) => {
+      {
+        if (f.geometry.type === 'Point') {
+          const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]))
+          marker.feature = {
+            type: f.type,
+            geometry: { ...f.geometry },
+            properties: { ...f.properties }
+          };
+          return marker;
+        } else {
+          return null;
+        }
+      }
+    }).filter((m) => m !== null);
 
-    // this._map.eachLayer((layer: L.Layer) => {
-    //   if (layer instanceof L.Marker) {
-    //     console.log(layer.getLatLng());        
-    //     if (layer.getLatLng().equals(clickedLatLng)) {
-    //       clickedLayers.push(layer);
-    //     }
-    //   } else if (layer instanceof L.Circle) {
-    //     if (layer.getLatLng().distanceTo(clickedLatLng) <= layer.getRadius()) {
-    //       clickedLayers.push(layer);
-    //     }
-    //   } else if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
-    //   }
-    // });
+    const data: Record<string, any> = this._getMultiMarkersData(testMarkers);
+    this.markerClicked.emit(data);
 
-    // console.log(clickedLayers);    
+    setTimeout(() => {
+      if (this._popup) {
+        L.popup({
+          className: 'custom-leaflet-popup'
+        })
+          .setContent(`${this._popup.nativeElement.outerHTML}`)
+          .setLatLng(nearbyMarkers[0].getLatLng())
+          .openOn(this._map);
+      }
+    }, 0);   
   }
 
   /** Set layer in internal map and emit event to external */
@@ -152,9 +199,9 @@ export class MapComponent {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ? feature.properties.color : ('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
         const shape: SVGSVGElement = shapeFactory(color);
-        const html = shape.cloneNode(true) as HTMLElement;
-        const icon: HTMLElement = this._scaleMarkerIcon(html, (1 - shapeKey * 0.2));
-        const divIcon = L.divIcon({ html: icon, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
+        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
+        const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
+        const divIcon = L.divIcon({ html: iconHtml, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
         marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
@@ -183,6 +230,41 @@ export class MapComponent {
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, layer);
+  }
+
+  /** Add GeoJSON layer with donut cluster */
+  public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>): void {
+    // @ts-ignore: donut cluster plugin has no type declaration
+    const markers = L.DonutCluster({ chunkedLoading: true },
+      {
+        key: 'title',
+        arcColorDict: {
+          '0': 'red',
+          '5': 'blue',
+          C: 'yellow',
+          D: 'green'
+        }
+      }
+    )
+
+    const circleIcon = L.divIcon({
+      html: `<div style="width:16px;height:16px;border-radius:50%;background-color:red;"></div>`,
+      className: '',
+      iconSize: [16, 16]
+    });
+
+    geoJSON.features.forEach((f: GeoJSON.Feature) => {
+      if (f.geometry.type === 'Point') {
+        const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
+          title: '5',
+          icon: circleIcon
+        });
+        markers.addLayer(marker);
+      }
+    });
+
+    this._map.addLayer(markers);
+    this._registerLayer(id, markers);
   }
 
   /** Remove layer using id */
@@ -322,4 +404,29 @@ export class MapComponent {
 
     return svg;
   }
+
+  /** Clean markers data in case of multi markers click */
+  private _getMultiMarkersData(markers: L.Marker[]): Record<string, any> {
+    return markers.reduce((prev: Record<string, any>, curr: L.Marker) => {
+
+      if (curr.feature && curr.feature.properties) {
+        Object.keys(curr.feature.properties).forEach((k: string) => {
+          if (!(k in prev)) prev[k] = curr.feature?.properties[k].toString();
+          else {
+            if (prev[k] !== curr.feature?.properties[k]) {
+              prev[k] = [curr.feature?.properties[k].toString(), ...Array(prev[k].toString())]
+            }
+          }
+        });
+      }
+
+      if (curr.feature && curr.feature.geometry && curr.feature.geometry.type === 'Point') {
+        prev['lat'] = curr.feature.geometry.coordinates[1];
+        prev['lng'] = curr.feature.geometry.coordinates[0];
+      }
+
+      return prev;
+    }, {});
+  }
+
 }
