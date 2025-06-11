@@ -3,7 +3,7 @@
         @if (group.options) {
             <details class="styled-details" [attr.name]="!parentDefined ? 'group' : null">
                 <summary class="summary">
-                    <div class="summary__text">
+                    <div class="summary__text" [style.fontWeight]="!parentDefined ? '600' : '400'">
                         @if (group.iconUrl) {
                             <span [style.maskImage]="'url(' + group.iconUrl + ')'" [style.webkitMaskImage]="'url(' + group.iconUrl + ')'" class="checkbox__icon"></span>
                         }

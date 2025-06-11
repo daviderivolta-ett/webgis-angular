@@ -21,7 +21,8 @@
                 "shortCode": "PATIG",
                 "stationId": 1,
                 "updateDateTime": "06/03/2025 07:35:58 AM",
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -44,7 +45,8 @@
                 "shortCode": "MTBNO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -67,7 +69,8 @@
                 "shortCode": "PDVRM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -90,7 +93,8 @@
                 "shortCode": "PRMLO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -113,7 +117,8 @@
                 "shortCode": "ROCNE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -136,7 +141,8 @@
                 "shortCode": "TAVRN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -159,7 +165,8 @@
                 "shortCode": "VBGOR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -182,7 +189,8 @@
                 "shortCode": "SMARG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -205,7 +213,8 @@
                 "shortCode": "URVAS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -228,7 +237,8 @@
                 "shortCode": "MINUC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -251,7 +261,8 @@
                 "shortCode": "PCERR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -274,7 +285,8 @@
                 "shortCode": "IERAA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -297,7 +309,8 @@
                 "shortCode": "FRAMU",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -320,7 +333,8 @@
                 "shortCode": "DEGIR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -343,7 +357,8 @@
                 "shortCode": "TNDLA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -366,7 +381,8 @@
                 "shortCode": "LAVAG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -389,7 +405,8 @@
                 "shortCode": "LEVAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -412,7 +429,8 @@
                 "shortCode": "LGIAC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -435,7 +453,8 @@
                 "shortCode": "MOBRA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -458,7 +477,8 @@
                 "shortCode": "MARIN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -481,7 +501,8 @@
                 "shortCode": "SEGIA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -504,7 +525,8 @@
                 "shortCode": "SSGIU",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -527,7 +549,8 @@
                 "shortCode": "LICCN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -550,7 +573,8 @@
                 "shortCode": "RCSIG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -573,7 +597,8 @@
                 "shortCode": "TURAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -596,7 +621,8 @@
                 "shortCode": "PBATT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -619,7 +645,8 @@
                 "shortCode": "PFEAR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -642,7 +669,8 @@
                 "shortCode": "BGNNE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -665,7 +693,8 @@
                 "shortCode": "PRAIC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -688,7 +717,8 @@
                 "shortCode": "PRTTI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -711,7 +741,8 @@
                 "shortCode": "VERDE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -734,7 +765,8 @@
                 "shortCode": "SMVAR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -757,7 +789,8 @@
                 "shortCode": "MSETT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -780,7 +813,8 @@
                 "shortCode": "COMAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -803,7 +837,8 @@
                 "shortCode": "EQUIT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -826,7 +861,8 @@
                 "shortCode": "OSIGL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -849,7 +885,8 @@
                 "shortCode": "BRZON",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -872,7 +909,8 @@
                 "shortCode": "CFUNZ",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -895,7 +933,8 @@
                 "shortCode": "VALZE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -918,7 +957,8 @@
                 "shortCode": "CCADB",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -941,7 +981,8 @@
                 "shortCode": "PZGLI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -964,7 +1005,8 @@
                 "shortCode": "VLFOL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -987,7 +1029,8 @@
                 "shortCode": "PPICC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": -1
             }
         },
         {
@@ -1010,7 +1053,8 @@
                 "shortCode": "IMPER",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1033,7 +1077,8 @@
                 "shortCode": "ISBLL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1056,7 +1101,8 @@
                 "shortCode": "ISOVE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1079,7 +1125,8 @@
                 "shortCode": "LAMAC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1102,7 +1149,8 @@
                 "shortCode": "PACIS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1125,7 +1173,8 @@
                 "shortCode": "MROSS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1148,7 +1197,8 @@
                 "shortCode": "MTECA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1171,7 +1221,8 @@
                 "shortCode": "ORERO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1194,7 +1245,8 @@
                 "shortCode": "VIFRA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1217,7 +1269,8 @@
                 "shortCode": "CODOG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1240,7 +1293,8 @@
                 "shortCode": "PNTCA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1263,7 +1317,8 @@
                 "shortCode": "BELEN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1286,7 +1341,8 @@
                 "shortCode": "CSMAG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1309,7 +1365,8 @@
                 "shortCode": "CUCCA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1332,7 +1389,8 @@
                 "shortCode": "DAVAG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1355,7 +1413,8 @@
                 "shortCode": "ELLRA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1378,7 +1437,8 @@
                 "shortCode": "BOROS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1401,7 +1461,8 @@
                 "shortCode": "AIROL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1424,7 +1485,8 @@
                 "shortCode": "MATRA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1447,7 +1509,8 @@
                 "shortCode": "MMAUR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1470,7 +1533,8 @@
                 "shortCode": "PANES",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1493,7 +1557,8 @@
                 "shortCode": "PITLL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1516,7 +1581,8 @@
                 "shortCode": "PVENE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1539,7 +1605,8 @@
                 "shortCode": "REPPI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1562,7 +1629,8 @@
                 "shortCode": "SALBE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1585,7 +1653,8 @@
                 "shortCode": "VALIG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1608,7 +1677,8 @@
                 "shortCode": "CASRB",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1631,7 +1701,8 @@
                 "shortCode": "RAPAL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1654,7 +1725,8 @@
                 "shortCode": "TESTI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1677,7 +1749,8 @@
                 "shortCode": "TOGAR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1700,7 +1773,8 @@
                 "shortCode": "TAGLT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1723,7 +1797,8 @@
                 "shortCode": "PNTRM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1746,7 +1821,8 @@
                 "shortCode": "STILA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1769,7 +1845,8 @@
                 "shortCode": "SASSL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -1792,7 +1869,8 @@
                 "shortCode": "ALPIC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1815,7 +1893,8 @@
                 "shortCode": "GIACO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1838,7 +1917,8 @@
                 "shortCode": "CCORM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1861,7 +1941,8 @@
                 "shortCode": "CENES",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1884,7 +1965,8 @@
                 "shortCode": "CLROS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1907,7 +1989,8 @@
                 "shortCode": "CASON",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1930,7 +2013,8 @@
                 "shortCode": "GOUTA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1953,7 +2037,8 @@
                 "shortCode": "MONTG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1976,7 +2061,8 @@
                 "shortCode": "MONTL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -1999,7 +2085,8 @@
                 "shortCode": "SLPSS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2022,7 +2109,8 @@
                 "shortCode": "SOLIE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2045,7 +2133,8 @@
                 "shortCode": "SREMO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2068,7 +2157,8 @@
                 "shortCode": "BRUGN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2091,7 +2181,8 @@
                 "shortCode": "PARAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2114,7 +2205,8 @@
                 "shortCode": "ROVEG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2137,7 +2229,8 @@
                 "shortCode": "SSTAV",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2160,7 +2253,8 @@
                 "shortCode": "AGORR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2183,7 +2277,8 @@
                 "shortCode": "BRGEL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2206,7 +2301,8 @@
                 "shortCode": "TRRIG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2229,7 +2325,8 @@
                 "shortCode": "CALGR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2252,7 +2349,8 @@
                 "shortCode": "CAMPL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2275,7 +2373,8 @@
                 "shortCode": "FIORI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2298,7 +2397,8 @@
                 "shortCode": "SZIGN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2321,7 +2421,8 @@
                 "shortCode": "FABIA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2344,7 +2445,8 @@
                 "shortCode": "CABAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2367,7 +2469,8 @@
                 "shortCode": "MAZLA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2390,7 +2493,8 @@
                 "shortCode": "CRNLO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2413,7 +2517,8 @@
                 "shortCode": "CRORE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2436,7 +2541,8 @@
                 "shortCode": "DCAVV",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2459,7 +2565,8 @@
                 "shortCode": "FALLA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2482,7 +2589,8 @@
                 "shortCode": "MURIA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2505,7 +2613,8 @@
                 "shortCode": "BVARA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2528,7 +2637,8 @@
                 "shortCode": "GEFIU",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2551,7 +2661,8 @@
                 "shortCode": "GEGEI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2574,7 +2685,8 @@
                 "shortCode": "GEPCA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2597,7 +2709,8 @@
                 "shortCode": "GEPEG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 1
             }
         },
         {
@@ -2620,7 +2733,8 @@
                 "shortCode": "GEPTX",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2643,7 +2757,8 @@
                 "shortCode": "INASV",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2666,7 +2781,8 @@
                 "shortCode": "LVTSG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2689,7 +2805,8 @@
                 "shortCode": "MAGSG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2712,7 +2829,8 @@
                 "shortCode": "CERIA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2735,7 +2853,8 @@
                 "shortCode": "CERPG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2758,7 +2877,8 @@
                 "shortCode": "FFRES",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2781,7 +2901,8 @@
                 "shortCode": "LUNIS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2804,7 +2925,8 @@
                 "shortCode": "BRATT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2827,7 +2949,8 @@
                 "shortCode": "NOVGA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2850,7 +2973,8 @@
                 "shortCode": "MGAZZ",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2873,7 +2997,8 @@
                 "shortCode": "CONNA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2896,7 +3021,8 @@
                 "shortCode": "VFLUN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2919,7 +3045,8 @@
                 "shortCode": "PTURC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2942,7 +3069,8 @@
                 "shortCode": "RIGHI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2965,7 +3093,8 @@
                 "shortCode": "SCURT",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -2988,7 +3117,8 @@
                 "shortCode": "SPZIA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3011,7 +3141,8 @@
                 "shortCode": "STALE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3034,7 +3165,8 @@
                 "shortCode": "MONTA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3057,7 +3189,8 @@
                 "shortCode": "MROCC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3080,7 +3213,8 @@
                 "shortCode": "SCIAR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3103,7 +3237,8 @@
                 "shortCode": "ONZPO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3126,7 +3261,8 @@
                 "shortCode": "PIGNO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3149,7 +3285,8 @@
                 "shortCode": "PTECO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3172,7 +3309,8 @@
                 "shortCode": "RICCO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3195,7 +3333,8 @@
                 "shortCode": "PORNA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3218,7 +3357,8 @@
                 "shortCode": "SEBOR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3241,7 +3381,8 @@
                 "shortCode": "SEGOD",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3264,7 +3405,8 @@
                 "shortCode": "RANZO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3287,7 +3429,8 @@
                 "shortCode": "VREGI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3310,7 +3453,8 @@
                 "shortCode": "TASNI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3333,7 +3477,8 @@
                 "shortCode": "SANTU",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3356,7 +3501,8 @@
                 "shortCode": "VERZI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3379,7 +3525,8 @@
                 "shortCode": "TRIOR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3402,7 +3549,8 @@
                 "shortCode": "VICOM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3425,7 +3573,8 @@
                 "shortCode": "BUSAL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3448,7 +3597,8 @@
                 "shortCode": "CAIRM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3471,7 +3621,8 @@
                 "shortCode": "LFMTV",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3494,7 +3645,8 @@
                 "shortCode": "CALIZ",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3517,7 +3669,8 @@
                 "shortCode": "MLARE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3540,7 +3693,8 @@
                 "shortCode": "XXMIG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3563,7 +3717,8 @@
                 "shortCode": "MNINF",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3586,7 +3741,8 @@
                 "shortCode": "ROSGL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3609,7 +3765,8 @@
                 "shortCode": "PIAMP",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3632,7 +3789,8 @@
                 "shortCode": "BESTA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3655,7 +3813,8 @@
                 "shortCode": "SRZAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3678,7 +3837,8 @@
                 "shortCode": "BOLSN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -3701,7 +3861,8 @@
                 "shortCode": "BONUO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3724,7 +3885,8 @@
                 "shortCode": "BMARO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3747,7 +3909,8 @@
                 "shortCode": "PREMA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3770,7 +3933,8 @@
                 "shortCode": "CARRO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3793,7 +3957,8 @@
                 "shortCode": "MADGR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3816,7 +3981,8 @@
                 "shortCode": "PIGNA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3839,7 +4005,8 @@
                 "shortCode": "CAMOG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3862,7 +4029,8 @@
                 "shortCode": "CNAVA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3885,7 +4053,8 @@
                 "shortCode": "CEMBR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3908,7 +4077,8 @@
                 "shortCode": "CRAIN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3931,7 +4101,8 @@
                 "shortCode": "CAVIP",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3954,7 +4125,8 @@
                 "shortCode": "CHIRI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -3977,7 +4149,8 @@
                 "shortCode": "CLARI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4000,7 +4173,8 @@
                 "shortCode": "CMELO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4023,7 +4197,8 @@
                 "shortCode": "CARPG",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4046,7 +4221,8 @@
                 "shortCode": "CRETO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4069,7 +4245,8 @@
                 "shortCode": "CRCFI",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4092,7 +4269,8 @@
                 "shortCode": "DOLCE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4115,7 +4293,8 @@
                 "shortCode": "ALASS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4138,7 +4317,8 @@
                 "shortCode": "ALTOM",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4161,7 +4341,8 @@
                 "shortCode": "FERRA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4184,7 +4365,8 @@
                 "shortCode": "FRNLA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4207,7 +4389,8 @@
                 "shortCode": "AMBOR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4230,7 +4413,8 @@
                 "shortCode": "AVOBB",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4253,7 +4437,8 @@
                 "shortCode": "LAPRS",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4276,7 +4461,8 @@
                 "shortCode": "BARGO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4299,7 +4485,8 @@
                 "shortCode": "GEBOL",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 2
             }
         },
         {
@@ -4322,7 +4509,8 @@
                 "shortCode": "LERCA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -4345,7 +4533,8 @@
                 "shortCode": "LOCOC",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 0
             }
         },
         {
@@ -4368,7 +4557,8 @@
                 "shortCode": "GEQUE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4391,7 +4581,8 @@
                 "shortCode": "MANIE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4414,7 +4605,8 @@
                 "shortCode": "MIGNA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4437,7 +4629,8 @@
                 "shortCode": "MELEE",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4460,7 +4653,8 @@
                 "shortCode": "MTPOR",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4483,7 +4677,8 @@
                 "shortCode": "OGNIO",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4506,7 +4701,8 @@
                 "shortCode": "MOPEN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0.2
+                "value": 0,
+                "color": 3.2
             }
         },
         {
@@ -4529,7 +4725,8 @@
                 "shortCode": "VIGAN",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4552,7 +4749,8 @@
                 "shortCode": "SANDA",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         },
         {
@@ -4575,7 +4773,8 @@
                 "shortCode": "CCHER",
                 "stationId": 1,
                 "updateDateTime": null,
-                "value": 0
+                "value": 0,
+                "color": 3
             }
         }
     ]

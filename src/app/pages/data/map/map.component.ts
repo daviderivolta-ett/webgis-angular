@@ -37,6 +37,7 @@ export class MapComponent {
     [2, this._createHexagonShape.bind(this)],
     [3, this._createDiamondShape.bind(this)]
   ]);
+  public markerColors = input<Map<string, string>>(new Map());
   private _usedMarkerShapes: Set<number> = new Set();
 
   /** Inputs properties */
@@ -85,7 +86,8 @@ export class MapComponent {
     const clickedLatLng: L.LatLng = event.latlng;
     const bbox = this._getLatLngBoundingBox(clickedLatLng, 100);
     const nearbyMarkers: L.Marker[] = this._getNearbyMarkers(bbox);
-    console.log(nearbyMarkers);
+
+    if (nearbyMarkers.length === 0) return;
 
     const geojson: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
@@ -138,13 +140,13 @@ export class MapComponent {
       }
     }).filter((m) => m !== null);
 
-    const data: Record<string, any> = this._getMultiMarkersData(testMarkers, 'merge');
-    console.log(data);
+    const data: Record<string, any> = this._getMultiMarkersData(nearbyMarkers, 'merge');
     this.markerClicked.emit(data);
 
     if (this._popup) {
       const subscription = this.ngZone.onStable.subscribe(() => {
-        this.openCustomPopup(this._popup.nativeElement, nearbyMarkers[0].getLatLng());
+        const popup: L.Popup = this.openCustomPopup(this._popup.nativeElement, nearbyMarkers[0].getLatLng());
+        popup.on('remove', () => this.markerClicked.emit({}));
         subscription.unsubscribe();
       });
     }
@@ -194,7 +196,10 @@ export class MapComponent {
 
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
-        const color: string = feature.properties.color ? feature.properties.color : ('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+        const color: string = (feature.properties.color && this.markerColors().has(feature.properties.color.toString())) ?
+          this.markerColors().get(feature.properties.color.toString())! :
+          // ('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+          'grey';
         const shape: SVGSVGElement = shapeFactory(color);
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
@@ -278,13 +283,13 @@ export class MapComponent {
     this._map.setView(this.position(), this.zoom());
   }
 
-  public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): void {
-    L.popup({
+  public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
+    return L.popup({
       className: 'custom-leaflet-popup'
     })
       .setContent(`${element.outerHTML}`)
       .setLatLng(coordinates)
-      .openOn(this._map);
+      .openOn(this._map)
   }
 
   /** Util function to create a bounding box around a specific point at a certain distance */

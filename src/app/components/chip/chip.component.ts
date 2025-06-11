@@ -19,6 +19,8 @@ export class ChipComponent {
   public secondaryColor = input<string>('#060527');
   public border = input<string>('1px solid #060527');
 
+  constructor() {}
+
   // Methods
   public onButtonClick(): void {
     this.dismiss.emit(this.id());

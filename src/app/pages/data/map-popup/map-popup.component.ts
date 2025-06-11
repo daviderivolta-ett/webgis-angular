@@ -19,9 +19,5 @@ import { IsArrayPipe, IsDatePipe } from '../../../pipes';
 export class MapPopupComponent {
   public data = input<Record<string, any>>({});
 
-  constructor() {
-    effect(() => {
-      console.log(this.data());
-    });
-  }
+  constructor() { }
 }

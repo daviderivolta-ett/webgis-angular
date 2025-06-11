@@ -101,7 +101,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this._layerCategories);
+    // console.log(this.mapConfig);
   }
 
   public ngAfterViewInit(): void {
