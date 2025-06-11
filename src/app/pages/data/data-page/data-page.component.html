@@ -17,14 +17,9 @@
         <!-- END SIDEBAR -->
 
         <!-- START CHIPS SLIDER -->
-        <!-- <div class="chips-slider">
-            @for (chip of chips; track $index) {
-                <app-chip [id]="chip.id" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)"></app-chip>
-            }
-        </div> -->
         <app-slider class="chips-slider">
             @for (chip of chips; track $index) {
-                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)" #sliderItem></app-chip>
+                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" [border]="'none'" (dismiss)="onGroupCheckboxChange({ id: $event, isChecked: false })" #sliderItem></app-chip>
             }
         </app-slider>
         <!-- END CHIPS SLIDER -->
@@ -67,9 +62,9 @@
             <span class="mask-icon"></span>
          </button>
         <!-- END RESET BUTTON -->
-        
+
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" #map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="popupData=$event" #map>
             <app-map-popup [data]="popupData" #popup></app-map-popup>
         </app-map>
         <!-- END MAP -->

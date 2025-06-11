@@ -33,7 +33,7 @@ import { SliderComponent } from "../../../components/slider/slider.component";
     ChipComponent,
     MapPopupComponent,
     SliderComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -70,9 +70,7 @@ export class DataPageComponent {
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
   private _currentLayers: Map<string, string[]> = new Map();
 
-  ///// START TEST
   public popupData: Record<string, any> = {};
-  ///// END TEST
 
   /** Constructor */
   constructor(
@@ -162,10 +160,6 @@ export class DataPageComponent {
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
   }
 
-  public onMapMarkerClicked(data: Record<string, any>): void {
-    this.popupData = data;
-  }
-
   private _onBaselayersRadioChange(changes: any): void {
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
     if (!layer) return;
@@ -236,27 +230,27 @@ export class DataPageComponent {
   * Current layers chip dismiss
   * Search for checkbox in array, clone it and rebuild original checkboxes array
   */
-  public onChipDismiss(id: string): void {
-    const groupToUpdate = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id));
-    if (!groupToUpdate) return;
+  // public onChipDismiss(id: string): void {
+  //   const groupToUpdate = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id));
+  //   if (!groupToUpdate) return;
 
-    const checkbox = groupToUpdate.getNestedCheckbox(id);
-    if (!checkbox) return;
+  //   const checkbox = groupToUpdate.getNestedCheckbox(id);
+  //   if (!checkbox) return;
 
-    const updatedCheckbox = checkbox.clone();
-    updatedCheckbox.isChecked = false;
+  //   const updatedCheckbox = checkbox.clone();
+  //   updatedCheckbox.isChecked = false;
 
-    const updatedGroup = groupToUpdate.clone();
-    updatedGroup.options = updatedGroup.options?.map(opt =>
-      opt.id === updatedCheckbox.id ? updatedCheckbox : opt
-    );
+  //   const updatedGroup = groupToUpdate.clone();
+  //   updatedGroup.options = updatedGroup.options?.map(opt =>
+  //     opt.id === updatedCheckbox.id ? updatedCheckbox : opt
+  //   );
 
-    this.groupedCheckboxes = this.groupedCheckboxes.map(g =>
-      g.id === updatedGroup.id ? updatedGroup : g
-    );
+  //   this.groupedCheckboxes = this.groupedCheckboxes.map(g =>
+  //     g.id === updatedGroup.id ? updatedGroup : g
+  //   );
 
-    this._map.removeLayerById(checkbox.id);
-  }
+  //   this._map.removeLayerById(checkbox.id);
+  // }
 
   /** Get and execute generic action from commands registry service class */
   private async _executeAction(layer: Layer): Promise<void> {
