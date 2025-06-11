@@ -16,6 +16,7 @@ import { MapPopupComponent } from '../map-popup/map-popup.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
+import { SliderComponent } from "../../../components/slider/slider.component";
 
 /** Component */
 @Component({
@@ -30,8 +31,9 @@ import { Utils } from '../../../utils';
     PopUpMenuComponent,
     GroupedCheckboxesComponent,
     ChipComponent,
-    MapPopupComponent
-  ],
+    MapPopupComponent,
+    SliderComponent
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })

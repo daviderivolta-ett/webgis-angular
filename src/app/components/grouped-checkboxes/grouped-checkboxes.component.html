@@ -1,7 +1,7 @@
 <ng-template #groupTemplate let-group let-parentDefined="parentDefined">
     <div class="tree">
         @if (group.options) {
-            <details class="styled-details">
+            <details class="styled-details" [attr.name]="!parentDefined ? 'group' : null">
                 <summary class="summary">
                     <div class="summary__text">
                         @if (group.iconUrl) {

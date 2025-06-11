@@ -1,0 +1,19 @@
+<div class="slider">
+    @if (hasHorizontalScroll) {
+        <button type="button" class="arrow" (click)="onArrowClick('left')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M576-240 336-480l240-240 51 51-189 189 189 189-51 51Z" />
+            </svg>
+        </button>
+    }
+    <div class="slider__content" #slider>
+        <ng-content select="slider-content"></ng-content>
+    </div>
+    @if (hasHorizontalScroll) {
+        <button type="button" class="arrow" (click)="onArrowClick('right')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" />
+            </svg>
+        </button>
+    }
+</div>

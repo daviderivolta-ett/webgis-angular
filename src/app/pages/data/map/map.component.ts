@@ -1,9 +1,9 @@
 /*
 * Libraries
 */
-import { Component, ContentChild, ElementRef, input, output } from '@angular/core';
+import { Component, ContentChild, ElementRef, input, NgZone, output } from '@angular/core';
 
-import L, { LatLng } from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet-timedimension';
 import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
 import 'leaflet.markercluster';
@@ -51,7 +51,7 @@ export class MapComponent {
   /** User Interface */
   @ContentChild('popup', { read: ElementRef }) _popup!: ElementRef;
 
-  constructor() { }
+  constructor(private ngZone: NgZone) { }
 
   /*
   * Getters and setters
@@ -138,19 +138,16 @@ export class MapComponent {
       }
     }).filter((m) => m !== null);
 
-    const data: Record<string, any> = this._getMultiMarkersData(testMarkers);
+    const data: Record<string, any> = this._getMultiMarkersData(testMarkers, 'merge');
+    console.log(data);
     this.markerClicked.emit(data);
 
-    setTimeout(() => {
-      if (this._popup) {
-        L.popup({
-          className: 'custom-leaflet-popup'
-        })
-          .setContent(`${this._popup.nativeElement.outerHTML}`)
-          .setLatLng(nearbyMarkers[0].getLatLng())
-          .openOn(this._map);
-      }
-    }, 0);   
+    if (this._popup) {
+      const subscription = this.ngZone.onStable.subscribe(() => {
+        this.openCustomPopup(this._popup.nativeElement, nearbyMarkers[0].getLatLng());
+        subscription.unsubscribe();
+      });
+    }
   }
 
   /** Set layer in internal map and emit event to external */
@@ -281,6 +278,15 @@ export class MapComponent {
     this._map.setView(this.position(), this.zoom());
   }
 
+  public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): void {
+    L.popup({
+      className: 'custom-leaflet-popup'
+    })
+      .setContent(`${element.outerHTML}`)
+      .setLatLng(coordinates)
+      .openOn(this._map);
+  }
+
   /** Util function to create a bounding box around a specific point at a certain distance */
   private _getLatLngBoundingBox(center: L.LatLng, tolerance: number = 50): L.LatLngBounds {
     const latAccuracy = tolerance / 111320; // Lat degrees per N meters (~constant)
@@ -406,27 +412,54 @@ export class MapComponent {
   }
 
   /** Clean markers data in case of multi markers click */
-  private _getMultiMarkersData(markers: L.Marker[]): Record<string, any> {
-    return markers.reduce((prev: Record<string, any>, curr: L.Marker) => {
+  private _getMultiMarkersData(markers: L.Marker[], mode: 'merge' | 'group' = 'merge'): Record<string, any> | Record<string, any>[] {
+    if (mode === 'group') {
+      // Group mode: return and object array, an object per marker
+      return markers.map(marker => {
+        const props = marker.feature?.properties || {};
+        const geom = marker.feature?.geometry;
+        const latlng = geom?.type === 'Point'
+          ? { lat: geom.coordinates[1], lng: geom.coordinates[0] }
+          : {};
+        return { ...props, ...latlng };
+      });
+    }
 
-      if (curr.feature && curr.feature.properties) {
-        Object.keys(curr.feature.properties).forEach((k: string) => {
-          if (!(k in prev)) prev[k] = curr.feature?.properties[k].toString();
-          else {
-            if (prev[k] !== curr.feature?.properties[k]) {
-              prev[k] = [curr.feature?.properties[k].toString(), ...Array(prev[k].toString())]
-            }
+    // Merge mode: aggregate data in an object
+    return markers.reduce((acc: Record<string, any>, curr: L.Marker) => {
+      const props = curr.feature?.properties;
+      const geom = curr.feature?.geometry;
+
+      if (props) {
+        for (const key of Object.keys(props)) {
+          const value = props[key];
+          if (!(key in acc)) acc[key] = value;
+          else if (acc[key] !== value) {
+            if (!Array.isArray(acc[key])) acc[key] = [acc[key]];
+            if (!acc[key].includes(value)) acc[key].push(value);
           }
-        });
+        }
       }
 
-      if (curr.feature && curr.feature.geometry && curr.feature.geometry.type === 'Point') {
-        prev['lat'] = curr.feature.geometry.coordinates[1];
-        prev['lng'] = curr.feature.geometry.coordinates[0];
-      }
+      if (geom?.type === 'Point') this._findAndSetCoordinates(acc, geom);
 
-      return prev;
+      return acc;
     }, {});
+  }
+
+  private _findAndSetCoordinates(object: Record<string, any>, geom: GeoJSON.Point) {
+    const [lng, lat] = geom.coordinates;
+    if (!('lat' in object)) object['lat'] = lat;
+    else if (object['lat'] !== lat) {
+      object['lat'] = Array.isArray(object['lat']) ? object['lat'] : [object['lat']];
+      if (!object['lat'].includes(lat)) object['lat'].push(lat);
+    }
+
+    if (!('lng' in object)) object['lng'] = lng;
+    else if (object['lng'] !== lng) {
+      object['lng'] = Array.isArray(object['lng']) ? object['lng'] : [object['lng']];
+      if (!object['lng'].includes(lng)) object['lng'].push(lng);
+    }
   }
 
 }

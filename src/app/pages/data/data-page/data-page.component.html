@@ -17,11 +17,16 @@
         <!-- END SIDEBAR -->
 
         <!-- START CHIPS SLIDER -->
-        <div class="chips-slider">
+        <!-- <div class="chips-slider">
             @for (chip of chips; track $index) {
                 <app-chip [id]="chip.id" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)"></app-chip>
             }
-        </div>
+        </div> -->
+        <app-slider class="chips-slider">
+            @for (chip of chips; track $index) {
+                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" (dismiss)="onChipDismiss($event)" #sliderItem></app-chip>
+            }
+        </app-slider>
         <!-- END CHIPS SLIDER -->
 
         <!-- START LAYERS MENU -->

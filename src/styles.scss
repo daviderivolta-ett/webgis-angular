@@ -94,6 +94,7 @@ app-input-autocomplete::part(option selected) {
 .custom-leaflet-popup {
     .leaflet-popup-content {
         margin: 16px;
+        min-width: 160px;
     }
 
     .leaflet-popup-tip-container {

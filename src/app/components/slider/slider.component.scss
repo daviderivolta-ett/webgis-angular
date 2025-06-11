@@ -1,0 +1,32 @@
+.slider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+}
+
+.slider__content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+@media (pointer: coarse) {
+    .slider__content {
+        scroll-snap-type: x mandatory;
+    }
+}

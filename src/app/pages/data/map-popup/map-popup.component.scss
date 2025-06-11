@@ -1,9 +1,26 @@
 p {
-    margin: 0;
+    font-size: 1rem;
+    margin: 4px;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.greyed {
+    color: var(--neutral-600, lightgrey);
+}
+
+.values {
+    display: flex;
+    flex-direction: column;
+    margin: 16px 0;
+    gap: -20px;
 }
 
 .value {
     text-align: end;
     font-size: 3rem;
     font-weight: 600;
+    margin: 0;
 }

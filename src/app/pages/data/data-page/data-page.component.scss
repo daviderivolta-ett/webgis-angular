@@ -22,11 +22,14 @@
     position: fixed;
     z-index: 999;
     top: 64px;
-    left: 0;
+    left: 80px;
     height: 40px;
     background-color: transparent;
     display: flex;
     align-items: center;
+    gap: 16px;
+    max-width: calc(100dvw - 160px);
+    // overflow-x: auto;
 }
 
 .layers-menu {
@@ -65,4 +68,14 @@
 
 .mask-icon {
     @include mixins.maskIcon('/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
+@media screen and (max-width: 768px) {
+    .chips-slider {
+        top: 16px;
+    }
+
+    .reset-btn {
+        bottom: 72px;
+    }
 }
