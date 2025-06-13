@@ -1,32 +1,31 @@
-import { AppConfigUrls } from './urls.interface';
-
 export class AppConfig {
-    private constructor(
-        public urls: AppConfigUrls
-    ){}
+    public mapConfigUri: string = '';
+    public colorScalesUri: string = '';
+    public baseLayersUri: string = '';
+    public infoLayersUri: string = ''
+    public dataLayersUri: string = '';
+    public layerCategoriesUri: string = '';
 
-    static createAppConfig(urls: AppConfigUrls): AppConfig {
-        return new AppConfig(urls);
-    }
+    private constructor() { }
 
-    static createDefaultAppConfig(): AppConfig {
-        return new AppConfig({
-            base: '',
-            infoLayers: '',
-            stations: ''
-        });
+    static createAppConfig(): AppConfig {
+        return new AppConfig();
     }
 
     static createFromObject(object: any): AppConfig {
-        const config = AppConfig.createDefaultAppConfig();
+        const config = AppConfig.createAppConfig();
 
-        if ('urls' in object && typeof object === 'object') {
-          const urls: any = { ...object['urls'] };
-          if ('base' in urls && typeof urls['base'] === 'string') config.urls.base = urls['base'];
-          if ('infoLayers' in urls && typeof urls['infoLayers'] === 'string') config.urls.infoLayers = urls['infoLayers'];
-          if ('stations' in urls && typeof urls['stations'] === 'string') config.urls.stations = urls['stations'];
+        function _get<T>(value: any, fallback: T): T {
+            return (value !== undefined && value !== null) ? value : fallback;
         }
-    
+
+        config.mapConfigUri = _get<string>(object['mapConfigUri'], '');
+        config.colorScalesUri = _get<string>(object['colorScalesUri'], '');
+        config.baseLayersUri = _get<string>(object['baseLayersUri'], '');
+        config.infoLayersUri = _get<string>(object['infoLayersUri'], '');
+        config.dataLayersUri = _get<string>(object['dataLayersUri'], '');
+        config.layerCategoriesUri = _get<string>(object['layerCategoriesUri'], '');
+
         return config;
     }
 }

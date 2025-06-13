@@ -1,846 +1,864 @@
-[
-    {
-        "id": "stations",
-        "label": "Stazioni",
-        "maxNumber": 4,
-        "options": [
-            {
-                "id": "station_precipitations",
-                "label": "Precipitazioni",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
+{
+    "layers": [
+        {
+            "id": "stations",
+            "label": "Stazioni",
+            "maxNumber": 4,
+            "options": [
+                {
+                    "id": "station_precipitations",
+                    "label": "Precipitazioni",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "legend": {
+                        "unit": "mm",
+                        "min": 0.2,
+                        "max": 120
+                    },
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_temperature",
+                    "label": "Temperatura",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "legend": {
+                        "unit": "°C",
+                        "min": -20,
+                        "max": 40
+                    },
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_hydrometric_levels",
+                    "label": "Livelli idrometrici",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "legend": {
+                        "colorScaleId": "alert",
+                        "unit": "m",
+                        "labels": ["base", "ordinario", "medio", "straordinario"]
+                    },
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_wind",
+                    "label": "Vento",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_humidity",
+                    "label": "Umidità",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_heliophanies",
+                    "label": "Eliofanie",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_radiations",
+                    "label": "Radiazioni",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_leaf_wetting",
+                    "label": "Bagnatura fogliare",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_pression",
+                    "label": "Pressione atmosferica",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_sea_status",
+                    "label": "Stato del mare",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_snow",
+                    "label": "Neve",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_lightning",
+                    "label": "Fulminazioni",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_webcam",
+                    "label": "Webcam",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "action": {
+                        "id": "getStations"
+                    }
                 }
-            },
-            {
-                "id": "station_temperature",
-                "label": "Temperatura",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_hydrometric_levels",
-                "label": "Livelli idrometrici",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_wind",
-                "label": "Vento",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_humidity",
-                "label": "Umidità",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_heliophanies",
-                "label": "Eliofanie",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_radiations",
-                "label": "Radiazioni",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_leaf_wetting",
-                "label": "Bagnatura fogliare",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_pression",
-                "label": "Pressione atmosferica",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_sea_status",
-                "label": "Stato del mare",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_snow",
-                "label": "Neve",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_lightning",
-                "label": "Fulminazioni",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            },
-            {
-                "id": "station_webcam",
-                "label": "Webcam",
-                "layerType": "geojson",
-                "layerCategory": "data_geojson-point",
-                "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
-                "action": {
-                    "id": "getStations"
-                }
-            }
-        ]
-    },
-    {
-        "id": "maps",
-        "label": "Mappe",
-        "maxNumber": 1,
-        "options": [
-            {
-                "id": "maps_precipitations",
-                "label": "Precipitazioni",
-                "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "maps_precipitations_15m",
-                        "label": "Ultimi 15 minuti",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+            ]
+        },
+        {
+            "id": "maps",
+            "label": "Mappe",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "maps_precipitations",
+                    "label": "Precipitazioni",
+                    "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_precipitations_15m",
+                            "label": "Ultimi 15 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_30m",
-                        "label": "Ultimi 30 minuti",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_30m",
+                            "label": "Ultimi 30 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_1h",
-                        "label": "Ultim'ora",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_1h",
+                            "label": "Ultim'ora",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_3h",
-                        "label": "Ultime 3 ore",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_3h",
+                            "label": "Ultime 3 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_6h",
-                        "label": "Ultime 6 ore",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_6h",
+                            "label": "Ultime 6 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_12h",
-                        "label": "Ultime 12 ore",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_12h",
+                            "label": "Ultime 12 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_24h",
-                        "label": "Ultime 24 ore",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_24h",
+                            "label": "Ultime 24 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_7d",
-                        "label": "Ultimi 7 giorni",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_7d",
+                            "label": "Ultimi 7 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
-                        }
-                    },
-                    {
-                        "id": "maps_precipitations_15d",
-                        "label": "Ultimi 15 giorni",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                        {
+                            "id": "maps_precipitations_15d",
+                            "label": "Ultimi 15 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
+                        {
+                            "id": "maps_precipitations_30d",
+                            "label": "Ultimi 30 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms",
+                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "params": {
+                                "layers": "20250609rainfall30d_std_1410",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "opacity": 0.5,
+                            "action": {
+                                "id": "getWms"
+                            }
                         }
-                    },
-                    {
-                        "id": "maps_precipitations_30d",
-                        "label": "Ultimi 30 giorni",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms",
-                        "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                        "params": {
-                            "layers": "20250609rainfall30d_std_1410",
-                            "transparent": true,
-                            "format": "image/png",
-                            "service": "WMS",
-                            "version": "1.1.1",
-                            "request": "GetMap",
-                            "styles": "",
-                            "srs": "EPSG:3857"
+                    ]
+                },
+                {
+                    "id": "maps_soil_humidity",
+                    "label": "Umidità del suolo",
+                    "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_soil_humidity_00",
+                            "label": "h: 00.00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
                         },
-                        "opacity": 0.5,
-                        "action": {
-                            "id": "getWms"
+                        {
+                            "id": "maps_soil_humidity_06",
+                            "label": "h: 06.00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "maps_soil_humidity_12",
+                            "label": "h: 12.00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "maps_soil_humidity_18",
+                            "label": "h: 18.00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
                         }
-                    }
-                ]
-            },
-            {
-                "id": "maps_soil_humidity",
-                "label": "Umidità del suolo",
-                "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "maps_soil_humidity_00",
-                        "label": "h: 00.00",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_soil_humidity_06",
-                        "label": "h: 06.00",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_soil_humidity_12",
-                        "label": "h: 12.00",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_soil_humidity_18",
-                        "label": "h: 18.00",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            },
-            {
-                "id": "maps_temperature",
-                "label": "Temperatura",
-                "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "maps_temperature_min",
-                        "label": "Minima",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_temperature_avg",
-                        "label": "Media",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_temperature_max",
-                        "label": "Massima",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "maps_temperature_theta",
-                        "label": "Theta da media",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "hydro",
-        "label": "Idro",
-        "maxNumber": 1,
-        "options": [
-            {
-                "id": "hydro_initial_condition",
-                "label": "Condizioni iniziali",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_initial_condition_wvc",
-                        "label": "Water Volume Column",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster",
-                        "url": "https://omirl.regione.liguria.it/Omirl/rest/sections/RunObservationsUmiditaSuolo",
-                        "action": {
-                            "id": "clusterStations"
+                    ]
+                },
+                {
+                    "id": "maps_temperature",
+                    "label": "Temperatura",
+                    "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_temperature_min",
+                            "label": "Minima",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "maps_temperature_avg",
+                            "label": "Media",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "maps_temperature_max",
+                            "label": "Massima",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "maps_temperature_theta",
+                            "label": "Theta da media",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
                         }
-                    }
-                ]
-            },
-            {
-                "id": "hydro_monitoring_models",
-                "label": "Modelli monitoraggio",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_monitoring_models_simulated_10min",
-                        "label": "Simulato osservato 10min",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_monitoring_models_simulated_dams",
-                        "label": "Simulato osservato dighe",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_monitoring_models_dams",
-                        "label": "Dighe",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_monitoring_models_now",
-                        "label": "Now casting",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_monitoring_models_basins",
-                        "label": "Piccoli bacini",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_common_monitoring_models",
-                "label": "Modelli monitoraggio comuni",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_common_monitoring_models_basins",
-                        "label": "Piccoli bacini",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_common_monitoring_models_network",
-                        "label": "Rete fiduciaria",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_forecasting_models",
-                "label": "Modelli previsionali",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_forecasting_models_subjective",
-                        "label": "Previsione soggettiva",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_forecasting_models_deterministic",
-                        "label": "Previsione deterministica",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_subjective_forecasting",
-                "label": "Previsione soggettiva automatica",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_subjective_forecasting_now",
-                        "label": "Attuale",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_subjective_forecasting_plus_6h",
-                        "label": "+6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_subjective_forecasting_minus_6h",
-                        "label": "-6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_subjective_forecasting_plus_12h",
-                        "label": "+12 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_bolam_forecasting",
-                "label": "Previsione Bolam",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_bolam_forecasting_now",
-                        "label": "Attuale",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_bolam_forecasting_plus_6h",
-                        "label": "+6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_bolam_forecasting_minus_6h",
-                        "label": "-6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_bolam_forecasting_plus_12h",
-                        "label": "+12 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_moloch_forecasting",
-                "label": "Previsione Moloch",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_moloch_forecasting_now",
-                        "label": "Attuale",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_moloch_forecasting_plus_6h",
-                        "label": "+6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_moloch_forecasting_minus_6h",
-                        "label": "-6 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_moloch_forecasting_plus_12h",
-                        "label": "+12 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            },
-            {
-                "id": "hydro_local_forecasting",
-                "label": "Previsione Local",
-                "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "hydro_local_lami_5_now",
-                        "label": "Lami 5 attuale",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_local_lami_5_plus_12h",
-                        "label": "Lami 5 +12 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_local_lami_2_now",
-                        "label": "Lami 2.2 attuale",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    },
-                    {
-                        "id": "hydro_local_lami_2_plus_12h",
-                        "label": "Lami 2.2 +12 ore",
-                        "layerType": "geojson",
-                        "layerCategory": "data_geojson-point--cluster"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "radars",
-        "label": "Radar",
-        "maxNumber": 1,
-        "options": [
-            {
-                "id": "radars_precipitations",
-                "label": "Radar precipitazioni",
-                "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "radars_precipitations_hourly_intensity",
-                        "label": "Intensità oraria",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_precipitations_cumulated_intensity",
-                        "label": "Intensità cumulata",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_precipitations_dpcn",
-                        "label": "Radar DPCN",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_precipitations_stations_1h",
-                        "label": "Radar 1 hour",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_precipitations_vil",
-                        "label": "Vertical Integrated Liquid",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            },
-            {
-                "id": "radars_echo_top",
-                "label": "Echo Top",
-                "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "radars_echo_top_35dbz",
-                        "label": "Echo Top 35dBZ",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_echo_top_45dbz",
-                        "label": "Echo Top 45dBZ",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            },
-            {
-                "id": "radars_worst_case",
-                "label": "Worst case",
-                "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "radars_worst_case_10min",
-                        "label": "Worst case 10min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_worst_case_20min",
-                        "label": "Worst case 20min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_worst_case_30min",
-                        "label": "Worst case 30min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_worst_case_40min",
-                        "label": "Worst case 40min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_worst_case_50min",
-                        "label": "Worst case 50min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_worst_case_60min",
-                        "label": "Worst case 60min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            },
-            {
-                "id": "radars_thresholds",
-                "label": "Probabilità superamento soglie",
-                "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "maxNumber": 1,
-                "options": [
-                    {
-                        "id": "radars_thresholds_10min",
-                        "label": "Probabilità superamento soglie 10min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_thresholds_20min",
-                        "label": "Probabilità superamento soglie 20min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_thresholds_30min",
-                        "label": "Probabilità superamento soglie 30min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_thresholds_40min",
-                        "label": "Probabilità superamento soglie 40min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_thresholds_50min",
-                        "label": "Probabilità superamento soglie 50min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    },
-                    {
-                        "id": "radars_thresholds_60min",
-                        "label": "Probabilità superamento soglie 60min",
-                        "layerType": "wms",
-                        "layerCategory": "data_wms"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "satellite",
-        "label": "Satelliti",
-        "maxNumber": 1,
-        "options": [
-            {
-                "id": "satellite_ir",
-                "label": "Infrarosso",
-                "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "layerType": "wms",
-                "layerCategory": "data_wms"
-            },
-            {
-                "id": "radars_visible",
-                "label": "Visibile",
-                "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                "layerType": "wms",
-                "layerCategory": "data_wms"
-            }
-        ]
-    }
-]
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "hydro",
+            "label": "Idro",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "hydro_initial_condition",
+                    "label": "Condizioni iniziali",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_initial_condition_wvc",
+                            "label": "Water Volume Column",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://omirl.regione.liguria.it/Omirl/rest/sections/RunObservationsUmiditaSuolo",
+                            "action": {
+                                "id": "clusterStations"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_monitoring_models",
+                    "label": "Modelli monitoraggio",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_monitoring_models_simulated_10min",
+                            "label": "Simulato osservato 10min",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_monitoring_models_simulated_dams",
+                            "label": "Simulato osservato dighe",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_monitoring_models_dams",
+                            "label": "Dighe",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_monitoring_models_now",
+                            "label": "Now casting",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_monitoring_models_basins",
+                            "label": "Piccoli bacini",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_common_monitoring_models",
+                    "label": "Modelli monitoraggio comuni",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_common_monitoring_models_basins",
+                            "label": "Piccoli bacini",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_common_monitoring_models_network",
+                            "label": "Rete fiduciaria",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_forecasting_models",
+                    "label": "Modelli previsionali",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_forecasting_models_subjective",
+                            "label": "Previsione soggettiva",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_forecasting_models_deterministic",
+                            "label": "Previsione deterministica",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_subjective_forecasting",
+                    "label": "Previsione soggettiva automatica",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_subjective_forecasting_now",
+                            "label": "Attuale",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_subjective_forecasting_plus_6h",
+                            "label": "+6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_subjective_forecasting_minus_6h",
+                            "label": "-6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_subjective_forecasting_plus_12h",
+                            "label": "+12 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_bolam_forecasting",
+                    "label": "Previsione Bolam",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_bolam_forecasting_now",
+                            "label": "Attuale",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_bolam_forecasting_plus_6h",
+                            "label": "+6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_bolam_forecasting_minus_6h",
+                            "label": "-6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_bolam_forecasting_plus_12h",
+                            "label": "+12 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_moloch_forecasting",
+                    "label": "Previsione Moloch",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_moloch_forecasting_now",
+                            "label": "Attuale",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_moloch_forecasting_plus_6h",
+                            "label": "+6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_moloch_forecasting_minus_6h",
+                            "label": "-6 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_moloch_forecasting_plus_12h",
+                            "label": "+12 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_local_forecasting",
+                    "label": "Previsione Local",
+                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_local_lami_5_now",
+                            "label": "Lami 5 attuale",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_local_lami_5_plus_12h",
+                            "label": "Lami 5 +12 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_local_lami_2_now",
+                            "label": "Lami 2.2 attuale",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        },
+                        {
+                            "id": "hydro_local_lami_2_plus_12h",
+                            "label": "Lami 2.2 +12 ore",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "radars",
+            "label": "Radar",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "radars_precipitations",
+                    "label": "Radar precipitazioni",
+                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "radars_precipitations_hourly_intensity",
+                            "label": "Intensità oraria",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_precipitations_cumulated_intensity",
+                            "label": "Intensità cumulata",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_precipitations_dpcn",
+                            "label": "Radar DPCN",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_precipitations_stations_1h",
+                            "label": "Radar 1 hour",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_precipitations_vil",
+                            "label": "Vertical Integrated Liquid",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        }
+                    ]
+                },
+                {
+                    "id": "radars_echo_top",
+                    "label": "Echo Top",
+                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "radars_echo_top_35dbz",
+                            "label": "Echo Top 35dBZ",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_echo_top_45dbz",
+                            "label": "Echo Top 45dBZ",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        }
+                    ]
+                },
+                {
+                    "id": "radars_worst_case",
+                    "label": "Worst case",
+                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "radars_worst_case_10min",
+                            "label": "Worst case 10min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_worst_case_20min",
+                            "label": "Worst case 20min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_worst_case_30min",
+                            "label": "Worst case 30min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_worst_case_40min",
+                            "label": "Worst case 40min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_worst_case_50min",
+                            "label": "Worst case 50min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_worst_case_60min",
+                            "label": "Worst case 60min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        }
+                    ]
+                },
+                {
+                    "id": "radars_thresholds",
+                    "label": "Probabilità superamento soglie",
+                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "radars_thresholds_10min",
+                            "label": "Probabilità superamento soglie 10min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_thresholds_20min",
+                            "label": "Probabilità superamento soglie 20min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_thresholds_30min",
+                            "label": "Probabilità superamento soglie 30min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_thresholds_40min",
+                            "label": "Probabilità superamento soglie 40min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_thresholds_50min",
+                            "label": "Probabilità superamento soglie 50min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        },
+                        {
+                            "id": "radars_thresholds_60min",
+                            "label": "Probabilità superamento soglie 60min",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "satellite",
+            "label": "Satelliti",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "satellite_ir",
+                    "label": "Infrarosso",
+                    "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms"
+                },
+                {
+                    "id": "radars_visible",
+                    "label": "Visibile",
+                    "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms"
+                }
+            ]
+        }
+    ],
+    "lastModified": "2025-06-12"
+}

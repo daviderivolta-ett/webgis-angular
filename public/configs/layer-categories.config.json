@@ -1,31 +1,34 @@
-[
-    {
-        "id": "base_tile",
-        "maxNumber": 1,
-        "incompatibleWith": []
-    },
-    {
-        "id": "data_wms",
-        "maxNumber": 1,
-        "incompatibleWith": []
-    },
-    {
-        "id": "info_wms",
-        "maxNumber": -1,
-        "incompatibleWith": []
-    },
-    {
-        "id": "data_geojson-point",
-        "maxNumber": 4,
-        "incompatibleWith": [
-            "data_geojson-point--cluster"
-        ]
-    },
-    {
-        "id": "data_geojson-point--cluster",
-        "maxNumber": 1,
-        "incompatibleWith": [
-            "data_geojson-point"
-        ]
-    }
-]
+{
+    "layers": [
+        {
+            "id": "base_tile",
+            "maxNumber": 1,
+            "incompatibleWith": []
+        },
+        {
+            "id": "data_wms",
+            "maxNumber": 1,
+            "incompatibleWith": []
+        },
+        {
+            "id": "info_wms",
+            "maxNumber": -1,
+            "incompatibleWith": []
+        },
+        {
+            "id": "data_geojson-point",
+            "maxNumber": 4,
+            "incompatibleWith": [
+                "data_geojson-point--cluster"
+            ]
+        },
+        {
+            "id": "data_geojson-point--cluster",
+            "maxNumber": 1,
+            "incompatibleWith": [
+                "data_geojson-point"
+            ]
+        }
+    ],
+    "lastModified": "2025-06-12"
+}

@@ -1,0 +1,34 @@
+.layer-legend {
+    position: relative;
+}
+
+.scale__element {
+    width: 100%;
+    display: flex;
+}
+
+.scale__color {
+    height: 24px;
+}
+
+.scale__labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scale__label {
+    font-size: 10px;
+    text-align: center;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%);
+    top: -8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
+}

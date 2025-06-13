@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       return configService.getAppConfig()
         .catch((err: any) => {
           console.error(err);
-          return AppConfig.createDefaultAppConfig()
+          return AppConfig.createAppConfig()
         })
     })
   ]

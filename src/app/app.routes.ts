@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 
 // Resolvers
 import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver } from './resolvers';
+import { colorScalesResolver } from './resolvers/color-scales.resolver';
 
 // Routes
 export const routes: Routes = [
@@ -12,6 +13,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent),
         resolve: {
             mapConfig: mapConfigResolver,
+            colorScales: colorScalesResolver,
             infoLayers: infoLayersResolver,
             baseLayers: baseLayersResolver,
             layerCategories: layerCategoriesResolver,

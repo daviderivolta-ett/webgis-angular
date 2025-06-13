@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
 import { CommandsRegistryService, LayersService } from '../../../services';
@@ -17,6 +17,7 @@ import { MapPopupComponent } from '../map-popup/map-popup.component';
 /** Utilities */
 import { Utils } from '../../../utils';
 import { SliderComponent } from "../../../components/slider/slider.component";
+import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Component */
 @Component({
@@ -28,6 +29,7 @@ import { SliderComponent } from "../../../components/slider/slider.component";
     HeaderComponent,
     SidebarComponent,
     MapComponent,
+    LayerLegendComponent,
     PopUpMenuComponent,
     GroupedCheckboxesComponent,
     ChipComponent,
@@ -50,6 +52,7 @@ export class DataPageComponent {
   });
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
+  public legends: Legend[] = [];
 
   @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -64,11 +67,12 @@ export class DataPageComponent {
 
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
   public dataLayers: LayerGroup[]; // Recovered from route resolver in constructor
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
-  private _currentLayers: Map<string, string[]> = new Map();
+  private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
   public popupData: Record<string, any> = {};
 
@@ -82,6 +86,7 @@ export class DataPageComponent {
 
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
     this.dataLayers = this.route.snapshot.data['groupedCheckboxes'];
@@ -92,16 +97,16 @@ export class DataPageComponent {
   }
 
   /** Getter and setter */
-  public get currentLayers() {
+  public get currentDataLayers() {
     return {
-      map: this._currentLayers,
-      toArray: () => Array.from(this._currentLayers.values()).flat()
+      map: this._currentDataLayers,
+      toArray: () => Array.from(this._currentDataLayers.values()).flat()
     }
   }
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this.mapConfig);
+    console.log(this.baseColorScales);
   }
 
   public ngAfterViewInit(): void {
@@ -144,20 +149,28 @@ export class DataPageComponent {
   }
 
   public onMapLayerAdded(event: Record<string, any>): void {
-    const id = event['id'];
+    const { id } = event;
     if (!id) return;
-    const checkbox = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id) !== undefined)?.getNestedCheckbox(id);
+
+    const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
+    if (!foundLayer) return;
+
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
-    if (!checkbox) return;
-    const chip = new Chip(event['id'], checkbox.label ?? event['id'], iconUrl);
+    const chip = new Chip(event['id'], foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
+
+    if (!foundLayer || !foundLayer.legend) return;
+    const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
+    if (!colorScale) return;
+    this.legends.push({ layerId: foundLayer.id, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels() });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
     const id = event['id'];
     if (!id) return;
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
+    this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
   }
 
   private _onBaselayersRadioChange(changes: any): void {
@@ -175,82 +188,49 @@ export class DataPageComponent {
   }
 
   /**
-  * Check layer number in each categories in order to avoid layer number to overpass category number limit
-  * Then redraw and reassign grouped checkboxes
+  * Check layers number in each categories in order to avoid it overpassing category number limit
+  * Then redraw grouped checkboxes and reassign them
   */
-  public onGroupCheckboxChange(data: any): void {
+  public onLayerToggled(data: any): void {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
-    const layers: Layer[] = this.dataLayers.map((g: LayerGroup) => g.searchLayer(id, g)).filter((v) => v !== undefined);
-    if (layers.length === 0) return;
-    const layer: Layer = layers[0];
+    const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
+    if (!foundLayer) return;
 
-    this._currentLayers = this.layersService.checkLayerCategories(layer, isChecked, this._currentLayers, this._layerCategories);
-
-    const currentCheckboxes: GroupedCheckboxItem[] = this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group()));
-    this.groupedCheckboxes = this._redrawGroupedCheckboxes(currentCheckboxes);
-
-    const allLayers: Layer[] = LayerGroup.getAllLayers(this.dataLayers);
-    allLayers.forEach((l: Layer) => {
-      if (this.currentLayers.toArray().includes(l.id)) {
-        if (!this._map.haslayer(l.id)) this._executeAction(l);
-      } else {
-        this._map.removeLayerById(l.id);
-      }
-    });
-
-
-    // this._map.addTimeDimensionWMSLayer(
-    //   'timedimension',
-    //   'https://thredds.socib.es/thredds/wms/operational_models/oceanographical/wave/model_run_aggregation/sapo_ib/sapo_ib_best.ncd',
-    //   {
-    //     layers: 'significant_wave_height',
-    //     format: 'image/png',
-    //     transparent: true,
-    //     colorscalerange: '0,3',
-    //     abovemaxcolor: "extend",
-    //     belowmincolor: "extend",
-    //     numcolorbands: 100,
-    //     styles: 'areafill/scb_bugnylorrd'
-    //   }
-    // );
+    this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories);
+    this.groupedCheckboxes = this._redrawGroupedCheckboxes(this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
+    this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
   }
 
   private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
     const newCheckboxes: GroupedCheckboxItem[] = [];
     for (const group of groupedCheckboxes) {
-      const newGroup = group.checkNestedCheckbox(this.currentLayers.toArray());
+      const newGroup = group.checkNestedCheckbox(this.currentDataLayers.toArray());
       newCheckboxes.push(newGroup)
     }
     return newCheckboxes;
   }
 
-  /**
-  * Current layers chip dismiss
-  * Search for checkbox in array, clone it and rebuild original checkboxes array
-  */
-  // public onChipDismiss(id: string): void {
-  //   const groupToUpdate = this.groupedCheckboxes.find(group => group.getNestedCheckbox(id));
-  //   if (!groupToUpdate) return;
+  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
+    LayerGroup.getAllLayers(dataLayers).forEach((l: Layer) => {
+      if (currentLayers.includes(l.id)) {
+        if (!this._map.haslayer(l.id)) this._executeAction(l);
+      } else {
+        this._map.removeLayerById(l.id);
+      }
+    });
+  }
 
-  //   const checkbox = groupToUpdate.getNestedCheckbox(id);
-  //   if (!checkbox) return;
+  /** Generate color scale */
+  private _generateLayerColorScale(layer: Layer, allBaseColorScales: ColorScaleBase[]): ColorScale | undefined {
+    if (!layer.legend) return;
 
-  //   const updatedCheckbox = checkbox.clone();
-  //   updatedCheckbox.isChecked = false;
+    const baseColorScale: ColorScaleBase | undefined = allBaseColorScales.find((c: ColorScaleBase) => c.id === layer.legend?.colorScaleId);
+    if (!baseColorScale) return;
 
-  //   const updatedGroup = groupToUpdate.clone();
-  //   updatedGroup.options = updatedGroup.options?.map(opt =>
-  //     opt.id === updatedCheckbox.id ? updatedCheckbox : opt
-  //   );
-
-  //   this.groupedCheckboxes = this.groupedCheckboxes.map(g =>
-  //     g.id === updatedGroup.id ? updatedGroup : g
-  //   );
-
-  //   this._map.removeLayerById(checkbox.id);
-  // }
+    return new ColorScale(baseColorScale, layer.legend);
+  }
 
   /** Get and execute generic action from commands registry service class */
   private async _executeAction(layer: Layer): Promise<void> {

@@ -1,0 +1,33 @@
+/** Libraries */
+import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
+
+/** Component */
+@Component({
+  selector: 'app-layer-legend',
+  imports: [],
+  templateUrl: './layer-legend.component.html',
+  styleUrl: './layer-legend.component.scss'
+})
+export class LayerLegendComponent {
+  /** Data */
+  public label = input<string>('');
+  public unit = input<string>('');
+  public colors = input<string[]>([]);
+  public labels = input<string[]>([]);
+
+  /** User Interface */
+  public elementWidth: number = 0;
+  public hoveredLabel: string | null = null;
+  public tooltipPosition: number = 0;
+
+  constructor() {
+    effect(() => this.elementWidth = 100 / this.labels().length);
+  }
+
+  /** Methods */
+  public onColorMouseEnter(index: number): void {   
+    this.hoveredLabel = this.labels()[index];
+    const stepWidth: number = 100 / this.labels().length;
+    this.tooltipPosition = (stepWidth * index) + (stepWidth / 2);
+  }
+}

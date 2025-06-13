@@ -1,0 +1,21 @@
+<div class="layer-legend">
+    <p>{{label()}} ({{unit()}})</p>
+    <div class="scale">
+        <div class="scale__element scale__colors">
+            @for (item of colors(); track $index) {
+                <div class="scale__color" [style.width]="elementWidth + '%'" [style.backgroundColor]="item" (mouseenter)="onColorMouseEnter($index)"  (mouseleave)="hoveredLabel=null"></div>
+            }
+        </div>
+        <div class="scale__element scale__labels">
+            @if (labels().length >= 2) {
+                <p class="scale__label">{{labels()[0]}}</p>
+                <p class="scale__label">{{labels()[labels().length - 1]}}</p>
+            }
+        </div>
+    </div>
+    @if (hoveredLabel) {
+        <div class="tooltip" [style.left]="tooltipPosition + '%'">
+            <p class="tooltip__label">{{hoveredLabel}}</p>
+        </div>
+    }
+</div>

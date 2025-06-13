@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 
 // Models
-import { LayerGroup, WMSLayer } from '../models';
+import { LayerGroup } from '../models';
 
 // Services
 import { ConfigService } from '../services';

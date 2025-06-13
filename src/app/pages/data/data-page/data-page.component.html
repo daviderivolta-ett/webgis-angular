@@ -9,7 +9,7 @@
                 </div>
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
-                        <app-grouped-checkboxes [group]="group" (changed)="onGroupCheckboxChange($event)" #groupedCheckbox></app-grouped-checkboxes>
+                        <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" #groupedCheckbox></app-grouped-checkboxes>
                     }
                 </div>
             </div>
@@ -19,7 +19,7 @@
         <!-- START CHIPS SLIDER -->
         <app-slider class="chips-slider">
             @for (chip of chips; track $index) {
-                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" [border]="'none'" (dismiss)="onGroupCheckboxChange({ id: $event, isChecked: false })" #sliderItem></app-chip>
+                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" [border]="'none'" (dismiss)="onLayerToggled({ id: $event, isChecked: false })" #sliderItem></app-chip>
             }
         </app-slider>
         <!-- END CHIPS SLIDER -->
@@ -57,6 +57,18 @@
         </div>        
         <!-- END LAYERS MENU -->
 
+        <!-- START LEGENDS -->
+         @if (legends.length > 0) {
+            <app-pop-up-menu class="legends" position="top-left" iconUrl="icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+                <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">
+                    @for (legend of legends; track $index) {
+                        <app-layer-legend [label]="legend.layerId" [unit]="legend.unit" [colors]="legend.colors" [labels]="legend.labels"></app-layer-legend>
+                    }
+                </div>
+            </app-pop-up-menu>
+        }
+        <!-- STOP LEGENDS -->
+
         <!-- START RESET BUTTON -->
          <button type="button" class="fab reset-btn" (click)="onResetMapButtonClick()">
             <span class="mask-icon"></span>
@@ -70,4 +82,3 @@
         <!-- END MAP -->
     </div>
 </div>
-<!-- <app-chip iconUrl="icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" text="Pippo"></app-chip> -->

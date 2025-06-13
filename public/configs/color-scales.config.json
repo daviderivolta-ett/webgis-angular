@@ -1,0 +1,39 @@
+{
+    "scales": [
+        {
+            "id": "rainbow",
+            "colors": [
+                "#FEFEFE",
+                "#E0EBFF",
+                "#B5C9FF",
+                "#8EB2FF",
+                "#7F96FF",
+                "#6370F7",
+                "#009F1E",
+                "#B9F96E",
+                "#FFF914",
+                "#FAC81E",
+                "#EB9628",
+                "#FA3C3C",
+                "#CD005A",
+                "#B400B4",
+                "#9600C8",
+                "#A064DC",
+                "#BE8CC8",
+                "#E1AFC3",
+                "#E1C8BE",
+                "#F0DCE1"
+            ]
+        },
+        {
+            "id": "alert",
+            "colors": [
+                "#00DC00",
+                "#E6DC32",
+                "#F08228",
+                "#FA3C3C"
+            ]
+        }
+    ],
+    "lastModified": "2025-06-12"
+}

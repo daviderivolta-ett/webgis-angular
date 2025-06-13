@@ -12,6 +12,7 @@
     scale: 0;
     overflow-y: auto;
     transition: scale .2s ease-in-out;
+    overflow-x: hidden;
 }
 
 .pop-up-menu__content--open {

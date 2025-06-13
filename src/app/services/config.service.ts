@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, GroupedCheckboxItem, LayerCategory, LayerGroup, MapConfig, TileLayer, WMSLayer } from '../models';
+import { AppConfig, ColorScale, ColorScaleBase, LayerCategory, LayerGroup, MapConfig } from '../models';
 
 // Service
 @Injectable({
@@ -10,13 +10,6 @@ import { AppConfig, GroupedCheckboxItem, LayerCategory, LayerGroup, MapConfig, T
 })
 export class ConfigService {
   private APP_CONFIG_URI = '/configs/app.config.json';
-  private DATAPAGE_BASELAYERS_URI = '/configs/base-layers.config.new.json';
-  private DATAPAGE_INFOLAYERS_URI = '/configs/info-layers.config.new.json';
-  private DATAPAGE_MAPCONFIG_URI = '/configs/map.config.json';
-  // private DATAPAGE_MAPLAYERS_URI = '/configs/map-layers.json';
-  private DATAPAGE_MAPLAYERS_URI = '/configs/data-layers.config.json';
-  private DATAPAGE_LAYERS_CATEGORIES_URI = '/configs/layer-categories.config.json';
-
   private _appConfig!: AppConfig;
 
   constructor() { }
@@ -45,7 +38,7 @@ export class ConfigService {
 
   // Get and parse 'Data' page local json config files
   public async getMapConfig(): Promise<MapConfig> {
-    return fetch(this.DATAPAGE_MAPCONFIG_URI)
+    return fetch(this.appConfig.mapConfigUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione della mappa dal file /configs/map.config.json');
         return res.json();
@@ -58,98 +51,69 @@ export class ConfigService {
       })
   }
 
-  // public async getBaseLayers(): Promise<TileLayer[]> {
-  //   return fetch(this.DATAPAGE_BASELAYERS_URI)
-  //     .then((res: Response) => {
-  //       if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
-  //       return res.json();
-  //     })
-  //     .then((data: any[]) => {
-  //       return data.map((d: any) => TileLayer.createFromObject(d))
-  //     })
-  //     .catch((err: any) => {
-  //       throw new Error(`Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json ${err.message || err}`);
-  //     })
-  // }
+  public async getColorScales(): Promise<ColorScaleBase[]> {
+    return fetch((this.appConfig.colorScalesUri))
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero delle color scales dal file /configs/color-scales.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return data['scales'].map((d: any) => {
+          return {
+            id: d['id'] ?? '',
+            colors: d['colors'] ?? [],
+            type: d['type'] ?? 'linear'
+          }
+        })
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero delle color scales dal file /configs/color-scales.config.json ${err.message || err}`);
+      })
+  }
 
   public async getBaseLayers(): Promise<LayerGroup[]> {
-    return fetch(this.DATAPAGE_BASELAYERS_URI)
+    return fetch(this.appConfig.baseLayersUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
         return res.json();
       })
-      .then((data: any[]) => {
-        return data.map((d: any) => LayerGroup.createFromObject(d))
+      .then((data: any) => {
+        return data['layers'].map((d: any) => LayerGroup.createFromObject(d))
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json ${err.message || err}`);
       })
   }
 
-  // public async getInfoLayers(): Promise<WMSLayer[]> {
-  //   return fetch(this.DATAPAGE_INFOLAYERS_URI)
-  //     .then((res: Response) => {
-  //       if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
-  //       return res.json();
-  //     })
-  //     .then((data: any[]) => {
-  //       return data.map((d: any) => WMSLayer.createFromObject(d))
-  //     })
-  //     .catch((err: any) => {
-  //       throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
-  //     })
-  // }
-
   public async getInfoLayers(): Promise<LayerGroup[]> {
-    return fetch(this.DATAPAGE_INFOLAYERS_URI)
+    return fetch(this.appConfig.infoLayersUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
         return res.json();
       })
-      .then((data: any[]) => {
-        return data.map((d: any) => LayerGroup.createFromObject(d))
+      .then((data: any) => {
+        return data['layers'].map((d: any) => LayerGroup.createFromObject(d))
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
       })
   }
 
-  // public async getMapLayers(): Promise<GroupedCheckboxItem[]> {
-  //   return fetch(this.DATAPAGE_MAPLAYERS_URI)
-  //     .then((res: Response) => {
-  //       if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
-  //       return res.json();
-  //     })
-  //     .then((data: any[]) => {
-  //       return data.map((d: any) => {
-  //         try {
-  //           return GroupedCheckboxItem.createFromObject(d)
-  //         } catch (error) {
-  //           console.warn('Oggetto non valido, verrà ignorato:', d);
-  //           return null;
-  //         }
-  //       }).filter((checkbox) => checkbox !== null)
-  //     })
-  //     .catch((err: any) => {
-  //       throw new Error(`Errore nel recupero della configurazione dei layer /configs/map-layers.config.json ${err.message || err}`);
-  //     })
-  // }
-
-  public async getMapLayers(): Promise<LayerGroup[]> {
-    return fetch(this.DATAPAGE_MAPLAYERS_URI)
+  public async getDataLayers(): Promise<LayerGroup[]> {
+    return fetch(this.appConfig.dataLayersUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
         return res.json();
       })
-      .then((data: any[]) => {
-        return data.map((d: any) => {
+      .then((data: any) => {
+        return data['layers'].map((d: any) => {
           try {
             return LayerGroup.createFromObject(d);
           } catch (error) {
             console.warn('Oggetto non valido, verrà ignorato:', d);
             return null;
           }
-        }).filter((checkbox) => checkbox !== null)
+        }).filter((checkbox: LayerGroup | null) => checkbox !== null)
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione dei layer /configs/map-layers.config.json ${err.message || err}`);
@@ -157,16 +121,16 @@ export class ConfigService {
   }
 
   public async getLayersCategories(): Promise<LayerCategory[]> {
-    return fetch(this.DATAPAGE_LAYERS_CATEGORIES_URI)
+    return fetch(this.appConfig.layerCategoriesUri)
       .then((res: Response) => {
-        if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
+        if (!res.ok) throw new Error('Errore nel recupero delle categorie dei layer dal file di configurazione /configs/layer-categories.config.json');
         return res.json();
       })
-      .then((data: any[]) => {
-        return data.map((d: any) => LayerCategory.createFromObject(d))
+      .then((data: any) => {
+        return data['layers'].map((d: any) => LayerCategory.createFromObject(d))
       })
       .catch((err: any) => {
-        throw new Error(`Errore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json ${err.message || err}`);
+        throw new Error(`Errore nel recupero delle categorie dei layer dal file di configurazione /configs/layer-categories.config.json ${err.message || err}`);
       })
   }
 }

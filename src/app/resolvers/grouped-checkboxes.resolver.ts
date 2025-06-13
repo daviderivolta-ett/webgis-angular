@@ -12,7 +12,7 @@ import { ConfigService } from '../services';
 export const groupedCheckboxesResolver: ResolveFn<LayerGroup[]> = async (route, state) => {
   const configService: ConfigService = inject(ConfigService);
 
-  return configService.getMapLayers()
+  return configService.getDataLayers()
     .then((config: LayerGroup[]) => config)
     .catch((err: any) => {
       console.error(err);
