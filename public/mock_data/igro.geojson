@@ -1,0 +1,1960 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.06768,
+                    43.91987
+                ]
+            },
+            "properties": {
+                "alt": 56,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Diano Castello",
+                "name": "Diano Castello - Varcavello",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "DCAVV",
+                "stationId": 1,
+                "updateDateTime": "06/16/2025 01:11:36 PM",
+                "value": 79
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.95422,
+                    44.54856
+                ]
+            },
+            "properties": {
+                "alt": 620,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Savignone",
+                "name": "Monte Cappellino",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MTECA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 77
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.78625,
+                    43.82265
+                ]
+            },
+            "properties": {
+                "alt": 61,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Sanremo",
+                "name": "Sanremo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SREMO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 78
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.62739,
+                    44.46953
+                ]
+            },
+            "properties": {
+                "alt": 810,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Urbe",
+                "name": "Urbe - Vara Sup.",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "URVAS",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 53
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.17495,
+                    44.52931
+                ]
+            },
+            "properties": {
+                "alt": 1032,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Torriglia",
+                "name": "Torriglia - Garaventa",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "TOGAR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.04769,
+                    44.51561
+                ]
+            },
+            "properties": {
+                "alt": 442,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Montoggio",
+                "name": "Montoggio",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MONTG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.89257,
+                    44.36957
+                ]
+            },
+            "properties": {
+                "alt": 340,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pontremoli",
+                "name": "Pontremoli - La Costa",
+                "otherHtml": "",
+                "refDate": "2016-11-22T15:00:00",
+                "shortCode": "PNTCA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 100
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.6939,
+                    44.54256
+                ]
+            },
+            "properties": {
+                "alt": 338,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Campo Ligure",
+                "name": "Campo Ligure",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CAMPL",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.50244,
+                    44.4061
+                ]
+            },
+            "properties": {
+                "alt": 570,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Stella",
+                "name": "Stella - Burdone",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "STBUR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 71
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.02329,
+                    44.53176
+                ]
+            },
+            "properties": {
+                "alt": 680,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Valbrevenna",
+                "name": "Valbrevenna - Gorra",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VBGOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 60
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.54322,
+                    43.83103
+                ]
+            },
+            "properties": {
+                "alt": 460,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Ventimiglia",
+                "name": "Colla Rossa",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CLROS",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.19105,
+                    44.36959
+                ]
+            },
+            "properties": {
+                "alt": 480,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Roccavignale",
+                "name": "Valzemola",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VALZE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 34
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.20928,
+                    44.35453
+                ]
+            },
+            "properties": {
+                "alt": 40,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Rapallo",
+                "name": "Rapallo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "RAPAL",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 80
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.01652,
+                    43.87957
+                ]
+            },
+            "properties": {
+                "alt": 71,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Imperia",
+                "name": "Imperia - Oss. Meteosismico",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "IMPER",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 86
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    10.00705,
+                    44.10379
+                ]
+            },
+            "properties": {
+                "alt": 96,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Castelnuovo Magra",
+                "name": "Castelnuovo Magra",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CSMAG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 72
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.86667,
+                    43.98131
+                ]
+            },
+            "properties": {
+                "alt": 1163,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Montalto Carpasio",
+                "name": "Colle D'Oggia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CODOG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 88
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.38773,
+                    44.46112
+                ]
+            },
+            "properties": {
+                "alt": 1040,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Borzonasca",
+                "name": "Giacopiane - Lago",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "GIACO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 99
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.33939,
+                    44.45176
+                ]
+            },
+            "properties": {
+                "alt": 450,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Dego",
+                "name": "Dego - Girini",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "DEGIR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 45
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.96878,
+                    44.25042
+                ]
+            },
+            "properties": {
+                "alt": 156,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Villafranca in Lunigiana",
+                "name": "Villafranca Lunigiana",
+                "otherHtml": "",
+                "refDate": "2018-01-16T13:30:00",
+                "shortCode": "VIFRA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 100
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.73483,
+                    44.10632
+                ]
+            },
+            "properties": {
+                "alt": 238,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Riomaggiore",
+                "name": "Corniolo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CRNLO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 80
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.60808,
+                    43.9396
+                ]
+            },
+            "properties": {
+                "alt": 1212,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Apricale",
+                "name": "Sella di Gouta",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "GOUTA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 80
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.98586,
+                    44.52014
+                ]
+            },
+            "properties": {
+                "alt": 470,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Serra Riccò",
+                "name": "Crocetta di Orero",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CRORE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 75
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.69908,
+                    44.34967
+                ]
+            },
+            "properties": {
+                "alt": 835,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Sesta Godano",
+                "name": "Cuccarello",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CUCCA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 87
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.69454,
+                    43.91862
+                ]
+            },
+            "properties": {
+                "alt": 655,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Castel Vittorio",
+                "name": "Pizzeglio",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PZGLI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.5842,
+                    44.38313
+                ]
+            },
+            "properties": {
+                "alt": 345,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Varese Ligure",
+                "name": "Varese Ligure",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VALIG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 82
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.16912,
+                    44.32709
+                ]
+            },
+            "properties": {
+                "alt": 610,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Camogli",
+                "name": "Monte Portofino",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MTPOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 84
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.54033,
+                    44.21359
+                ]
+            },
+            "properties": {
+                "alt": 421,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Framura",
+                "name": "Framura",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "FRAMU",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 90
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    10.00899,
+                    44.07491
+                ]
+            },
+            "properties": {
+                "alt": 5,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Castelnuovo Magra",
+                "name": "Luni - Provasco",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "LUNIS",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.10363,
+                    43.97923
+                ]
+            },
+            "properties": {
+                "alt": 350,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Andora",
+                "name": "Conna",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CONNA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 76
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.10336,
+                    44.51715
+                ]
+            },
+            "properties": {
+                "alt": 865,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Torriglia",
+                "name": "Fallarosa",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "FALLA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 61
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.18206,
+                    44.48758
+                ]
+            },
+            "properties": {
+                "alt": 895,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Neirone",
+                "name": "Sella Giassina",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SEGIA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 84
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.06348,
+                    44.42846
+                ]
+            },
+            "properties": {
+                "alt": 430,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Bargagli",
+                "name": "Viganego",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VIGAN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.67306,
+                    44.51775
+                ]
+            },
+            "properties": {
+                "alt": 820,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Campo Ligure",
+                "name": "Prai",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PRAIC",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 63
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.27102,
+                    44.39365
+                ]
+            },
+            "properties": {
+                "alt": 70,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Orero",
+                "name": "Pian dei Ratti",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PRTTI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 72
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.62464,
+                    44.40645
+                ]
+            },
+            "properties": {
+                "alt": 225,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Cogoleto",
+                "name": "Sciarborasca",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SCIAR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 77
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.82819,
+                    44.10703
+                ]
+            },
+            "properties": {
+                "alt": 55,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "La Spezia",
+                "name": "La Spezia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SPZIA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 74
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.93842,
+                    44.07129
+                ]
+            },
+            "properties": {
+                "alt": 405,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Lerici",
+                "name": "Monte Rocchetta",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MROCC",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 88
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.45876,
+                    44.47287
+                ]
+            },
+            "properties": {
+                "alt": 1520,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Borzonasca",
+                "name": "Pratomollo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PRMLO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 96
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.45774,
+                    44.37488
+                ]
+            },
+            "properties": {
+                "alt": 530,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Ne",
+                "name": "Reppia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "REPPI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 85
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.91473,
+                    44.04952
+                ]
+            },
+            "properties": {
+                "alt": 263,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pieve di Teco",
+                "name": "Pieve di Teco",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PTECO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.76373,
+                    44.15319
+                ]
+            },
+            "properties": {
+                "alt": 150,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Riccò del Golfo di Spezia",
+                "name": "Ricco' del Golfo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "RICCO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.06066,
+                    44.384
+                ]
+            },
+            "properties": {
+                "alt": 174,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Genova - S.Ilario",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "STILA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 85
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.67751,
+                    44.29848
+                ]
+            },
+            "properties": {
+                "alt": 265,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Sesta Godano",
+                "name": "Sesta Godano",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SEGOD",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 81
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.00433,
+                    44.06542
+                ]
+            },
+            "properties": {
+                "alt": 343,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Ranzo",
+                "name": "Ranzo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "RANZO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 68
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.72108,
+                    44.04425
+                ]
+            },
+            "properties": {
+                "alt": 1120,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Triora",
+                "name": "Verdeggia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VERDE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.43978,
+                    44.5598
+                ]
+            },
+            "properties": {
+                "alt": 1250,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Santo Stefano d'Aveto",
+                "name": "Monte di Mezzo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MTMEZ",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 72
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.86644,
+                    44.06393
+                ]
+            },
+            "properties": {
+                "alt": 475,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pornassio",
+                "name": "Pornassio",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PORNA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 64
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.69983,
+                    43.98152
+                ]
+            },
+            "properties": {
+                "alt": 1357,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pigna",
+                "name": "Colle Belenda",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "BELEN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 92
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.74299,
+                    44.43344
+                ]
+            },
+            "properties": {
+                "alt": 104,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Madonna delle Grazie",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MADGR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 75
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.15931,
+                    44.34704
+                ]
+            },
+            "properties": {
+                "alt": 60,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Camogli",
+                "name": "Camogli",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CAMOG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 70
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.79343,
+                    44.04202
+                ]
+            },
+            "properties": {
+                "alt": 1845,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Montegrosso Pian Latte",
+                "name": "Poggio Fearza",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "PFEAR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 71
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.92859,
+                    43.85263
+                ]
+            },
+            "properties": {
+                "alt": 285,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Cipressa",
+                "name": "Cipressa",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CRAIN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 83
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.3735,
+                    44.29669
+                ]
+            },
+            "properties": {
+                "alt": 110,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Lavagna",
+                "name": "Cavi di Lavagna",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CAVIP",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 78
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.32978,
+                    44.31885
+                ]
+            },
+            "properties": {
+                "alt": 50,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Chiavari",
+                "name": "Chiavari",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CHIRI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 81
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.1634,
+                    44.14441
+                ]
+            },
+            "properties": {
+                "alt": 445,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Toirano",
+                "name": "Carpe - Case Garoni",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CARPG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 83
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.01824,
+                    44.58458
+                ]
+            },
+            "properties": {
+                "alt": 762,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Crocefieschi",
+                "name": "Crocefieschi - Santuario",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CRCFI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 61
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.09539,
+                    44.46781
+                ]
+            },
+            "properties": {
+                "alt": 467,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Davagna",
+                "name": "Davagna",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "DAVAG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 74
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.45496,
+                    44.51447
+                ]
+            },
+            "properties": {
+                "alt": 908,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Santo Stefano d'Aveto",
+                "name": "Amborzasco",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "AMBOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 93
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.9726,
+                    44.42367
+                ]
+            },
+            "properties": {
+                "alt": 200,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Genova - Quezzi",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "GEQUE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 77
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.85822,
+                    44.53013
+                ]
+            },
+            "properties": {
+                "alt": 300,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Campomorone",
+                "name": "Isoverde",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "ISOVE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 71
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.60677,
+                    44.17143
+                ]
+            },
+            "properties": {
+                "alt": 6,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Levanto",
+                "name": "Levanto",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "LEVAN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.91803,
+                    44.61948
+                ]
+            },
+            "properties": {
+                "alt": 770,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Ronco Scrivia",
+                "name": "Tanadorso",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "TANOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.41013,
+                    44.42429
+                ]
+            },
+            "properties": {
+                "alt": 386,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Borzonasca",
+                "name": "Borzone",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "BRZON",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 89
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.37883,
+                    44.19325
+                ]
+            },
+            "properties": {
+                "alt": 340,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Finale Ligure",
+                "name": "Manie",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MANIE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 69
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.79867,
+                    44.48017
+                ]
+            },
+            "properties": {
+                "alt": 980,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Monte Pennello",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MOPEN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 65
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.6985,
+                    43.82756
+                ]
+            },
+            "properties": {
+                "alt": 550,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Seborga",
+                "name": "Seborga",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SEBOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.21045,
+                    44.3362
+                ]
+            },
+            "properties": {
+                "alt": 30,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Santa Margherita Ligure",
+                "name": "S. Margherita Ligure",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SMARG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 74
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.62104,
+                    43.84601
+                ]
+            },
+            "properties": {
+                "alt": 115,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Dolceacqua",
+                "name": "Borgonuovo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "BONUO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 63
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.8097,
+                    44.09449
+                ]
+            },
+            "properties": {
+                "alt": 57,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "La Spezia",
+                "name": "La Spezia - Fabiano",
+                "otherHtml": "",
+                "refDate": "2018-03-26T13:00:00",
+                "shortCode": "FABIA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 51
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.54859,
+                    44.31274
+                ]
+            },
+            "properties": {
+                "alt": 603,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Maissana",
+                "name": "Tavarone",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "TAVRN",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 76
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.61211,
+                    43.78777
+                ]
+            },
+            "properties": {
+                "alt": 21,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Ventimiglia",
+                "name": "Ventimiglia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "XXMIG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 72
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.48305,
+                    44.3062
+                ]
+            },
+            "properties": {
+                "alt": 24,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Savona",
+                "name": "Savona - Istituto Nautico",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "INASV",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 79
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.99653,
+                    44.12275
+                ]
+            },
+            "properties": {
+                "alt": 1095,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Alto",
+                "name": "Alto - Madonna del lago",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "ALTOM",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 48
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.48136,
+                    44.29506
+                ]
+            },
+            "properties": {
+                "alt": 260,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Casarza Ligure",
+                "name": "Bargone",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "BARGO",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 95
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.32194,
+                    44.42107
+                ]
+            },
+            "properties": {
+                "alt": 615,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "San Colombano Certenoli",
+                "name": "Cichero",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CCHER",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 62
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.94591,
+                    44.40035
+                ]
+            },
+            "properties": {
+                "alt": 30,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Genova - Centro Funzionale",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CFUNZ",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 77
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.13421,
+                    44.07678
+                ]
+            },
+            "properties": {
+                "alt": 110,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Cisano sul Neva",
+                "name": "Cenesi",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CENES",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 69
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.26235,
+                    44.14665
+                ]
+            },
+            "properties": {
+                "alt": 91,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pietra Ligure",
+                "name": "Castellari",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CLARI",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 73
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.37136,
+                    44.28425
+                ]
+            },
+            "properties": {
+                "alt": 253,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Quiliano",
+                "name": "Montagna",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "MONTA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 79
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.10735,
+                    44.43845
+                ]
+            },
+            "properties": {
+                "alt": 702,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Bargagli",
+                "name": "Bargagli",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SALBE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 85
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.6187,
+                    44.17888
+                ]
+            },
+            "properties": {
+                "alt": 85,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Levanto",
+                "name": "Levanto - San Gottardo",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "LVTSG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 77
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.19581,
+                    44.24398
+                ]
+            },
+            "properties": {
+                "alt": 1375,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Osiglia",
+                "name": "Monte Settepani",
+                "otherHtml": "",
+                "refDate": "2025-06-16T12:30:00",
+                "shortCode": "MSETT",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 55
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.92317,
+                    44.40816
+                ]
+            },
+            "properties": {
+                "alt": 25,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Genova - Porto Antico",
+                "otherHtml": "",
+                "refDate": "2017-06-15T10:00:00",
+                "shortCode": "GEPOA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 70
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.1693,
+                    44.00624
+                ]
+            },
+            "properties": {
+                "alt": 25,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Alassio",
+                "name": "Alassio",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "ALASS",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 82
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.177,
+                    43.92167
+                ]
+            },
+            "properties": {
+                "alt": 0,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "-",
+                "name": "BOA Capo Mele",
+                "otherHtml": "",
+                "refDate": "2025-04-28T14:00:00",
+                "shortCode": "BOACM",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 53
+            }
+        }
+    ]
+}

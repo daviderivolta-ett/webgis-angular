@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { Command } from '../models';
+import { ColorScale, Command } from '../models';
 
 // Service
 @Injectable({
@@ -11,7 +11,7 @@ import { Command } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, ...rest } = args;     
+      const { id, url, map, colorScale, ...rest } = args;
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
@@ -19,12 +19,37 @@ export class GetAndRenderStationsCommandService implements Command {
       if (!url) {
         throw new Error('Parametro \'url\' mancante. Non posso eseguire la ricerca delle stazioni senza un URL valido.');
       }
-      if (!map) {
-        throw new Error('Oggetto \'map\' non è un\'istanza di MapComponent. Assicurati di passare un oggetto valido.');
+      if (!map || typeof map.addCustomMarkerPointGeoJSONLayer !== 'function') {
+        throw new Error('Oggetto \'map\' non valido o non implementa il metodo \'addCustomMarkerPointGeoJSONLayer\'.');
       }
 
-      const res = await fetch('stations.mock.geojson');
-      const geoJSON = await res.json();
+      // const data = await this._fetchData(url);
+      // const parsedData = this._parseData(data);
+      // console.log(JSON.stringify(parsedData));
+
+      const res = await fetch(url);
+      let geoJSON: GeoJSON.FeatureCollection = await res.json();
+
+      if (colorScale instanceof ColorScale) {
+        geoJSON = {
+          ...geoJSON,
+          features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+            const properties: any = feature.properties ?? {};
+            const value: any = properties['value'];
+            const color: string = colorScale.getColor(value);
+            return {
+              ...feature,
+              properties: {
+                ...properties,
+                uom: rest.legend ? rest.legend.unit : null,
+                color
+              }
+            };
+          })
+        };
+      }
+
+
       map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
@@ -64,13 +89,5 @@ export class GetAndRenderStationsCommandService implements Command {
       })
     }
 
-  }
-
-  private _countProgressiveClusterLayers(layers: Map<number, any>): number {
-    let count: number = 0;
-    for (const element of layers.entries()) {
-      if (element[1]?.options?.layerType === 'progressive_cluster') count++;
-    }
-    return count;
   }
 }

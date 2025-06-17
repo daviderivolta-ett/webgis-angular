@@ -1,6 +1,6 @@
 export interface Legend {
     layerId: string;
-    unit: string;
+    unit?: string;
     colors: string[];
     labels: string[];
 }

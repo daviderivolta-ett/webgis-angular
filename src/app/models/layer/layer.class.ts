@@ -24,12 +24,16 @@ export abstract class Layer {
     }
 
     public addLegendFromObject(object: any): this {
-        if (!object['unit']) {
-            throw new Error('Una legenda deve avere il campo \'unit\' unità di misura.');
-        }
+        // if (!object['unit']) {
+        //     throw new Error('Una legenda deve avere il campo \'unit\' unità di misura.');
+        // }
 
-        if (!object.labels && (object.min === undefined || object.max === undefined)) {
-            throw new Error(`La legenda deve avere valori \'min\' e \'max\' oppure delle \'labels\'.`);
+        const hasMinMax: boolean = object.min !== undefined && object.max !== undefined;
+        const hasLabels: boolean = Array.isArray(object.labels);
+        const hasSteps: boolean = Array.isArray(object.steps);
+
+        if (!hasMinMax && !hasLabels && !hasSteps) {
+            throw new Error(`La legenda deve avere almeno uno tra: 'min' e 'max', 'labels', oppure 'steps'.`);
         }
 
         this.legend = {
@@ -38,7 +42,8 @@ export abstract class Layer {
             colorScaleId: object.colorScaleId ?? 'rainbow',
             ...(object.min !== undefined ? { min: object.min } : {}),
             ...(object.max !== undefined ? { max: object.max } : {}),
-            ...(object.labels ? { labels: object.labels } : {})
+            ...(object.labels ? { labels: object.labels } : {}),
+            ...(object.steps ? { steps: object.steps } : {})
         };
 
         return this;

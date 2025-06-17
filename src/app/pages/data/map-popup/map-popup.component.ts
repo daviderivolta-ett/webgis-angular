@@ -1,6 +1,6 @@
 /** Libraries */
 import { Component, effect, input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 /** Pipes */
 import { IsArrayPipe, IsDatePipe } from '../../../pipes';
@@ -11,7 +11,8 @@ import { IsArrayPipe, IsDatePipe } from '../../../pipes';
   imports: [
     DatePipe,
     IsArrayPipe,
-    IsDatePipe
+    IsDatePipe,
+    DecimalPipe
   ],
   templateUrl: './map-popup.component.html',
   styleUrl: './map-popup.component.scss'

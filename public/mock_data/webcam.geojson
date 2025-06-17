@@ -1,0 +1,51 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.54484,
+                    43.87296
+                ]
+            },
+            "properties": {
+                "alt": 103,
+                "imgPath": "img/webcam/2025/06/16/AIROL/images/webcam_AIROL_1315.jpg",
+                "increment": 0,
+                "municipality": "Airole",
+                "name": "Airole",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:15:47",
+                "shortCode": "AIROL",
+                "stationId": 1,
+                "updateDateTime": "06/16/2025 01:22:47 PM",
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.35624,
+                    44.34209
+                ]
+            },
+            "properties": {
+                "alt": 25,
+                "imgPath": "img/webcam/2025/06/16/PANES/images/webcam_PANES_1311.jpg",
+                "increment": 0,
+                "municipality": "Cogorno",
+                "name": "Panesi",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:11:47",
+                "shortCode": "PANES",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        }
+    ]
+}

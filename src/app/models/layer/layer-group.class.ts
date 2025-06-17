@@ -24,9 +24,20 @@ export class LayerGroup {
         if ('label' in object && typeof object['label'] === 'string') layerGroup.label = object['label'];
         if ('maxNumber' in object && typeof object['maxNumber'] === 'number') layerGroup.maxNumber = object['maxNumber'];
         if ('iconUrl' in object && typeof object['iconUrl'] === 'string') layerGroup.iconUrl = object['iconUrl'];
-        if ('options' in object && Array.isArray(object['options'])) layerGroup.options = object['options'].map((el: any) => {
-            return el['layerType'] ? LayerGroup.resolveLayerType(el) : LayerGroup.createFromObject(el)
-        }).filter((el) => el !== null);
+
+        if ('options' in object && Array.isArray(object['options'])) {
+            layerGroup.options = object['options'].map((el: any) => {
+                try {
+                    if (el['layerType']) return LayerGroup.resolveLayerType(el);
+                    else return LayerGroup.createFromObject(el);
+                } catch (error) {
+                    console.warn('Opzione ignorata per errore:', el, error);
+                    return null;
+                }
+            }).filter((el) => el !== null);
+        } else {
+            layerGroup.options = [];
+        }
 
         return layerGroup;
     }

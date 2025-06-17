@@ -110,7 +110,7 @@ export class ConfigService {
           try {
             return LayerGroup.createFromObject(d);
           } catch (error) {
-            console.warn('Oggetto non valido, verrà ignorato:', d);
+            console.warn('Oggetto non valido, verrà ignorato:', d, error);
             return null;
           }
         }).filter((checkbox: LayerGroup | null) => checkbox !== null)

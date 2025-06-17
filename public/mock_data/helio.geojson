@@ -1,0 +1,74 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.01652,
+                    43.87957
+                ]
+            },
+            "properties": {
+                "alt": 71,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Imperia",
+                "name": "Imperia - Oss. Meteosismico",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "IMPER",
+                "stationId": 1,
+                "updateDateTime": "06/16/2025 01:13:11 PM",
+                "value": 30
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.82819,
+                    44.10703
+                ]
+            },
+            "properties": {
+                "alt": 55,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "La Spezia",
+                "name": "La Spezia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "SPZIA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.94591,
+                    44.40035
+                ]
+            },
+            "properties": {
+                "alt": 30,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Genova",
+                "name": "Genova - Centro Funzionale",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "CFUNZ",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 30
+            }
+        }
+    ]
+}

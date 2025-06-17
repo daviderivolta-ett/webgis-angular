@@ -1,0 +1,350 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.62739,
+                    44.46953
+                ]
+            },
+            "properties": {
+                "alt": 810,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Urbe",
+                "name": "Urbe - Vara Sup.",
+                "otherHtml": "",
+                "refDate": "2025-05-31T23:30:00",
+                "shortCode": "URVAS",
+                "stationId": 1,
+                "updateDateTime": "06/16/2025 01:22:47 PM",
+                "value": 37
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.69908,
+                    44.34967
+                ]
+            },
+            "properties": {
+                "alt": 835,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Sesta Godano",
+                "name": "Cuccarello",
+                "otherHtml": "",
+                "refDate": "2025-05-31T23:30:00",
+                "shortCode": "CUCCA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 15
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.92036,
+                    44.46639
+                ]
+            },
+            "properties": {
+                "alt": 1014,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pontremoli",
+                "name": "Passo della Cisa",
+                "otherHtml": "",
+                "refDate": "2025-06-14T11:00:00",
+                "shortCode": "PACIS",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.6939,
+                    44.54256
+                ]
+            },
+            "properties": {
+                "alt": 338,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Campo Ligure",
+                "name": "Campo Ligure",
+                "otherHtml": "",
+                "refDate": "2025-06-10T15:30:00",
+                "shortCode": "CAMPL",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.82325,
+                    44.33964
+                ]
+            },
+            "properties": {
+                "alt": 955,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pontremoli",
+                "name": "Pietra Piccata",
+                "otherHtml": "",
+                "refDate": "2025-06-14T11:30:00",
+                "shortCode": "PPICC",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.02329,
+                    44.53176
+                ]
+            },
+            "properties": {
+                "alt": 680,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Valbrevenna",
+                "name": "Valbrevenna - Gorra",
+                "otherHtml": "",
+                "refDate": "2025-06-16T13:00:00",
+                "shortCode": "VBGOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.33939,
+                    44.45176
+                ]
+            },
+            "properties": {
+                "alt": 450,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Dego",
+                "name": "Dego - Girini",
+                "otherHtml": "",
+                "refDate": "2025-06-16T11:00:00",
+                "shortCode": "DEGIR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.82294,
+                    44.45624
+                ]
+            },
+            "properties": {
+                "alt": 955,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Pontremoli",
+                "name": "Passo del Brattello",
+                "otherHtml": "",
+                "refDate": "2025-05-31T23:45:00",
+                "shortCode": "BRATT",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 91
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.32248,
+                    44.36694
+                ]
+            },
+            "properties": {
+                "alt": 358,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Cairo Montenotte",
+                "name": "Ferrania",
+                "otherHtml": "",
+                "refDate": "2025-06-13T03:30:00",
+                "shortCode": "FERRA",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.45496,
+                    44.51447
+                ]
+            },
+            "properties": {
+                "alt": 908,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Santo Stefano d'Aveto",
+                "name": "Amborzasco",
+                "otherHtml": "",
+                "refDate": "2025-05-31T23:30:00",
+                "shortCode": "AMBOR",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 43
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.53384,
+                    44.40681
+                ]
+            },
+            "properties": {
+                "alt": 685,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Varese Ligure",
+                "name": "Scurtabo'",
+                "otherHtml": "",
+                "refDate": "2025-06-04T23:30:00",
+                "shortCode": "SCURT",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.19581,
+                    44.24398
+                ]
+            },
+            "properties": {
+                "alt": 1375,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Osiglia",
+                "name": "Monte Settepani",
+                "otherHtml": "",
+                "refDate": "2025-06-16T06:00:00",
+                "shortCode": "MSETT",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.72108,
+                    44.04425
+                ]
+            },
+            "properties": {
+                "alt": 1120,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Triora",
+                "name": "Verdeggia",
+                "otherHtml": "",
+                "refDate": "2025-06-16T00:00:00",
+                "shortCode": "VERDE",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.99653,
+                    44.12275
+                ]
+            },
+            "properties": {
+                "alt": 1095,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Alto",
+                "name": "Alto - Madonna del lago",
+                "otherHtml": "",
+                "refDate": "2025-06-15T07:00:00",
+                "shortCode": "ALTOM",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 0
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    9.5842,
+                    44.38313
+                ]
+            },
+            "properties": {
+                "alt": 345,
+                "imgPath": "",
+                "increment": 0,
+                "municipality": "Varese Ligure",
+                "name": "Varese Ligure",
+                "otherHtml": "",
+                "refDate": "2025-05-31T23:30:00",
+                "shortCode": "VALIG",
+                "stationId": 1,
+                "updateDateTime": null,
+                "value": 20
+            }
+        }
+    ]
+}

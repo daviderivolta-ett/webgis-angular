@@ -1,5 +1,10 @@
 <div class="layer-legend">
-    <p>{{label()}} ({{unit()}})</p>
+    <p>
+        {{label()}}
+        @if (unit()) {
+            ({{unit()}})
+        }
+    </p>
     <div class="scale">
         <div class="scale__element scale__colors">
             @for (item of colors(); track $index) {

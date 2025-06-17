@@ -5,7 +5,7 @@
             <div class="values">
                 @for (value of data()['value']; track $index) {
                     <p class="value">
-                        {{value}}
+                        {{value | number: '1.2-2'}}
                         @if (data()['uom'] && data()['uom'] | isArray) {
                             {{data()['uom'][$index]}}
                         }
@@ -16,7 +16,7 @@
         @else {
             <div class="values">
                 <p class="value">
-                    {{data()['value']}}
+                    {{data()['value'] | number: '1.2-2'}}
                     @if (data()['uom']) {
                         {{data()['uom']}}
                     }

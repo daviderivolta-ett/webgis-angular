@@ -37,7 +37,7 @@ export class MapComponent {
     [2, this._createHexagonShape.bind(this)],
     [3, this._createDiamondShape.bind(this)]
   ]);
-  public markerColors = input<Map<string, string>>(new Map());
+
   private _usedMarkerShapes: Set<number> = new Set();
 
   /** Inputs properties */
@@ -88,57 +88,6 @@ export class MapComponent {
     const nearbyMarkers: L.Marker[] = this._getNearbyMarkers(bbox);
 
     if (nearbyMarkers.length === 0) return;
-
-    const geojson: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [9.2363, 44.6047]
-          },
-          properties: {
-            name: 'Alpe Gorreto',
-            municipality: 'Gorreto',
-            shortCode: 'AGORR',
-            refDate: '2025-06-02T21:30:00',
-            value: 5,
-            uom: '°C'
-          }
-        },
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [9.2363, 44.6047]
-          },
-          properties: {
-            name: 'Alpe Gorreto',
-            municipality: 'Gorreto',
-            shortCode: 'AGORR',
-            refDate: '2025-06-02T21:30:00',
-            value: 15,
-            uom: 'kn'
-          }
-        }
-      ]
-    }
-    const testMarkers = geojson.features.map((f: GeoJSON.Feature) => {
-      {
-        if (f.geometry.type === 'Point') {
-          const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]))
-          marker.feature = {
-            type: f.type,
-            geometry: { ...f.geometry },
-            properties: { ...f.properties }
-          };
-          return marker;
-        } else {
-          return null;
-        }
-      }
-    }).filter((m) => m !== null);
 
     const data: Record<string, any> = this._getMultiMarkersData(nearbyMarkers, 'merge');
     this.markerClicked.emit(data);
@@ -196,11 +145,8 @@ export class MapComponent {
 
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
-        const color: string = (feature.properties.color && this.markerColors().has(feature.properties.color.toString())) ?
-          this.markerColors().get(feature.properties.color.toString())! :
-          // ('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
-          'grey';
-        const shape: SVGSVGElement = shapeFactory(color);
+        const color: string = feature.properties.color ?? 'grey';
+        const shape: SVGSVGElement = shapeFactory(color, 'white');
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
         const divIcon = L.divIcon({ html: iconHtml, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
@@ -216,7 +162,7 @@ export class MapComponent {
     });
 
     layer.addTo(this._map);
-    this._registerLayer(id, layer, shapeFactory('grey'));
+    this._registerLayer(id, layer, shapeFactory('grey', 'grey'));
 
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
@@ -235,31 +181,17 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer with donut cluster */
-  public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>): void {
+  public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>, options?: Record<string, any>): void {
+
     // @ts-ignore: donut cluster plugin has no type declaration
-    const markers = L.DonutCluster({ chunkedLoading: true },
-      {
-        key: 'title',
-        arcColorDict: {
-          '0': 'red',
-          '5': 'blue',
-          C: 'yellow',
-          D: 'green'
-        }
-      }
-    )
-
-    const circleIcon = L.divIcon({
-      html: `<div style="width:16px;height:16px;border-radius:50%;background-color:red;"></div>`,
-      className: '',
-      iconSize: [16, 16]
-    });
-
+    const markers = L.DonutCluster({ chunkedLoading: true }, { key: 'title', arcColorDict });
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
       if (f.geometry.type === 'Point') {
+        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', (f.properties && f.properties['color']) ?? '#B0B0B0', .75);
+        const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
-          title: '5',
-          icon: circleIcon
+          title: (f.properties && f.properties['color']) ?? '#B0B0B0',
+          icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
         markers.addLayer(marker);
       }
@@ -344,7 +276,7 @@ export class MapComponent {
     return html;
   }
 
-  private _createCircleShape(color: string): SVGSVGElement {
+  private _createCircleShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('width', '24');
@@ -353,15 +285,17 @@ export class MapComponent {
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', '12');
     circle.setAttribute('cy', '12');
-    circle.setAttribute('r', '12');
+    circle.setAttribute('r', '10');
     circle.setAttribute('fill', color);
-    circle.setAttribute('stroke', 'white');
+    circle.setAttribute('fill-opacity', opacity.toString());
+    circle.setAttribute('stroke', borderColor);
+    circle.setAttribute('stroke-width', '2');
     svg.appendChild(circle);
 
     return svg;
   }
 
-  private _createSquareShape(color: string): SVGSVGElement {
+  private _createSquareShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -375,14 +309,16 @@ export class MapComponent {
     rect.setAttribute('width', '24');
     rect.setAttribute('height', '24');
     rect.setAttribute('fill', color);
-    rect.setAttribute('stroke', 'white');
+    rect.setAttribute('fill-opacity', opacity.toString());
+    rect.setAttribute('stroke', borderColor);
+    rect.setAttribute('stroke-width', '2');
     svg.appendChild(rect);
 
     return svg;
 
   }
 
-  private _createDiamondShape(color: string): SVGSVGElement {
+  private _createDiamondShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -393,13 +329,15 @@ export class MapComponent {
     const diamond = document.createElementNS(svgNS, 'polygon');
     diamond.setAttribute('points', '12,0 24,12 12,24 0,12');
     diamond.setAttribute('fill', color);
-    diamond.setAttribute('stroke', 'white');
+    diamond.setAttribute('fill-opacity', opacity.toString());
+    diamond.setAttribute('stroke', borderColor);
+    diamond.setAttribute('stroke-width', '2');
     svg.appendChild(diamond);
 
     return svg;
   }
 
-  private _createHexagonShape(color: string): SVGSVGElement {
+  private _createHexagonShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -410,8 +348,10 @@ export class MapComponent {
     const hex = document.createElementNS(svgNS, 'polygon');
     hex.setAttribute('points', '6,2 18,2 24,12 18,22 6,22 0,12');
     hex.setAttribute('fill', color);
+    hex.setAttribute('fill-opacity', opacity.toString());
+    hex.setAttribute('stroke', borderColor);
+    hex.setAttribute('stroke-width', '2');
     svg.appendChild(hex);
-    svg.setAttribute('stroke', 'white');
 
     return svg;
   }

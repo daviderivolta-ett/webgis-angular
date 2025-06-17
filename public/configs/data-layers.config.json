@@ -11,8 +11,9 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/precipitation.geojson",
                     "legend": {
+                        "colorScaleId": "heatmap",
                         "unit": "mm",
                         "min": 0.2,
                         "max": 120
@@ -27,8 +28,9 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/temperature.geojson",
                     "legend": {
+                        "colorScaleId": "heatmap",
                         "unit": "°C",
                         "min": -20,
                         "max": 40
@@ -43,11 +45,21 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/hydrometric_levels.geojson",
                     "legend": {
                         "colorScaleId": "alert",
                         "unit": "m",
-                        "labels": ["base", "ordinario", "medio", "straordinario"]
+                        "labels": [
+                            "base",
+                            "ordinario",
+                            "medio",
+                            "straordinario"
+                        ],
+                        "steps": [
+                            1,
+                            3,
+                            10
+                        ]
                     },
                     "action": {
                         "id": "getStations"
@@ -59,7 +71,13 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/wind.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "km/h",
+                        "min": 0,
+                        "max": 110
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -70,7 +88,13 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/igro.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "%",
+                        "min": 0,
+                        "max": 100
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -81,7 +105,13 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/helio.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "%",
+                        "min": 0,
+                        "max": 100
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -92,7 +122,13 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/radiation.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "W⋅m−2",
+                        "min": 0,
+                        "max": 1300
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -103,7 +139,13 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/leaf_wetting.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "%",
+                        "min": 0,
+                        "max": 100
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -114,7 +156,33 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/pressure.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "hPa",
+                        "min": 900,
+                        "max": 1100
+                    },
+                    "action": {
+                        "id": "getStations"
+                    }
+                },
+                {
+                    "id": "station_battery",
+                    "label": "Livello batteria",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "mock_data/battery.geojson",
+                    "legend": {
+                        "colorScaleId": "reverse-alert",
+                        "unit": "V",
+                        "steps": [
+                            10,
+                            11,
+                            12
+                        ]
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -125,7 +193,32 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/sea_status.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "m",
+                        "steps": [
+                            0.1,
+                            0.5,
+                            0.8,
+                            1.25,
+                            1.6,
+                            2,
+                            2.5,
+                            3,
+                            3.5,
+                            4,
+                            4.5,
+                            5,
+                            5.5,
+                            6,
+                            6.5,
+                            7,
+                            7.5,
+                            8,
+                            8.5
+                        ]
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -136,7 +229,32 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/snow.geojson",
+                    "legend": {
+                        "colorScaleId": "heatmap",
+                        "unit": "cm",
+                        "steps": [
+                            0,
+                            1,
+                            5,
+                            10,
+                            20,
+                            40,
+                            60,
+                            80,
+                            100,
+                            125,
+                            150,
+                            175,
+                            200,
+                            225,
+                            250,
+                            275,
+                            300,
+                            325,
+                            350
+                        ]
+                    },
                     "action": {
                         "id": "getStations"
                     }
@@ -147,7 +265,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/lightning.geojson",
                     "action": {
                         "id": "getStations"
                     }
@@ -158,7 +276,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio",
+                    "url": "mock_data/webcam.geojson",
                     "action": {
                         "id": "getStations"
                     }
@@ -470,7 +588,14 @@
                             "label": "Water Volume Column",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "https://omirl.regione.liguria.it/Omirl/rest/sections/RunObservationsUmiditaSuolo",
+                            "url": "mock_data/hydro_initial_condition_wvc.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
                             "action": {
                                 "id": "clusterStations"
                             }
@@ -487,31 +612,86 @@
                             "id": "hydro_monitoring_models_simulated_10min",
                             "label": "Simulato osservato 10min",
                             "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster"
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_monitoring_models_simulated_10min.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
                         },
                         {
                             "id": "hydro_monitoring_models_simulated_dams",
                             "label": "Simulato osservato dighe",
                             "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster"
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_monitoring_models_simulated_dams.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
                         },
                         {
                             "id": "hydro_monitoring_models_dams",
                             "label": "Dighe",
                             "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster"
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_monitoring_models_dams.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
                         },
                         {
                             "id": "hydro_monitoring_models_now",
                             "label": "Now casting",
                             "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster"
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_monitoring_models_now.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
                         },
                         {
                             "id": "hydro_monitoring_models_basins",
                             "label": "Piccoli bacini",
                             "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster"
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_monitoring_models_basins.geojson",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": ["off", "on"],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
                         }
                     ]
                 },
