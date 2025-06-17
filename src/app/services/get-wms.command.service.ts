@@ -26,7 +26,7 @@ export class GetWMSCommandService implements Command {
                 throw new Error('Oggetto \'params\' mancante. Assicurati di passare un oggetto valido.');
             }
             
-            map.addWMSLayer(id, url, { opacity, ...params });
+            map.addTimeDimensionWMSLayer(id, url, { opacity, ...params });
 
         } catch (error) {
             console.error('Errore nell\'esecuzione del comando:', error);

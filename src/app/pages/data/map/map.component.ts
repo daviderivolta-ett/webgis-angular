@@ -190,7 +190,7 @@ export class MapComponent {
         const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', (f.properties && f.properties['color']) ?? '#B0B0B0', .75);
         const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
-          title: (f.properties && f.properties['color']) ?? '#B0B0B0',
+          title: (f.properties && f.properties['clusterLabel']) ?? Object.keys(arcColorDict)[0],
           icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
         markers.addLayer(marker);

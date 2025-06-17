@@ -29,37 +29,39 @@ export class ClusterStationsService implements Command {
 
       let arcColorDict: Record<string, string> = {};
       if (colorScale instanceof ColorScale) {
-        arcColorDict = colorScale.colors.reduce((acc: Record<string, string>, curr: string) => {
-          acc[curr] = curr;
+        const labels = colorScale.labels ?? colorScale.calculateLabels();
+        arcColorDict = labels.reduce((acc: Record<string, string>, curr: string, index: number) => {
+          acc[curr] = colorScale.colors[index];
           return acc;
         }, {});
 
-        geoJSON = {
-          ...geoJSON,
-          features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-            const properties: any = feature.properties ?? {};
-            const value: any = properties['value'];
-            const color: string = colorScale.getColor(value);
-            return {
-              ...feature,
-              properties: {
-                ...properties,
-                uom: rest.legend ? rest.legend.unit : null,
-                color
-              }
-            };
-          })
-        }
+        geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, arcColorDict, rest.legend.unit);
       }
 
-      console.log(geoJSON);      
-
       map.addClusterPointGeoJSONLayer(id, geoJSON, arcColorDict, { ...rest });
-
-
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
+    }
+  }
+
+  private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined): GeoJSON.FeatureCollection {
+    return {
+      ...geoJSON,
+      features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+        const properties: any = feature.properties ?? {};
+        const value: any = properties['value'];
+        const color: string = colorScale.getColor(value);
+        return {
+          ...feature,
+          properties: {
+            ...properties,
+            uom: unit,
+            color,
+            clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === color)
+          }
+        };
+      })
     }
   }
 

@@ -19,7 +19,7 @@
         <!-- START CHIPS SLIDER -->
         <app-slider class="chips-slider">
             @for (chip of chips; track $index) {
-                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" [border]="'none'" (dismiss)="onLayerToggled({ id: $event, isChecked: false })" #sliderItem></app-chip>
+                <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" [text]="chip.label ?? chip.id" [border]="'1px solid var(--neutral-500, lightgrey)'" (dismiss)="onLayerToggled({ id: $event, isChecked: false })" #sliderItem></app-chip>
             }
         </app-slider>
         <!-- END CHIPS SLIDER -->

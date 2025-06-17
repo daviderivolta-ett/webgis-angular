@@ -29,22 +29,23 @@ export class ClusterDateStationsService implements Command {
       let arcColorDict: Record<string, string> = {};
 
       if (colorScale instanceof ColorScale) {
-        geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale);
-        arcColorDict = colorScale.colors.reduce((acc: Record<string, string>, curr: string) => {
-          acc[curr] = curr;
+        const labels = colorScale.calculateLabels();
+        arcColorDict = labels.reduce((acc: Record<string, string>, curr: string, index: number) => {
+          acc[curr] = colorScale.colors[index];
           return acc;
         }, {});
+       
+        geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, arcColorDict);
       }
 
       map.addClusterPointGeoJSONLayer(id, geoJSON, arcColorDict, { ...rest });
-
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
     }
   }
 
-  private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale): GeoJSON.FeatureCollection {
+  private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>): GeoJSON.FeatureCollection {
     const now: number = new Date('June 16, 2025 20:24:00').getTime();
 
     return {
@@ -61,7 +62,8 @@ export class ClusterDateStationsService implements Command {
           ...f,
           properties: {
             ...properties,
-            color
+            color,
+            clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === color)
           }
         }
       })

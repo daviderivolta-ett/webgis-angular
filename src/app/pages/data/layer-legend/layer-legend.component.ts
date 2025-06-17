@@ -11,7 +11,7 @@ import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
 export class LayerLegendComponent {
   /** Data */
   public label = input<string>('');
-  public unit = input<string>('');
+  public unit = input<string | undefined>(undefined);
   public colors = input<string[]>([]);
   public labels = input<string[]>([]);
 

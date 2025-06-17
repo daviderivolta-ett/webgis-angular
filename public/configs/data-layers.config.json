@@ -326,16 +326,16 @@
                             "label": "Ultimi 30 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms",
-                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
+                            "url": "https://ogcie.iblsoft.com/metocean/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "gfs-temperature-isbl",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
                                 "version": "1.1.1",
                                 "request": "GetMap",
                                 "styles": "",
-                                "srs": "EPSG:3857"
+                                "srs": "EPSG:4326"
                             },
                             "opacity": 0.5,
                             "action": {
@@ -597,7 +597,10 @@
                             "url": "mock_data/hydro_initial_condition_wvc.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
@@ -622,7 +625,10 @@
                             "url": "mock_data/hydro_monitoring_models_simulated_10min.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
@@ -639,7 +645,10 @@
                             "url": "mock_data/hydro_monitoring_models_simulated_dams.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
@@ -656,7 +665,10 @@
                             "url": "mock_data/hydro_monitoring_models_dams.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
@@ -673,7 +685,10 @@
                             "url": "mock_data/hydro_monitoring_models_now.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
@@ -690,7 +705,10 @@
                             "url": "mock_data/hydro_monitoring_models_basins.geojson",
                             "legend": {
                                 "colorScaleId": "status",
-                                "labels": ["off", "on"],
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
                                 "steps": [
                                     0
                                 ]
