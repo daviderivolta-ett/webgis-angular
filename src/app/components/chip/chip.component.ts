@@ -17,6 +17,7 @@ export class ChipComponent {
 
   public primaryColor = input<string>('#FFF');
   public secondaryColor = input<string>('#060527');
+  public iconColor = input<string>(this.secondaryColor());
   public border = input<string>('1px solid #060527');
 
   constructor() {}

@@ -303,7 +303,7 @@ export class MapComponent {
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', '12');
     circle.setAttribute('cy', '12');
-    circle.setAttribute('r', '10');
+    circle.setAttribute('r', '11');
     circle.setAttribute('fill', color);
     circle.setAttribute('fill-opacity', opacity.toString());
     circle.setAttribute('stroke', borderColor);
