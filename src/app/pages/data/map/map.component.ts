@@ -147,7 +147,7 @@ export class MapComponent {
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
-        const shape: SVGSVGElement = shapeFactory(color, 'white');
+        const shape: SVGSVGElement = shapeFactory(color, '#000');
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
         const divIcon = L.divIcon({ html: iconHtml, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
@@ -163,7 +163,7 @@ export class MapComponent {
     });
 
     layer.addTo(this._map);
-    this._registerLayer(id, layer, shapeFactory('grey', 'grey'));
+    this._registerLayer(id, layer, shapeFactory('grey', 'transparent'));
 
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
@@ -178,18 +178,22 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
-    this._registerLayer(id, timeDimensionLayer);   
+    this._registerLayer(id, timeDimensionLayer);
   }
 
   /** Add GeoJSON layer with donut cluster */
   public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>, options?: Record<string, any>): void {
 
     // @ts-ignore: donut cluster plugin has no type declaration
-    const markers = L.DonutCluster({ chunkedLoading: true }, { key: 'title', arcColorDict });
+    const markers = L.DonutCluster({ chunkedLoading: true }, {
+      key: 'title',
+      arcColorDict,
+    });
+    
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
       if (f.geometry.type === 'Point') {
-        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', .75);
+        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', 1);
         const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
           title: (f.properties && f.properties['clusterLabel']) ?? Object.keys(arcColorDict)[0],
@@ -209,7 +213,7 @@ export class MapComponent {
   /** Remove layer using id */
   public removeLayerById(id: string): void {
     const layer: L.Layer | undefined = this._layers.get(id);
-    if (layer) {     
+    if (layer) {
       this._map.removeLayer(layer);
       this._unregisterLayer(id, layer);
       // @ts-ignore: time dimension plugin has no type declaration

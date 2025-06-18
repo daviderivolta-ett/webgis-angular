@@ -125,7 +125,7 @@
                     "url": "mock_data/radiation.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
-                        "unit": "W⋅m−2",
+                        "unit": "Wm⁻²",
                         "min": 0,
                         "max": 1300
                     },

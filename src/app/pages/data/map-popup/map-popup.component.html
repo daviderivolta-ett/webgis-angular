@@ -9,12 +9,26 @@
         @if (data()['value'] | isArray) {
             <div class="values">
                 @for (value of data()['value']; track $index) {
-                    <p class="value">
-                        {{value | number: '1.2-2'}}
-                        @if (data()['uom'] && data()['uom'] | isArray) {
-                            {{data()['uom'][$index]}}
-                        }
-                    </p>
+                    <div class="value-group">
+                        <p class="value">
+                            {{value | number: '1.2-2'}}
+                            @if (data()['uom'] && data()['uom'] | isArray) {
+                                {{data()['uom'][$index]}}
+                            }
+                        </p>
+                        <p class="greyed">
+                            @if (data()['layerLabel'] && data()['layerLabel'] | isArray) {
+                                {{data()['layerLabel'][$index]}}
+                            }
+                        </p>
+                        <p>
+                            @if (data()['refDate'] && data()['refDate'] | isArray) {
+                                @if (data()['refDate'][$index] | isDate) {
+                                    {{data()['refDate'][$index] | date: 'dd/MM/yyyy - HH:mm'}}
+                                }
+                            }
+                        </p>
+                    </div>
                 }
             </div>
         }

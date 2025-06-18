@@ -11,7 +11,7 @@ import { ColorScale, Command } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, colorScale, ...rest } = args;
+      const { id, url, map, colorScale, ...rest } = args;    
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
@@ -29,32 +29,32 @@ export class GetAndRenderStationsCommandService implements Command {
 
       const res = await fetch(url);
       let geoJSON: GeoJSON.FeatureCollection = await res.json();
-
-      if (colorScale instanceof ColorScale) {
-        geoJSON = {
-          ...geoJSON,
-          features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-            const properties: any = feature.properties ?? {};
-            const value: any = properties['value'];
-            const color: string = colorScale.getColor(value);
-            return {
-              ...feature,
-              properties: {
-                ...properties,
-                uom: rest.legend ? rest.legend.unit : null,
-                color
-              }
-            };
-          })
-        };
-      }
-
-
+      if (colorScale instanceof ColorScale) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, rest.legend.unit, rest.label);
       map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
     }
+  }
+
+  private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
+    return {
+      ...geoJSON,
+      features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+        const properties: any = feature.properties ?? {};
+        const value: any = properties['value'];
+        const color: string = colorScale.getColor(value);
+        return {
+          ...feature,
+          properties: {
+            ...properties,
+            uom: unit,
+            color,
+            layerLabel
+          }
+        };
+      })
+    };
   }
 
   private _fetchData(url: string): any {
