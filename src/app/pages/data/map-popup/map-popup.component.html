@@ -1,6 +1,11 @@
 <div class="map-popup">
     <p class="title">{{data()['name'] ?? 'name' }}</p>
-    <p class="greyed">{{data()['shortCode'] ?? 'shortCode' }} - {{data()['municipality'] ?? 'municipality'}}</p>
+    <p class="greyed">
+        {{data()['shortCode'] ?? data()['code'] ?? 'shortCode' }}
+        @if (data()['municipality']) {
+            - {{data()['municipality']}}
+        }
+    </p>
         @if (data()['value'] | isArray) {
             <div class="values">
                 @for (value of data()['value']; track $index) {

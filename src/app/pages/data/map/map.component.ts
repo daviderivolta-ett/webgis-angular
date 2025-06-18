@@ -11,6 +11,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
 import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.js';
+import { Feature, Point } from 'geojson';
 
 /*
 * Component
@@ -186,15 +187,19 @@ export class MapComponent {
     // @ts-ignore: donut cluster plugin has no type declaration
     const markers = L.DonutCluster({ chunkedLoading: true }, { key: 'title', arcColorDict });
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
+
       if (f.geometry.type === 'Point') {
-        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', (f.properties && f.properties['color']) ?? '#B0B0B0', .75);
+        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', .75);
         const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
           title: (f.properties && f.properties['clusterLabel']) ?? Object.keys(arcColorDict)[0],
           icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
+        if (f.geometry.type === 'Point') marker.feature = f as Feature<Point>;
+        marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
         markers.addLayer(marker);
       }
+
     });
 
     this._map.addLayer(markers);
