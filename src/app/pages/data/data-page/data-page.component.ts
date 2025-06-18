@@ -234,7 +234,7 @@ export class DataPageComponent {
 
   /** Get and execute generic action from commands registry service class */
   private async _executeAction(layer: Layer): Promise<void> {
-    if (!layer.action || !('id' in layer.action)) return;
+    if (!layer.action || !('id' in layer.action)) return;    
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
     if (!command) return;

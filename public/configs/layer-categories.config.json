@@ -8,7 +8,16 @@
         {
             "id": "data_wms",
             "maxNumber": 1,
-            "incompatibleWith": []
+            "incompatibleWith": [
+                "data_wms--time"
+            ]
+        },
+        {
+            "id": "data_wms--time",
+            "maxNumber": 1,
+            "incompatibleWith": [
+                "data_wms"
+            ]
         },
         {
             "id": "info_wms",

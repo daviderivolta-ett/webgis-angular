@@ -178,7 +178,7 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
-    this._registerLayer(id, timeDimensionLayer);
+    this._registerLayer(id, timeDimensionLayer);   
   }
 
   /** Add GeoJSON layer with donut cluster */
@@ -209,7 +209,7 @@ export class MapComponent {
   /** Remove layer using id */
   public removeLayerById(id: string): void {
     const layer: L.Layer | undefined = this._layers.get(id);
-    if (layer) {
+    if (layer) {     
       this._map.removeLayer(layer);
       this._unregisterLayer(id, layer);
       // @ts-ignore: time dimension plugin has no type declaration

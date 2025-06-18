@@ -307,7 +307,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250618rainfall30d_std_0820",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -325,7 +325,7 @@
                             "id": "maps_precipitations_30m",
                             "label": "Ultimi 30 minuti",
                             "layerType": "wms",
-                            "layerCategory": "data_wms",
+                            "layerCategory": "data_wms--time",
                             "url": "https://ogcie.iblsoft.com/metocean/wms",
                             "params": {
                                 "layers": "gfs-temperature-isbl",
