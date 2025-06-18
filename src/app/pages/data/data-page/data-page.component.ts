@@ -216,7 +216,7 @@ export class DataPageComponent {
     LayerGroup.getAllLayers(dataLayers).forEach((l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) this._executeAction(l);
-      } else {
+      } else {       
         this._map.removeLayerById(l.id);
       }
     });

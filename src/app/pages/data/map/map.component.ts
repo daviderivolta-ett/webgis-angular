@@ -178,7 +178,7 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
-    this._registerLayer(id, layer);
+    this._registerLayer(id, timeDimensionLayer);
   }
 
   /** Add GeoJSON layer with donut cluster */
@@ -212,7 +212,16 @@ export class MapComponent {
     if (layer) {
       this._map.removeLayer(layer);
       this._unregisterLayer(id, layer);
+      // @ts-ignore: time dimension plugin has no type declaration
+      if (layer._timeDimension) this._resetTimeDimension();
     }
+  }
+
+  private _resetTimeDimension(): void {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.setAvailableTimes([], 'replace');
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.setCurrentTime(0);
   }
 
   /** Reset position and zoom to default values */
