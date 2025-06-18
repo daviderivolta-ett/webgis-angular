@@ -13,8 +13,6 @@ export class GetWMSCommandService implements Command {
         try {
             const { id, url, map, opacity, layerCategory, params } = args;
 
-            console.log(args);
-
             if (!id) {
                 throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
             }
@@ -33,11 +31,11 @@ export class GetWMSCommandService implements Command {
                     map.addTimeDimensionWMSLayer(id, url, { opacity, ...params });
                     break;
                 case 'data_wms':
-                    map.addWMSLayer(id, url, params);
+                    map.addWMSLayer(id, url, { opacity, ...params });
                     break;
                 default:
                     console.warn(`Campo 'layerCategory' non riconosciuto: ${layerCategory}, reindirizzato a caso default WMS`);
-                    map.addWMSLayer(id, url, params)
+                    map.addWMSLayer(id, url, { opacity, ...params })
                     break;
             }
 
