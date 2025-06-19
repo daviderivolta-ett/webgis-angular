@@ -29,7 +29,13 @@
     align-items: center;
     gap: 16px;
     max-width: calc(100dvw - 160px);
-    // overflow-x: auto;
+    transition: .2s ease-in-out;
+}
+
+.chips-slider--collapsed {
+    left: calc(360px + 16px);
+    max-width: calc(100dvw - 360px - 80px);
+    transition: .2s ease-in-out;
 }
 
 .layers-menu {

@@ -28,6 +28,18 @@ export class Station extends StationBase implements StationData {
         this.basin = basin;
     }
 
+    // static createFromObject(object: any): Station {
+    //     if (!object['shortCode'] || !object['code'] || !object['id']) {
+    //         throw new Error(`Impossibile creare un oggetto 'Station' senza un id; controllare che sia presente almeno uno tra i campi 'id', 'shortCode' o 'code'.`, object);
+    //     }
+
+    //     const station = new Station(
+    //         (typeof object['id'] === 'string' && object['id']) || '',
+    //     );
+
+    //     return station;
+    // }
+
     public addBasin(object: any): this {
         const hasBasinName: boolean = 'basin' in object && typeof object.basin === 'string';
         const hasBasinArea: boolean = 'basinArea' in object && typeof object.basinArea === 'number';

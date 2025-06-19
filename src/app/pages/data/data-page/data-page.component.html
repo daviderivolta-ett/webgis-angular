@@ -17,7 +17,7 @@
         <!-- END SIDEBAR -->
 
         <!-- START CHIPS SLIDER -->
-        <app-slider class="chips-slider">
+        <app-slider class="chips-slider" [class.chips-slider--collapsed]="isSliderCollapsed">
             @for (chip of chips; track $index) {
                 <app-chip ngProjectAs="slider-content" [id]="chip.id" class="slider-item" [iconUrl]="chip.icon ?? ''" iconColor="gray" [text]="chip.label ?? chip.id" [border]="'1px solid var(--neutral-500, lightgrey)'" (dismiss)="onLayerToggled({ id: $event, isChecked: false })" #sliderItem></app-chip>
             }

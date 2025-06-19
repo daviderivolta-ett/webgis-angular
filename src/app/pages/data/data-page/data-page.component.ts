@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, effect, ElementRef, HostListener, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -46,6 +46,7 @@ export class DataPageComponent {
 
   /** User Interface */
   public windowWidth: number;
+  public isSliderCollapsed: boolean = false;
 
   public baseLayersForm: FormGroup = new FormGroup({
     baseLayer: new FormControl()
@@ -121,12 +122,16 @@ export class DataPageComponent {
     this._sidebar.toggleSidebar(false);
     this._baseLayersMenu.togglePopUpMenu(false);
     this._infoLayersMenu.togglePopUpMenu(false);
+    this._collapseSliderState(false);
   }
 
   public onSidebarToggle(isOpen: boolean): void {
     if (isOpen) {
       this._baseLayersMenu.togglePopUpMenu(false);
       this._infoLayersMenu.togglePopUpMenu(false);
+      this._collapseSliderState(true);
+    } else {
+      this._collapseSliderState(false);
     }
   }
 
@@ -142,6 +147,10 @@ export class DataPageComponent {
       this._sidebar.toggleSidebar(false);
       this._baseLayersMenu.togglePopUpMenu(false);
     }
+  }
+
+  private _collapseSliderState(isCollapsed: boolean): void {
+    this.isSliderCollapsed = isCollapsed;
   }
 
   public onResetMapButtonClick(): void {
@@ -216,7 +225,7 @@ export class DataPageComponent {
     LayerGroup.getAllLayers(dataLayers).forEach((l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) this._executeAction(l);
-      } else {       
+      } else {
         this._map.removeLayerById(l.id);
       }
     });
@@ -234,7 +243,7 @@ export class DataPageComponent {
 
   /** Get and execute generic action from commands registry service class */
   private async _executeAction(layer: Layer): Promise<void> {
-    if (!layer.action || !('id' in layer.action)) return;    
+    if (!layer.action || !('id' in layer.action)) return;
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
     if (!command) return;
@@ -243,7 +252,7 @@ export class DataPageComponent {
     if (layer.legend) {
       const baseColorScale: ColorScaleBase | undefined = this.baseColorScales.find((c: ColorScaleBase) => c.id === layer.legend?.colorScaleId);
       if (baseColorScale) colorScale = new ColorScale(baseColorScale, layer.legend);
-    }  
+    }
 
     try {
       await command.execute({
