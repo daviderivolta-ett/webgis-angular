@@ -13,7 +13,7 @@ export class ScrollableTableDirective {
   ) { }
 
   // Directive lifecycle
-  public ngAfterViewInit(): void {
+  public ngAfterViewChecked(): void {
     const table: HTMLTableElement | null = this.elementRef.nativeElement.querySelector('table');
     if (table) {
       this._setTableProperties(this.elementRef.nativeElement);

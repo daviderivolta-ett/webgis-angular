@@ -4,5 +4,6 @@
     "dataLayersUri": "/configs/data-layers.config.json",
     "layerCategoriesUri": "/configs/layer-categories.config.json",
     "mapConfigUri": "/configs/map.config.json",
-    "colorScalesUri": "/configs/color-scales.config.json"
+    "colorScalesUri": "/configs/color-scales.config.json",
+    "apiConfigUri": "/configs/api.config.json"
 }

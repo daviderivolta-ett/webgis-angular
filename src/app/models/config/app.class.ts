@@ -5,6 +5,7 @@ export class AppConfig {
     public infoLayersUri: string = ''
     public dataLayersUri: string = '';
     public layerCategoriesUri: string = '';
+    public apiConfigUri: string = '';
 
     private constructor() { }
 
@@ -25,6 +26,7 @@ export class AppConfig {
         config.infoLayersUri = _get<string>(object['infoLayersUri'], '');
         config.dataLayersUri = _get<string>(object['dataLayersUri'], '');
         config.layerCategoriesUri = _get<string>(object['layerCategoriesUri'], '');
+        config.apiConfigUri = _get<string>(object['apiConfigUri'], '');      
 
         return config;
     }

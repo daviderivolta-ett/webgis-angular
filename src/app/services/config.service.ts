@@ -133,4 +133,28 @@ export class ConfigService {
         throw new Error(`Errore nel recupero delle categorie dei layer dal file di configurazione /configs/layer-categories.config.json ${err.message || err}`);
       })
   }
+
+  public async getApis(): Promise<Map<string, string>> {
+    return fetch(this.appConfig.apiConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        const rawApis = data['apis'];
+
+        if (typeof rawApis !== 'object' || rawApis === null) {
+          throw new Error('Il campo \'apis\' non è un oggetto valido');
+        }
+
+        const entries = Object.entries(rawApis)
+          .filter(([_key, value]) => typeof value === 'string')
+          .map(([key, value]) => [key, value as string] as [string, string]);
+
+        return new Map<string, string>(entries);
+      })
+      .catch((err: any) => {
+        throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
+      })
+  }
 }

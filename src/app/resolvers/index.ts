@@ -1,4 +1,6 @@
+export * from './apis.resolver'
 export * from './base-layers.resolver'
+export * from './color-scales.resolver'
 export * from './grouped-checkboxes.resolver'
 export * from './info-layers.resolver'
 export * from './layer-categories.resolver'

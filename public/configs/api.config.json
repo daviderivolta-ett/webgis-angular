@@ -1,0 +1,6 @@
+{
+    "apis": {
+        "stazioni": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Pluvio"
+    },
+    "lastModified": "2025-06-19"
+}

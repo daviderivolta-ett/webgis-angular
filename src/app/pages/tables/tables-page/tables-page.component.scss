@@ -2,12 +2,19 @@
 @include mixins.header-position;
 
 .main {
+    overflow-y: auto;
+}
+
+.content {
     width: 92%;
     margin: auto;
+    padding: 40px 0;    
 }
 
 .filters {
     display: flex;
+    justify-content: space-between;
+    margin: 0 0 24px 0;
 }
 
 .table {
