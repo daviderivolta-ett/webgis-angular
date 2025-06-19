@@ -150,7 +150,7 @@ export class DataPageComponent {
   }
 
   private _collapseSliderState(isCollapsed: boolean): void {
-    this.isSliderCollapsed = isCollapsed;
+    this.isSliderCollapsed = (this.windowWidth > 768) ? isCollapsed : false;
   }
 
   public onResetMapButtonClick(): void {
