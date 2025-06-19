@@ -119,10 +119,6 @@ export class TablesPageComponent {
       })
   }
 
-  public ngAfterViewChecked(): void {
-    console.log(window.scrollY)
-  }
-
   // Methods
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.sortedData = this.data.sortTableData(sort.sortBy, sort.direction);
