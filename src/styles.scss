@@ -91,6 +91,7 @@ app-input-autocomplete::part(option selected) {
     --neutral-100: #FFFFFF;
 }
 
+// Leaflet
 .custom-leaflet-popup {
     .leaflet-popup-content {
         margin: 16px;
@@ -99,5 +100,35 @@ app-input-autocomplete::part(option selected) {
 
     .leaflet-popup-tip-container {
         display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .leaflet-bar-timecontrol {
+        display: flex;
+        flex-wrap: wrap;
+        width: calc(100dvw - 20px);
+    }
+
+    .leaflet-bar-timecontrol a.timecontrol-date {
+        padding: 0;
+    }
+
+    .leaflet-control-timecontrol.timecontrol-slider.timecontrol-dateslider {
+        flex: 1;
+        display: flex;
+
+        .slider {
+            width: 100%;
+        }
+    }
+
+    .leaflet-control-timecontrol.timecontrol-slider.timecontrol-speed {
+        flex-basis: 100%;
+        display: flex;
+
+        .slider {
+            flex: 1;
+        }
     }
 }
