@@ -611,6 +611,30 @@
                     "maxNumber": 1,
                     "options": [
                         {
+                            "id": "hydro_test",
+                            "label": "Test cluster",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_test.geojson",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
+                        },
+                        {
                             "id": "hydro_initial_condition_wvc",
                             "label": "Water Volume Column",
                             "layerType": "geojson",
