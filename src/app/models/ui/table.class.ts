@@ -8,10 +8,29 @@ export class Table {
         return Table.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[]): Table {
+    static generateTableStructure(data: Object[], primaryKey?: string): Table {
         const table = new Table();
-        table.header = Table.extractHeaderKeys(data);
-        table.body = Table.convertRowsToKeyValueArrays(Table.normalizeDataToMap(data, table.header));
+
+        /** Header */
+        let header = Table.extractHeaderKeys(data);
+        if (primaryKey && header.includes(primaryKey)) {
+            header = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
+        }
+        table.header = header;
+
+        /** Body */
+        const normalizedData: Map<string, any>[] = Table.normalizeDataToMap(data, header);
+        const body: [string, any][][] = Table.convertRowsToKeyValueArrays(normalizedData);
+        table.body = body.map((row: [string, any][]) => {
+            if (!primaryKey) return row;
+
+            const index: number = row.findIndex(([k]: string[]) => k === primaryKey);
+            if (index === -1) return row;
+
+            const [primaryEntry]: [string, any][] = row.splice(index, 1);
+            return [primaryEntry, ...row];
+        });
+
         return table;
     }
 
@@ -58,7 +77,31 @@ export class Table {
 
         table.body = [...sortedBody];
         table.header = [...this.header];
-        
+
+        return table;
+    }
+
+    public filterTableData(filters: Record<string, string>): Table {
+        const table = this.cloneTable();
+
+        table.body = table.body.filter((row: [string, any][]) => {
+            return row.every(([key, value]: [string, any]) => {
+                // Se il filtro per una chiave è vuoto o undefined, non filtriamo su quella chiave
+                const filterValue = filters[key];
+                if (!filterValue) return true; // Consideriamo un valore vuoto o undefined come "accettabile"
+
+                // Filtro parziale (case-insensitive) per i valori stringa
+                if (typeof value === 'string' && typeof filterValue === 'string') {
+                    const matches: boolean = value.toLowerCase().includes(filterValue.toLowerCase());
+                    return matches;
+                }
+
+                // Altrimenti, confronto esatto
+                const exactMatch = filterValue === value;
+                return exactMatch;
+            });
+        });
+
         return table;
     }
 
@@ -68,4 +111,12 @@ export class Table {
         table.body = [...this.body];
         return table;
     }
+
+    public extractAllValuesByKey(key: string): string[] {
+        const values = this.body
+            .flatMap((row) => row.filter(([k]) => k === key).map(([, v]) => v)).filter((k) => k !== null);
+
+        return Array.from(new Set(values));
+    }
+
 }

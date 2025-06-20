@@ -18,12 +18,15 @@
 
             <!-- START FILTERS -->
             <div [formGroup]="filters" class="filters">
-                <app-input-autocomplete formControlName="name" class="autocomplete" type="text" placeholder="Nome" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+                <!-- <app-input-autocomplete formControlName="name" class="autocomplete" type="text" placeholder="Nome" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
                 <app-input-autocomplete formControlName="code" class="autocomplete" type="text" placeholder="Codice" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
                 <app-input-autocomplete formControlName="city" class="autocomplete" type="text" placeholder="Comune" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
                 <app-input-autocomplete formControlName="province" class="autocomplete" type="text" placeholder="Provincia" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
                 <app-input-autocomplete formControlName="area" class="autocomplete" type="text" placeholder="Area" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
-                <app-input-autocomplete formControlName="basin" class="autocomplete" type="text" placeholder="Bacino" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete>
+                <app-input-autocomplete formControlName="basin" class="autocomplete" type="text" placeholder="Bacino" [options]="[{ id: 'topolino', label: 'Topolino' }, { id: 'pippo' }, {id: 'paperino', label: 'Donald Duck'}]"></app-input-autocomplete> -->
+                @for (keyvalue of filterKeys | keyvalue; track $index) {
+                    <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key" [options]="keyvalue.value"></app-input-autocomplete>
+                }
             </div>
             <!-- END FILTERS -->
 

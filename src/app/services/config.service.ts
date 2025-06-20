@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScale, ColorScaleBase, LayerCategory, LayerGroup, MapConfig } from '../models';
+import { AppConfig, ColorScale, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, TablesConfig } from '../models';
 
 // Service
 @Injectable({
@@ -155,6 +155,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getTablesConfig(): Promise<TablesConfig> {
+    return fetch(this.appConfig.tablesConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return TablesConfig.createFromObject(data['tables'])
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json ${err.message || err}`);
       })
   }
 }

@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, apisResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, apisResolver, tablesConfigResolver } from './resolvers';
 
 // Routes
 export const routes: Routes = [
@@ -33,7 +33,8 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Stazioni',
                 loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
                 resolve: {
-                    apis: apisResolver
+                    apis: apisResolver,
+                    tablesConfig: tablesConfigResolver
                 }
             },
             {
@@ -41,7 +42,8 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Massimi precipitazione',
                 loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
                 resolve: {
-                    apis: apisResolver
+                    apis: apisResolver,
+                    tablesConfig: tablesConfigResolver
                 }
             },
             {
@@ -49,7 +51,8 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Estremi di temperatura e vento',
                 loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
                 resolve: {
-                    apis: apisResolver
+                    apis: apisResolver,
+                    tablesConfig: tablesConfigResolver
                 }
             },
             {
@@ -57,7 +60,8 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Livelli idrometrici',
                 loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
                 resolve: {
-                    apis: apisResolver
+                    apis: apisResolver,
+                    tablesConfig: tablesConfigResolver
                 }
             }
         ]

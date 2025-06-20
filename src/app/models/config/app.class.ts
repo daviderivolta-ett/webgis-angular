@@ -6,6 +6,7 @@ export class AppConfig {
     public dataLayersUri: string = '';
     public layerCategoriesUri: string = '';
     public apiConfigUri: string = '';
+    public tablesConfigUri: string = '';
 
     private constructor() { }
 
@@ -26,7 +27,8 @@ export class AppConfig {
         config.infoLayersUri = _get<string>(object['infoLayersUri'], '');
         config.dataLayersUri = _get<string>(object['dataLayersUri'], '');
         config.layerCategoriesUri = _get<string>(object['layerCategoriesUri'], '');
-        config.apiConfigUri = _get<string>(object['apiConfigUri'], '');      
+        config.apiConfigUri = _get<string>(object['apiConfigUri'], '');
+        config.tablesConfigUri = _get<string>(object['tablesConfigUri'], '');
 
         return config;
     }

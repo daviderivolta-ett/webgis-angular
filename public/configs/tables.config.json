@@ -1,0 +1,12 @@
+{
+    "tables": {
+        "filterKeys": [
+            "name",
+            "area",
+            "basin",
+            "district",
+            "underbasin"
+        ]
+    },
+    "lastModified": "2025-06-20"
+}
