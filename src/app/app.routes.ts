@@ -7,6 +7,11 @@ import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapC
 // Routes
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'dati',
+        pathMatch: 'full'
+    },
+    {
         path: 'dati',
         title: 'OMIRL ARPAL - Dati',
         loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent),
