@@ -10,7 +10,7 @@
                     "label": "Precipitazioni",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/precipitation.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -27,7 +27,7 @@
                     "label": "Temperatura",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/temperature.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -44,7 +44,7 @@
                     "label": "Livelli idrometrici",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/hydrometric_levels.geojson",
                     "legend": {
                         "colorScaleId": "alert",
@@ -70,7 +70,7 @@
                     "label": "Vento",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/wind.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -87,7 +87,7 @@
                     "label": "Umidità",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/igro.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -104,7 +104,7 @@
                     "label": "Eliofanie",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/helio.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -121,7 +121,7 @@
                     "label": "Radiazioni",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/radiation.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -138,7 +138,7 @@
                     "label": "Bagnatura fogliare",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/leaf_wetting.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -155,7 +155,7 @@
                     "label": "Pressione atmosferica",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/pressure.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -172,7 +172,7 @@
                     "label": "Livello batteria",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/battery.geojson",
                     "legend": {
                         "colorScaleId": "reverse-alert",
@@ -192,7 +192,7 @@
                     "label": "Stato del mare",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/sea_status.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -228,7 +228,7 @@
                     "label": "Neve",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/snow.geojson",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -264,7 +264,7 @@
                     "label": "Fulminazioni",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point--cluster",
-                    "iconUrl": "/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/lightning.geojson",
                     "legend": {
                         "colorScaleId": "elapsed-time",
@@ -281,7 +281,7 @@
                     "label": "Webcam",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
-                    "iconUrl": "/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/videocam_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/webcam.geojson",
                     "action": {
                         "id": "getStations"
@@ -297,7 +297,7 @@
                 {
                     "id": "maps_precipitations",
                     "label": "Precipitazioni",
-                    "iconUrl": "/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -328,7 +328,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250618rainfall30d_std_0820",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -349,7 +349,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -370,7 +370,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -391,7 +391,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -412,7 +412,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -433,7 +433,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -454,7 +454,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -475,7 +475,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -496,7 +496,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -517,7 +517,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250609rainfall30d_std_1410",
+                                "layers": "20250623rainfall30d_std_1420",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -536,7 +536,7 @@
                 {
                     "id": "maps_soil_humidity",
                     "label": "Umidità del suolo",
-                    "iconUrl": "/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -568,7 +568,7 @@
                 {
                     "id": "maps_temperature",
                     "label": "Temperatura",
-                    "iconUrl": "/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -607,7 +607,7 @@
                 {
                     "id": "hydro_initial_condition",
                     "label": "Condizioni iniziali",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -659,7 +659,7 @@
                 {
                     "id": "hydro_monitoring_models",
                     "label": "Modelli monitoraggio",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -767,7 +767,7 @@
                 {
                     "id": "hydro_common_monitoring_models",
                     "label": "Modelli monitoraggio comuni",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -787,7 +787,7 @@
                 {
                     "id": "hydro_forecasting_models",
                     "label": "Modelli previsionali",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -807,7 +807,7 @@
                 {
                     "id": "hydro_subjective_forecasting",
                     "label": "Previsione soggettiva automatica",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -839,7 +839,7 @@
                 {
                     "id": "hydro_bolam_forecasting",
                     "label": "Previsione Bolam",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -871,7 +871,7 @@
                 {
                     "id": "hydro_moloch_forecasting",
                     "label": "Previsione Moloch",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -903,7 +903,7 @@
                 {
                     "id": "hydro_local_forecasting",
                     "label": "Previsione Local",
-                    "iconUrl": "/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -942,7 +942,7 @@
                 {
                     "id": "radars_precipitations",
                     "label": "Radar precipitazioni",
-                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -980,7 +980,7 @@
                 {
                     "id": "radars_echo_top",
                     "label": "Echo Top",
-                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -1000,7 +1000,7 @@
                 {
                     "id": "radars_worst_case",
                     "label": "Worst case",
-                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -1044,7 +1044,7 @@
                 {
                     "id": "radars_thresholds",
                     "label": "Probabilità superamento soglie",
-                    "iconUrl": "/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "maxNumber": 1,
                     "options": [
                         {
@@ -1095,14 +1095,14 @@
                 {
                     "id": "satellite_ir",
                     "label": "Infrarosso",
-                    "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "layerType": "wms",
                     "layerCategory": "data_wms"
                 },
                 {
                     "id": "radars_visible",
                     "label": "Visibile",
-                    "iconUrl": "/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "iconUrl": "/images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "layerType": "wms",
                     "layerCategory": "data_wms"
                 }

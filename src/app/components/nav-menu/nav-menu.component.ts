@@ -24,17 +24,17 @@ export class NavMenuComponent {
     {
       path: 'dati',
       label: 'Dati',
-      iconUrl: 'icons/map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+      iconUrl: 'images/icons/map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
     },
     {
       path: 'tabelle',
       label: 'Tabelle',
-      iconUrl: 'icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+      iconUrl: 'images/icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
     },
     // {
     //   path: 'radar',
     //   label: 'Satellite e radar',
-    //   iconUrl: 'icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'
+    //   iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'
     // }
   ];
 }

@@ -2,16 +2,19 @@
 * Libraries
 */
 import { Component, ContentChild, ElementRef, input, NgZone, output } from '@angular/core';
+import { Feature, Point } from 'geojson';
 
-import * as L from 'leaflet';
 import 'leaflet-timedimension';
 import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
+
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
+
 import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.js';
-import { Feature, Point } from 'geojson';
+import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
+
+import * as L from 'leaflet';
 
 /*
 * Component
