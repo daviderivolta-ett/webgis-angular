@@ -13,15 +13,36 @@
 
 .filters {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 24px;
     margin: 0 0 24px 0;
+}
+
+.autocomplete::part(input) {
+    color: var(--neutral-900, black);
+    border: 1px solid var(--neutral-500, lightgray);
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 0;
+}
+
+.autocomplete::part(input)::placeholder {
+    color: var(--neutral-800, black);
 }
 
 .table {
     width: 100%;
+    font-size: .86rem;
 
     th,
     td {
         min-width: 120px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+        gap: 8px;
     }
 }

@@ -17,12 +17,12 @@ export class SortableTableComponent {
   // Component lifecycles
   public ngAfterContentInit(): void {
     this._sortheaders.forEach((header: SortHeaderComponent) => {
-      header.sortData.subscribe((value) => this._resetAllSortHeaders(value.sortBy));
+      header.sortData.subscribe((value) => this.resetAllSortHeaders(value.sortBy));
     });
   }
 
   // Methods
-  private _resetAllSortHeaders(id: string): void {
+  public resetAllSortHeaders(id: string): void {
     this._sortheaders.forEach((header: SortHeaderComponent) => {
       if (header.sortBy() !== id) header.direction = 'none';
     });

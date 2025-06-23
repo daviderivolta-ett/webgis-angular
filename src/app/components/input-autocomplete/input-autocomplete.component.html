@@ -4,7 +4,7 @@
     @if (filteredOptions.length > 0) {
         <div class="options" part="options">
             @for (option of filteredOptions; track option.id; let index = $index) {
-                <span class="option" [attr.part]="'option ' + (focusedOption === index ? 'selected' : '')" [class.option--selected]="focusedOption === index" (click)="onOptionClick(option.id)">{{option.label ? option.label : option.id}}</span>
+                <span class="option" [attr.part]="'option ' + (focusedOption === index ? 'selected' : '')" [class.option--selected]="focusedOption === index" (click)="onOptionClick(option.id)" #option>{{option.label ? option.label : option.id}}</span>
             }
         </div>
     }

@@ -1,5 +1,5 @@
 // Libraries
-import { Component, ElementRef, forwardRef, HostListener, input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostListener, input, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // Types
@@ -37,6 +37,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
 
   @ViewChild('container') _container!: ElementRef<HTMLDivElement>;
   @ViewChild('input') _input!: ElementRef<HTMLInputElement>;
+  @ViewChildren('option') _options!: QueryList<ElementRef<HTMLSpanElement>>;
 
   @HostListener('window:click', ['$event'])
   private _windowClick(event: Event) {
@@ -48,9 +49,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
 
   // Value accessors
   public writeValue(value: any): void {
-    if (value && typeof value === 'string') {
-
-    }
+    if (value && typeof value === 'string') { }
   }
 
   public registerOnChange(fn: any): void {
@@ -73,6 +72,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
       event.preventDefault();
       if (this.focusedOption < this.filteredOptions.length - 1) {
         this.focusedOption++;
+        this._scrollOptionIntoView(this.focusedOption);
       }
     }
 
@@ -80,6 +80,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
       event.preventDefault();
       if (this.focusedOption > 0) {
         this.focusedOption--;
+        this._scrollOptionIntoView(this.focusedOption);
       }
     }
 
@@ -118,6 +119,11 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
     );
 
     this._reset();
+  }
+
+  private _scrollOptionIntoView(index: number): void {
+    const option = this._options.find((_, i: number) => i === index);
+    option?.nativeElement.scrollIntoView({behavior: 'smooth', block: 'center'})
   }
 
   private _reset(): void {
