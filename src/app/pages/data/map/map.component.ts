@@ -39,7 +39,9 @@ export class MapComponent {
     [0, this._createSquareShape.bind(this)],
     [1, this._createCircleShape.bind(this)],
     [2, this._createHexagonShape.bind(this)],
-    [3, this._createDiamondShape.bind(this)]
+    [3, this._createDiamondShape.bind(this)],
+    [4, this._createDownTriangleShape.bind(this)],
+    [5, this._createUpTriangleShape.bind(this)]
   ]);
 
   private _usedMarkerShapes: Set<number> = new Set();
@@ -336,7 +338,6 @@ export class MapComponent {
     svg.appendChild(rect);
 
     return svg;
-
   }
 
   private _createDiamondShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
@@ -373,6 +374,44 @@ export class MapComponent {
     hex.setAttribute('stroke', borderColor);
     hex.setAttribute('stroke-width', '2');
     svg.appendChild(hex);
+
+    return svg;
+  }
+
+  private _createDownTriangleShape(color: string, borderColor: string, opacity: number = 1) {
+    const svgNS = 'http://www.w3.org/2000/svg';
+
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+    svg.setAttribute('viewBox', '0 0 24 24');
+
+    const triangle = document.createElementNS(svgNS, 'polygon');
+    triangle.setAttribute('points', '0,0 24,0 12,24');
+    triangle.setAttribute('fill', color);
+    triangle.setAttribute('fill-opacity', opacity.toString());
+    triangle.setAttribute('stroke', borderColor);
+    triangle.setAttribute('stroke-width', '2');
+    svg.appendChild(triangle);
+
+    return svg;
+  }
+
+  private _createUpTriangleShape(color: string, borderColor: string, opacity: number = 1) {
+    const svgNS = 'http://www.w3.org/2000/svg';
+
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+    svg.setAttribute('viewBox', '0 0 24 24');
+
+    const triangle = document.createElementNS(svgNS, 'polygon');
+    triangle.setAttribute('points', '0,24 24,24 12,0');
+    triangle.setAttribute('fill', color);
+    triangle.setAttribute('fill-opacity', opacity.toString());
+    triangle.setAttribute('stroke', borderColor);
+    triangle.setAttribute('stroke-width', '2');
+    svg.appendChild(triangle);
 
     return svg;
   }
