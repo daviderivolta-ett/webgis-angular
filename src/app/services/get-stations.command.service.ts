@@ -11,7 +11,7 @@ import { ColorScale, Command } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, colorScale, ...rest } = args;    
+      const { id, url, map, colorScale, markers, ...rest } = args;       
 
       if (!id) {
         throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
@@ -30,7 +30,8 @@ export class GetAndRenderStationsCommandService implements Command {
       const res = await fetch(url);
       let geoJSON: GeoJSON.FeatureCollection = await res.json();
       if (colorScale instanceof ColorScale) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, rest.legend.unit, rest.label);
-      map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });
+      console.log(geoJSON);
+      map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest }, markers);      
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;
