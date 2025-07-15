@@ -53,6 +53,7 @@ export class MapComponent {
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
   public layerRemoved = output<Record<string, any>>();
+  public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>>();
 
   /** User Interface */
@@ -85,6 +86,9 @@ export class MapComponent {
       timeDimensionControl: true,
     })
       .setView(this.position(), this.zoom())
+
+    // Map event to trigger WMS layers GetFeatureInfo
+    this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
   }
 
   /** Click map event */
@@ -223,9 +227,6 @@ export class MapComponent {
 
     this._map.addLayer(markers);
     this._registerLayer(id, markers);
-
-    console.log(this._map.getPanes());
-
   }
 
   /** Remove layer using id */

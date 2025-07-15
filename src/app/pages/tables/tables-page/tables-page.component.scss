@@ -11,6 +11,18 @@
     padding: 40px 0;    
 }
 
+.update-time {
+    margin: 0 0 32px 0;
+}
+
+.update-time__text {
+    text-align: center;
+}
+
+.filters-wrapper--mobile {
+    display: none;
+}
+
 .filters {
     display: flex;
     justify-content: flex-start;
@@ -30,6 +42,11 @@
     color: var(--neutral-800, black);
 }
 
+.styled-details {
+    all: initial;
+    display: block;
+}
+
 .table {
     width: 100%;
     font-size: .86rem;
@@ -41,6 +58,14 @@
 }
 
 @media screen and (max-width: 768px) {
+    .filters-wrapper--desktop {
+        display: none;
+    }
+    
+    .filters-wrapper--mobile {
+        display: block;
+    }
+
     .filters {
         flex-direction: column;
         gap: 8px;

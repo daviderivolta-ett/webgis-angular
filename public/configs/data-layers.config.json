@@ -343,7 +343,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -364,7 +364,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -385,7 +385,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -406,7 +406,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -427,7 +427,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -448,7 +448,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -469,7 +469,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -490,7 +490,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -511,7 +511,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",
@@ -532,7 +532,7 @@
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
                             "params": {
-                                "layers": "20250623rainfall30d_std_1420",
+                                "layers": "20250715rainfall30d_std_0910",
                                 "transparent": true,
                                 "format": "image/png",
                                 "service": "WMS",

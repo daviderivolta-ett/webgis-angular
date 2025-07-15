@@ -2,7 +2,7 @@
     <app-header></app-header>
     <div class="main">
         <!-- START SIDEBAR -->
-        <!-- <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+        <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
             <div ngProjectAs="sidebar-content">
                 <p>Tabelle</p>
                 <p>Massimi precipitazioni</p>
@@ -10,18 +10,37 @@
                 <p>Livelli idrometrici</p>
                 <p>Valori stazioni</p>
             </div>
-        </app-sidebar> -->
+        </app-sidebar>
         <!-- END SIDEBAR -->
         
         <div class="content">
             <!-- START MAIN -->
+             <div class="update-time">
+                <p class="update-time__text">Ultimo aggiornamento {{updateTime | date: 'short'}}</p>
+             </div>
 
             <!-- START FILTERS -->
-            <div [formGroup]="filters" class="filters">
-                @for (keyvalue of filterKeys | keyvalue; track $index) {
-                    <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key" [options]="keyvalue.value"></app-input-autocomplete>
-                }
+            <ng-template #filtersContent>
+                <div [formGroup]="filters" class="filters styled-details__content">
+                    @for (keyvalue of filterKeys | keyvalue; track $index) {
+                        <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key" [options]="keyvalue.value"></app-input-autocomplete>
+                    }
+                </div>
+            </ng-template>
+
+            <!-- Start desktop -->
+            <div class="filters-wrapper--desktop">
+                <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
+            </div>      
+            <!-- End desktop -->
+            <!-- Start mobile -->
+            <div class="filters-wrapper--mobile">
+                <details class="styled-details">
+                    <summary class="summary">Filtri</summary>
+                    <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
+                </details>
             </div>
+            <!-- End mobile -->
             <!-- END FILTERS -->
 
             <!-- START TABLE -->

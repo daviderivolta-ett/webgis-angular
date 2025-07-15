@@ -1,6 +1,6 @@
 // Libraries
 import { Component } from '@angular/core';
-import { KeyValuePipe } from '@angular/common';
+import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -34,7 +34,9 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     InputAutocompleteComponent,
     // Pipes
     KeyValuePipe,
+    DatePipe,
     // Directives
+    NgTemplateOutlet,
     ScrollableTableDirective,
   ],
   templateUrl: './tables-page.component.html',
@@ -48,6 +50,7 @@ export class TablesPageComponent {
   private _apis: any; // Recovered from route resolver in constructor
   private _tablesConfig: TablesConfig; // Recovered from route resolver in constructor
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
+  public updateTime: Date = new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -82,13 +85,21 @@ export class TablesPageComponent {
   public async ngOnInit(): Promise<void> {
     const path: string = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
 
-    this.data = this.sortedData = await this._getTableData(this._apis.get(path))
-      .then((data: any) => {
-        return Table.generateTableStructure(data['tableRows'], 'name');
-      })
+    const responseData = await this._getTableData(this._apis.get(path))
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati');
       });
+
+    this.data = this.sortedData = Table.generateTableStructure(responseData['tableRows'], 'name');
+    this.updateTime = new Date(responseData['updateDateTime']);
+
+    // this.data = this.sortedData = await this._getTableData(this._apis.get(path))
+    //   .then((data: any) => {
+    //     return Table.generateTableStructure(data['tableRows'], 'name');
+    //   })
+    //   .catch((err: any) => {
+    //     throw new Error('Errore nel recupero dei dati');
+    //   });
 
     this.filterKeys = this._createFilterKeys();
     this.filters = this._createFilterForm();
