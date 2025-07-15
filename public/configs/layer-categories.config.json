@@ -27,17 +27,13 @@
         {
             "id": "data_geojson-point",
             "maxNumber": 4,
-            "incompatibleWith": [
-                "data_geojson-point--cluster"
-            ]
+            "incompatibleWith": []
         },
         {
             "id": "data_geojson-point--cluster",
-            "maxNumber": 1,
-            "incompatibleWith": [
-                "data_geojson-point"
-            ]
+            "maxNumber": -1,
+            "incompatibleWith": []
         }
     ],
-    "lastModified": "2025-06-12"
+    "lastModified": "2025-07-15"
 }

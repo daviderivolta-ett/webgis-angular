@@ -190,11 +190,19 @@ export class MapComponent {
 
   /** Add GeoJSON layer with donut cluster */
   public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>, options?: Record<string, any>): void {
+    // Create pane for cluster
+    // Useful to handle zIndex fight between cluster and custom markers
+    if (!this._map.getPane('cluster')) {
+      this._map.createPane('cluster').style.zIndex = '10000';
+    }
 
     // @ts-ignore: donut cluster plugin has no type declaration
-    const markers = L.DonutCluster({ chunkedLoading: true }, {
+    const markers = L.DonutCluster({
+      chunkedLoading: true,
+      clusterPane: 'cluster'
+    }, {
       key: 'title',
-      arcColorDict,
+      arcColorDict
     });
 
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
@@ -215,6 +223,9 @@ export class MapComponent {
 
     this._map.addLayer(markers);
     this._registerLayer(id, markers);
+
+    console.log(this._map.getPanes());
+
   }
 
   /** Remove layer using id */
