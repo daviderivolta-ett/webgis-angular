@@ -145,15 +145,15 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, markers?: { comparisonOperator: string, threshold: number, shapeId: number }[]): void {
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>): void {
     const shapeKey: number = this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
 
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
-        const shape: SVGSVGElement = markers ?
-          this._markerShapes.get(this._getMarkerShapeFromRule(feature.properties.value, markers, shapeKey))!(color, '#000') :
+        const shape: SVGSVGElement = feature.properties.markerShapeId ?
+          this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000') :
           shapeFactory(color, '#000');
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
@@ -267,21 +267,6 @@ export class MapComponent {
   }
 
   /** Custom marker shapes related methods */
-  private _getMarkerShapeFromRule(value: number, markers: { comparisonOperator: string, threshold: number, shapeId: number }[], defaultShapeId: number = 0): number {
-    for (const marker of markers) {
-      switch (marker.comparisonOperator) {
-        case '<': if (value < marker.threshold) return marker.shapeId; break;
-        case '<=': if (value <= marker.threshold) return marker.shapeId; break;
-        case '>': if (value > marker.threshold) return marker.shapeId; break;
-        case '>=': if (value >= marker.threshold) return marker.shapeId; break;
-        case '===': if (value === marker.threshold) return marker.shapeId; break;
-        case '!==': if (value !== marker.threshold) return marker.shapeId; break;
-      }
-    }
-
-    return defaultShapeId;
-  }
-
   private _getNextAvailableMarkerShape(): number {
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {

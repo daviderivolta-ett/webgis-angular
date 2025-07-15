@@ -107,7 +107,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this.dataLayers);
+    console.log(this.dataLayers);
   }
 
   public ngAfterViewInit(): void {

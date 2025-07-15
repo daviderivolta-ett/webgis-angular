@@ -46,18 +46,21 @@
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "mock_data/hydrometric_levels.geojson",
-                    "markers": [
-                        {
-                            "comparisonOperator": "<=",
-                            "threshold": -1,
-                            "shapeId": 4
-                        },
-                        {
-                            "comparisonOperator": ">=",
-                            "threshold": 1,
-                            "shapeId": 5
-                        }
-                    ],
+                    "markers": {
+                        "featureProperty": "increment",
+                        "rules": [
+                            {
+                                "comparisonOperator": "<=",
+                                "threshold": -1,
+                                "shapeId": 4
+                            },
+                            {
+                                "comparisonOperator": ">=",
+                                "threshold": 1,
+                                "shapeId": 5
+                            }
+                        ]
+                    },
                     "legend": {
                         "colorScaleId": "alert",
                         "unit": "m",
