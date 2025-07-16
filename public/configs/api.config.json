@@ -1,6 +1,9 @@
 {
     "apis": {
-        "stazioni": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Pluvio"
+        "stazioni": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Pluvio",
+        "massimi-precipitazione": "https://omirl.regione.liguria.it/Omirl/rest/tables/max",
+        "estremi-temperatura-vento": "https://omirl.regione.liguria.it/Omirl/rest/tables/summary",
+        "livelli-idrometrici": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert"
     },
-    "lastModified": "2025-06-19"
+    "lastModified": "2025-07-15"
 }

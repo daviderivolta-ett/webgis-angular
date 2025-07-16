@@ -96,7 +96,7 @@ export class Table {
                     return matches;
                 }
 
-                // Altrimenti, confronto esatto
+                // Altrimenti confronto esatto
                 const exactMatch = filterValue === value;
                 return exactMatch;
             });

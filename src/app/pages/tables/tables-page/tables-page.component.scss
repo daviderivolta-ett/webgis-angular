@@ -21,13 +21,19 @@
 
 .filters-wrapper--mobile {
     display: none;
+    margin: 0 0 24px 0;
 }
 
 .filters {
     display: flex;
     justify-content: flex-start;
-    gap: 24px;
+    gap: 8px;
     margin: 0 0 24px 0;
+}
+
+.autocomplete {
+    display: block;
+    width: 100%;
 }
 
 .autocomplete::part(input) {
@@ -40,11 +46,6 @@
 
 .autocomplete::part(input)::placeholder {
     color: var(--neutral-800, black);
-}
-
-.styled-details {
-    all: initial;
-    display: block;
 }
 
 .table {
@@ -61,7 +62,7 @@
     .filters-wrapper--desktop {
         display: none;
     }
-    
+
     .filters-wrapper--mobile {
         display: block;
     }

@@ -9,7 +9,7 @@ export class ApiService {
 
   constructor() { }
 
-  public async getTableData(url: string) {
+  public async getTableData(url: string): Promise<any> {
     return fetch(url)
       .then((res: Response) => {
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`);

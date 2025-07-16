@@ -1,11 +1,11 @@
 // Libraries
 import { Component } from '@angular/core';
 import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
-import { Table, TablesConfig } from '../../../models';
+import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TablesConfig, TreeNode } from '../../../models';
 
 // Services
 import { ApiService } from '../../../services';
@@ -13,7 +13,7 @@ import { ApiService } from '../../../services';
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
-import { SortableTableComponent } from "../../../components/sortable-table/sortable-table.component";
+import { SortableTableComponent } from '../../../components/sortable-table/sortable-table.component';
 import { SortHeaderComponent } from '../../../components/sort-header/sort-header.component';
 import { InputAutocompleteComponent } from '../../../components/input-autocomplete/input-autocomplete.component';
 
@@ -36,6 +36,8 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     KeyValuePipe,
     DatePipe,
     // Directives
+    RouterLink,
+    RouterLinkActive,
     NgTemplateOutlet,
     ScrollableTableDirective,
   ],
@@ -44,54 +46,46 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 })
 export class TablesPageComponent {
   /** User Interface */
+  public navGroups: TreeNode[] = [];
   public filters: FormGroup = new FormGroup({});
 
   /** Data */
+  public data: Table = new Table();
+  public sortedData: Table = new Table();
   private _apis: any; // Recovered from route resolver in constructor
   private _tablesConfig: TablesConfig; // Recovered from route resolver in constructor
+  private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
   public updateTime: Date = new Date();
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private apiService: ApiService
   ) {
-    ////////// Filters testing
-    // this.filters = this.fb.group({
-    //   name: [''],
-    //   code: [''],
-    //   city: [''],
-    //   province: [''],
-    //   area: [''],
-    //   basin: ['']
-    // });
-
-    // this.filters.valueChanges.subscribe((changes: any) => {
-    //   console.log(changes);
-    // });
-    //////////
-
     // Get data from resolvers
     this._apis = this.route.snapshot.data['apis'];
     this._tablesConfig = this.route.snapshot.data['tablesConfig'];
+    this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
   }
-
-  ////////// Mock data
-  public data: Table = new Table();
-  public sortedData: Table = new Table();
-  //////////
 
   // Component lifecycle
   public async ngOnInit(): Promise<void> {
-    const path: string = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
+    this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
 
-    const responseData = await this._getTableData(this._apis.get(path))
-      .catch((err: any) => {
-        throw new Error('Errore nel recupero dei dati');
-      });
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      const param: string | null = this.route.snapshot.paramMap.get('id');
+      if (param) this._init(param);
+    });
+    // const path: string = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
 
-    this.data = this.sortedData = Table.generateTableStructure(responseData['tableRows'], 'name');
-    this.updateTime = new Date(responseData['updateDateTime']);
+    // const responseData = await this._getTableData(this._apis.get(path))
+    //   .catch((err: any) => {
+    //     throw new Error('Errore nel recupero dei dati');
+    //   });
+
+    // this.data = this.sortedData = Table.generateTableStructure(responseData['tableRows'], 'name');
+    // this.updateTime = new Date(responseData['updateDateTime']);
 
     // this.data = this.sortedData = await this._getTableData(this._apis.get(path))
     //   .then((data: any) => {
@@ -101,36 +95,53 @@ export class TablesPageComponent {
     //     throw new Error('Errore nel recupero dei dati');
     //   });
 
-    this.filterKeys = this._createFilterKeys();
-    this.filters = this._createFilterForm();
+    // this.filterKeys = this._createFilterKeys();
+    // this.filters = this._createFilterForm();
+
+    // this.filters.valueChanges.subscribe((changes: any) => {
+    //   this.sortedData = this.data.filterTableData(changes);
+    // });
+  }
+
+  // Methods
+  private async _init(id: string): Promise<void> {
+    const config: TableConfig | undefined = this._tableConfigGroups
+      .map((g: TableConfigGroup) => g.getTableConfig(id))
+      .find((g) => g !== undefined);
+
+    if (!config) {     
+      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      return;
+    }
+    const response = await this.apiService.getTableData(config.url)
+      .catch((err: any) => {
+        throw new Error('Errore nel recupero dei dati', err);
+      });
+
+    this.data = this.sortedData = Table.generateTableStructure(response[config.dataField ?? config.id], 'name');
+    this.updateTime = new Date(response['updateDateTime']);
+    this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);
+    this.filters = this._createFilterForm(config.filterKeys ?? []);
+
     this.filters.valueChanges.subscribe((changes: any) => {
       this.sortedData = this.data.filterTableData(changes);
     });
   }
 
-  // Methods
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.sortedData = this.sortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
-  private async _getTableData(url: string) {
-    return this.apiService.getTableData(url)
-      .then((value: any) => value)
-      .catch((err: any) => {
-        throw new Error('Errore nel recupero dei dati', err)
-      })
-  }
-
-  private _createFilterForm(): FormGroup {
-    const controls = this._tablesConfig.filterKeys.reduce((acc: Record<string, any>, curr: string) => {
+  private _createFilterForm(filterKeys: string[]): FormGroup {
+    const controls = filterKeys.reduce((acc: Record<string, any>, curr: string) => {
       acc[curr] = new FormControl('');
       return acc;
     }, {});
     return new FormGroup(controls);
   }
 
-  private _createFilterKeys() {
-    return this._tablesConfig.filterKeys.reduce((acc: Record<string, { id: string, label?: string }[]>, curr: string) => {
+  private _createFilterKeys(filterKeys: string[]) {
+    return filterKeys.reduce((acc: Record<string, { id: string, label?: string }[]>, curr: string) => {
       acc[curr] = this.data.extractAllValuesByKey(curr).map((v: string) => ({ id: v }));
       return acc;
     }, {});

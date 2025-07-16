@@ -4,11 +4,18 @@
         <!-- START SIDEBAR -->
         <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
             <div ngProjectAs="sidebar-content">
-                <p>Tabelle</p>
-                <p>Massimi precipitazioni</p>
-                <p>Estremi temperatura e vento</p>
-                <p>Livelli idrometrici</p>
-                <p>Valori stazioni</p>
+                @for (group of navGroups; track group.id) {
+                    <details name="tables">
+                        <summary>{{group.label ?? group.id}}</summary>
+                        <div>
+                            @for (option of group.options; track option.id) {
+                                <div>
+                                    <a [routerLink]="'/tabelle/' + option.id">{{option.label ?? option.id}}</a>
+                                </div>
+                            }
+                        </div>
+                    </details>
+                }
             </div>
         </app-sidebar>
         <!-- END SIDEBAR -->

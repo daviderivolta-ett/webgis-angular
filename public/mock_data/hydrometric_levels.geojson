@@ -174,7 +174,7 @@
             "properties": {
                 "alt": 13,
                 "imgPath": "",
-                "increment": 0,
+                "increment": 1,
                 "municipality": "Sestri Levante",
                 "name": "Sestri Levante - PonteSS1",
                 "otherHtml": "0",
@@ -312,7 +312,7 @@
             "properties": {
                 "alt": 205,
                 "imgPath": "",
-                "increment": 0,
+                "increment": 1,
                 "municipality": "Pontremoli",
                 "name": "Pontremoli - S.Giustina",
                 "otherHtml": "0",
@@ -542,7 +542,7 @@
             "properties": {
                 "alt": 63,
                 "imgPath": "",
-                "increment": 0,
+                "increment": 1,
                 "municipality": "Ventimiglia",
                 "name": "Torri",
                 "otherHtml": "0",
@@ -634,7 +634,7 @@
             "properties": {
                 "alt": 409,
                 "imgPath": "",
-                "increment": 0,
+                "increment": -1,
                 "municipality": "Cengio",
                 "name": "Cengio",
                 "otherHtml": "0",
@@ -818,7 +818,7 @@
             "properties": {
                 "alt": 20,
                 "imgPath": "",
-                "increment": 0,
+                "increment": -1,
                 "municipality": "Genova",
                 "name": "Genova - Granara",
                 "otherHtml": "0",
