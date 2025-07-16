@@ -29,6 +29,7 @@ export class GetAndRenderStationsCommandService implements Command {
 
       const res = await fetch(url);
       let geoJSON: GeoJSON.FeatureCollection = await res.json();
+      console.log(geoJSON);      
       if (colorScale instanceof ColorScale) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, rest.legend.unit, rest.label);
       if (markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, markers);
       map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });

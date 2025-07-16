@@ -31,6 +31,11 @@ export class NavMenuComponent {
       label: 'Tabelle',
       iconUrl: 'images/icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
     },
+    {
+      path: 'settings',
+      label: 'Configurazioni',
+      iconUrl: 'images/icons/settings_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+    },
     // {
     //   path: 'radar',
     //   label: 'Satellite e radar',

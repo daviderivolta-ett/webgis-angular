@@ -1,0 +1,39 @@
+<div class="page">
+    <app-header></app-header>
+    <div class="main">
+        <!--START SIDEBAR  -->
+        <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+            <div ngProjectAs="sidebar-content">
+                <p>CONTENT</p>
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <div class="content">  
+            <!-- START MAIN -->
+            <div class="stations">    
+                @for (station of stations; track station.id) {
+                    <details name="station" class="styled-details station">
+                        <summary class="summary">
+                            <div class="summary__text">{{station.id}} - {{station.name}}</div>
+                        </summary>
+                        <div class="styled-details__content station__sensors">
+                            @for (sensor of station.sensors; track $index) {
+                                <div class="sensor">
+                                    <label class="checkbox">
+                                        {{sensor}}
+                                        <div class="checkbox-toggle">
+                                            <div class="checkbox-toggle--slider"></div>                                    
+                                            <input type="checkbox">
+                                        </div>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </details>
+                }
+            </div>
+            <!-- END MAIN -->
+        </div>
+    </div>
+</div>

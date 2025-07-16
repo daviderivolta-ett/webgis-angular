@@ -12,6 +12,7 @@ export class Station extends StationBase implements StationData {
         id: string,
         lat: number,
         lng: number,
+        sensors: string[],
         value: number,
         name?: string,
         city?: string,
@@ -20,7 +21,7 @@ export class Station extends StationBase implements StationData {
         updateTime?: Date,
         basin?: Basin
     ) {
-        super(id, lat, lng, name, city, alt);
+        super(id, lat, lng, sensors, name, city, alt);
 
         this.value = value;
         this.refTime = refTime;

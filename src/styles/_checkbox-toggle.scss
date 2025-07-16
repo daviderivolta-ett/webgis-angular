@@ -1,0 +1,72 @@
+$width: 32px;
+$height: $width / 2;
+$padding: 2px;
+$border: 2px;
+$size: $height - ($padding * 2);
+
+.checkbox-toggle {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    width: $width;
+    height: $height;
+    background-color: #c4c6d0;
+    border-radius: $size;
+    border: $border solid #565e71;
+    box-sizing: content-box;
+    color: #565e71;
+
+    input[type="checkbox"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+    }
+}
+
+.checkbox-toggle::before,
+.checkbox-toggle::after {
+    position: absolute;
+    font-size: .4rem;
+    font-weight: 500;
+    height: 100%;
+    width: $size;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox-toggle::before {
+    content: 'ON';
+    left: $padding;
+}
+
+.checkbox-toggle::after {
+    content: 'OFF';
+    right: $padding;
+}
+
+.checkbox-toggle--slider {
+    position: absolute;
+    top: 50%;
+    left: $padding;
+    transform: translateY(-50%);
+    z-index: 1;
+    background-color: #565e71;
+    border-radius: 100%;
+    height: $size;
+    width: $size;
+    transition: .2s ease-in-out;
+}
+
+.checkbox-toggle:has(input[type="checkbox"]:checked) {
+    background-color: #005CBB;
+    border-color: #005CBB;
+    color: #fff;
+}
+
+.checkbox-toggle--slider:has(+ input[type="checkbox"]:checked) {
+    left: calc(100% - $size - $padding);
+    background-color: #fff;
+}

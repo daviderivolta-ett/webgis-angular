@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, apisResolver, tablesConfigResolver, tableConfigGroupsResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver } from './resolvers';
 
 // Routes
 export const routes: Routes = [
@@ -89,5 +89,24 @@ export const routes: Routes = [
         path: 'radar',
         title: 'OMIRL ARPAL - Satellite e radar',
         loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent)
+    },
+    {
+        path: 'settings',
+        title: 'OMIRL ARPAL - Impostazioni',
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'stazioni'
+            },
+            {
+                path: 'stazioni',
+                title: 'OMIRL ARPAL - Impostazioni stazioni',
+                loadComponent: () => import('./pages/settings-stations/stations-settings-page/stations-settings-page.component').then(c => c.StationsSettingsPageComponent),
+                resolve: {
+                    stations: stationsResolver
+                }
+            }
+        ]
     }
 ];

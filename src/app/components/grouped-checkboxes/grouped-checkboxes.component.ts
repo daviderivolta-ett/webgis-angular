@@ -51,23 +51,6 @@ export class GroupedCheckboxesComponent {
     }
 
     this.changed.emit({ id: group.id, isChecked: value });
-
-
-    // const parentChain: GroupedCheckbox[] = this._getParentChain(this.group(), group);
-    // let updatedGroup: GroupedCheckbox = this.group();
-
-    // for (const parent of parentChain) {
-    //   if (!parent.maxSelections || parent.maxSelections === -1) continue;
-
-    //   const parentSelected: number = this._countSelected(parent);
-    //   const newSubtree = (parentSelected >= parent.maxSelections)
-    //     ? this._cloneGroupWithDisabledControls(parent)
-    //     : this._cloneGroupWithAllEnabled(parent);
-
-    //   updatedGroup = this._updateRootGroup(updatedGroup, newSubtree);
-    //   this.group.update(() => updatedGroup);
-    //   this.changed.emit({ id: group.id, isChecked: value });
-
   }
 
   private _updateRootGroup(oldValue: GroupedCheckbox, newGroup: GroupedCheckbox): GroupedCheckbox {
@@ -87,19 +70,6 @@ export class GroupedCheckboxesComponent {
       if (found) return found;
     }
     return null;
-  }
-
-  private _getParentChain(current: GroupedCheckbox, target: GroupedCheckbox, path: GroupedCheckbox[] = []): GroupedCheckbox[] {
-    if (current === target) return path;
-
-    if (current.options) {
-      for (const child of current.options) {
-        const result = this._getParentChain(child, target, [...path, current]);
-        if (result.length > 0) return result;
-      }
-    }
-
-    return [];
   }
 
   private _countSelected(group: GroupedCheckbox, count: number = 0): number {

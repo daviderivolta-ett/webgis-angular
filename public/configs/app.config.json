@@ -6,5 +6,6 @@
     "mapConfigUri": "/configs/map.config.json",
     "colorScalesUri": "/configs/color-scales.config.json",
     "apiConfigUri": "/configs/api.config.json",
-    "tablesConfigUri": "/configs/tables.test.config.json"
+    "tablesConfigUri": "/configs/tables.config.json",
+    "stationsConfigUri": "/configs/stations.config.json"
 }

@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, effect, ElementRef, HostListener, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
+import { Component, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -107,7 +107,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    console.log(this.dataLayers);
+    // console.log(this.dataLayers);
   }
 
   public ngAfterViewInit(): void {

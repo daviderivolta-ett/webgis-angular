@@ -1,11 +1,11 @@
 // Libraries
 import { Component } from '@angular/core';
 import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
-import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TablesConfig, TreeNode } from '../../../models';
+import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models';
 
 // Services
 import { ApiService } from '../../../services';
@@ -37,7 +37,6 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     DatePipe,
     // Directives
     RouterLink,
-    RouterLinkActive,
     NgTemplateOutlet,
     ScrollableTableDirective,
   ],
@@ -52,8 +51,6 @@ export class TablesPageComponent {
   /** Data */
   public data: Table = new Table();
   public sortedData: Table = new Table();
-  private _apis: any; // Recovered from route resolver in constructor
-  private _tablesConfig: TablesConfig; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
   public updateTime: Date = new Date();
@@ -64,8 +61,6 @@ export class TablesPageComponent {
     private apiService: ApiService
   ) {
     // Get data from resolvers
-    this._apis = this.route.snapshot.data['apis'];
-    this._tablesConfig = this.route.snapshot.data['tablesConfig'];
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
   }
 
@@ -77,30 +72,6 @@ export class TablesPageComponent {
       const param: string | null = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
     });
-    // const path: string = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
-
-    // const responseData = await this._getTableData(this._apis.get(path))
-    //   .catch((err: any) => {
-    //     throw new Error('Errore nel recupero dei dati');
-    //   });
-
-    // this.data = this.sortedData = Table.generateTableStructure(responseData['tableRows'], 'name');
-    // this.updateTime = new Date(responseData['updateDateTime']);
-
-    // this.data = this.sortedData = await this._getTableData(this._apis.get(path))
-    //   .then((data: any) => {
-    //     return Table.generateTableStructure(data['tableRows'], 'name');
-    //   })
-    //   .catch((err: any) => {
-    //     throw new Error('Errore nel recupero dei dati');
-    //   });
-
-    // this.filterKeys = this._createFilterKeys();
-    // this.filters = this._createFilterForm();
-
-    // this.filters.valueChanges.subscribe((changes: any) => {
-    //   this.sortedData = this.data.filterTableData(changes);
-    // });
   }
 
   // Methods

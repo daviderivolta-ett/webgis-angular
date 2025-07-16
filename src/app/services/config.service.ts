@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScale, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, TableConfigGroup, TablesConfig } from '../models';
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, StationBase, TableConfigGroup } from '../models';
 
 // Service
 @Injectable({
@@ -158,20 +158,6 @@ export class ConfigService {
       })
   }
 
-  public async getTablesConfig(): Promise<TablesConfig> {
-    return fetch(this.appConfig.tablesConfigUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json');
-        return res.json();
-      })
-      .then((data: any) => {
-        return TablesConfig.createFromObject(data['tables'])
-      })
-      .catch((err: any) => {
-        throw new Error(`Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json ${err.message || err}`);
-      })
-  }
-
   public async getTableConfigGroups(): Promise<TableConfigGroup[]> {
     return fetch(this.appConfig.tablesConfigUri)
       .then((res: Response) => {
@@ -183,6 +169,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getStations(): Promise<StationBase[]> {
+    return fetch(this.appConfig.stationsConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero dei dati delle stazioni dal file di configurazione /configs/stations.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return data['stations'].map((d: any) => StationBase.createFromObject(d));
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei dati delle stazioni dal file di configurazione /configs/stations.config.json ${err.message || err}`);
       })
   }
 }
