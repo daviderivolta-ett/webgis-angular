@@ -44,8 +44,7 @@
             <!-- END LIST -->
 
             <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
-                <!-- <button type="button">Salva modifiche</button> -->
-                 <app-loading-button [isLoading]="true" (click)="onSaveButtonCLick()">Salva modifiche</app-loading-button>
+                 <app-loading-button [isLoading]="false" (click)="onSaveButtonCLick()">Salva modifiche</app-loading-button>
             </div>
             <!-- END MAIN -->
         </div>

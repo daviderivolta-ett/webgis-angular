@@ -3,15 +3,14 @@
     <div class="main">
         <!-- START SIDEBAR -->
         <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
-            <div ngProjectAs="sidebar-content">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">
+                <h3>Tabelle</h3>
                 @for (group of navGroups; track group.id) {
-                    <details name="tables">
-                        <summary>{{group.label ?? group.id}}</summary>
-                        <div>
+                    <details name="tables" class="styled-details">
+                        <summary class="summary">{{group.label ?? group.id}}</summary>
+                        <div class="styled-details__content table-links">
                             @for (option of group.options; track option.id) {
-                                <div>
-                                    <a [routerLink]="'/tabelle/' + option.id">{{option.label ?? option.id}}</a>
-                                </div>
+                                <a class="table-link" [routerLink]="'/tabelle/' + option.id" routerLinkActive="table-link--active">{{option.label ?? option.id}}</a>
                             }
                         </div>
                     </details>

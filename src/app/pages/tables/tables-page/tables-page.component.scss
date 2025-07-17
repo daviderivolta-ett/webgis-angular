@@ -5,10 +5,36 @@
     overflow-y: auto;
 }
 
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.table-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.table-link {
+    padding: 4px 8px;
+    display: block;
+    color: var(--primary-900, black);
+    text-decoration: none;
+}
+
+.table-link--active {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightgrey);
+    border-radius: 4px;
+}
+
 .content {
     width: 92%;
     margin: auto;
-    padding: 40px 0;    
+    padding: 40px 0;
 }
 
 .update-time {

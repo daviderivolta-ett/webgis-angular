@@ -1,7 +1,7 @@
 // Libraries
 import { Component } from '@angular/core';
 import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // Models
@@ -37,6 +37,7 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     DatePipe,
     // Directives
     RouterLink,
+    RouterLinkActive,
     NgTemplateOutlet,
     ScrollableTableDirective,
   ],
