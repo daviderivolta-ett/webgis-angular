@@ -10,13 +10,12 @@ import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, 
 import { CommandsRegistryService, LayersService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { SliderComponent } from "../../../components/slider/slider.component";
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Component */

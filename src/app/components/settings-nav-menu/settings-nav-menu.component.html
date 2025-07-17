@@ -1,0 +1,5 @@
+<p>settings-nav-menu works!</p>
+
+@for (route of menu; track $index) {
+    <a [routerLink]="'/settings/' + route.path">{{route.label}}</a>
+}

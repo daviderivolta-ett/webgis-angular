@@ -1,0 +1,11 @@
+{
+    "config": {
+        "id": true,
+        "name": true,
+        "city": true,
+        "lat": true,
+        "lng": true,
+        "alt": true
+    },
+    "lastModified": "2025-07-17"
+}

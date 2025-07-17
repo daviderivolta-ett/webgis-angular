@@ -5,9 +5,9 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 
 /** Models */
 import { Sensor, StationBase } from '../../../models';
-import { HeaderComponent, SidebarComponent } from '../../../components';
-import { SearchbarComponent } from '../../../components/searchbar/searchbar.component';
-import { LoadingButtonComponent } from "../../../components/loading-button/loading-button.component";
+
+/** Components */
+import { HeaderComponent, SidebarComponent, SearchbarComponent, LoadingButtonComponent, SettingsNavMenuComponent } from '../../../components';
 
 /** Component */
 @Component({
@@ -19,7 +19,8 @@ import { LoadingButtonComponent } from "../../../components/loading-button/loadi
     HeaderComponent,
     SidebarComponent,
     SearchbarComponent,
-    LoadingButtonComponent
+    LoadingButtonComponent,
+    SettingsNavMenuComponent
 ],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
@@ -91,7 +92,7 @@ export class StationsSettingsPageComponent {
   private _onFormChange(changes: any): void {
     const result = this._createStationsOnFormChanges(changes);
     // SEND RESULT TO API TO SAVE STATIONS CONFIG    
-    console.log(result);
+    // console.log(result);
   }
 
   private _createStationsOnFormChanges(changes: any): Record<string, any>[] {

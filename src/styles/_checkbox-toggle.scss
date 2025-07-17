@@ -1,8 +1,8 @@
 $width: 32px;
-$height: $width / 2;
+$height: calc($width / 2);
 $padding: 2px;
 $border: 2px;
-$size: $height - ($padding * 2);
+$size: $height - calc($padding * 2);
 
 .checkbox-toggle {
     cursor: pointer;
