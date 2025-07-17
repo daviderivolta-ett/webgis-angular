@@ -1,23 +1,32 @@
 /** Libraries */
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { StationBase } from '../../../models';
-import { HeaderComponent, SidebarComponent } from "../../../components";
-import { SearchbarComponent } from "../../../components/searchbar/searchbar.component";
+import { Sensor, StationBase } from '../../../models';
+import { HeaderComponent, SidebarComponent } from '../../../components';
+import { SearchbarComponent } from '../../../components/searchbar/searchbar.component';
 
 /** Component */
 @Component({
   selector: 'app-stations-settings-page',
-  imports: [HeaderComponent, SidebarComponent, SearchbarComponent],
+  imports: [
+    /** Libraries */
+    ReactiveFormsModule,
+    FormsModule,
+
+    /** Components */
+    HeaderComponent,
+    SidebarComponent,
+    SearchbarComponent
+  ],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
 })
 export class StationsSettingsPageComponent {
-  /**
-   * Class properties
-   */
+  /** UI */
+  public form = new FormGroup<any>({});
 
   /** Data */
   public stations: StationBase[]; // Recovered from route resolver in constructor
@@ -26,11 +35,13 @@ export class StationsSettingsPageComponent {
   /** Constructor */
   constructor(private route: ActivatedRoute) {
     this.stations = this.filteredStations = this.route.snapshot.data['stations'];
+    this.form = this._createStationsForm(this.stations);
+    this.form.valueChanges.subscribe((changes: any) => this._onFormChange(changes));
   }
 
   /** Component lifecycle */
   public async ngOnInit() {
-    console.log(this.stations);
+    // console.log(this.stations);
     // fetch('/mock_data/precipitation.geojson')
     //   .then((res: Response) => res.json())
     //   .then((data: GeoJSON.FeatureCollection) => {
@@ -38,7 +49,7 @@ export class StationsSettingsPageComponent {
 
     //     const stations = data.features.map((f: GeoJSON.Feature) => {
     //       const properties = { ...f.properties }
-    //       const ranNum: number = Math.floor(Math.random() * sensors.length) + 1;          
+    //       const ranNum: number = Math.floor(Math.random() * sensors.length) + 1;
     //       return {
     //         id: properties['shortCode'],
     //         lat: f.geometry.type === 'Point' ? f.geometry.coordinates[1] : undefined,
@@ -46,17 +57,71 @@ export class StationsSettingsPageComponent {
     //         name: properties['name'],
     //         city: properties['municipality'],
     //         alt: properties['alt'],
-    //         sensors: sensors.slice(0, ranNum)
+    //         sensors: sensors.slice(0, ranNum).map((id: string) => {
+    //           const num = Math.floor(Math.random() * 100);
+    //           return {
+    //             id: `${properties['shortCode']}-${id}`,
+    //             type: id,
+    //             isVisible: num % 2 === 0 ? true : false
+    //           }
+    //         })
     //       }
     //     });
 
-    //     console.log(JSON.stringify(stations));        
+    //     console.log(JSON.stringify(stations));
+    //     console.log(stations);
     //   })
   }
 
   /** Methods */
+  // private _createStationsForm(stations: StationBase[]): FormGroup {
+  //   const formGroup = new FormGroup({});
+  //   stations.forEach((station: StationBase) => {
+  //     const arr = new FormArray<FormControl>([]);
+  //     station.sensors.forEach((sensor: Sensor) => {
+  //       arr.push(new FormControl(sensor.isVisible), { emitEvent: false });
+  //     });
+  //     formGroup.addControl(station.id, arr, { emitEvent: false });
+  //   });
+  //   return formGroup;
+  // }
+  private _createStationsForm(stations: StationBase[]): FormGroup {
+    const controls = stations.reduce((acc, station) => {
+      const array = new FormArray(
+        station.sensors.map(sensor => new FormControl(sensor.isVisible)),
+        { updateOn: 'change' }
+      );
+      acc[station.id] = array;
+      return acc;
+    }, {} as { [key: string]: FormArray<FormControl> });
+
+    return new FormGroup(controls);
+  }
+
+
+  private _onFormChange(changes: any): void {
+    const result = this._createStationsOnFormChanges(changes);
+    // SEND RESULT TO API TO SAVE STATIONS CONFIG    
+    console.log(result);
+  }
+
+  private _createStationsOnFormChanges(changes: any): Record<string, any>[] {
+    return this.stations.map((station: StationBase) => {
+      const stationFormData: any = changes[station.id];
+      return {
+        ...station,
+        sensors: station.sensors.map((sensor: Sensor, index: number) => {
+          return {
+            ...sensor,
+            isVisible: stationFormData[index] ?? false
+          }
+        })
+      }
+    });
+  }
+
   public onSearchInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;  
-    this.filteredStations = this.stations.filter((s: StationBase) => s.id.toLowerCase().includes(value.toLowerCase()));  
+    const value = (event.target as HTMLInputElement).value;
+    this.filteredStations = this.stations.filter((s: StationBase) => s.id.toLowerCase().includes(value.toLowerCase()));
   }
 }

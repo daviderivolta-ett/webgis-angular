@@ -1,10 +1,11 @@
+import { Sensor } from './sensor.class';
 import { Geolocation } from '../geographic'
 
 export class StationBase implements Geolocation {
     public id: string;
     public lat: number;
     public lng: number;
-    public sensors: string[];
+    public sensors: Sensor[];
     public name?: string;
     public city?: string;
     public alt?: number;
@@ -13,7 +14,7 @@ export class StationBase implements Geolocation {
         id: string,
         lat: number,
         lng: number,
-        sensors: string[],
+        sensors: Sensor[],
         name?: string,
         city?: string,
         alt?: number
@@ -44,7 +45,7 @@ export class StationBase implements Geolocation {
             throw new Error('Oggetto non valido: \'sensors\' mancante od invalido.');
         }
 
-        const station = new StationBase(object['id'], object['lat'], object['lng'], object['sensors']);
+        const station = new StationBase(object['id'], object['lat'], object['lng'], object['sensors'].map((s: any) => Sensor.createFromObject(s)));
 
         if (object['name'] && typeof object['name'] === 'string') station.name = object['name'];
         if (object['city'] && typeof object['city'] === 'string') station.city = object['city'];

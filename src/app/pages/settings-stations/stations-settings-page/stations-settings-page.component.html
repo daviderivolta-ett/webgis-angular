@@ -19,9 +19,9 @@
             <!-- END SEARCHBAR -->
 
             <!-- START LIST -->
-            <div class="stations">    
+            <div class="stations" [formGroup]="form">
                 @for (station of filteredStations; track station.id) {
-                    <details name="station" class="styled-details station">
+                    <details name="station" class="styled-details station" [formArrayName]="station.id">
                         <summary class="summary">
                             <div class="summary__text">{{station.id}} - {{station.name}}</div>
                         </summary>
@@ -29,10 +29,10 @@
                             @for (sensor of station.sensors; track $index) {
                                 <div class="sensor">
                                     <label class="checkbox">
-                                        {{sensor}}
+                                        {{sensor.type}}
                                         <div class="checkbox-toggle">
                                             <div class="checkbox-toggle--slider"></div>                                    
-                                            <input type="checkbox">
+                                            <input type="checkbox" [formControlName]="$index">
                                         </div>
                                     </label>
                                 </div>
@@ -43,6 +43,9 @@
             </div>
             <!-- END LIST -->
 
+            <div style="position: fixed; top: 80px; left: 80px; z-index: 9999;" [style.display]="form.dirty ? 'block' : 'none'">
+                <button type="button">Salva modifiche</button>
+            </div>
             <!-- END MAIN -->
         </div>
     </div>

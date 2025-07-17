@@ -1,5 +1,6 @@
 import { StationBase } from './station-base.class'
 import { StationData } from './station-data.interface'
+import { Sensor } from './sensor.class';
 import { Basin } from './basin-data.interface'
 
 export class Station extends StationBase implements StationData {
@@ -12,7 +13,7 @@ export class Station extends StationBase implements StationData {
         id: string,
         lat: number,
         lng: number,
-        sensors: string[],
+        sensors: Sensor[],
         value: number,
         name?: string,
         city?: string,
