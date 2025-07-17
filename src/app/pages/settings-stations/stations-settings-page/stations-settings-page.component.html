@@ -11,8 +11,16 @@
 
         <div class="content">  
             <!-- START MAIN -->
+
+            <!-- START SEARCHBAR -->
+            <app-searchbar class="searchbar">
+                <input type="text" class="app-searchbar__input" placeholder="Cerca per codice stazione..." ngProjectAs="searchbar-input" #input (input)="onSearchInput($event)">
+            </app-searchbar>
+            <!-- END SEARCHBAR -->
+
+            <!-- START LIST -->
             <div class="stations">    
-                @for (station of stations; track station.id) {
+                @for (station of filteredStations; track station.id) {
                     <details name="station" class="styled-details station">
                         <summary class="summary">
                             <div class="summary__text">{{station.id}} - {{station.name}}</div>
@@ -33,6 +41,8 @@
                     </details>
                 }
             </div>
+            <!-- END LIST -->
+
             <!-- END MAIN -->
         </div>
     </div>

@@ -25,27 +25,27 @@ $size: $height - ($padding * 2);
     }
 }
 
-.checkbox-toggle::before,
-.checkbox-toggle::after {
-    position: absolute;
-    font-size: .4rem;
-    font-weight: 500;
-    height: 100%;
-    width: $size;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+// .checkbox-toggle::before,
+// .checkbox-toggle::after {
+//     position: absolute;
+//     font-size: .4rem;
+//     font-weight: 500;
+//     height: 100%;
+//     width: $size;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
 
-.checkbox-toggle::before {
-    content: 'ON';
-    left: $padding;
-}
+// .checkbox-toggle::before {
+//     content: 'ON';
+//     left: $padding;
+// }
 
-.checkbox-toggle::after {
-    content: 'OFF';
-    right: $padding;
-}
+// .checkbox-toggle::after {
+//     content: 'OFF';
+//     right: $padding;
+// }
 
 .checkbox-toggle--slider {
     position: absolute;

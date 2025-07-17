@@ -1,0 +1,9 @@
+<div class="app-searchbar">
+    <div class="app-searchbar__icon">
+        <span class="mask-icon search-icon"></span>
+    </div>
+    <ng-content select="searchbar-input"></ng-content>
+    <button type="button" class="app-searchbar__empty" (click)="onEmptyBtnClick()">
+        <span class="mask-icon empty-icon"></span>
+    </button>
+</div>
