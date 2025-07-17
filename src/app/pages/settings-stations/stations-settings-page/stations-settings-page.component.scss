@@ -56,3 +56,34 @@
     cursor: pointer;
     justify-content: space-between;
 }
+
+.save-button {
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    z-index: 999;
+    transform: translateX(-50%);
+}
+
+.save-button--hidden {
+    display: none;
+}
+
+app-loading-button::part(button) {
+    width: 140px;
+    height: 32px;
+    padding: 4px 16px;
+    margin: 0;
+    border: none;
+    background-color: var(--primary-400, blue);
+    color: var(--neutral-400, white);
+    border-radius: 8px;
+
+    &:hover {
+        background-color: var(--primary-500, darkblue);
+    }
+
+    &:disabled {
+        background-color: var(--primary-300, lightblue);
+    }
+}

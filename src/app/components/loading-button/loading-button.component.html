@@ -1,0 +1,10 @@
+<button type="button" part="button" class="loading-button" [disabled]="isLoading()">
+    @if (isLoading()) {
+        <div class="icon">
+            <span class="loader"></span>
+        </div>
+    }
+    @else {
+        <ng-content></ng-content>
+    }
+</button>

@@ -1,12 +1,13 @@
 /** Libraries */
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
 import { Sensor, StationBase } from '../../../models';
 import { HeaderComponent, SidebarComponent } from '../../../components';
 import { SearchbarComponent } from '../../../components/searchbar/searchbar.component';
+import { LoadingButtonComponent } from "../../../components/loading-button/loading-button.component";
 
 /** Component */
 @Component({
@@ -14,13 +15,12 @@ import { SearchbarComponent } from '../../../components/searchbar/searchbar.comp
   imports: [
     /** Libraries */
     ReactiveFormsModule,
-    FormsModule,
-
     /** Components */
     HeaderComponent,
     SidebarComponent,
-    SearchbarComponent
-  ],
+    SearchbarComponent,
+    LoadingButtonComponent
+],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
 })
@@ -74,17 +74,6 @@ export class StationsSettingsPageComponent {
   }
 
   /** Methods */
-  // private _createStationsForm(stations: StationBase[]): FormGroup {
-  //   const formGroup = new FormGroup({});
-  //   stations.forEach((station: StationBase) => {
-  //     const arr = new FormArray<FormControl>([]);
-  //     station.sensors.forEach((sensor: Sensor) => {
-  //       arr.push(new FormControl(sensor.isVisible), { emitEvent: false });
-  //     });
-  //     formGroup.addControl(station.id, arr, { emitEvent: false });
-  //   });
-  //   return formGroup;
-  // }
   private _createStationsForm(stations: StationBase[]): FormGroup {
     const controls = stations.reduce((acc, station) => {
       const array = new FormArray(
@@ -123,5 +112,9 @@ export class StationsSettingsPageComponent {
   public onSearchInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.filteredStations = this.stations.filter((s: StationBase) => s.id.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  public onSaveButtonCLick(): void {
+    console.log('click');    
   }
 }

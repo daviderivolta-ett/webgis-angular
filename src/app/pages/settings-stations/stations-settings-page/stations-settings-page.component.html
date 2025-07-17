@@ -43,8 +43,9 @@
             </div>
             <!-- END LIST -->
 
-            <div style="position: fixed; top: 80px; left: 80px; z-index: 9999;" [style.display]="form.dirty ? 'block' : 'none'">
-                <button type="button">Salva modifiche</button>
+            <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
+                <!-- <button type="button">Salva modifiche</button> -->
+                 <app-loading-button [isLoading]="true" (click)="onSaveButtonCLick()">Salva modifiche</app-loading-button>
             </div>
             <!-- END MAIN -->
         </div>
