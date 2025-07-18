@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver } from './resolvers';
 
 // Routes
 export const routes: Routes = [
@@ -62,7 +62,10 @@ export const routes: Routes = [
             {
                 path: 'popup',
                 title: 'OMIRL ARPAL - Impostazioni popup',
-                loadComponent: () => import('./pages/settings-popup/popup-settings-page/popup-settings-page.component').then(c => c.PopupSettingsPageComponent)
+                loadComponent: () => import('./pages/settings-popup/popup-settings-page/popup-settings-page.component').then(c => c.PopupSettingsPageComponent),
+                resolve: {
+                    stationPopupConfig: stationPopupConfigResolver
+                }
             }
         ]
     }

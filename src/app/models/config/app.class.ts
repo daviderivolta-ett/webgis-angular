@@ -8,6 +8,7 @@ export class AppConfig {
     public apiConfigUri: string = '';
     public tablesConfigUri: string = '';
     public stationsConfigUri: string = '';
+    public stationsPopupConfigUri: string = '';
 
     private constructor() { }
 
@@ -31,6 +32,7 @@ export class AppConfig {
         config.apiConfigUri = _get<string>(object['apiConfigUri'], '');
         config.tablesConfigUri = _get<string>(object['tablesConfigUri'], '');
         config.stationsConfigUri = _get<string>(object['stationsConfigUri'], '');
+        config.stationsPopupConfigUri = _get<string>(object['stationsPopupConfigUri'], '');
 
         return config;
     }

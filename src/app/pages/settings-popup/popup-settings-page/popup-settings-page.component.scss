@@ -1,2 +1,56 @@
 @use 'index' as mixins;
 @include mixins.header-position;
+
+.content {
+    height: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 40px 4%;
+}
+
+.form__title {
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+.configs {
+    margin: 0 0 48px 0;
+}
+
+.save-button {
+    display: flex;
+    justify-content: center;
+}
+
+.save-button--hidden {
+    display: none;
+}
+
+app-loading-button {
+    width: 100%;
+}
+
+app-loading-button::part(button) {
+    @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .content {
+        width: 100%;
+        padding: 80px 16px;
+    }
+
+    .save-button {
+        position: fixed;
+        left: 0;
+        bottom: 72px;
+        width: 100%;
+        padding: 0 4%;
+    }
+
+    app-loading-button,
+    app-loading-button::part(button) {
+        width: 100%;
+    }
+}

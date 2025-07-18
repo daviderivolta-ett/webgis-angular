@@ -7,5 +7,6 @@
     "colorScalesUri": "/configs/color-scales.config.json",
     "apiConfigUri": "/configs/api.config.json",
     "tablesConfigUri": "/configs/tables.config.json",
-    "stationsConfigUri": "/configs/stations.config.json"
+    "stationsConfigUri": "/configs/stations.config.json",
+    "stationsPopupConfigUri": "/configs/stations-popup.config.json"
 }

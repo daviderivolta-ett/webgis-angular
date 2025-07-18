@@ -1,0 +1,18 @@
+@mixin primaryButton($background-color, $color, $background-color--hover, $background-color--disabled) {
+    width: 140px;
+    height: 36px;
+    padding: 4px 16px;
+    margin: 0;
+    border: none;
+    background-color: $background-color;
+    color: $color;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: $background-color--hover;
+    }
+
+    &:disabled {
+        background-color: $background-color--disabled;
+    }
+}

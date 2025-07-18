@@ -11,7 +11,20 @@
 
         <!-- START CONTENT -->
         <div class="content">
-            <p>PIPPO</p>
+            <form class="form" [formGroup]="form">
+                <h3 class="form__title">Configurazione popup</h3>
+                <div class="configs">
+                    @for (keyvalue of stationPopupConfig | keyvalue; track $index) {
+                        <div class="custom-checkbox">
+                            <input class="custom-checkbox__input" [id]="keyvalue.key" type="checkbox" [formControlName]="keyvalue.key">
+                            <label class="custom-checkbox__label" [for]="keyvalue.key">{{keyvalue.key}}</label>
+                        </div>
+                    }
+                </div>
+                <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
+                    <app-loading-button [isLoading]="false">Salva modifiche</app-loading-button>
+               </div>
+            </form>
         </div>
         <!-- END CONTENT -->
     </div>

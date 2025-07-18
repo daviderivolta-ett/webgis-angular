@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, StationBase, TableConfigGroup } from '../models';
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
 
 // Service
 @Injectable({
@@ -183,6 +183,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei dati delle stazioni dal file di configurazione /configs/stations.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getStationsPopupConfig(): Promise<StationPopupConfig> {
+    return fetch(this.appConfig.stationsPopupConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return data['config'];
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json ${err.message || err}`);
       })
   }
 }

@@ -70,20 +70,18 @@
 }
 
 app-loading-button::part(button) {
-    width: 140px;
-    height: 32px;
-    padding: 4px 16px;
-    margin: 0;
-    border: none;
-    background-color: var(--primary-400, blue);
-    color: var(--neutral-400, white);
-    border-radius: 8px;
+    @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
+}
 
-    &:hover {
-        background-color: var(--primary-500, darkblue);
+@media screen and (max-width: 768px) {
+    .save-button {
+        bottom: 72px;
+        width: 100%;
+        padding: 0 4%;
     }
 
-    &:disabled {
-        background-color: var(--primary-300, lightblue);
+    app-loading-button,
+    app-loading-button::part(button) {
+        width: 100%;
     }
 }
