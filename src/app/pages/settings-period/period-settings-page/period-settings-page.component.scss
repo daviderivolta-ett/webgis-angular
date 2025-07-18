@@ -13,9 +13,16 @@
     margin: 0 0 16px 0;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .dates {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
 }
 
 .dates__input {
