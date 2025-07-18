@@ -23,6 +23,7 @@
             <form [formGroup]="form" (submit)="onFormSubmit()">
                 <div class="stations">
                     @for (station of filteredStations; track station.id) {
+                        @defer (on viewport) {
                         <details name="station" class="styled-details station" [formArrayName]="station.id">
                             <summary class="summary">
                                 <div class="summary__text">{{station.id}} - {{station.name}}</div>
@@ -41,6 +42,13 @@
                                 }
                             </div>
                         </details>
+                        }
+                        @placeholder (minimum 500ms) {
+                            <div class="skeleton-placeholder"></div>
+                        }
+                    }
+                    @empty {
+                        <p class="empty-msg">Nessuna stazione trovata per il codice cercato</p>
                     }
                 </div>
                 <!-- END LIST -->

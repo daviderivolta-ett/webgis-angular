@@ -62,6 +62,17 @@
     justify-content: space-between;
 }
 
+.empty-msg {
+    text-align: center;
+}
+
+.skeleton-placeholder {
+    height: 36px;
+    width: 100%;
+    border: 1px solid var(--neutral-500, lightgrey);
+    border-radius: 8px;
+}
+
 .save-button {
     position: fixed;
     left: 50%;
