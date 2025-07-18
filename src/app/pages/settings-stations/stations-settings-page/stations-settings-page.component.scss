@@ -74,8 +74,9 @@
     display: none;
 }
 
-app-loading-button::part(button) {
+.save-button__btn {
     @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
+    width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -85,8 +86,7 @@ app-loading-button::part(button) {
         padding: 0 4%;
     }
 
-    app-loading-button,
-    app-loading-button::part(button) {
+    app-loading-button {
         width: 100%;
     }
 }

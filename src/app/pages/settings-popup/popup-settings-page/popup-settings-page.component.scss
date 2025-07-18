@@ -26,12 +26,12 @@
     display: none;
 }
 
-app-loading-button {
+.save-button__btn {
+    @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
     width: 100%;
 }
 
-app-loading-button::part(button) {
-    @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
+app-loading-btn {
     width: 100%;
 }
 
@@ -47,10 +47,5 @@ app-loading-button::part(button) {
         bottom: 72px;
         width: 100%;
         padding: 0 4%;
-    }
-
-    app-loading-button,
-    app-loading-button::part(button) {
-        width: 100%;
     }
 }

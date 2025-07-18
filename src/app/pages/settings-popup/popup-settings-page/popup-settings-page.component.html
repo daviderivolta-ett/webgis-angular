@@ -11,7 +11,7 @@
 
         <!-- START CONTENT -->
         <div class="content">
-            <form class="form" [formGroup]="form">
+            <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
                 <h3 class="form__title">Configurazione popup</h3>
                 <div class="configs">
                     @for (keyvalue of stationPopupConfig | keyvalue; track $index) {
@@ -22,7 +22,9 @@
                     }
                 </div>
                 <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
-                    <app-loading-button [isLoading]="false">Salva modifiche</app-loading-button>
+                    <app-loading-btn [isLoading]="isLoading">
+                        <button #button class="save-button__btn" type="submit">Salva modifiche</button>
+                    </app-loading-btn>
                </div>
             </form>
         </div>

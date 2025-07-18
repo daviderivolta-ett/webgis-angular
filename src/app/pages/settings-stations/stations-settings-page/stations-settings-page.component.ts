@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, StationBase } from '../../../models';
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SearchbarComponent, LoadingButtonComponent, SettingsNavMenuComponent } from '../../../components';
+import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
 
 /** Component */
 @Component({
@@ -19,15 +19,17 @@ import { HeaderComponent, SidebarComponent, SearchbarComponent, LoadingButtonCom
     HeaderComponent,
     SidebarComponent,
     SearchbarComponent,
-    LoadingButtonComponent,
-    SettingsNavMenuComponent
-],
+    SettingsNavMenuComponent,
+    LoadingBtnComponent
+  ],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
 })
 export class StationsSettingsPageComponent {
   /** UI */
   public form = new FormGroup<any>({});
+
+  public isLoading: boolean = false;
 
   /** Data */
   public stations: StationBase[]; // Recovered from route resolver in constructor
@@ -37,7 +39,6 @@ export class StationsSettingsPageComponent {
   constructor(private route: ActivatedRoute) {
     this.stations = this.filteredStations = this.route.snapshot.data['stations'];
     this.form = this._createStationsForm(this.stations);
-    this.form.valueChanges.subscribe((changes: any) => this._onFormChange(changes));
   }
 
   /** Component lifecycle */
@@ -88,13 +89,6 @@ export class StationsSettingsPageComponent {
     return new FormGroup(controls);
   }
 
-
-  private _onFormChange(changes: any): void {
-    const result = this._createStationsOnFormChanges(changes);
-    // SEND RESULT TO API TO SAVE STATIONS CONFIG    
-    // console.log(result);
-  }
-
   private _createStationsOnFormChanges(changes: any): Record<string, any>[] {
     return this.stations.map((station: StationBase) => {
       const stationFormData: any = changes[station.id];
@@ -115,7 +109,10 @@ export class StationsSettingsPageComponent {
     this.filteredStations = this.stations.filter((s: StationBase) => s.id.toLowerCase().includes(value.toLowerCase()));
   }
 
-  public onSaveButtonCLick(): void {
-    console.log('click');    
+  public onFormSubmit(): void {
+    // console.log('submit', this.form.value);
+    const result = this._createStationsOnFormChanges(this.form.value);
+    console.log(result);    
+    this.isLoading = true;
   }
 }

@@ -1,0 +1,11 @@
+<div class="loading-btn">
+        <div class="slot" [class.element--hidden]="isLoading()">
+            <ng-content select="button"></ng-content>
+        </div>
+
+        <button type="button" class="fake-btn" [class.element--hidden]="!isLoading()" disabled="true" #fakeBtn>
+            <div class="icon">
+                <span class="loader"></span>
+            </div>
+        </button>
+</div>

@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { StationPopupConfig } from '../../../models';
 
 /** Components */
-import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingButtonComponent } from '../../../components';
+import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components';
 
 /** Component */
 @Component({
@@ -22,7 +22,7 @@ import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBut
     KeyValuePipe,
     /** Directives */
     ReactiveFormsModule,
-    LoadingButtonComponent
+    LoadingBtnComponent
 ],
   templateUrl: './popup-settings-page.component.html',
   styleUrl: './popup-settings-page.component.scss'
@@ -31,18 +31,14 @@ export class PopupSettingsPageComponent {
   /** UI */
   public form: FormGroup = new FormGroup({});
 
+  public isLoading = false;
+
   /** Data */
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
 
   constructor(private route: ActivatedRoute) {
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.form = this._createStationPopupConfigForm(this.stationPopupConfig);
-    this.form.valueChanges.subscribe((changes: any) => console.log(changes));
-  }
-
-  /** Component lifecycle */
-  public ngOnInit(): void {
-    // console.log(this.stationPopupConfig);    
   }
 
   /** Methods */
@@ -54,5 +50,10 @@ export class PopupSettingsPageComponent {
     });
 
     return formGroup;
+  }
+
+  public onFormSubmit(): void {
+    console.log('submit', this.form.value);
+    this.isLoading = true;
   }
 }

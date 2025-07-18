@@ -20,33 +20,37 @@
             <!-- END SEARCHBAR -->
 
             <!-- START LIST -->
-            <div class="stations" [formGroup]="form">
-                @for (station of filteredStations; track station.id) {
-                    <details name="station" class="styled-details station" [formArrayName]="station.id">
-                        <summary class="summary">
-                            <div class="summary__text">{{station.id}} - {{station.name}}</div>
-                        </summary>
-                        <div class="styled-details__content station__sensors">
-                            @for (sensor of station.sensors; track $index) {
-                                <div class="sensor">
-                                    <label class="checkbox">
-                                        {{sensor.type}}
-                                        <div class="checkbox-toggle">
-                                            <div class="checkbox-toggle--slider"></div>                                    
-                                            <input type="checkbox" [formControlName]="$index">
-                                        </div>
-                                    </label>
-                                </div>
-                            }
-                        </div>
-                    </details>
-                }
-            </div>
-            <!-- END LIST -->
+            <form [formGroup]="form" (submit)="onFormSubmit()">
+                <div class="stations">
+                    @for (station of filteredStations; track station.id) {
+                        <details name="station" class="styled-details station" [formArrayName]="station.id">
+                            <summary class="summary">
+                                <div class="summary__text">{{station.id}} - {{station.name}}</div>
+                            </summary>
+                            <div class="styled-details__content station__sensors">
+                                @for (sensor of station.sensors; track $index) {
+                                    <div class="sensor">
+                                        <label class="checkbox">
+                                            {{sensor.type}}
+                                            <div class="checkbox-toggle">
+                                                <div class="checkbox-toggle--slider"></div>                                    
+                                                <input type="checkbox" [formControlName]="$index">
+                                            </div>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </details>
+                    }
+                </div>
+                <!-- END LIST -->
 
-            <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
-                 <app-loading-button [isLoading]="false" (click)="onSaveButtonCLick()">Salva modifiche</app-loading-button>
-            </div>
+                <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
+                    <app-loading-btn [isLoading]="isLoading">
+                        <button #button class="save-button__btn" type="submit">Salva modifiche</button>
+                    </app-loading-btn>
+                </div>
+            </form>
             <!-- END MAIN -->
         </div>
     </div>

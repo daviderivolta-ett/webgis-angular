@@ -15,6 +15,7 @@
     }
 
     &:disabled {
+        cursor: not-allowed;
         background-color: $background-color--disabled;
     }
 }
