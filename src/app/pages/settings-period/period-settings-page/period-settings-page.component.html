@@ -1,0 +1,28 @@
+<div class="page">
+    <app-header></app-header>
+    <div class="main">
+        <!--START SIDEBAR  -->
+        <app-sidebar height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+            <div ngProjectAs="sidebar-content">
+                <app-settings-nav-menu></app-settings-nav-menu>
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <!-- START CONTENT -->
+        <div class="content">
+            <form [formGroup]="form" (submit)="onFormSubmit()">
+                <div class="dates">
+                    <input type="datetime-local" formControlName="initialDate">
+                    <input type="datetime-local" formControlName="endingDate">
+                </div>
+                <div class="save-button" class="save-button">
+                    <app-loading-btn>
+                        <button #button class="save-button__btn" type="submit">Salva modifiche</button>
+                    </app-loading-btn>
+               </div>
+            </form>
+        </div>
+        <!-- END CONTENT -->
+    </div>
+</div>

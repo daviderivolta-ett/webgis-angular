@@ -27,6 +27,10 @@ export class SettingsNavMenuComponent {
     {
       path: 'popup',
       label: 'Popup'
+    },
+    {
+      path: 'periodi',
+      label: 'Periodi'
     }
   ];
 }

@@ -66,6 +66,11 @@ export const routes: Routes = [
                 resolve: {
                     stationPopupConfig: stationPopupConfigResolver
                 }
+            },
+            {
+                path: 'periodi',
+                title: 'OMIRL ARPAL - Gestione periodi',
+                loadComponent: () => import('./pages/settings-period/period-settings-page/period-settings-page.component').then(c => c.PeriodSettingsPageComponent)
             }
         ]
     }
