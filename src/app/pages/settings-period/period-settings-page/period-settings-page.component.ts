@@ -24,7 +24,8 @@ export class PeriodSettingsPageComponent {
   /** UI */
   public form = new FormGroup({
     initialDate: new FormControl(this._fromDateToDatetimelocal(new Date), [Validators.required]),
-    endingDate: new FormControl(this._fromDateToDatetimelocal(new Date), [Validators.required])
+    endingDate: new FormControl(this._fromDateToDatetimelocal(new Date), [Validators.required]),
+    alwaysAvailable: new FormControl(false)
   });
 
   constructor(){}

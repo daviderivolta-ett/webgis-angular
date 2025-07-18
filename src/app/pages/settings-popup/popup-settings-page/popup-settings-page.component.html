@@ -11,8 +11,8 @@
 
         <!-- START CONTENT -->
         <div class="content">
+            <h3 class="title">Configurazione popup</h3>
             <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
-                <h3 class="form__title">Configurazione popup</h3>
                 <div class="configs">
                     @for (keyvalue of stationPopupConfig | keyvalue; track $index) {
                         <div class="custom-checkbox">

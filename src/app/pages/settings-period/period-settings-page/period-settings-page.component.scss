@@ -1,2 +1,56 @@
 @use 'index' as mixins;
 @include mixins.header-position;
+
+.content {
+    height: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 40px 4%;
+}
+
+.title {
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+.dates {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dates__input {
+    width: 100%;
+}
+
+.save-button {
+    display: flex;
+    justify-content: center;
+}
+
+.save-button__btn {
+    @include mixins.primaryButton(var(--primary-400), var(--neutral-400), var(--primary-500), var(--primary-300));
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    // .content {
+    //     width: 100%;
+    //     padding: 80px 16px;
+    // }
+
+    .dates {
+        flex-direction: column;
+    }
+
+    app-loading-btn {
+        width: 100%;
+    }
+
+    .save-button {
+        position: fixed;
+        left: 0;
+        bottom: 72px;
+        width: 100%;
+        padding: 0 4%;
+    }
+}
