@@ -37,8 +37,8 @@ app-loading-btn {
 
 @media screen and (max-width: 768px) {
     .content {
-        width: 100%;
-        padding: 80px 16px;
+        max-width: unset;
+        padding: 80px 4%;
     }
 
     .save-button {

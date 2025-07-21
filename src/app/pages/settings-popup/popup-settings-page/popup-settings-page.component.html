@@ -21,9 +21,9 @@
                         </div>
                     }
                 </div>
-                <div class="save-button" class="save-button" [class.save-button--hidden]="!form.dirty">
+                <div class="save-button" class="save-button">
                     <app-loading-btn [isLoading]="isLoading">
-                        <button #button class="save-button__btn" type="submit" [disabled]="form.invalid">Salva modifiche</button>
+                        <button #button class="save-button__btn" type="submit" [disabled]="form.invalid || !form.dirty">Salva modifiche</button>
                     </app-loading-btn>
                </div>
             </form>

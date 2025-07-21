@@ -14,8 +14,8 @@
             <h3 class="title">Periodo interessato</h3>
             <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
                 <div class="dates">
-                    <input type="datetime-local" class="dates__input" formControlName="initialDate">
-                    <input type="datetime-local" class="dates__input" formControlName="endingDate">
+                    <input type="datetime-local" class="styled-input dates__input" formControlName="initialDate">
+                    <input type="datetime-local" class="styled-input dates__input" formControlName="endingDate">
                 </div>
                 <div class="custom-checkbox">
                     <input type="checkbox" id="alwaysAvailable" class="custom-checkbox__input" formControlName="alwaysAvailable">
