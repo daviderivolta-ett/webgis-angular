@@ -197,7 +197,7 @@ export class MapComponent {
     // Create pane for cluster
     // Useful to handle zIndex fight between cluster and custom markers
     if (!this._map.getPane('cluster')) {
-      this._map.createPane('cluster').style.zIndex = '10000';
+      this._map.createPane('cluster').style.zIndex = '699';
     }
 
     // @ts-ignore: donut cluster plugin has no type declaration
