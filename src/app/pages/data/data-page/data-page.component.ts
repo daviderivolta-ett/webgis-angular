@@ -36,7 +36,7 @@ import { TimePlayerComponent } from "../../../components/time-player/time-player
     MapPopupComponent,
     SliderComponent,
     TimePlayerComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -266,7 +266,10 @@ export class DataPageComponent {
     }
   }
 
-  public onTimePlayerToggle(event: any): void {
-    console.log(event);   
+  public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
+    console.log(event);
+    if (!event.isPlaying) return;
+
+
   }
 }

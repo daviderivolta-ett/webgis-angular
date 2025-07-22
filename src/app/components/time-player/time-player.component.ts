@@ -23,6 +23,8 @@ export class TimePlayerComponent {
   /** UI */
   public form: FormGroup = new FormGroup({
     date: new FormControl('', [Validators.required])
+  }, {
+    updateOn: 'blur'
   });
   public isPlaying: boolean = false;
 
@@ -44,11 +46,15 @@ export class TimePlayerComponent {
   }
 
   private _onFormChange(changes: any): void {
-    this.setIsPlaying(false);
+    if (!('date' in changes) || typeof changes['date'] !== 'string' || changes['date'] === '') {
+      this.setIsPlaying(false);
+      return;
+    }
 
-    if (!('date' in changes) || typeof changes['date'] !== 'string') return;
     const date = this._truncateDateToFullHour(changes['date']);
     this.form.patchValue({ date }, { emitEvent: false });
+    this.isPlaying = false;
+    this.onToggle.emit({ isPlaying: false, date: new Date(date) });
   }
 
   private _truncateDateToFullHour(date: string): string {
@@ -101,5 +107,4 @@ export class TimePlayerComponent {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
-
 }
