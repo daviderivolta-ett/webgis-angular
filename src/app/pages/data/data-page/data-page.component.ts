@@ -13,10 +13,11 @@ import { CommandsRegistryService, LayersService } from '../../../services';
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
+import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
+import { TimePlayerComponent } from "../../../components/time-player/time-player.component";
 
 /** Component */
 @Component({
@@ -33,8 +34,9 @@ import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
     GroupedCheckboxesComponent,
     ChipComponent,
     MapPopupComponent,
-    SliderComponent
-  ],
+    SliderComponent,
+    TimePlayerComponent
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -262,5 +264,9 @@ export class DataPageComponent {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  public onTimePlayerToggle(event: any): void {
+    console.log(event);   
   }
 }

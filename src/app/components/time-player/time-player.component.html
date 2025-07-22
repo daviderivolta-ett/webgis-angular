@@ -1,0 +1,27 @@
+<div class="time-player" [formGroup]="form">
+    <div class="controls">
+        <button type="button" class="button" [disabled]="!isPlaying" (click)="onStepBtnClick('backward')">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M816-264 480-480l336-216v432Zm-384 0L96-480l336-216v432Z"/></svg>
+        </span>
+        </button>
+        <button type="button" class="button" [disabled]="!form.valid" (click)="onToggleBtnClick(!isPlaying)">
+            @if (!isPlaying) {
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Z"/></svg>
+                </span>
+            }
+            @else {
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M564-228v-504h168v504H564Zm-336 0v-504h168v504H228Z"/></svg>
+                </span>
+            }
+        </button>
+        <button type="button" class="button" [disabled]="!isPlaying" (click)="onStepBtnClick('forward')">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M144-264v-432l336 216-336 216Zm384 0v-432l336 216-336 216Z"/></svg>
+            </span>
+        </button>
+    </div>
+    <input type="datetime-local" class="input" step="3600" formControlName="date">
+</div>

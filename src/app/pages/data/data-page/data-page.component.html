@@ -4,9 +4,10 @@
         <!-- START SIDEBAR -->
         <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="360px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onSidebarToggle($event)">
             <div ngProjectAs="sidebar-content" class="sidebar-content">            
-                <div>
+                <!-- <div>
                     <input type="datetime-local" [value]="">
-                </div>
+                </div> -->
+                <h3>Livelli</h3>
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
                         <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" #groupedCheckbox></app-grouped-checkboxes>
@@ -74,6 +75,10 @@
             <span class="mask-icon"></span>
          </button>
         <!-- END RESET BUTTON -->
+
+        <!-- START TIME PLAYER -->
+        <app-time-player class="time-player" (onToggle)="onTimePlayerToggle($event)"></app-time-player>
+        <!-- END TIME PLAYER -->
 
         <!-- START MAP -->
         <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="popupData=$event" #map>

@@ -83,7 +83,7 @@ export class MapComponent {
       zoomControl: false,
       // @ts-ignore: time dimension plugin has no type declaration
       timeDimension: true,
-      timeDimensionControl: true,
+      timeDimensionControl: true
     })
       .setView(this.position(), this.zoom())
 
