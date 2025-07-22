@@ -288,7 +288,7 @@
                         "max": 24
                     },
                     "action": {
-                        "id": "clusterDateStations"
+                        "id": "clusterStations"
                     }
                 },
                 {

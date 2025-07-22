@@ -2,7 +2,7 @@ import { Layer } from './layer.class';
 import { WMSLayerParams } from './wms-params.interface';
 
 export class WMSLayer extends Layer {
-    public url: string;
+    // public url: string;
     public params: WMSLayerParams;
     public opacity: number;
 
@@ -16,7 +16,7 @@ export class WMSLayer extends Layer {
         iconUrl?: string,
         layerCategory?: string
     ) {
-        super(id, layerType, label, iconUrl, layerCategory);
+        super(id, url, layerType, label, iconUrl, layerCategory);
         this.url = url;
         this.params = params;
         this.opacity = opacity ?? 1

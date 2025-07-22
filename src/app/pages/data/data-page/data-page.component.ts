@@ -68,6 +68,8 @@ export class DataPageComponent {
   }
 
   /** Data */
+  public selectedDate: Date | undefined = undefined;
+
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
@@ -205,12 +207,16 @@ export class DataPageComponent {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
+    this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked);
+    this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
+  }
+
+  private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean): void {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
     this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories);
     this.groupedCheckboxes = this._redrawGroupedCheckboxes(this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
-    this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
   }
 
   private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
@@ -223,9 +229,9 @@ export class DataPageComponent {
   }
 
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
-    LayerGroup.getAllLayers(dataLayers).forEach((l: Layer) => {
+    LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) this._executeAction(l);
+        if (!this._map.haslayer(l.id)) await this._executeAction(l);
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -258,8 +264,9 @@ export class DataPageComponent {
     try {
       await command.execute({
         map: this._map,
+        date: this.selectedDate,
         colorScale,
-        ...layer
+        layer
       });
     } catch (error) {
       console.log(error);
@@ -267,9 +274,29 @@ export class DataPageComponent {
   }
 
   public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
-    console.log(event);
-    if (!event.isPlaying) return;
+    this.selectedDate = event.date ?? undefined;
 
+    const currentLayers: string[] = this.currentDataLayers.toArray().reverse();
+    currentLayers.forEach((id: string) => this.onLayerToggled({ id, isChecked: false }));
 
+    const promises: Promise<void>[] = [];
+    currentLayers.forEach((id: string) => {
+      const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
+      if (foundLayer) promises.push(this._executeAction(foundLayer));
+    });
+    Promise.allSettled(promises).then((results) => {
+      // console.log(results);
+      // results.forEach((result, index) => {
+      //   if (result.status === 'rejected') {
+      //     console.error(`Azione ${index} ha fallito: ${result.reason}`);
+      //   } else if (result.status === 'fulfilled') {
+      //     console.log(`Azione ${index} completata con successo`);
+      //     console.log(currentLayers[index]);
+      //   }
+      // });
+      const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
+      const fulfilledIds = currentLayers.filter((_, i) => fulfilledIndexes.includes(i));
+      fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true));
+    });
   }
 }

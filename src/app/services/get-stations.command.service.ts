@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { Command, ColorScale, MarkerMapping, MarkerCondition } from '../models';
+import { Command, ColorScale, MarkerMapping, MarkerCondition, GeoJsonLayer } from '../models';
 
 // Service
 @Injectable({
@@ -11,30 +11,25 @@ import { Command, ColorScale, MarkerMapping, MarkerCondition } from '../models';
 export class GetAndRenderStationsCommandService implements Command {
   public async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, colorScale, markers, ...rest } = args;
+      const { map, date, colorScale, layer } = args;
 
-      if (!id) {
-        throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
+      if (!layer || !(layer instanceof GeoJsonLayer)) {
+        throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`)
       }
-      if (!url) {
-        throw new Error('Parametro \'url\' mancante. Non posso eseguire la ricerca delle stazioni senza un URL valido.');
-      }
+
       if (!map || typeof map.addCustomMarkerPointGeoJSONLayer !== 'function') {
-        throw new Error('Oggetto \'map\' non valido o non implementa il metodo \'addCustomMarkerPointGeoJSONLayer\'.');
+        throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
       }
 
-      // const data = await this._fetchData(url);
-      // const parsedData = this._parseData(data);
-      // console.log(JSON.stringify(parsedData));
+      if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
-      const res = await fetch(url);
-      let geoJSON: GeoJSON.FeatureCollection = await res.json();
-      console.log(geoJSON);      
-      if (colorScale instanceof ColorScale) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, rest.legend.unit, rest.label);
-      if (markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, markers);
-      map.addCustomMarkerPointGeoJSONLayer(id, geoJSON, { ...rest });
+      const res = await fetch(layer.url);
+      let geoJSON: GeoJSON.FeatureCollection = await res.json();    
+      if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
+      if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
+      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
     } catch (error) {
-      console.error('Errore nell\'esecuzione del comando:', error);
+      console.error(`Errore nell'esecuzione del comando:`, error);
       throw error;
     }
   }
@@ -91,38 +86,4 @@ export class GetAndRenderStationsCommandService implements Command {
 
     return defaultShapeId;
   }
-
-  // private _fetchData(url: string): any {
-  //   return fetch(url)
-  //     .then((res: Response) => {
-  //       if (!res.ok) throw new Error(`Errore nel recupero dei dati delle stazioni: ${res.status} ${res.statusText}`);
-  //       return res.json();
-  //     })
-  //     .then((data: any) => {
-  //       return data;
-  //     })
-  //     .catch((err: any) => {
-  //       throw new Error(`Errore nel recupero dei dati delle stazioni: ${err.message || err}`);
-  //     });
-  // }
-
-  // private _parseData(data: any[]): GeoJSON.FeatureCollection {
-
-  //   return {
-  //     type: 'FeatureCollection',
-  //     features: data.map((d: any) => {
-  //       const { lat, lon, ...rest } = d;
-
-  //       return {
-  //         type: 'Feature',
-  //         geometry: {
-  //           type: 'Point',
-  //           coordinates: [d['lon'] ?? 0, d['lat'] ?? 0],
-  //         },
-  //         properties: { ...rest }
-  //       }
-  //     })
-  //   }
-
-  // }
 }

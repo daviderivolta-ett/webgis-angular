@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { ColorScale, Command } from '../models';
+import { ColorScale, Command, GeoJsonLayer } from '../models';
 
 /** Service */
 @Injectable({
@@ -11,19 +11,19 @@ import { ColorScale, Command } from '../models';
 export class ClusterDateStationsService implements Command {
   async execute(args: any): Promise<void> {
     try {
-      const { id, url, map, colorScale, ...rest } = args;
+      const { map, date, colorScale, layer } = args;
 
-      if (!id) {
-        throw new Error('Parametro \'id\' mancante. Assicurati di fornire un identificatore univoco per il layer.');
+      if (!layer || !(layer instanceof GeoJsonLayer)) {
+        throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`)
       }
-      if (!url) {
-        throw new Error('Parametro \'url\' mancante. Non posso eseguire la ricerca delle stazioni senza un URL valido.');
-      }
+
       if (!map || typeof map.addClusterPointGeoJSONLayer !== 'function') {
-        throw new Error('Oggetto \'map\' non valido o non implementa il metodo \'addCustomMarkerPointGeoJSONLayer\'.');
+        throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
       }
 
-      const res = await fetch(url);
+      if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
+
+      const res = await fetch(layer.url);
       let geoJSON = await res.json();
 
       let arcColorDict: Record<string, string> = {};
@@ -34,11 +34,11 @@ export class ClusterDateStationsService implements Command {
           acc[curr] = colorScale.colors[index];
           return acc;
         }, {});
-       
+
         geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, arcColorDict);
       }
 
-      map.addClusterPointGeoJSONLayer(id, geoJSON, arcColorDict, { ...rest });
+      map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
     } catch (error) {
       console.error('Errore nell\'esecuzione del comando:', error);
       throw error;

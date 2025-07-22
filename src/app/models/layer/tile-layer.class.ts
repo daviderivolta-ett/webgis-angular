@@ -1,7 +1,7 @@
 import { Layer } from './layer.class';
 
 export class TileLayer extends Layer {
-    public url: string;
+    // public url: string;
     public attribution: string;
 
     constructor(
@@ -13,7 +13,7 @@ export class TileLayer extends Layer {
         label?: string,
         iconUrl?: string
     ) {
-        super(id, layerType, label, iconUrl, layerCategory);
+        super(id, url, layerType, label, iconUrl, layerCategory);
         this.url = url;
         this.attribution = attribution;
     }

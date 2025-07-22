@@ -2,6 +2,7 @@ import { LayerLegend } from './layer-legend.interface';
 
 export abstract class Layer {
     id: string;
+    url: string;
     layerType: string;
     layerCategory?: string;
     label?: string;
@@ -11,12 +12,14 @@ export abstract class Layer {
 
     constructor(
         id: string,
+        url: string,
         layerType: string,
         layerCategory?: string,
         label?: string,
         iconUrl?: string
     ) {
         this.id = id;
+        this.url = url;
         this.layerType = layerType;
         this.layerCategory = layerCategory;
         this.label = label;
@@ -24,10 +27,6 @@ export abstract class Layer {
     }
 
     public addLegendFromObject(object: any): this {
-        // if (!object['unit']) {
-        //     throw new Error('Una legenda deve avere il campo \'unit\' unità di misura.');
-        // }
-
         const hasMinMax: boolean = object.min !== undefined && object.max !== undefined;
         const hasLabels: boolean = Array.isArray(object.labels);
         const hasSteps: boolean = Array.isArray(object.steps);
@@ -47,5 +46,9 @@ export abstract class Layer {
         };
 
         return this;
+    }
+
+    public createUrlWithDate(date: Date): string {
+        return `${this.url}/${date.getTime()}`;
     }
 }

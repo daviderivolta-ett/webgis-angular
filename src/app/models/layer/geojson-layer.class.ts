@@ -2,7 +2,7 @@ import { Layer } from './layer.class';
 import { MarkerMapping } from './marker-mapping.interface';
 
 export class GeoJsonLayer extends Layer {
-    public url: string;
+    // public url: string;
     public markers?: MarkerMapping;
 
     constructor(
@@ -14,7 +14,7 @@ export class GeoJsonLayer extends Layer {
         label?: string,
         iconUrl?: string
     ) {
-        super(id, layerType, label, iconUrl, layerCategory);
+        super(id, url, layerType, label, iconUrl, layerCategory);
         this.url = url;
         this.markers = markers;
     }
