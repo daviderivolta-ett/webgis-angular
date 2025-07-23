@@ -288,10 +288,11 @@ export class DataPageComponent {
     });
 
     // Redraw interface
-    Promise.allSettled(promises).then((results) => {
-      const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
-      const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
-      fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true));
-    });
+    Promise.allSettled(promises)
+      .then((results) => {
+        const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
+        const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
+        fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true));
+      })
   }
 }

@@ -1,7 +1,7 @@
 /*
 * Libraries
 */
-import { Component, ContentChild, ElementRef, input, NgZone, output } from '@angular/core';
+import { Component, ContentChild, ElementRef, input, model, NgZone, output } from '@angular/core';
 import { Feature, Point } from 'geojson';
 
 import 'leaflet-timedimension';
@@ -40,7 +40,7 @@ export class MapComponent {
   private _layers = new Map<string, L.Layer>();
 
   /** Time dimension properties */
-  public isLoading: boolean = false;
+  public isLoading = model<boolean>(false);
   private _selectedDate: Date | undefined = undefined;
 
   /** Marker specific properties */
@@ -101,9 +101,9 @@ export class MapComponent {
     this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
 
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeload', () => this.isLoading = false);
+    this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeloading', () => this.isLoading = true);
+    this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', () => {
