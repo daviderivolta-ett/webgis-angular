@@ -16,12 +16,17 @@ import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
 
 import * as L from 'leaflet';
 
+/** Components */
+import { TimePlayerComponent } from '../time-player/time-player.component';
+
 /*
 * Component
 */
 @Component({
   selector: 'app-map',
-  imports: [],
+  imports: [
+    TimePlayerComponent
+  ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
@@ -33,6 +38,10 @@ export class MapComponent {
   /** Internal properties */
   private _map!: L.Map;
   private _layers = new Map<string, L.Layer>();
+
+  /** Time dimension properties */
+  public isLoading: boolean = false;
+  public selectedDate: Date | undefined = undefined;
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -55,6 +64,7 @@ export class MapComponent {
   public layerRemoved = output<Record<string, any>>();
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>>();
+  public dateChanged = output<Date>();
 
   /** User Interface */
   @ContentChild('popup', { read: ElementRef }) _popup!: ElementRef;
@@ -85,18 +95,21 @@ export class MapComponent {
       timeDimension: true,
       timeDimensionControl: true
     })
-    .setView(this.position(), this.zoom())
-    
+      .setView(this.position(), this.zoom())
+
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
-    
+
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeload', (e) => {
-      console.log(e);      
-    });
+    this._map.timeDimension.on('timeload', () => this.isLoading = false);
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeloading', (e) => {
-      console.log(e);      
+    this._map.timeDimension.on('timeloading', () => this.isLoading = true);
+
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.on('availabletimeschanged', () => {
+      requestAnimationFrame(() => {
+        if (this.selectedDate) this._setCurrentTime(this.selectedDate);
+      })
     });
   }
 
@@ -193,67 +206,16 @@ export class MapComponent {
   }
 
   /** Add a time dimension layer */
-  public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>, date?: Date): void {
-    const layer: L.TileLayer = L.tileLayer.wms(url, options);
+  public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    const layer: L.TileLayer = L.tileLayer.wms(url, {
+      ...options,
+      // @ts-ignore
+      setDefaultTime: false
+    });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, timeDimensionLayer);
-
-
-
-
-
-    ////////// WORK IN PROGRESS
-    // @ts-ignore
-    // this._map.timeDimension.on('availabletimeschanged', () => {
-    //   console.log('times changed');
-    //   const desired = date?.getTime();
-    //   if (desired) {
-    //     console.log(new Date(desired)); 
-    //     setTimeout(() => {          
-    //       // @ts-ignore
-    //       this._map.timeDimension.setCurrentTime(desired);
-    //       layer.setOpacity(.5);
-    //     }, 1000);       
-    //   }
-    // });
-
-    // timeDimensionLayer.on('timeload', () => {
-    //   // @ts-ignore
-    //   console.log('timeload');
-    //   if (date) {
-    //     console.log('here \'s my date', date);
-
-    //     // @ts-ignore
-    //     this._map.timeDimension.setCurrentTime(date.getTime());
-    //   } else {
-    //     console.log('no date');
-    //     // @ts-ignore
-    //     const numbers: number[] = this._map.timeDimension.getAvailableTimes();
-    //     // @ts-ignore
-    //     this._map.timeDimension.setCurrentTime(numbers[numbers.length - 1]);
-    //   }
-    // });
-
-    // layer.on('load', () => {
-    //   if (date) {
-    //     console.log('my date');
-
-    //     // setTimeout(() => {
-    //       // @ts-ignore
-    //       this._map.timeDimension.setCurrentTime(date.getTime());          
-    //     // }, 0);
-    //     // layer.setOpacity(1);
-    //   } else {
-    //     console.log('NO DATE');        
-    //     // @ts-ignore
-    //     const numbers: number[] = this._map.timeDimension.getAvailableTimes();
-    //     // @ts-ignore
-    //     this._map.timeDimension.setCurrentTime(numbers[numbers.length - 1]);
-    //     // layer.setOpacity(1);
-    //   }
-    // })
   }
 
   /** Add GeoJSON layer with donut cluster */
@@ -261,7 +223,7 @@ export class MapComponent {
     // Create pane for cluster
     // Useful to handle zIndex fight between cluster and custom markers
     if (!this._map.getPane('cluster')) {
-      this._map.createPane('cluster').style.zIndex = '699';
+      this._map.createPane('cluster').style.zIndex = '699'; // 700 is the popup default zIndex
     }
 
     // @ts-ignore: donut cluster plugin has no type declaration
@@ -310,6 +272,14 @@ export class MapComponent {
   }
 
   /** Time dimension methods */
+  public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
+    if (event.date) {
+      this.selectedDate = event.date;
+      this._setCurrentTime(event.date);
+      this.dateChanged.emit(event.date);
+    }
+  }
+
   private _resetTimeDimension(): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.setAvailableTimes([], 'replace');
@@ -317,17 +287,17 @@ export class MapComponent {
     this._map.timeDimension.setCurrentTime(0);
   }
 
-  public setCurrentTime(date: Date | number): void {
+  private _setCurrentTime(date: Date | number): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
-  public nextTime(): void {
+  private _nextTime(): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.nextTime();
   }
 
-  public previousTime(): void {
+  private _previousTime(): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.previousTime();
   }
@@ -561,5 +531,4 @@ export class MapComponent {
       if (!object['lng'].includes(lng)) object['lng'].push(lng);
     }
   }
-
 }

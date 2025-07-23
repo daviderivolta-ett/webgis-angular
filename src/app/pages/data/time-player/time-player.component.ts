@@ -27,7 +27,7 @@ export class TimePlayerComponent {
     updateOn: 'blur'
   });
   public isPlaying: boolean = false;
-  public isLoading = input<boolean>(true);
+  public isLoading = input<boolean>(false);
 
   /** Output */
   public onToggle = output<TimePlayerOption>();

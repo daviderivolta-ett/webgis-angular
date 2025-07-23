@@ -11,7 +11,7 @@ import { Command, WMSLayer } from '../models';
 export class GetWMSCommandService implements Command {
     public async execute(args?: any): Promise<any> {
         try {
-            const { map, date, layer } = args;
+            const { map, layer } = args;
 
             if (!layer || !(layer instanceof WMSLayer)) {
                 throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'WMSLayer'.`)
@@ -22,10 +22,10 @@ export class GetWMSCommandService implements Command {
             }
 
             const { id, url, layerCategory, opacity, params } = layer;
-            console.log(layer);
+
             switch (layerCategory) {
                 case 'data_wms--time':
-                    map.addTimeDimensionWMSLayer(id, url, { opacity, ...params }, date);
+                    map.addTimeDimensionWMSLayer(id, url, { opacity, ...params });
                     break;
                 case 'data_wms':
                     map.addWMSLayer(id, url, { opacity, ...params });

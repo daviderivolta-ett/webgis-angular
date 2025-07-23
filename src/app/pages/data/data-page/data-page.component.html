@@ -77,11 +77,11 @@
         <!-- END RESET BUTTON -->
 
         <!-- START TIME PLAYER -->
-        <app-time-player class="time-player" (onToggle)="onTimePlayerToggle($event)"></app-time-player>
+        <!-- <app-time-player class="time-player" (onToggle)="onTimePlayerToggle($event)"></app-time-player> -->
         <!-- END TIME PLAYER -->
 
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="popupData=$event" #map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="popupData=$event" (dateChanged)="onMapDateChanged($event)" #map>
             <app-map-popup [data]="popupData" #popup></app-map-popup>
         </app-map>
         <!-- END MAP -->

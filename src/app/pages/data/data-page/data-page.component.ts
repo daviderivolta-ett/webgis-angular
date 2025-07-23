@@ -17,7 +17,6 @@ import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { TimePlayerComponent } from "../../../components/time-player/time-player.component";
 
 /** Component */
 @Component({
@@ -34,8 +33,7 @@ import { TimePlayerComponent } from "../../../components/time-player/time-player
     GroupedCheckboxesComponent,
     ChipComponent,
     MapPopupComponent,
-    SliderComponent,
-    TimePlayerComponent
+    SliderComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -68,8 +66,6 @@ export class DataPageComponent {
   }
 
   /** Data */
-  public selectedDate: Date | undefined = undefined;
-
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
@@ -249,7 +245,7 @@ export class DataPageComponent {
   }
 
   /** Get and execute generic action from commands registry service class */
-  private async _executeAction(layer: Layer): Promise<void> {
+  private async _executeAction(layer: Layer, date?: Date): Promise<void> {
     if (!layer.action || !('id' in layer.action)) return;
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
@@ -264,7 +260,7 @@ export class DataPageComponent {
     try {
       await command.execute({
         map: this._map,
-        date: this.selectedDate,
+        date,
         colorScale,
         layer
       });
@@ -277,26 +273,19 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
-    this.selectedDate = event.date ?? undefined; // set date
-
+  public onMapDateChanged(date: Date): void {
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
     layersToUpdate
       .reverse()
       .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }));
 
-    console.log(layersToKeep, layersToUpdate);
-
     // Call command for every not-timedimension layer
     const promises: Promise<void>[] = [];
     layersToUpdate.forEach((id: string) => {
       const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
-      if (foundLayer) promises.push(this._executeAction(foundLayer));
+      if (foundLayer) promises.push(this._executeAction(foundLayer, date));
     });
-
-    // Set timedimension time
-    if (event.date) this._map.setCurrentTime(event.date.getTime());
 
     // Redraw interface
     Promise.allSettled(promises).then((results) => {
