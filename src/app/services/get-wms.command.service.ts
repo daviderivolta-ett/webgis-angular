@@ -22,10 +22,10 @@ export class GetWMSCommandService implements Command {
             }
 
             const { id, url, layerCategory, opacity, params } = layer;
-
+            console.log(layer);
             switch (layerCategory) {
                 case 'data_wms--time':
-                    map.addTimeDimensionWMSLayer(id, url, { opacity, ...params });
+                    map.addTimeDimensionWMSLayer(id, url, { opacity, ...params }, date);
                     break;
                 case 'data_wms':
                     map.addWMSLayer(id, url, { opacity, ...params });

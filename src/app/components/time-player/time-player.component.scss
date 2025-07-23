@@ -45,6 +45,10 @@
     align-items: center;
 }
 
+.icon--rotating {
+    animation: rotating 1s infinite linear;
+}
+
 @media screen and (max-width: 768px) {
     .time-player {
         max-width: 200px;
@@ -60,4 +64,10 @@
         flex-basis: 100%;
     }
     
+}
+
+@keyframes rotating {
+    to {
+        transform: rotate(360deg);
+    }
 }

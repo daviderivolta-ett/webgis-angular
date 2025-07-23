@@ -1,23 +1,30 @@
 <div class="time-player" [formGroup]="form">
     <div class="controls">
-        <button type="button" class="button" [disabled]="!form.valid" (click)="onStepBtnClick('backward')">
+        <button type="button" class="button" [disabled]="!form.valid || isLoading()" (click)="onStepBtnClick('backward')">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M816-264 480-480l336-216v432Zm-384 0L96-480l336-216v432Z"/></svg>
         </span>
         </button>
-        <button type="button" class="button" [disabled]="!form.valid" (click)="onToggleBtnClick(!isPlaying)">
-            @if (!isPlaying) {
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Z"/></svg>
-                </span>
+        <button type="button" class="button" [disabled]="!form.valid || isLoading()" (click)="onToggleBtnClick(!isPlaying)">
+            @if (!isLoading()) {
+                @if (!isPlaying) {
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Z"/></svg>
+                    </span>
+                }
+                @else {
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M564-228v-504h168v504H564Zm-336 0v-504h168v504H228Z"/></svg>
+                    </span>
+                }
             }
             @else {
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M564-228v-504h168v504H564Zm-336 0v-504h168v504H228Z"/></svg>
-                </span>
+                <span class="icon icon--rotating">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M227-346q-16-30-25.5-63.5T192-480q0-121 85-206t209-82l-57-57 51-51 144 144-144 144-51-51 57-57q-94-2-158 62t-64 154q0 22 4 42t12 39l-53 53ZM480-84 336-228l144-144 51 51-57 57q94 2 158-62t64-154q0-22-4-42t-12-39l53-53q16 30 25.5 63.5T768-480q0 120-85 205.5T474-192l57 57-51 51Z"/></svg>
+                </span>                
             }
         </button>
-        <button type="button" class="button" [disabled]="!form.valid" (click)="onStepBtnClick('forward')">
+        <button type="button" class="button" [disabled]="!form.valid || isLoading()" (click)="onStepBtnClick('forward')">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M144-264v-432l336 216-336 216Zm384 0v-432l336 216-336 216Z"/></svg>
             </span>

@@ -273,29 +273,35 @@ export class DataPageComponent {
     }
   }
 
+  // On date change
+  // Call command for every not-timedimension layer
+  // Call setCurrentTime() for every timedimension layer
+  // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
-    this.selectedDate = event.date ?? undefined;
+    this.selectedDate = event.date ?? undefined; // set date
 
-    const currentLayers: string[] = this.currentDataLayers.toArray().reverse();
-    currentLayers.forEach((id: string) => this.onLayerToggled({ id, isChecked: false }));
+    // Split current layers in timedimension and not-timedimension layers
+    const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
+    layersToUpdate
+      .reverse()
+      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }));
 
+    console.log(layersToKeep, layersToUpdate);
+
+    // Call command for every not-timedimension layer
     const promises: Promise<void>[] = [];
-    currentLayers.forEach((id: string) => {
+    layersToUpdate.forEach((id: string) => {
       const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
       if (foundLayer) promises.push(this._executeAction(foundLayer));
     });
+
+    // Set timedimension time
+    if (event.date) this._map.setCurrentTime(event.date.getTime());
+
+    // Redraw interface
     Promise.allSettled(promises).then((results) => {
-      // console.log(results);
-      // results.forEach((result, index) => {
-      //   if (result.status === 'rejected') {
-      //     console.error(`Azione ${index} ha fallito: ${result.reason}`);
-      //   } else if (result.status === 'fulfilled') {
-      //     console.log(`Azione ${index} completata con successo`);
-      //     console.log(currentLayers[index]);
-      //   }
-      // });
       const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
-      const fulfilledIds = currentLayers.filter((_, i) => fulfilledIndexes.includes(i));
+      const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
       fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true));
     });
   }

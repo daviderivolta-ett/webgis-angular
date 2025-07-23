@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /** Types */
@@ -27,6 +27,7 @@ export class TimePlayerComponent {
     updateOn: 'blur'
   });
   public isPlaying: boolean = false;
+  public isLoading = input<boolean>(true);
 
   /** Output */
   public onToggle = output<TimePlayerOption>();

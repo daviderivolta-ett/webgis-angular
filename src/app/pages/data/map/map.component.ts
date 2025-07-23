@@ -85,10 +85,19 @@ export class MapComponent {
       timeDimension: true,
       timeDimensionControl: true
     })
-      .setView(this.position(), this.zoom())
-
+    .setView(this.position(), this.zoom())
+    
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
+    
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.on('timeload', (e) => {
+      console.log(e);      
+    });
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.on('timeloading', (e) => {
+      console.log(e);      
+    });
   }
 
   /** Click map event */
@@ -184,12 +193,67 @@ export class MapComponent {
   }
 
   /** Add a time dimension layer */
-  public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
+  public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>, date?: Date): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, options);
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, timeDimensionLayer);
+
+
+
+
+
+    ////////// WORK IN PROGRESS
+    // @ts-ignore
+    // this._map.timeDimension.on('availabletimeschanged', () => {
+    //   console.log('times changed');
+    //   const desired = date?.getTime();
+    //   if (desired) {
+    //     console.log(new Date(desired)); 
+    //     setTimeout(() => {          
+    //       // @ts-ignore
+    //       this._map.timeDimension.setCurrentTime(desired);
+    //       layer.setOpacity(.5);
+    //     }, 1000);       
+    //   }
+    // });
+
+    // timeDimensionLayer.on('timeload', () => {
+    //   // @ts-ignore
+    //   console.log('timeload');
+    //   if (date) {
+    //     console.log('here \'s my date', date);
+
+    //     // @ts-ignore
+    //     this._map.timeDimension.setCurrentTime(date.getTime());
+    //   } else {
+    //     console.log('no date');
+    //     // @ts-ignore
+    //     const numbers: number[] = this._map.timeDimension.getAvailableTimes();
+    //     // @ts-ignore
+    //     this._map.timeDimension.setCurrentTime(numbers[numbers.length - 1]);
+    //   }
+    // });
+
+    // layer.on('load', () => {
+    //   if (date) {
+    //     console.log('my date');
+
+    //     // setTimeout(() => {
+    //       // @ts-ignore
+    //       this._map.timeDimension.setCurrentTime(date.getTime());          
+    //     // }, 0);
+    //     // layer.setOpacity(1);
+    //   } else {
+    //     console.log('NO DATE');        
+    //     // @ts-ignore
+    //     const numbers: number[] = this._map.timeDimension.getAvailableTimes();
+    //     // @ts-ignore
+    //     this._map.timeDimension.setCurrentTime(numbers[numbers.length - 1]);
+    //     // layer.setOpacity(1);
+    //   }
+    // })
   }
 
   /** Add GeoJSON layer with donut cluster */
@@ -240,6 +304,12 @@ export class MapComponent {
     }
   }
 
+  /** Reset position and zoom to default values */
+  public resetMap(): void {
+    this._map.setView(this.position(), this.zoom());
+  }
+
+  /** Time dimension methods */
   private _resetTimeDimension(): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.setAvailableTimes([], 'replace');
@@ -247,11 +317,22 @@ export class MapComponent {
     this._map.timeDimension.setCurrentTime(0);
   }
 
-  /** Reset position and zoom to default values */
-  public resetMap(): void {
-    this._map.setView(this.position(), this.zoom());
+  public setCurrentTime(date: Date | number): void {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
+  public nextTime(): void {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.nextTime();
+  }
+
+  public previousTime(): void {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.previousTime();
+  }
+
+  /** Popup methods */
   public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
       className: 'custom-leaflet-popup'

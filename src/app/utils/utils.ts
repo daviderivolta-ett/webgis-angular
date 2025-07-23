@@ -41,4 +41,17 @@ export class Utils {
         const encoded = encodeURIComponent(svgString);
         return `data:image/svg+xml,${encoded}`;
     }
+
+    static splitMapByKey(map: Map<string, string[]>, excludedKey: string) {
+        const withKey: string[] = [];
+        const withoutKey: string[] = [];
+       
+        map.forEach((value, key) => {           
+            key === excludedKey ?
+                withKey.push(...value) :
+                withoutKey.push(...value)
+        });
+
+        return { withKey, withoutKey };
+    }
 }
