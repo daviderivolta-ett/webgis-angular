@@ -273,7 +273,7 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date): void {
+  public onMapDateChanged(date: Date | undefined): void {
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
     layersToUpdate

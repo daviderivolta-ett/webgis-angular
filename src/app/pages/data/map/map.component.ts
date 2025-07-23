@@ -41,7 +41,7 @@ export class MapComponent {
 
   /** Time dimension properties */
   public isLoading: boolean = false;
-  public selectedDate: Date | undefined = undefined;
+  private _selectedDate: Date | undefined = undefined;
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -64,7 +64,7 @@ export class MapComponent {
   public layerRemoved = output<Record<string, any>>();
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>>();
-  public dateChanged = output<Date>();
+  public dateChanged = output<Date | undefined>();
 
   /** User Interface */
   @ContentChild('popup', { read: ElementRef }) _popup!: ElementRef;
@@ -108,7 +108,7 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', () => {
       requestAnimationFrame(() => {
-        if (this.selectedDate) this._setCurrentTime(this.selectedDate);
+        if (this._selectedDate) this._setCurrentTime(this._selectedDate);
       })
     });
   }
@@ -272,11 +272,16 @@ export class MapComponent {
   }
 
   /** Time dimension methods */
-  public onTimePlayerToggle(event: { isPlaying: boolean, date?: Date }): void {
-    if (event.date) {
-      this.selectedDate = event.date;
-      this._setCurrentTime(event.date);
-      this.dateChanged.emit(event.date);
+  public onTimePlayerToggle(date: Date | undefined): void {  
+    this._selectedDate = date;
+    this.dateChanged.emit(date);
+
+    if (date) {
+      this._setCurrentTime(date);
+    } else {
+      // @ts-ignore: time dimension plugin has no type declaration
+      const availableTimes: numbers[] = this._map.timeDimension.getAvailableTimes();    
+      availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
     }
   }
 
