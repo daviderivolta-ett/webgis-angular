@@ -32,7 +32,7 @@ export class StationBase implements Geolocation {
         return new StationBase('', 0, 0, []);
     }
 
-    static createFromObject(object: any): StationBase {
+    static createFromObject(object: any): StationBase {        
         if (!('id' in object) || typeof object['id'] !== 'string') {
             throw new Error('Oggetto non valido: \'id\' mancante.');
         }
@@ -53,7 +53,7 @@ export class StationBase implements Geolocation {
 
         if (object['name'] && typeof object['name'] === 'string') station.name = object['name'];
         if (object['city'] && typeof object['city'] === 'string') station.city = object['city'];
-        if (object['alt'] && typeof object['alt'] === 'number') station.alt = object['alt'];
+        if ('alt' in object && typeof object['alt'] === 'number') station.alt = object['alt'];
 
         return station;
     }
@@ -79,7 +79,7 @@ export class StationBase implements Geolocation {
 
         if (props['name'] && typeof props['name'] === 'string') station.name = props['name'];
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];
-        if (props['alt'] && typeof props['alt'] === 'number') station.alt = props['alt'];
+        if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
 
         return station;
     }

@@ -184,6 +184,7 @@ export class DataPageComponent {
   }
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
+    console.log(data);    
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);

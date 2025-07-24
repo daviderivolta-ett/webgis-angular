@@ -5,16 +5,11 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 /** Models */
 import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';
 
-/** Pipes */
-import { IsArrayPipe, IsDatePipe } from '../../../pipes';
-
 /** Component */
 @Component({
   selector: 'app-map-popup',
   imports: [
     DatePipe,
-    IsArrayPipe,
-    IsDatePipe,
     DecimalPipe
   ],
   templateUrl: './map-popup.component.html',
@@ -24,5 +19,5 @@ export class MapPopupComponent {
   public data = input<Station[]>([]);
   public config = input<StationPopupConfig>(createDefaultStationsPopupConfig());
 
-  constructor() { }
+  constructor() {}
 }
