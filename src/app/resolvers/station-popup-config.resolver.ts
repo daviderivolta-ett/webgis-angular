@@ -6,12 +6,14 @@ import { ResolveFn } from '@angular/router';
 import { createDefaultStationsPopupConfig, StationPopupConfig } from '../models';
 
 // Services
-import { ConfigService } from '../services';
+import { PopupService } from '../services';
 
 export const stationPopupConfigResolver: ResolveFn<StationPopupConfig> = async (route, state) => {
-  const configService: ConfigService = inject(ConfigService);
+  // const configService: ConfigService = inject(ConfigService);
+  const popupService: PopupService = inject(PopupService);
 
-  return configService.getStationsPopupConfig()
+  // return configService.getStationsPopupConfig()
+  return popupService.getPopupConfig()
     .then((data: StationPopupConfig) => data)
     .catch((err: any) => {
       console.error(err);

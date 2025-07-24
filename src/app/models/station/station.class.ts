@@ -1,13 +1,12 @@
 import { StationBase } from './station-base.class'
 import { StationData } from './station-data.interface'
-import { Sensor } from './sensor.class';
-import { Basin } from './basin-data.interface'
+import { Sensor } from './sensor.class'
 
 export class Station extends StationBase implements StationData {
     public value: number;
-    public refTime?: Date;
-    public updateTime?: Date;
-    public basin?: Basin;
+    public label?: string;
+    public unit?: string;
+    public date?: Date;
 
     constructor(
         id: string,
@@ -18,47 +17,54 @@ export class Station extends StationBase implements StationData {
         name?: string,
         city?: string,
         alt?: number,
-        refTime?: Date,
-        updateTime?: Date,
-        basin?: Basin
+        label?: string,
+        unit?: string,
+        date?: Date
     ) {
         super(id, lat, lng, sensors, name, city, alt);
 
         this.value = value;
-        this.refTime = refTime;
-        this.updateTime = updateTime;
-        this.basin = basin;
+        this.label = label;
+        this.unit = unit;
+        this.date = date;
     }
 
-    // static createFromObject(object: any): Station {
-    //     if (!object['shortCode'] || !object['code'] || !object['id']) {
-    //         throw new Error(`Impossibile creare un oggetto 'Station' senza un id; controllare che sia presente almeno uno tra i campi 'id', 'shortCode' o 'code'.`, object);
-    //     }
+    static override createDefault(): Station {
+        return new Station('', 0, 0, [], 0);
+    }
 
-    //     const station = new Station(
-    //         (typeof object['id'] === 'string' && object['id']) || '',
-    //     );
-
-    //     return station;
-    // }
-
-    public addBasin(object: any): this {
-        const hasBasinName: boolean = 'basin' in object && typeof object.basin === 'string';
-        const hasBasinArea: boolean = 'basinArea' in object && typeof object.basinArea === 'number';
-        const hasBasinClass: boolean = 'basinClass' in object && typeof object.basinClass === 'string';
-        const hasRiverName: boolean = 'river' in object && typeof object.river === 'string';
-        const hasWarningArea: boolean = 'warningArea' in object && typeof object.warningArea === 'string';
-
-        if (hasBasinName && hasBasinArea && hasBasinClass && hasRiverName && hasWarningArea) {
-            this.basin = {
-                basinName: object.basin,
-                basinArea: object.basinArea,
-                basinClass: object.basinClass,
-                riverName: object.river,
-                warningArea: object.warningArea
-            }
+    static createStationDataFromGeoJSONProps(props: any): StationData {
+        if (!('value' in props) || typeof props['value'] !== 'number') {
+            throw new Error('Oggetto non valido: \'value\' mancante.');
         }
 
-        return this;
+        const data: StationData = { value: 0 };
+
+        if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
+        if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
+        if (props['refDate'] && typeof props['refDate'] === 'string') {
+            const date = new Date(props['refDate']);
+            if (!isNaN(date.getTime())) data.date = date;
+        }
+
+        return data;
+    }
+
+    static fromStationData(stationBase: StationBase, data: StationData): Station {
+        const { value, label, unit, date } = data;
+
+        return new Station(
+            stationBase.id,
+            stationBase.lat,
+            stationBase.lng,
+            stationBase.sensors,
+            value,
+            stationBase.name,
+            stationBase.city,
+            stationBase.alt,
+            label,
+            unit,
+            date
+        )
     }
 }

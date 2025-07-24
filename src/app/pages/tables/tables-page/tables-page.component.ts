@@ -81,7 +81,7 @@ export class TablesPageComponent {
       this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
       return;
     }
-    const response = await this.apiService.getTableData(config.url)
+    const response = await this.apiService.getApiJSONData(config.url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       });

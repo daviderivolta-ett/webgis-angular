@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapConfig, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
 import { CommandsRegistryService, LayersService } from '../../../services';
@@ -67,6 +67,7 @@ export class DataPageComponent {
 
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
@@ -74,7 +75,7 @@ export class DataPageComponent {
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
-  public popupData: Record<string, any> = {};
+  public popupData: Station[] = [];
 
   /** Constructor */
   constructor(
@@ -86,6 +87,7 @@ export class DataPageComponent {
 
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
@@ -106,7 +108,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this.dataLayers);
+    // console.log(this.stationPopupConfig);
   }
 
   public ngAfterViewInit(): void {
@@ -179,6 +181,15 @@ export class DataPageComponent {
     if (!id) return;
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
+  }
+
+  public onMapMarkerClicked(data: Record<string, any>[]): void {
+    const stations = data.map((d: any) => {
+      const stationBase = StationBase.createFromGeoJSONProps(d);
+      const stationData = Station.createStationDataFromGeoJSONProps(d);
+      return Station.fromStationData(stationBase, stationData);
+    });
+    this.popupData = [...stations];
   }
 
   private _onBaselayersRadioChange(changes: any): void {

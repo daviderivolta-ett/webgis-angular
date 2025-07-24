@@ -63,7 +63,7 @@ export class MapComponent {
   public layerAdded = output<Record<string, any>>();
   public layerRemoved = output<Record<string, any>>();
   public mapClicked = output<Record<string, any>>();
-  public markerClicked = output<Record<string, any>>();
+  public markerClicked = output<Record<string, any>[]>();
   public dateChanged = output<Date | undefined>();
 
   /** User Interface */
@@ -93,7 +93,7 @@ export class MapComponent {
       zoomControl: false,
       // @ts-ignore: time dimension plugin has no type declaration
       timeDimension: true,
-      timeDimensionControl: true
+      // timeDimensionControl: true
     })
       .setView(this.position(), this.zoom())
 
@@ -121,13 +121,15 @@ export class MapComponent {
 
     if (nearbyMarkers.length === 0) return;
 
-    const data: Record<string, any> = this._getMultiMarkersData(nearbyMarkers, 'merge');
+    const result = this._getMultiMarkersData(nearbyMarkers, 'group');
+    let data: Record<string, any>[];
+    data = Array.isArray(result) ? result : [result];
     this.markerClicked.emit(data);
 
     if (this._popup) {
       const subscription = this.ngZone.onStable.subscribe(() => {
         const popup: L.Popup = this.openCustomPopup(this._popup.nativeElement, nearbyMarkers[0].getLatLng());
-        popup.on('remove', () => this.markerClicked.emit({}));
+        popup.on('remove', () => this.markerClicked.emit([]));
         subscription.unsubscribe();
       });
     }

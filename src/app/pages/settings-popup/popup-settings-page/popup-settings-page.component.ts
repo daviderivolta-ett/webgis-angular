@@ -5,7 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { StationPopupConfig } from '../../../models';
+import { createStationPopupConfigFromObject, StationPopupConfig } from '../../../models';
+
+/** Services */
+import { PopupService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components';
@@ -23,7 +26,7 @@ import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtn
     /** Directives */
     ReactiveFormsModule,
     LoadingBtnComponent
-],
+  ],
   templateUrl: './popup-settings-page.component.html',
   styleUrl: './popup-settings-page.component.scss'
 })
@@ -36,7 +39,10 @@ export class PopupSettingsPageComponent {
   /** Data */
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private popupService: PopupService
+  ) {
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.form = this._createStationPopupConfigForm(this.stationPopupConfig);
   }
@@ -52,8 +58,15 @@ export class PopupSettingsPageComponent {
     return formGroup;
   }
 
-  public onFormSubmit(): void {
-    console.log('submit', this.form.value);
+  public async onFormSubmit(): Promise<void> {
     this.isLoading = true;
+    this.popupService.savePopupConfig(createStationPopupConfigFromObject(this.form.value))
+      .catch((err: unknown) => {
+        console.error(err);        
+      })
+      .finally(() => {
+        this.form.markAsPristine();
+        this.isLoading = false;
+      })
   }
 }

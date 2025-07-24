@@ -1,6 +1,9 @@
 /** Libraries */
-import { Component, effect, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
+
+/** Models */
+import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';
 
 /** Pipes */
 import { IsArrayPipe, IsDatePipe } from '../../../pipes';
@@ -18,7 +21,8 @@ import { IsArrayPipe, IsDatePipe } from '../../../pipes';
   styleUrl: './map-popup.component.scss'
 })
 export class MapPopupComponent {
-  public data = input<Record<string, any>>({});
+  public data = input<Station[]>([]);
+  public config = input<StationPopupConfig>(createDefaultStationsPopupConfig());
 
   constructor() { }
 }

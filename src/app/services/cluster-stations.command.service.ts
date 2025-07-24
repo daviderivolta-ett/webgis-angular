@@ -70,7 +70,7 @@ export class ClusterStationsService implements Command {
           ...feature,
           properties: {
             ...properties,
-            uom: unit,
+            unit,
             color,
             clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === color)
           }

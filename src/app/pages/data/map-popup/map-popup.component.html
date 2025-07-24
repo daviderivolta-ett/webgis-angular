@@ -1,5 +1,41 @@
 <div class="map-popup">
-    <p class="title">{{data()['name'] ?? 'name' }}</p>
+    @for (item of data(); track item.id) {
+        <div class="station">            
+            <p class="title">
+                @if (config().name) { {{item.name}} }
+                @if (config().alt) { ({{item.alt}}m) }
+            </p>
+
+            <p class="greyed">
+                @if (config().id) { {{item.id}} }
+                @if (config().id && config().city) { - }
+                @if (config().city) { {{item.city}} }
+            </p>
+
+            <p class="station__label greyed">
+                @if (config().label) { {{item.label}} }
+            </p>
+
+            <p class="station__value">
+                @if (config().value) { {{item.value | number: '1.2-2'}} }
+                @if (config().unit) { {{item.unit}} }
+            </p>
+
+            <p>
+                @if (config().date) { {{item.date | date: 'dd/MM/yyyy - HH:mm'}} }
+            </p>
+
+            <p class="greyed">
+                @if (config().lat) { lat: {{item.lat}} }
+                @if (config().lat && config().lng) { - }
+                @if (config().lng) { lng: {{item.lng}} }
+            </p>
+        </div>
+    }
+
+
+
+    <!-- <p class="title">{{data()['name'] ?? 'name' }}</p>
     <p class="greyed">
         {{data()['shortCode'] ?? data()['code'] ?? 'shortCode' }}
         @if (data()['municipality']) {
@@ -12,8 +48,8 @@
                     <div class="value-group">
                         <p class="value">
                             {{value | number: '1.2-2'}}
-                            @if (data()['uom'] && data()['uom'] | isArray) {
-                                {{data()['uom'][$index]}}
+                            @if (data()['unit'] && data()['unit'] | isArray) {
+                                {{data()['unit'][$index]}}
                             }
                         </p>
                         <p class="greyed">
@@ -36,8 +72,8 @@
             <div class="values">
                 <p class="value">
                     {{data()['value'] | number: '1.2-2'}}
-                    @if (data()['uom']) {
-                        {{data()['uom']}}
+                    @if (data()['unit']) {
+                        {{data()['unit']}}
                     }
                 </p>
             </div>
@@ -45,5 +81,5 @@
     <p class="greyed">lat: {{data()['lat'] ?? 0.00}} - lng: {{data()['lng'] ?? 0.00}}</p>
     @if (data()['refDate'] && data()['refDate'] | isDate) {
         <p>{{data()['refDate'] | date: 'dd/MM/yyyy - HH:mm'}}</p>
-    }
+    } -->
 </div>

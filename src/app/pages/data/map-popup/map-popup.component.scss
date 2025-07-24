@@ -1,14 +1,20 @@
 p {
     font-size: 1rem;
-    margin: 4px;
-}
-
-.title {
-    font-weight: 600;
+    margin: 4px 0;
 }
 
 .greyed {
     color: var(--neutral-600, lightgrey);
+}
+
+.map-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.title {
+    font-weight: 600;
 }
 
 .values {
@@ -18,8 +24,12 @@ p {
     gap: 32px;
 }
 
-.value {
+.station__value {
     font-size: 2.5rem;
     font-weight: 600;
-    margin: 0 0 -4px 0;
+    margin: 16px 0;
+}
+
+.station__label {
+    margin: 0 0 16px 0;
 }

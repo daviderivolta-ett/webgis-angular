@@ -17,6 +17,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent),
         resolve: {
             mapConfig: mapConfigResolver,
+            stationPopupConfig: stationPopupConfigResolver,
             colorScales: colorScalesResolver,
             infoLayers: infoLayersResolver,
             baseLayers: baseLayersResolver,
