@@ -54,6 +54,8 @@ export class DataPageComponent {
   public chips: Chip[] = [];
   public legends: Legend[] = [];
 
+  private _selectedDate: Date | undefined;
+
   @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
   @ViewChildren('groupedCheckbox') _groupedCheckboxes!: QueryList<GroupedCheckboxesComponent>;
@@ -239,7 +241,7 @@ export class DataPageComponent {
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l);
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this._selectedDate);
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -286,6 +288,8 @@ export class DataPageComponent {
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
+    this._selectedDate = date;
+
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
     layersToUpdate

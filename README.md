@@ -1,60 +1,70 @@
 # Omirl
+## Aggiunta layer
+I layer si dividono in tre file principali: **base**, **data** ed **info**-layers.config.json.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+### Struttura file
+#### Base layer
+Layer usati dall'app come base.
 
-## Development server
+#### Info layer
+Usati dall'app come layer aggiuntivi (es. confini province, fiumi, aree a rischio, ecc).
 
-To start a local development server, run:
+#### Data layer
+Layer principali dell'app, usati come per visualizzare dati puntuali o areali, tramite GeoJSON e WMS.
 
-```bash
-ng serve
-```
+### Struttura layer
+L'app gestisce una classe astratta Layer, che viene estesa da **Tilelayer**, **WMSLayer** e **GeoJSONLayer**, basandosi sul parametro **layerType** presente in tutti gli oggetti layer inclusi nei file di configurazione citati prima.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Tutti i layer compresi in **data-layers.config.json**, ovvero quelli presente nella sidebar della pagina **Dati** (componente **data-page.component.ts** in _src/pages/data/data-page_), sono di tipo **GeoJSONLayer** (layer GeoJSON con featureCollection di Feature Point) oppure **WMSLayer** (layer WMS, con timedimension o meno).
 
-## Code scaffolding
+Ogni layer ha le sue proprietà specifiche (vedi i vari modelli in _src/models/layer_).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Nei file i layer sono raggruppati in oggetti **LayerGroup** (_src/models/layer/layer-group.class.ts_) per comodità di conversione con l'oggetto **GroupedCheckboxItem** (_src/models/ui/grouped-checkbox-item.class.ts_) che rappresenta la struttura dati delle checkbox nella sidebar preenta nella pagina **Dati**.
 
-```bash
-ng generate component component-name
-```
+Importante anche il parametro **layerCategory**, su cui si basa la logica di mutua esclusività o meno delle varie tipologie di layer sulla mappa. Esiste un file di configurazione anche per decidere quali categorie sono incompatibili con quali altre: _public/configs/layer-categories.config.json_.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Ultimo, il campo **legend** è usato dall'applicativo per generare dinamicamente la legenda associata al layer selezionato. Le varie scale colori sono presenti nel file **color-scales.config.json** (_public/configs/color-scales.config.json_); oguna delle quali ha **colori** ed **id**.
 
-```bash
-ng generate --help
-```
+### Struttura legenda
+Il campo legend negli oggetti Layer ha obbligatoriamente l'id della scala da recuperare dal file di configurazione corrispondente. La scala da mostrare all'utente viene creata dinamicamente in base ad alcuni parametri presenti nel campo legend del file di configurazione del layer.
 
-## Building
+La legend viene usata per determinare i colori dei punti sulla mappa, in quanto necessari per aggiungere il cmapo **color** alle properties del GeoJSON.
 
-To build the project run:
+Se presenti i campi **min** e **max** viene creato l'oggetto **ColorScale** con tanti colori quanti sono quelli della scala recuperata dal file di configurazione, e le **labels** e gli **steps** vengono creati di conseguenza.
 
-```bash
-ng build
-```
+Se presente il campo **steps** invece, questi verranno usati come **labels**. Inoltre questi verranno usati come valori di soglia per colorare i punti dei GeoJSON.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Se presente il campo **labels**, questo può esssere usato per mostrare i testi all'utente sulla legenda, ma ha bisogno di un campo **steps** per determinare i valori di soglia numerici con cui colorare i punti del GeoJSON.
 
-## Running unit tests
+### Flusso aggiunta
+La pagina **Dati** recupera dal file di configurazione locale i dati dal file data-layers.config.json tramite il resolver **groupedCheckboxesResolver** (_src/resolvers/grouped-checkboxes.resolver.ts_) direttamente durante il routing.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Il resolver in particolare usa il service **ConfigService** (_src/services/config.service.ts_) ed il metodo **getDataLayers** per sapere quale file recuperare.
 
-```bash
-ng test
-```
+La pagina **Dati** poi crea in autonomia le checkbox della sidebar.
 
-## Running end-to-end tests
+Alla selezione di un layer, il componente pagina cerca quale **Layer** deve attivare, crea la **ColorScale** basandosi sui dati delle scale colori salvati nel relativo file di configurazione ed i dati del campo **lagend** del singolo **Layer**. Una volta creato **ColorScale** ed ottenuto il **Layer** da attivare, esegue il comando.
 
-For end-to-end (e2e) testing, run:
+Come?
 
-```bash
-ng e2e
-```
+Ogni oggetto **Layer** e derivati ha un campo **action**, modellato come _any_ in maniera da essere in grado di comportarsi come campo bonus.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Il campo action ha per convenzione un campo **id**, che serve all'app per sapere quale comando eseguire al click della checkbox del layer.
 
-## Additional Resources
+Ho infatti implementato una sorta di Command Pattern.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# omirl-angular
+Esiste un service **CommandsRegistryService** (_src/services/registry.command.service.ts_) che ha un campo Map di comandi. Il metodo **getCommand** si occupa di recuperare il comando corretto quando richiesto.
+
+Ogni comando è di fatto un service che implementa un interface Command, che ha solo un metodo **execute()**. Di conseguenza ogni comando ha obbligatoriamente un metodo **execute()**, che è ciò che viene invocato dal layer alla selezione.
+
+I singoli comandi, ad ora, sono il male reincarnato in cui tutto vale. Il metodo **execute()** presente in tutti i servizi comandi accetta un args di tipo _any_, per cui gli si può passare tutto ed ogni comando è indipendente e custom.
+
+Il singolo comando usa i dati dell'oggetto **Layer** e chiama direttamente il metodo della mappa che si occupa di mostrarlo all'utente.
+
+Una volta che il **Layer** trova il comando corretto dal **CommandsRegistryService** passa al metodo **execute()** tutti i parametri di cui ha bisogno, e questo si occupa di recuperare i dati, creare il GeoJSON/WMS in maniera corretta ed invocare il metodo corretto della mappa per mostrarli.
+
+Ad ora mi fa schifo che il comand accetti l'istanza della mappa per invocare i suoi metodi, ma ci ragionerò.
+
+Per aggiungere nuovi layer è quindi sufficiente inserirli nel file di configurazione corrispondente, con i parametri necessari a fare la richiesta di GET.
+
+Buona fortuna!

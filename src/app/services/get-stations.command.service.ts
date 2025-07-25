@@ -24,11 +24,10 @@ export class GetAndRenderStationsCommandService implements Command {
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
       const res = await fetch(layer.url);
-      let geoJSON: GeoJSON.FeatureCollection = await res.json();    
+      let geoJSON: GeoJSON.FeatureCollection = await res.json();          
       if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
       if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
-      console.log(geoJSON);      
-      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
+      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });     
     } catch (error) {
       console.error(`Errore nell'esecuzione del comando:`, error);
       throw error;

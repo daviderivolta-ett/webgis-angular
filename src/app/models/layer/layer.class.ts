@@ -49,6 +49,7 @@ export abstract class Layer {
     }
 
     public createUrlWithDate(date: Date): string {
-        return `${this.url}/${date.getTime()}`;
+        const halfHour: number = 30 * 60 * 1000;
+        return `${this.url}/?fromDate=${new Date(date.getTime() - halfHour).toISOString()}&toDate=${new Date(date.getTime() + halfHour).toISOString()}`;
     }
 }
