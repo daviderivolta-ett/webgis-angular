@@ -59,8 +59,11 @@ export class StationBase implements Geolocation {
     }
 
     static createFromGeoJSONProps(props: Record<string, any>): StationBase {
-        if (!('shortCode' in props) || typeof props['shortCode'] !== 'string') {
-            throw new Error('Oggetto non valido: \'shortCode\' mancante.');
+        if (
+            (!('shortCode' in props) || typeof props['shortCode'] !== 'string') &&
+            (!('stationCode' in props) || typeof props['stationCode'] !== 'string')
+        ) {
+            throw new Error('Oggetto non valido: \'shortCode\' o \'stationCode\' mancanti.');
         }
 
         if (!('lat' in props) || typeof props['lat'] !== 'number') {
@@ -71,11 +74,7 @@ export class StationBase implements Geolocation {
             throw new Error('Oggetto non valido: \'lng\' mancante.');
         }
 
-        // if (!('sensors' in props) || !Array.isArray(props['sensors'])) {
-        //     throw new Error('Oggetto non valido: \'sensors\' mancante od invalido.');
-        // }
-
-        const station = new StationBase(props['shortCode'], props['lat'], props['lng'], []);
+        const station = new StationBase(props['shortCode'] ?? props['stationCode'], props['lat'], props['lng'], []);
 
         if (props['name'] && typeof props['name'] === 'string') station.name = props['name'];
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];

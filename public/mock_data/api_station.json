@@ -1,0 +1,3795 @@
+{
+    "statusCode": 200,
+    "content": {
+        "contentType": "application/geo+json",
+        "serializerSettings": null,
+        "statusCode": null,
+        "value": {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            924202.0,
+                            4448218.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1100.0,
+                        "basin": "Trebbia",
+                        "river": "Trebbia",
+                        "district": "GE",
+                        "municipality": "Lorsica",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:50:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            934647.0,
+                            4449520.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 809.0,
+                        "basin": "Aveto",
+                        "river": "Aveto",
+                        "district": "GE",
+                        "municipality": "Rezzoaglio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:40:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            898586.0,
+                            4452014.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 470.0,
+                        "basin": "Polcevera",
+                        "river": "Secca",
+                        "district": "GE",
+                        "municipality": "Serra Riccò",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1000705.0,
+                            4410379.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 96.0,
+                        "basin": "Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "Castelnuovo Magra",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            848572.0,
+                            4448233.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 385.0,
+                        "basin": "Erro",
+                        "river": "Erro",
+                        "district": "SV",
+                        "municipality": "Sassello",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:30:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            846670.0,
+                            4436638.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 80.0,
+                        "basin": "Sansobbia",
+                        "river": "Sansobbia",
+                        "district": "SV",
+                        "municipality": "Albisola Superiore",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            910336.0,
+                            4451715.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 865.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Torriglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            909318.0,
+                            4440290.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 791.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": "Sori",
+                        "district": "GE",
+                        "municipality": "Sori",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            888407.0,
+                            4441141.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 18.0,
+                        "basin": "Polcevera",
+                        "river": "Polcevera",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            890010.0,
+                            4448852.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 75.0,
+                        "basin": "Polcevera",
+                        "river": "Polcevera",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            848305.0,
+                            4430620.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 24.0,
+                        "basin": "Letimbro",
+                        "river": "Letimbro",
+                        "district": "SV",
+                        "municipality": "Savona",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            817956.0,
+                            4406875.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 36.0,
+                        "basin": "Centa",
+                        "river": "Neva",
+                        "district": "SV",
+                        "municipality": "Albenga",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            800433.0,
+                            4406542.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 343.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "IM",
+                        "municipality": "Ranzo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            954859.0,
+                            4431274.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 603.0,
+                        "basin": "Magra",
+                        "river": "Torza",
+                        "district": "SP",
+                        "municipality": "Maissana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1011961.0,
+                            4430385.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 734.0,
+                        "basin": "Magra",
+                        "river": "Taverone",
+                        "district": "MS",
+                        "municipality": "Comano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1014991.0,
+                            4416942.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 250.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fivizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            806768.0,
+                            4391987.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 56.0,
+                        "basin": "fra Impero e Centa",
+                        "river": "Varcavello",
+                        "district": "IM",
+                        "municipality": "Diano Castello",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            897260.0,
+                            4442367.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 200.0,
+                        "basin": "Bisagno",
+                        "river": "Fereggiano",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            760808.0,
+                            4393960.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1212.0,
+                        "basin": "Nervia",
+                        "river": "Nervia",
+                        "district": "IM",
+                        "municipality": "Apricale",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            885822.0,
+                            4453013.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 300.0,
+                        "basin": "Polcevera",
+                        "river": "Verde",
+                        "district": "GE",
+                        "municipality": "Campomorone",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            961484.0,
+                            4432323.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 270.0,
+                        "basin": "Magra",
+                        "river": "Vara",
+                        "district": "SP",
+                        "municipality": "Varese Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1003361.0,
+                            4433329.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 538.0,
+                        "basin": "Magra",
+                        "river": "Bagnone",
+                        "district": "MS",
+                        "municipality": "Bagnone",
+                        "value": 0.0,
+                        "referenceDate": "2024-12-25T20:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            847521.0,
+                            4433492.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 253.0,
+                        "basin": "Letimbro",
+                        "river": "Letimbro",
+                        "district": "SV",
+                        "municipality": "Savona",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            939525.0,
+                            4446268.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1007.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Borzonasca",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            821077.0,
+                            4404882.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 6.0,
+                        "basin": "Centa",
+                        "river": "Centa",
+                        "district": "SV",
+                        "municipality": "Albenga",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            962050.0,
+                            4440530.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 895.0,
+                        "basin": "Magra",
+                        "river": "Crovana",
+                        "district": "SP",
+                        "municipality": "Varese Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            992036.0,
+                            4446639.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1014.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-21T23:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1000343.0,
+                            4424267.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 121.0,
+                        "basin": "Magra",
+                        "river": "Taverone",
+                        "district": "MS",
+                        "municipality": "Licciana Nardi",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            977099.0,
+                            4419514.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 75.0,
+                        "basin": "Magra",
+                        "river": "Riccò",
+                        "district": "SP",
+                        "municipality": "Beverino",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            779343.0,
+                            4404202.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1845.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "IM",
+                        "municipality": "Montegrosso Pian Latte",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            988761.0,
+                            4409562.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 132.0,
+                        "basin": "Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "La Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            867306.0,
+                            4451775.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 820.0,
+                        "basin": "Stura",
+                        "river": "Rio Masca",
+                        "district": "GE",
+                        "municipality": "Campo Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            945876.0,
+                            4447287.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1520.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Borzonasca",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            989257.0,
+                            4436957.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 340.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            960677.0,
+                            4417143.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 6.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Ghiararo",
+                        "district": "SP",
+                        "municipality": "Levanto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            961870.0,
+                            4417888.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 85.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Ghiararo",
+                        "district": "SP",
+                        "municipality": "Levanto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            973698.0,
+                            4426434.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 580.0,
+                        "basin": "Magra",
+                        "river": "Gravegnola",
+                        "district": "SP",
+                        "municipality": "Zignago",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            976448.0,
+                            4435471.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 744.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Zeri",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            820254.0,
+                            4428647.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 620.0,
+                        "basin": "Bormida di Millesimo",
+                        "river": "Bormida di Millesimo",
+                        "district": "SV",
+                        "municipality": "Osiglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            945774.0,
+                            4437488.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 530.0,
+                        "basin": "Entella",
+                        "river": "Graveglia",
+                        "district": "GE",
+                        "municipality": "Ne",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            893433.0,
+                            4442797.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 360.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            760177.0,
+                            4388859.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 215.0,
+                        "basin": "Nervia",
+                        "river": "Barbaira",
+                        "district": "IM",
+                        "municipality": "Rocchetta Nervina",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            848252.0,
+                            4441582.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 349.0,
+                        "basin": "Sansobbia",
+                        "river": "Sansobbia",
+                        "district": "SV",
+                        "municipality": "Stella",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            923630.0,
+                            4460470.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 915.0,
+                        "basin": "Trebbia",
+                        "river": "Trebbia",
+                        "district": "GE",
+                        "municipality": "Gorreto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:50:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            928306.0,
+                            4457722.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 650.0,
+                        "basin": "Trebbia",
+                        "river": "Trebbia",
+                        "district": "GE",
+                        "municipality": "Rovegno",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:50:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            769983.0,
+                            4398152.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1357.0,
+                        "basin": "Nervia",
+                        "river": "Nervina",
+                        "district": "IM",
+                        "municipality": "Pigna",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            941013.0,
+                            4442429.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 386.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Borzonasca",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            754484.0,
+                            4387296.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 103.0,
+                        "basin": "Roya",
+                        "river": "Roya",
+                        "district": "IM",
+                        "municipality": "Airole",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            862464.0,
+                            4440645.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 225.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Lerone",
+                        "district": "GE",
+                        "municipality": "Cogoleto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            953384.0,
+                            4440681.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 685.0,
+                        "basin": "Magra",
+                        "river": "Chinela",
+                        "district": "SP",
+                        "municipality": "Varese Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            998416.0,
+                            4430966.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 320.0,
+                        "basin": "Magra",
+                        "river": "Bagnone",
+                        "district": "MS",
+                        "municipality": "Bagnone",
+                        "value": 1.2,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            915962.0,
+                            4451685.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 769.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Torriglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:20:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            971552.0,
+                            4423132.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 112.0,
+                        "basin": "Magra",
+                        "river": "Vara",
+                        "district": "SP",
+                        "municipality": "Brugnato",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            869390.0,
+                            4454256.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 338.0,
+                        "basin": "Stura",
+                        "river": "Stura",
+                        "district": "GE",
+                        "municipality": "Campo Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            803517.0,
+                            4400653.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 439.0,
+                        "basin": "fra Impero e Centa",
+                        "river": "Merula",
+                        "district": "SV",
+                        "municipality": "Testico",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            862739.0,
+                            4446953.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 810.0,
+                        "basin": "Orba",
+                        "river": "Orba",
+                        "district": "SV",
+                        "municipality": "Urbe",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            958420.0,
+                            4438313.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 345.0,
+                        "basin": "Magra",
+                        "river": "Vara",
+                        "district": "SP",
+                        "municipality": "Varese Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            819105.0,
+                            4436959.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 480.0,
+                        "basin": "Bormida di Millesimo",
+                        "river": "Zemola",
+                        "district": "SV",
+                        "municipality": "Roccavignale",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            902329.0,
+                            4453176.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 680.0,
+                        "basin": "Scrivia",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Valbrevenna",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            815981.0,
+                            4431321.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 523.0,
+                        "basin": "Bormida di Millesimo",
+                        "river": "Bormida di Millesimo",
+                        "district": "SV",
+                        "municipality": "Murialdo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            784202.0,
+                            4393074.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 240.0,
+                        "basin": "Argentina",
+                        "river": "Argentina",
+                        "district": "IM",
+                        "municipality": "Montalto Carpasio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            984904.0,
+                            4419801.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 48.0,
+                        "basin": "Magra",
+                        "river": "Vara",
+                        "district": "SP",
+                        "municipality": "Follo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            918206.0,
+                            4448758.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 895.0,
+                        "basin": "Entella",
+                        "river": "Neirone",
+                        "district": "GE",
+                        "municipality": "Neirone",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            942590.0,
+                            4426672.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 13.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Petronio",
+                        "district": "GE",
+                        "municipality": "Sestri Levante",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            921045.0,
+                            4433620.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 30.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": "San siro",
+                        "district": "GE",
+                        "municipality": "Santa Margherita Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            965964.0,
+                            4427470.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 180.0,
+                        "basin": "Magra",
+                        "river": "Vara",
+                        "district": "SP",
+                        "municipality": "Carro",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1006207.0,
+                            4420233.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 107.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fivizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            982819.0,
+                            4410703.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 55.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "La Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            935624.0,
+                            4434209.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 25.0,
+                        "basin": "Entella",
+                        "river": "Entella",
+                        "district": "GE",
+                        "municipality": "Cogorno",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            983082.0,
+                            4414029.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 330.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "La Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            895422.0,
+                            4454856.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 620.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Savignone",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1020815.0,
+                            4417097.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 666.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "LU",
+                        "municipality": "Minucciano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1021676.0,
+                            4430427.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1250.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fivizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            920544.0,
+                            4453635.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 777.0,
+                        "basin": "Trebbia",
+                        "river": "Brugneto",
+                        "district": "GE",
+                        "municipality": "Torriglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:50:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            811888.0,
+                            4413202.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 432.0,
+                        "basin": "Centa",
+                        "river": "Neva",
+                        "district": "SV",
+                        "municipality": "Castelvecchio di Rocca Barbena",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            838289.0,
+                            4433297.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 385.0,
+                        "basin": "Quiliano",
+                        "river": "Quiliano",
+                        "district": "SV",
+                        "municipality": "Savona",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            958414.0,
+                            4435237.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 410.0,
+                        "basin": "Magra",
+                        "river": "Borsa",
+                        "district": "SP",
+                        "municipality": "Maissana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            813421.0,
+                            4407678.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 110.0,
+                        "basin": "Centa",
+                        "river": "Neva",
+                        "district": "SV",
+                        "municipality": "Cisano sul Neva",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            904769.0,
+                            4451561.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 442.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Montoggio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            983869.0,
+                            4424894.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 425.0,
+                        "basin": "Magra",
+                        "river": "Usurana",
+                        "district": "SP",
+                        "municipality": "Calice al Cornoviglio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            754322.0,
+                            4383103.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 460.0,
+                        "basin": "Roya",
+                        "river": "Bevera",
+                        "district": "IM",
+                        "municipality": "Ventimiglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            820245.0,
+                            4423234.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1004.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Maremola",
+                        "district": "SV",
+                        "municipality": "Magliolo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            786667.0,
+                            4398131.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1163.0,
+                        "basin": "Argentina",
+                        "river": "Rio Carpasina",
+                        "district": "IM",
+                        "municipality": "Montalto Carpasio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            833939.0,
+                            4445176.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 450.0,
+                        "basin": "Bormida di Spigno",
+                        "river": null,
+                        "district": "SV",
+                        "municipality": "Dego",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            897959.0,
+                            4445966.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 70.0,
+                        "basin": "Bisagno",
+                        "river": "Geirato",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            896109.0,
+                            4443439.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 30.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            882460.0,
+                            4443227.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 69.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Varenna",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            938773.0,
+                            4446112.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1040.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Borzonasca",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1001409.0,
+                            4405021.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 2.0,
+                        "basin": "Magra",
+                        "river": "Parmignola",
+                        "district": "SP",
+                        "municipality": "Sarzana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            988311.0,
+                            4436932.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 226.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            945118.0,
+                            4454886.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1019.0,
+                        "basin": "Aveto",
+                        "river": "Aveto",
+                        "district": "GE",
+                        "municipality": "Santo Stefano d'Aveto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T07:40:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            773328.0,
+                            4390463.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 931.0,
+                        "basin": "fra Nervia e Argentina",
+                        "river": "Armea",
+                        "district": "IM",
+                        "municipality": "Ceriana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            801652.0,
+                            4387957.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 71.0,
+                        "basin": "fra Argentina e Impero",
+                        "river": "Caramagna",
+                        "district": "IM",
+                        "municipality": "Imperia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            964020.0,
+                            4414830.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 75.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "Monterosso al Mare",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            928492.0,
+                            4442422.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 640.0,
+                        "basin": "Entella",
+                        "river": "Canale di Isolona",
+                        "district": "GE",
+                        "municipality": "Orero",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            994859.0,
+                            4429114.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 121.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Villafranca in Lunigiana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            777388.0,
+                            4387968.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 370.0,
+                        "basin": "fra Nervia e Argentina",
+                        "river": "Armea",
+                        "district": "IM",
+                        "municipality": "Ceriana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            969908.0,
+                            4434967.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 835.0,
+                        "basin": "Magra",
+                        "river": "Gottero",
+                        "district": "SP",
+                        "municipality": "Sesta Godano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            909539.0,
+                            4446781.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 467.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Davagna",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            894591.0,
+                            4440035.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 30.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            778625.0,
+                            4382265.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 61.0,
+                        "basin": "fra Nervia e Argentina",
+                        "river": "San Francesco",
+                        "district": "IM",
+                        "municipality": "Sanremo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            996878.0,
+                            4425042.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 156.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Villafranca in Lunigiana",
+                        "value": 0.0,
+                        "referenceDate": "2020-01-13T14:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            996878.0,
+                            4425042.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 156.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Villafranca in Lunigiana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            792859.0,
+                            4385263.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 285.0,
+                        "basin": "fra Argentina e Impero",
+                        "river": "Rio dei Marmi",
+                        "district": "IM",
+                        "municipality": "Cipressa",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            906066.0,
+                            4438400.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 174.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            927102.0,
+                            4439365.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 70.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Orero",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            982294.0,
+                            4445624.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 955.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1011688.0,
+                            4421112.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 460.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fivizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            995609.0,
+                            4436665.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 484.0,
+                        "basin": "Magra",
+                        "river": "Caprio",
+                        "district": "MS",
+                        "municipality": "Filattiera",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1003381.0,
+                            4415601.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 410.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fosdinovo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1015168.0,
+                            4424644.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 500.0,
+                        "basin": "Magra",
+                        "river": "Aulella",
+                        "district": "MS",
+                        "municipality": "Fivizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            979750.0,
+                            4430491.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 670.0,
+                        "basin": "Magra",
+                        "river": "Teglia",
+                        "district": "MS",
+                        "municipality": "Zeri",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            986331.0,
+                            4428217.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 695.0,
+                        "basin": "Magra",
+                        "river": "Mangiola",
+                        "district": "MS",
+                        "municipality": "Mulazzo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            910735.0,
+                            4443845.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 702.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Bargagli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            1000899.0,
+                            4407491.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 5.0,
+                        "basin": "Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "Castelnuovo Magra",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            852604.0,
+                            4440667.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 435.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Teiro",
+                        "district": "SV",
+                        "municipality": "Varazze",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            989666.0,
+                            4436184.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 205.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            830205.0,
+                            4419573.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 50.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Pora",
+                        "district": "SV",
+                        "municipality": "Calice Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            961474.0,
+                            4424499.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 470.0,
+                        "basin": "Magra",
+                        "river": "Mattaranasca",
+                        "district": "SP",
+                        "municipality": "Carrodano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            761888.0,
+                            4379330.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 210.0,
+                        "basin": "Roya",
+                        "river": null,
+                        "district": "IM",
+                        "municipality": "Ventimiglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            983594.0,
+                            4405200.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 40.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "Portovenere",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            769454.0,
+                            4391862.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 655.0,
+                        "basin": "Nervia",
+                        "river": "Bonda",
+                        "district": "IM",
+                        "municipality": "Castel Vittorio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            920928.0,
+                            4435453.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 40.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": "Boate",
+                        "district": "GE",
+                        "municipality": "Rapallo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            873602.0,
+                            4448613.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 590.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Leira",
+                        "district": "GE",
+                        "municipality": "Mele",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            870493.0,
+                            4446494.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 290.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Cerusa",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            976581.0,
+                            4430542.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1070.0,
+                        "basin": "Magra",
+                        "river": "Gravegnola",
+                        "district": "SP",
+                        "municipality": "Zignago",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            973483.0,
+                            4410632.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 238.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "Riomaggiore",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            980970.0,
+                            4409449.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 57.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "La Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            819581.0,
+                            4424398.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1375.0,
+                        "basin": "Bormida di Millesimo",
+                        "river": "Bormida di Millesimo",
+                        "district": "SV",
+                        "municipality": "Osiglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            772108.0,
+                            4404425.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1120.0,
+                        "basin": "Argentina",
+                        "river": "Argentina",
+                        "district": "IM",
+                        "municipality": "Triora",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            917495.0,
+                            4452931.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1032.0,
+                        "basin": "Trebbia",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Torriglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            989976.0,
+                            4422178.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 420.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "MS",
+                        "municipality": "Tresana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            982325.0,
+                            4433964.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 955.0,
+                        "basin": "Magra",
+                        "river": "Teglia",
+                        "district": "MS",
+                        "municipality": "Pontremoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            884485.0,
+                            4444247.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 310.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Chiaravagna",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            810363.0,
+                            4397923.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 350.0,
+                        "basin": "fra Impero e Centa",
+                        "river": "Merula",
+                        "district": "SV",
+                        "municipality": "Andora",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            837136.0,
+                            4428425.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 253.0,
+                        "basin": "Quiliano",
+                        "river": "Danè",
+                        "district": "SV",
+                        "municipality": "Quiliano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            993842.0,
+                            4407129.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 405.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "SP",
+                        "municipality": "Lerici",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            804134.0,
+                            4405719.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 115.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "SV",
+                        "municipality": "Onzo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            971496.0,
+                            4418992.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 175.0,
+                        "basin": "Magra",
+                        "river": "Casale",
+                        "district": "SP",
+                        "municipality": "Pignone",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            791473.0,
+                            4404952.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 263.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "IM",
+                        "municipality": "Pieve di Teco",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            976373.0,
+                            4415319.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 150.0,
+                        "basin": "Magra",
+                        "river": "Riccò",
+                        "district": "SP",
+                        "municipality": "Riccò del Golfo di Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            786644.0,
+                            4406393.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 475.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "IM",
+                        "municipality": "Pornassio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            852730.0,
+                            4436189.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 180.0,
+                        "basin": "Sansobbia",
+                        "river": "Basco",
+                        "district": "SV",
+                        "municipality": "Celle Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            843753.0,
+                            4434555.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 90.0,
+                        "basin": "Letimbro",
+                        "river": "Letimbro",
+                        "district": "SV",
+                        "municipality": "Savona",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            769850.0,
+                            4382756.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 550.0,
+                        "basin": "fra Nervia e Argentina",
+                        "river": "Sasso",
+                        "district": "IM",
+                        "municipality": "Seborga",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            967751.0,
+                            4429848.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 265.0,
+                        "basin": "Magra",
+                        "river": "Gottero",
+                        "district": "SP",
+                        "municipality": "Sesta Godano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            894744.0,
+                            4452038.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 407.0,
+                        "basin": "Polcevera",
+                        "river": "Secca",
+                        "district": "GE",
+                        "municipality": "Serra Riccò",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            944927.0,
+                            4429552.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 320.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Petronio",
+                        "district": "GE",
+                        "municipality": "Sestri Levante",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            776242.0,
+                            4399451.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 789.0,
+                        "basin": "Argentina",
+                        "river": "Argentina",
+                        "district": "IM",
+                        "municipality": "Triora",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            894892.0,
+                            4457129.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 358.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Busalla",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            827224.0,
+                            4440234.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 388.0,
+                        "basin": "Bormida di Spigno",
+                        "river": "Bormida di Spigno",
+                        "district": "SV",
+                        "municipality": "Cairo Montenotte",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            897849.0,
+                            4448555.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 310.0,
+                        "basin": "Polcevera",
+                        "river": "Sardorella",
+                        "district": "GE",
+                        "municipality": "Sant'Olcese",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            979030.0,
+                            4413254.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 350.0,
+                        "basin": "Magra",
+                        "river": null,
+                        "district": "SP",
+                        "municipality": "La Spezia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            811822.0,
+                            4423413.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 647.0,
+                        "basin": "Bormida di Millesimo",
+                        "river": "Bormida di Millesimo",
+                        "district": "SV",
+                        "municipality": "Calizzano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            829792.0,
+                            4429318.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 467.0,
+                        "basin": "Bormida di Spigno",
+                        "river": "Bormida di Mallare",
+                        "district": "SV",
+                        "municipality": "Mallare",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            841176.0,
+                            4441259.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 564.0,
+                        "basin": "Erro",
+                        "river": "Erro",
+                        "district": "SV",
+                        "municipality": "Cairo Montenotte",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            761211.0,
+                            4378777.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 21.0,
+                        "basin": "Roya",
+                        "river": "Roya",
+                        "district": "IM",
+                        "municipality": "Ventimiglia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            865776.0,
+                            4457232.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 289.0,
+                        "basin": "Stura",
+                        "river": "Stura",
+                        "district": "GE",
+                        "municipality": "Rossiglione",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            858092.0,
+                            4446230.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 882.0,
+                        "basin": "Orba",
+                        "river": "Orba",
+                        "district": "SV",
+                        "municipality": "Sassello",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            800070.0,
+                            4393330.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 281.0,
+                        "basin": "Impero",
+                        "river": "Impero",
+                        "district": "IM",
+                        "municipality": "Pontedassio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            996546.0,
+                            4411227.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 26.0,
+                        "basin": "Magra",
+                        "river": "Calcandola",
+                        "district": "SP",
+                        "municipality": "Sarzana",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            857322.0,
+                            4437234.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 26.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Teiro",
+                        "district": "SV",
+                        "municipality": "Varazze",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            762104.0,
+                            4384601.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 115.0,
+                        "basin": "Nervia",
+                        "river": "Nervia",
+                        "district": "IM",
+                        "municipality": "Dolceacqua",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            795315.0,
+                            4397713.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 250.0,
+                        "basin": "Impero",
+                        "river": null,
+                        "district": "IM",
+                        "municipality": "Borgomaro",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            900911.0,
+                            4441681.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 234.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            959772.0,
+                            4427525.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 437.0,
+                        "basin": "Magra",
+                        "river": "Trambacco",
+                        "district": "SP",
+                        "municipality": "Carro",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            874299.0,
+                            4443344.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 104.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Leira",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            765607.0,
+                            4393209.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 250.0,
+                        "basin": "Nervia",
+                        "river": "Nervia",
+                        "district": "IM",
+                        "municipality": "Pigna",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            915931.0,
+                            4434704.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 60.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Camogli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            787331.0,
+                            4408325.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 927.0,
+                        "basin": "Centa",
+                        "river": "Arroscia",
+                        "district": "IM",
+                        "municipality": "Pornassio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            932194.0,
+                            4442107.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 615.0,
+                        "basin": "Entella",
+                        "river": "Sturla",
+                        "district": "GE",
+                        "municipality": "San Colombano Certenoli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            937350.0,
+                            4429669.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 110.0,
+                        "basin": "fra Entella e Magra",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Lavagna",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            932978.0,
+                            4431885.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 50.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": "Entella",
+                        "district": "GE",
+                        "municipality": "Chiavari",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            826235.0,
+                            4414665.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 91.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Maremola",
+                        "district": "SV",
+                        "municipality": "Pietra Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            816340.0,
+                            4414441.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 445.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Varatello",
+                        "district": "SV",
+                        "municipality": "Toirano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            900714.0,
+                            4447507.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 630.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Montoggio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            901824.0,
+                            4458458.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 762.0,
+                        "basin": "Scrivia",
+                        "river": "Scrivia",
+                        "district": "GE",
+                        "municipality": "Crocefieschi",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            948082.0,
+                            4435048.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 593.0,
+                        "basin": "Entella",
+                        "river": "Graveglia",
+                        "district": "GE",
+                        "municipality": "Ne",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            795150.0,
+                            4390590.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 77.0,
+                        "basin": "fra Argentina e Impero",
+                        "river": "Rio Prino",
+                        "district": "IM",
+                        "municipality": "Dolcedo",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            816930.0,
+                            4400624.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 25.0,
+                        "basin": "fra Impero e Centa",
+                        "river": null,
+                        "district": "SV",
+                        "municipality": "Alassio",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            822002.0,
+                            4416397.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 450.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Nimbalto",
+                        "district": "SV",
+                        "municipality": "Loano",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            799653.0,
+                            4412275.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1095.0,
+                        "basin": "Centa",
+                        "river": "Pennavaira",
+                        "district": "CN",
+                        "municipality": "Alto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            832248.0,
+                            4436694.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 358.0,
+                        "basin": "Bormida di Spigno",
+                        "river": "Bormida di Spigno",
+                        "district": "SV",
+                        "municipality": "Cairo Montenotte",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            954033.0,
+                            4421359.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 421.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Castagnola",
+                        "district": "SP",
+                        "municipality": "Framura",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            990619.0,
+                            4413805.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 25.0,
+                        "basin": "Magra",
+                        "river": "Magra",
+                        "district": "SP",
+                        "municipality": "Vezzano Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            945496.0,
+                            4451447.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 908.0,
+                        "basin": "Aveto",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Santo Stefano d'Aveto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            907492.0,
+                            4457032.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 1082.0,
+                        "basin": "Scrivia",
+                        "river": "Vobbia",
+                        "district": "GE",
+                        "municipality": "Vobbia",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:00:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            904717.0,
+                            4444076.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 150.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            948136.0,
+                            4429506.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 260.0,
+                        "basin": "fra Entella e Magra",
+                        "river": "Petronio",
+                        "district": "GE",
+                        "municipality": "Casarza Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            889561.0,
+                            4445530.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 47.0,
+                        "basin": "Polcevera",
+                        "river": "Polcevera",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            864766.0,
+                            4440350.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 110.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Lerone",
+                        "district": "GE",
+                        "municipality": "Cogoleto",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            928421.0,
+                            4455421.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 600.0,
+                        "basin": "Trebbia",
+                        "river": "Trebbia",
+                        "district": "GE",
+                        "municipality": "Rovegno",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            837883.0,
+                            4419325.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 340.0,
+                        "basin": "fra Centa e Quiliano",
+                        "river": "Sciusa",
+                        "district": "SV",
+                        "municipality": "Finale Ligure",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            893816.0,
+                            4454028.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 270.0,
+                        "basin": "Polcevera",
+                        "river": "Riccò",
+                        "district": "GE",
+                        "municipality": "Mignanego",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            873312.0,
+                            4447419.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 270.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Leira",
+                        "district": "GE",
+                        "municipality": "Mele",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            916912.0,
+                            4432709.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 610.0,
+                        "basin": "fra Bisagno ed Entella",
+                        "river": null,
+                        "district": "GE",
+                        "municipality": "Camogli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            916994.0,
+                            4444372.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 490.0,
+                        "basin": "Entella",
+                        "river": "Lavagna",
+                        "district": "GE",
+                        "municipality": "Neirone",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            879867.0,
+                            4448017.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 980.0,
+                        "basin": "fra Sansobbia e Polcevera",
+                        "river": "Leira",
+                        "district": "GE",
+                        "municipality": "Genova",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            906348.0,
+                            4442846.0
+                        ]
+                    },
+                    "properties": {
+                        "alt": 430.0,
+                        "basin": "Bisagno",
+                        "river": "Bisagno",
+                        "district": "GE",
+                        "municipality": "Bargagli",
+                        "value": 0.0,
+                        "referenceDate": "2025-06-30T08:10:00"
+                    }
+                }
+            ]
+        }
+    },
+    "errorMessage": null
+}

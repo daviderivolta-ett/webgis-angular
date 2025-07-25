@@ -21,10 +21,23 @@ export class GetAndRenderStationsCommandService implements Command {
         throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
       }
 
+      /**
+       * 
+       * 
+       * GIAN, DEVI LAVORARE PIÙ O MENO QUI
+       * 
+       * 
+       */
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
-
       const res = await fetch(layer.url);
       let geoJSON: GeoJSON.FeatureCollection = await res.json();          
+      /**
+       * 
+       * 
+       * FINO A QUI
+       * 
+       * 
+       */
       if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
       if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
       map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });     
