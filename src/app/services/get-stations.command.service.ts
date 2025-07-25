@@ -28,19 +28,38 @@ export class GetAndRenderStationsCommandService implements Command {
        * 
        * 
        */
+
+      // Immagino qui andrà la logica di creazione dell'url con query delle date
+      // Visto che mostreremo sia dati demo che reali da database direi servirà 
+      // un qualche tipo di switch, visto che se facciamo una chiamata con query
+      // su un file mock nella cartella public riceveremo un errore
+      // (mentre da api senza data riceveremmo comodamente l'ultimo disponibile)
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
+
       const res = await fetch(layer.url);
-      let geoJSON: GeoJSON.FeatureCollection = await res.json();          
+
+      // Qui ho fatto un parsing brutto per estrarre il geojson dalla response mock
+      // di Lorenzo. Spero che un giorno non servirà e l'api ci restitiurà direttamente
+      // il GeoJSON che bramiamo. Oppure no; in quel caso magari sistemiamo i metodi 
+      // di parsing nella classe Utils od in una classe Utils specifica
+      let rawJson = await res.json();
+      let geoJSON: GeoJSON.FeatureCollection | undefined;
+      if (this._isGeoJSON(rawJson)) geoJSON = rawJson as GeoJSON.FeatureCollection;
+      else geoJSON = this._searchForGeoJSON(rawJson) as GeoJSON.FeatureCollection;
+      
+      if (!geoJSON) return;
+      
+      // let geoJSON: GeoJSON.FeatureCollection = await res.json();
       /**
        * 
        * 
        * FINO A QUI
        * 
        * 
-       */
-      if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
-      if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
-      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });     
+      */
+     if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
+     if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
+      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
     } catch (error) {
       console.error(`Errore nell'esecuzione del comando:`, error);
       throw error;
@@ -99,4 +118,53 @@ export class GetAndRenderStationsCommandService implements Command {
 
     return defaultShapeId;
   }
+
+  private _isGeoJSON(json: any): boolean {
+    if (!json || typeof json !== 'object') return false;
+
+    const validTypes = [
+      'Feature',
+      'FeatureCollection',
+      'Point',
+      'LineString',
+      'Polygon',
+      'MultiPoint',
+      'MultiLineString',
+      'MultiPolygon',
+      'GeometryCollection',
+    ];
+
+    if (typeof json.type === 'string' && validTypes.includes(json.type)) {
+      if (json.type === 'Feature') {
+        return 'geometry' in json;
+      }
+      if (json.type === 'FeatureCollection') {
+        return Array.isArray(json.features);
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  private _searchForGeoJSON(json: any): GeoJSON.FeatureCollection | undefined {
+    if (!json || typeof json !== 'object') return;
+
+    for (const key of Object.keys(json)) {
+      const value = json[key];
+
+      if (typeof value !== 'object') continue;
+
+
+      if (this._isGeoJSON(value)) {
+        return value as GeoJSON.FeatureCollection;
+      } else {
+        const found = this._searchForGeoJSON(json[key]);
+        if (found) return found;
+      }
+
+    }
+    return undefined;
+  }
+
 }

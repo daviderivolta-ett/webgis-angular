@@ -186,12 +186,26 @@ export class DataPageComponent {
   }
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
-    console.log(data);    
+    console.log(data);
+    /**
+    * 
+    * 
+    * GIAN, DEVI LAVORARE PIÙ O MENO QUI
+    * 
+    * 
+    */
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       return Station.fromStationData(stationBase, stationData);
     });
+    /**
+    * 
+    * 
+    * FINO A QUI
+    * 
+    * 
+    */
     this.popupData = [...stations];
   }
 

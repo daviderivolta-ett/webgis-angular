@@ -11,7 +11,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/precipitation.geojson",
+                    "url": "mock_data/DEMO_api_station.json",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "mm",
