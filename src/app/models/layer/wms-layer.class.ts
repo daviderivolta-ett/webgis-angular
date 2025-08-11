@@ -44,6 +44,7 @@ export class WMSLayer extends Layer {
 
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
+        if ('legend' in object && object['legend']) layer.addLegendFromObject(object['legend']);
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         if (object['action']) layer.action = { ...object['action'] };
 

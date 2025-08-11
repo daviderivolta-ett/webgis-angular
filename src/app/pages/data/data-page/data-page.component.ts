@@ -165,7 +165,7 @@ export class DataPageComponent {
     if (!id) return;
 
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
-    if (!foundLayer) return;
+    if (!foundLayer) return;    
 
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);

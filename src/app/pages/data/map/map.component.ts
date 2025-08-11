@@ -212,12 +212,17 @@ export class MapComponent {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
       // @ts-ignore
-      // setDefaultTime: false
+      setDefaultTime: false
     });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, timeDimensionLayer);
+
+    setTimeout(() => {      
+      // @ts-ignore
+      console.log(this._map.timeDimension.getAvailableTimes());
+    }, 2000);
   }
 
   /** Add GeoJSON layer with donut cluster */
@@ -278,7 +283,7 @@ export class MapComponent {
     this._selectedDate = date;
     this.dateChanged.emit(date);
 
-    if (date) {
+    if (date) {     
       this._setCurrentTime(date);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
