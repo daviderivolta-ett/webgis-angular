@@ -212,7 +212,7 @@ export class MapComponent {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
       // @ts-ignore
-      setDefaultTime: false
+      // setDefaultTime: false
     });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);

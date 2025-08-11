@@ -11,7 +11,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/DEMO_api_station.json",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/rain_01h/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "mm",
@@ -28,7 +28,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/temperature.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_air_temp/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "°C",
@@ -45,7 +45,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/hydrometric_levels.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_creek_level/all",
                     "markers": {
                         "featureProperty": "increment",
                         "rules": [
@@ -86,7 +86,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/wind.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_wind_speed/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "km/h",
@@ -103,7 +103,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/igro.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/humidity/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "%",
@@ -120,7 +120,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/helio.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/sunshine_duration/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "%",
@@ -137,7 +137,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/radiation.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/solar_radiation_pwr/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "Wm⁻²",
@@ -154,7 +154,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/leaf_wetting.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/leaf_wetness/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "%",
@@ -171,7 +171,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/pressure.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_sea_level_press/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "hPa",
@@ -188,7 +188,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/battery.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/battery_voltage/all",
                     "legend": {
                         "colorScaleId": "reverse-alert",
                         "unit": "V",
@@ -208,7 +208,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/sea_status.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_wave_height/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "m",
@@ -244,7 +244,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "mock_data/snow.geojson",
+                    "url": "https://omirl.democontent.it/middleware/platform/get/mean_snow_depth/all",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "cm",
@@ -316,6 +316,33 @@
                     "maxNumber": 1,
                     "options": [
                         {
+                            "id": "test_precipitations_00",
+                            "label": "Ultim'ora",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl.democontent.it/geoserver/ows",
+                            "params": {
+                                "layers": "radarRain1h",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "getWms"
+                            },
+                            "legend": {
+                                "colorScaleId": "rainbow",
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            }
+                        },
+                        {
                             "id": "maps_test_time_dimension",
                             "label": "Test WMS temporale",
                             "layerType": "wms",
@@ -337,7 +364,7 @@
                             }
                         },
                         {
-                            "id": "maps_precipitations_15m",
+                            "id": "C",
                             "label": "Ultimi 15 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms",
@@ -360,27 +387,6 @@
                         {
                             "id": "maps_precipitations_30m",
                             "label": "Ultimi 30 minuti",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms",
-                            "url": "https://omirl.regione.liguria.it/geoserver/wms",
-                            "params": {
-                                "layers": "20250715rainfall30d_std_0910",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:3857"
-                            },
-                            "opacity": 0.5,
-                            "action": {
-                                "id": "getWms"
-                            }
-                        },
-                        {
-                            "id": "maps_precipitations_1h",
-                            "label": "Ultim'ora",
                             "layerType": "wms",
                             "layerCategory": "data_wms",
                             "url": "https://omirl.regione.liguria.it/geoserver/wms",
@@ -587,28 +593,31 @@
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "maps_temperature_min",
-                            "label": "Minima",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms"
-                        },
-                        {
-                            "id": "maps_temperature_avg",
+                            "id": "maps_temperature_mean",
                             "label": "Media",
                             "layerType": "wms",
-                            "layerCategory": "data_wms"
-                        },
-                        {
-                            "id": "maps_temperature_max",
-                            "label": "Massima",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms"
-                        },
-                        {
-                            "id": "maps_temperature_theta",
-                            "label": "Theta da media",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms"
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl.democontent.it/geoserver/ows",
+                            "params": {
+                                "layers": "tempMean",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "getWms"
+                            },
+                            "legend": {
+                                "colorScaleId": "rainbow",
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            }
                         }
                     ]
                 }

@@ -46,7 +46,6 @@ export class GetAndRenderStationsCommandService implements Command {
       let geoJSON: GeoJSON.FeatureCollection | undefined;
       if (this._isGeoJSON(rawJson)) geoJSON = rawJson as GeoJSON.FeatureCollection;
       else geoJSON = this._searchForGeoJSON(rawJson) as GeoJSON.FeatureCollection;
-      
       if (!geoJSON) return;
       
       // let geoJSON: GeoJSON.FeatureCollection = await res.json();
