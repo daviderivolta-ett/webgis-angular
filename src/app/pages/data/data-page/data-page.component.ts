@@ -186,7 +186,6 @@ export class DataPageComponent {
   }
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
-    console.log(data);
     /**
     * 
     * 
