@@ -44,8 +44,8 @@ export class Station extends StationBase implements StationData {
         if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
         if (
-            (!('refDate' in props) || typeof props['refDate'] !== 'string') &&
-            (!('referenceDate' in props) || typeof props['referenceDate'] !== 'string')
+            (('refDate' in props) && typeof props['refDate'] === 'string') ||
+            (('referenceDate' in props) && typeof props['referenceDate'] == 'string')
         ) {
             const rawDate = typeof props['refDate'] === 'string' ?
                 props['refDate'] :

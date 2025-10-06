@@ -1,35 +1,47 @@
 p {
+    margin: 0;
+}
+
+.title {
     font-size: 1rem;
-    margin: 4px 0;
+    margin: 0 0 8px 0;
+}
+
+.weight-regular {
+    font-weight: 400;
+}
+
+.weight-bold {
+    font-weight: 600;
+}
+
+.regular {
+    font-size: 1rem;
+}
+
+.small {
+    font-size: .86rem;
+}
+
+.big {
+    font-size: 2.85rem;
 }
 
 .greyed {
     color: var(--neutral-600, lightgrey);
 }
 
-.map-popup {
+.values,
+.station-value {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-}
-
-.title {
-    font-weight: 600;
 }
 
 .values {
-    display: flex;
-    flex-direction: column;
-    margin: 16px 0;
-    gap: 32px;
+    gap: 24px;
+    margin: 24px 0;
 }
 
-.station__value {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin: 16px 0;
-}
-
-.station__label {
-    margin: 0 0 16px 0;
+.station-value {
+    gap: 2px;
 }

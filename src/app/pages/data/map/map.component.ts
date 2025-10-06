@@ -121,7 +121,7 @@ export class MapComponent {
 
     if (nearbyMarkers.length === 0) return;
 
-    const result = this._getMultiMarkersData(nearbyMarkers, 'group');
+    const result = this._getMultiMarkersData(nearbyMarkers, 'group');  
     let data: Record<string, any>[];
     data = Array.isArray(result) ? result : [result];
     this.markerClicked.emit(data);

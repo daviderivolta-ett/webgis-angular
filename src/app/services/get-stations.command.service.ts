@@ -42,7 +42,7 @@ export class GetAndRenderStationsCommandService implements Command {
       // di Lorenzo. Spero che un giorno non servirà e l'api ci restitiurà direttamente
       // il GeoJSON che bramiamo. Oppure no; in quel caso magari sistemiamo i metodi 
       // di parsing nella classe Utils od in una classe Utils specifica
-      let rawJson = await res.json();      
+      let rawJson = await res.json();          
       let geoJSON: GeoJSON.FeatureCollection | undefined;
       if (this._isGeoJSON(rawJson)) geoJSON = rawJson as GeoJSON.FeatureCollection;
       else geoJSON = this._searchForGeoJSON(rawJson) as GeoJSON.FeatureCollection;
