@@ -17,6 +17,7 @@ import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
+import { PlotlyLineComponent } from "../../../components/plotly-line/plotly-line.component";
 
 /** Component */
 @Component({
@@ -34,7 +35,8 @@ import { Utils } from '../../../utils';
     ChipComponent,
     MapPopupComponent,
     SliderComponent,
-    FloatingDialogComponent
+    FloatingDialogComponent,
+    PlotlyLineComponent
 ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'

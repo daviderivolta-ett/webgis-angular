@@ -83,6 +83,6 @@
         <!-- END MAP -->
     </div>
     <app-floating-dialog>
-        <div ngProjectAs="floating-dialog-content"><p>SONO UNA FLOATING DIALOG</p></div>
+        <app-plotly-line ngProjectAs="floating-dialog-content" [data]="[[[1, 2], [5, 6], [6, 2], [8, 2]]]"></app-plotly-line>
     </app-floating-dialog>
 </div>
