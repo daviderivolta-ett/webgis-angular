@@ -1,6 +1,6 @@
 /** Libraries */
-import { Component, input } from '@angular/core';
-import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
+import { Component, effect, input, output } from '@angular/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 /** Models */
 import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';
@@ -18,6 +18,11 @@ import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '.
 export class MapPopupComponent {
   public data = input<Station[]>([]);
   public config = input<StationPopupConfig>(createDefaultStationsPopupConfig());
+  public btnClicked = output<void>();
 
-  constructor() { }
+  constructor(){
+    effect(() => {
+      console.log(this.data());      
+    })
+  }
 }

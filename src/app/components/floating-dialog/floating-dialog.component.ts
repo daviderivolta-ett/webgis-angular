@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, output, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 /** Component */
@@ -20,9 +20,9 @@ export class FloatingDialogComponent {
   private _startX: number = 0;
   private _startY: number = 0;
 
-  @ViewChild('floatingDialog') dialog!: ElementRef<HTMLDivElement>;
+  public removeDialog = output<void>();
 
-  constructor() { }
+  @ViewChild('floatingDialog') dialog!: ElementRef<HTMLDivElement>;
 
   public ngOnDestroy(): void {
     this.onResizeEnd();
@@ -65,5 +65,9 @@ export class FloatingDialogComponent {
 
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseup', this._onMouseUp);
+  }
+
+  public onCloseBtnClick(): void {
+    this.removeDialog.emit();
   }
 }
