@@ -1,6 +1,7 @@
 export * from './checkbox/checkbox.component'
 export * from './checkbox-list/checkbox-list.component'
 export * from './chip/chip.component'
+export * from './floating-dialog/floating-dialog.component'
 export * from './grouped-checkboxes/grouped-checkboxes.component'
 export * from './header/header.component'
 export * from './input-autocomplete/input-autocomplete.component'

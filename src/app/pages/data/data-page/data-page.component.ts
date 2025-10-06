@@ -10,7 +10,7 @@ import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, 
 import { CommandsRegistryService, LayersService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
@@ -33,8 +33,9 @@ import { Utils } from '../../../utils';
     GroupedCheckboxesComponent,
     ChipComponent,
     MapPopupComponent,
-    SliderComponent
-  ],
+    SliderComponent,
+    FloatingDialogComponent
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
