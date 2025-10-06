@@ -1,4 +1,5 @@
-<div class="floating-dialog" cdkDrag cdkDragBoundary="body">
+<div class="floating-dialog" #floatingDialog cdkDrag cdkDragBoundary="body" (mousemove)="onResize($event)" (mouseup)="onResizeEnd()">
     <div class="dragger" cdkDragHandle></div>
     <p>SONO UNA DIALOG</p>
+    <div class="resizer" (mousedown)="onResizeStart($event)" (mouseup)="onResizeEnd()"></div>
 </div>

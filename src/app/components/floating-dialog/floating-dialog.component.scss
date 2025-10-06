@@ -1,14 +1,29 @@
 .floating-dialog {
     position: absolute;
     z-index: 9999999;
-    bottom: 0;
+    top: 0;
     left: 0;
     background-color: white;
+    min-height: 200px;
+    resize: none;
+    overflow: hidden;
+    transform-origin: bottom right;
+    min-height: 200px;
+    min-width: 200px;
 }
 
 .dragger {
     cursor: grab;
     background-color: red;
-    height: 20px;
+    height: 24px;
     width: 100%;
+}
+
+.resizer {
+    height: 24px;
+    width: 24px;
+    background-color: aquamarine;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
