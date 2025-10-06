@@ -27,7 +27,7 @@
     @if (data().length > 0) {
     <p class="small">
         @if(config().lat) { {{data()[0].lat}} }
-        @if(config().lat && config().lng) { , }
+        @if(config().lat && config().lng) { - }
         @if(config().lng) { {{data()[0].lng}} }
     </p>
     }
