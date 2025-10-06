@@ -1,11 +1,9 @@
-:host {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 9999;
+.floating-dialog {
+    position: absolute;
+    z-index: 9999999;
+    bottom: 0;
+    left: 0;
     background-color: white;
-    width: fit-content;
-    height: fit-content;
 }
 
 .dragger {
