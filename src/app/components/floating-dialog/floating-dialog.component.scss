@@ -3,14 +3,14 @@
     z-index: 9999999;
     top: 0;
     left: 0;
-    background-color: white;
+    background-color: var(--neutral-100, white);
+    border: 1px solid var(--neutral-500, grey);
     border-radius: 8px;
-    min-height: 200px;
     resize: none;
     overflow: hidden;
     transform-origin: bottom right;
-    min-height: 200px;
-    min-width: 200px;
+    min-width: 500px;
+    min-height: 300px;
 }
 
 .dragger {
