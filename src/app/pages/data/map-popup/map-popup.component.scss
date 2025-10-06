@@ -45,3 +45,32 @@ p {
 .station-value {
     gap: 2px;
 }
+
+.popup-footer {
+    border-top: 1px solid var(--neutral-500, grey);
+    padding: 16px 0 0 0;
+    margin: 16px 0 0 0;
+}
+
+.chart-btn {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--primary-900, black);
+    background-color: transparent;
+
+    &:hover {
+        color: var(--primary-500, blue);
+        // background-color: var(--primary-100, lightgrey);
+    }
+}
+
+.chart-btn__icon {
+    width: 20px;
+    height: 20px;
+}
