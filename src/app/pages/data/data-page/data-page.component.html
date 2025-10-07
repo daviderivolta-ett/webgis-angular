@@ -78,11 +78,13 @@
 
         <!-- START MAP -->
         <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" (click)="onMapClick()" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" #map>
-            <app-map-popup [config]="stationPopupConfig" [data]="popupData" #popup></app-map-popup>
+            <app-map-popup [config]="stationPopupConfig" [data]="popupData" #popup (btnClicked)="onMapPopupOpenChartBtnClick()"></app-map-popup>
         </app-map>
         <!-- END MAP -->
     </div>
+    <!--
     <app-floating-dialog>
         <app-plotly-line ngProjectAs="floating-dialog-content" [data]="[[[1, 2], [5, 6], [6, 2], [8, 2]]]"></app-plotly-line>
     </app-floating-dialog>
+    -->
 </div>

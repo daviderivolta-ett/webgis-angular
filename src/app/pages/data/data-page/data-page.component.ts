@@ -73,6 +73,7 @@ export class DataPageComponent {
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
+  public stations: StationBase[]; // Recovered from route resolver in constructor
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
@@ -93,6 +94,7 @@ export class DataPageComponent {
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
+    this.stations = this.route.snapshot.data['stations'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
@@ -100,7 +102,7 @@ export class DataPageComponent {
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
 
     this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
-    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
+    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));  
   }
 
   /** Getter and setter */
@@ -209,6 +211,10 @@ export class DataPageComponent {
     const { id, url, params } = layer;
     if (value) this._map.addWMSLayer(id, url, params);
     else this._map.removeLayerById(id);
+  }
+
+  public onMapPopupOpenChartBtnClick(): void {
+    console.log('ehi');    
   }
 
   /**

@@ -22,7 +22,8 @@ export const routes: Routes = [
             infoLayers: infoLayersResolver,
             baseLayers: baseLayersResolver,
             layerCategories: layerCategoriesResolver,
-            groupedCheckboxes: groupedCheckboxesResolver
+            groupedCheckboxes: groupedCheckboxesResolver,
+            stations: stationsResolver
         }
     },
     {

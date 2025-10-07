@@ -19,4 +19,8 @@ export class MapPopupComponent {
   public data = input<Station[]>([]);
   public config = input<StationPopupConfig>(createDefaultStationsPopupConfig());
   public btnClicked = output<void>();
+
+  ngOnDestroy() {
+    console.log('POPUP DISTRUTTO');    
+  }
 }
