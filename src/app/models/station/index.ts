@@ -1,4 +1,5 @@
 export * from './sensor.class'
+export * from './sensor-type.interface'
 export * from './station-base.class'
 export * from './station-data.interface'
 export * from './station-popup-config.type'

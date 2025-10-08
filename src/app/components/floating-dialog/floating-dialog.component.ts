@@ -66,8 +66,4 @@ export class FloatingDialogComponent {
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseup', this._onMouseUp);
   }
-
-  public onCloseBtnClick(): void {
-    this.removeDialog.emit();
-  }
 }

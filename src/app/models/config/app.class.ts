@@ -9,6 +9,7 @@ export class AppConfig {
     public tablesConfigUri: string = '';
     public stationsConfigUri: string = '';
     public stationsPopupConfigUri: string = '';
+    public sensorTypesUri: string = '';
 
     private constructor() { }
 
@@ -33,6 +34,7 @@ export class AppConfig {
         config.tablesConfigUri = _get<string>(object['tablesConfigUri'], '');
         config.stationsConfigUri = _get<string>(object['stationsConfigUri'], '');
         config.stationsPopupConfigUri = _get<string>(object['stationsPopupConfigUri'], '');
+        config.sensorTypesUri = _get<string>(object['sensorTypesConfigUri'], '');
 
         return config;
     }

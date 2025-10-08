@@ -1,14 +1,15 @@
 <div class="floating-dialog" #floatingDialog cdkDrag cdkDragBoundary="body" (mousemove)="onResize($event)" (mouseup)="onResizeEnd()">
     <div class="dragger" cdkDragHandle></div>
 
-    <button type="button" class="close-btn">
+    <button type="button" class="close-btn" (click)="removeDialog.emit()">
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
             <path
                 d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z" />
         </svg>
     </button>
-
-    <ng-content select="floating-dialog-content"></ng-content>
+    <div class="floating-dialog__content">
+        <ng-content select="floating-dialog-content"></ng-content>
+    </div>
 
     <div class="resizer" (mousedown)="onResizeStart($event)" (mouseup)="onResizeEnd()">
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">

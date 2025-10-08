@@ -4,20 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapConfig, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
 import { CommandsRegistryService, LayersService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { PlotlyLineComponent } from "../../../components/plotly-line/plotly-line.component";
+import { MapChartSelectorComponent } from "../map-chart-selector/map-chart-selector.component";
+import { MapChartComponent } from "../map-chart/map-chart.component";
 
 /** Component */
 @Component({
@@ -36,8 +37,10 @@ import { PlotlyLineComponent } from "../../../components/plotly-line/plotly-line
     MapPopupComponent,
     SliderComponent,
     FloatingDialogComponent,
-    PlotlyLineComponent
-  ],
+    PlotlyLineComponent,
+    MapChartSelectorComponent,
+    MapChartComponent
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -79,9 +82,12 @@ export class DataPageComponent {
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
   public dataLayers: LayerGroup[]; // Recovered from route resolver in constructor
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
+  private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
+
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
   public popupData: Station[] = [];
+  public charts: MapChart[] = [];
 
   /** Constructor */
   constructor(
@@ -100,6 +106,7 @@ export class DataPageComponent {
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
     this.dataLayers = this.route.snapshot.data['groupedCheckboxes'];
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
+    this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
     this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
@@ -115,7 +122,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this.stationPopupConfig);
+    // console.log(this._sensorTypes);
   }
 
   public ngAfterViewInit(): void {
@@ -196,7 +203,7 @@ export class DataPageComponent {
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });   
+    });
     this.popupData = [...stations];
   }
 
@@ -214,8 +221,20 @@ export class DataPageComponent {
     else this._map.removeLayerById(id);
   }
 
-  public onMapPopupOpenChartBtnClick(stations: Station[]): void {
-    console.log(stations);
+  public onMapPopupOpenChartBtnClick(stations: Station[]): void {  
+    console.log(stations);    
+    this.charts = [
+      ...this.charts,
+      ...stations.map((s: Station) => {
+        const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
+        const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
+        return new MapChart([], stationSensorTypes);
+      })
+    ];   
+  }
+
+  public removeDialog(id: string): void {
+    this.charts = this.charts.filter((c: MapChart) => c.id !== id);
   }
 
   /**

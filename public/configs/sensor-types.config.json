@@ -1,0 +1,60 @@
+{
+    "types": [
+        {
+            "id": "pluvio",
+            "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia"
+        },
+        {
+            "id": "termo",
+            "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Temperatura"
+        },
+        {
+            "id": "idro",
+            "iconUrl": "/images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Livello idrometrici"
+        },
+        {
+            "id": "vento",
+            "iconUrl": "/images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Vento"
+        },
+        {
+            "id": "igro",
+            "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Umidità"
+        },
+        {
+            "id": "radio",
+            "iconUrl": "/images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Eliofanie"
+        },
+        {
+            "id": "foglie",
+            "iconUrl": "/images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Copertura fogliare"
+        },
+        {
+            "id": "press",
+            "iconUrl": "/images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pressione atmosferica"
+        },
+        {
+            "id": "batt",
+            "iconUrl": "/images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Tensione batteria"
+        },
+        {
+            "id": "boa",
+            "iconUrl": "/images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Stato del mare"
+        },
+        {
+            "id": "neve",
+            "iconUrl": "/images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Neve"
+        }
+    ],
+    "lastModified": "2025-08-10"
+}

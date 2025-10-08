@@ -13,12 +13,14 @@ export class PlotlyLineComponent {
   public data = input<[number, number][][]>([]);
   public parsedData: Partial<Plotly.Data>[] = [];
 
+  public id = input<string>('plotly-line');
+
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
 
   private _resizeObserver: ResizeObserver;
 
   constructor() {
-    this._resizeObserver = new ResizeObserver(() => {
+    this._resizeObserver = new ResizeObserver(() => {   
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
 
@@ -26,6 +28,10 @@ export class PlotlyLineComponent {
   }
 
   /** Component lifecycle */
+  public ngAfterViewInit(): void {
+    this._drawChart(this.data());
+  }
+
   public ngOnDestroy(): void {
     this._resizeObserver.disconnect();
   }
@@ -49,8 +55,10 @@ export class PlotlyLineComponent {
     const layout: Plotly.Layout = this._getLayout() as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
+    if (!this.plotly) return;
+
     Plotly.newPlot(
-      'plotly-line',
+      this.id(),
       traces,
       layout,
       config

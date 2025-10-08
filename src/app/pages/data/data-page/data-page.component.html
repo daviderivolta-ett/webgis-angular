@@ -82,9 +82,15 @@
         </app-map>
         <!-- END MAP -->
     </div>
-    <!--
-    <app-floating-dialog>
-        <app-plotly-line ngProjectAs="floating-dialog-content" [data]="[[[1, 2], [5, 6], [6, 2], [8, 2]]]"></app-plotly-line>
-    </app-floating-dialog>
-    -->
+
+    <!-- START FLOATING CHARTS -->
+    @for (chart of charts; track chart.id) {
+        <app-floating-dialog (removeDialog)="removeDialog(chart.id)">
+            <app-map-chart ngProjectAs="floating-dialog-content">
+                <app-plotly-line [id]="chart.id" [data]="[[[1, 2], [5, 6], [6, 2], [8, 2]]]"></app-plotly-line>
+                <app-map-chart-selector [sensorTypes]="chart.sensors"></app-map-chart-selector>
+            </app-map-chart>
+        </app-floating-dialog>
+    }
+    <!-- END FLOATING CHARTS -->
 </div>

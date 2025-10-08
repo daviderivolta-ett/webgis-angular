@@ -19,6 +19,10 @@
     width: 100%;
 }
 
+.floating-dialog__content {
+    height: calc(100% - 24px);
+}
+
 .close-btn {
     position: absolute;
     top: 0;

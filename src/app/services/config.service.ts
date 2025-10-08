@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, SensorType, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
 
 // Service
 @Injectable({
@@ -197,6 +197,28 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getSensorTypesConfig(): Promise<SensorType[]> {
+    return fetch(this.appConfig.sensorTypesUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero dei tipi dei sensori da /configs/sensor-types.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        const rawTypes = data['types'];
+
+        if (!rawTypes || !Array.isArray(rawTypes)) throw new Error('Il campo \'types\' non è un oggetto valido');
+
+        return rawTypes.map((t: any) => ({
+          id: t['id'] ?? '',
+          iconUrl: t['iconUrl'] ?? '',
+          label: t['label'] ?? ''
+        }))
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei tipi dei sensori da /configs/sensor-types.config.json ${err.message || err}`);
       })
   }
 }
