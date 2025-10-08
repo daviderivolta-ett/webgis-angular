@@ -98,6 +98,13 @@
     @include mixins.maskIcon('/images/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
 }
 
+.map-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
 @media screen and (max-width: 768px) {
     .chips-slider {
         top: 16px;

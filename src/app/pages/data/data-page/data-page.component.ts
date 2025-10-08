@@ -37,7 +37,7 @@ import { PlotlyLineComponent } from "../../../components/plotly-line/plotly-line
     SliderComponent,
     FloatingDialogComponent,
     PlotlyLineComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -102,7 +102,7 @@ export class DataPageComponent {
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
 
     this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
-    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));  
+    this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
   }
 
   /** Getter and setter */
@@ -170,7 +170,7 @@ export class DataPageComponent {
     if (!id) return;
 
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
-    if (!foundLayer) return;    
+    if (!foundLayer) return;
 
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
@@ -194,8 +194,9 @@ export class DataPageComponent {
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
-      return Station.fromStationData(stationBase, stationData);
-    });
+      const station = Station.fromStationData(stationBase, stationData);
+      return station.addSensorsFromStationLists(this.stations);
+    });   
     this.popupData = [...stations];
   }
 
@@ -213,8 +214,8 @@ export class DataPageComponent {
     else this._map.removeLayerById(id);
   }
 
-  public onMapPopupOpenChartBtnClick(): void {
-    console.log('ehi');    
+  public onMapPopupOpenChartBtnClick(stations: Station[]): void {
+    console.log(stations);
   }
 
   /**

@@ -50,7 +50,7 @@ export class Station extends StationBase implements StationData {
             const rawDate = typeof props['refDate'] === 'string' ?
                 props['refDate'] :
                 props['referenceDate'];
-                
+
             const date = new Date(rawDate);
             if (!isNaN(date.getTime())) data.date = date;
         }
@@ -74,5 +74,11 @@ export class Station extends StationBase implements StationData {
             unit,
             date
         )
+    }
+
+    public addSensorsFromStationLists(stations: StationBase[]): Station {
+        const station: StationBase | undefined = stations.find((s: StationBase) => s.id === this.id);
+        if (station) this.sensors = [...station.sensors];
+        return this;
     }
 }

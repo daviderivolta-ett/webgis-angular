@@ -18,6 +18,7 @@ import * as L from 'leaflet';
 
 /** Components */
 import { TimePlayerComponent } from '../time-player/time-player.component';
+import { MapPopupComponent } from '../map-popup/map-popup.component';
 
 /*
 * Component
@@ -65,9 +66,11 @@ export class MapComponent {
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>[]>();
   public dateChanged = output<Date | undefined>();
+  public popupClicked = output<any[]>();
 
   /** User Interface */
-  @ContentChild('popup', { read: ElementRef }) _popup!: ElementRef;
+  @ContentChild('popup') _popup!: MapPopupComponent;
+  @ContentChild('popup', { read: ElementRef }) _popupElement!: ElementRef;
 
   constructor(private ngZone: NgZone) { }
 
@@ -121,15 +124,24 @@ export class MapComponent {
 
     if (nearbyMarkers.length === 0) return;
 
-    const result = this._getMultiMarkersData(nearbyMarkers, 'group');  
+    const result = this._getMultiMarkersData(nearbyMarkers, 'group');
     let data: Record<string, any>[];
     data = Array.isArray(result) ? result : [result];
-    this.markerClicked.emit(data);
 
-    if (this._popup) {
+    this.markerClicked.emit(data);   
+
+    if (this._popup && this._popupElement) {
       const subscription = this.ngZone.onStable.subscribe(() => {
-        const popup: L.Popup = this.openCustomPopup(this._popup.nativeElement, nearbyMarkers[0].getLatLng());
-        popup.on('remove', () => this.markerClicked.emit([]));
+        const popup: L.Popup = this.openCustomPopup(this._popupElement.nativeElement, nearbyMarkers[0].getLatLng());
+        
+        const btn: HTMLButtonElement | undefined | null = popup.getElement()?.querySelector('#map-popup-btn');
+        btn?.addEventListener('click', () => this.popupClicked.emit(this._popup.data()));
+
+        popup.on('remove', () => {
+          this.markerClicked.emit([]);
+          btn?.removeEventListener('click', () => this.popupClicked.emit(this._popup.data()));
+        });
+        
         subscription.unsubscribe();
       });
     }
@@ -219,7 +231,7 @@ export class MapComponent {
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, timeDimensionLayer);
 
-    setTimeout(() => {      
+    setTimeout(() => {
       // @ts-ignore
       console.log(this._map.timeDimension.getAvailableTimes());
     }, 2000);
@@ -279,15 +291,15 @@ export class MapComponent {
   }
 
   /** Time dimension methods */
-  public onTimePlayerToggle(date: Date | undefined): void {  
+  public onTimePlayerToggle(date: Date | undefined): void {
     this._selectedDate = date;
     this.dateChanged.emit(date);
 
-    if (date) {     
+    if (date) {
       this._setCurrentTime(date);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
-      const availableTimes: numbers[] = this._map.timeDimension.getAvailableTimes();    
+      const availableTimes: numbers[] = this._map.timeDimension.getAvailableTimes();
       availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
     }
   }
@@ -317,7 +329,7 @@ export class MapComponent {
   /** Popup methods */
   public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
-      className: 'custom-leaflet-popup'
+      className: 'custom-leaflet-popup',
     })
       .setContent(`${element.outerHTML}`)
       .setLatLng(coordinates)
