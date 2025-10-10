@@ -228,7 +228,7 @@ export class DataPageComponent {
       ...stations.map((s: Station) => {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-        return new MapChart([], stationSensorTypes);
+        return new MapChart(s.parameter ?? '', [], stationSensorTypes);
       })
     ];   
   }

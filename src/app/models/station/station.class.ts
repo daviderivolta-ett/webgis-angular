@@ -4,6 +4,7 @@ import { Sensor } from './sensor.class'
 
 export class Station extends StationBase implements StationData {
     public value: number;
+    public parameter?: string;
     public label?: string;
     public unit?: string;
     public date?: Date;
@@ -17,6 +18,7 @@ export class Station extends StationBase implements StationData {
         name?: string,
         city?: string,
         alt?: number,
+        parameter?: string,
         label?: string,
         unit?: string,
         date?: Date
@@ -24,6 +26,7 @@ export class Station extends StationBase implements StationData {
         super(id, lat, lng, sensors, name, city, alt);
 
         this.value = value;
+        this.parameter = parameter;
         this.label = label;
         this.unit = unit;
         this.date = date;
@@ -33,7 +36,7 @@ export class Station extends StationBase implements StationData {
         return new Station('', 0, 0, [], 0);
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData {
+    static createStationDataFromGeoJSONProps(props: any): StationData { 
         if (!('value' in props) || typeof props['value'] !== 'number') {
             throw new Error('Oggetto non valido: \'value\' mancante.');
         }
@@ -41,6 +44,7 @@ export class Station extends StationBase implements StationData {
         const data: StationData = { value: 0 };
 
         if (props['value'] && typeof props['value'] === 'number') data.value = props['value'];
+        if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
         if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
         if (
@@ -59,7 +63,7 @@ export class Station extends StationBase implements StationData {
     }
 
     static fromStationData(stationBase: StationBase, data: StationData): Station {
-        const { value, label, unit, date } = data;
+        const { value, parameter, label, unit, date } = data;
 
         return new Station(
             stationBase.id,
@@ -70,6 +74,7 @@ export class Station extends StationBase implements StationData {
             stationBase.name,
             stationBase.city,
             stationBase.alt,
+            parameter,
             label,
             unit,
             date

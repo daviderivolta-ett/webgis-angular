@@ -28,6 +28,6 @@ export class MapChartSelectorComponent {
 
   constructor() {
     this.form.valueChanges.subscribe((change) => console.log(change));
-    effect(() => this.form.patchValue({ selectedSensorType: this.defaultSensorType() }));
+    effect(() => this.form.patchValue({ selectedSensorType: this.defaultSensorType() }, { emitEvent: false }));
   }
 }
