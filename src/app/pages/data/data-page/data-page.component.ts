@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
-import { CommandsRegistryService, LayersService } from '../../../services';
+import { ApiService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
@@ -40,7 +40,7 @@ import { MapChartComponent } from "../map-chart/map-chart.component";
     PlotlyLineComponent,
     MapChartSelectorComponent,
     MapChartComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -75,6 +75,7 @@ export class DataPageComponent {
 
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public timeserieUrl; // Recovered from route resolver in constructor
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public stations: StationBase[]; // Recovered from route resolver in constructor
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
@@ -88,17 +89,21 @@ export class DataPageComponent {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
+  public areChartsDisabled: boolean = false;
 
   /** Constructor */
   constructor(
     private route: ActivatedRoute,
+    private apiService: ApiService,
     private layersService: LayersService,
+    private stationsService: StationsService,
     private commandsRegistry: CommandsRegistryService
   ) {
     this.windowWidth = window.innerWidth;
 
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.timeserieUrl = this.route.snapshot.data['apisConfig'].get('timeseries');
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.stations = this.route.snapshot.data['stations'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
@@ -122,7 +127,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    // console.log(this._sensorTypes);
+    // console.log(this.timeserieUrl);
   }
 
   public ngAfterViewInit(): void {
@@ -221,20 +226,47 @@ export class DataPageComponent {
     else this._map.removeLayerById(id);
   }
 
-  public onMapPopupOpenChartBtnClick(stations: Station[]): void {  
-    console.log(stations);    
+  public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
+    const dataPromises: Promise<any>[] = stations.map((s: Station) => {
+      return this.getTimeserie(this.timeserieUrl, s.parameter);
+    });
+
+    const results = await Promise.allSettled(dataPromises);
+
     this.charts = [
       ...this.charts,
-      ...stations.map((s: Station) => {
+      ...stations.map((s: Station, i: number) => {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-        return new MapChart(s.parameter ?? '', [], stationSensorTypes);
+        const data = results[i].status === 'fulfilled' && results[i].value ? results[i].value : [];
+        return new MapChart(s.parameter, data, stationSensorTypes);
       })
-    ];   
+    ];
+  }
+
+  public async getTimeserie(url: string, param: string): Promise<any> {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, param);
+    return this.stationsService.getTimeSerie(formattedUrl, param);
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
+  }
+
+  public async onChartParameterChange(chartId: string, param: string): Promise<void> {
+    const chart = this.charts.find((c: MapChart) => c.id === chartId);
+    if (!chart) return;
+    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
+    this.areChartsDisabled = true;
+    this.getTimeserie(this.timeserieUrl, param)
+      .then((data: any) => {
+        const newChart = { ...chart, parameter: param, data };
+        this.charts[chartIdx] = newChart;      
+      })
+      .catch((err: unknown) => {
+        console.error(err);
+      })
+      .finally(() => this.areChartsDisabled = false);
   }
 
   /**

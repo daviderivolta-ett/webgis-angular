@@ -1,6 +1,6 @@
 /** Dependencies */
-import { Component, effect, input } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, input, model, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 /** Types */
 interface SensorType {
@@ -13,21 +13,15 @@ interface SensorType {
 @Component({
   selector: 'app-map-chart-selector',
   imports: [
-    ReactiveFormsModule
+    FormsModule
   ],
   templateUrl: './map-chart-selector.component.html',
   styleUrl: './map-chart-selector.component.scss'
 })
 export class MapChartSelectorComponent {
-  public defaultSensorType = input<string>('');
+  public id = input<string>('');
+  public isDisabled = input<boolean>(false);
+  public selectedSensorType = model<string>('');
   public sensorTypes = input<SensorType[]>([]);
-
-  public form = new FormGroup({
-    selectedSensorType: new FormControl('', Validators.required)
-  })
-
-  constructor() {
-    this.form.valueChanges.subscribe((change) => console.log(change));
-    effect(() => this.form.patchValue({ selectedSensorType: this.defaultSensorType() }, { emitEvent: false }));
-  }
+  public sensorTypeSelected = output<string>();
 }

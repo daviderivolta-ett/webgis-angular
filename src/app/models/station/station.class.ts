@@ -4,7 +4,7 @@ import { Sensor } from './sensor.class'
 
 export class Station extends StationBase implements StationData {
     public value: number;
-    public parameter?: string;
+    public parameter: string;
     public label?: string;
     public unit?: string;
     public date?: Date;
@@ -15,10 +15,10 @@ export class Station extends StationBase implements StationData {
         lng: number,
         sensors: Sensor[],
         value: number,
+        parameter: string,
         name?: string,
         city?: string,
         alt?: number,
-        parameter?: string,
         label?: string,
         unit?: string,
         date?: Date
@@ -33,7 +33,7 @@ export class Station extends StationBase implements StationData {
     }
 
     static override createDefault(): Station {
-        return new Station('', 0, 0, [], 0);
+        return new Station('', 0, 0, [], 0, '');
     }
 
     static createStationDataFromGeoJSONProps(props: any): StationData { 
@@ -41,7 +41,7 @@ export class Station extends StationBase implements StationData {
             throw new Error('Oggetto non valido: \'value\' mancante.');
         }
 
-        const data: StationData = { value: 0 };
+        const data: StationData = { value: 0, parameter: '' };
 
         if (props['value'] && typeof props['value'] === 'number') data.value = props['value'];
         if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
@@ -71,10 +71,10 @@ export class Station extends StationBase implements StationData {
             stationBase.lng,
             stationBase.sensors,
             value,
+            parameter,
             stationBase.name,
             stationBase.city,
             stationBase.alt,
-            parameter,
             label,
             unit,
             date

@@ -1,6 +1,6 @@
 export interface StationData {
     value: number,
-    parameter?: string,
+    parameter: string,
     label?: string,
     unit?: string,
     date?: Date

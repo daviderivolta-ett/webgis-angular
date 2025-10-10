@@ -22,4 +22,8 @@ export class ApiService {
         throw new Error(`Errore nel recupero dei dati da ${url}: ${err.message || err}`);
       })
   }
+
+  public replaceApiUrlPlaceholder(url: string, param: string): string {
+    return url.replace(/{(\w+)}/g, param);
+  }
 }

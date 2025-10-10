@@ -87,8 +87,8 @@
     @for (chart of charts; track chart.id) {
         <app-floating-dialog (removeDialog)="removeDialog(chart.id)">
             <app-map-chart ngProjectAs="floating-dialog-content">
-                <app-plotly-line [id]="chart.id" [data]="[[[1, 2], [5, 6], [6, 2], [8, 2]]]"></app-plotly-line>
-                <app-map-chart-selector [defaultSensorType]="chart.parameter" [sensorTypes]="chart.sensors"></app-map-chart-selector>
+                <app-plotly-line [id]="chart.id" [data]="chart.data"></app-plotly-line>
+                <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.parameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled" (sensorTypeSelected)="onChartParameterChange(chart.id, $event)"></app-map-chart-selector>
             </app-map-chart>
         </app-floating-dialog>
     }

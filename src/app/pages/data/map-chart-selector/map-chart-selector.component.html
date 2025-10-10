@@ -1,10 +1,10 @@
 <div class="map-chart-selector">
-    <form [formGroup]="form">
+    <form class="radio-list">
         @for (type of sensorTypes(); track $index) {
-            <label [for]="type.id">
-                <input type="radio" [value]="type.id" [id]="type.id" formControlName="selectedSensorType">
-                <img [src]="type.iconUrl" style="width: 8px; height: 8px;">
-            </label>
+            <div class="radio">
+                <input type="radio" class="radio__input" [id]="id() + '_' + type.id" [value]="type.id" [disabled]="isDisabled()" [(ngModel)]="selectedSensorType" [ngModelOptions]="{standalone: true}" (ngModelChange)="sensorTypeSelected.emit($event)">
+                <label [style.maskImage]="'url(' + type.iconUrl + ')'" [for]="id() + '_' + type.id" class="radio__icon"></label>
+            </div>
         }
     </form>
 </div>
