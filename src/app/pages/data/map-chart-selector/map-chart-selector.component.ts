@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, input, model, output } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 /** Types */

@@ -1,59 +1,70 @@
 {
     "types": [
         {
-            "id": "pluvio",
+            "id": "rain_05m",
             "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Pioggia"
+            "label": "Pioggia 5 minuti",
+            "unit": "mm"
         },
         {
             "id": "termo",
             "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura"
+            "label": "Temperatura",
+            "unit": "°C"
         },
         {
             "id": "idro",
             "iconUrl": "/images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Livello idrometrici"
+            "label": "Livello idrometrici",
+            "unit": "m"
         },
         {
             "id": "vento",
             "iconUrl": "/images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Vento"
+            "label": "Vento",
+            "unit": "km/h"
         },
         {
-            "id": "igro",
+            "id": "humidity",
             "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Umidità"
+            "label": "Umidità",
+            "unit": "%"
         },
         {
             "id": "radio",
             "iconUrl": "/images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Eliofanie"
+            "label": "Eliofanie",
+            "unit": "%"
         },
         {
             "id": "foglie",
             "iconUrl": "/images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Copertura fogliare"
+            "label": "Copertura fogliare",
+            "unit": "%"
         },
         {
             "id": "press",
             "iconUrl": "/images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Pressione atmosferica"
+            "label": "Pressione atmosferica",
+            "unit": "hPa"
         },
         {
             "id": "batt",
             "iconUrl": "/images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Tensione batteria"
+            "label": "Tensione batteria",
+            "unit": "V"
         },
         {
             "id": "boa",
             "iconUrl": "/images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Stato del mare"
+            "label": "Stato del mare",
+            "unit": "m"
         },
         {
             "id": "neve",
             "iconUrl": "/images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Neve"
+            "label": "Neve",
+            "unit": "cm"
         }
     ],
     "lastModified": "2025-08-10"

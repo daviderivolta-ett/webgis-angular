@@ -10,10 +10,12 @@ import Plotly from 'plotly.js-dist-min';
   styleUrl: './plotly-line.component.scss'
 })
 export class PlotlyLineComponent {
-  public data = input<[number, number][][]>([]);
-  public parsedData: Partial<Plotly.Data>[] = [];
-
   public id = input<string>('plotly-line');
+  public xLabel = input<string>('TEXT');
+  public yLabel = input<string>('TEXT');
+  public data = input<[number, number][][]>([]);
+  public legends = input<string[]>([]);
+  public parsedData: Partial<Plotly.Data>[] = [];
 
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
 
@@ -48,10 +50,10 @@ export class PlotlyLineComponent {
     }))
   }
 
-  private _drawChart(data: [number, number][][]): void {
+  private _drawChart(data: [number, number][][]): void { 
     const parsedData = this._parseData(data);
 
-    const traces: Plotly.Data[] = this._getTraces(parsedData);
+    const traces: Plotly.Data[] = this._getTraces(parsedData, this.legends());
     const layout: Plotly.Layout = this._getLayout() as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
@@ -66,12 +68,13 @@ export class PlotlyLineComponent {
       .then(() => this._setup())
   }
 
-  private _getTraces(data: Partial<Plotly.Data>[]): Plotly.Data[] {
-    return data.map((serie: Partial<Plotly.Data>) => {
+  private _getTraces(data: Partial<Plotly.Data>[], legends: string[]): Plotly.Data[] {
+    return data.map((serie: Partial<Plotly.Data>, i: number) => {
       return {
         ...serie,
         type: 'scatter',
         mode: 'lines+markers',
+        name: legends[i] ?? undefined
       } as Plotly.Data
     })
   }
@@ -90,7 +93,7 @@ export class PlotlyLineComponent {
       yaxis: {
         title: {
           // text: this._yUnit,
-          text: 'TEXT',
+          text: this.yLabel(),
           font: {
             size: 10,
             weight: 400,
@@ -107,7 +110,7 @@ export class PlotlyLineComponent {
       xaxis: {
         title: {
           // text: this._xUnit,
-          text: 'TEXT',
+          text: this.xLabel(),
           font: {
             size: 10,
             weight: 400,
@@ -115,9 +118,9 @@ export class PlotlyLineComponent {
           }
         },
         // type: this._dateAxis === 'x' ? 'date' : '-',
-        type: '-',
+        type: 'date',
         // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
-        tickformat: undefined,
+        tickformat: '%Y-%m-%d h:%H:%M',
         automargin: true
       }
     }

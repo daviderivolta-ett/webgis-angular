@@ -1,4 +1,7 @@
 <div class="map-chart">
+    <div class="map-chart__header">
+        <p>{{header()}}</p>
+    </div>
     <div class="chart"><ng-content select="app-plotly-line"></ng-content></div>
     <div class="chart-selector"><ng-content select="app-map-chart-selector"></ng-content></div>
 </div>

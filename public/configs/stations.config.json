@@ -9,8 +9,8 @@
             "alt": 24,
             "sensors": [
                 {
-                    "id": "INASV-pluvio",
-                    "type": "pluvio",
+                    "id": "INASV-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -34,8 +34,8 @@
             "alt": 734,
             "sensors": [
                 {
-                    "id": "COMAN-pluvio",
-                    "type": "pluvio",
+                    "id": "COMAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -54,8 +54,8 @@
             "alt": 655,
             "sensors": [
                 {
-                    "id": "PZGLI-pluvio",
-                    "type": "pluvio",
+                    "id": "PZGLI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -74,8 +74,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PZGLI-igro",
-                    "type": "igro",
+                    "id": "PZGLI-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -124,8 +124,8 @@
             "alt": 215,
             "sensors": [
                 {
-                    "id": "ROCNE-pluvio",
-                    "type": "pluvio",
+                    "id": "ROCNE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -154,8 +154,8 @@
             "alt": 205,
             "sensors": [
                 {
-                    "id": "MAGSG-pluvio",
-                    "type": "pluvio",
+                    "id": "MAGSG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -179,8 +179,8 @@
             "alt": 1120,
             "sensors": [
                 {
-                    "id": "VERDE-pluvio",
-                    "type": "pluvio",
+                    "id": "VERDE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -199,8 +199,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "VERDE-igro",
-                    "type": "igro",
+                    "id": "VERDE-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -224,8 +224,8 @@
             "alt": 1250,
             "sensors": [
                 {
-                    "id": "PCERR-pluvio",
-                    "type": "pluvio",
+                    "id": "PCERR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -244,8 +244,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PCERR-igro",
-                    "type": "igro",
+                    "id": "PCERR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 }
             ]
@@ -259,8 +259,8 @@
             "alt": 603,
             "sensors": [
                 {
-                    "id": "TAVRN-pluvio",
-                    "type": "pluvio",
+                    "id": "TAVRN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -289,8 +289,8 @@
             "alt": 1032,
             "sensors": [
                 {
-                    "id": "TOGAR-pluvio",
-                    "type": "pluvio",
+                    "id": "TOGAR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -309,8 +309,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "TOGAR-igro",
-                    "type": "igro",
+                    "id": "TOGAR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -354,8 +354,8 @@
             "alt": 810,
             "sensors": [
                 {
-                    "id": "URVAS-pluvio",
-                    "type": "pluvio",
+                    "id": "URVAS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -374,8 +374,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "URVAS-igro",
-                    "type": "igro",
+                    "id": "URVAS-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -404,8 +404,8 @@
             "alt": 538,
             "sensors": [
                 {
-                    "id": "IERAA-pluvio",
-                    "type": "pluvio",
+                    "id": "IERAA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -434,8 +434,8 @@
             "alt": 680,
             "sensors": [
                 {
-                    "id": "VBGOR-pluvio",
-                    "type": "pluvio",
+                    "id": "VBGOR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -454,8 +454,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "VBGOR-igro",
-                    "type": "igro",
+                    "id": "VBGOR-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -489,8 +489,8 @@
             "alt": 450,
             "sensors": [
                 {
-                    "id": "DEGIR-pluvio",
-                    "type": "pluvio",
+                    "id": "DEGIR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -509,8 +509,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "DEGIR-igro",
-                    "type": "igro",
+                    "id": "DEGIR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -559,8 +559,8 @@
             "alt": 385,
             "sensors": [
                 {
-                    "id": "SASSL-pluvio",
-                    "type": "pluvio",
+                    "id": "SASSL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -579,8 +579,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SASSL-igro",
-                    "type": "igro",
+                    "id": "SASSL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -624,8 +624,8 @@
             "alt": 1019,
             "sensors": [
                 {
-                    "id": "SSTAV-pluvio",
-                    "type": "pluvio",
+                    "id": "SSTAV-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -644,8 +644,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SSTAV-igro",
-                    "type": "igro",
+                    "id": "SSTAV-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -669,8 +669,8 @@
             "alt": 421,
             "sensors": [
                 {
-                    "id": "FRAMU-pluvio",
-                    "type": "pluvio",
+                    "id": "FRAMU-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -689,8 +689,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "FRAMU-igro",
-                    "type": "igro",
+                    "id": "FRAMU-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -724,8 +724,8 @@
             "alt": 240,
             "sensors": [
                 {
-                    "id": "MONTL-pluvio",
-                    "type": "pluvio",
+                    "id": "MONTL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -744,8 +744,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MONTL-igro",
-                    "type": "igro",
+                    "id": "MONTL-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -774,8 +774,8 @@
             "alt": 75,
             "sensors": [
                 {
-                    "id": "MROSS-pluvio",
-                    "type": "pluvio",
+                    "id": "MROSS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -789,8 +789,8 @@
             "alt": 330,
             "sensors": [
                 {
-                    "id": "MTBNO-pluvio",
-                    "type": "pluvio",
+                    "id": "MTBNO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -809,8 +809,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MTBNO-igro",
-                    "type": "igro",
+                    "id": "MTBNO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -829,8 +829,8 @@
             "alt": 1520,
             "sensors": [
                 {
-                    "id": "PRMLO-pluvio",
-                    "type": "pluvio",
+                    "id": "PRMLO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -859,8 +859,8 @@
             "alt": 500,
             "sensors": [
                 {
-                    "id": "TURAN-pluvio",
-                    "type": "pluvio",
+                    "id": "TURAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -889,8 +889,8 @@
             "alt": 1212,
             "sensors": [
                 {
-                    "id": "GOUTA-pluvio",
-                    "type": "pluvio",
+                    "id": "GOUTA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -909,8 +909,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "GOUTA-igro",
-                    "type": "igro",
+                    "id": "GOUTA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -939,8 +939,8 @@
             "alt": 6,
             "sensors": [
                 {
-                    "id": "LEVAN-pluvio",
-                    "type": "pluvio",
+                    "id": "LEVAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -959,8 +959,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LEVAN-igro",
-                    "type": "igro",
+                    "id": "LEVAN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -999,8 +999,8 @@
             "alt": 2,
             "sensors": [
                 {
-                    "id": "MARIN-pluvio",
-                    "type": "pluvio",
+                    "id": "MARIN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -1019,8 +1019,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MARIN-igro",
-                    "type": "igro",
+                    "id": "MARIN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -1034,8 +1034,8 @@
             "alt": 620,
             "sensors": [
                 {
-                    "id": "MTECA-pluvio",
-                    "type": "pluvio",
+                    "id": "MTECA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1054,8 +1054,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MTECA-igro",
-                    "type": "igro",
+                    "id": "MTECA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -1079,8 +1079,8 @@
             "alt": 640,
             "sensors": [
                 {
-                    "id": "ORERO-pluvio",
-                    "type": "pluvio",
+                    "id": "ORERO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -1099,8 +1099,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "ORERO-igro",
-                    "type": "igro",
+                    "id": "ORERO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1149,8 +1149,8 @@
             "alt": 75,
             "sensors": [
                 {
-                    "id": "PDVRM-pluvio",
-                    "type": "pluvio",
+                    "id": "PDVRM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -1169,8 +1169,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PDVRM-igro",
-                    "type": "igro",
+                    "id": "PDVRM-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -1219,8 +1219,8 @@
             "alt": 895,
             "sensors": [
                 {
-                    "id": "SEGIA-pluvio",
-                    "type": "pluvio",
+                    "id": "SEGIA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -1234,8 +1234,8 @@
             "alt": 915,
             "sensors": [
                 {
-                    "id": "AGORR-pluvio",
-                    "type": "pluvio",
+                    "id": "AGORR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1254,8 +1254,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "AGORR-igro",
-                    "type": "igro",
+                    "id": "AGORR-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -1269,8 +1269,8 @@
             "alt": 769,
             "sensors": [
                 {
-                    "id": "TRRIG-pluvio",
-                    "type": "pluvio",
+                    "id": "TRRIG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1289,8 +1289,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "TRRIG-igro",
-                    "type": "igro",
+                    "id": "TRRIG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1339,8 +1339,8 @@
             "alt": 48,
             "sensors": [
                 {
-                    "id": "PBATT-pluvio",
-                    "type": "pluvio",
+                    "id": "PBATT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1369,8 +1369,8 @@
             "alt": 1845,
             "sensors": [
                 {
-                    "id": "PFEAR-pluvio",
-                    "type": "pluvio",
+                    "id": "PFEAR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1394,8 +1394,8 @@
             "alt": 820,
             "sensors": [
                 {
-                    "id": "PRAIC-pluvio",
-                    "type": "pluvio",
+                    "id": "PRAIC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1414,8 +1414,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PRAIC-igro",
-                    "type": "igro",
+                    "id": "PRAIC-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1434,8 +1434,8 @@
             "alt": 70,
             "sensors": [
                 {
-                    "id": "PRTTI-pluvio",
-                    "type": "pluvio",
+                    "id": "PRTTI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -1459,8 +1459,8 @@
             "alt": 349,
             "sensors": [
                 {
-                    "id": "SSGIU-pluvio",
-                    "type": "pluvio",
+                    "id": "SSGIU-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1479,8 +1479,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SSGIU-igro",
-                    "type": "igro",
+                    "id": "SSGIU-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1519,8 +1519,8 @@
             "alt": 320,
             "sensors": [
                 {
-                    "id": "BGNNE-pluvio",
-                    "type": "pluvio",
+                    "id": "BGNNE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1539,8 +1539,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "BGNNE-igro",
-                    "type": "igro",
+                    "id": "BGNNE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1564,8 +1564,8 @@
             "alt": 156,
             "sensors": [
                 {
-                    "id": "VLFOL-pluvio",
-                    "type": "pluvio",
+                    "id": "VLFOL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1584,8 +1584,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "VLFOL-igro",
-                    "type": "igro",
+                    "id": "VLFOL-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -1614,8 +1614,8 @@
             "alt": 30,
             "sensors": [
                 {
-                    "id": "SMARG-pluvio",
-                    "type": "pluvio",
+                    "id": "SMARG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1634,8 +1634,8 @@
             "alt": 386,
             "sensors": [
                 {
-                    "id": "BRZON-pluvio",
-                    "type": "pluvio",
+                    "id": "BRZON-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1654,8 +1654,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "BRZON-igro",
-                    "type": "igro",
+                    "id": "BRZON-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1674,8 +1674,8 @@
             "alt": 30,
             "sensors": [
                 {
-                    "id": "CFUNZ-pluvio",
-                    "type": "pluvio",
+                    "id": "CFUNZ-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1694,8 +1694,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CFUNZ-igro",
-                    "type": "igro",
+                    "id": "CFUNZ-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1739,8 +1739,8 @@
             "alt": 460,
             "sensors": [
                 {
-                    "id": "MAZLA-pluvio",
-                    "type": "pluvio",
+                    "id": "MAZLA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1759,8 +1759,8 @@
             "alt": 480,
             "sensors": [
                 {
-                    "id": "VALZE-pluvio",
-                    "type": "pluvio",
+                    "id": "VALZE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1789,8 +1789,8 @@
             "alt": 744,
             "sensors": [
                 {
-                    "id": "PATIG-pluvio",
-                    "type": "pluvio",
+                    "id": "PATIG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -1809,8 +1809,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PATIG-igro",
-                    "type": "igro",
+                    "id": "PATIG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -1854,8 +1854,8 @@
             "alt": 670,
             "sensors": [
                 {
-                    "id": "BOROS-pluvio",
-                    "type": "pluvio",
+                    "id": "BOROS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1874,8 +1874,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "BOROS-igro",
-                    "type": "igro",
+                    "id": "BOROS-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -1894,8 +1894,8 @@
             "alt": 695,
             "sensors": [
                 {
-                    "id": "PARAN-pluvio",
-                    "type": "pluvio",
+                    "id": "PARAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1914,8 +1914,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PARAN-igro",
-                    "type": "igro",
+                    "id": "PARAN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -1954,8 +1954,8 @@
             "alt": 410,
             "sensors": [
                 {
-                    "id": "TNDLA-pluvio",
-                    "type": "pluvio",
+                    "id": "TNDLA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -1974,8 +1974,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "TNDLA-igro",
-                    "type": "igro",
+                    "id": "TNDLA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2019,8 +2019,8 @@
             "alt": 1014,
             "sensors": [
                 {
-                    "id": "PACIS-pluvio",
-                    "type": "pluvio",
+                    "id": "PACIS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2039,8 +2039,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PACIS-igro",
-                    "type": "igro",
+                    "id": "PACIS-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2089,8 +2089,8 @@
             "alt": 71,
             "sensors": [
                 {
-                    "id": "IMPER-pluvio",
-                    "type": "pluvio",
+                    "id": "IMPER-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2109,8 +2109,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "IMPER-igro",
-                    "type": "igro",
+                    "id": "IMPER-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2139,8 +2139,8 @@
             "alt": 270,
             "sensors": [
                 {
-                    "id": "LAMAC-pluvio",
-                    "type": "pluvio",
+                    "id": "LAMAC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2159,8 +2159,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "LAMAC-igro",
-                    "type": "igro",
+                    "id": "LAMAC-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2184,8 +2184,8 @@
             "alt": 250,
             "sensors": [
                 {
-                    "id": "EQUIT-pluvio",
-                    "type": "pluvio",
+                    "id": "EQUIT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2204,8 +2204,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "EQUIT-igro",
-                    "type": "igro",
+                    "id": "EQUIT-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2239,8 +2239,8 @@
             "alt": 36,
             "sensors": [
                 {
-                    "id": "ISBLL-pluvio",
-                    "type": "pluvio",
+                    "id": "ISBLL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -2254,8 +2254,8 @@
             "alt": 300,
             "sensors": [
                 {
-                    "id": "ISOVE-pluvio",
-                    "type": "pluvio",
+                    "id": "ISOVE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2274,8 +2274,8 @@
             "alt": 121,
             "sensors": [
                 {
-                    "id": "LICCN-pluvio",
-                    "type": "pluvio",
+                    "id": "LICCN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2294,8 +2294,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LICCN-igro",
-                    "type": "igro",
+                    "id": "LICCN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2334,8 +2334,8 @@
             "alt": 666,
             "sensors": [
                 {
-                    "id": "MINUC-pluvio",
-                    "type": "pluvio",
+                    "id": "MINUC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2354,8 +2354,8 @@
             "alt": 340,
             "sensors": [
                 {
-                    "id": "PNTCA-pluvio",
-                    "type": "pluvio",
+                    "id": "PNTCA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2374,8 +2374,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PNTCA-igro",
-                    "type": "igro",
+                    "id": "PNTCA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2409,8 +2409,8 @@
             "alt": 385,
             "sensors": [
                 {
-                    "id": "CCADB-pluvio",
-                    "type": "pluvio",
+                    "id": "CCADB-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2439,8 +2439,8 @@
             "alt": 253,
             "sensors": [
                 {
-                    "id": "LAVAG-pluvio",
-                    "type": "pluvio",
+                    "id": "LAVAG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2459,8 +2459,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LAVAG-igro",
-                    "type": "igro",
+                    "id": "LAVAG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -2474,8 +2474,8 @@
             "alt": 1007,
             "sensors": [
                 {
-                    "id": "LGIAC-pluvio",
-                    "type": "pluvio",
+                    "id": "LGIAC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2494,8 +2494,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LGIAC-igro",
-                    "type": "igro",
+                    "id": "LGIAC-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2519,8 +2519,8 @@
             "alt": 6,
             "sensors": [
                 {
-                    "id": "MOBRA-pluvio",
-                    "type": "pluvio",
+                    "id": "MOBRA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2539,8 +2539,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MOBRA-igro",
-                    "type": "igro",
+                    "id": "MOBRA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2589,8 +2589,8 @@
             "alt": 226,
             "sensors": [
                 {
-                    "id": "PNTRM-pluvio",
-                    "type": "pluvio",
+                    "id": "PNTRM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2609,8 +2609,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PNTRM-igro",
-                    "type": "igro",
+                    "id": "PNTRM-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -2624,8 +2624,8 @@
             "alt": 156,
             "sensors": [
                 {
-                    "id": "VIFRA-pluvio",
-                    "type": "pluvio",
+                    "id": "VIFRA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2644,8 +2644,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "VIFRA-igro",
-                    "type": "igro",
+                    "id": "VIFRA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2689,8 +2689,8 @@
             "alt": 1163,
             "sensors": [
                 {
-                    "id": "CODOG-pluvio",
-                    "type": "pluvio",
+                    "id": "CODOG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2709,8 +2709,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CODOG-igro",
-                    "type": "igro",
+                    "id": "CODOG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2744,8 +2744,8 @@
             "alt": 180,
             "sensors": [
                 {
-                    "id": "SMVAR-pluvio",
-                    "type": "pluvio",
+                    "id": "SMVAR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2764,8 +2764,8 @@
             "alt": 121,
             "sensors": [
                 {
-                    "id": "VFLUN-pluvio",
-                    "type": "pluvio",
+                    "id": "VFLUN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2784,8 +2784,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "VFLUN-igro",
-                    "type": "igro",
+                    "id": "VFLUN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2824,8 +2824,8 @@
             "alt": 1357,
             "sensors": [
                 {
-                    "id": "BELEN-pluvio",
-                    "type": "pluvio",
+                    "id": "BELEN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2849,8 +2849,8 @@
             "alt": 1375,
             "sensors": [
                 {
-                    "id": "MSETT-pluvio",
-                    "type": "pluvio",
+                    "id": "MSETT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -2869,8 +2869,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MSETT-igro",
-                    "type": "igro",
+                    "id": "MSETT-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -2884,8 +2884,8 @@
             "alt": 620,
             "sensors": [
                 {
-                    "id": "OSIGL-pluvio",
-                    "type": "pluvio",
+                    "id": "OSIGL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2904,8 +2904,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "OSIGL-igro",
-                    "type": "igro",
+                    "id": "OSIGL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -2924,8 +2924,8 @@
             "alt": 96,
             "sensors": [
                 {
-                    "id": "CSMAG-pluvio",
-                    "type": "pluvio",
+                    "id": "CSMAG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -2939,8 +2939,8 @@
             "alt": 835,
             "sensors": [
                 {
-                    "id": "CUCCA-pluvio",
-                    "type": "pluvio",
+                    "id": "CUCCA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -2959,8 +2959,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CUCCA-igro",
-                    "type": "igro",
+                    "id": "CUCCA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -2989,8 +2989,8 @@
             "alt": 467,
             "sensors": [
                 {
-                    "id": "DAVAG-pluvio",
-                    "type": "pluvio",
+                    "id": "DAVAG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3009,8 +3009,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "DAVAG-igro",
-                    "type": "igro",
+                    "id": "DAVAG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3044,8 +3044,8 @@
             "alt": 80,
             "sensors": [
                 {
-                    "id": "ELLRA-pluvio",
-                    "type": "pluvio",
+                    "id": "ELLRA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3064,8 +3064,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "ELLRA-igro",
-                    "type": "igro",
+                    "id": "ELLRA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3099,8 +3099,8 @@
             "alt": 1100,
             "sensors": [
                 {
-                    "id": "BRGEL-pluvio",
-                    "type": "pluvio",
+                    "id": "BRGEL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3119,8 +3119,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "BRGEL-igro",
-                    "type": "igro",
+                    "id": "BRGEL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3164,8 +3164,8 @@
             "alt": 777,
             "sensors": [
                 {
-                    "id": "BRUGN-pluvio",
-                    "type": "pluvio",
+                    "id": "BRUGN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3189,8 +3189,8 @@
             "alt": 432,
             "sensors": [
                 {
-                    "id": "CASRB-pluvio",
-                    "type": "pluvio",
+                    "id": "CASRB-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3209,8 +3209,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CASRB-igro",
-                    "type": "igro",
+                    "id": "CASRB-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3239,8 +3239,8 @@
             "alt": 103,
             "sensors": [
                 {
-                    "id": "AIROL-pluvio",
-                    "type": "pluvio",
+                    "id": "AIROL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3259,8 +3259,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "AIROL-igro",
-                    "type": "igro",
+                    "id": "AIROL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3304,8 +3304,8 @@
             "alt": 470,
             "sensors": [
                 {
-                    "id": "MATRA-pluvio",
-                    "type": "pluvio",
+                    "id": "MATRA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3324,8 +3324,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MATRA-igro",
-                    "type": "igro",
+                    "id": "MATRA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3359,8 +3359,8 @@
             "alt": 210,
             "sensors": [
                 {
-                    "id": "MMAUR-pluvio",
-                    "type": "pluvio",
+                    "id": "MMAUR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3379,8 +3379,8 @@
             "alt": 132,
             "sensors": [
                 {
-                    "id": "PITLL-pluvio",
-                    "type": "pluvio",
+                    "id": "PITLL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3399,8 +3399,8 @@
             "alt": 40,
             "sensors": [
                 {
-                    "id": "PVENE-pluvio",
-                    "type": "pluvio",
+                    "id": "PVENE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3419,8 +3419,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PVENE-igro",
-                    "type": "igro",
+                    "id": "PVENE-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3449,8 +3449,8 @@
             "alt": 530,
             "sensors": [
                 {
-                    "id": "REPPI-pluvio",
-                    "type": "pluvio",
+                    "id": "REPPI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3479,8 +3479,8 @@
             "alt": 702,
             "sensors": [
                 {
-                    "id": "SALBE-pluvio",
-                    "type": "pluvio",
+                    "id": "SALBE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3499,8 +3499,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "SALBE-igro",
-                    "type": "igro",
+                    "id": "SALBE-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3529,8 +3529,8 @@
             "alt": 345,
             "sensors": [
                 {
-                    "id": "VALIG-pluvio",
-                    "type": "pluvio",
+                    "id": "VALIG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3559,8 +3559,8 @@
             "alt": 650,
             "sensors": [
                 {
-                    "id": "ROVEG-pluvio",
-                    "type": "pluvio",
+                    "id": "ROVEG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3579,8 +3579,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "ROVEG-igro",
-                    "type": "igro",
+                    "id": "ROVEG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3624,8 +3624,8 @@
             "alt": 25,
             "sensors": [
                 {
-                    "id": "PANES-pluvio",
-                    "type": "pluvio",
+                    "id": "PANES-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3644,8 +3644,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PANES-igro",
-                    "type": "igro",
+                    "id": "PANES-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3679,8 +3679,8 @@
             "alt": 40,
             "sensors": [
                 {
-                    "id": "RAPAL-pluvio",
-                    "type": "pluvio",
+                    "id": "RAPAL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3699,8 +3699,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "RAPAL-igro",
-                    "type": "igro",
+                    "id": "RAPAL-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3744,8 +3744,8 @@
             "alt": 895,
             "sensors": [
                 {
-                    "id": "TAGLT-pluvio",
-                    "type": "pluvio",
+                    "id": "TAGLT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3764,8 +3764,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "TAGLT-igro",
-                    "type": "igro",
+                    "id": "TAGLT-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3814,8 +3814,8 @@
             "alt": 439,
             "sensors": [
                 {
-                    "id": "TESTI-pluvio",
-                    "type": "pluvio",
+                    "id": "TESTI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3834,8 +3834,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "TESTI-igro",
-                    "type": "igro",
+                    "id": "TESTI-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3869,8 +3869,8 @@
             "alt": 484,
             "sensors": [
                 {
-                    "id": "RCSIG-pluvio",
-                    "type": "pluvio",
+                    "id": "RCSIG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3889,8 +3889,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "RCSIG-igro",
-                    "type": "igro",
+                    "id": "RCSIG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -3924,8 +3924,8 @@
             "alt": 955,
             "sensors": [
                 {
-                    "id": "PPICC-pluvio",
-                    "type": "pluvio",
+                    "id": "PPICC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -3944,8 +3944,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PPICC-igro",
-                    "type": "igro",
+                    "id": "PPICC-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -3969,8 +3969,8 @@
             "alt": 174,
             "sensors": [
                 {
-                    "id": "STILA-pluvio",
-                    "type": "pluvio",
+                    "id": "STILA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -3994,8 +3994,8 @@
             "alt": 435,
             "sensors": [
                 {
-                    "id": "ALPIC-pluvio",
-                    "type": "pluvio",
+                    "id": "ALPIC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -4009,8 +4009,8 @@
             "alt": 1040,
             "sensors": [
                 {
-                    "id": "GIACO-pluvio",
-                    "type": "pluvio",
+                    "id": "GIACO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4029,8 +4029,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "GIACO-igro",
-                    "type": "igro",
+                    "id": "GIACO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -4049,8 +4049,8 @@
             "alt": 1070,
             "sensors": [
                 {
-                    "id": "CASON-pluvio",
-                    "type": "pluvio",
+                    "id": "CASON-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4069,8 +4069,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CASON-igro",
-                    "type": "igro",
+                    "id": "CASON-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4089,8 +4089,8 @@
             "alt": 425,
             "sensors": [
                 {
-                    "id": "CCORM-pluvio",
-                    "type": "pluvio",
+                    "id": "CCORM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4109,8 +4109,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CCORM-igro",
-                    "type": "igro",
+                    "id": "CCORM-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -4129,8 +4129,8 @@
             "alt": 110,
             "sensors": [
                 {
-                    "id": "CENES-pluvio",
-                    "type": "pluvio",
+                    "id": "CENES-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4149,8 +4149,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CENES-igro",
-                    "type": "igro",
+                    "id": "CENES-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4179,8 +4179,8 @@
             "alt": 460,
             "sensors": [
                 {
-                    "id": "CLROS-pluvio",
-                    "type": "pluvio",
+                    "id": "CLROS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4199,8 +4199,8 @@
             "alt": 442,
             "sensors": [
                 {
-                    "id": "MONTG-pluvio",
-                    "type": "pluvio",
+                    "id": "MONTG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4219,8 +4219,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MONTG-igro",
-                    "type": "igro",
+                    "id": "MONTG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4259,8 +4259,8 @@
             "alt": 13,
             "sensors": [
                 {
-                    "id": "SLPSS-pluvio",
-                    "type": "pluvio",
+                    "id": "SLPSS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4279,8 +4279,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SLPSS-igro",
-                    "type": "igro",
+                    "id": "SLPSS-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 }
             ]
@@ -4294,8 +4294,8 @@
             "alt": 107,
             "sensors": [
                 {
-                    "id": "SOLIE-pluvio",
-                    "type": "pluvio",
+                    "id": "SOLIE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4314,8 +4314,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "SOLIE-igro",
-                    "type": "igro",
+                    "id": "SOLIE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -4344,8 +4344,8 @@
             "alt": 61,
             "sensors": [
                 {
-                    "id": "SREMO-pluvio",
-                    "type": "pluvio",
+                    "id": "SREMO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4364,8 +4364,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SREMO-igro",
-                    "type": "igro",
+                    "id": "SREMO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -4404,8 +4404,8 @@
             "alt": 50,
             "sensors": [
                 {
-                    "id": "CALGR-pluvio",
-                    "type": "pluvio",
+                    "id": "CALGR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4424,8 +4424,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CALGR-igro",
-                    "type": "igro",
+                    "id": "CALGR-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -4439,8 +4439,8 @@
             "alt": 338,
             "sensors": [
                 {
-                    "id": "CAMPL-pluvio",
-                    "type": "pluvio",
+                    "id": "CAMPL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4459,8 +4459,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CAMPL-igro",
-                    "type": "igro",
+                    "id": "CAMPL-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4494,8 +4494,8 @@
             "alt": 290,
             "sensors": [
                 {
-                    "id": "FIORI-pluvio",
-                    "type": "pluvio",
+                    "id": "FIORI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4524,8 +4524,8 @@
             "alt": 580,
             "sensors": [
                 {
-                    "id": "SZIGN-pluvio",
-                    "type": "pluvio",
+                    "id": "SZIGN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4544,8 +4544,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SZIGN-igro",
-                    "type": "igro",
+                    "id": "SZIGN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4564,8 +4564,8 @@
             "alt": 57,
             "sensors": [
                 {
-                    "id": "FABIA-pluvio",
-                    "type": "pluvio",
+                    "id": "FABIA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4594,8 +4594,8 @@
             "alt": 809,
             "sensors": [
                 {
-                    "id": "CABAN-pluvio",
-                    "type": "pluvio",
+                    "id": "CABAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4614,8 +4614,8 @@
             "alt": 238,
             "sensors": [
                 {
-                    "id": "CRNLO-pluvio",
-                    "type": "pluvio",
+                    "id": "CRNLO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 }
             ]
@@ -4629,8 +4629,8 @@
             "alt": 470,
             "sensors": [
                 {
-                    "id": "CRORE-pluvio",
-                    "type": "pluvio",
+                    "id": "CRORE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4654,8 +4654,8 @@
             "alt": 56,
             "sensors": [
                 {
-                    "id": "DCAVV-pluvio",
-                    "type": "pluvio",
+                    "id": "DCAVV-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4674,8 +4674,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "DCAVV-igro",
-                    "type": "igro",
+                    "id": "DCAVV-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -4689,8 +4689,8 @@
             "alt": 865,
             "sensors": [
                 {
-                    "id": "FALLA-pluvio",
-                    "type": "pluvio",
+                    "id": "FALLA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4709,8 +4709,8 @@
             "alt": 523,
             "sensors": [
                 {
-                    "id": "MURIA-pluvio",
-                    "type": "pluvio",
+                    "id": "MURIA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4729,8 +4729,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MURIA-igro",
-                    "type": "igro",
+                    "id": "MURIA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4779,8 +4779,8 @@
             "alt": 112,
             "sensors": [
                 {
-                    "id": "BVARA-pluvio",
-                    "type": "pluvio",
+                    "id": "BVARA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4804,8 +4804,8 @@
             "alt": 18,
             "sensors": [
                 {
-                    "id": "GEFIU-pluvio",
-                    "type": "pluvio",
+                    "id": "GEFIU-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -4824,8 +4824,8 @@
             "alt": 70,
             "sensors": [
                 {
-                    "id": "GEGEI-pluvio",
-                    "type": "pluvio",
+                    "id": "GEGEI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4849,8 +4849,8 @@
             "alt": 30,
             "sensors": [
                 {
-                    "id": "GEPCA-pluvio",
-                    "type": "pluvio",
+                    "id": "GEPCA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4869,8 +4869,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "GEPCA-igro",
-                    "type": "igro",
+                    "id": "GEPCA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -4884,8 +4884,8 @@
             "alt": 69,
             "sensors": [
                 {
-                    "id": "GEPEG-pluvio",
-                    "type": "pluvio",
+                    "id": "GEPEG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4904,8 +4904,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "GEPEG-igro",
-                    "type": "igro",
+                    "id": "GEPEG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -4949,8 +4949,8 @@
             "alt": 75,
             "sensors": [
                 {
-                    "id": "GEPTX-pluvio",
-                    "type": "pluvio",
+                    "id": "GEPTX-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -4969,8 +4969,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "GEPTX-igro",
-                    "type": "igro",
+                    "id": "GEPTX-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5004,8 +5004,8 @@
             "alt": 85,
             "sensors": [
                 {
-                    "id": "LVTSG-pluvio",
-                    "type": "pluvio",
+                    "id": "LVTSG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5034,8 +5034,8 @@
             "alt": 370,
             "sensors": [
                 {
-                    "id": "CERIA-pluvio",
-                    "type": "pluvio",
+                    "id": "CERIA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5054,8 +5054,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CERIA-igro",
-                    "type": "igro",
+                    "id": "CERIA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5094,8 +5094,8 @@
             "alt": 931,
             "sensors": [
                 {
-                    "id": "CERPG-pluvio",
-                    "type": "pluvio",
+                    "id": "CERPG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5114,8 +5114,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CERPG-igro",
-                    "type": "igro",
+                    "id": "CERPG-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5134,8 +5134,8 @@
             "alt": 791,
             "sensors": [
                 {
-                    "id": "FFRES-pluvio",
-                    "type": "pluvio",
+                    "id": "FFRES-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 }
             ]
@@ -5149,8 +5149,8 @@
             "alt": 5,
             "sensors": [
                 {
-                    "id": "LUNIS-pluvio",
-                    "type": "pluvio",
+                    "id": "LUNIS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5169,8 +5169,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LUNIS-igro",
-                    "type": "igro",
+                    "id": "LUNIS-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5209,8 +5209,8 @@
             "alt": 955,
             "sensors": [
                 {
-                    "id": "BRATT-pluvio",
-                    "type": "pluvio",
+                    "id": "BRATT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5229,8 +5229,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "BRATT-igro",
-                    "type": "igro",
+                    "id": "BRATT-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5274,8 +5274,8 @@
             "alt": 310,
             "sensors": [
                 {
-                    "id": "MGAZZ-pluvio",
-                    "type": "pluvio",
+                    "id": "MGAZZ-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5294,8 +5294,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MGAZZ-igro",
-                    "type": "igro",
+                    "id": "MGAZZ-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5319,8 +5319,8 @@
             "alt": 420,
             "sensors": [
                 {
-                    "id": "NOVGA-pluvio",
-                    "type": "pluvio",
+                    "id": "NOVGA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5339,8 +5339,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "NOVGA-igro",
-                    "type": "igro",
+                    "id": "NOVGA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5374,8 +5374,8 @@
             "alt": 350,
             "sensors": [
                 {
-                    "id": "CONNA-pluvio",
-                    "type": "pluvio",
+                    "id": "CONNA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5394,8 +5394,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CONNA-igro",
-                    "type": "igro",
+                    "id": "CONNA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -5429,8 +5429,8 @@
             "alt": 590,
             "sensors": [
                 {
-                    "id": "PTURC-pluvio",
-                    "type": "pluvio",
+                    "id": "PTURC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5449,8 +5449,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PTURC-igro",
-                    "type": "igro",
+                    "id": "PTURC-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5469,8 +5469,8 @@
             "alt": 360,
             "sensors": [
                 {
-                    "id": "RIGHI-pluvio",
-                    "type": "pluvio",
+                    "id": "RIGHI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5489,8 +5489,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "RIGHI-igro",
-                    "type": "igro",
+                    "id": "RIGHI-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5529,8 +5529,8 @@
             "alt": 685,
             "sensors": [
                 {
-                    "id": "SCURT-pluvio",
-                    "type": "pluvio",
+                    "id": "SCURT-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5549,8 +5549,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "SCURT-igro",
-                    "type": "igro",
+                    "id": "SCURT-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5569,8 +5569,8 @@
             "alt": 55,
             "sensors": [
                 {
-                    "id": "SPZIA-pluvio",
-                    "type": "pluvio",
+                    "id": "SPZIA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5599,8 +5599,8 @@
             "alt": 593,
             "sensors": [
                 {
-                    "id": "STALE-pluvio",
-                    "type": "pluvio",
+                    "id": "STALE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5619,8 +5619,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "STALE-igro",
-                    "type": "igro",
+                    "id": "STALE-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -5644,8 +5644,8 @@
             "alt": 253,
             "sensors": [
                 {
-                    "id": "MONTA-pluvio",
-                    "type": "pluvio",
+                    "id": "MONTA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5664,8 +5664,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MONTA-igro",
-                    "type": "igro",
+                    "id": "MONTA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -5679,8 +5679,8 @@
             "alt": 405,
             "sensors": [
                 {
-                    "id": "MROCC-pluvio",
-                    "type": "pluvio",
+                    "id": "MROCC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5699,8 +5699,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MROCC-igro",
-                    "type": "igro",
+                    "id": "MROCC-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -5749,8 +5749,8 @@
             "alt": 225,
             "sensors": [
                 {
-                    "id": "SCIAR-pluvio",
-                    "type": "pluvio",
+                    "id": "SCIAR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5769,8 +5769,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SCIAR-igro",
-                    "type": "igro",
+                    "id": "SCIAR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -5794,8 +5794,8 @@
             "alt": 115,
             "sensors": [
                 {
-                    "id": "ONZPO-pluvio",
-                    "type": "pluvio",
+                    "id": "ONZPO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -5814,8 +5814,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "ONZPO-igro",
-                    "type": "igro",
+                    "id": "ONZPO-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -5829,8 +5829,8 @@
             "alt": 175,
             "sensors": [
                 {
-                    "id": "PIGNO-pluvio",
-                    "type": "pluvio",
+                    "id": "PIGNO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5849,8 +5849,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PIGNO-igro",
-                    "type": "igro",
+                    "id": "PIGNO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -5884,8 +5884,8 @@
             "alt": 263,
             "sensors": [
                 {
-                    "id": "PTECO-pluvio",
-                    "type": "pluvio",
+                    "id": "PTECO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5904,8 +5904,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "PTECO-igro",
-                    "type": "igro",
+                    "id": "PTECO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 }
             ]
@@ -5919,8 +5919,8 @@
             "alt": 150,
             "sensors": [
                 {
-                    "id": "RICCO-pluvio",
-                    "type": "pluvio",
+                    "id": "RICCO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -5939,8 +5939,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "RICCO-igro",
-                    "type": "igro",
+                    "id": "RICCO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -5984,8 +5984,8 @@
             "alt": 475,
             "sensors": [
                 {
-                    "id": "PORNA-pluvio",
-                    "type": "pluvio",
+                    "id": "PORNA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6004,8 +6004,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PORNA-igro",
-                    "type": "igro",
+                    "id": "PORNA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6044,8 +6044,8 @@
             "alt": 550,
             "sensors": [
                 {
-                    "id": "SEBOR-pluvio",
-                    "type": "pluvio",
+                    "id": "SEBOR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6074,8 +6074,8 @@
             "alt": 265,
             "sensors": [
                 {
-                    "id": "SEGOD-pluvio",
-                    "type": "pluvio",
+                    "id": "SEGOD-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6094,8 +6094,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "SEGOD-igro",
-                    "type": "igro",
+                    "id": "SEGOD-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6134,8 +6134,8 @@
             "alt": 343,
             "sensors": [
                 {
-                    "id": "RANZO-pluvio",
-                    "type": "pluvio",
+                    "id": "RANZO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6154,8 +6154,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "RANZO-igro",
-                    "type": "igro",
+                    "id": "RANZO-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6174,8 +6174,8 @@
             "alt": 407,
             "sensors": [
                 {
-                    "id": "VREGI-pluvio",
-                    "type": "pluvio",
+                    "id": "VREGI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6194,8 +6194,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "VREGI-igro",
-                    "type": "igro",
+                    "id": "VREGI-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6224,8 +6224,8 @@
             "alt": 320,
             "sensors": [
                 {
-                    "id": "TASNI-pluvio",
-                    "type": "pluvio",
+                    "id": "TASNI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6244,8 +6244,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "TASNI-igro",
-                    "type": "igro",
+                    "id": "TASNI-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6294,8 +6294,8 @@
             "alt": 90,
             "sensors": [
                 {
-                    "id": "SANTU-pluvio",
-                    "type": "pluvio",
+                    "id": "SANTU-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 }
             ]
@@ -6309,8 +6309,8 @@
             "alt": 450,
             "sensors": [
                 {
-                    "id": "VERZI-pluvio",
-                    "type": "pluvio",
+                    "id": "VERZI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6329,8 +6329,8 @@
             "alt": 789,
             "sensors": [
                 {
-                    "id": "TRIOR-pluvio",
-                    "type": "pluvio",
+                    "id": "TRIOR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6359,8 +6359,8 @@
             "alt": 388,
             "sensors": [
                 {
-                    "id": "CAIRM-pluvio",
-                    "type": "pluvio",
+                    "id": "CAIRM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6379,8 +6379,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CAIRM-igro",
-                    "type": "igro",
+                    "id": "CAIRM-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -6394,8 +6394,8 @@
             "alt": 310,
             "sensors": [
                 {
-                    "id": "VICOM-pluvio",
-                    "type": "pluvio",
+                    "id": "VICOM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6414,8 +6414,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "VICOM-igro",
-                    "type": "igro",
+                    "id": "VICOM-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6449,8 +6449,8 @@
             "alt": 358,
             "sensors": [
                 {
-                    "id": "BUSAL-pluvio",
-                    "type": "pluvio",
+                    "id": "BUSAL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6469,8 +6469,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "BUSAL-igro",
-                    "type": "igro",
+                    "id": "BUSAL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6509,8 +6509,8 @@
             "alt": 350,
             "sensors": [
                 {
-                    "id": "LFMTV-pluvio",
-                    "type": "pluvio",
+                    "id": "LFMTV-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6529,8 +6529,8 @@
             "alt": 647,
             "sensors": [
                 {
-                    "id": "CALIZ-pluvio",
-                    "type": "pluvio",
+                    "id": "CALIZ-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6549,8 +6549,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CALIZ-igro",
-                    "type": "igro",
+                    "id": "CALIZ-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6599,8 +6599,8 @@
             "alt": 467,
             "sensors": [
                 {
-                    "id": "MLARE-pluvio",
-                    "type": "pluvio",
+                    "id": "MLARE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6619,8 +6619,8 @@
             "alt": 21,
             "sensors": [
                 {
-                    "id": "XXMIG-pluvio",
-                    "type": "pluvio",
+                    "id": "XXMIG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6639,8 +6639,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "XXMIG-igro",
-                    "type": "igro",
+                    "id": "XXMIG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6664,8 +6664,8 @@
             "alt": 564,
             "sensors": [
                 {
-                    "id": "MNINF-pluvio",
-                    "type": "pluvio",
+                    "id": "MNINF-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 }
             ]
@@ -6679,8 +6679,8 @@
             "alt": 289,
             "sensors": [
                 {
-                    "id": "ROSGL-pluvio",
-                    "type": "pluvio",
+                    "id": "ROSGL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6699,8 +6699,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "ROSGL-igro",
-                    "type": "igro",
+                    "id": "ROSGL-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 }
             ]
@@ -6714,8 +6714,8 @@
             "alt": 882,
             "sensors": [
                 {
-                    "id": "PIAMP-pluvio",
-                    "type": "pluvio",
+                    "id": "PIAMP-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6734,8 +6734,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PIAMP-igro",
-                    "type": "igro",
+                    "id": "PIAMP-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -6774,8 +6774,8 @@
             "alt": 281,
             "sensors": [
                 {
-                    "id": "BESTA-pluvio",
-                    "type": "pluvio",
+                    "id": "BESTA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -6794,8 +6794,8 @@
             "alt": 26,
             "sensors": [
                 {
-                    "id": "SRZAN-pluvio",
-                    "type": "pluvio",
+                    "id": "SRZAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6814,8 +6814,8 @@
             "alt": 26,
             "sensors": [
                 {
-                    "id": "BOLSN-pluvio",
-                    "type": "pluvio",
+                    "id": "BOLSN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6834,8 +6834,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "BOLSN-igro",
-                    "type": "igro",
+                    "id": "BOLSN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6859,8 +6859,8 @@
             "alt": 115,
             "sensors": [
                 {
-                    "id": "BONUO-pluvio",
-                    "type": "pluvio",
+                    "id": "BONUO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6889,8 +6889,8 @@
             "alt": 250,
             "sensors": [
                 {
-                    "id": "BMARO-pluvio",
-                    "type": "pluvio",
+                    "id": "BMARO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 }
             ]
@@ -6904,8 +6904,8 @@
             "alt": 234,
             "sensors": [
                 {
-                    "id": "PREMA-pluvio",
-                    "type": "pluvio",
+                    "id": "PREMA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6924,8 +6924,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "PREMA-igro",
-                    "type": "igro",
+                    "id": "PREMA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 }
             ]
@@ -6939,8 +6939,8 @@
             "alt": 437,
             "sensors": [
                 {
-                    "id": "CARRO-pluvio",
-                    "type": "pluvio",
+                    "id": "CARRO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -6959,8 +6959,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CARRO-igro",
-                    "type": "igro",
+                    "id": "CARRO-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -6989,8 +6989,8 @@
             "alt": 104,
             "sensors": [
                 {
-                    "id": "MADGR-pluvio",
-                    "type": "pluvio",
+                    "id": "MADGR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7009,8 +7009,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MADGR-igro",
-                    "type": "igro",
+                    "id": "MADGR-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7054,8 +7054,8 @@
             "alt": 250,
             "sensors": [
                 {
-                    "id": "PIGNA-pluvio",
-                    "type": "pluvio",
+                    "id": "PIGNA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7084,8 +7084,8 @@
             "alt": 60,
             "sensors": [
                 {
-                    "id": "CAMOG-pluvio",
-                    "type": "pluvio",
+                    "id": "CAMOG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7104,8 +7104,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CAMOG-igro",
-                    "type": "igro",
+                    "id": "CAMOG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7139,8 +7139,8 @@
             "alt": 927,
             "sensors": [
                 {
-                    "id": "CNAVA-pluvio",
-                    "type": "pluvio",
+                    "id": "CNAVA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7164,8 +7164,8 @@
             "alt": 410,
             "sensors": [
                 {
-                    "id": "CEMBR-pluvio",
-                    "type": "pluvio",
+                    "id": "CEMBR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7184,8 +7184,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CEMBR-igro",
-                    "type": "igro",
+                    "id": "CEMBR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7219,8 +7219,8 @@
             "alt": 285,
             "sensors": [
                 {
-                    "id": "CRAIN-pluvio",
-                    "type": "pluvio",
+                    "id": "CRAIN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7239,8 +7239,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CRAIN-igro",
-                    "type": "igro",
+                    "id": "CRAIN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7284,8 +7284,8 @@
             "alt": 110,
             "sensors": [
                 {
-                    "id": "CAVIP-pluvio",
-                    "type": "pluvio",
+                    "id": "CAVIP-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7304,8 +7304,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CAVIP-igro",
-                    "type": "igro",
+                    "id": "CAVIP-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7344,8 +7344,8 @@
             "alt": 50,
             "sensors": [
                 {
-                    "id": "CHIRI-pluvio",
-                    "type": "pluvio",
+                    "id": "CHIRI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7364,8 +7364,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CHIRI-igro",
-                    "type": "igro",
+                    "id": "CHIRI-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7384,8 +7384,8 @@
             "alt": 91,
             "sensors": [
                 {
-                    "id": "CLARI-pluvio",
-                    "type": "pluvio",
+                    "id": "CLARI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7409,8 +7409,8 @@
             "alt": 1004,
             "sensors": [
                 {
-                    "id": "CMELO-pluvio",
-                    "type": "pluvio",
+                    "id": "CMELO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7439,8 +7439,8 @@
             "alt": 445,
             "sensors": [
                 {
-                    "id": "CARPG-pluvio",
-                    "type": "pluvio",
+                    "id": "CARPG-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7459,8 +7459,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CARPG-igro",
-                    "type": "igro",
+                    "id": "CARPG-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7504,8 +7504,8 @@
             "alt": 630,
             "sensors": [
                 {
-                    "id": "CRETO-pluvio",
-                    "type": "pluvio",
+                    "id": "CRETO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7524,8 +7524,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "CRETO-igro",
-                    "type": "igro",
+                    "id": "CRETO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7574,8 +7574,8 @@
             "alt": 762,
             "sensors": [
                 {
-                    "id": "CRCFI-pluvio",
-                    "type": "pluvio",
+                    "id": "CRCFI-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7599,8 +7599,8 @@
             "alt": 77,
             "sensors": [
                 {
-                    "id": "DOLCE-pluvio",
-                    "type": "pluvio",
+                    "id": "DOLCE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7619,8 +7619,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "DOLCE-igro",
-                    "type": "igro",
+                    "id": "DOLCE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7664,8 +7664,8 @@
             "alt": 25,
             "sensors": [
                 {
-                    "id": "ALASS-pluvio",
-                    "type": "pluvio",
+                    "id": "ALASS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7684,8 +7684,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "ALASS-igro",
-                    "type": "igro",
+                    "id": "ALASS-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7709,8 +7709,8 @@
             "alt": 1095,
             "sensors": [
                 {
-                    "id": "ALTOM-pluvio",
-                    "type": "pluvio",
+                    "id": "ALTOM-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7729,8 +7729,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "ALTOM-igro",
-                    "type": "igro",
+                    "id": "ALTOM-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -7749,8 +7749,8 @@
             "alt": 358,
             "sensors": [
                 {
-                    "id": "FERRA-pluvio",
-                    "type": "pluvio",
+                    "id": "FERRA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7779,8 +7779,8 @@
             "alt": 25,
             "sensors": [
                 {
-                    "id": "FRNLA-pluvio",
-                    "type": "pluvio",
+                    "id": "FRNLA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7799,8 +7799,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "FRNLA-igro",
-                    "type": "igro",
+                    "id": "FRNLA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7839,8 +7839,8 @@
             "alt": 908,
             "sensors": [
                 {
-                    "id": "AMBOR-pluvio",
-                    "type": "pluvio",
+                    "id": "AMBOR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7859,8 +7859,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "AMBOR-igro",
-                    "type": "igro",
+                    "id": "AMBOR-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7899,8 +7899,8 @@
             "alt": 1082,
             "sensors": [
                 {
-                    "id": "AVOBB-pluvio",
-                    "type": "pluvio",
+                    "id": "AVOBB-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -7919,8 +7919,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "AVOBB-igro",
-                    "type": "igro",
+                    "id": "AVOBB-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -7959,8 +7959,8 @@
             "alt": 150,
             "sensors": [
                 {
-                    "id": "LAPRS-pluvio",
-                    "type": "pluvio",
+                    "id": "LAPRS-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -7989,8 +7989,8 @@
             "alt": 260,
             "sensors": [
                 {
-                    "id": "BARGO-pluvio",
-                    "type": "pluvio",
+                    "id": "BARGO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -8009,8 +8009,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "BARGO-igro",
-                    "type": "igro",
+                    "id": "BARGO-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8054,8 +8054,8 @@
             "alt": 47,
             "sensors": [
                 {
-                    "id": "GEBOL-pluvio",
-                    "type": "pluvio",
+                    "id": "GEBOL-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8074,8 +8074,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "GEBOL-igro",
-                    "type": "igro",
+                    "id": "GEBOL-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -8109,8 +8109,8 @@
             "alt": 110,
             "sensors": [
                 {
-                    "id": "LERCA-pluvio",
-                    "type": "pluvio",
+                    "id": "LERCA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8129,8 +8129,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "LERCA-igro",
-                    "type": "igro",
+                    "id": "LERCA-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -8154,8 +8154,8 @@
             "alt": 600,
             "sensors": [
                 {
-                    "id": "LOCOC-pluvio",
-                    "type": "pluvio",
+                    "id": "LOCOC-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8174,8 +8174,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "LOCOC-igro",
-                    "type": "igro",
+                    "id": "LOCOC-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -8219,8 +8219,8 @@
             "alt": 200,
             "sensors": [
                 {
-                    "id": "GEQUE-pluvio",
-                    "type": "pluvio",
+                    "id": "GEQUE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8239,8 +8239,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "GEQUE-igro",
-                    "type": "igro",
+                    "id": "GEQUE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8269,8 +8269,8 @@
             "alt": 340,
             "sensors": [
                 {
-                    "id": "MANIE-pluvio",
-                    "type": "pluvio",
+                    "id": "MANIE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -8289,8 +8289,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MANIE-igro",
-                    "type": "igro",
+                    "id": "MANIE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8314,8 +8314,8 @@
             "alt": 270,
             "sensors": [
                 {
-                    "id": "MIGNA-pluvio",
-                    "type": "pluvio",
+                    "id": "MIGNA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8334,8 +8334,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MIGNA-igro",
-                    "type": "igro",
+                    "id": "MIGNA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 }
             ]
@@ -8349,8 +8349,8 @@
             "alt": 270,
             "sensors": [
                 {
-                    "id": "MELEE-pluvio",
-                    "type": "pluvio",
+                    "id": "MELEE-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8369,8 +8369,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MELEE-igro",
-                    "type": "igro",
+                    "id": "MELEE-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8419,8 +8419,8 @@
             "alt": 610,
             "sensors": [
                 {
-                    "id": "MTPOR-pluvio",
-                    "type": "pluvio",
+                    "id": "MTPOR-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8439,8 +8439,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "MTPOR-igro",
-                    "type": "igro",
+                    "id": "MTPOR-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8474,8 +8474,8 @@
             "alt": 490,
             "sensors": [
                 {
-                    "id": "OGNIO-pluvio",
-                    "type": "pluvio",
+                    "id": "OGNIO-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 }
             ]
@@ -8489,8 +8489,8 @@
             "alt": 980,
             "sensors": [
                 {
-                    "id": "MOPEN-pluvio",
-                    "type": "pluvio",
+                    "id": "MOPEN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": false
                 },
                 {
@@ -8509,8 +8509,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "MOPEN-igro",
-                    "type": "igro",
+                    "id": "MOPEN-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8539,8 +8539,8 @@
             "alt": 430,
             "sensors": [
                 {
-                    "id": "VIGAN-pluvio",
-                    "type": "pluvio",
+                    "id": "VIGAN-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -8559,8 +8559,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "VIGAN-igro",
-                    "type": "igro",
+                    "id": "VIGAN-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {
@@ -8579,8 +8579,8 @@
             "alt": 180,
             "sensors": [
                 {
-                    "id": "SANDA-pluvio",
-                    "type": "pluvio",
+                    "id": "SANDA-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -8599,8 +8599,8 @@
                     "isVisible": true
                 },
                 {
-                    "id": "SANDA-igro",
-                    "type": "igro",
+                    "id": "SANDA-humidity",
+                    "type": "humidity",
                     "isVisible": true
                 },
                 {
@@ -8639,8 +8639,8 @@
             "alt": 615,
             "sensors": [
                 {
-                    "id": "CCHER-pluvio",
-                    "type": "pluvio",
+                    "id": "CCHER-rain_05m",
+                    "type": "rain_05m",
                     "isVisible": true
                 },
                 {
@@ -8659,8 +8659,8 @@
                     "isVisible": false
                 },
                 {
-                    "id": "CCHER-igro",
-                    "type": "igro",
+                    "id": "CCHER-humidity",
+                    "type": "humidity",
                     "isVisible": false
                 },
                 {

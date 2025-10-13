@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-map-chart',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './map-chart.component.scss'
 })
 export class MapChartComponent {
-
+  public header = input<string>('');
 }

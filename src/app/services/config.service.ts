@@ -214,7 +214,8 @@ export class ConfigService {
         return rawTypes.map((t: any) => ({
           id: t['id'] ?? '',
           iconUrl: t['iconUrl'] ?? '',
-          label: t['label'] ?? ''
+          label: t['label'] ?? '',
+          unit: t['unit'] ?? ''
         }))
       })
       .catch((err: any) => {

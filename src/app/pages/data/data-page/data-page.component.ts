@@ -228,24 +228,38 @@ export class DataPageComponent {
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const dataPromises: Promise<any>[] = stations.map((s: Station) => {
-      return this.getTimeserie(this.timeserieUrl, s.parameter);
+      return this.getTimeserie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', s.parameter);
     });
 
     const results = await Promise.allSettled(dataPromises);
-
     this.charts = [
       ...this.charts,
       ...stations.map((s: Station, i: number) => {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
         const data = results[i].status === 'fulfilled' && results[i].value ? results[i].value : [];
-        return new MapChart(s.parameter, data, stationSensorTypes);
+        const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+
+        return new MapChart(
+          s.parameter,
+          sensorType ? sensorType.label : s.parameter,
+          'Data',
+          '',
+          sensorType ? sensorType.label : s.parameter,
+          s.unit ? `(${s.unit})` : '',
+          data,
+          stationSensorTypes,
+          undefined,
+          s.name,
+          [sensorType ? sensorType.label : s.parameter]
+        );
       })
     ];
+    console.log(this.charts);    
   }
 
-  public async getTimeserie(url: string, param: string): Promise<any> {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, param);
+  public async getTimeserie(url: string, stationId: string, param: string): Promise<any> {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     return this.stationsService.getTimeSerie(formattedUrl, param);
   }
 
@@ -256,12 +270,22 @@ export class DataPageComponent {
   public async onChartParameterChange(chartId: string, param: string): Promise<void> {
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
+
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
-    this.getTimeserie(this.timeserieUrl, param)
+    this.getTimeserie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', param)
       .then((data: any) => {
-        const newChart = { ...chart, parameter: param, data };
-        this.charts[chartIdx] = newChart;      
+        const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
+        const newChart = {
+          ...chart,
+          parameter: param,
+          parameterLabel: sensorType ? sensorType.label : param,
+          data,
+          yLabel: sensorType ? sensorType.label : param,
+          yUnit: sensorType ? `(${sensorType.unit})` : '',
+          legends: [sensorType ? sensorType.label : param]
+        };
+        this.charts[chartIdx] = newChart;
       })
       .catch((err: unknown) => {
         console.error(err);
