@@ -255,12 +255,14 @@ export class DataPageComponent {
           [sensorType ? sensorType.label : s.parameter]
         )
       })
-    ];    
+    ];
   }
 
   public async getTimeserie(url: string, stationId: string, param: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    return this.stationsService.getTimeSerie(formattedUrl, param);
+    return this.apiService.getApiJSONData(formattedUrl)
+      .then((rawData: any) => this.stationsService.parseTimeSerie(rawData, param))
+      .catch(() => [])
   }
 
   public removeDialog(id: string): void {
