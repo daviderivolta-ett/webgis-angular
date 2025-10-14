@@ -1,6 +1,7 @@
 {
     "apis": {
-        "timeseries": "https://omirl.democontent.it/stations/api/platforms/get/stations/{stationId}/timeserie"
+        "timeseries": "https://omirl.democontent.it/stations/api/platforms/get/stations/{stationId}/timeserie",
+        "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods/"
     },
-    "lastModified": "2025-10-10"
+    "lastModified": "2025-10-14"
 }

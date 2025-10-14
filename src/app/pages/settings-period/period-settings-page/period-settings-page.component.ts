@@ -2,8 +2,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+/** Services */
+import { ApiService } from '../../../services';
+
 /** Components */
 import { HeaderComponent, SidebarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from "../../../components";
+import { ActivatedRoute } from '@angular/router';
 
 /** Component */
 @Component({
@@ -28,11 +32,24 @@ export class PeriodSettingsPageComponent {
     alwaysAvailable: new FormControl(false)
   });
 
-  constructor(){}
+  /** Data */
+  public periodsUrl; // Recovered from route resolver in constructor
+
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService
+  ) {
+    this.periodsUrl = this.route.snapshot.data['apisConfig'].get('periods');
+  }
+
+  /** Component lifecycle */
+  public ngOnInit(): void {
+    console.log(this.periodsUrl);
+  }
 
   /** Methods */
   public onFormSubmit(): void {
-    console.log(this.form.value);        
+    console.log(this.form.value);
   }
 
   private _fromDateToDatetimelocal(date: Date): string {

@@ -1,13 +1,13 @@
 {
-    "baseLayersUri": "/configs/base-layers.config.json",
-    "infoLayersUri": "/configs/info-layers.config.json",
-    "dataLayersUri": "/configs/data-layers.config.json",
-    "layerCategoriesUri": "/configs/layer-categories.config.json",
-    "mapConfigUri": "/configs/map.config.json",
-    "colorScalesUri": "/configs/color-scales.config.json",
-    "apiConfigUri": "/configs/api.config.json",
-    "tablesConfigUri": "/configs/tables.config.json",
-    "stationsConfigUri": "/configs/stations.config.json",
-    "stationsPopupConfigUri": "/configs/stations-popup.config.json",
-    "sensorTypesConfigUri": "/configs/sensor-types.config.json"
+    "baseLayersUri": "./configs/base-layers.config.json",
+    "infoLayersUri": "./configs/info-layers.config.json",
+    "dataLayersUri": "./configs/data-layers.config.json",
+    "layerCategoriesUri": "./configs/layer-categories.config.json",
+    "mapConfigUri": "./configs/map.config.json",
+    "colorScalesUri": "./configs/color-scales.config.json",
+    "apiConfigUri": "./configs/api.config.json",
+    "tablesConfigUri": "./configs/tables.config.json",
+    "stationsConfigUri": "./configs/stations.config.json",
+    "stationsPopupConfigUri": "./configs/stations-popup.config.json",
+    "sensorTypesConfigUri": "./configs/sensor-types.config.json"
 }
