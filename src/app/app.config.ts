@@ -1,21 +1,25 @@
-// Libraries
+/** Dependencies */
 import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideOAuthClient } from 'angular-oauth2-oidc';
 
-// Routes
+/** Routes */
 import { routes } from './app.routes';
 
-// Services
-import { ConfigService } from './services/config.service';
+/** Models */
 import { AppConfig } from './models';
 
-// Config
+/** Services */
+import { ConfigService } from './services/config.service';
+
+/** Config */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withHashLocation()),
     provideHttpClient(),
+    provideOAuthClient(),
     provideAppInitializer(() => {
       const configService = inject(ConfigService);
       return configService.getAppConfig()

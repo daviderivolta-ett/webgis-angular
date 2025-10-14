@@ -1,7 +1,15 @@
+$gap: 8px;
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: $gap;
+}
+
 .menu {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: $gap;
     margin: 0;
     padding: 0;
 }
@@ -46,6 +54,7 @@
     .menu {
         gap: unset;
         justify-content: space-around;
+        width: 100%;
     }
 
     .menu__item-link {

@@ -1,0 +1,6 @@
+<div class="auth">
+    <button type="button" class="auth-btn" (click)="initAuthFlow()">
+        <span class="auth-btn__icon" [style.maskImage]="'url(' + (isLoggedIn ? logoutIcon() : loginIcon()) + ')'" [style.webkitMaskImage]="'url(' + (isLoggedIn ? logoutIcon() : loginIcon()) + ')'"></span>
+        <span class="auth-btn__text">{{isLoggedIn ? logoutText() : loginText()}}</span>
+    </button>
+</div>

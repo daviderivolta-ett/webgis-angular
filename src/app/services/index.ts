@@ -1,4 +1,5 @@
 export * from './api.service'
+export * from './auth.service'
 export * from './cluster-date-stations.command.service'
 export * from './cluster-stations.command.service'
 export * from './config.service'

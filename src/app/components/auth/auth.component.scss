@@ -1,0 +1,38 @@
+.auth-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary-900, black);
+    background-color: transparent;
+    text-decoration: none;
+    padding: 4px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+
+    &:hover {
+        color: var(--primary-500, blue);
+        background-color: var(--primary-100, lightgrey);
+
+        .auth-btn__icon  {
+            background-color: var(--primary-500, blue);
+        }
+    }
+}
+
+.auth-btn__icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-900, black);
+}
+
+@media screen and (max-width: 768px) {
+    .auth-btn {
+        padding: 8px;
+    }
+
+    .auth-btn__text {
+        display: none;
+    }
+}
