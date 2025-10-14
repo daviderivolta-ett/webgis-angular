@@ -232,6 +232,7 @@ export class DataPageComponent {
     });
 
     const results = await Promise.allSettled(dataPromises);
+
     this.charts = [
       ...this.charts,
       ...stations.map((s: Station, i: number) => {
@@ -242,20 +243,19 @@ export class DataPageComponent {
 
         return new MapChart(
           s.parameter,
-          sensorType ? sensorType.label : s.parameter,
-          'Data',
           '',
-          sensorType ? sensorType.label : s.parameter,
           s.unit ? `(${s.unit})` : '',
           data,
           stationSensorTypes,
           undefined,
           s.name,
+          sensorType ? sensorType.label : s.parameter,
+          'Data',
+          sensorType ? sensorType.label : s.parameter,
           [sensorType ? sensorType.label : s.parameter]
-        );
+        )
       })
-    ];
-    console.log(this.charts);    
+    ];    
   }
 
   public async getTimeserie(url: string, stationId: string, param: string): Promise<any> {
