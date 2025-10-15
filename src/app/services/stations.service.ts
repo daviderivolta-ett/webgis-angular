@@ -1,15 +1,33 @@
 /** Dependencies */
 import { Injectable } from '@angular/core';
 
+/** Services */
+import { ApiService } from './api.service';
+import { StationBase } from '../models';
+
 /** Service */
 @Injectable({
   providedIn: 'root'
 })
 export class StationsService {
 
+  constructor(private apiService: ApiService) { }
+
+  public async getStationParameters(url: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
+    return this.apiService.getApiData(url)
+      .then((data: any) => {
+        if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
+        return data.map((s: any) => StationBase.createPartialFromObject(s));
+      })
+      .catch((err) => {
+        console.log(err);        
+        return [];
+      })
+  }
+
   public parseTimeSerie(data: any, param: string): any {
     const timeserie: any[] = this._checkTimeSerie(data);
-    
+
     const filteredData = timeserie
       .filter((d) => d['parameter'] === param)
       .map((d: any) => ({

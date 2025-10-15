@@ -85,7 +85,7 @@ export class TablesPageComponent {
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       });
-
+   
     this.data = this.sortedData = Table.generateTableStructure(response[config.dataField ?? config.id], 'name');
     this.updateTime = new Date(response['updateDateTime']);
     this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);

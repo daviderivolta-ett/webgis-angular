@@ -24,7 +24,6 @@ export const routes: Routes = [
             baseLayers: baseLayersResolver,
             layerCategories: layerCategoriesResolver,
             groupedCheckboxes: groupedCheckboxesResolver,
-            stations: stationsResolver,
             sensorTypes: sensorTypesResolver
         }
     },
@@ -60,7 +59,8 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Impostazioni stazioni',
                 loadComponent: () => import('./pages/settings-stations/stations-settings-page/stations-settings-page.component').then(c => c.StationsSettingsPageComponent),
                 resolve: {
-                    stations: stationsResolver
+                    apisConfig: apisResolver,
+                    // stations: stationsResolver
                 }
             },
             {

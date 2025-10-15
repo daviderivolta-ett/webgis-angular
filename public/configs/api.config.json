@@ -1,5 +1,6 @@
 {
     "apis": {
+        "stationParameters": "./configs/stations.config.json",
         "timeseries": "https://omirl.democontent.it/stations/api/platforms/get/stations/{stationId}/timeserie",
         "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods/"
     },

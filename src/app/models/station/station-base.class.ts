@@ -1,4 +1,4 @@
-import { Sensor } from './sensor.class';
+import { Sensor } from './sensor.class'
 import { Geolocation } from '../geographic'
 
 export class StationBase implements Geolocation {
@@ -6,6 +6,7 @@ export class StationBase implements Geolocation {
     public lat: number;
     public lng: number;
     public sensors: Sensor[];
+    public uuid?: string;
     public name?: string;
     public city?: string;
     public alt?: number;
@@ -15,6 +16,7 @@ export class StationBase implements Geolocation {
         lat: number,
         lng: number,
         sensors: Sensor[],
+        uuid?: string,
         name?: string,
         city?: string,
         alt?: number
@@ -23,6 +25,7 @@ export class StationBase implements Geolocation {
         this.lat = lat;
         this.lng = lng;
         this.sensors = sensors;
+        this.uuid = uuid;
         this.name = name;
         this.city = city;
         this.alt = alt;
@@ -32,7 +35,7 @@ export class StationBase implements Geolocation {
         return new StationBase('', 0, 0, []);
     }
 
-    static createFromObject(object: any): StationBase {        
+    static createFromObject(object: any): StationBase {
         if (!('id' in object) || typeof object['id'] !== 'string') {
             throw new Error('Oggetto non valido: \'id\' mancante.');
         }
@@ -55,6 +58,24 @@ export class StationBase implements Geolocation {
         if (object['city'] && typeof object['city'] === 'string') station.city = object['city'];
         if ('alt' in object && typeof object['alt'] === 'number') station.alt = object['alt'];
 
+        return station;
+    }
+
+    static createPartialFromObject(object: any): Pick<StationBase, 'id' | 'name' | 'uuid' | 'sensors'> {
+        if (!('stationCode' in object) || typeof object['stationCode'] !== 'string') {
+            throw new Error('Oggetto non valido: \'stationCode\' mancante.');
+        }
+
+        if (!('parameters' in object) || !Array.isArray(object['parameters'])) {
+            throw new Error('Oggetto non valido: \'parameters\' mancante od invalido.');
+        }
+
+        const station: Pick<StationBase, 'id' | 'name' | 'uuid' | 'sensors'> = {
+            id: object['stationCode'],
+            name: object['stationName'],
+            uuid: object['id'] ?? object['stationCode'],
+            sensors: object['parameters'].map((s: any) => Sensor.createFromObject(s))
+        }
         return station;
     }
 
@@ -81,5 +102,12 @@ export class StationBase implements Geolocation {
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
 
         return station;
+    }
+
+    static fromPartialToDatabaseStationParameter(station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) {
+        return {
+            stationId: station.uuid,
+            parameters: station.sensors.map((s: Sensor) => ({ id: s.id, newEnabledValue: s.enabled }))
+        }
     }
 }

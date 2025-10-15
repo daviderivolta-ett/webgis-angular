@@ -6,8 +6,12 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 /** Models */
 import { Sensor, StationBase } from '../../../models';
 
+/** Services */
+import { StationsService } from '../../../services';
+
 /** Components */
 import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
+import { Utils } from '../../../utils';
 
 /** Component */
 @Component({
@@ -28,58 +32,38 @@ import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuC
 export class StationsSettingsPageComponent {
   /** UI */
   public form = new FormGroup<any>({});
-
+  public initialFormValue: Record<string, any[]> = {};
   public isLoading: boolean = false;
 
   /** Data */
-  public stations: StationBase[]; // Recovered from route resolver in constructor
-  public filteredStations: StationBase[] = [];
+  public stationParametersUrl; // Recovered from route resolver in constructor
+  public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+  public filteredStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
   /** Constructor */
-  constructor(private route: ActivatedRoute) {
-    this.stations = this.filteredStations = this.route.snapshot.data['stations'];
-    this.form = this._createStationsForm(this.stations);
+  constructor(
+    private route: ActivatedRoute,
+    private stationsService: StationsService
+  ) {
+    this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
   }
 
   /** Component lifecycle */
   public async ngOnInit() {
-    // console.log(this.stations);
-    // fetch('/mock_data/precipitation.geojson')
-    //   .then((res: Response) => res.json())
-    //   .then((data: GeoJSON.FeatureCollection) => {
-    //     const sensors = ['pluvio', 'termo', 'idro', 'vento', 'igro', 'elio', 'radio', 'foglie', 'press', 'batt', 'boa', 'neve'];
-
-    //     const stations = data.features.map((f: GeoJSON.Feature) => {
-    //       const properties = { ...f.properties }
-    //       const ranNum: number = Math.floor(Math.random() * sensors.length) + 1;
-    //       return {
-    //         id: properties['shortCode'],
-    //         lat: f.geometry.type === 'Point' ? f.geometry.coordinates[1] : undefined,
-    //         lng: f.geometry.type === 'Point' ? f.geometry.coordinates[0] : undefined,
-    //         name: properties['name'],
-    //         city: properties['municipality'],
-    //         alt: properties['alt'],
-    //         sensors: sensors.slice(0, ranNum).map((id: string) => {
-    //           const num = Math.floor(Math.random() * 100);
-    //           return {
-    //             id: `${properties['shortCode']}-${id}`,
-    //             type: id,
-    //             isVisible: num % 2 === 0 ? true : false
-    //           }
-    //         })
-    //       }
-    //     });
-
-    //     console.log(JSON.stringify(stations));
-    //     console.log(stations);
-    //   })
+    this.stationsService.getStationParameters(this.stationParametersUrl)
+      .then((stations) => {
+        this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
+        this.form = this._createStationsForm(stations);
+        this.initialFormValue = { ...this.form.value };
+      })
   }
 
   /** Methods */
-  private _createStationsForm(stations: StationBase[]): FormGroup {
+  /** Init */
+  private _createStationsForm(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): FormGroup {
     const controls = stations.reduce((acc, station) => {
       const array = new FormArray(
-        station.sensors.map(sensor => new FormControl(sensor.isVisible)),
+        station.sensors.map(sensor => new FormControl(sensor.enabled)),
         { updateOn: 'change' }
       );
       acc[station.id] = array;
@@ -89,30 +73,36 @@ export class StationsSettingsPageComponent {
     return new FormGroup(controls);
   }
 
-  private _createStationsOnFormChanges(changes: any): Record<string, any>[] {
-    return this.stations.map((station: StationBase) => {
-      const stationFormData: any = changes[station.id];
-      return {
-        ...station,
-        sensors: station.sensors.map((sensor: Sensor, index: number) => {
-          return {
-            ...sensor,
-            isVisible: stationFormData[index] ?? false
-          }
-        })
-      }
-    });
+  private _createStationsOnFormChanges(changes: any): Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] {
+    return this.stations
+      .filter(station => changes[station.id] !== undefined)
+      .map(station => {
+        const stationFormData: boolean[] = changes[station.id];
+        return {
+          ...station,
+          sensors: station.sensors.map((sensor: Sensor, index: number) => {
+            return {
+              ...sensor,
+              enabled: stationFormData[index] ?? false
+            }
+          })
+        }
+      })
   }
 
   public onSearchInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.filteredStations = this.stations.filter((s: StationBase) => s.id.toLowerCase().includes(value.toLowerCase()));
+    this.filteredStations = this.stations.filter((s) => s.id.toLowerCase().includes(value.toLowerCase()));
   }
 
   public onFormSubmit(): void {
-    // console.log('submit', this.form.value);
-    const result = this._createStationsOnFormChanges(this.form.value);
-    console.log(result);    
+    const changes: Record<string, any[]> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
+    const result = this._createStationsOnFormChanges(changes);    
+    const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
+    console.log(post);    
+    /** POST */
+
+    /** POST */
     this.isLoading = true;
   }
 }

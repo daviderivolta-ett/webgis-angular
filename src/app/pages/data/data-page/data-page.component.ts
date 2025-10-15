@@ -75,9 +75,10 @@ export class DataPageComponent {
 
   /** Data */
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
-  public stations: StationBase[]; // Recovered from route resolver in constructor
+  public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
@@ -103,9 +104,9 @@ export class DataPageComponent {
 
     // Recovering data from resolvers
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
     this.timeserieUrl = this.route.snapshot.data['apisConfig'].get('timeseries');
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
-    this.stations = this.route.snapshot.data['stations'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
@@ -126,8 +127,11 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
-    // console.log(this.timeserieUrl);
+  public async ngOnInit(): Promise<void> {
+    this.stationsService.getStationParameters(this.stationParametersUrl)
+      .then((stations) => {
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+      })
   }
 
   public ngAfterViewInit(): void {
@@ -137,6 +141,7 @@ export class DataPageComponent {
   /*
   * Methods
   */
+
   /** Actions */
   public onMapClick(): void {
     this._sidebar.toggleSidebar(false);

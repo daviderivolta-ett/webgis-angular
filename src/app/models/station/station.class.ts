@@ -16,6 +16,7 @@ export class Station extends StationBase implements StationData {
         sensors: Sensor[],
         value: number,
         parameter: string,
+        uuid?: string,
         name?: string,
         city?: string,
         alt?: number,
@@ -23,7 +24,7 @@ export class Station extends StationBase implements StationData {
         unit?: string,
         date?: Date
     ) {
-        super(id, lat, lng, sensors, name, city, alt);
+        super(id, lat, lng, sensors, uuid, name, city, alt);
 
         this.value = value;
         this.parameter = parameter;
@@ -73,6 +74,7 @@ export class Station extends StationBase implements StationData {
             stationBase.sensors,
             value,
             parameter,
+            stationBase.uuid,
             stationBase.name,
             stationBase.city,
             stationBase.alt,
@@ -82,8 +84,8 @@ export class Station extends StationBase implements StationData {
         )
     }
 
-    public addSensorsFromStationLists(stations: StationBase[]): Station {
-        const station: StationBase | undefined = stations.find((s: StationBase) => s.id === this.id);
+    public addSensorsFromStationLists(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): Station {
+        const station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'> | undefined = stations.find((s: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) => s.id === this.id);
         if (station) this.sensors = [...station.sensors];
         return this;
     }

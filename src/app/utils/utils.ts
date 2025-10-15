@@ -45,13 +45,33 @@ export class Utils {
     static splitMapByKey(map: Map<string, string[]>, excludedKey: string) {
         const withKey: string[] = [];
         const withoutKey: string[] = [];
-       
-        map.forEach((value, key) => {           
+
+        map.forEach((value, key) => {
             key === excludedKey ?
                 withKey.push(...value) :
                 withoutKey.push(...value)
         });
 
         return { withKey, withoutKey };
+    }
+
+    static diffRecordArrays(current: Record<string, any[]>, initial: Record<string, any[]>) {
+        return Object.entries(current).reduce((acc: Record<string, any>, curr: [string, any[]]) => {
+            const key: string = curr[0];
+            const currentKeyValues: any[] = curr[1];
+            const initialKeyValues: any[] = initial[key];
+            if (!this.areBooleanArraysEqual(currentKeyValues, initialKeyValues)) acc[key] = currentKeyValues;
+            return acc;
+        }, {} as Record<string, any[]>);
+    }
+
+    static areBooleanArraysEqual(arr1: boolean[], arr2: boolean[]): boolean {
+        if (arr1.length !== arr2.length) return false;
+
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) return false;
+        }
+
+        return true;
     }
 }
