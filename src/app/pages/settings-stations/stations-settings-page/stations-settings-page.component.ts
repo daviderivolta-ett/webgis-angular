@@ -8,10 +8,10 @@ import { Sensor, StationBase } from '../../../models';
 
 /** Services */
 import { StationsService } from '../../../services';
+import { Utils } from '../../../utils';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
-import { Utils } from '../../../utils';
 
 /** Component */
 @Component({
