@@ -45,8 +45,8 @@ export class Station extends StationBase implements StationData {
         const data: StationData = { value: 0, parameter: '' };
 
         if (props['value'] && typeof props['value'] === 'number') data.value = props['value'];
-        // if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
-        data.parameter = 'rain_05m';
+        if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
+        // data.parameter = 'rain_05m';
         if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
         if (

@@ -11,7 +11,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.democontent.it/stations/api/platforms/get/all/rain_01h",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/all/rain_01h",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "mm",
@@ -28,7 +28,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.democontent.it/stations/api/platforms/get/all/mean_air_temp",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/all/mean_air_temp",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "°C",
@@ -86,7 +86,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.democontent.it/stations/api/platforms/get/all/mean_wind_speed",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/all/mean_wind_speed",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "km/h",
@@ -103,7 +103,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "/images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.democontent.it/stations/api/platforms/get/all/humidity",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/all/humidity",
                     "legend": {
                         "colorScaleId": "heatmap",
                         "unit": "%",
@@ -280,7 +280,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point--cluster",
                     "iconUrl": "/images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "https://omirl.democontent.it/stations/api/lamps/get/all",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/lamps/get/all",
                     "legend": {
                         "colorScaleId": "elapsed-time",
                         "unit": "h",

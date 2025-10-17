@@ -19,6 +19,7 @@ import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selec
 
 /** Utilities */
 import { Utils } from '../../../utils';
+import { MapChartDatepickerComponent } from "../map-chart-datepicker/map-chart-datepicker.component";
 
 /** Component */
 @Component({
@@ -39,7 +40,8 @@ import { Utils } from '../../../utils';
     FloatingDialogComponent,
     PlotlyLineComponent,
     MapChartSelectorComponent,
-    MapChartComponent
+    MapChartComponent,
+    MapChartDatepickerComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -136,13 +138,13 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.stationsService.getStationParameters(this.stationParametersUrl)
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
 
-    this.stationsService.getAllParameters('./configs/sensor-types.config.api.json')
-      .then((d) => console.log(d));
+    // this.stationsService.getAllParameters('./configs/sensor-types.config.api.json', this.authService.getAccessToken())
+    //   .then((d) => console.log(d));
   }
 
   public ngAfterViewInit(): void {
@@ -243,25 +245,19 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
-    const dataPromises: Promise<any>[] = stations.map((s: Station) => {
-      return this.stationsService.getTimeSerie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', s.parameter);
-    });
-
-    const results = await Promise.allSettled(dataPromises);
-
     this.charts = [
       ...this.charts,
       ...stations.map((s: Station, i: number) => {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-        const data = results[i].status === 'fulfilled' && results[i].value ? results[i].value : [];
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
 
         return new MapChart(
+          s.id,
           s.parameter,
           '',
           s.unit ? `(${s.unit})` : '',
-          data,
+          [],
           stationSensorTypes,
           undefined,
           s.name,
@@ -278,14 +274,16 @@ export class DataPageComponent {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
   }
 
-  public async onChartParameterChange(chartId: string, param: string): Promise<void> {
+  public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
+    const { param, initialDate, endingDate } = formChange;  
+
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
 
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
-    this.stationsService.getTimeSerie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', param)
-      .then((data: any) => {
+    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, initialDate, endingDate, this.authService.getAccessToken())
+      .then((data: any) => {       
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
         const newChart = {
           ...chart,
@@ -371,7 +369,8 @@ export class DataPageComponent {
         map: this._map,
         date,
         colorScale,
-        layer
+        layer,
+        token: this.authService.getAccessToken()
       });
     } catch (error) {
       console.log(error);

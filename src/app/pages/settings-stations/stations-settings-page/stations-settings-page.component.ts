@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, StationBase } from '../../../models';
 
 /** Services */
-import { StationsService } from '../../../services';
+import { AuthService, StationsService } from '../../../services';
 import { Utils } from '../../../utils';
 
 /** Components */
@@ -43,6 +43,7 @@ export class StationsSettingsPageComponent {
   /** Constructor */
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
     private stationsService: StationsService
   ) {
     this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
@@ -50,7 +51,7 @@ export class StationsSettingsPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit() {
-    this.stationsService.getStationParameters(this.stationParametersUrl)
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
         this.form = this._createStationsForm(stations);

@@ -13,13 +13,8 @@ export class GetWMSCommandService implements Command {
         try {
             const { map, layer } = args;
 
-            if (!layer || !(layer instanceof WMSLayer)) {
-                throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'WMSLayer'.`)
-            }
-
-            if (!map || typeof map.addTimeDimensionWMSLayer !== 'function' || typeof map.addWMSLayer !== 'function') {
-                throw new Error(`Oggetto 'map' non valido o non implementa i metodi 'addTimeDimensionWMSLayer' o 'addWMSLayer'.`);
-            }
+            if (!layer || !(layer instanceof WMSLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'WMSLayer'.`)
+            if (!map || typeof map.addTimeDimensionWMSLayer !== 'function' || typeof map.addWMSLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa i metodi 'addTimeDimensionWMSLayer' o 'addWMSLayer'.`);
 
             const { id, url, layerCategory, opacity, params } = layer;
 

@@ -15,8 +15,8 @@ export class StationsService {
 
   constructor(private apiService: ApiService) { }
 
-  public async getAllParameters(url: string): Promise<Sensor[]> {
-    return this.apiService.getApiData(url)
+  public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
+    return this.apiService.getApiData(url, token)
       .then((data: any) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => Sensor.createFromObject(s));
@@ -27,8 +27,8 @@ export class StationsService {
       })
   }
 
-  public async getStationParameters(url: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
-    return this.apiService.getApiData(url)
+  public async getStationParameters(url: string, token?: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
+    return this.apiService.getApiData(url, token)
       .then((data: any) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => StationBase.createPartialFromObject(s));
@@ -39,9 +39,10 @@ export class StationsService {
       })
   }
 
-  public async getTimeSerie(url: string, stationId: string, param: string): Promise<any> {
+  public async getTimeSerie(url: string, stationId: string, param: string, initialDate: string, endingDate: string, token?: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    return this.apiService.getApiData(formattedUrl)
+    const formattedUrlWithDates = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
+    return this.apiService.getApiData(formattedUrlWithDates, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, param);
       })
@@ -52,9 +53,10 @@ export class StationsService {
   }
 
   public parseTimeSerie(data: any, param: string): any {
-    const timeserie: any[] = this._checkTimeSerie(data);
+    console.log(data);    
+    if (!Array.isArray(data)) return [];
 
-    const filteredData = timeserie
+    const filteredData = data
       .filter((d) => d['parameter'] === param)
       .map((d: any) => ({
         value: d['value'],
@@ -69,6 +71,24 @@ export class StationsService {
     })
 
     return [parsedData];
+
+    // const timeserie: any[] = this._checkTimeSerie(data);
+
+    // const filteredData = timeserie
+    //   .filter((d) => d['parameter'] === param)
+    //   .map((d: any) => ({
+    //     value: d['value'],
+    //     date: d['referenceDate']
+    //   }))
+
+    // const parsedData = filteredData.map((d: any) => {
+    //   return [
+    //     new Date(d['date']).getTime(),
+    //     parseFloat(d['value'])
+    //   ]
+    // })
+
+    // return [parsedData];
   }
 
   private _checkTimeSerie(geojson: GeoJSON.FeatureCollection) {

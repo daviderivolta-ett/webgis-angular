@@ -1,8 +1,8 @@
 {
     "apis": {
         "stationParameters": "./configs/stations.config.json",
-        "timeseries": "https://omirl.democontent.it/stations/api/platforms/get/stations/{stationId}/timeserie",
-        "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods/"
+        "timeseries": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/{stationId}/timeserie",
+        "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods"
     },
     "lastModified": "2025-10-14"
 }

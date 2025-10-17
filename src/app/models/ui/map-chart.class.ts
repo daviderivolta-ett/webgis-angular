@@ -2,6 +2,7 @@ import { SensorType } from '../station'
 
 export class MapChart {
     public id: string;
+    public stationId: string;
     public station?: string;
     public parameter: string;
     public parameterLabel?: string;
@@ -14,6 +15,7 @@ export class MapChart {
     public sensors: SensorType[];
 
     constructor(
+        stationId: string,
         parameter: string,
         xUnit: string,
         yUnit: string,
@@ -27,6 +29,7 @@ export class MapChart {
         legends?: string[]
     ) {
         this.id = id ?? `${new Date().getTime() + Math.random().toString(36).substring(2, 10)}`;
+        this.stationId = stationId;
         this.parameter = parameter;
         this.xLabel = xLabel ?? '';
         this.xUnit = xUnit;

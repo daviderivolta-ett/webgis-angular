@@ -16,6 +16,11 @@ export class AuthService {
     this.configureAuth();
 
     this.oauthService.events.subscribe((event) => {
+      // if (event.type !== 'session_unchanged') {
+      //   console.log(event);
+      //   console.log(this.getAccessToken());
+      // }
+      
       if (event.type === 'token_received') {
         const claims: Record<string, any> = this.oauthService.getIdentityClaims();
         claims ? this.user.set(claims) : this.user.set(null);
@@ -30,7 +35,10 @@ export class AuthService {
   public configureAuth(): void {
     this.oauthService.configure(environment.keycloak);
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
-      .then(() => this._checkAccessTokenAndLogin())
+      .then(() => {
+        this.oauthService.setupAutomaticSilentRefresh()
+        this._checkAccessTokenAndLogin()
+      })
   }
 
   private _checkAccessTokenAndLogin() {
