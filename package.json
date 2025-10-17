@@ -20,6 +20,7 @@
     "@angular/router": "^20.3.3",
     "@kalisio/leaflet.donutcluster": "^1.1.0",
     "angular-oauth2-oidc": "^20.0.2",
+    "keycloak-angular": "^20.0.0",
     "leaflet": "^1.9.4",
     "leaflet-timedimension": "^1.1.1",
     "leaflet.markercluster": "^1.5.3",

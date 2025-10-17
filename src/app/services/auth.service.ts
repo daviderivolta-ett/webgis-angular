@@ -1,48 +1,57 @@
 /** Dependencies */
 import { Injectable, signal } from '@angular/core';
-import { AuthConfig, NullValidationHandler, OAuthService } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+
+/** Environment */
+import { environment } from '../../environments/environment';
 
 /** Service */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public isUserLoggedIn = signal<boolean>(false);
-
-  private _authConfig: AuthConfig = {
-    issuer: 'https://accounts.d4science.org/auth/realms/d4science',
-    redirectUri: window.location.origin + '/dataset-store',
-    clientId: 'Itineris-Marine-Hub-Autentication',
-    dummyClientSecret: 'dl6IXDhLwQ2PYQ72MAIQaquzQUyanoDC',
-    responseType: 'code',
-    scope: 'openid profile email offline_access',
-    showDebugInformation: true,
-    useSilentRefresh: false,
-    silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
-    sessionChecksEnabled: true,
-    strictDiscoveryDocumentValidation: false,
-  }
+  public user = signal<Record<string, any> | null>(null);
 
   constructor(private oauthService: OAuthService) {
     this.configureAuth();
 
     this.oauthService.events.subscribe((event) => {
-      if (event.type === 'token_received') this.isUserLoggedIn.set(true);
-      if (event.type === 'session_terminated' || event.type === 'session_error') this.isUserLoggedIn.set(false);
+      if (event.type === 'token_received') {
+        const claims: Record<string, any> = this.oauthService.getIdentityClaims();
+        claims ? this.user.set(claims) : this.user.set(null);
+      }
+
+      if (event.type === 'session_terminated' || event.type === 'session_error') {
+        this.user.set(null);
+      }
     });
   }
 
   public configureAuth(): void {
-    this.oauthService.configure(this._authConfig);
-    this.oauthService.tokenValidationHandler = new NullValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.configure(environment.keycloak);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin()
+      .then(() => this._checkAccessTokenAndLogin())
+  }
+
+  private _checkAccessTokenAndLogin() {
+    if (this.oauthService.hasValidAccessToken()) {
+      const claims: Record<string, any> = this.oauthService.getIdentityClaims();
+      claims ? this.user.set(claims) : this.user.set(null);
+    } else {
+      this.user.set(null);
+    }
+  }
+
+  public getAccessToken() {
+    return this.oauthService.getAccessToken();
   }
 
   public isLoggedIn(): boolean {
-    return this.oauthService.hasValidAccessToken()
+    return this.oauthService.hasValidAccessToken();
   }
 
   public login(): void {
+    console.log(this.isLoggedIn());    
     if (!this.isLoggedIn()) this.oauthService.initLoginFlow();
   }
 

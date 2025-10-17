@@ -16,16 +16,24 @@ export class AuthComponent {
   public loginText = input<string>('Login');
   public logoutIcon = input<string>('');
   public logoutText = input<string>('Esci');
-  
-  public isLoggedIn: boolean = false;
+
+  public user: Record<string, any> | null = null;
 
   constructor(private authService: AuthService) {
-    effect(() => this.isLoggedIn = this.authService.isUserLoggedIn());
+    effect(() => this.user = this.authService.user());
   }
 
   public initAuthFlow(): void {
-    this.authService.isUserLoggedIn() ?
+    this.user ?
       this.authService.logout() :
       this.authService.login();
+  }
+
+  public login() {
+    this.authService.login();
+  }
+
+  public logout() {
+    this.authService.logout();
   }
 }

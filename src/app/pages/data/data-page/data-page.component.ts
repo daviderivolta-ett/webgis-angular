@@ -14,11 +14,11 @@ import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuCo
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
+import { MapChartComponent } from '../map-chart/map-chart.component';
+import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { MapChartSelectorComponent } from "../map-chart-selector/map-chart-selector.component";
-import { MapChartComponent } from "../map-chart/map-chart.component";
 
 /** Component */
 @Component({
@@ -132,6 +132,9 @@ export class DataPageComponent {
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
+
+    this.stationsService.getAllParameters('./configs/sensor-types.config.api.json')
+      .then((d) => console.log(d));
   }
 
   public ngAfterViewInit(): void {
@@ -233,7 +236,7 @@ export class DataPageComponent {
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const dataPromises: Promise<any>[] = stations.map((s: Station) => {
-      return this.getTimeserie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', s.parameter);
+      return this.stationsService.getTimeSerie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', s.parameter);
     });
 
     const results = await Promise.allSettled(dataPromises);
@@ -263,13 +266,6 @@ export class DataPageComponent {
     ];
   }
 
-  public async getTimeserie(url: string, stationId: string, param: string): Promise<any> {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    return this.apiService.getApiJSONData(formattedUrl)
-      .then((rawData: any) => this.stationsService.parseTimeSerie(rawData, param))
-      .catch(() => [])
-  }
-
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
   }
@@ -280,7 +276,7 @@ export class DataPageComponent {
 
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
-    this.getTimeserie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', param)
+    this.stationsService.getTimeSerie(this.timeserieUrl, '7b2244a3-3241-41b8-9aab-1fa02592a1d8', param)
       .then((data: any) => {
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
         const newChart = {

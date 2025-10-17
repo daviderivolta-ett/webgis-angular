@@ -1,9 +1,11 @@
 /** Dependencies */
 import { Injectable } from '@angular/core';
 
+/** Models */
+import { Sensor, StationBase } from '../models';
+
 /** Services */
 import { ApiService } from './api.service';
-import { StationBase } from '../models';
 
 /** Service */
 @Injectable({
@@ -13,6 +15,18 @@ export class StationsService {
 
   constructor(private apiService: ApiService) { }
 
+  public async getAllParameters(url: string): Promise<Sensor[]> {
+    return this.apiService.getApiData(url)
+      .then((data: any) => {
+        if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
+        return data.map((s: any) => Sensor.createFromObject(s));
+      })
+      .catch((err) => {
+        console.log(err);
+        return [];
+      })
+  }
+
   public async getStationParameters(url: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
     return this.apiService.getApiData(url)
       .then((data: any) => {
@@ -20,7 +34,19 @@ export class StationsService {
         return data.map((s: any) => StationBase.createPartialFromObject(s));
       })
       .catch((err) => {
-        console.log(err);        
+        console.log(err);
+        return [];
+      })
+  }
+
+  public async getTimeSerie(url: string, stationId: string, param: string): Promise<any> {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
+    return this.apiService.getApiData(formattedUrl)
+      .then((data: any) => {
+        return this.parseTimeSerie(data, param);
+      })
+      .catch((err) => {
+        console.log(err);
         return [];
       })
   }
@@ -45,11 +71,9 @@ export class StationsService {
     return [parsedData];
   }
 
-  private _checkTimeSerie(data: any) {
-    if (!('statusCode' in data) || data['statusCode'] !== 200) return [];
-    if (!('content' in data)) return [];
-    if (!('features' in data['content']) || !Array.isArray(data['content']['features'])) return [];
-    const features: GeoJSON.Feature[] = data['content']['features'];
+  private _checkTimeSerie(geojson: GeoJSON.FeatureCollection) {
+    if (!('features' in geojson) || !Array.isArray(geojson['features'])) return [];
+    const features: GeoJSON.Feature[] = geojson['features'];
 
     if (features.length !== 1) return [];
 

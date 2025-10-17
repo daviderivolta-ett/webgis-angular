@@ -3,7 +3,7 @@ export class Sensor {
     public type: string;
     public enabled: boolean;
 
-    constructor(id: string, type: string, enabled: boolean) {
+    constructor(id: string, type: string, enabled: boolean, label?: string) {
         this.id = id;
         this.type = type;
         this.enabled = enabled;
@@ -18,10 +18,9 @@ export class Sensor {
             throw new Error("Oggetto non valido: 'type' o 'name' mancante.");
         }
 
-
-        if (!('enabled' in object) || typeof object['enabled'] !== 'boolean') {
-            throw new Error('Oggetto non valido: \'enabled\' mancante.');
-        }
+        // if (!('enabled' in object) || typeof object['enabled'] !== 'boolean') {
+        //     throw new Error('Oggetto non valido: \'enabled\' mancante.');
+        // }
 
         return new Sensor(object['id'], object['type'] ?? object['name'], object['enabled']);
     }

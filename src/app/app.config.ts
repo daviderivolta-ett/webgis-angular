@@ -17,7 +17,8 @@ import { ConfigService } from './services/config.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withHashLocation()),
+    // provideRouter(routes, withHashLocation()),
+    provideRouter(routes),
     provideHttpClient(),
     provideOAuthClient(),
     provideAppInitializer(() => {

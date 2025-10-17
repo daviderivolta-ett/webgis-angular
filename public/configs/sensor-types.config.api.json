@@ -1,0 +1,177 @@
+{
+    "statusCode": 200,
+    "content": [
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06216",
+            "name": "humidity",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e5",
+                "name": "Umidità",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06215",
+            "name": "max_air_temp",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e2",
+                "name": "Temperatura",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06213",
+            "name": "mean_air_temp",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e2",
+                "name": "Temperatura",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06217",
+            "name": "mean_wind_speed",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e4",
+                "name": "Vento",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06214",
+            "name": "min_air_temp",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e2",
+                "name": "Temperatura",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06219",
+            "name": "prevailing_wind",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e4",
+                "name": "Vento",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06205",
+            "name": "rain_01h",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06206",
+            "name": "rain_03h",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06201",
+            "name": "rain_05m",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06207",
+            "name": "rain_06h",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06210",
+            "name": "rain_07d",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06208",
+            "name": "rain_12h",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06211",
+            "name": "rain_15d",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06202",
+            "name": "rain_15m",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06203",
+            "name": "rain_15m",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06209",
+            "name": "rain_24h",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06212",
+            "name": "rain_30d",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06204",
+            "name": "rain_30m",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e1",
+                "name": "Precipitazione",
+                "enabled": true
+            }
+        },
+        {
+            "id": "dbcc98af-cde8-4c25-8b7f-5c3387b06218",
+            "name": "wind_gust",
+            "parametersGroup": {
+                "id": "dbcc98af-cde8-4c25-8b7f-5c3387b062e4",
+                "name": "Vento",
+                "enabled": true
+            }
+        }
+    ],
+    "errorMessage": null
+}
