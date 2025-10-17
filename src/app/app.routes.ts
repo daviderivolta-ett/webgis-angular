@@ -4,6 +4,9 @@ import { Routes } from '@angular/router';
 // Resolvers
 import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver } from './resolvers';
 
+/** Guards */
+import { authGuard } from './guards';
+
 // Routes
 export const routes: Routes = [
     {
@@ -30,7 +33,7 @@ export const routes: Routes = [
     {
         path: 'tabelle',
         pathMatch: 'full',
-        redirectTo: 'tabelle/TEST'
+        redirectTo: 'tabelle/precipitazioni'
     },
     {
         path: 'tabelle/:id',
@@ -38,16 +41,19 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
         resolve: {
             tableConfigGroups: tableConfigGroupsResolver
-        }
+        },
+        canMatch: [authGuard]
     },
     {
         path: 'radar',
         title: 'OMIRL ARPAL - Satellite e radar',
-        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent)
+        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
+        canMatch: [authGuard]
     },
     {
         path: 'settings',
         title: 'OMIRL ARPAL - Impostazioni',
+        canMatch: [authGuard],
         children: [
             {
                 path: '',

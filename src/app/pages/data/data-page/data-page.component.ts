@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
-import { ApiService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
+import { AuthService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
@@ -53,32 +53,37 @@ export class DataPageComponent {
   public windowWidth: number;
   public isSliderCollapsed: boolean = false;
 
-  public baseLayersForm: FormGroup = new FormGroup({
-    baseLayer: new FormControl()
-  });
+  public baseLayersForm: FormGroup = new FormGroup({ baseLayer: new FormControl() });
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
   public legends: Legend[] = [];
 
   private _selectedDate: Date | undefined;
 
+  /** References */
   @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
   @ViewChildren('groupedCheckbox') _groupedCheckboxes!: QueryList<GroupedCheckboxesComponent>;
   @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
   @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
 
+  /** Listeners */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.windowWidth = window.innerWidth;
   }
 
   /** Data */
+  public user: Record<string, any> | null = null;
+
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
+
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
   public infoLayers: WMSLayer[]; // Recovered from route resolver in constructor
@@ -95,14 +100,14 @@ export class DataPageComponent {
   /** Constructor */
   constructor(
     private route: ActivatedRoute,
-    private apiService: ApiService,
+    private authService: AuthService,
     private layersService: LayersService,
     private stationsService: StationsService,
     private commandsRegistry: CommandsRegistryService
   ) {
     this.windowWidth = window.innerWidth;
 
-    // Recovering data from resolvers
+    /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
     this.timeserieUrl = this.route.snapshot.data['apisConfig'].get('timeseries');
@@ -116,6 +121,9 @@ export class DataPageComponent {
 
     this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
+
+    /** Effetcs */
+    effect(() => this.user = this.authService.user());
   }
 
   /** Getter and setter */

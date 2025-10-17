@@ -21,43 +21,21 @@ export class GetAndRenderStationsCommandService implements Command {
         throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
       }
 
-      /**
-       * 
-       * 
-       * GIAN, DEVI LAVORARE PIÙ O MENO QUI
-       * 
-       * 
-       */
-
-      // Immagino qui andrà la logica di creazione dell'url con query delle date
-      // Visto che mostreremo sia dati demo che reali da database direi servirà 
-      // un qualche tipo di switch, visto che se facciamo una chiamata con query
-      // su un file mock nella cartella public riceveremo un errore
-      // (mentre da api senza data riceveremmo comodamente l'ultimo disponibile)
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
       const res = await fetch(layer.url);
 
-      // Qui ho fatto un parsing brutto per estrarre il geojson dalla response mock
-      // di Lorenzo. Spero che un giorno non servirà e l'api ci restitiurà direttamente
-      // il GeoJSON che bramiamo. Oppure no; in quel caso magari sistemiamo i metodi 
-      // di parsing nella classe Utils od in una classe Utils specifica
-      let rawJson = await res.json();          
+
+      let rawJson = await res.json();
+
       let geoJSON: GeoJSON.FeatureCollection | undefined;
       if (this._isGeoJSON(rawJson)) geoJSON = rawJson as GeoJSON.FeatureCollection;
       else geoJSON = this._searchForGeoJSON(rawJson) as GeoJSON.FeatureCollection;
       if (!geoJSON) return;
-      
-      // let geoJSON: GeoJSON.FeatureCollection = await res.json();
-      /**
-       * 
-       * 
-       * FINO A QUI
-       * 
-       * 
-      */
-     if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
-     if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
+
+
+      if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
+      if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
       map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
     } catch (error) {
       console.error(`Errore nell'esecuzione del comando:`, error);

@@ -10,7 +10,7 @@ import { ColorScale, Command, GeoJsonLayer } from '../models';
 })
 export class ClusterStationsService implements Command {
 
-  public async execute(args: any): Promise<void> {   
+  public async execute(args: any): Promise<void> {
     try {
 
       const { map, date, colorScale, layer } = args;
@@ -26,7 +26,14 @@ export class ClusterStationsService implements Command {
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
       const res = await fetch(layer.url);
-      let geoJSON = await res.json();
+      let rawJson = await res.json();
+
+      let geoJSON: GeoJSON.FeatureCollection | undefined;
+      if (this._isGeoJSON(rawJson)) geoJSON = rawJson as GeoJSON.FeatureCollection;
+      else geoJSON = this._searchForGeoJSON(rawJson) as GeoJSON.FeatureCollection;
+      if (!geoJSON) return;
+
+      console.log(geoJSON);      
 
       let arcColorDict: Record<string, string> = {};
 
@@ -103,5 +110,53 @@ export class ClusterStationsService implements Command {
       })
 
     };
+  }
+
+  private _isGeoJSON(json: any): boolean {
+    if (!json || typeof json !== 'object') return false;
+
+    const validTypes = [
+      'Feature',
+      'FeatureCollection',
+      'Point',
+      'LineString',
+      'Polygon',
+      'MultiPoint',
+      'MultiLineString',
+      'MultiPolygon',
+      'GeometryCollection',
+    ];
+
+    if (typeof json.type === 'string' && validTypes.includes(json.type)) {
+      if (json.type === 'Feature') {
+        return 'geometry' in json;
+      }
+      if (json.type === 'FeatureCollection') {
+        return Array.isArray(json.features);
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  private _searchForGeoJSON(json: any): GeoJSON.FeatureCollection | undefined {
+    if (!json || typeof json !== 'object') return;
+
+    for (const key of Object.keys(json)) {
+      const value = json[key];
+
+      if (typeof value !== 'object') continue;
+
+
+      if (this._isGeoJSON(value)) {
+        return value as GeoJSON.FeatureCollection;
+      } else {
+        const found = this._searchForGeoJSON(json[key]);
+        if (found) return found;
+      }
+
+    }
+    return undefined;
   }
 }
