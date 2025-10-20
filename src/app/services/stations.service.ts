@@ -52,8 +52,7 @@ export class StationsService {
       })
   }
 
-  public parseTimeSerie(data: any, param: string): any {
-    console.log(data);    
+  public parseTimeSerie(data: any, param: string): any { 
     if (!Array.isArray(data)) return [];
 
     const filteredData = data

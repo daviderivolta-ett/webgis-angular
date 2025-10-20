@@ -220,13 +220,13 @@ export class DataPageComponent {
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {
+  public onMapMarkerClicked(data: Record<string, any>[]): void {   
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });
+    });    
     this.popupData = [...stations];
   }
 
@@ -245,13 +245,14 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
+    console.log(stations);    
     this.charts = [
       ...this.charts,
       ...stations.map((s: Station, i: number) => {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
-
+        console.log(this._sensorTypes, sensorType);
         return new MapChart(
           s.id,
           s.parameter,

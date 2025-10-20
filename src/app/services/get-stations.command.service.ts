@@ -22,14 +22,31 @@ export class GetAndRenderStationsCommandService implements Command {
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
       let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(layer.url, token);
-     
+
       if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
+      if (layer.parameter) geoJSON = this._addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
       if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
+      map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });  
     } catch (error: unknown) {
       if (error instanceof Error) throw error;
       else throw new Error(`Errore nell'esecuzione del comando.`);
+    }
+  }
+
+  private _addPropertiesToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, props: Record<string, any>): GeoJSON.FeatureCollection {
+    return {
+      ...geoJSON,
+      features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+        const properties: any = feature.properties ?? {};
+        return {
+          ...feature,
+          properties: {
+            ...properties,
+            ...props
+          }
+        }
+      })
     }
   }
 

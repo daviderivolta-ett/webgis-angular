@@ -2,19 +2,21 @@ import { Layer } from './layer.class';
 import { MarkerMapping } from './marker-mapping.interface';
 
 export class GeoJsonLayer extends Layer {
+    public parameter?: string;
     public markers?: MarkerMapping;
 
     constructor(
         id: string,
         layerType: string,
         url: string,
-        markers?: MarkerMapping,
         layerCategory?: string,
         label?: string,
-        iconUrl?: string
+        iconUrl?: string,
+        parameter?: string,
+        markers?: MarkerMapping,
     ) {
         super(id, url, layerType, label, iconUrl, layerCategory);
-        this.url = url;
+        this.parameter = parameter;
         this.markers = markers;
     }
 
@@ -25,6 +27,7 @@ export class GeoJsonLayer extends Layer {
             (typeof object['url'] === 'string' && object['url']) || ''
         );
 
+        if (object['parameter'] && typeof object['parameter'] === 'string') layer.parameter = object['parameter'];
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];

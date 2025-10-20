@@ -7,7 +7,13 @@
             "unit": "mm"
         },
         {
-            "id": "termo",
+            "id": "rain_01h",
+            "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 1 ora",
+            "unit": "mm"
+        },
+        {
+            "id": "mean_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura",
             "unit": "°C"
@@ -19,7 +25,7 @@
             "unit": "m"
         },
         {
-            "id": "vento",
+            "id": "mean_wind_speed",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Vento",
             "unit": "km/h"
