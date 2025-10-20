@@ -11,6 +11,9 @@
                             <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" #groupedCheckbox></app-grouped-checkboxes>
                         }
                     }
+                    @else {
+                        <p>Effettua il login per vedere i layer disponibili</p>
+                    }
                 </div>
             </div>
         </app-sidebar>

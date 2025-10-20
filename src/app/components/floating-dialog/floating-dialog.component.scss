@@ -3,25 +3,27 @@
     z-index: 9999999;
     top: 0;
     left: 0;
-    padding: 0 16px 16px 16px;
     background-color: var(--neutral-100, white);
     border: 1px solid var(--neutral-500, grey);
     border-radius: 8px;
     resize: none;
     overflow: hidden;
     transform-origin: bottom right;
-    min-width: 200px;
-    min-height: 200px;
+    min-width: 400px;
+    min-height: 400px;
 }
 
 .dragger {
     cursor: grab;
     height: 24px;
     width: 100%;
+    background-color: var(--neutral-200, lightgrey);
+    border-bottom: 1px solid var(--neutral-500, grey);
 }
 
 .floating-dialog__content {
     height: calc(100% - 24px);
+    padding: 16px;
 }
 
 .close-btn {
