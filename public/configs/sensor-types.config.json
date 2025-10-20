@@ -1,15 +1,15 @@
 {
     "types": [
         {
-            "id": "rain_05m",
-            "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Pioggia 5 minuti",
-            "unit": "mm"
-        },
-        {
             "id": "rain_01h",
             "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 1 ora",
+            "unit": "mm"
+        },
+        {
+            "id": "rain_30d",
+            "iconUrl": "./images/icons/rain_30d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 30 giorni",
             "unit": "mm"
         },
         {
