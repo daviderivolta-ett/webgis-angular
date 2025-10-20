@@ -140,11 +140,8 @@ export class DataPageComponent {
   public async ngOnInit(): Promise<void> {
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
-        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));   
       })
-
-    // this.stationsService.getAllParameters('./configs/sensor-types.config.api.json', this.authService.getAccessToken())
-    //   .then((d) => console.log(d));
   }
 
   public ngAfterViewInit(): void {
@@ -245,7 +242,6 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
-    console.log(stations);    
     this.charts = [
       ...this.charts,
       ...stations.map((s: Station, i: number) => {
