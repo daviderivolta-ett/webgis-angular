@@ -17,11 +17,11 @@
 }
 
 .snackbar--success .snackbar__icon {
-    color: green;
+    color: var(--success-900, green);
 }
 
 .snackbar--error .snackbar__icon {
-    color: red;
+    color: var(--error-900, red);
 }
 
 .snackbar__icon,
