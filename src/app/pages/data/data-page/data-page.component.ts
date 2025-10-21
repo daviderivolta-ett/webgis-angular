@@ -248,7 +248,7 @@ export class DataPageComponent {
         const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
         const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
-        console.log(this._sensorTypes, sensorType);
+
         return new MapChart(
           s.id,
           s.parameter,
@@ -280,7 +280,7 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
     this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: any) => {       
+      .then((data: any) => {
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
         const newChart = {
           ...chart,

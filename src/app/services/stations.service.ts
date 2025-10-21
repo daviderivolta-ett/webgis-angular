@@ -41,9 +41,9 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, initialDate: string, endingDate: string, token?: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDates = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });   
     return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {
+      .then((data: any) => {      
         return this.parseTimeSerie(data, param);
       })
       .catch((err) => {
@@ -70,36 +70,5 @@ export class StationsService {
     })
 
     return [parsedData];
-
-    // const timeserie: any[] = this._checkTimeSerie(data);
-
-    // const filteredData = timeserie
-    //   .filter((d) => d['parameter'] === param)
-    //   .map((d: any) => ({
-    //     value: d['value'],
-    //     date: d['referenceDate']
-    //   }))
-
-    // const parsedData = filteredData.map((d: any) => {
-    //   return [
-    //     new Date(d['date']).getTime(),
-    //     parseFloat(d['value'])
-    //   ]
-    // })
-
-    // return [parsedData];
-  }
-
-  private _checkTimeSerie(geojson: GeoJSON.FeatureCollection) {
-    if (!('features' in geojson) || !Array.isArray(geojson['features'])) return [];
-    const features: GeoJSON.Feature[] = geojson['features'];
-
-    if (features.length !== 1) return [];
-
-    const feature: GeoJSON.Feature = features[0];
-
-    if (!feature.properties || !('timeserie' in feature.properties) || !Array.isArray(feature.properties['timeserie'])) return [];
-
-    return feature.properties['timeserie'];
   }
 }
