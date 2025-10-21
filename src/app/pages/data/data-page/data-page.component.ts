@@ -130,8 +130,9 @@ export class DataPageComponent {
 
     /** Effetcs */
     effect(() => {
-      this.user = this.authService.user();
-      if (this.user) this.setDataFromApi();
+      const currentUser = this.authService.user();
+      if (!this.user && currentUser) this.setDataFromApi();
+      this.user = currentUser;
     });
   }
 
