@@ -1,0 +1,52 @@
+.snackbar {
+    color: var(--neutral-100, white);
+    background-color: var(--primary-900, black);
+    width: 400px;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.snackbar__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.snackbar--success .snackbar__icon {
+    color: green;
+}
+
+.snackbar--error .snackbar__icon {
+    color: red;
+}
+
+.snackbar__icon,
+.snackbar__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+}
+
+.snackbar__btn {
+    background-color: transparent;
+    color: var(--neutral-500, white);
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    &:hover {
+        color: var(--neutral-700, lightgrey);
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .snackbar {
+        width: 100%;
+    }
+}

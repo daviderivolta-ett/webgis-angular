@@ -1,0 +1,7 @@
+.snackbar-container {
+    position: fixed;
+    z-index: 999999;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}

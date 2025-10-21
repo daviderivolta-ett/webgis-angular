@@ -1,0 +1,5 @@
+<div class="snackbar-container">
+    @for (snackbar of snackbars; track snackbar.id) {
+        <app-snackbar [id]="snackbar.id" [text]="snackbar.text" [type]="snackbar.type" [isAutoDismissed]="snackbar.isAutoDismissed" (onBtnClicked)="onSnackbarBtnClick(snackbar.id)"></app-snackbar>
+    }
+</div>

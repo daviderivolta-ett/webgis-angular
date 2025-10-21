@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
@@ -104,6 +104,7 @@ export class DataPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private snackbarsService: SnackbarsService,
     private layersService: LayersService,
     private stationsService: StationsService,
     private commandsRegistry: CommandsRegistryService
@@ -226,6 +227,8 @@ export class DataPageComponent {
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
     this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels() });
+
+    this.snackbarsService.createSnackbar('Layer aggiunto', 'success');
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
