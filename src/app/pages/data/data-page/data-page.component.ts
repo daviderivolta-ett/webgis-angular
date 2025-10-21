@@ -137,11 +137,14 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {    
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
-        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));   
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
+      
+
+      // this.stationsService.getAllParameters(this.s)
   }
 
   public ngAfterViewInit(): void {
