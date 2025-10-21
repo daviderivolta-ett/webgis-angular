@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
-import { AuthService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, LayersService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
@@ -82,6 +82,7 @@ export class DataPageComponent {
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
 
+  public apiBaseUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
@@ -102,6 +103,7 @@ export class DataPageComponent {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private apiService: ApiService,
     private layersService: LayersService,
     private stationsService: StationsService,
     private commandsRegistry: CommandsRegistryService
@@ -110,9 +112,10 @@ export class DataPageComponent {
 
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
-    this.parametersUrl = this.route.snapshot.data['apisConfig'].get('parameters');
-    this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
-    this.timeserieUrl = this.route.snapshot.data['apisConfig'].get('timeseries');
+    this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
+    this.parametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
+    this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.timeserieUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
@@ -147,7 +150,7 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  public setDataFromApi() {
+  public setDataFromApi() {    
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {

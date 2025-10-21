@@ -1,9 +1,10 @@
 {
     "apis": {
-        "parameters": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/parameters/get/all",
-        "stationParameters": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/parameters",
-        "timeseries": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/{stationId}/timeserie",
-        "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods"
+        "baseUrl": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/",
+        "parameters": "parameters/get/all",
+        "stationParameters": "platforms/get/parameters",
+        "timeseries": "platforms/get/{stationId}/timeserie",
+        "periods": ""
     },
     "lastModified": "2025-10-21"
 }

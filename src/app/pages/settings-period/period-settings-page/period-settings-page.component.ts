@@ -33,13 +33,15 @@ export class PeriodSettingsPageComponent {
   });
 
   /** Data */
+  public apiBaseUrl; // Recovered from route resolver in constructor
   public periodsUrl; // Recovered from route resolver in constructor
 
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService
   ) {
-    this.periodsUrl = this.route.snapshot.data['apisConfig'].get('periods');
+    this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
+    this.periodsUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('periods'));
   }
 
   /** Component lifecycle */

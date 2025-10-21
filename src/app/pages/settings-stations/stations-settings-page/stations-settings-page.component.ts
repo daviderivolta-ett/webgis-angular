@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, StationBase } from '../../../models';
 
 /** Services */
-import { AuthService, StationsService } from '../../../services';
+import { ApiService, AuthService, StationsService } from '../../../services';
 import { Utils } from '../../../utils';
 
 /** Components */
@@ -36,6 +36,7 @@ export class StationsSettingsPageComponent {
   public isLoading: boolean = false;
 
   /** Data */
+  public apiBaseUrl; // Recovered from route resolver in constructor
   public stationParametersUrl; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   public filteredStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
@@ -44,9 +45,11 @@ export class StationsSettingsPageComponent {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private apiService: ApiService,
     private stationsService: StationsService
   ) {
-    this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
+    this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
+    this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
   }
 
   /** Component lifecycle */
@@ -98,9 +101,9 @@ export class StationsSettingsPageComponent {
 
   public onFormSubmit(): void {
     const changes: Record<string, any[]> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
-    const result = this._createStationsOnFormChanges(changes);    
+    const result = this._createStationsOnFormChanges(changes);
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
-    console.log(post);    
+    console.log(post);
     /** POST */
 
     /** POST */
