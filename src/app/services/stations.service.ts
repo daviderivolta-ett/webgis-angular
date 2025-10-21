@@ -22,8 +22,8 @@ export class StationsService {
         return data.map((s: any) => Sensor.createFromObject(s));
       })
       .catch((err) => {
-        console.log(err);
-        return [];
+        if (err instanceof Error) throw err;
+        else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
       })
   }
 
@@ -34,8 +34,8 @@ export class StationsService {
         return data.map((s: any) => StationBase.createPartialFromObject(s));
       })
       .catch((err) => {
-        console.log(err);
-        return [];
+        if (err instanceof Error) throw err;
+        else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
       })
   }
 

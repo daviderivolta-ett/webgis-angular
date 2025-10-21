@@ -28,7 +28,7 @@ export class GetAndRenderStationsCommandService implements Command {
       if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
       map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });  
-    } catch (error: unknown) {
+    } catch (error: unknown) {   
       if (error instanceof Error) throw error;
       else throw new Error(`Errore nell'esecuzione del comando.`);
     }

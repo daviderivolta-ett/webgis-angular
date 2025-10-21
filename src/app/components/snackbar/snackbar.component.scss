@@ -1,7 +1,7 @@
 .snackbar {
     color: var(--neutral-100, white);
     background-color: var(--primary-900, black);
-    width: 400px;
+    width: 576px;
     padding: 16px;
     border-radius: 8px;
     display: flex;
@@ -17,11 +17,11 @@
 }
 
 .snackbar--success .snackbar__icon {
-    color: var(--success-900, green);
+    color: var(--success-700, green);
 }
 
 .snackbar--error .snackbar__icon {
-    color: var(--error-900, red);
+    color: var(--error-700, red);
 }
 
 .snackbar__icon,

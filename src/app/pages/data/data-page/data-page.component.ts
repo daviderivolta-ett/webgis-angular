@@ -151,11 +151,14 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  public setDataFromApi() {    
+  public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error');
       })
       .finally(() => {
         this.isLoading = false;
@@ -165,6 +168,9 @@ export class DataPageComponent {
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error');
       })
       .finally(() => {
         this.isLoading = false;
@@ -227,8 +233,6 @@ export class DataPageComponent {
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
     this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels() });
-
-    this.snackbarsService.createSnackbar('Layer aggiunto', 'success');
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -390,8 +394,8 @@ export class DataPageComponent {
         layer,
         token: this.authService.getAccessToken()
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err: unknown) {
+      this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error');
     }
   }
 
