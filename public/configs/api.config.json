@@ -5,5 +5,5 @@
         "timeseries": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/{stationId}/timeserie",
         "periods": "https://omirl.democontent.it/stations/api/platforms/get/periods"
     },
-    "lastModified": "2025-10-14"
+    "lastModified": "2025-10-21"
 }
