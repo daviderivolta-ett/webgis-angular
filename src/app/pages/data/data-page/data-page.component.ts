@@ -129,7 +129,10 @@ export class DataPageComponent {
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
 
     /** Effetcs */
-    effect(() => this.user = this.authService.user());
+    effect(() => {
+      this.user = this.authService.user();
+      if (this.user) this.setDataFromApi();
+    });
   }
 
   /** Getter and setter */
@@ -142,7 +145,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi();
+    if (this.user) this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
@@ -395,6 +398,7 @@ export class DataPageComponent {
         token: this.authService.getAccessToken()
       });
     } catch (err: unknown) {
+      this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false);
       this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error');
     }
   }
