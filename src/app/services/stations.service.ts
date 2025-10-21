@@ -17,7 +17,7 @@ export class StationsService {
 
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: any) => {      
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => Sensor.createFromObject(s));
       })

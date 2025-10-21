@@ -47,11 +47,9 @@ import { MapChartDatepickerComponent } from "../map-chart-datepicker/map-chart-d
   styleUrl: './data-page.component.scss'
 })
 export class DataPageComponent {
-  /*
-  * Class properties
-  */
-
+  /** Class properties */
   /** User Interface */
+  public isLoading: boolean = false;
   public windowWidth: number;
   public isSliderCollapsed: boolean = false;
 
@@ -59,6 +57,10 @@ export class DataPageComponent {
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
   public legends: Legend[] = [];
+
+  public popupData: Station[] = [];
+  public charts: MapChart[] = [];
+  public areChartsDisabled: boolean = false;
 
   private _selectedDate: Date | undefined;
 
@@ -80,6 +82,7 @@ export class DataPageComponent {
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
 
+  public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
 
@@ -95,10 +98,6 @@ export class DataPageComponent {
 
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
-  public popupData: Station[] = [];
-  public charts: MapChart[] = [];
-  public areChartsDisabled: boolean = false;
-
   /** Constructor */
   constructor(
     private route: ActivatedRoute,
@@ -111,6 +110,7 @@ export class DataPageComponent {
 
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.parametersUrl = this.route.snapshot.data['apisConfig'].get('parameters');
     this.stationParametersUrl = this.route.snapshot.data['apisConfig'].get('stationParameters');
     this.timeserieUrl = this.route.snapshot.data['apisConfig'].get('timeseries');
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
@@ -137,23 +137,35 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {    
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
-      })
-      
-
-      // this.stationsService.getAllParameters(this.s)
+  public async ngOnInit(): Promise<void> {
+    this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
   }
 
-  /*
-  * Methods
-  */
+  /** Methods  */
+  /** Init */
+  public setDataFromApi() {
+    this.isLoading = true;
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
+
+    this.isLoading = true;
+    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      .then((data) => {
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
+  }
 
   /** Actions */
   public onMapClick(): void {
@@ -220,13 +232,13 @@ export class DataPageComponent {
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {   
+  public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });    
+    });
     this.popupData = [...stations];
   }
 
@@ -275,7 +287,7 @@ export class DataPageComponent {
   }
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;  
+    const { param, initialDate, endingDate } = formChange;
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;

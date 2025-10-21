@@ -9,7 +9,7 @@ export class Sensor {
         this.enabled = enabled;
     }
 
-    static createFromObject(object: any): Sensor {
+    static createFromObject(object: any): Sensor {       
         if (!('id' in object) || typeof object['id'] !== 'string') {
             throw new Error('Oggetto non valido: \'id\' mancante.');
         }
@@ -22,6 +22,6 @@ export class Sensor {
         //     throw new Error('Oggetto non valido: \'enabled\' mancante.');
         // }
 
-        return new Sensor(object['id'], object['type'] ?? object['name'], object['enabled']);
+        return new Sensor(object['id'], object['type'] ?? object['name'], object['enabled'] ?? false);
     }
 }
