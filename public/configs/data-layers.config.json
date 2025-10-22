@@ -176,6 +176,65 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "hydro",
+            "label": "Idro",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "hydro_initial_condition",
+                    "label": "Condizioni iniziali",
+                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_test",
+                            "label": "Test cluster",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_test_api.json",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
+                        },
+                        {
+                            "id": "hydro_initial_condition_wvc",
+                            "label": "Water Volume Column",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "mock_data/hydro_initial_condition_wvc_api.json",
+                            "legend": {
+                                "colorScaleId": "status",
+                                "labels": [
+                                    "off",
+                                    "on"
+                                ],
+                                "steps": [
+                                    0
+                                ]
+                            },
+                            "action": {
+                                "id": "clusterStations"
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "lastModified": "2025-10-20"
