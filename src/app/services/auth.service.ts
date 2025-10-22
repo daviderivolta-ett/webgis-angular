@@ -53,8 +53,7 @@ export class AuthService {
     return this.oauthService.hasValidAccessToken();
   }
 
-  public login(): void {
-    console.log(this.isLoggedIn());    
+  public login(): void {    
     if (!this.isLoggedIn()) this.oauthService.initLoginFlow();
   }
 
