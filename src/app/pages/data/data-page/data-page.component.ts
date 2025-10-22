@@ -246,13 +246,13 @@ export class DataPageComponent {
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {
+  public onMapMarkerClicked(data: Record<string, any>[]): void {    
     const stations = data.map((d: any) => {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });
+    });    
     this.popupData = [...stations];
   }
 

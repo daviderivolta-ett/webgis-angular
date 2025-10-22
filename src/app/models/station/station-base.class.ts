@@ -82,9 +82,10 @@ export class StationBase implements Geolocation {
     static createFromGeoJSONProps(props: Record<string, any>): StationBase {
         if (
             (!('shortCode' in props) || typeof props['shortCode'] !== 'string') &&
-            (!('stationCode' in props) || typeof props['stationCode'] !== 'string')
+            (!('stationCode' in props) || typeof props['stationCode'] !== 'string') &&
+            (!('code' in props) || typeof props['code'] !== 'string')
         ) {
-            throw new Error('Oggetto non valido: \'shortCode\' o \'stationCode\' mancanti.');
+            throw new Error('Oggetto non valido: \'code\', \'shortCode\' o \'stationCode\' mancanti.');
         }
 
         if (!('lat' in props) || typeof props['lat'] !== 'number') {
