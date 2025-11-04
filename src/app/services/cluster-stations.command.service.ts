@@ -21,8 +21,11 @@ export class ClusterStationsService implements Command {
       if (!map || typeof map.addClusterPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
-      let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(layer.url, token);
-      geoJSON = this._addTypeToGeoJSONFeatures(geoJSON);
+      let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(layer.url, token);
+
+      if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
+
+      geoJSON = this._addTypeToGeoJSONFeatures(geoJSON, layer.id.includes('lightning') ? 'lightning' : 'station');
 
       let arcColorDict: Record<string, string> = {};
 
@@ -55,18 +58,16 @@ export class ClusterStationsService implements Command {
     }
   }
 
-  private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
-    const featureCollection = this._mergeFeatureCollections(geoJSON as unknown as GeoJSON.FeatureCollection[]);
-
+  private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
     return {
-      ...featureCollection,
-      features: featureCollection.features.map((feature: GeoJSON.Feature) => {
+      ...geoJSON,
+      features: geoJSON.features.map((feature: GeoJSON.Feature) => {
         const properties = feature.properties ?? {};
         return {
           ...feature,
           properties: {
             ...properties,
-            type: 'lightning'
+            type
           }
         }
       })
