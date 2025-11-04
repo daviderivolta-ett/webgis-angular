@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, EventEmitter, input, Output, output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Output, output } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 
 /** Models */

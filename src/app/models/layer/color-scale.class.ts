@@ -61,7 +61,7 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
         }
 
         // Numeric mode (min/max defined)
-        if (this.min !== undefined && this.max !== undefined) {
+        if (this.min !== undefined && this.max !== undefined) {            
             const numValue = +value;
             const steps = this.colors.length - 1;
             const range = this.max - this.min;

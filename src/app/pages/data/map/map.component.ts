@@ -127,7 +127,7 @@ export class MapComponent {
     const result = this._getMultiMarkersData(nearbyMarkers, 'group');
     let data: Record<string, any>[];
     data = Array.isArray(result) ? result : [result];
-
+   
     this.markerClicked.emit(data);   
 
     if (this._popup && this._popupElement) {

@@ -2,7 +2,7 @@
     "apis": {
         "baseUrl": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/",
         "parameters": "parameters/get/all",
-        "stationParameters": "platforms/get/parameters",
+        "stationParameters": "platforms/get/parameter/all",
         "timeseries": "platforms/get/{stationId}/timeserie",
         "periods": ""
     },

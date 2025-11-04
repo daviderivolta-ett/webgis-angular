@@ -3,6 +3,7 @@ import { Geolocation } from '../geographic'
 
 export class StationBase implements Geolocation {
     public id: string;
+    public type: 'station' | 'lightning';
     public lat: number;
     public lng: number;
     public sensors: Sensor[];
@@ -19,7 +20,8 @@ export class StationBase implements Geolocation {
         uuid?: string,
         name?: string,
         city?: string,
-        alt?: number
+        alt?: number,
+        type: 'station' | 'lightning' = 'station'
     ) {
         this.id = id;
         this.lat = lat;
@@ -29,6 +31,7 @@ export class StationBase implements Geolocation {
         this.name = name;
         this.city = city;
         this.alt = alt;
+        this.type = type;
     }
 
     static createDefault(): StationBase {
@@ -79,7 +82,7 @@ export class StationBase implements Geolocation {
         return station;
     }
 
-    static createFromGeoJSONProps(props: Record<string, any>): StationBase {
+    static createFromGeoJSONProps(props: Record<string, any>): StationBase {      
         if (
             (!('shortCode' in props) || typeof props['shortCode'] !== 'string') &&
             (!('stationCode' in props) || typeof props['stationCode'] !== 'string') &&
@@ -96,12 +99,13 @@ export class StationBase implements Geolocation {
             throw new Error('Oggetto non valido: \'lng\' mancante.');
         }
 
-        const station = new StationBase(props['shortCode'] ?? props['stationCode'], props['lat'], props['lng'], []);
+        const station = new StationBase(props['shortCode'] ?? props['stationCode'] ?? props['code'] ?? '', props['lat'], props['lng'], []);
 
         if (props['name'] && typeof props['name'] === 'string') station.name = props['name'];
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
-
+        if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'station' || props['type'] === 'lightning')) station.type = props['type'];
+      
         return station;
     }
 

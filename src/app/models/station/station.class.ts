@@ -8,6 +8,7 @@ export class Station extends StationBase implements StationData {
     public label?: string;
     public unit?: string;
     public date?: Date;
+    public commt?: string;
 
     constructor(
         id: string,
@@ -22,7 +23,9 @@ export class Station extends StationBase implements StationData {
         alt?: number,
         label?: string,
         unit?: string,
-        date?: Date
+        date?: Date,
+        commt?: string,
+        type: 'station' | 'lightning' = 'station'
     ) {
         super(id, lat, lng, sensors, uuid, name, city, alt);
 
@@ -31,39 +34,56 @@ export class Station extends StationBase implements StationData {
         this.label = label;
         this.unit = unit;
         this.date = date;
+        this.commt = commt;
+        this.type = type;
     }
 
     static override createDefault(): Station {
         return new Station('', 0, 0, [], 0, '');
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData { 
-        if (!('value' in props) || typeof props['value'] !== 'number') {
-            throw new Error('Oggetto non valido: \'value\' mancante.');
+    static createStationDataFromGeoJSONProps(props: any): StationData {     
+        if (
+            (!('value' in props) || typeof props['value'] !== 'number') &&
+            (!('intensity' in props) || typeof props['intensity'] !== 'number')
+        ) {
+            throw new Error('Oggetto non valido: \'value\' o \'intensity\' mancanti.');
         }
 
         const data: StationData = { value: 0, parameter: '' };
 
-        if (props['value'] && typeof props['value'] === 'number') data.value = props['value'];
+        if (
+            (props['value'] && typeof props['value'] === 'number') ||
+            (props['intensity'] && typeof props['intensity'] === 'number')
+        ) {
+            data.value =
+                typeof props.value === 'number'
+                    ? props.value
+                    : props.intensity;
+        }
+
         if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
         if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
         if (
             (('refDate' in props) && typeof props['refDate'] === 'string') ||
-            (('referenceDate' in props) && typeof props['referenceDate'] == 'string')
+            (('referenceDate' in props) && typeof props['referenceDate'] == 'string') ||
+            (('creationDate' in props) && typeof props['creationDate'] == 'string')
         ) {
-            const rawDate = typeof props['refDate'] === 'string' ?
-                props['refDate'] :
-                props['referenceDate'];
+            const rawDate =
+                typeof props.refDate === 'string' ? props.refDate :
+                    typeof props.referenceDate === 'string' ? props.referenceDate :
+                        props.creationDate;
 
             const date = new Date(rawDate);
             if (!isNaN(date.getTime())) data.date = date;
-        }       
+        }
+        if (props['commt'] && typeof props['commt'] === 'string') data.commt = props['commt'];       
         return data;
     }
 
     static fromStationData(stationBase: StationBase, data: StationData): Station {
-        const { value, parameter, label, unit, date } = data;
+        const { value, parameter, label, unit, date, commt } = data;
 
         return new Station(
             stationBase.id,
@@ -78,7 +98,9 @@ export class Station extends StationBase implements StationData {
             stationBase.alt,
             label,
             unit,
-            date
+            date,
+            commt,
+            stationBase.type
         )
     }
 

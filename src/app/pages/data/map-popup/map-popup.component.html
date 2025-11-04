@@ -1,25 +1,25 @@
 <div class="map-popup">
     @if (data().length > 0) {
     <p class="title regular weight-bold">
-        @if (config().name) { {{data()[0].name}} }
-        @if (config().alt) { ({{data()[0].alt}}m) }
+        @if (config().name && data()[0].name) { {{data()[0].name}} }
+        @if (config().alt && data()[0].alt) { ({{data()[0].alt}}m) }
     </p>
     <p class="small greyed">
-        @if (config().id) { {{data()[0].id}} }
-        @if (config().id && config().city) { - }
-        @if (config().city) { {{data()[0].city}} }
+        @if (config().id && data()[0].id) { {{data()[0].id}} }
+        @if (config().id && config().city && data()[0].id && data()[0].city) { - }
+        @if (config().city && data()[0].city) { {{data()[0].city}} }
     </p>
     }
 
     <div class="values">
         @for (item of data(); track `${item.id}_${item.label}`) {
         <div class="station-value">
-            <p class="small">@if(config().label) { {{item.label}} }</p>
+            <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
             <p class="big weight-bold">
                 @if(config().value) { {{item.value | number: '1.2-2'}} }
                 @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
             </p>
-            <p class="small greyed">@if(config().date) { {{item.date | date: 'dd/MM/yyyy - hh:mm'}} }</p>
+            <p class="small greyed">@if(config().date) { {{item.date | date: 'dd/MM/yyyy - HH:mm'}} }</p>
         </div>
         }
     </div>
@@ -32,6 +32,7 @@
     </p>
     }
 
+    @if (data().length > 0 && data()[0].type === 'station') {
     <div class="popup-footer">
         <button type="button" class="chart-btn" id="map-popup-btn" (click)="btnClicked.emit()">
             <span>Grafici</span>
@@ -42,4 +43,5 @@
             </span>
         </button>
     </div>
+    }
 </div>

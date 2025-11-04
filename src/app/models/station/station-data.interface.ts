@@ -3,5 +3,6 @@ export interface StationData {
     parameter: string,
     label?: string,
     unit?: string,
-    date?: Date
+    date?: Date,
+    commt?: string
 }

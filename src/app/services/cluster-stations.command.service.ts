@@ -22,7 +22,8 @@ export class ClusterStationsService implements Command {
       if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
       let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(layer.url, token);
-     
+      geoJSON = this._addTypeToGeoJSONFeatures(geoJSON);
+
       let arcColorDict: Record<string, string> = {};
 
       if (colorScale instanceof ColorScale && layer.legend) {
@@ -38,7 +39,7 @@ export class ClusterStationsService implements Command {
             break;
 
           case 'data_geojson-point--cluster':
-            geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict);
+            geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             break;
 
           default:
@@ -51,6 +52,24 @@ export class ClusterStationsService implements Command {
     } catch (error: unknown) {
       if (error instanceof Error) throw error;
       else throw new Error(`Errore nell'esecuzione del comando.`);
+    }
+  }
+
+  private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+    const featureCollection = this._mergeFeatureCollections(geoJSON as unknown as GeoJSON.FeatureCollection[]);
+
+    return {
+      ...featureCollection,
+      features: featureCollection.features.map((feature: GeoJSON.Feature) => {
+        const properties = feature.properties ?? {};
+        return {
+          ...feature,
+          properties: {
+            ...properties,
+            type: 'lightning'
+          }
+        }
+      })
     }
   }
 
@@ -74,14 +93,14 @@ export class ClusterStationsService implements Command {
     }
   }
 
-  private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>): GeoJSON.FeatureCollection {
-    const now: number = new Date('June 16, 2025 20:24:00').getTime();
+  private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
+    const now: number = new Date().getTime();
 
     return {
       ...geoJSON,
       features: geoJSON.features.map((f: GeoJSON.Feature) => {
         const properties: any = f.properties ?? {};
-        const date = new Date(properties['refDate']);
+        const date = new Date(properties['creationDate']);
         const timestamp: number = date.getTime();
         const elapsedMs: number = now - timestamp;
         const elapsedHours: number = (elapsedMs / (1000 * 60 * 60));
@@ -92,11 +111,20 @@ export class ClusterStationsService implements Command {
           properties: {
             ...properties,
             color,
+            unit,
+            layerLabel,
             clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === color)
           }
         }
       })
 
     };
+  }
+
+  private _mergeFeatureCollections(collections: GeoJSON.FeatureCollection[]): GeoJSON.FeatureCollection {
+    return {
+      type: 'FeatureCollection',
+      features: collections.flatMap((c) => c.features || [])
+    }
   }
 }
