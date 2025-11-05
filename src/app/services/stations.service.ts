@@ -72,11 +72,18 @@ export class StationsService {
     return [parsedData];
   }
 
-  public async getHydroImageAt(url: string, model: string, stationId: string, date: string) {
+  public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, model);
     const formattedUrlWithStationId: string = `${formattedUrl}/${stationId}`;
-    const formattedDate: string = this.apiService.formatDate(new Date(date));
+    const formattedDate: string = this.apiService.formatDate(date);
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
-    console.log(formattedUrlWithDates);
+
+    return this.apiService.getApiData(formattedUrlWithDates, token)
+      .then((data: any) => {
+        return `data:${data['mimeType']};base64,${data['base64Data']}`;
+      })
+      .catch((err: unknown) => {      
+        throw new Error(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`);
+      });
   }
 }

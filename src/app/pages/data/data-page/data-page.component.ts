@@ -285,14 +285,19 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
-    console.log(stations);
-
     const newCharts: MapChart[] = [];
+    const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
       switch (s.type) {
         case 'hydro':
-          this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, new Date().toISOString())
+
+          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this._selectedDate ?? new Date(), this.authService.getAccessToken())
+            .catch((err: unknown) => {
+              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error');
+              throw err;
+            })
+          hydroPromises.push(promise);
           break;
 
         default:
@@ -321,34 +326,12 @@ export class DataPageComponent {
     });
 
     this.charts = [...this.charts, ...newCharts];
-
-    // this.charts = [
-    //   ...this.charts,
-    //   ...stations.map((s: Station, i: number) => {
-    //     const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
-    //     const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-    //     const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
-
-    //     return new MapChart(
-    //       s.id,
-    //       s.parameter,
-    //       '',
-    //       s.unit ? `(${s.unit})` : '',
-    //       [],
-    //       stationSensorTypes,
-    //       undefined,
-    //       s.name,
-    //       sensorType ? sensorType.label : s.parameter,
-    //       'Data',
-    //       sensorType ? sensorType.label : s.parameter,
-    //       [sensorType ? sensorType.label : s.parameter]
-    //     )
-    //   })
-    // ];
+    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
+    this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
   }
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {

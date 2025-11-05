@@ -98,7 +98,11 @@
     <!-- END FLOATING CHARTS -->
 
     <!-- START FLOATING IMAGES -->
-     
+     @for (img of hydroImgs; track img) {
+        <app-floating-dialog (removeDialog)="removeDialog(img)">
+            <img ngProjectAs="floating-dialog-content" [src]="img">
+        </app-floating-dialog>
+     }
     <!-- END FLOATING IMAGES -->
 
     <!-- START LOADER -->
