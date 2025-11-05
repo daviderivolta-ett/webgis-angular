@@ -7,6 +7,9 @@ import { ColorScale, Command, GeoJsonLayer, MarkerCondition, MarkerMapping } fro
 /** Services */
 import { ApiService } from './api.service'
 
+/** Utils */
+import { GeoJsonUtils } from '../utils'
+
 /** Service */
 @Injectable({
     providedIn: 'root'
@@ -24,11 +27,12 @@ export class PlatformsCommandService implements Command {
             if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
 
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(layer.url, token);
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
-            if (layer.parameter) geoJSON = this._addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
+            if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
-
+            
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -37,22 +41,6 @@ export class PlatformsCommandService implements Command {
     }
 
     /** Methods */
-    private _addPropertiesToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, props: Record<string, any>): GeoJSON.FeatureCollection {
-        return {
-            ...geoJSON,
-            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-                const properties: any = feature.properties ?? {};
-                return {
-                    ...feature,
-                    properties: {
-                        ...properties,
-                        ...props
-                    }
-                }
-            })
-        }
-    }
-
     private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,

@@ -17,7 +17,7 @@ export class StationsService {
 
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {      
+      .then((data: any) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => Sensor.createFromObject(s));
       })
@@ -41,9 +41,9 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, initialDate: string, endingDate: string, token?: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });   
+    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {      
+      .then((data: any) => {
         return this.parseTimeSerie(data, param);
       })
       .catch((err) => {
@@ -52,7 +52,7 @@ export class StationsService {
       })
   }
 
-  public parseTimeSerie(data: any, param: string): any { 
+  public parseTimeSerie(data: any, param: string): any {
     if (!Array.isArray(data)) return [];
 
     const filteredData = data
@@ -70,5 +70,13 @@ export class StationsService {
     })
 
     return [parsedData];
+  }
+
+  public async getHydroImageAt(url: string, model: string, stationId: string, date: string) {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, model);
+    const formattedUrlWithStationId: string = `${formattedUrl}/${stationId}`;
+    const formattedDate: string = this.apiService.formatDate(new Date(date));
+    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
+    console.log(formattedUrlWithDates);
   }
 }

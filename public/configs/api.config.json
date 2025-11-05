@@ -4,7 +4,8 @@
         "parameters": "parameters/get/all",
         "stationParameters": "platforms/get/parameter/all",
         "timeseries": "platforms/get/{stationId}/timeserie",
-        "periods": ""
+        "periods": "",
+        "hydroImgs": "platforms/get/hydro/{model}"
     },
     "lastModified": "2025-10-21"
 }

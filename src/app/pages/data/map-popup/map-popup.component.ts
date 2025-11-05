@@ -1,6 +1,6 @@
 /** Libraries */
-import { Component, effect, EventEmitter, input, Output, output } from '@angular/core';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { Component, input, output } from '@angular/core'
+import { DatePipe, DecimalPipe } from '@angular/common'
 
 /** Models */
 import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';

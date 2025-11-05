@@ -7,6 +7,9 @@ import { ColorScale, Command, GeoJsonLayer } from '../models'
 /** Services */
 import { ApiService } from './api.service'
 
+/** Utils */
+import { GeoJsonUtils } from '../utils'
+
 /** Service */
 @Injectable({
     providedIn: 'root'
@@ -25,7 +28,7 @@ export class LightningCommandService implements Command {
 
             let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(layer.url, token);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
-            geoJSON = this._addTypeToGeoJSONFeatures(geoJSON, 'lightning');
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'lightning');
 
             let arcColorDict: Record<string, string> = {};
 
@@ -37,7 +40,7 @@ export class LightningCommandService implements Command {
                 }, {});
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
-
+          
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {
             if (error instanceof Error) throw error;
@@ -46,21 +49,21 @@ export class LightningCommandService implements Command {
     }
 
     /** Methods */
-    private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
-        return {
-            ...geoJSON,
-            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-                const properties = feature.properties ?? {};
-                return {
-                    ...feature,
-                    properties: {
-                        ...properties,
-                        type
-                    }
-                }
-            })
-        }
-    }
+    // private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
+    //     return {
+    //         ...geoJSON,
+    //         features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+    //             const properties = feature.properties ?? {};
+    //             return {
+    //                 ...feature,
+    //                 properties: {
+    //                     ...properties,
+    //                     type
+    //                 }
+    //             }
+    //         })
+    //     }
+    // }
 
     private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         const now: number = new Date().getTime();

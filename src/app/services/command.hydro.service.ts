@@ -7,6 +7,9 @@ import { ColorScale, Command, GeoJsonLayer } from '../models'
 /** Services */
 import { ApiService } from './api.service'
 
+/** Utils */
+import { GeoJsonUtils } from '../utils'
+
 /** Service */
 @Injectable({
     providedIn: 'root'
@@ -25,6 +28,8 @@ export class HydroCommandService implements Command {
 
             let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(url, token);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'hydro');
+            if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
 
             let arcColorDict: Record<string, string> = {};
 
@@ -82,8 +87,8 @@ export class HydroCommandService implements Command {
 
     private _createUrlWithDate(url: string, date?: Date): string {
         const d = date || new Date();
-        const formatted = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
-        // return `${url}?time=${encodeURIComponent(formatted)}`;
+        const formatted = this.apiService.formatDate(d);
+        // return formatted;
         return `${url}?time=2024-10-18%2000%3A02`
     }
 }

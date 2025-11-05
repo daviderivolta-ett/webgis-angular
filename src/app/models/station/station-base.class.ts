@@ -3,7 +3,7 @@ import { Geolocation } from '../geographic'
 
 export class StationBase implements Geolocation {
     public id: string;
-    public type: 'station' | 'lightning';
+    public type: 'platform' | 'lightning' | 'hydro';
     public lat: number;
     public lng: number;
     public sensors: Sensor[];
@@ -21,7 +21,7 @@ export class StationBase implements Geolocation {
         name?: string,
         city?: string,
         alt?: number,
-        type: 'station' | 'lightning' = 'station'
+        type: 'platform' | 'lightning' | 'hydro' = 'platform'
     ) {
         this.id = id;
         this.lat = lat;
@@ -104,7 +104,7 @@ export class StationBase implements Geolocation {
         if (props['name'] && typeof props['name'] === 'string') station.name = props['name'];
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
-        if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'station' || props['type'] === 'lightning')) station.type = props['type'];
+        if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'platform' || props['type'] === 'lightning' || props['type'] === 'hydro')) station.type = props['type'];
       
         return station;
     }

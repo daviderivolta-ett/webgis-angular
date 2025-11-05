@@ -60,6 +60,7 @@ export class DataPageComponent {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
+  public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
 
   private _selectedDate: Date | undefined;
@@ -86,6 +87,7 @@ export class DataPageComponent {
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
+  public hydroImgsUrl; // Recovered from route resolver in constructor
 
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
@@ -117,6 +119,7 @@ export class DataPageComponent {
     this.parametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
+    this.hydroImgsUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
@@ -246,21 +249,24 @@ export class DataPageComponent {
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {  
+  public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
-      
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';
         d['unit'] = 'A';
       }
-      
-      const stationBase = StationBase.createFromGeoJSONProps(d);     
+
+      if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'hydro') {
+        d['value'] = 0;
+      }
+
+      const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
 
     });
-    console.log('Stations', stations);
+
     this.popupData = [...stations];
   }
 
@@ -279,29 +285,66 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
-    this.charts = [
-      ...this.charts,
-      ...stations.map((s: Station, i: number) => {
-        const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
-        const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-        const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+    console.log(stations);
 
-        return new MapChart(
-          s.id,
-          s.parameter,
-          '',
-          s.unit ? `(${s.unit})` : '',
-          [],
-          stationSensorTypes,
-          undefined,
-          s.name,
-          sensorType ? sensorType.label : s.parameter,
-          'Data',
-          sensorType ? sensorType.label : s.parameter,
-          [sensorType ? sensorType.label : s.parameter]
-        )
-      })
-    ];
+    const newCharts: MapChart[] = [];
+
+    stations.forEach((s: Station) => {
+      switch (s.type) {
+        case 'hydro':
+          this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, new Date().toISOString())
+          break;
+
+        default:
+          const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
+          const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
+          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+
+          newCharts.push(
+            new MapChart(
+              s.id,
+              s.parameter,
+              '',
+              s.unit ? `(${s.unit})` : '',
+              [],
+              stationSensorTypes,
+              undefined,
+              s.name,
+              sensorType ? sensorType.label : s.parameter,
+              'Data',
+              sensorType ? sensorType.label : s.parameter,
+              [sensorType ? sensorType.label : s.parameter]
+            )
+          )
+          break;
+      }
+    });
+
+    this.charts = [...this.charts, ...newCharts];
+
+    // this.charts = [
+    //   ...this.charts,
+    //   ...stations.map((s: Station, i: number) => {
+    //     const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
+    //     const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
+    //     const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+
+    //     return new MapChart(
+    //       s.id,
+    //       s.parameter,
+    //       '',
+    //       s.unit ? `(${s.unit})` : '',
+    //       [],
+    //       stationSensorTypes,
+    //       undefined,
+    //       s.name,
+    //       sensorType ? sensorType.label : s.parameter,
+    //       'Data',
+    //       sensorType ? sensorType.label : s.parameter,
+    //       [sensorType ? sensorType.label : s.parameter]
+    //     )
+    //   })
+    // ];
   }
 
   public removeDialog(id: string): void {

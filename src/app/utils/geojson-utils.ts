@@ -46,4 +46,36 @@ export class GeoJsonUtils {
         }
         return undefined;
     }
+
+    static addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties = feature.properties ?? {};
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        type
+                    }
+                }
+            })
+        }
+    }
+
+    static addPropertiesToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, props: Record<string, any>): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        ...props
+                    }
+                }
+            })
+        }
+    }
 }

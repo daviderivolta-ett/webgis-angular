@@ -205,6 +205,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point--cluster",
                     "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Boxplot",
+                    "parameter": "Boxplot",
                     "legend": {
                         "colorScaleId": "alert",
                         "labels": [
@@ -234,6 +235,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/EnsembleMultimodel",
+                            "parameter": "EnsembleMultimodel",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -258,6 +260,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/EnsembleMultimodel-dev",
+                            "parameter": "EnsembleMultimodel-dev",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -289,6 +292,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraMultiEnsembleH",
+                            "parameter": "MagraMultiEnsembleH",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -313,6 +317,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraMultiEnsembleQ",
+                            "parameter": "MagraMultiEnsembleQ",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -337,6 +342,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraObservationsH",
+                            "parameter": "MagraObservationsH",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -361,6 +367,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraObservationsQ",
+                            "parameter": "MagraObservationsQ",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -392,6 +399,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/NowcastingHydro",
+                            "parameter": "NowcastingHydro",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -416,6 +424,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/NowcastingHydroCom10025",
+                            "parameter": "NowcastingHydroCom10025",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -447,6 +456,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RainfarmSubjective",
+                            "parameter": "RainfarmSubjective",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -471,6 +481,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RainfarmSubjectiveAuto",
+                            "parameter": "RainfarmSubjectiveAuto",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -495,6 +506,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08+00",
+                            "parameter": "Rainfarmbo08+00",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -519,6 +531,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08+06",
+                            "parameter": "Rainfarmbo08+06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -543,6 +556,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08-06",
+                            "parameter": "Rainfarmbo08-06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -567,6 +581,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08-12",
+                            "parameter": "Rainfarmbo08-12",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -591,6 +606,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm22ar+00",
+                            "parameter": "Rainfarmlm22ar+00",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -615,6 +631,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm22ar-12",
+                            "parameter": "Rainfarmlm22ar-12",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -639,6 +656,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm5ar+00",
+                            "parameter": "Rainfarmlm5ar+00",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -663,6 +681,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm5ar-12",
+                            "parameter": "Rainfarmlm5ar-12",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -687,6 +706,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                            "parameter": "Rainfarmmolita15sfc+00",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -711,6 +731,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                            "parameter": "Rainfarmmolita15sfc+06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -735,6 +756,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                            "parameter": "Rainfarmmolita15sfc-06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -759,6 +781,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                            "parameter": "Rainfarmmolita15sfc-12",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -785,6 +808,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point--cluster",
                     "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/ReteFiduciaria",
+                    "parameter": "ReteFiduciaria",
                     "legend": {
                         "colorScaleId": "alert",
                         "labels": [
@@ -814,6 +838,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservationsUmiditaSuolo",
+                            "parameter": "RunObservationsUmiditaSuolo",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -838,6 +863,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_10min",
+                            "parameter": "RunObservations_10min",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -862,6 +888,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_10minCom10025",
+                            "parameter": "RunObservations_10minCom10025",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -886,6 +913,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_60min",
+                            "parameter": "RunObservations_60min",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -910,6 +938,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_60minCom10025",
+                            "parameter": "RunObservations_60minCom10025",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -941,6 +970,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadar",
+                            "parameter": "SmallBasinsRadar",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -965,6 +995,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadarCom10025",
+                            "parameter": "SmallBasinsRadarCom10025",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -989,6 +1020,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadarEsterni",
+                            "parameter": "SmallBasinsRadarEsterni",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -1020,6 +1052,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica+00",
+                            "parameter": "SoggettivaAutomatica+00",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -1044,6 +1077,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica+06",
+                            "parameter": "SoggettivaAutomatica+06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -1068,6 +1102,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica-06",
+                            "parameter": "SoggettivaAutomatica-06",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [
@@ -1092,6 +1127,7 @@
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica-12",
+                            "parameter": "SoggettivaAutomatica-12",
                             "legend": {
                                 "colorScaleId": "alert",
                                 "labels": [

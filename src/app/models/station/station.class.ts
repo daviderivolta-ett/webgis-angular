@@ -25,7 +25,7 @@ export class Station extends StationBase implements StationData {
         unit?: string,
         date?: Date,
         commt?: string,
-        type: 'station' | 'lightning' = 'station'
+        type: 'platform' | 'lightning' | 'hydro' = 'platform'
     ) {
         super(id, lat, lng, sensors, uuid, name, city, alt);
 
