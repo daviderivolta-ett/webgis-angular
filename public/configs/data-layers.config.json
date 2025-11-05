@@ -20,7 +20,7 @@
                         "max": 120
                     },
                     "action": {
-                        "id": "getStations"
+                        "id": "platforms"
                     }
                 },
                 {
@@ -38,7 +38,7 @@
                         "max": 40
                     },
                     "action": {
-                        "id": "getStations"
+                        "id": "platforms"
                     }
                 },
                 {
@@ -56,7 +56,7 @@
                         "max": 110
                     },
                     "action": {
-                        "id": "getStations"
+                        "id": "platforms"
                     }
                 },
                 {
@@ -74,7 +74,7 @@
                         "max": 100
                     },
                     "action": {
-                        "id": "getStations"
+                        "id": "platforms"
                     }
                 },
                 {
@@ -91,7 +91,7 @@
                         "max": 24
                     },
                     "action": {
-                        "id": "clusterStations"
+                        "id": "lightning"
                     }
                 }
             ]
@@ -131,7 +131,7 @@
                                 "max": 40
                             },
                             "action": {
-                                "id": "getWms"
+                                "id": "wms"
                             }
                         },
                         {
@@ -152,7 +152,7 @@
                             },
                             "opacity": 0.5,
                             "action": {
-                                "id": "getWms"
+                                "id": "wms"
                             }
                         }
                     ]
@@ -181,7 +181,7 @@
                                 "srs": "EPSG:3857"
                             },
                             "action": {
-                                "id": "getWms"
+                                "id": "wms"
                             },
                             "legend": {
                                 "colorScaleId": "rainbow",
@@ -199,6 +199,919 @@
             "label": "Idro",
             "maxNumber": 1,
             "options": [
+                {
+                    "id": "hydro_boxplot",
+                    "label": "Ensemble boxplot",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point--cluster",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Boxplot",
+                    "legend": {
+                        "colorScaleId": "alert",
+                        "labels": [
+                            "base",
+                            "ordinario",
+                            "medio",
+                            "straordinario"
+                        ],
+                        "steps": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "action": {
+                        "id": "hydro"
+                    }
+                },
+                {
+                    "id": "hydro_ensemble_multimodel",
+                    "label": "Ensemble multimodel",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_ensemble_multimodel_prod",
+                            "label": "Ensemble multimodel prod",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/EnsembleMultimodel",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_ensemble_multimodel_dev",
+                            "label": "Ensemble multimodel dev",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/EnsembleMultimodel-dev",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_magra",
+                    "label": "Magra",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_magra_multi_ensemble_H",
+                            "label": "Magra Multi Ensemble H",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraMultiEnsembleH",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_magra_multi_ensemble_Q",
+                            "label": "Magra Multi Ensemble Q",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraMultiEnsembleQ",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_magra_observations_H",
+                            "label": "Magra Observations H",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraObservationsH",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_magra_observations_Q",
+                            "label": "Magra Observations Q",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/MagraObservationsQ",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_now_casting",
+                    "label": "Now Casting",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_now_casting_main",
+                            "label": "Now Casting",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/NowcastingHydro",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_now_casting_com10025",
+                            "label": "Now Casting com10025",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/NowcastingHydroCom10025",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_rainfarm",
+                    "label": "Rainfarm",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_rainfarm_subjective",
+                            "label": "Rainfarm subjective",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RainfarmSubjective",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_subjective_auto",
+                            "label": "Rainfarm subjective auto",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RainfarmSubjectiveAuto",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_08+00",
+                            "label": "Rainfarm 08+00",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08+00",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_08+06",
+                            "label": "Rainfarm 08+06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08+06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_08-06",
+                            "label": "Rainfarm 08-06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08-06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_08-12",
+                            "label": "Rainfarm 08-12",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmbo08-12",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_22ar+00",
+                            "label": "Rainfarm 22ar+00",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm22ar+00",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_22ar-12",
+                            "label": "Rainfarm 22ar-12",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm22ar-12",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_5ar+00",
+                            "label": "Rainfarm 5ar+00",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm5ar+00",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_5ar-12",
+                            "label": "Rainfarm 5ar-12",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmlm5ar-12",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_molita_15sfc+00",
+                            "label": "Rainfarm molita_15sfc+00",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_molita_15sfc+06",
+                            "label": "Rainfarm molita_15sfc+06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_molita_15sfc-06",
+                            "label": "Rainfarm molita_15sfc-06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_rainfarm_molita_15sfc-12",
+                            "label": "Rainfarm molita_15sfc-12",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_rete_fiduciaria",
+                    "label": "Rete fiduciaria",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point--cluster",
+                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/ReteFiduciaria",
+                    "legend": {
+                        "colorScaleId": "alert",
+                        "labels": [
+                            "base",
+                            "ordinario",
+                            "medio",
+                            "straordinario"
+                        ],
+                        "steps": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "action": {
+                        "id": "hydro"
+                    }
+                },
+                {
+                    "id": "hydro_run_observations",
+                    "label": "Run observations",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_run_observation_umidita_suolo",
+                            "label": "Run observation umidità suolo",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservationsUmiditaSuolo",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_run_observation_10min",
+                            "label": "Run observation 10min",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_10min",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_run_observation_10minCom10025",
+                            "label": "Run observation 10minCom10025",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_10minCom10025",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_run_observation_60min",
+                            "label": "Run observation 60min",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_60min",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_run_observation_60min10025",
+                            "label": "Run observation 60min10025",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/RunObservations_60minCom10025",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_small_basins",
+                    "label": "Piccoli bacini",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_small_basins_radar",
+                            "label": "Piccoli bacini radar",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadar",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_small_basins_radar_com10025",
+                            "label": "Piccoli bacini radar com10025",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadarCom10025",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_small_basins_radar_esterni",
+                            "label": "Piccoli bacini radar esterni",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SmallBasinsRadarEsterni",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "hydro_soggettiva_automatica",
+                    "label": "Soggettiva automatica",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_soggettiva_automatica+00",
+                            "label": "Soggettiva automatica +00",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica+00",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_soggettiva_automatica+06",
+                            "label": "Soggettiva automatica +06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica+06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_soggettiva_automatica-06",
+                            "label": "Soggettiva automatica -06",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica-06",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        },
+                        {
+                            "id": "hydro_soggettiva_automatica-12",
+                            "label": "Soggettiva automatica -12",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/SoggettivaAutomatica-12",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
+                },
                 {
                     "id": "hydro_initial_condition",
                     "label": "Condizioni iniziali",
@@ -226,7 +1139,7 @@
                                 ]
                             },
                             "action": {
-                                "id": "clusterStations"
+                                "id": "hydro"
                             }
                         },
                         {
@@ -246,7 +1159,7 @@
                                 ]
                             },
                             "action": {
-                                "id": "clusterStations"
+                                "id": "hydro"
                             }
                         }
                     ]

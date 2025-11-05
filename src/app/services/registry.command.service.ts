@@ -1,14 +1,19 @@
-/** Libraries */
-import { Injectable, Injector, Type } from '@angular/core';
+/** Dependencies */
+import { Injectable, Injector, Type } from '@angular/core'
 
 /** Models */
-import { Command } from '../models';
+import { Command } from '../models'
 
 /** Services */
-import { GetAndRenderStationsCommandService } from './get-stations.command.service';
-import { GetWMSCommandService } from './get-wms.command.service';
-import { ClusterStationsService } from './cluster-stations.command.service';
-import { ClusterDateStationsService } from './cluster-date-stations.command.service';
+import { GetAndRenderStationsCommandService } from './get-stations.command.service'
+import { GetWMSCommandService } from './get-wms.command.service'
+import { ClusterStationsService } from './cluster-stations.command.service'
+import { ClusterDateStationsService } from './cluster-date-stations.command.service'
+
+import { HydroCommandService } from './command.hydro.service'
+import { LightningCommandService } from './command.lightning.service'
+import { PlatformsCommandService } from './command.platforms.service'
+import { WMSCommandService } from './command.wms.service'
 
 // Service
 @Injectable({
@@ -19,7 +24,12 @@ export class CommandsRegistryService {
     ['getStations', GetAndRenderStationsCommandService],
     ['getWms', GetWMSCommandService],
     ['clusterStations', ClusterStationsService],
-    ['clusterDateStations', ClusterDateStationsService]
+    ['clusterDateStations', ClusterDateStationsService],
+    
+    ['hydro', HydroCommandService],
+    ['lightning', LightningCommandService],
+    ['platforms', PlatformsCommandService],
+    ['wms', WMSCommandService]
   ]);
 
   constructor(private injector: Injector) { }
