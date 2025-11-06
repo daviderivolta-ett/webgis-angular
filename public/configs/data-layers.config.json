@@ -108,33 +108,6 @@
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "test_precipitations_00",
-                            "label": "Ultim'ora",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl.democontent.it/geoserver/ows",
-                            "params": {
-                                "layers": "radarRain1h",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:3857"
-                            },
-                            "legend": {
-                                "colorScaleId": "rainbow",
-                                "unit": "°C",
-                                "min": -20,
-                                "max": 40
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
-                        },
-                        {
                             "id": "maps_test_time_dimension",
                             "label": "Test WMS temporale",
                             "layerType": "wms",
@@ -156,41 +129,6 @@
                             }
                         }
                     ]
-                },
-                {
-                    "id": "maps_temperature",
-                    "label": "Temperatura",
-                    "iconUrl": "/images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "maps_temperature_mean",
-                            "label": "Media",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl.democontent.it/geoserver/ows",
-                            "params": {
-                                "layers": "tempMean",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.3.0",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:3857"
-                            },
-                            "action": {
-                                "id": "wms"
-                            },
-                            "legend": {
-                                "colorScaleId": "rainbow",
-                                "unit": "°C",
-                                "min": -20,
-                                "max": 40
-                            }
-                        }
-                    ]
                 }
             ]
         },
@@ -202,27 +140,34 @@
                 {
                     "id": "hydro_boxplot",
                     "label": "Ensemble boxplot",
-                    "layerType": "geojson",
-                    "layerCategory": "data_geojson-point--cluster",
-                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Boxplot",
-                    "parameter": "Boxplot",
-                    "legend": {
-                        "colorScaleId": "alert",
-                        "labels": [
-                            "base",
-                            "ordinario",
-                            "medio",
-                            "straordinario"
-                        ],
-                        "steps": [
-                            1,
-                            2,
-                            3
-                        ]
-                    },
-                    "action": {
-                        "id": "hydro"
-                    }
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_boxplot_main",
+                            "label": "Ensemble boxplot",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/Boxplot",
+                            "parameter": "Boxplot",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
                 },
                 {
                     "id": "hydro_ensemble_multimodel",
@@ -805,27 +750,34 @@
                 {
                     "id": "hydro_rete_fiduciaria",
                     "label": "Rete fiduciaria",
-                    "layerType": "geojson",
-                    "layerCategory": "data_geojson-point--cluster",
-                    "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/ReteFiduciaria",
-                    "parameter": "ReteFiduciaria",
-                    "legend": {
-                        "colorScaleId": "alert",
-                        "labels": [
-                            "base",
-                            "ordinario",
-                            "medio",
-                            "straordinario"
-                        ],
-                        "steps": [
-                            1,
-                            2,
-                            3
-                        ]
-                    },
-                    "action": {
-                        "id": "hydro"
-                    }
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "hydro_rete_fiduciaria",
+                            "label": "Rete fiduciaria",
+                            "layerType": "geojson",
+                            "layerCategory": "data_geojson-point--cluster",
+                            "url": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1/platforms/get/hydro/ReteFiduciaria",
+                            "parameter": "ReteFiduciaria",
+                            "legend": {
+                                "colorScaleId": "alert",
+                                "labels": [
+                                    "base",
+                                    "ordinario",
+                                    "medio",
+                                    "straordinario"
+                                ],
+                                "steps": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            },
+                            "action": {
+                                "id": "hydro"
+                            }
+                        }
+                    ]
                 },
                 {
                     "id": "hydro_run_observations",
@@ -1140,58 +1092,6 @@
                                     1,
                                     2,
                                     3
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "hydro_initial_condition",
-                    "label": "Condizioni iniziali",
-                    "iconUrl": "/images/icons/ssid_chart_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "hydro_test",
-                            "label": "Test cluster",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "mock_data/hydro_test_api.json",
-                            "legend": {
-                                "colorScaleId": "alert",
-                                "labels": [
-                                    "base",
-                                    "ordinario",
-                                    "medio",
-                                    "straordinario"
-                                ],
-                                "steps": [
-                                    1,
-                                    2,
-                                    3
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_initial_condition_wvc",
-                            "label": "Water Volume Column",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "mock_data/hydro_initial_condition_wvc_api.json",
-                            "legend": {
-                                "colorScaleId": "status",
-                                "labels": [
-                                    "off",
-                                    "on"
-                                ],
-                                "steps": [
-                                    0
                                 ]
                             },
                             "action": {
