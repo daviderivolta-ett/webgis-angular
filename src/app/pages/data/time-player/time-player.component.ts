@@ -2,12 +2,6 @@
 import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-/** Types */
-type TimePlayerOption = {
-  isPlaying: boolean,
-  date?: Date
-}
-
 /** Component */
 @Component({
   selector: 'app-time-player',
@@ -121,11 +115,6 @@ export class TimePlayerComponent {
   }
 
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
-    // const hour: number = date.getHours();
-    // const newDate: Date = date;
-    // const newHour = (direction === 'backward') ? (hour - 1) : (hour + 1);
-    // newDate.setHours(newHour);
-
     const minutes: number = date.getMinutes();
     const newDate: Date = date;
     const newMinutes = (direction === 'backward') ? (minutes - 5) : (minutes + 5);
