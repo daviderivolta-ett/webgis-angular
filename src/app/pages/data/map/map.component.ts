@@ -127,13 +127,13 @@ export class MapComponent {
     const result = this._getMultiMarkersData(nearbyMarkers, 'group');
     let data: Record<string, any>[];
     data = Array.isArray(result) ? result : [result];
-   
-    this.markerClicked.emit(data);   
+
+    this.markerClicked.emit(data);
 
     if (this._popup && this._popupElement) {
       const subscription = this.ngZone.onStable.subscribe(() => {
         const popup: L.Popup = this.openCustomPopup(this._popupElement.nativeElement, nearbyMarkers[0].getLatLng());
-        
+
         const btn: HTMLButtonElement | undefined | null = popup.getElement()?.querySelector('#map-popup-btn');
         btn?.addEventListener('click', () => this.popupClicked.emit(this._popup.data()));
 
@@ -141,7 +141,7 @@ export class MapComponent {
           this.markerClicked.emit([]);
           btn?.removeEventListener('click', () => this.popupClicked.emit(this._popup.data()));
         });
-        
+
         subscription.unsubscribe();
       });
     }
@@ -187,8 +187,7 @@ export class MapComponent {
   /** Add GeoJSON layer */
   public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>): void {
     const shapeKey: number = this._getNextAvailableMarkerShape();
-    const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
-
+    const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;   
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
@@ -371,7 +370,7 @@ export class MapComponent {
     const found = Array.from((layer as L.LayerGroup).getLayers()).find((l: L.Layer) => {
       const marker = l as L.Marker & { _shapeKey?: number };
       return marker._shapeKey !== undefined;
-    });
+    });  
     return (found as L.Marker & { _shapeKey?: number })?._shapeKey;
   }
 

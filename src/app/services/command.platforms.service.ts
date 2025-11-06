@@ -24,15 +24,18 @@ export class PlatformsCommandService implements Command {
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addCustomMarkerPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
-            if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
+            
+            const url: string = date ? this._createUrlWithDate(layer.url, date) : layer.url;           
 
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(layer.url, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(url, token);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
             
+            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
+
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -92,5 +95,10 @@ export class PlatformsCommandService implements Command {
         }
 
         return defaultShapeId;
+    }
+
+    private _createUrlWithDate(url: string, date: Date): string {
+        const halfHour: number = 30 * 60 * 1000;
+        return `${url}?fromDate=${this.apiService.formatDate(new Date(date.getTime() - halfHour))}&toDate=${this.apiService.formatDate(new Date(date.getTime() + halfHour))}`;
     }
 }

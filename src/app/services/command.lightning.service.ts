@@ -40,6 +40,8 @@ export class LightningCommandService implements Command {
                 }, {});
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
+
+            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
           
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {

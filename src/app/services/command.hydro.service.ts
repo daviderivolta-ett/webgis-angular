@@ -42,6 +42,8 @@ export class HydroCommandService implements Command {
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
+            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
+
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {
             if (error instanceof Error) throw error;
@@ -88,7 +90,7 @@ export class HydroCommandService implements Command {
     private _createUrlWithDate(url: string, date?: Date): string {
         const d = date || new Date();
         const formatted = this.apiService.formatDate(d);
-        // return formatted;
-        return `${url}?time=2024-10-18%2000%3A02`
+        return `${url}?${formatted}`;
+        // return `${url}?time=2024-10-18%2000%3A02`
     }
 }

@@ -291,7 +291,6 @@ export class DataPageComponent {
     stations.forEach((s: Station) => {
       switch (s.type) {
         case 'hydro':
-
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this._selectedDate ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error');
@@ -435,6 +434,7 @@ export class DataPageComponent {
     } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false);
       this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error');
+      throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
     }
   }
 

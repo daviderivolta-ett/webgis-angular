@@ -17,7 +17,7 @@ export class LayersService {
   public checkLayerCategories(layer: Layer, isChecked: boolean, currentLayers: Map<string, string[]>, layerCategories: Map<string, LayerCategory>): Map<string, string[]> {
     const layerCategoryId: string | undefined = layer.layerCategory;
     if (!layerCategoryId) {
-      console.warn('L\'ID della categoria è undefined, oerazione saltata.');
+      console.warn('L\'ID della categoria è undefined, operazione saltata.');
       return currentLayers;
     }
 
