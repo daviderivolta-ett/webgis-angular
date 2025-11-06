@@ -1,0 +1,10 @@
+services:
+  omirl-frontend:
+    image: omirl
+    container_name: omirl-frontend
+    environment:
+      href: /
+    volumes:
+      - C:\Users\rvldvd92h\Progetti\arpal\omirl-angular\public\configs:/usr/share/nginx/html/configs
+    ports:
+      - 8080:80
