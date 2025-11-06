@@ -57,7 +57,7 @@ export class TimePlayerComponent {
 
   private _onFormChange(changes: any): void {
     this.setIsPlaying(false);
-    
+
     if (!('date' in changes) || typeof changes['date'] !== 'string' || changes['date'] === '') {
       this.onToggle.emit(undefined);
       return;
@@ -113,14 +113,23 @@ export class TimePlayerComponent {
     const day: string = splittedDate[0];
     const hourAndMinutes: string = splittedDate[1];
     const hour: string = hourAndMinutes.split(':')[0];
-    return `${day}T${hour}:00`;
+    const minutes: string = hourAndMinutes.split(':')[1];
+    const num: number = parseInt(minutes);
+    const newMinutes: number = (num % 5 === 0) ? num : num - (num % 5);
+    const newMinutesStr: string = newMinutes.toString().padStart(2, '0');
+    return `${day}T${hour}:${newMinutesStr}`;
   }
 
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
-    const hour: number = date.getHours();
+    // const hour: number = date.getHours();
+    // const newDate: Date = date;
+    // const newHour = (direction === 'backward') ? (hour - 1) : (hour + 1);
+    // newDate.setHours(newHour);
+
+    const minutes: number = date.getMinutes();
     const newDate: Date = date;
-    const newHour = (direction === 'backward') ? (hour - 1) : (hour + 1);
-    newDate.setHours(newHour);
+    const newMinutes = (direction === 'backward') ? (minutes - 5) : (minutes + 5);
+    newDate.setMinutes(newMinutes);
     return newDate;
   }
 
