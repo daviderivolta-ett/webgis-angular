@@ -429,6 +429,7 @@ export class DataPageComponent {
         date,
         colorScale,
         layer,
+        baseUrl: this.apiBaseUrl,
         token: this.authService.getAccessToken()
       });
     } catch (err: unknown) {

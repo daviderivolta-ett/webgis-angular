@@ -19,14 +19,15 @@ export class HydroCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, token } = args;
+        const { map, date, colorScale, layer, baseUrl, token } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addClusterPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
-            const url = this._createUrlWithDate(layer.url, date);
 
-            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(url, token);
+            const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
+            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : url;
+            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'hydro');
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
@@ -90,7 +91,7 @@ export class HydroCommandService implements Command {
     private _createUrlWithDate(url: string, date?: Date): string {
         const d = date || new Date();
         const formatted = this.apiService.formatDate(d);
-        return `${url}?${formatted}`;
-        // return `${url}?time=2024-10-18%2000%3A02`
+        const encodedTime = encodeURIComponent(formatted);
+        return `${url}?time=${encodedTime}`;
     }
 }

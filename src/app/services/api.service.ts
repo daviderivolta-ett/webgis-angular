@@ -51,6 +51,10 @@ export class ApiService {
     return url.replace(/{(\w+)}/g, param);
   }
 
+  public replaceApiBaseUrl(url: string, param: string): string {
+    return url.replace(/\{\{BASE_URL\}\}/, param);
+  }
+
   public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {
     const url = new URL(baseurl);
     Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));
