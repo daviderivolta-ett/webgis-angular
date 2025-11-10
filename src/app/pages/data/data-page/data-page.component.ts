@@ -165,7 +165,7 @@ export class DataPageComponent {
   public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
+      .then((stations) => {      
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
       .catch(() => {

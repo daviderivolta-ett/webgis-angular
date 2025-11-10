@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, StationBase } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, StationsService } from '../../../services';
+import { ApiService, AuthService, SnackbarsService, StationsService } from '../../../services';
 import { Utils } from '../../../utils';
 
 /** Components */
@@ -38,6 +38,7 @@ export class StationsSettingsPageComponent {
   /** Data */
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationParametersUrl; // Recovered from route resolver in constructor
+  public stationParametersPatchUrl; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   public filteredStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
@@ -46,10 +47,12 @@ export class StationsSettingsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
-    private stationsService: StationsService
+    private stationsService: StationsService,
+    private snackbarsService: SnackbarsService
   ) {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.stationParametersPatchUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
   }
 
   /** Component lifecycle */
@@ -103,10 +106,15 @@ export class StationsSettingsPageComponent {
     const changes: Record<string, any[]> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
     const result = this._createStationsOnFormChanges(changes);
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
-    console.log(post);
-    /** POST */
 
-    /** POST */
     this.isLoading = true;
+    try {
+      this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.authService.getAccessToken());
+    } catch (error: unknown) {
+      this.snackbarsService.createSnackbar(error instanceof Error ? error.message : 'Errore nel recupero dei parametri delle stazioni', 'error', true);
+    } finally {
+      this.isLoading = false;
+      this.form.markAsPristine();
+    }
   }
 }

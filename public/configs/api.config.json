@@ -3,6 +3,7 @@
         "baseUrl": "https://gtw-api-gw-omirl.democontent.it/govway/Omirl/stations-app/v1",
         "parameters": "/parameters/get/all",
         "stationParameters": "/platforms/get/parameter/all",
+        "stationParametersPatch": "/platforms/update/parameter",
         "timeseries": "/platforms/get/{stationId}/timeserie",
         "periods": "",
         "hydroImgs": "/platforms/get/hydro/{model}"

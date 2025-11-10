@@ -39,6 +39,23 @@ export class StationsService {
       })
   }
 
+  public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    fetch(url, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(obj)
+    })
+      .then((res: Response) => {
+        if (!res.ok) throw new Error(`Errore durante l'aggiornamento dei parametri delle stazioni.`);
+      })
+      .catch((err: unknown) => {
+        throw new Error(err instanceof Error ? err.message : `Errore durante l'aggiornamento dei parametri delle stazioni.`);
+      })
+  }
+
   public async getTimeSerie(url: string, stationId: string, param: string, initialDate: string, endingDate: string, token?: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
@@ -82,7 +99,7 @@ export class StationsService {
       .then((data: any) => {
         return `data:${data['mimeType']};base64,${data['base64Data']}`;
       })
-      .catch((err: unknown) => {      
+      .catch((err: unknown) => {
         throw new Error(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`);
       });
   }

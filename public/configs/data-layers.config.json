@@ -47,7 +47,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "{{BASE_URL}}/platforms/get/all/mean_wind_speed",
+                    "url": "{{BASE_URL}}/platforms/get/all/mean_wind_speed?ExtraParam=wind_gust",
                     "parameter": "mean_wind_speed",
                     "legend": {
                         "colorScaleId": "heatmap",
@@ -93,42 +93,6 @@
                     "action": {
                         "id": "lightning"
                     }
-                }
-            ]
-        },
-        {
-            "id": "maps",
-            "label": "Mappe",
-            "maxNumber": 1,
-            "options": [
-                {
-                    "id": "maps_precipitations",
-                    "label": "Precipitazioni",
-                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "maps_test_time_dimension",
-                            "label": "Test WMS temporale",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "url": "https://ogcie.iblsoft.com/metocean/wms",
-                            "params": {
-                                "layers": "gfs-temperature-isbl",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "opacity": 0.5,
-                            "action": {
-                                "id": "wms"
-                            }
-                        }
-                    ]
                 }
             ]
         },

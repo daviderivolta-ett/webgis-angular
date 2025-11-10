@@ -28,6 +28,7 @@ export class PlatformsCommandService implements Command {
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : url;
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
+            console.log(geoJSON);            
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
