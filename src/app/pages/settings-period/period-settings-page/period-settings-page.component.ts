@@ -1,9 +1,9 @@
 /** Libraries */
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /** Services */
-import { ApiService } from '../../../services';
+import { ApiService, AuthService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from "../../../components";
@@ -33,15 +33,23 @@ export class PeriodSettingsPageComponent {
   });
 
   /** Data */
+  public user: Record<string, any> | null = null;
+
   public apiBaseUrl; // Recovered from route resolver in constructor
   public periodsUrl; // Recovered from route resolver in constructor
 
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
     private apiService: ApiService
   ) {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.periodsUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('periods'));
+
+    /** Effetcs */
+    effect(() => {
+      this.user = this.authService.user();
+    });
   }
 
   /** Component lifecycle */

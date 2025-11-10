@@ -1,5 +1,5 @@
 // Libraries
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models';
 
 // Services
-import { ApiService } from '../../../services';
+import { ApiService, AuthService } from '../../../services';
 
 // Components
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent } from '../../../components';
@@ -46,6 +46,8 @@ export class TablesPageComponent {
   public filters: FormGroup = new FormGroup({});
 
   /** Data */
+  public user: Record<string, any> | null = null;
+
   public data: Table = new Table();
   public sortedData: Table = new Table();
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
@@ -55,10 +57,16 @@ export class TablesPageComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private apiService: ApiService
   ) {
     // Get data from resolvers
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
+
+    /** Effetcs */
+    effect(() => {
+      this.user = this.authService.user();
+    });
   }
 
   // Component lifecycle
@@ -77,15 +85,15 @@ export class TablesPageComponent {
       .map((g: TableConfigGroup) => g.getTableConfig(id))
       .find((g) => g !== undefined);
 
-    if (!config) {     
+    if (!config) {
       this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
       return;
-    }   
+    }
     const response = await this.apiService.getApiJSONData(config.url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       });
-   
+
     this.data = this.sortedData = Table.generateTableStructure(response[config.dataField ?? config.id], 'name');
     this.updateTime = new Date(response['updateDateTime']);
     this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);

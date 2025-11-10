@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -36,6 +36,8 @@ export class StationsSettingsPageComponent {
   public isLoading: boolean = false;
 
   /** Data */
+  public user: Record<string, any> | null = null;
+
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationParametersUrl; // Recovered from route resolver in constructor
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
@@ -53,6 +55,11 @@ export class StationsSettingsPageComponent {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.stationParametersPatchUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
+
+    /** Effetcs */
+    effect(() => {
+      this.user = this.authService.user();
+    });
   }
 
   /** Component lifecycle */

@@ -1,5 +1,8 @@
 // Libraries
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
+
+/** Services */
+import { AuthService } from '../../../services';
 
 // Components
 import { HeaderComponent } from '../../../components/header/header.component';
@@ -14,5 +17,13 @@ import { HeaderComponent } from '../../../components/header/header.component';
   styleUrl: './radars-page.component.scss'
 })
 export class RadarsPageComponent {
+  /** Data */
+  public user: Record<string, any> | null = null;
 
+  constructor(private authService: AuthService) {
+    /** Effetcs */
+    effect(() => {
+      this.user = this.authService.user();
+    });
+  }
 }

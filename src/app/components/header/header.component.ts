@@ -1,5 +1,5 @@
 // Libraries
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 // Components
 import { NavMenuComponent } from '../nav-menu/nav-menu.component';
@@ -16,5 +16,5 @@ import { AuthComponent } from '../auth/auth.component';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
+  public isAuth = input<boolean>(false);
 }

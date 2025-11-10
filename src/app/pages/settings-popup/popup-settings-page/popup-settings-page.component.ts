@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { createStationPopupConfigFromObject, StationPopupConfig } from '../../../models';
 
 /** Services */
-import { PopupService } from '../../../services';
+import { AuthService, PopupService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components';
@@ -37,14 +37,22 @@ export class PopupSettingsPageComponent {
   public isLoading = false;
 
   /** Data */
+  public user: Record<string, any> | null = null;
+  
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
 
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
     private popupService: PopupService
   ) {
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.form = this._createStationPopupConfigForm(this.stationPopupConfig);
+
+    /** Effetcs */
+    effect(() => {
+      this.user = this.authService.user();
+    });
   }
 
   /** Methods */
@@ -62,7 +70,7 @@ export class PopupSettingsPageComponent {
     this.isLoading = true;
     this.popupService.savePopupConfig(createStationPopupConfigFromObject(this.form.value))
       .catch((err: unknown) => {
-        console.error(err);        
+        console.error(err);
       })
       .finally(() => {
         this.form.markAsPristine();
