@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -16,10 +16,10 @@ import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
+import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
 
 /** Utilities */
 import { Utils } from '../../../utils';
-import { MapChartDatepickerComponent } from "../map-chart-datepicker/map-chart-datepicker.component";
 
 /** Component */
 @Component({
@@ -71,6 +71,7 @@ export class DataPageComponent {
   @ViewChildren('groupedCheckbox') _groupedCheckboxes!: QueryList<GroupedCheckboxesComponent>;
   @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
   @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
+  @ViewChild('legendsMenu') _legendsMenu!: PopUpMenuComponent;
 
   /** Listeners */
   @HostListener('window:resize', ['$event'])
@@ -103,6 +104,7 @@ export class DataPageComponent {
 
   /** Constructor */
   constructor(
+    private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
@@ -136,9 +138,7 @@ export class DataPageComponent {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
-      if (!this.user && currentUser) {
-        this.setDataFromApi();
-      }
+      if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
     });
   }
@@ -165,7 +165,7 @@ export class DataPageComponent {
   public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {      
+      .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
       .catch(() => {
@@ -196,7 +196,7 @@ export class DataPageComponent {
         ...group,
         isVisible: found?.requiresAuth ? isAuth : true
       })
-    });   
+    });
   }
 
   /** Actions */
@@ -254,7 +254,9 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels() });
+    this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: new Date() });
+    this.cdRef.detectChanges();
+    this._legendsMenu.togglePopUpMenu(true);
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -279,7 +281,6 @@ export class DataPageComponent {
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-
     });
 
     this.popupData = [...stations];

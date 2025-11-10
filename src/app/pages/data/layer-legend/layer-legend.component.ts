@@ -1,10 +1,13 @@
 /** Libraries */
-import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 /** Component */
 @Component({
   selector: 'app-layer-legend',
-  imports: [],
+  imports: [
+    DatePipe
+  ],
   templateUrl: './layer-legend.component.html',
   styleUrl: './layer-legend.component.scss'
 })
@@ -14,6 +17,7 @@ export class LayerLegendComponent {
   public unit = input<string | undefined>(undefined);
   public colors = input<string[]>([]);
   public labels = input<string[]>([]);
+  public date = input<Date>(new Date());
 
   /** User Interface */
   public elementWidth: number = 0;

@@ -208,7 +208,7 @@ export class MapComponent {
       },
       ...options
     });
-
+  
     layer.addTo(this._map);
     this._registerLayer(id, layer, shapeFactory('grey', 'transparent'));
 
@@ -268,7 +268,7 @@ export class MapComponent {
       }
 
     });
-
+  
     this._map.addLayer(markers);
     this._registerLayer(id, markers);
   }
