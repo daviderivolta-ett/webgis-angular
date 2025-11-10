@@ -134,7 +134,11 @@ export class DataPageComponent {
     /** Effetcs */
     effect(() => {
       const currentUser = this.authService.user();
-      if (!this.user && currentUser) this.setDataFromApi();
+      const isAuth: boolean = currentUser ? true : false;
+      this._changeCheckboxesVisibility(isAuth);
+      if (!this.user && currentUser) {
+        this.setDataFromApi();
+      }
       this.user = currentUser;
     });
   }
@@ -165,7 +169,7 @@ export class DataPageComponent {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
       .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error');
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
       })
       .finally(() => {
         this.isLoading = false;
@@ -177,11 +181,22 @@ export class DataPageComponent {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
       })
       .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error');
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
       })
       .finally(() => {
         this.isLoading = false;
       })
+  }
+
+  private _changeCheckboxesVisibility(isAuth: boolean) {
+    const allLayerGroups: LayerGroup[] = LayerGroup.getAllLayerGroups(this.dataLayers);
+    this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
+      const found = allLayerGroups.find((layerGroup: LayerGroup) => layerGroup.id === group.id);
+      return GroupedCheckboxItem.createFromObject({
+        ...group,
+        isVisible: found?.requiresAuth ? isAuth : true
+      })
+    });   
   }
 
   /** Actions */
@@ -293,7 +308,7 @@ export class DataPageComponent {
         case 'hydro':
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this._selectedDate ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
-              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error');
+              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
             })
           hydroPromises.push(promise);
@@ -384,8 +399,8 @@ export class DataPageComponent {
   private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
     const newCheckboxes: GroupedCheckboxItem[] = [];
     for (const group of groupedCheckboxes) {
-      const newGroup = group.checkNestedCheckbox(this.currentDataLayers.toArray());
-      newCheckboxes.push(newGroup)
+      const checkedGroup = group.checkNestedCheckbox(this.currentDataLayers.toArray());
+      newCheckboxes.push(checkedGroup);
     }
     return newCheckboxes;
   }
@@ -434,7 +449,7 @@ export class DataPageComponent {
       });
     } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false);
-      this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error');
+      this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
     }
   }

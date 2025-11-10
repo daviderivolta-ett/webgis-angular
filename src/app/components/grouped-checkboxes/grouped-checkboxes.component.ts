@@ -12,6 +12,7 @@ type GroupedCheckbox = {
   maxSelections?: number;
   isChecked?: boolean;
   isDisabled?: boolean;
+  isVisible?: boolean;
 }
 
 // Component
@@ -29,10 +30,6 @@ export class GroupedCheckboxesComponent {
   public changed = output<{ id: string, isChecked: boolean }>();
 
   constructor() { }
-
-  // Component lifecycle
-  public ngOnInit(): void {
-  }
 
   // Methods
   public onCheckboxChange(group: GroupedCheckbox, event: Event): void {

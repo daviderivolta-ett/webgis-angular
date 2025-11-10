@@ -136,6 +136,7 @@
             "id": "hydro",
             "label": "Idro",
             "maxNumber": 1,
+            "requiresAuth": true,
             "options": [
                 {
                     "id": "hydro_boxplot",

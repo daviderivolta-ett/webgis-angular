@@ -9,6 +9,7 @@ export class LayerGroup {
     public maxNumber?: number;
     public iconUrl?: string;
     public options?: (LayerGroup | Layer)[];
+    public requiresAuth?: boolean;
 
     constructor(id: string) {
         this.id = id;
@@ -24,6 +25,7 @@ export class LayerGroup {
         if ('label' in object && typeof object['label'] === 'string') layerGroup.label = object['label'];
         if ('maxNumber' in object && typeof object['maxNumber'] === 'number') layerGroup.maxNumber = object['maxNumber'];
         if ('iconUrl' in object && typeof object['iconUrl'] === 'string') layerGroup.iconUrl = object['iconUrl'];
+        layerGroup.requiresAuth = ('requiresAuth' in object && typeof object['requiresAuth'] === 'boolean') ? object['requiresAuth'] : false;
 
         if ('options' in object && Array.isArray(object['options'])) {
             layerGroup.options = object['options'].map((el: any) => {
@@ -85,6 +87,45 @@ export class LayerGroup {
         }
 
         return layers;
+    }
 
+    static getAllLayerGroups(groups: LayerGroup[]): LayerGroup[] {
+        let result: LayerGroup[] = [];
+
+        for (const group of groups) {
+            result.push(group);
+
+            if (group.options) {
+                for (const option of group.options) {
+                    if (option instanceof LayerGroup) {
+                        result.push(option);
+                        result.push(...this.getAllLayerGroups([option]));
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    static getAuthLayerGroups(groups: LayerGroup[], isAuth: boolean) {      
+        let result: string[] = [];
+
+        for (const group of groups) {
+            if (!group.requiresAuth || isAuth) result.push(group.id);
+
+            if (group.options) {
+                for (const option of group.options) {
+                    if (option instanceof LayerGroup) {
+                        if (!option.requiresAuth || isAuth) result.push(option.id);
+                        result.push(...this.getAuthLayerGroups([option], isAuth));
+                    } else {
+                        result.push(option.id);
+                    }
+                }
+            }
+        }
+       
+        return result;
     }
 }

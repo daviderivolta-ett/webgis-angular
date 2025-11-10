@@ -19,14 +19,15 @@ export class LightningCommandService implements Command {
 
     /** Command */
     public async execute(args: any): Promise<void> {
-        const { map, date, colorScale, layer, token } = args;
+        const { map, date, colorScale, layer, baseUrl, token } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addClusterPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
             if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
-
-            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(layer.url, token);
+        
+            const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;   
+            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(url, token);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'lightning');
 

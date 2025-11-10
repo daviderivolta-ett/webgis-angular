@@ -41,6 +41,7 @@ export class MapComponent {
   private _layers = new Map<string, L.Layer>();
 
   /** Time dimension properties */
+  public isTimeDimensionVisible = input<boolean>(false);
   public isLoading = model<boolean>(false);
   private _selectedDate: Date | undefined = undefined;
 
@@ -227,13 +228,12 @@ export class MapComponent {
     });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
-    timeDimensionLayer.addTo(this._map);
+    try {
+      timeDimensionLayer.addTo(this._map);      
+    } catch (error: unknown) {
+      throw new Error(error instanceof Error ? error.message : `Errore nell'aggiunta del layer alla mappa.`);
+    }
     this._registerLayer(id, timeDimensionLayer);
-
-    setTimeout(() => {
-      // @ts-ignore
-      console.log(this._map.timeDimension.getAvailableTimes());
-    }, 2000);
   }
 
   /** Add GeoJSON layer with donut cluster */
