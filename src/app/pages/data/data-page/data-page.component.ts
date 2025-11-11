@@ -81,6 +81,7 @@ export class DataPageComponent {
 
   /** Data */
   public user: Record<string, any> | null = null;
+  public refreshLayersId: number | null = null;
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
 
@@ -257,6 +258,11 @@ export class DataPageComponent {
     this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: new Date() });
     this.cdRef.detectChanges();
     this._legendsMenu.togglePopUpMenu(true);
+
+    if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
+    this.refreshLayersId = window.setInterval(() => {
+      this._refreshLayers();
+    }, 300000);
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -264,6 +270,22 @@ export class DataPageComponent {
     if (!id) return;
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
     this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
+  }
+
+  private _refreshLayers(): void {
+    const currentLayerIds = Array.from(this._currentDataLayers.values()).flat();
+
+    if (currentLayerIds.length === 0) {
+      if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
+      return;
+    }
+
+    const allLayers = LayerGroup.getAllLayers(this.dataLayers);
+    const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
+    currentLayers.forEach((l: Layer) => {
+      this._map.removeLayerById(l.id);
+      this._executeAction(l, this._selectedDate);
+    });
   }
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
@@ -385,15 +407,15 @@ export class DataPageComponent {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
-    this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked);
+    this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
   }
 
-  private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean): void {
+  private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean, isAuth: boolean): void {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
-    this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories);
+    this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories, isAuth);
     this.groupedCheckboxes = this._redrawGroupedCheckboxes(this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
   }
 
@@ -449,7 +471,7 @@ export class DataPageComponent {
         token: this.authService.getAccessToken()
       });
     } catch (err: unknown) {
-      this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false);
+      this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
       this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
     }
@@ -480,7 +502,7 @@ export class DataPageComponent {
       .then((results) => {
         const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
         const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
-        fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true));
+        fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
   }
 }

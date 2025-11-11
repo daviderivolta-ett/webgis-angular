@@ -35,8 +35,8 @@ export class PlatformsCommandService implements Command {
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
             
             if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
-
-            map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer });
+           
+            map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, !token && 1);
         } catch (error) {
             if (error instanceof Error) throw error;
             else throw new Error(`Errore nell'esecuzione del comando.`);

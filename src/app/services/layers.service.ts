@@ -14,14 +14,14 @@ export class LayersService {
   */
 
   /** Return current layers Map based on layer categories, their maxNumber and incompatibilities */
-  public checkLayerCategories(layer: Layer, isChecked: boolean, currentLayers: Map<string, string[]>, layerCategories: Map<string, LayerCategory>): Map<string, string[]> {
+  public checkLayerCategories(layer: Layer, isChecked: boolean, currentLayers: Map<string, string[]>, layerCategories: Map<string, LayerCategory>, isAuth: boolean): Map<string, string[]> {
     const layerCategoryId: string | undefined = layer.layerCategory;
     if (!layerCategoryId) {
       console.warn('L\'ID della categoria è undefined, operazione saltata.');
       return currentLayers;
     }
 
-    const layerCategory: LayerCategory | undefined = layerCategories.get(layerCategoryId);
+    const layerCategory: LayerCategory | undefined = layerCategories.get(layerCategoryId);   
     if (!layerCategory) {
       console.warn('Layer category non trovato per l\'ID:', layerCategoryId);
       return currentLayers;
@@ -32,7 +32,7 @@ export class LayersService {
 
     if (isChecked) {
       this._clearIncompatibleCategories(layerCategory.incompatibleWith, updatedCurrentLayers);
-      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, layerCategory.maxNumber);
+      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, isAuth ? layerCategory.maxNumber : 1);
       updatedCurrentLayers.set(layerCategoryId, updatedLayers);
     } else {
       const updatedLayers = existingLayers.filter(id => id !== layer.id);
