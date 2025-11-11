@@ -212,7 +212,7 @@
                 },
                 {
                     "id": "station_radiations",
-                    "label": "Radiazioni",
+                    "label": "Radiazione solare",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",

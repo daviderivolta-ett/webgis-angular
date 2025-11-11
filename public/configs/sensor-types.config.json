@@ -2,8 +2,26 @@
     "types": [
         {
             "id": "rain_01h",
-            "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 1 ora",
+            "unit": "mm"
+        },
+        {
+            "id": "rain_03h",
+            "iconUrl": "./images/icons/rain_03h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 3 ore",
+            "unit": "mm"
+        },
+        {
+            "id": "rain_06h",
+            "iconUrl": "./images/icons/rain_06h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 6 ore",
+            "unit": "mm"
+        },
+        {
+            "id": "rain_07d",
+            "iconUrl": "./images/icons/rain_07d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 7 giorni",
             "unit": "mm"
         },
         {
@@ -13,65 +31,101 @@
             "unit": "mm"
         },
         {
-            "id": "mean_air_temp",
-            "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura",
+            "id": "min_air_temp",
+            "iconUrl": "./images/icons/min_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Temperatura minima",
             "unit": "°C"
         },
         {
-            "id": "idro",
+            "id": "mean_air_temp",
+            "iconUrl": "./images/icons/mean_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Temperatura media",
+            "unit": "°C"
+        },
+        {
+            "id": "max_air_temp",
+            "iconUrl": "./images/icons/max_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Temperatura massima",
+            "unit": "°C"
+        },
+        {
+            "id": "mean_creek_level",
+            "iconUrl": "./images/icons/mean_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Livello idrometrici medi",
+            "unit": "m"
+        },
+        {
+            "id": "max_creek_level",
+            "iconUrl": "./images/icons/max_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Livello idrometrici massimi",
+            "unit": "m"
+        },
+        {
+            "id": "instant_creek_level",
             "iconUrl": "./images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Livello idrometrici",
+            "label": "Livello idrometrici istantanei",
             "unit": "m"
         },
         {
             "id": "mean_wind_speed",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Vento",
+            "label": "Velocità del vento media",
+            "unit": "km/h"
+        },
+        {
+            "id": "wind_gust",
+            "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Raffiche di vento",
             "unit": "km/h"
         },
         {
             "id": "humidity",
             "iconUrl": "./images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Umidità",
+            "label": "Umidità dell'aria",
             "unit": "%"
         },
         {
-            "id": "radio",
+            "id": "solar_radiation_pwr",
+            "iconUrl": "./images/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Radiazione solare",
+            "unit": "Wm⁻²"
+        },
+        {
+            "id": "sunshine_duration",
             "iconUrl": "./images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Eliofanie",
             "unit": "%"
         },
         {
-            "id": "foglie",
+            "id": "leaf_wetness",
             "iconUrl": "./images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Copertura fogliare",
+            "label": "Copertura foliare",
             "unit": "%"
         },
         {
-            "id": "press",
+            "id": "mean_sea_level_press",
             "iconUrl": "./images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pressione atmosferica",
             "unit": "hPa"
         },
         {
-            "id": "batt",
+            "id": "battery_voltage",
             "iconUrl": "./images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Tensione batteria",
             "unit": "V"
         },
         {
-            "id": "boa",
+            "id": "mean_wave_height",
             "iconUrl": "./images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Stato del mare",
             "unit": "m"
         },
         {
-            "id": "neve",
+            "id": "mean_snow_depth",
             "iconUrl": "./images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Neve",
             "unit": "cm"
         }
     ],
-    "lastModified": "2025-08-10"
+    "lastModified": "2025-11-11"
 }
