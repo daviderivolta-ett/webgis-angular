@@ -76,23 +76,6 @@
                     "action": {
                         "id": "platforms"
                     }
-                },
-                {
-                    "id": "station_lightning",
-                    "label": "Fulminazioni",
-                    "layerType": "geojson",
-                    "layerCategory": "data_geojson-point--cluster",
-                    "iconUrl": "./images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "{{BASE_URL}}/lamps/get/all",
-                    "legend": {
-                        "colorScaleId": "elapsed-time",
-                        "unit": "h",
-                        "min": 0,
-                        "max": 24
-                    },
-                    "action": {
-                        "id": "lightning"
-                    }
                 }
             ]
         },
