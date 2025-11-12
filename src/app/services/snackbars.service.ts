@@ -11,9 +11,10 @@ import { Snackbar } from '../models';
 export class SnackbarsService {
   public snackbars = signal<Snackbar[]>([]);
 
-  public createSnackbar(text: string, type: 'success' | 'error', isAutoDismissed: boolean = false): void {   
+  public createSnackbar(text: string, type: 'success' | 'error' | 'loader', isAutoDismissed: boolean = false): string {   
     const snackbar: Snackbar = new Snackbar(text, type, isAutoDismissed);  
     this.snackbars.update((oldValue: Snackbar[]) => [...oldValue, snackbar]);
+    return snackbar.id;
   }
 
   public removeSnackbar(id: string): void {

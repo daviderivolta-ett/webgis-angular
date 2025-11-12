@@ -45,6 +45,10 @@
     }
 }
 
+.spinner::before {
+    border-width: 3px;
+}
+
 @media screen and (max-width: 576px) {
     .snackbar {
         width: 100%;

@@ -428,6 +428,15 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
+  private _toggleGroupedCheckboxes(areDisabled: boolean, groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
+    const newCheckboxes: GroupedCheckboxItem[] = [];
+    for (const group of groupedCheckboxes) {
+      const checkedGroup = group.toggleNestedCheckbox(areDisabled);
+      newCheckboxes.push(checkedGroup);
+    }
+    return newCheckboxes;
+  }
+
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
@@ -461,7 +470,10 @@ export class DataPageComponent {
       if (baseColorScale) colorScale = new ColorScale(baseColorScale, layer.legend);
     }
 
+    const snackbarId = this.snackbarsService.createSnackbar(`Caricamento layer ${layer.label}`, 'loader', false);
     try {
+      this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
+
       await command.execute({
         map: this._map,
         date,
@@ -470,10 +482,16 @@ export class DataPageComponent {
         baseUrl: this.apiBaseUrl,
         token: this.authService.getAccessToken()
       });
+
     } catch (err: unknown) {
+
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
       this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
+
+    } finally {
+      this.snackbarsService.removeSnackbar(snackbarId);
+      this.groupedCheckboxes = this._toggleGroupedCheckboxes(false, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
     }
   }
 

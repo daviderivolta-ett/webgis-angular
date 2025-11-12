@@ -10,7 +10,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class SnackbarComponent {
   public text = input<string>('');
-  public type = input<'success' | 'error'>('success');
+  public type = input<'success' | 'error' | 'loader'>('success');
   public isAutoDismissed = input<boolean>(false);
   public onBtnClicked = output();
 

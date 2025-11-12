@@ -58,6 +58,18 @@ export class GroupedCheckboxItem extends TreeNode {
         return cloned;
     }
 
+    public toggleNestedCheckbox(areDisabled: boolean, group: GroupedCheckboxItem = this): GroupedCheckboxItem {
+        const cloned: GroupedCheckboxItem = group.clone();
+
+        cloned.isDisabled = areDisabled;
+
+        if (cloned.options) {
+            cloned.options = cloned.options.map(child => this.toggleNestedCheckbox(areDisabled, child));
+        }
+
+        return cloned;
+    }
+
     public visibleNestedCheckbox(ids: string[], group: GroupedCheckboxItem = this): GroupedCheckboxItem {
         const cloned: GroupedCheckboxItem = group.clone();
        
