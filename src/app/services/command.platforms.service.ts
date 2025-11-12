@@ -24,19 +24,20 @@ export class PlatformsCommandService implements Command {
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addCustomMarkerPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
-            
+
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
-            // const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date('2025-11-03T10:00:00'));
-            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);         
+            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date('2025-11-03T10:00:00'));
+            // const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
+            geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
-            
+
             if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
-           
+
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -45,6 +46,35 @@ export class PlatformsCommandService implements Command {
     }
 
     /** Methods */
+    private _filterPlatforms(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+        const map = new Map<string, GeoJSON.Feature>();
+
+        for (const feature of geoJSON.features) {
+            const code = feature.properties?.['stationCode'];
+            const dateStr = feature.properties?.['referenceDate'];
+
+            if (!code || !dateStr) continue;
+
+            const current = map.get(code);
+            const newDate = new Date(dateStr);
+
+            if (!current) {
+                map.set(code, feature);
+            } else {
+                const currentDate = new Date(current.properties?.['referenceDate']);
+                if (newDate > currentDate) {
+                    map.set(code, feature);
+                }
+            }
+        }
+
+        return {
+            ...geoJSON,
+            features: Array.from(map.values())
+        };
+    }
+
+
     private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
