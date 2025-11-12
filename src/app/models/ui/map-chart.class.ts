@@ -8,8 +8,10 @@ export class MapChart {
     public parameterLabel?: string;
     public xLabel?: string;
     public xUnit: string;
+    public xRange?: any[];
     public yLabel?: string;
     public yUnit: string;
+    public yRange?: any[];
     public data: [number, number][][];
     public legends?: string[];
     public sensors: SensorType[];
@@ -26,7 +28,9 @@ export class MapChart {
         parameterlabel?: string,
         xLabel?: string,
         yLabel?: string,
-        legends?: string[]
+        legends?: string[],
+        xRange?: any[],
+        yRange?: any[]
     ) {
         this.id = id ?? `${new Date().getTime() + Math.random().toString(36).substring(2, 10)}`;
         this.stationId = stationId;
@@ -40,6 +44,8 @@ export class MapChart {
         this.station = station;
         this.parameterLabel = parameterlabel ?? parameter;
         this.legends = legends;
+        this.xRange = xRange;
+        this.yRange =yRange;
     }
 }
 

@@ -164,7 +164,7 @@ export class DataPageComponent {
   /** Methods  */
   /** Init */
   public setDataFromApi() {
-    this.isLoading = true;    
+    this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
@@ -176,7 +176,7 @@ export class DataPageComponent {
         this.isLoading = false;
       })
 
-    this.isLoading = true;  
+    this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
@@ -327,6 +327,21 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
+
+      /** */
+      const foundLayer = this.dataLayers
+        .map(g => g.searchGeoJsonLayerByParameter(s.parameter))
+        .find(l => l !== undefined);
+
+      if (!foundLayer) return;
+
+      let colorScale: ColorScale | undefined;
+      if (foundLayer.legend) {
+        const baseColorScale: ColorScaleBase | undefined = this.baseColorScales.find((c: ColorScaleBase) => c.id === foundLayer.legend?.colorScaleId);
+        if (baseColorScale) colorScale = new ColorScale(baseColorScale, foundLayer.legend);
+      }
+      /** */
+
       switch (s.type) {
         case 'hydro':
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this._selectedDate ?? new Date(), this.authService.getAccessToken())
@@ -355,7 +370,9 @@ export class DataPageComponent {
               sensorType ? sensorType.label : s.parameter,
               'Data',
               sensorType ? sensorType.label : s.parameter,
-              [sensorType ? sensorType.label : s.parameter]
+              [sensorType ? sensorType.label : s.parameter],
+              undefined,
+              colorScale?.getRange()
             )
           )
           break;
@@ -363,6 +380,7 @@ export class DataPageComponent {
     });
 
     this.charts = [...this.charts, ...newCharts];
+    console.log(this.charts);
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
   }
 

@@ -82,4 +82,10 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
 
         throw new Error(`Impossibile determinare il colore: dati insufficienti (min/max o labels mancanti o inconsistenti).`);
     }
+
+    public getRange(): [number, number] | undefined {
+        if (this.steps) return [this.steps[0], this.steps[this.steps.length - 1]];
+        if (this.min && this.max) return [this.min, this.max];
+        return undefined;
+    }
 }

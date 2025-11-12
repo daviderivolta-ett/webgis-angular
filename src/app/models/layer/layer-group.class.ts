@@ -59,18 +59,33 @@ export class LayerGroup {
         }
     }
 
-    public searchLayer(id: string, group: LayerGroup = this): Layer | undefined {
+    public searchLayerById(id: string, group: LayerGroup = this): Layer | undefined {
         if (group.options) {
             for (const child of group.options) {
                 if (child instanceof Layer && child.id === id) {
                     return child;
                 }
                 else if (child instanceof LayerGroup) {
-                    const found: LayerGroup | Layer | undefined = this.searchLayer(id, child);
+                    const found: LayerGroup | Layer | undefined = this.searchLayerById(id, child);
                     if (found) return found;
                 }
             }
         }
+        return undefined;
+    }
+
+    public searchGeoJsonLayerByParameter(param: string, group: LayerGroup = this): Layer | undefined {
+        if (!group.options) return undefined;
+
+        for (const child of group.options) {
+            if (child instanceof GeoJsonLayer && child.parameter === param) {
+                return child;
+            } else if (child instanceof LayerGroup) {
+                const found = this.searchGeoJsonLayerByParameter(param, child);
+                if (found) return found; 
+            }
+        }
+
         return undefined;
     }
 
@@ -108,7 +123,7 @@ export class LayerGroup {
         return result;
     }
 
-    static getAuthLayerGroups(groups: LayerGroup[], isAuth: boolean) {      
+    static getAuthLayerGroups(groups: LayerGroup[], isAuth: boolean) {
         let result: string[] = [];
 
         for (const group of groups) {
@@ -125,7 +140,7 @@ export class LayerGroup {
                 }
             }
         }
-       
+
         return result;
     }
 }

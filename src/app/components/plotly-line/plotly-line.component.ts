@@ -13,6 +13,8 @@ export class PlotlyLineComponent {
   public id = input<string>('plotly-line');
   public xLabel = input<string>('TEXT');
   public yLabel = input<string>('TEXT');
+  public xRange = input<any[]>([]);
+  public yRange = input<any[]>([]);
   public data = input<[number, number][][]>([]);
   public legends = input<string[]>([]);
   public parsedData: Partial<Plotly.Data>[] = [];
@@ -22,7 +24,7 @@ export class PlotlyLineComponent {
   private _resizeObserver: ResizeObserver;
 
   constructor() {
-    this._resizeObserver = new ResizeObserver(() => {   
+    this._resizeObserver = new ResizeObserver(() => {
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
 
@@ -50,7 +52,7 @@ export class PlotlyLineComponent {
     }))
   }
 
-  private _drawChart(data: [number, number][][]): void { 
+  private _drawChart(data: [number, number][][]): void {
     const parsedData = this._parseData(data);
 
     const traces: Plotly.Data[] = this._getTraces(parsedData, this.legends());
@@ -73,7 +75,7 @@ export class PlotlyLineComponent {
       return {
         ...serie,
         type: 'scatter',
-        mode: 'lines+markers',
+        mode: 'lines',
         name: legends[i] ?? undefined
       } as Plotly.Data
     })
@@ -101,6 +103,7 @@ export class PlotlyLineComponent {
           },
           standoff: 10
         },
+        range: this.yRange().length > 0 ? this.yRange() : undefined,
         // type: this._dateAxis === 'y' ? 'date' : '-',
         type: '-',
         // tickformat: this._dateAxis === 'y' ? '%Y-%m-%d, %H:%M' : undefined,
@@ -117,6 +120,7 @@ export class PlotlyLineComponent {
             color: '#b0b0b0'
           }
         },
+        range: this.xRange().length > 0 ? this.xRange() : undefined,
         // type: this._dateAxis === 'x' ? 'date' : '-',
         type: 'date',
         // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
