@@ -54,7 +54,7 @@ export class GroupedCheckboxItem extends TreeNode {
         if (cloned.options) {
             cloned.options = cloned.options.map(child => this.checkNestedCheckbox(ids, child));
         }
-
+       
         return cloned;
     }
 

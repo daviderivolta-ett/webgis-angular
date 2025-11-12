@@ -166,7 +166,7 @@ export class DataPageComponent {
   public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
+      .then((stations) => {       
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
       .catch(() => {
@@ -179,7 +179,7 @@ export class DataPageComponent {
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));     
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
@@ -403,7 +403,7 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any): void {
+  public onLayerToggled(data: any): void {   
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
@@ -415,11 +415,11 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
-    this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories, isAuth);
-    this.groupedCheckboxes = this._redrawGroupedCheckboxes(this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
+    this._currentDataLayers = this.layersService.checkLayerCategories(foundLayer, isChecked, this._currentDataLayers, this._layerCategories, isAuth);         
+    this.groupedCheckboxes = this._redrawGroupedCheckboxes(this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));  
   }
 
-  private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {
+  private _redrawGroupedCheckboxes(groupedCheckboxes: GroupedCheckboxItem[]): GroupedCheckboxItem[] {    
     const newCheckboxes: GroupedCheckboxItem[] = [];
     for (const group of groupedCheckboxes) {
       const checkedGroup = group.checkNestedCheckbox(this.currentDataLayers.toArray());

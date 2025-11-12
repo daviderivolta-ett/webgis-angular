@@ -32,13 +32,13 @@ export class LayersService {
 
     if (isChecked) {
       this._clearIncompatibleCategories(layerCategory.incompatibleWith, updatedCurrentLayers);
-      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, isAuth ? layerCategory.maxNumber : 1);
+      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, isAuth ? layerCategory.maxNumber : 1);         
       updatedCurrentLayers.set(layerCategoryId, updatedLayers);
     } else {
       const updatedLayers = existingLayers.filter(id => id !== layer.id);
       updatedCurrentLayers.set(layerCategoryId, updatedLayers);
     }
-
+      
     return updatedCurrentLayers;
   }
 
@@ -52,13 +52,12 @@ export class LayersService {
   }
 
   /** Check max number in layer categories */
-  private _addLayerRespectingLimit(layerId: string, layers: string[], max: number): string[] {
+  private _addLayerRespectingLimit(layerId: string, layers: string[], max: number): string[] {  
     const newLayers = [layerId, ...layers.filter(id => id !== layerId)];
 
     if (max !== -1 && newLayers.length > max) {
       return newLayers.slice(0, max);
     }
-
     return newLayers;
   }
 }

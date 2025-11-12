@@ -1,5 +1,5 @@
 // Libraries
-import { Component, effect, model, output } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -28,8 +28,6 @@ type GroupedCheckbox = {
 export class GroupedCheckboxesComponent {
   public group = model<GroupedCheckbox>({ id: '' });
   public changed = output<{ id: string, isChecked: boolean }>();
-
-  constructor() { }
 
   // Methods
   public onCheckboxChange(group: GroupedCheckbox, event: Event): void {
