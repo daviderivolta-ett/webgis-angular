@@ -164,7 +164,7 @@ export class DataPageComponent {
   /** Methods  */
   /** Init */
   public setDataFromApi() {
-    this.isLoading = true;
+    this.isLoading = true;    
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
@@ -176,7 +176,7 @@ export class DataPageComponent {
         this.isLoading = false;
       })
 
-    this.isLoading = true;
+    this.isLoading = true;  
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
