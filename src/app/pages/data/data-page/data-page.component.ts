@@ -139,8 +139,7 @@ export class DataPageComponent {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
-      // if (!this.user && currentUser) this.setDataFromApi();
-      if (!this.user && currentUser) this._setStationParameters();
+      if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
     });
   }
@@ -155,9 +154,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    // if (this.user) this.setDataFromApi();
-    if (this.user) this._setStationParameters();
-    this._setAllParameters();
+    this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
@@ -166,34 +163,6 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  private _setStationParameters() {
-    this.isLoading = true;
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
-      })
-      .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      })
-  }
-
-  private _setAllParameters() {
-    this.isLoading = true;
-    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
-      .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));        
-      })
-      .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      })
-  }
-
   public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
@@ -358,7 +327,7 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
-      const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);    
+      const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);
 
       switch (s.type) {
         case 'hydro':
@@ -415,7 +384,7 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);   
     this.areChartsDisabled = true;
     this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: any) => {
+      .then((data: any) => {     
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
         const newChart: MapChart = {
           ...chart,

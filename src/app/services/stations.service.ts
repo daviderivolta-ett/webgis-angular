@@ -29,7 +29,7 @@ export class StationsService {
 
   public async getStationParameters(url: string, token?: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: any) => {    
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => StationBase.createPartialFromObject(s));
       })
@@ -60,7 +60,7 @@ export class StationsService {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {
+      .then((data: any) => {     
         return this.parseTimeSerie(data, param);
       })
       .catch((err) => {
@@ -85,7 +85,7 @@ export class StationsService {
         parseFloat(d['value'])
       ]
     })
-
+   
     return [parsedData];
   }
 
