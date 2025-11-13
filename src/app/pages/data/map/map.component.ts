@@ -52,7 +52,8 @@ export class MapComponent {
     [2, this._createHexagonShape.bind(this)],
     [3, this._createDiamondShape.bind(this)],
     [4, this._createDownTriangleShape.bind(this)],
-    [5, this._createUpTriangleShape.bind(this)]
+    [5, this._createUpTriangleShape.bind(this)],
+    [6, this._createWindBarbShape.bind(this)]
   ]);
 
   private _usedMarkerShapes: Set<number> = new Set();
@@ -186,9 +187,9 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number): void {  
-    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();     
-    const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;   
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number): void {
+    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
+    const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
@@ -208,7 +209,7 @@ export class MapComponent {
       },
       ...options
     });
-  
+
     layer.addTo(this._map);
     this._registerLayer(id, layer, shapeFactory('grey', 'transparent'));
 
@@ -229,7 +230,7 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer);
     try {
-      timeDimensionLayer.addTo(this._map);      
+      timeDimensionLayer.addTo(this._map);
     } catch (error: unknown) {
       throw new Error(error instanceof Error ? error.message : `Errore nell'aggiunta del layer alla mappa.`);
     }
@@ -268,7 +269,7 @@ export class MapComponent {
       }
 
     });
-  
+
     this._map.addLayer(markers);
     this._registerLayer(id, markers);
   }
@@ -370,7 +371,7 @@ export class MapComponent {
     const found = Array.from((layer as L.LayerGroup).getLayers()).find((l: L.Layer) => {
       const marker = l as L.Marker & { _shapeKey?: number };
       return marker._shapeKey !== undefined;
-    });  
+    });
     return (found as L.Marker & { _shapeKey?: number })?._shapeKey;
   }
 
@@ -500,6 +501,36 @@ export class MapComponent {
     triangle.setAttribute('stroke', borderColor);
     triangle.setAttribute('stroke-width', '2');
     svg.appendChild(triangle);
+
+    return svg;
+  }
+
+  private _createWindBarbShape(color: string, borderColor: string, opacity: number = 1, angle: number = 45) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', '12');
+    line.setAttribute('y1', '12');
+    line.setAttribute('x2', '12');
+    line.setAttribute('y2', '2');
+    line.setAttribute('stroke', borderColor);
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-linecap', 'round');
+    line.setAttribute('transform', `rotate(${angle} 12 12)`);
+    svg.appendChild(line);
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', '12');
+    circle.setAttribute('cy', '12');
+    circle.setAttribute('r', '6');
+    circle.setAttribute('fill', color);
+    circle.setAttribute('fill-opacity', '1');
+    circle.setAttribute('stroke', borderColor);
+    circle.setAttribute('stroke-width', '2');
+    svg.appendChild(circle);
 
     return svg;
   }

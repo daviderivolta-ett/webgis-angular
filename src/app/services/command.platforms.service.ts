@@ -37,7 +37,7 @@ export class PlatformsCommandService implements Command {
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
             if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
-
+            
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -95,12 +95,12 @@ export class PlatformsCommandService implements Command {
         };
     }
 
-    private _addMarkerShapeIdToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, markers: MarkerMapping): GeoJSON.FeatureCollection {
+    private _addMarkerShapeIdToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, markers: MarkerMapping): GeoJSON.FeatureCollection {       
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
-                const featureProperty: any = properties[markers.featureProperty];
+                const featureProperty: any = properties[markers.featureProperty];              
                 const markerShapeId: number = this._getMarkerShapeFromRule(featureProperty, markers.rules, 0);
                 return {
                     ...feature,
@@ -113,7 +113,7 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _getMarkerShapeFromRule(value: number, markers: MarkerCondition[], defaultShapeId: number = 0): number {
+    private _getMarkerShapeFromRule(value: number, markers: MarkerCondition[], defaultShapeId: number = 0): number {       
         for (const marker of markers) {
             switch (marker.comparisonOperator) {
                 case '<': if (value < marker.threshold) return marker.shapeId; break;
@@ -123,8 +123,7 @@ export class PlatformsCommandService implements Command {
                 case '===': if (value === marker.threshold) return marker.shapeId; break;
                 case '!==': if (value !== marker.threshold) return marker.shapeId; break;
             }
-        }
-
+        }       
         return defaultShapeId;
     }
 

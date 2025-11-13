@@ -155,6 +155,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     this.setDataFromApi();
+    console.log(this.dataLayers);    
   }
 
   public ngAfterViewInit(): void {
@@ -461,15 +462,6 @@ export class DataPageComponent {
     if (!baseColorScale) return;
 
     return new ColorScale(baseColorScale, layer.legend);
-  }
-
-  private _getColorScaleByLayer(layer: Layer, allScales: ColorScaleBase[]): ColorScale | undefined {
-    let colorScale: ColorScale | undefined;
-    if (layer.legend) {
-      const baseColorScale: ColorScaleBase | undefined = allScales.find((c: ColorScaleBase) => c.id === layer.legend?.colorScaleId);
-      if (baseColorScale) colorScale = new ColorScale(baseColorScale, layer.legend);
-    }
-    return colorScale;
   }
 
   /** Get and execute generic action from commands registry service class */
