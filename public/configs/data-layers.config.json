@@ -47,7 +47,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "{{BASE_URL}}/platforms/get/all/mean_wind_speed",
+                    "url": "{{BASE_URL}}/platforms/get/all/mean_wind_speed?ExtraParam=prevailing_wind_dir",
                     "parameter": "mean_wind_speed",
                     "markers": {
                         "featureProperty": "value",
@@ -134,7 +134,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "{{BASE_URL}}/platforms/get/all/mean_creek_level",
+                    "url": "{{BASE_URL}}/platforms/get/all/mean_creek_level?ExtraParam=trend_creek_level",
                     "parameter": "mean_creek_level",
                     "markers": {
                         "featureProperty": "extraValue",
