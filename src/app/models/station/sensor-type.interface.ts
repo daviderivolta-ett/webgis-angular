@@ -3,4 +3,5 @@ export interface SensorType {
     iconUrl: string;
     label: string;
     unit: string;
+    range?: any[];
 }

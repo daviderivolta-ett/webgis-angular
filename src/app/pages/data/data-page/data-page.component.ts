@@ -139,7 +139,8 @@ export class DataPageComponent {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
-      if (!this.user && currentUser) this.setDataFromApi();
+      // if (!this.user && currentUser) this.setDataFromApi();
+      if (!this.user && currentUser) this._setStationParameters();
       this.user = currentUser;
     });
   }
@@ -154,7 +155,9 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    if (this.user) this.setDataFromApi();
+    // if (this.user) this.setDataFromApi();
+    if (this.user) this._setStationParameters();
+    this._setAllParameters();
   }
 
   public ngAfterViewInit(): void {
@@ -163,6 +166,34 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
+  private _setStationParameters() {
+    this.isLoading = true;
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
+  }
+
+  private _setAllParameters() {
+    this.isLoading = true;
+    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      .then((data) => {
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));        
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
+  }
+
   public setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
@@ -327,20 +358,7 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
-
-      /** */
-      const foundLayer = this.dataLayers
-        .map(g => g.searchGeoJsonLayerByParameter(s.parameter))
-        .find(l => l !== undefined);
-
-      if (!foundLayer) return;
-
-      let colorScale: ColorScale | undefined;
-      if (foundLayer.legend) {
-        const baseColorScale: ColorScaleBase | undefined = this.baseColorScales.find((c: ColorScaleBase) => c.id === foundLayer.legend?.colorScaleId);
-        if (baseColorScale) colorScale = new ColorScale(baseColorScale, foundLayer.legend);
-      }
-      /** */
+      const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);    
 
       switch (s.type) {
         case 'hydro':
@@ -372,7 +390,7 @@ export class DataPageComponent {
               sensorType ? sensorType.label : s.parameter,
               [sensorType ? sensorType.label : s.parameter],
               undefined,
-              colorScale?.getRange()
+              sensorType?.range
             )
           )
           break;
@@ -380,7 +398,6 @@ export class DataPageComponent {
     });
 
     this.charts = [...this.charts, ...newCharts];
-    console.log(this.charts);
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
   }
 
@@ -395,19 +412,20 @@ export class DataPageComponent {
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
 
-    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
+    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);   
     this.areChartsDisabled = true;
     this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, initialDate, endingDate, this.authService.getAccessToken())
       .then((data: any) => {
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
-        const newChart = {
+        const newChart: MapChart = {
           ...chart,
           parameter: param,
           parameterLabel: sensorType ? sensorType.label : param,
           data,
           yLabel: sensorType ? sensorType.label : param,
           yUnit: sensorType ? `(${sensorType.unit})` : '',
-          legends: [sensorType ? sensorType.label : param]
+          legends: [sensorType ? sensorType.label : param],
+          yRange: sensorType ? sensorType.range : []
         };
         this.charts[chartIdx] = newChart;
       })
@@ -474,6 +492,15 @@ export class DataPageComponent {
     if (!baseColorScale) return;
 
     return new ColorScale(baseColorScale, layer.legend);
+  }
+
+  private _getColorScaleByLayer(layer: Layer, allScales: ColorScaleBase[]): ColorScale | undefined {
+    let colorScale: ColorScale | undefined;
+    if (layer.legend) {
+      const baseColorScale: ColorScaleBase | undefined = allScales.find((c: ColorScaleBase) => c.id === layer.legend?.colorScaleId);
+      if (baseColorScale) colorScale = new ColorScale(baseColorScale, layer.legend);
+    }
+    return colorScale;
   }
 
   /** Get and execute generic action from commands registry service class */

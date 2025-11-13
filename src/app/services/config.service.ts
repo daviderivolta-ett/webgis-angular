@@ -215,7 +215,8 @@ export class ConfigService {
           id: t['id'] ?? '',
           iconUrl: t['iconUrl'] ?? '',
           label: t['label'] ?? '',
-          unit: t['unit'] ?? ''
+          unit: t['unit'] ?? '',
+          range: t['range'] ?? undefined
         }))
       })
       .catch((err: any) => {
