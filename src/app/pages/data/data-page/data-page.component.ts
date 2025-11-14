@@ -154,8 +154,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi();
-    console.log(this.dataLayers);    
+    this.setDataFromApi();  
   }
 
   public ngAfterViewInit(): void {
