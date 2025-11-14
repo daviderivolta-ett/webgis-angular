@@ -467,12 +467,6 @@
                                 "styles": "",
                                 "srs": "EPSG:3857"
                             },
-                            "legend": {
-                                "colorScaleId": "rainbow",
-                                "unit": "°C",
-                                "min": -20,
-                                "max": 40
-                            },
                             "action": {
                                 "id": "getWms"
                             }
@@ -493,12 +487,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:3857"
-                            },
-                            "legend": {
-                                "colorScaleId": "rainbow",
-                                "unit": "°C",
-                                "min": -20,
-                                "max": 40
                             },
                             "action": {
                                 "id": "getWms"

@@ -6,7 +6,10 @@
             "label": "Pioggia 1 ora",
             "chartType": "bar",
             "unit": "mm",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "rain_03h",
@@ -14,7 +17,10 @@
             "label": "Pioggia 3 ore",
             "chartType": "bar",
             "unit": "mm",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "rain_06h",
@@ -22,7 +28,10 @@
             "label": "Pioggia 6 ore",
             "chartType": "bar",
             "unit": "mm",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "rain_07d",
@@ -30,7 +39,10 @@
             "label": "Pioggia 7 giorni",
             "chartType": "bar",
             "unit": "mm",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "rain_30d",
@@ -38,7 +50,10 @@
             "label": "Pioggia 30 giorni",
             "chartType": "bar",
             "unit": "mm",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "min_air_temp",
@@ -46,7 +61,10 @@
             "label": "Temperatura minima",
             "chartType": "line",
             "unit": "°C",
-            "range": [-20, 40]
+            "range": [
+                -20,
+                40
+            ]
         },
         {
             "id": "mean_air_temp",
@@ -54,7 +72,10 @@
             "label": "Temperatura media",
             "chartType": "line",
             "unit": "°C",
-            "range": [-20, 40]
+            "range": [
+                -20,
+                40
+            ]
         },
         {
             "id": "max_air_temp",
@@ -62,7 +83,10 @@
             "label": "Temperatura massima",
             "chartType": "line",
             "unit": "°C",
-            "range": [-20, 40]
+            "range": [
+                -20,
+                40
+            ]
         },
         {
             "id": "mean_creek_level",
@@ -70,7 +94,10 @@
             "label": "Livello idrometrici medi",
             "chartType": "line",
             "unit": "m",
-            "range": [0, 8]
+            "range": [
+                0,
+                8
+            ]
         },
         {
             "id": "max_creek_level",
@@ -78,7 +105,10 @@
             "label": "Livello idrometrici massimi",
             "chartType": "line",
             "unit": "m",
-            "range": [0, 8]
+            "range": [
+                0,
+                8
+            ]
         },
         {
             "id": "instant_creek_level",
@@ -86,7 +116,10 @@
             "label": "Livello idrometrici istantanei",
             "chartType": "line",
             "unit": "m",
-            "range": [0, 8]
+            "range": [
+                0,
+                8
+            ]
         },
         {
             "id": "mean_wind_speed",
@@ -94,7 +127,10 @@
             "label": "Velocità del vento media",
             "chartType": "line",
             "unit": "km/h",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "wind_gust",
@@ -102,7 +138,10 @@
             "label": "Raffiche di vento",
             "chartType": "line",
             "unit": "km/h",
-            "range": [0, 120]
+            "range": [
+                0,
+                120
+            ]
         },
         {
             "id": "humidity",
@@ -110,7 +149,10 @@
             "label": "Umidità dell'aria",
             "chartType": "line",
             "unit": "%",
-            "range": [0, 100]
+            "range": [
+                0,
+                100
+            ]
         },
         {
             "id": "solar_radiation_pwr",
@@ -118,7 +160,10 @@
             "label": "Radiazione solare",
             "chartType": "line",
             "unit": "Wm⁻²",
-            "range": [0, 1300]
+            "range": [
+                0,
+                1300
+            ]
         },
         {
             "id": "sunshine_duration",
@@ -126,7 +171,10 @@
             "label": "Eliofanie",
             "chartType": "line",
             "unit": "%",
-            "range": [0, 100]
+            "range": [
+                0,
+                100
+            ]
         },
         {
             "id": "leaf_wetness",
@@ -134,7 +182,10 @@
             "label": "Copertura foliare",
             "chartType": "line",
             "unit": "%",
-            "range": [0, 100]
+            "range": [
+                0,
+                100
+            ]
         },
         {
             "id": "mean_sea_level_press",
@@ -142,7 +193,10 @@
             "label": "Pressione atmosferica",
             "chartType": "line",
             "unit": "hPa",
-            "range": [900, 1100]
+            "range": [
+                900,
+                1100
+            ]
         },
         {
             "id": "battery_voltage",
@@ -150,7 +204,10 @@
             "label": "Tensione batteria",
             "chartType": "line",
             "unit": "V",
-            "range": [0, 15]
+            "range": [
+                0,
+                15
+            ]
         },
         {
             "id": "mean_wave_height",
@@ -158,7 +215,10 @@
             "label": "Stato del mare",
             "chartType": "line",
             "unit": "m",
-            "range": [0, 8]
+            "range": [
+                0,
+                8
+            ]
         },
         {
             "id": "mean_snow_depth",
@@ -166,7 +226,10 @@
             "label": "Neve",
             "chartType": "line",
             "unit": "cm",
-            "range": [0, 350]
+            "range": [
+                0,
+                350
+            ]
         }
     ],
     "lastModified": "2025-11-13"
