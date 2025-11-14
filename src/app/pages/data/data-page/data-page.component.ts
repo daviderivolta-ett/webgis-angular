@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
@@ -84,6 +84,7 @@ export class DataPageComponent {
   public refreshLayersId: number | null = null;
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
+  public settings: Settings; // Recovered from route resolver in constructor
 
   public apiBaseUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
@@ -118,6 +119,7 @@ export class DataPageComponent {
 
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
+    this.settings = this.route.snapshot.data['settings'];
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.parametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
@@ -154,6 +156,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
+    console.log(this.settings);    
     this.setDataFromApi();  
   }
 
@@ -486,7 +489,8 @@ export class DataPageComponent {
         colorScale,
         layer,
         baseUrl: this.apiBaseUrl,
-        token: this.authService.getAccessToken()
+        token: this.authService.getAccessToken(),
+        timeSpan: this.settings.mapTimeSpan
       });
 
     } catch (err: unknown) {

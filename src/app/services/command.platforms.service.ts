@@ -19,14 +19,14 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, token } = args;
+        const { map, date, colorScale, layer, baseUrl, token, timeSpan } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addCustomMarkerPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
-            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
+            const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
@@ -126,10 +126,10 @@ export class PlatformsCommandService implements Command {
         return defaultShapeId;
     }
 
-    private _createUrlWithDate(url: string, date: Date): string {
-        const halfHour = 30 * 60 * 1000;
-        const fromDate = this.apiService.formatDate(new Date(date.getTime() - halfHour));
-        const toDate = this.apiService.formatDate(new Date(date.getTime() + halfHour));
+    private _createUrlWithDate(url: string, date: Date, minuteSpan: number = 60): string {               
+        const span = minuteSpan * 60 * 1000;
+        const fromDate = this.apiService.formatDate(new Date(date.getTime() - span));
+        const toDate = this.apiService.formatDate(new Date(date.getTime()));
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}`;
     }

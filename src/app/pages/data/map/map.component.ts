@@ -193,9 +193,10 @@ export class MapComponent {
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
+        const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
-          this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000') :
-          shapeFactory(color, '#000');
+          this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { extraValue }) :
+          shapeFactory(color, '#000', { extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
         const divIcon = L.divIcon({ html: iconHtml, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
@@ -257,7 +258,7 @@ export class MapComponent {
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
       if (f.geometry.type === 'Point') {
-        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', 1);
+        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 });
         const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
           title: (f.properties && f.properties['clusterLabel']) ?? Object.keys(arcColorDict)[0],
@@ -388,7 +389,9 @@ export class MapComponent {
     return html;
   }
 
-  private _createCircleShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
+  private _createCircleShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+    const { opacity } = options;
+
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('width', '24');
@@ -399,7 +402,7 @@ export class MapComponent {
     circle.setAttribute('cy', '12');
     circle.setAttribute('r', '11');
     circle.setAttribute('fill', color);
-    circle.setAttribute('fill-opacity', opacity.toString());
+    circle.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     circle.setAttribute('stroke', borderColor);
     circle.setAttribute('stroke-width', '2');
     svg.appendChild(circle);
@@ -407,7 +410,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createSquareShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
+  private _createSquareShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+    const { opacity } = options;
+
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -421,7 +426,7 @@ export class MapComponent {
     rect.setAttribute('width', '24');
     rect.setAttribute('height', '24');
     rect.setAttribute('fill', color);
-    rect.setAttribute('fill-opacity', opacity.toString());
+    rect.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     rect.setAttribute('stroke', borderColor);
     rect.setAttribute('stroke-width', '2');
     svg.appendChild(rect);
@@ -429,7 +434,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createDiamondShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
+  private _createDiamondShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+    const { opacity } = options;
+
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -440,7 +447,7 @@ export class MapComponent {
     const diamond = document.createElementNS(svgNS, 'polygon');
     diamond.setAttribute('points', '12,0 24,12 12,24 0,12');
     diamond.setAttribute('fill', color);
-    diamond.setAttribute('fill-opacity', opacity.toString());
+    diamond.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     diamond.setAttribute('stroke', borderColor);
     diamond.setAttribute('stroke-width', '2');
     svg.appendChild(diamond);
@@ -448,7 +455,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createHexagonShape(color: string, borderColor: string, opacity: number = 1): SVGSVGElement {
+  private _createHexagonShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+    const { opacity } = options;
+
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -459,7 +468,7 @@ export class MapComponent {
     const hex = document.createElementNS(svgNS, 'polygon');
     hex.setAttribute('points', '6,2 18,2 24,12 18,22 6,22 0,12');
     hex.setAttribute('fill', color);
-    hex.setAttribute('fill-opacity', opacity.toString());
+    hex.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     hex.setAttribute('stroke', borderColor);
     hex.setAttribute('stroke-width', '2');
     svg.appendChild(hex);
@@ -467,7 +476,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createDownTriangleShape(color: string, borderColor: string, opacity: number = 1) {
+  private _createDownTriangleShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+    const { opacity } = options;
+
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -478,7 +489,7 @@ export class MapComponent {
     const triangle = document.createElementNS(svgNS, 'polygon');
     triangle.setAttribute('points', '0,0 24,0 12,24');
     triangle.setAttribute('fill', color);
-    triangle.setAttribute('fill-opacity', opacity.toString());
+    triangle.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     triangle.setAttribute('stroke', borderColor);
     triangle.setAttribute('stroke-width', '2');
     svg.appendChild(triangle);
@@ -486,7 +497,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createUpTriangleShape(color: string, borderColor: string, opacity: number = 1) {
+  private _createUpTriangleShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+    const { opacity } = options;
+
     const svgNS = 'http://www.w3.org/2000/svg';
 
     const svg = document.createElementNS(svgNS, 'svg');
@@ -497,7 +510,7 @@ export class MapComponent {
     const triangle = document.createElementNS(svgNS, 'polygon');
     triangle.setAttribute('points', '0,24 24,24 12,0');
     triangle.setAttribute('fill', color);
-    triangle.setAttribute('fill-opacity', opacity.toString());
+    triangle.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     triangle.setAttribute('stroke', borderColor);
     triangle.setAttribute('stroke-width', '2');
     svg.appendChild(triangle);
@@ -505,7 +518,9 @@ export class MapComponent {
     return svg;
   }
 
-  private _createWindBarbShape(color: string, borderColor: string, opacity: number = 1, angle: number = 45) {
+  private _createWindBarbShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+    const { opacity, extraValue: angle } = options;    
+
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('width', '24');
@@ -519,15 +534,15 @@ export class MapComponent {
     line.setAttribute('stroke', borderColor);
     line.setAttribute('stroke-width', '2');
     line.setAttribute('stroke-linecap', 'round');
-    line.setAttribute('transform', `rotate(${angle} 12 12)`);
+    line.setAttribute('transform', `rotate(${angle ? angle : '0'} 12 12)`);
     svg.appendChild(line);
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', '12');
     circle.setAttribute('cy', '12');
-    circle.setAttribute('r', '6');
+    circle.setAttribute('r', '3');
     circle.setAttribute('fill', color);
-    circle.setAttribute('fill-opacity', '1');
+    circle.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     circle.setAttribute('stroke', borderColor);
     circle.setAttribute('stroke-width', '2');
     svg.appendChild(circle);

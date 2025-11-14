@@ -55,12 +55,12 @@
                             {
                                 "comparisonOperator": "<=",
                                 "threshold": 0,
-                                "shapeId": 1
+                                "shapeId": 6
                             },
                             {
                                 "comparisonOperator": ">=",
                                 "threshold": 0,
-                                "shapeId": 1
+                                "shapeId": 6
                             }
                         ]
                     },

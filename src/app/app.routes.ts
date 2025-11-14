@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver } from './resolvers';
 
 /** Guards */
 import { authGuard } from './guards';
@@ -20,6 +20,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/data/data-page/data-page.component').then(c => c.DataPageComponent),
         resolve: {
             mapConfig: mapConfigResolver,
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             stationPopupConfig: stationPopupConfigResolver,
             colorScales: colorScalesResolver,

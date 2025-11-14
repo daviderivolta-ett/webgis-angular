@@ -9,5 +9,6 @@
     "tablesConfigUri": "./configs/tables.config.json",
     "stationsConfigUri": "./configs/stations.config.json",
     "stationsPopupConfigUri": "./configs/stations-popup.config.json",
-    "sensorTypesConfigUri": "./configs/sensor-types.config.json"
+    "sensorTypesConfigUri": "./configs/sensor-types.config.json",
+    "settingsConfigUri": "./configs/settings.config.json"
 }

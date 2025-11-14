@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, SensorType, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, SensorType, Settings, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
 
 // Service
 @Injectable({
@@ -48,6 +48,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione della mappa dal file /configs/map.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getSettings(): Promise<Settings> {
+    return fetch(this.appConfig.settingsConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero dei settings dal file /configs/settings.config.json');
+        return res.json();
+      })
+      .then((config: any) => {
+        return Settings.createFromObject(config);
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero dei settings dal file /configs/settings.config.json ${err.message || err}`);
       })
   }
 
