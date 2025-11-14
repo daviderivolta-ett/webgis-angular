@@ -10,7 +10,7 @@ import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, 
 import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent, PlotlyBarComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
@@ -39,10 +39,11 @@ import { Utils } from '../../../utils';
     SliderComponent,
     FloatingDialogComponent,
     PlotlyLineComponent,
+    PlotlyBarComponent,
     MapChartSelectorComponent,
     MapChartComponent,
     MapChartDatepickerComponent
-  ],
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -155,8 +156,7 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {
-    console.log(this.settings);    
+  public async ngOnInit(): Promise<void> {  
     this.setDataFromApi();  
   }
 
@@ -345,10 +345,11 @@ export class DataPageComponent {
         default:
           const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
           const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);        
 
           newCharts.push(
             new MapChart(
+              sensorType ? sensorType.chartType : 'line',
               s.id,
               s.parameter,
               '',

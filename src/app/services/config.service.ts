@@ -229,6 +229,7 @@ export class ConfigService {
           id: t['id'] ?? '',
           iconUrl: t['iconUrl'] ?? '',
           label: t['label'] ?? '',
+          chartType: t['chartType'] ?? 'line',
           unit: t['unit'] ?? '',
           range: t['range'] ?? undefined
         }))

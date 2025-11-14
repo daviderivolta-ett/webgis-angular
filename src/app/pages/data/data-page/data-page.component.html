@@ -85,7 +85,14 @@
         <app-floating-dialog (removeDialog)="removeDialog(chart.id)">
             <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.station + ' | ' + chart.parameterLabel" [param]="chart.parameter" (formChanged)="onChartParameterChange(chart.id, $event)">
                 <app-map-chart-datepicker></app-map-chart-datepicker>
-                <app-plotly-line [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [yLabel]="chart.yLabel + ' ' + chart.yUnit" [data]="chart.data" [yRange]="chart.yRange ?? []" [legends]="chart.legends ?? []"></app-plotly-line>
+                @switch (chart.type) {
+                    @case ('bar') {
+                        <app-plotly-bar ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [yLabel]="chart.yLabel + ' ' + chart.yUnit" [data]="chart.data" [yRange]="chart.yRange ?? []" [legends]="chart.legends ?? []"></app-plotly-bar>
+                    }
+                    @default {
+                        <app-plotly-line ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [yLabel]="chart.yLabel + ' ' + chart.yUnit" [data]="chart.data" [yRange]="chart.yRange ?? []" [legends]="chart.legends ?? []"></app-plotly-line>
+                    }
+                }
                 <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.parameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector>
             </app-map-chart>
         </app-floating-dialog>
