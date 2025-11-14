@@ -5,4 +5,6 @@ export interface SensorType {
     chartType: 'line' | 'bar';
     unit: string;
     range?: any[];
+    isFeatured: boolean;
+    relatedSensors: string[];
 }

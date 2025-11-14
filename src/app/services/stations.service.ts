@@ -18,7 +18,7 @@ export class StationsService {
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
       .then((data: any) => {
-        if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);        
+        if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => Sensor.createFromObject(s));
       })
       .catch((err) => {
@@ -29,7 +29,7 @@ export class StationsService {
 
   public async getStationParameters(url: string, token?: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {    
+      .then((data: any) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
         return data.map((s: any) => StationBase.createPartialFromObject(s));
       })
@@ -56,12 +56,12 @@ export class StationsService {
       })
   }
 
-  public async getTimeSerie(url: string, stationId: string, param: string, initialDate: string, endingDate: string, token?: string): Promise<any> {
+  public async getTimeSerie(url: string, stationId: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<any> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {     
-        return this.parseTimeSerie(data, param);
+      .then((data: any) => {
+        return this.parseTimeSerie(data, params);
       })
       .catch((err) => {
         console.log(err);
@@ -69,24 +69,36 @@ export class StationsService {
       })
   }
 
-  public parseTimeSerie(data: any, param: string): any {
+  public parseTimeSerie(data: any, params: string[]): any {
+    // if (!Array.isArray(data)) return [];
+
+    // const filteredData = data
+    //   .filter((d) => d['parameter'] === params[0])
+    //   .map((d: any) => ({
+    //     value: d['value'],
+    //     date: d['referenceDate']
+    //   }))
+
+    // const parsedData = filteredData.map((d: any) => {
+    //   return [
+    //     new Date(d['date']).getTime(),
+    //     parseFloat(d['value'])
+    //   ]
+    // })
+
+    // return [parsedData];
     if (!Array.isArray(data)) return [];
 
-    const filteredData = data
-      .filter((d) => d['parameter'] === param)
-      .map((d: any) => ({
-        value: d['value'],
-        date: d['referenceDate']
-      }))
+    return params.map(param => {
+      const filtered = data
+        .filter(d => d['parameter'] === param)
+        .map(d => [
+          new Date(d['referenceDate']).getTime(),
+          parseFloat(d['value'])
+        ]);
 
-    const parsedData = filteredData.map((d: any) => {
-      return [
-        new Date(d['date']).getTime(),
-        parseFloat(d['value'])
-      ]
-    })
-   
-    return [parsedData];
+      return filtered;
+    });
   }
 
   public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {

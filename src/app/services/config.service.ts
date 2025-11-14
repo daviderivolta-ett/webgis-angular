@@ -231,7 +231,9 @@ export class ConfigService {
           label: t['label'] ?? '',
           chartType: t['chartType'] ?? 'line',
           unit: t['unit'] ?? '',
-          range: t['range'] ?? undefined
+          range: t['range'] ?? undefined,
+          isFeatured: t['isFeatured'] ?? false,
+          relatedSensors: t['relatedSensors'] ?? []
         }))
       })
       .catch((err: any) => {

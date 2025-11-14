@@ -29,7 +29,7 @@ export class MapChartDatepickerComponent {
   /** Methods */
   private _onFormChange(changes: any) {
     const initialDate = changes['initialDate'];
-    const endingDate = changes['endingDate'];
+    const endingDate = changes['endingDate'];  
     if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);
   }
 

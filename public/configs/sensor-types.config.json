@@ -9,7 +9,9 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "rain_03h",
@@ -20,7 +22,9 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "rain_06h",
@@ -31,7 +35,9 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "rain_07d",
@@ -42,7 +48,9 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "rain_30d",
@@ -53,7 +61,9 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "min_air_temp",
@@ -64,7 +74,9 @@
             "range": [
                 -20,
                 40
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "mean_air_temp",
@@ -75,6 +87,11 @@
             "range": [
                 -20,
                 40
+            ],
+            "isFeatured": true,
+            "relatedSensors": [
+                "min_air_temp",
+                "max_air_temp"
             ]
         },
         {
@@ -86,7 +103,9 @@
             "range": [
                 -20,
                 40
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "mean_creek_level",
@@ -97,7 +116,9 @@
             "range": [
                 0,
                 8
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "max_creek_level",
@@ -108,7 +129,9 @@
             "range": [
                 0,
                 8
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "instant_creek_level",
@@ -119,7 +142,9 @@
             "range": [
                 0,
                 8
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "mean_wind_speed",
@@ -130,6 +155,11 @@
             "range": [
                 0,
                 120
+            ],
+            "isFeatured": true,
+            "relatedSensors": [
+                "wind_gust",
+                "prevailing_wind_dir"
             ]
         },
         {
@@ -141,7 +171,22 @@
             "range": [
                 0,
                 120
-            ]
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
+        },
+        {
+            "id": "prevailing_wind_dir",
+            "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Direzione del vento",
+            "chartType": "line",
+            "unit": "km/h",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
         },
         {
             "id": "humidity",
@@ -152,7 +197,9 @@
             "range": [
                 0,
                 100
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "solar_radiation_pwr",
@@ -163,7 +210,9 @@
             "range": [
                 0,
                 1300
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "sunshine_duration",
@@ -174,7 +223,9 @@
             "range": [
                 0,
                 100
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "leaf_wetness",
@@ -185,7 +236,9 @@
             "range": [
                 0,
                 100
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "mean_sea_level_press",
@@ -196,7 +249,9 @@
             "range": [
                 900,
                 1100
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "battery_voltage",
@@ -207,7 +262,9 @@
             "range": [
                 0,
                 15
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "mean_wave_height",
@@ -218,7 +275,9 @@
             "range": [
                 0,
                 8
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         },
         {
             "id": "mean_snow_depth",
@@ -229,7 +288,9 @@
             "range": [
                 0,
                 350
-            ]
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
         }
     ],
     "lastModified": "2025-11-13"

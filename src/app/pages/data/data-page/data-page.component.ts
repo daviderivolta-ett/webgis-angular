@@ -43,7 +43,7 @@ import { Utils } from '../../../utils';
     MapChartSelectorComponent,
     MapChartComponent,
     MapChartDatepickerComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -156,8 +156,8 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {  
-    this.setDataFromApi();  
+  public async ngOnInit(): Promise<void> {
+    this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
@@ -344,8 +344,8 @@ export class DataPageComponent {
 
         default:
           const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
-          const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id));
-          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);        
+          const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
+          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
 
           newCharts.push(
             new MapChart(
@@ -385,11 +385,15 @@ export class DataPageComponent {
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
 
-    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);   
+    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
-    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: any) => {     
-        const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
+    const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
+    const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
+    const sensors = [sensorType, ...relatedSensors];  
+
+    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+      .then((data: any) => {
+
         const newChart: MapChart = {
           ...chart,
           type: sensorType ? sensorType.chartType : 'line',
@@ -398,8 +402,8 @@ export class DataPageComponent {
           data,
           yLabel: sensorType ? sensorType.label : param,
           yUnit: sensorType ? `(${sensorType.unit})` : '',
-          legends: [sensorType ? sensorType.label : param],
-          yRange: sensorType ? sensorType.range : []
+          legends: sensors.map(s => s ? s.label : ''),
+          yRange: sensorType ? sensorType.range : [],
         };
         this.charts[chartIdx] = newChart;
       })
