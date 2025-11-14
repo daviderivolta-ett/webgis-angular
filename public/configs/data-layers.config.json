@@ -14,10 +14,30 @@
                     "url": "{{BASE_URL}}/platforms/get/all/rain_01h",
                     "parameter": "rain_01h",
                     "legend": {
-                        "colorScaleId": "heatmap",
+                        "colorScaleId": "rain",
                         "unit": "mm",
-                        "min": 0.2,
-                        "max": 120
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
                     },
                     "action": {
                         "id": "platforms"
@@ -32,10 +52,41 @@
                     "url": "{{BASE_URL}}/platforms/get/all/mean_air_temp",
                     "parameter": "mean_air_temp",
                     "legend": {
-                        "colorScaleId": "heatmap",
+                        "colorScaleId": "temperature",
                         "unit": "°C",
-                        "min": -20,
-                        "max": 40
+                        "steps": [
+                            -20,
+                            -18,
+                            -16,
+                            -14,
+                            -12,
+                            -10,
+                            -8,
+                            -6,
+                            -4,
+                            -2,
+                            0,
+                            2,
+                            4,
+                            6,
+                            8,
+                            10,
+                            12,
+                            14,
+                            16,
+                            18,
+                            20,
+                            22,
+                            24,
+                            26,
+                            28,
+                            30,
+                            32,
+                            24,
+                            36,
+                            38,
+                            40
+                        ]
                     },
                     "action": {
                         "id": "platforms"
@@ -65,10 +116,21 @@
                         ]
                     },
                     "legend": {
-                        "colorScaleId": "heatmap",
+                        "colorScaleId": "wind",
                         "unit": "km/h",
-                        "min": 0,
-                        "max": 110
+                        "steps": [
+                            2,
+                            6,
+                            11,
+                            18,
+                            30,
+                            39,
+                            50,
+                            61,
+                            74,
+                            87,
+                            102
+                        ]
                     },
                     "action": {
                         "id": "platforms"
@@ -83,10 +145,22 @@
                     "url": "{{BASE_URL}}/platforms/get/all/humidity",
                     "parameter": "humidity",
                     "legend": {
-                        "colorScaleId": "heatmap",
+                        "colorScaleId": "humidity",
                         "unit": "%",
-                        "min": 0,
-                        "max": 100
+                        "steps": [
+                            20,
+                            30,
+                            40,
+                            50,
+                            60,
+                            70,
+                            75,
+                            80,
+                            85,
+                            90,
+                            95,
+                            98
+                        ]
                     },
                     "action": {
                         "id": "platforms"
@@ -300,6 +374,75 @@
                     "action": {
                         "id": "platforms"
                     }
+                }
+            ]
+        },
+        {
+            "id": "maps",
+            "label": "Mappe",
+            "maxNumber": 1,
+            "options": [
+                {
+                    "id": "maps_precipitations",
+                    "label": "Precipitazioni",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_precipitations_10min",
+                            "label": "Precipitazioni - 10 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall10m",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "legend": {
+                                "colorScaleId": "rainbow",
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            },
+                            "action": {
+                                "id": "getWms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_7d",
+                            "label": "Precipitazioni - 7 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall7d",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "legend": {
+                                "colorScaleId": "rainbow",
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            },
+                            "action": {
+                                "id": "getWms"
+                            }
+                        }
+                    ]
                 }
             ]
         },

@@ -392,6 +392,7 @@ export class DataPageComponent {
         const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
         const newChart: MapChart = {
           ...chart,
+          type: sensorType ? sensorType.chartType : 'line',
           parameter: param,
           parameterLabel: sensorType ? sensorType.label : param,
           data,
