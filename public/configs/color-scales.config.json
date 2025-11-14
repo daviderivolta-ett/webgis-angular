@@ -227,6 +227,125 @@
                 "#B5C9FF",
                 "#E0EBFF"
             ]
+        },
+        {
+            "id": "sunshine_duration",
+            "colors": [
+                "#FEFEFE",
+                "#00F9E1",
+                "#00DA3E",
+                "#93E451",
+                "#BAF35B",
+                "#E6DA51",
+                "#EAAD45",
+                "#F2943E",
+                "#F8813B",
+                "#FF603D",
+                "#FF4042"
+            ]
+        },
+        {
+            "id": "snow",
+            "colors": [
+                "#FEFEFE",
+                "#E0EBFF",
+                "#B5C9FF",
+                "#8EB2FF",
+                "#7F96FF",
+                "#6370F7",
+                "#009F1E",
+                "#3CBC3D",
+                "#B9F96E",
+                "#FFF914",
+                "#FAC81E",
+                "#EB9628",
+                "#FA3C3C",
+                "#CD005A",
+                "#B400B4",
+                "#9600C8",
+                "#A064DC",
+                "#BE8CC8",
+                "#E1AFC3",
+                "#E1C8BE",
+                "#F0DCE1" 
+            ]
+        },
+        {
+            "id": "pressure",
+            "colors": [
+                "#666DF7",
+                "#1991F9",
+                "#3EA2F4",
+                "#30B4FB",
+                "#78C8ED",
+                "#8ADEED",
+                "#99DDB4",
+                "#6ED3A0",
+                "#44C98C",
+                "#00BC3D",
+                "#009E1E",
+                "#6EA254",
+                "#7DB04D",
+                "#7DBE54",
+                "#ACCE64",
+                "#B9E459",
+                "#CAE47F",
+                "#FED67F",
+                "#EFC075",
+                "#EDA64B",
+                "#E5863F",
+                "#DF6430",
+                "#CC4942",
+                "#C3333F",
+                "#BB153D",
+                "#CE264E",
+                "#EA1453",
+                "#FE4D5D",
+                "#FF6171",
+                "#FF7F8F",
+                "#FF93A3",
+                "#FFA2B2",
+                "#FFACBC",
+                "#FFB6C6",
+                "#FFC3CD"
+            ]
+        },
+        {
+            "id": "solar_radiation",
+            "colors": [
+                "#41D2FA",
+                "#05FAE1",
+                "#00FF55",
+                "#00DC00",
+                "#A0E632",
+                "#C3F53C",
+                "#E6DC32",
+                "#E6C832",
+                "#E6AF2D",
+                "#EB9628",
+                "#F08228",
+                "#F55F32",
+                "#FA3C3C"
+            ]
+        },
+        {
+            "id": "sea_status",
+            "colors": [
+                "#DCDCDC",
+                "#99DDB4",
+                "#30B4FB",
+                "#1991F9",
+                "#6EA254",
+                "#7DBE54",
+                "#B9E459",
+                "#FFF914",
+                "#FAC81E",
+                "#DF6430",
+                "#C3333F",
+                "#9600C8",
+                "#A064DC",
+                "#E1AFC3"
+            ]
         }
     ],
     "lastModified": "2025-11-14"
