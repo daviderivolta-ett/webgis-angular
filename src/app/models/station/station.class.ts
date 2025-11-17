@@ -59,7 +59,7 @@ export class Station extends StationBase implements StationData {
             data.value =
                 typeof props.value === 'number'
                     ? props.value
-                    : props.intensity;
+                    : Math.abs(props.intensity);
         }
 
         if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];

@@ -230,6 +230,7 @@ export class ConfigService {
           iconUrl: t['iconUrl'] ?? '',
           label: t['label'] ?? '',
           chartType: t['chartType'] ?? 'line',
+          traceType: t['traceType'] ?? undefined,
           style: t['style'] ?? undefined,
           unit: t['unit'] ?? '',
           range: t['range'] ?? undefined,

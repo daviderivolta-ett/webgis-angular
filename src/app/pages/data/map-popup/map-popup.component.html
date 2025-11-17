@@ -15,7 +15,7 @@
         @for (item of data(); track `${item.id}_${item.label}`) {
         <div class="station-value">
             <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
-            @if (item.type && item.type === 'platform') {
+            @if (item.type) {
                 <p class="big weight-bold">
                     @if(config().value) { {{item.value | number: '1.2-2'}} }
                     @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }

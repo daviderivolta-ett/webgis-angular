@@ -167,7 +167,8 @@
             ],
             "isFeatured": true,
             "relatedSensors": [
-                "wind_gust"
+                "wind_gust",
+                "prevailing_wind_dir"
             ]
         },
         {
@@ -188,6 +189,7 @@
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Direzione del vento",
             "chartType": "line",
+            "traceType": "arrow",
             "unit": "km/h",
             "range": [
                 0,

@@ -307,7 +307,6 @@ export class DataPageComponent {
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
     });
-
     this.popupData = [...stations];
   }
 
