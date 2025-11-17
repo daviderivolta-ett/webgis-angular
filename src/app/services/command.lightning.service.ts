@@ -19,15 +19,15 @@ export class LightningCommandService implements Command {
 
     /** Command */
     public async execute(args: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, token } = args;
+        const { map, date, colorScale, layer, baseUrl, token } = args;  
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
             if (!map || typeof map.addClusterPointGeoJSONLayer !== 'function') throw new Error(`Oggetto 'map' non valido o non implementa il metodo 'addCustomMarkerPointGeoJSONLayer'.`);
-            if (date && date instanceof Date) console.log(layer.createUrlWithDate(date));
-        
-            const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;   
-            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(url, token);
+
+            const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
+            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
+            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'lightning');
 
@@ -39,11 +39,11 @@ export class LightningCommandService implements Command {
                     acc[curr] = colorScale.colors[index];
                     return acc;
                 }, {});
-                geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
+                geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
             if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
-          
+
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {
             if (error instanceof Error) throw error;
@@ -52,24 +52,8 @@ export class LightningCommandService implements Command {
     }
 
     /** Methods */
-    // private _addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
-    //     return {
-    //         ...geoJSON,
-    //         features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-    //             const properties = feature.properties ?? {};
-    //             return {
-    //                 ...feature,
-    //                 properties: {
-    //                     ...properties,
-    //                     type
-    //                 }
-    //             }
-    //         })
-    //     }
-    // }
-
-    private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
-        const now: number = new Date().getTime();
+    private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, date: Date, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
+        const now: number = date.getTime();
 
         return {
             ...geoJSON,
@@ -101,5 +85,11 @@ export class LightningCommandService implements Command {
             type: 'FeatureCollection',
             features: collections.flatMap((c) => c.features || [])
         }
+    }
+
+    private _createUrlWithDate(url: string, date: Date): string {
+        const time = this.apiService.formatDate(new Date(date.getTime()));
+        const separator = url.includes('?') ? '&' : '?';
+        return `${url}${separator}time=${time}`;
     }
 }
