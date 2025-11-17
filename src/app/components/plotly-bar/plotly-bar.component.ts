@@ -17,6 +17,7 @@ export class PlotlyBarComponent {
   public yRange = input<any[]>([]);
   public data = input<[number, number][][]>([]);
   public legends = input<string[]>([]);
+  public styles = input<Record<string, any>[]>([]);
   public parsedData: Partial<Plotly.Data>[] = [];
 
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
@@ -55,7 +56,7 @@ export class PlotlyBarComponent {
   private _drawChart(data: [number, number][][]): void {
     const parsedData = this._parseData(data);
 
-    const traces: Plotly.Data[] = this._getTraces(parsedData, this.legends());
+    const traces: Plotly.Data[] = this._getTraces(parsedData, this.legends(), this.styles());
     const layout: Plotly.Layout = this._getLayout() as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
@@ -70,12 +71,15 @@ export class PlotlyBarComponent {
       .then(() => this._setup())
   }
 
-  private _getTraces(data: Partial<Plotly.Data>[], legends: string[]): Plotly.Data[] {
+  private _getTraces(data: Partial<Plotly.Data>[], legends: string[], styles: Record<string, any>[]): Plotly.Data[] {
     return data.map((serie: Partial<Plotly.Data>, i: number) => {
       return {
         ...serie,
         type: 'bar',
-        name: legends[i] ?? undefined
+        name: legends[i] ?? undefined,
+        marker: {
+          color: (styles[i] && styles[i]['color']) ?? undefined
+        }
       } as Plotly.Data
     })
   }

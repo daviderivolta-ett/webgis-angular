@@ -363,7 +363,8 @@ export class DataPageComponent {
               sensorType ? sensorType.label : s.parameter,
               [sensorType ? sensorType.label : s.parameter],
               undefined,
-              sensorType?.range
+              sensorType?.range,
+              sensorType && sensorType.style ? [sensorType.style] : undefined
             )
           )
           break;
@@ -389,7 +390,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
     const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
-    const sensors = [sensorType, ...relatedSensors];  
+    const sensors = [sensorType, ...relatedSensors];
 
     this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: any) => {
@@ -404,6 +405,7 @@ export class DataPageComponent {
           yUnit: sensorType ? `(${sensorType.unit})` : '',
           legends: sensors.map(s => s ? s.label : ''),
           yRange: sensorType ? sensorType.range : [],
+          styles: sensors.map(s => s?.style).filter(s => s !== undefined)
         };
         this.charts[chartIdx] = newChart;
       })

@@ -13,6 +13,7 @@ export class MapChart {
     public yLabel?: string;
     public yUnit: string;
     public yRange?: any[];
+    public styles?: Record<string, any>[];
     public data: [number, number][][];
     public legends?: string[];
     public sensors: SensorType[];
@@ -32,7 +33,8 @@ export class MapChart {
         yLabel?: string,
         legends?: string[],
         xRange?: any[],
-        yRange?: any[]
+        yRange?: any[],
+        styles?: Record<string, any>[]
     ) {
         this.id = id ?? `${new Date().getTime() + Math.random().toString(36).substring(2, 10)}`;
         this.type = type;
@@ -48,6 +50,7 @@ export class MapChart {
         this.parameterLabel = parameterlabel ?? parameter;
         this.legends = legends;
         this.xRange = xRange;
-        this.yRange =yRange;
+        this.yRange = yRange;
+        this.styles = styles;
     }
 }

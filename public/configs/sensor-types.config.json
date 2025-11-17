@@ -67,9 +67,12 @@
         },
         {
             "id": "min_air_temp",
-            "iconUrl": "./images/icons/min_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura minima",
             "chartType": "line",
+            "style": {
+                "color": "blue"
+            },
             "unit": "°C",
             "range": [
                 -20,
@@ -80,9 +83,12 @@
         },
         {
             "id": "mean_air_temp",
-            "iconUrl": "./images/icons/mean_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura media",
             "chartType": "line",
+            "style": {
+                "color": "#7cb5ec"
+            },
             "unit": "°C",
             "range": [
                 -20,
@@ -96,9 +102,12 @@
         },
         {
             "id": "max_air_temp",
-            "iconUrl": "./images/icons/max_air_temp_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura massima",
             "chartType": "line",
+            "style": {
+                "color": "red"
+            },
             "unit": "°C",
             "range": [
                 -20,
