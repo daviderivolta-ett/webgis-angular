@@ -230,7 +230,7 @@
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-                    "url": "{{BASE_URL}}/platforms/get/all/mean_creek_level?ExtraParam=trend_creek_level",
+                    "url": "{{BASE_URL}}/platforms/get/all/mean_creek_level",
                     "parameter": "mean_creek_level",
                     "markers": {
                         "featureProperty": "extraValue",
@@ -468,7 +468,133 @@
                                 "srs": "EPSG:3857"
                             },
                             "action": {
-                                "id": "getWms"
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_30min",
+                            "label": "Precipitazioni - 30 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall30m",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_1h",
+                            "label": "Precipitazioni - 1 ora",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall1h",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_3h",
+                            "label": "Precipitazioni - 3 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall3h",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_6h",
+                            "label": "Precipitazioni - 6 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall6h",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_12h",
+                            "label": "Precipitazioni - 12 ore",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall12h",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_1d",
+                            "label": "Precipitazioni - 1 giorno",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall1d",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
                             }
                         },
                         {
@@ -489,7 +615,141 @@
                                 "srs": "EPSG:3857"
                             },
                             "action": {
-                                "id": "getWms"
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_15d",
+                            "label": "Precipitazioni - 15 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall15d",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_precipitations_30d",
+                            "label": "Precipitazioni - 30 giorni",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:rainfall30d",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "maps_temperature",
+                    "label": "Temperatura",
+                    "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_temperature_mean",
+                            "label": "Temperatura - Media",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:tempMean",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_temperature_min",
+                            "label": "Temperatura - Minima",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:tempMin",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_temperature_max",
+                            "label": "Temperatura - Massima",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:tempMax",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_temperature_theta",
+                            "label": "Temperatura - Theta",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "omirl:tempTheta",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:3857"
+                            },
+                            "action": {
+                                "id": "wms"
                             }
                         }
                     ]
@@ -1464,6 +1724,77 @@
                             }
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "id": "satellite",
+            "label": "Satelliti",
+            "maxNumber": 1,
+            "requiresAuth": true,
+            "options": [
+                {
+                    "id": "satellite_infrared",
+                    "label": "Satellite - Infrarosso",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:satelliteir",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:3857"
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "satellite_vis",
+                    "label": "Satellite - Visibile VIS",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:satellitevis",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:3857"
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "satellite_vmi",
+                    "label": "Satellite - VMI",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:vmi",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:3857"
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
                 }
             ]
         }

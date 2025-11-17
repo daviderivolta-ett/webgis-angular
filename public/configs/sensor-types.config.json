@@ -158,8 +158,7 @@
             ],
             "isFeatured": true,
             "relatedSensors": [
-                "wind_gust",
-                "prevailing_wind_dir"
+                "wind_gust"
             ]
         },
         {
