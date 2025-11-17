@@ -39,7 +39,7 @@ export class LightningCommandService implements Command {
                     acc[curr] = colorScale.colors[index];
                     return acc;
                 }, {});
-                geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date, colorScale, arcColorDict, layer.legend.unit, layer.label);
+                geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date ?? new Date(), colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
             if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
