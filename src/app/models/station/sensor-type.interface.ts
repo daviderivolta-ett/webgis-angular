@@ -3,7 +3,6 @@ export interface SensorType {
     iconUrl: string;
     label: string;
     chartType: 'line' | 'bar';
-    traceType?: string,
     style?: Record<string, any>;
     unit: string;
     range?: any[];

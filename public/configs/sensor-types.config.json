@@ -69,7 +69,7 @@
             "id": "min_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura minima",
-            "chartType": "line",
+            "chartType": "scatter",
             "style": {
                 "color": "blue"
             },
@@ -85,7 +85,7 @@
             "id": "mean_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura media",
-            "chartType": "line",
+            "chartType": "scatter",
             "style": {
                 "color": "#7cb5ec"
             },
@@ -104,7 +104,7 @@
             "id": "max_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura massima",
-            "chartType": "line",
+            "chartType": "scatter",
             "style": {
                 "color": "red"
             },
@@ -120,7 +120,7 @@
             "id": "mean_creek_level",
             "iconUrl": "./images/icons/mean_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Livello idrometrici medi",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "m",
             "range": [
                 0,
@@ -133,7 +133,7 @@
             "id": "max_creek_level",
             "iconUrl": "./images/icons/max_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Livello idrometrici massimi",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "m",
             "range": [
                 0,
@@ -146,7 +146,7 @@
             "id": "instant_creek_level",
             "iconUrl": "./images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Livello idrometrici istantanei",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "m",
             "range": [
                 0,
@@ -159,7 +159,7 @@
             "id": "mean_wind_speed",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Velocità del vento media",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "km/h",
             "range": [
                 0,
@@ -175,7 +175,7 @@
             "id": "wind_gust",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Raffiche di vento",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "km/h",
             "range": [
                 0,
@@ -188,8 +188,10 @@
             "id": "prevailing_wind_dir",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Direzione del vento",
-            "chartType": "line",
-            "traceType": "arrow",
+            "chartType": "scatter",
+            "style": {
+                "marker": "arrow"
+            },
             "unit": "km/h",
             "range": [
                 0,
@@ -202,7 +204,7 @@
             "id": "humidity",
             "iconUrl": "./images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Umidità dell'aria",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "%",
             "range": [
                 0,
@@ -215,7 +217,7 @@
             "id": "solar_radiation_pwr",
             "iconUrl": "./images/icons/nest_sunblock_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Radiazione solare",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "Wm⁻²",
             "range": [
                 0,
@@ -228,7 +230,7 @@
             "id": "sunshine_duration",
             "iconUrl": "./images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Eliofanie",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "%",
             "range": [
                 0,
@@ -241,7 +243,7 @@
             "id": "leaf_wetness",
             "iconUrl": "./images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Copertura foliare",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "%",
             "range": [
                 0,
@@ -254,7 +256,7 @@
             "id": "mean_sea_level_press",
             "iconUrl": "./images/icons/compress_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pressione atmosferica",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "hPa",
             "range": [
                 900,
@@ -267,7 +269,7 @@
             "id": "battery_voltage",
             "iconUrl": "./images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Tensione batteria",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "V",
             "range": [
                 0,
@@ -280,7 +282,7 @@
             "id": "mean_wave_height",
             "iconUrl": "./images/icons/water_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Stato del mare",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "m",
             "range": [
                 0,
@@ -293,7 +295,7 @@
             "id": "mean_snow_depth",
             "iconUrl": "./images/icons/ac_unit_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Neve",
-            "chartType": "line",
+            "chartType": "scatter",
             "unit": "cm",
             "range": [
                 0,

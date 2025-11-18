@@ -4,13 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChart2, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent, PlotlyBarComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyLineComponent, PlotlyBarComponent, PlotlyChartComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
@@ -42,7 +42,8 @@ import { Utils } from '../../../utils';
     PlotlyBarComponent,
     MapChartSelectorComponent,
     MapChartComponent,
-    MapChartDatepickerComponent
+    MapChartDatepickerComponent,
+    PlotlyChartComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -61,6 +62,7 @@ export class DataPageComponent {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
+  public charts2: MapChart2[] = [];
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
 
@@ -326,6 +328,7 @@ export class DataPageComponent {
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const newCharts: MapChart[] = [];
+    const newCharts2: MapChart2[] = [];
     const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
@@ -366,52 +369,108 @@ export class DataPageComponent {
               sensorType && sensorType.style ? [sensorType.style] : undefined
             )
           )
+
+          newCharts2.push(
+            new MapChart2(
+              s.id,
+              [],
+              s.parameter,
+              stationSensorTypes,
+              undefined,
+              s.name ?? s.parameter,
+              sensorType ? sensorType.label : s.parameter,
+              'Data',
+              '',
+              undefined,
+              sensorType ? sensorType.label : s.parameter,
+              s.unit ? `(${s.unit})` : '',
+              sensorType?.range
+            ));
           break;
       }
     });
 
     this.charts = [...this.charts, ...newCharts];
+    this.charts2 = [...this.charts2, ...newCharts2];
+
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
+    this.charts2 = this.charts2.filter((c: MapChart2) => c.id !== id);
     this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
   }
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
-    const chart = this.charts.find((c: MapChart) => c.id === chartId);
-    if (!chart) return;
+    const chart2 = this.charts2.find((c: MapChart2) => c.id === chartId);
+    if (!chart2) return;
 
-    const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
+    const chartIdx = this.charts2.findIndex((c: MapChart2) => c.id === chartId);
     this.areChartsDisabled = true;
     const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
-    const sensors = [sensorType, ...relatedSensors];
+    const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: any) => {
+    this.stationsService.getTimeSerie(this.timeserieUrl, chart2.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+      .then((data: [number, number][][]) => {
 
-        const newChart: MapChart = {
-          ...chart,
-          type: sensorType ? sensorType.chartType : 'line',
-          parameter: param,
-          parameterLabel: sensorType ? sensorType.label : param,
-          data,
+        const chartData: MapChartData[] = sensors.map((t: SensorType, i: number) => {
+          return new MapChartData(
+            t.chartType,
+            data[i],
+            t.label,
+            t.style
+          )
+        });
+
+        const newChart: MapChart2 = {
+          ...chart2,
+          data: chartData,
+          currentParameter: param,
+          currentParameterLabel: sensorType ? sensorType.label : param,
           yLabel: sensorType ? sensorType.label : param,
           yUnit: sensorType ? `(${sensorType.unit})` : '',
-          legends: sensors.map(s => s ? s.label : ''),
           yRange: sensorType ? sensorType.range : [],
-          styles: sensors.map(s => s?.style).filter(s => s !== undefined)
-        };
-        this.charts[chartIdx] = newChart;
+        }
+        this.charts2[chartIdx] = newChart;
       })
-      .catch((err: unknown) => {
-        console.error(err);
-      })
-      .finally(() => this.areChartsDisabled = false);
+      .catch((err: unknown) => console.error(err))
+      .finally(() => this.areChartsDisabled = false)
+
+
+    // const chart = this.charts.find((c: MapChart) => c.id === chartId);
+    // if (!chart) return;
+
+    // const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
+    // this.areChartsDisabled = true;
+    // const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
+    // const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
+    // const sensors = [sensorType, ...relatedSensors];
+
+    // this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+    //   .then((data: any) => {
+
+    //     const newChart: MapChart = {
+    //       ...chart,
+    //       type: sensorType ? sensorType.chartType : 'line',
+    //       parameter: param,
+    //       parameterLabel: sensorType ? sensorType.label : param,
+    //       data,
+    //       yLabel: sensorType ? sensorType.label : param,
+    //       yUnit: sensorType ? `(${sensorType.unit})` : '',
+    //       legends: sensors.map(s => s ? s.label : ''),
+    //       yRange: sensorType ? sensorType.range : [],
+    //       styles: sensors.map(s => s?.style).filter(s => s !== undefined)
+    //     };
+    //     this.charts[chartIdx] = newChart;
+    //   })
+    //   .catch((err: unknown) => {
+    //     console.error(err);
+    //   })
+    //   .finally(() => this.areChartsDisabled = false);
   }
 
   /**

@@ -1,25 +1,29 @@
 /** Dependencies */
-import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
-import Plotly from 'plotly.js-dist-min';
+import { Component, effect, ElementRef, input, ViewChild } from '@angular/core'
+import Plotly from 'plotly.js-dist-min'
+
+/** Types */
+type PlotlyChartData = {
+  type: string,
+  data: [number, number][],
+  legend?: string,
+  style?: Record<string, any>
+}
 
 /** Component */
 @Component({
-  selector: 'app-plotly-line',
+  selector: 'app-plotly-chart',
   imports: [],
-  templateUrl: './plotly-line.component.html',
-  styleUrl: './plotly-line.component.scss'
+  templateUrl: './plotly-chart.component.html',
+  styleUrl: './plotly-chart.component.scss'
 })
-export class PlotlyLineComponent {
-  public id = input<string>('plotly-line');
+export class PlotlyChartComponent {
+  public id = input<string>('plotly-chart');
   public xLabel = input<string>('TEXT');
   public yLabel = input<string>('TEXT');
   public xRange = input<any[]>([]);
   public yRange = input<any[]>([]);
-  public data = input<[number, number][][]>([]);
-  public legends = input<string[]>([]);
-  public styles = input<Record<string, any>[]>([]);
-  public traces = input<string[]>([]);
-  public parsedData: Partial<Plotly.Data>[] = [];
+  public data = input<PlotlyChartData[]>([]);
 
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
 
@@ -47,22 +51,22 @@ export class PlotlyLineComponent {
     this._resizeObserver.observe(this.plotly.nativeElement);
   }
 
-  private _parseData(data: [number, number][][]): Partial<Plotly.Data>[] {
-    return data.map((series: [number, number][]) => ({
-      x: series.map((v: [number, number]) => v[0]),
-      y: series.map((v: [number, number]) => v[1])
-    }))
+  private _parseData(serie: PlotlyChartData): Partial<Plotly.Data> {
+    return {
+      x: serie.data.map((v: [number, number]) => v[0]),
+      y: serie.data.map((v: [number, number]) => v[1])
+    };
   }
 
-  // private _normalizeData(data: Pick<Plotly.ScatterData, 'x' | 'y'>[]): Pick<Plotly.ScatterData, 'x' | 'y'>[] {
-  //   return data.map((series: [number, number][]) => ({
+  private _normalizeData(serie: PlotlyChartData): Partial<Plotly.Data> {
+    return {
+      x: serie.data.map((v: [number, number]) => v[0]),
+      y: serie.data.map(() => 1),
+    }
+  }
 
-  //   }))
-  // }
-
-  private _drawChart(data: [number, number][][]): void {
-    const parsedData = this._parseData(data);
-    const traces: Plotly.Data[] = this._getTraces(parsedData, this.legends(), this.styles());
+  private _drawChart(data: PlotlyChartData[]): void {
+    const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout() as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
@@ -77,34 +81,34 @@ export class PlotlyLineComponent {
       .then(() => this._setup())
   }
 
-  private _getTraces(data: Partial<Plotly.Data>[], legends: string[], styles: Record<string, any>[]): Plotly.Data[] {
-    return data.map((serie: Partial<Plotly.Data>, i: number) => {
+  private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
+    return data.map((serie: PlotlyChartData) => {    
 
       const trace: Plotly.Data = {
-        ...serie,
-        mode: (styles[i] && styles[i]['marker']) ? 'markers' : 'lines',
-        name: legends[i] ?? undefined,
+        ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ? this._normalizeData({...serie, data: this._decimateData(serie.data, 30)}) : this._parseData(serie),
+        type: serie.type,
+        name: serie.legend ?? undefined,
+      } as Plotly.Data;
+
+      if (serie.type === 'scatter' && serie.style && serie.style['color']) {
+        (trace as Plotly.ScatterData).mode = 'lines';
+        (trace as Plotly.ScatterData).line = {
+          color: serie.style['color']
+        }
       }
 
-      if (styles[i] && styles[i]['color']) {
-        let line = {
-          color: (styles[i] && styles[i]['color']) ?? undefined
-        };
-        (trace as Plotly.ScatterData).line = line;
-      }
-
-      if (styles[i] && styles[i]['marker']) {
-        let marker = {
-          symbol: (styles[i] && styles[i]['marker']) ?? undefined,
-          size: 20,
-          angle: 45,
+      if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
+        (trace as Plotly.ScatterData).mode = 'markers';
+        (trace as Plotly.ScatterData).marker = {
+          symbol: serie.style['marker'] ?? undefined,
+          size: 12,
+          angle: serie.data.map((d: [number, number]) => d[1]),
           color: 'blue'
-        };
-        (trace as Plotly.ScatterData).marker = marker;
+        } as any
       }
-
-      return { ...trace } as Plotly.Data
-    })
+ 
+      return trace;
+    });
   }
 
   private _getLayout(): Partial<Plotly.Layout> {
@@ -169,5 +173,11 @@ export class PlotlyLineComponent {
 
     const rect: DOMRect = this.plotly.nativeElement.getBoundingClientRect();
     return rect.width > 0 && rect.height > 0;
+  }
+
+  private _decimateData<T>(data: T[], maxPoints: number): T[] {
+    if (data.length <= maxPoints) return data;
+    const ratio = Math.ceil(data.length / maxPoints);
+    return data.filter((_, i) => i % ratio === 0);
   }
 }
