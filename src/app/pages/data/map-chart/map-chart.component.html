@@ -5,4 +5,7 @@
     <div class="chart-datepicker"><ng-content select="app-map-chart-datepicker"></ng-content></div>
     <div class="chart"><ng-content select="plotly-chart"></ng-content></div>
     <div class="chart-selector"><ng-content select="app-map-chart-selector"></ng-content></div>
+    @if (isLoading()) {
+        <div class="loader"><span class="spinner"></span></div>
+    }
 </div>

@@ -83,7 +83,7 @@
     <!-- START FLOATING CHARTS -->
     @for (chart of charts; track chart.id) {
         <app-floating-dialog (removeDialog)="removeDialog(chart.id)">
-            <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.id, $event)">
+            <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="areChartsDisabled" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.id, $event)">
                 <app-map-chart-datepicker [endingDate]="selectedDate"></app-map-chart-datepicker>
                     <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [yLabel]="chart.yLabel + ' ' + chart.yUnit" [yRange]="chart.yRange ?? []"></app-plotly-chart>
                 <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector>
