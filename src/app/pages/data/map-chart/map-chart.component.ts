@@ -37,8 +37,6 @@ export class MapChartComponent {
 
   /** Component lifecycles */
   public ngAfterContentInit(): void {
-    setTimeout(() => this.formChanged.emit(this.formValue));
-
     if (this.chartSelector) {
       this.chartSelector.sensorTypeSelected.subscribe((param: string) => {
         this.param.set(param);
@@ -48,7 +46,7 @@ export class MapChartComponent {
     }
 
     if (this.chartDatePicker) {
-      this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {
+      this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {            
         this.dates.set([dates[0], dates[1]]);
         this.formValue['initialDate'] = dates[0];
         this.formValue['endingDate'] = dates[1];

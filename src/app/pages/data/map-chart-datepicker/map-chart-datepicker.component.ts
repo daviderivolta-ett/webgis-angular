@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, effect, model, output } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Component */
@@ -10,27 +10,29 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './map-chart-datepicker.component.scss'
 })
 export class MapChartDatepickerComponent {
-  public endingDate = model<Date>(new Date());
-  public initialDate = model<Date>(this._getInitialDateFrom(this.endingDate()));
+  public endingDate = model<Date | undefined>(new Date());
+  public initialDate = model<Date>(this._getInitialDateFrom(this.endingDate() || new Date()));
   public form = new FormGroup({
     initialDate: new FormControl(this._formatDate(this.initialDate())),
-    endingDate: new FormControl(this._formatDate(this.endingDate()))
+    endingDate: new FormControl(this._formatDate(this.endingDate() || new Date()))
   });
   public datesChanged = output<[string, string]>();
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     effect(() => {
-      this.form.patchValue({ initialDate: this._formatDate(this.initialDate()), endingDate: this._formatDate(this.endingDate()) });
+      this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) });
     });
   }
 
   /** Methods */
   private _onFormChange(changes: any) {
     const initialDate = changes['initialDate'];
-    const endingDate = changes['endingDate'];  
-    if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);
+    const endingDate = changes['endingDate'];
+    setTimeout(() => {
+      if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);      
+    });
   }
 
   private _getInitialDateFrom(date: Date): Date {

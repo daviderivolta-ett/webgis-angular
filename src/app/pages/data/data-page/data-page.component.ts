@@ -63,7 +63,7 @@ export class DataPageComponent {
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
 
-  private _selectedDate: Date | undefined;
+  public selectedDate: Date | undefined;
 
   /** References */
   @ViewChild('map') _map!: MapComponent;
@@ -286,7 +286,7 @@ export class DataPageComponent {
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
       this._map.removeLayerById(l.id);
-      this._executeAction(l, this._selectedDate);
+      this._executeAction(l, this.selectedDate);
     });
   }
 
@@ -332,7 +332,7 @@ export class DataPageComponent {
 
       switch (s.type) {
         case 'hydro':
-          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this._selectedDate ?? new Date(), this.authService.getAccessToken())
+          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this.selectedDate ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
@@ -456,7 +456,7 @@ export class DataPageComponent {
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this._selectedDate);
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -517,7 +517,7 @@ export class DataPageComponent {
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
-    this._selectedDate = date;
+    this.selectedDate = date;
 
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
