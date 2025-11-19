@@ -256,15 +256,17 @@ export class DataPageComponent {
 
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-    if (!colorScale) return;
-    this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: new Date() });
+    if (!colorScale) return;  
+    this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: this.selectedDate ?? new Date() });      
     this.cdRef.detectChanges();
     this._legendsMenu.togglePopUpMenu(true);
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    this.refreshLayersId = window.setInterval(() => {
-      this._refreshLayers();
-    }, 300000);
+    if (this.selectedDate) {
+      this.refreshLayersId = window.setInterval(() => {
+        this._refreshLayers();
+      }, 300000);
+    }
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {

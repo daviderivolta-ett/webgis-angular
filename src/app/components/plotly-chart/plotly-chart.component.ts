@@ -82,10 +82,10 @@ export class PlotlyChartComponent {
   }
 
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
-    return data.map((serie: PlotlyChartData) => {    
+    return data.map((serie: PlotlyChartData) => {
 
       const trace: Plotly.Data = {
-        ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ? this._normalizeData({...serie, data: this._decimateData(serie.data, 30)}) : this._parseData(serie),
+        ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ? this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) : this._parseData(serie),
         type: serie.type,
         name: serie.legend ?? undefined,
       } as Plotly.Data;
@@ -106,7 +106,7 @@ export class PlotlyChartComponent {
           color: 'blue'
         } as any
       }
- 
+
       return trace;
     });
   }
@@ -156,7 +156,21 @@ export class PlotlyChartComponent {
         // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
         tickformat: '%Y-%m-%d h:%H:%M',
         automargin: true
-      }
+      },
+      shapes: [
+        {
+          type: 'rect',
+          xref: 'paper',
+          yref: 'y',
+          x0: 0,
+          x1: 1,
+          y0: this.yRange().length >= 2 ? this.yRange()[1] : undefined,
+          y1: 1e9,
+          fillcolor: 'rgba(255, 0, 0, 0.2)',
+          line: { width: 0 }
+        }
+
+      ]
     }
   }
 

@@ -60,7 +60,7 @@
             <app-pop-up-menu class="legends" position="top-left" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" #legendsMenu>
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">
                     @for (legend of legends; track $index) {
-                        <app-layer-legend [label]="legend.layerLabel ?? legend.layerId" [unit]="legend.unit" [colors]="legend.colors" [labels]="legend.labels"></app-layer-legend>
+                        <app-layer-legend [label]="legend.layerLabel ?? legend.layerId" [unit]="legend.unit" [colors]="legend.colors" [labels]="legend.labels" [date]="legend.date"></app-layer-legend>
                     }
                 </div>
             </app-pop-up-menu>

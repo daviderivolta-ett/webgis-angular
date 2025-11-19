@@ -150,7 +150,7 @@ export class MapComponent {
   }
 
   /** Set layer in internal map and emit event to external */
-  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
+  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {    
     this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
@@ -199,7 +199,12 @@ export class MapComponent {
           shapeFactory(color, '#000', { extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
-        const divIcon = L.divIcon({ html: iconHtml, className: 'custom-marker', iconSize: [24, 24], iconAnchor: [12, 12] });
+        const divIcon = L.divIcon({
+          html: iconHtml,
+          className: 'custom-marker',
+          iconSize: feature.properties.markerShapeId !== 6 ? [24, 24] : [64, 64],
+          iconAnchor: feature.properties.markerShapeId !== 6 ? [12, 12] : [32, 32]
+        });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
         marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
@@ -211,8 +216,8 @@ export class MapComponent {
       ...options
     });
 
-    layer.addTo(this._map);
-    this._registerLayer(id, layer, shapeFactory('grey', 'transparent'));
+    layer.addTo(this._map);   
+    this._registerLayer(id, layer, geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(6)!('grey', 'grey') : shapeFactory('grey', 'transparent'));
 
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
@@ -519,28 +524,28 @@ export class MapComponent {
   }
 
   private _createWindBarbShape(color: string, borderColor: string, options: Record<string, any> = {}) {
-    const { opacity, extraValue: angle } = options;    
+    const { opacity, extraValue: angle } = options;
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('width', '24');
-    svg.setAttribute('height', '24');
+    svg.setAttribute('viewBox', '0 0 64 64');
+    svg.setAttribute('width', '64');
+    svg.setAttribute('height', '64');
 
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', '12');
-    line.setAttribute('y1', '12');
-    line.setAttribute('x2', '12');
+    line.setAttribute('x1', '32');
+    line.setAttribute('y1', '32');
+    line.setAttribute('x2', '32');
     line.setAttribute('y2', '2');
     line.setAttribute('stroke', borderColor);
     line.setAttribute('stroke-width', '2');
     line.setAttribute('stroke-linecap', 'round');
-    line.setAttribute('transform', `rotate(${angle ? angle : '0'} 12 12)`);
+    line.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
     svg.appendChild(line);
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', '12');
-    circle.setAttribute('cy', '12');
-    circle.setAttribute('r', '3');
+    circle.setAttribute('cx', '32');
+    circle.setAttribute('cy', '32');
+    circle.setAttribute('r', '7');
     circle.setAttribute('fill', color);
     circle.setAttribute('fill-opacity', opacity ? opacity.toString() : '1');
     circle.setAttribute('stroke', borderColor);
