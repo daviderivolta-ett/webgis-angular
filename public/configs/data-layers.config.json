@@ -433,6 +433,7 @@
                             12
                         ]
                     },
+                    "requiresAuth": true,
                     "action": {
                         "id": "platforms"
                     }

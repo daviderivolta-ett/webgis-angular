@@ -143,4 +143,25 @@ export class LayerGroup {
 
         return result;
     }
+
+    static getAuthLayers(groups: LayerGroup[], isAuth: boolean) {
+        let result: string[] = [];
+
+        for (const group of groups) {
+            if (!group.requiresAuth || isAuth) result.push(group.id);
+
+            if (group.options) {
+                for (const option of group.options) {
+                    if (option instanceof LayerGroup) {
+                        if (!option.requiresAuth || isAuth) result.push(option.id);
+                        result.push(...this.getAuthLayerGroups([option], isAuth));
+                    } else {
+                        if (!option.requiresAuth || isAuth) result.push(option.id);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }

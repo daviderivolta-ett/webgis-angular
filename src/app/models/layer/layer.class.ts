@@ -8,6 +8,7 @@ export abstract class Layer {
     label?: string;
     legend?: LayerLegend;
     iconUrl?: string;
+    requiresAuth?: boolean;
     action?: any;
 
     constructor(

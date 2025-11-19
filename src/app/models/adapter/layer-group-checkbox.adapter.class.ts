@@ -15,13 +15,13 @@ export class LayerGroupToCheckboxAdapter {
             checkbox.options = group.options.map((opt: LayerGroup | Layer) => {             
                 if (opt instanceof LayerGroup) {                    
                     return this.convert(opt);
-                } else {                   
+                } else {                                     
                     const item = new GroupedCheckboxItem(opt.id);
                     item.label = opt.label;
                     item.iconUrl = opt.iconUrl;
                     item.isChecked = false;
                     item.isDisabled = false;
-                    item.isVisible = true;
+                    item.isVisible = !opt.requiresAuth;
                     item.action = { ...opt.action };
                     return item;
                 }

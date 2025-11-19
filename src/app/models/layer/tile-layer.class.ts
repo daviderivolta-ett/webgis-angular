@@ -1,7 +1,6 @@
 import { Layer } from './layer.class';
 
 export class TileLayer extends Layer {
-    // public url: string;
     public attribution: string;
 
     constructor(
@@ -29,6 +28,7 @@ export class TileLayer extends Layer {
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
+        layer.requiresAuth = object['requiresAuth'] ?? false;
         if (object['action']) layer.action = { ...object['action'] };
 
         return layer;

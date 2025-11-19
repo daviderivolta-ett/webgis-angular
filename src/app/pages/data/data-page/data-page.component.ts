@@ -156,7 +156,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi();
+    this.setDataFromApi();  
   }
 
   public ngAfterViewInit(): void {
@@ -192,13 +192,9 @@ export class DataPageComponent {
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
-    const allLayerGroups: LayerGroup[] = LayerGroup.getAllLayerGroups(this.dataLayers);
+    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);  
     this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
-      const found = allLayerGroups.find((layerGroup: LayerGroup) => layerGroup.id === group.id);
-      return GroupedCheckboxItem.createFromObject({
-        ...group,
-        isVisible: found?.requiresAuth ? isAuth : true
-      })
+      return group.visibleNestedCheckbox(authLayers, group);
     });
   }
 

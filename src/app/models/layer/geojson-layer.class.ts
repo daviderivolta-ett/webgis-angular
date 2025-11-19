@@ -33,6 +33,7 @@ export class GeoJsonLayer extends Layer {
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
         if ('legend' in object && object['legend']) layer.addLegendFromObject(object['legend']);
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
+        layer.requiresAuth = object['requiresAuth'] ?? false;
         if (object['action']) layer.action = { ...object['action'] };
 
         return layer;
