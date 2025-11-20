@@ -165,7 +165,7 @@ export class PlotlyChartComponent {
           x0: 0,
           x1: 1,
           y0: this.yRange().length >= 2 ? this.yRange()[1] : undefined,
-          y1: 1e9,
+          y1: this.yRange().length >= 2 ? this.yRange()[1] + 1 : undefined,
           fillcolor: 'rgba(255, 0, 0, 0.2)',
           line: { width: 0 }
         }
