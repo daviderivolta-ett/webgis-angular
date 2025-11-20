@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core'
 
 /** Models */
-import { ColorScale, Command, GeoJsonLayer, MarkerCondition, MarkerMapping } from '../models'
+import { ColorScale, Command, GeoJsonLayer, MarkerCondition, MarkerMapping, Sensor, Station } from '../models'
 
 /** Services */
 import { ApiService } from './api.service'
@@ -19,7 +19,7 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, token, timeSpan } = args;
+        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -29,6 +29,7 @@ export class PlatformsCommandService implements Command {
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
+            geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
@@ -73,6 +74,24 @@ export class PlatformsCommandService implements Command {
         };
     }
 
+    private _filterStations(geoJSON: GeoJSON.FeatureCollection, stations: Station[], param?: string): GeoJSON.FeatureCollection {      
+        if (!param) return geoJSON;
+
+        return {
+            ...geoJSON,
+            features: geoJSON.features.filter((v: GeoJSON.Feature) => {
+                const station: Station | undefined = stations.find((s) => s.id === v.properties?.['stationCode']);
+                if (!station) return v;
+                else {                 
+                    const sensor: Sensor | undefined = station.sensors.find((s) => s.type === param);
+                    if (station.id === 'PACIS') {
+                        console.log(sensor);                        
+                    }
+                    return sensor?.enabled ? v : undefined;
+                }                
+            }).filter((v) => v !== undefined)
+        }
+    }
 
     private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         return {

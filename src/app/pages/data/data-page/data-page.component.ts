@@ -253,8 +253,8 @@ export class DataPageComponent {
 
     if (foundLayer instanceof WMSLayer) {
       this.layersService.getWMSLayerLegend(foundLayer)
-        .then((imgUrl: string) => {       
-          this.wmsLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: '', imgUrl,  date: this.selectedDate ?? new Date() });
+        .then((imgUrl: string) => {
+          this.wmsLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: '', imgUrl, date: this.selectedDate ?? new Date() });
         })
         .catch((err: unknown) => this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore', 'error', true));
     }
@@ -267,7 +267,6 @@ export class DataPageComponent {
       this.cdRef.detectChanges();
       this._legendsMenu.togglePopUpMenu(true);
     }
-
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
     if (this.selectedDate) {
@@ -338,7 +337,7 @@ export class DataPageComponent {
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
 
-    stations.forEach((s: Station) => {     
+    stations.forEach((s: Station) => {
       const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);
 
       switch (s.type) {
@@ -352,7 +351,7 @@ export class DataPageComponent {
           break;
 
         default:
-          const stationSensorTypeIds = s.sensors.map((s: Sensor) => s.type);
+          const stationSensorTypeIds = s.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
           const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
           const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
 
@@ -389,8 +388,8 @@ export class DataPageComponent {
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
-    const chart2 = this.charts.find((c: MapChart) => c.id === chartId);
-    if (!chart2) return;
+    const chart = this.charts.find((c: MapChart) => c.id === chartId);
+    if (!chart) return;
 
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
@@ -398,7 +397,7 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSerie(this.timeserieUrl, chart2.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: [number, number][][]) => {
 
         const chartData: MapChartData[] = sensors.map((t: SensorType, i: number) => {
@@ -411,7 +410,7 @@ export class DataPageComponent {
         });
 
         const newChart: MapChart = {
-          ...chart2,
+          ...chart,
           data: chartData,
           currentParameter: param,
           currentParameterLabel: sensorType ? sensorType.label : param,
@@ -429,7 +428,7 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any): void {   
+  public onLayerToggled(data: any): void {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
@@ -464,7 +463,7 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {   
+  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
@@ -485,7 +484,7 @@ export class DataPageComponent {
   }
 
   /** Get and execute generic action from commands registry service class */
-  private async _executeAction(layer: Layer, date?: Date): Promise<void> {      
+  private async _executeAction(layer: Layer, date?: Date): Promise<void> {
     if (!layer.action || !('id' in layer.action)) return;
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
@@ -498,6 +497,7 @@ export class DataPageComponent {
     }
 
     const snackbarId = this.snackbarsService.createSnackbar(`Caricamento layer ${layer.label}`, 'loader', false);
+
     try {
       this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
 
@@ -507,6 +507,7 @@ export class DataPageComponent {
         colorScale,
         layer,
         baseUrl: this.apiBaseUrl,
+        stations: this.stations,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan
       });
@@ -526,7 +527,7 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {   
+  public onMapDateChanged(date: Date | undefined): void {
     this.selectedDate = date;
 
     // Split current layers in timedimension and not-timedimension layers
@@ -537,16 +538,16 @@ export class DataPageComponent {
 
     // Call command for every not-timedimension layer
     const promises: Promise<void>[] = [];
-    layersToUpdate.forEach((id: string) => {   
+    layersToUpdate.forEach((id: string) => {
       const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
       if (foundLayer) promises.push(this._executeAction(foundLayer, date));
     });
 
     // Redraw interface
     Promise.allSettled(promises)
-      .then((results) => {       
+      .then((results) => {
         const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
-        const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));            
+        const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
   }
