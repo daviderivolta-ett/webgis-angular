@@ -119,7 +119,7 @@
         {
             "id": "mean_creek_level",
             "iconUrl": "./images/icons/mean_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Livello idrometrici medi",
+            "label": "Livelli idrometrici medi",
             "chartType": "scatter",
             "unit": "m",
             "range": [
@@ -132,7 +132,7 @@
         {
             "id": "max_creek_level",
             "iconUrl": "./images/icons/max_creek_level_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Livello idrometrici massimi",
+            "label": "Livelli idrometrici massimi",
             "chartType": "scatter",
             "unit": "m",
             "range": [
@@ -145,7 +145,7 @@
         {
             "id": "instant_creek_level",
             "iconUrl": "./images/icons/straighten_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Livello idrometrici istantanei",
+            "label": "Livelli idrometrici istantanei",
             "chartType": "scatter",
             "unit": "m",
             "range": [

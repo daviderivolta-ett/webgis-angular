@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
@@ -56,7 +56,8 @@ export class DataPageComponent {
   public baseLayersForm: FormGroup = new FormGroup({ baseLayer: new FormControl() });
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
-  public legends: Legend[] = [];
+  public geojsonLegends: GeojsonLegend[] = [];
+  public wmsLegends: WMSLegend[] = [];
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
@@ -156,7 +157,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi();  
+    this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
@@ -192,7 +193,7 @@ export class DataPageComponent {
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
-    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);  
+    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);
     this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
       return group.visibleNestedCheckbox(authLayers, group);
     });
@@ -250,12 +251,23 @@ export class DataPageComponent {
     const chip = new Chip(event['id'], foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
-    if (!foundLayer || !foundLayer.legend) return;
-    const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-    if (!colorScale) return;  
-    this.legends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: this.selectedDate ?? new Date() });      
-    this.cdRef.detectChanges();
-    this._legendsMenu.togglePopUpMenu(true);
+    if (foundLayer instanceof WMSLayer) {
+      this.layersService.getWMSLayerLegend(foundLayer)
+        .then((imgUrl: string) => {       
+          this.wmsLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: '', imgUrl,  date: this.selectedDate ?? new Date() });
+        })
+        .catch((err: unknown) => this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore', 'error', true));
+    }
+
+    if (foundLayer instanceof GeoJsonLayer) {
+      if (!foundLayer || !foundLayer.legend) return;
+      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
+      if (!colorScale) return;
+      this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: this.selectedDate ?? new Date() });
+      this.cdRef.detectChanges();
+      this._legendsMenu.togglePopUpMenu(true);
+    }
+
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
     if (this.selectedDate) {
@@ -269,7 +281,8 @@ export class DataPageComponent {
     const id = event['id'];
     if (!id) return;
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
-    this.legends = this.legends.filter((l: Legend) => l.layerId !== id);
+    this.geojsonLegends = this.geojsonLegends.filter((l: Legend) => l.layerId !== id);
+    this.wmsLegends = this.wmsLegends.filter((l: Legend) => l.layerId !== id);
   }
 
   private _refreshLayers(): void {

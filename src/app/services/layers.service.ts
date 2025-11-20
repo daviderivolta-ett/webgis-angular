@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { Layer, LayerCategory } from '../models';
+import { Layer, LayerCategory, WMSLayer } from '../models';
 
 /** Service */
 @Injectable({
@@ -21,7 +21,7 @@ export class LayersService {
       return currentLayers;
     }
 
-    const layerCategory: LayerCategory | undefined = layerCategories.get(layerCategoryId);   
+    const layerCategory: LayerCategory | undefined = layerCategories.get(layerCategoryId);
     if (!layerCategory) {
       console.warn('Layer category non trovato per l\'ID:', layerCategoryId);
       return currentLayers;
@@ -32,13 +32,13 @@ export class LayersService {
 
     if (isChecked) {
       this._clearIncompatibleCategories(layerCategory.incompatibleWith, updatedCurrentLayers);
-      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, isAuth ? layerCategory.maxNumber : 1);         
+      const updatedLayers = this._addLayerRespectingLimit(layer.id, existingLayers, isAuth ? layerCategory.maxNumber : 1);
       updatedCurrentLayers.set(layerCategoryId, updatedLayers);
     } else {
       const updatedLayers = existingLayers.filter(id => id !== layer.id);
       updatedCurrentLayers.set(layerCategoryId, updatedLayers);
     }
-      
+
     return updatedCurrentLayers;
   }
 
@@ -52,12 +52,25 @@ export class LayersService {
   }
 
   /** Check max number in layer categories */
-  private _addLayerRespectingLimit(layerId: string, layers: string[], max: number): string[] {  
+  private _addLayerRespectingLimit(layerId: string, layers: string[], max: number): string[] {
     const newLayers = [layerId, ...layers.filter(id => id !== layerId)];
 
     if (max !== -1 && newLayers.length > max) {
       return newLayers.slice(0, max);
     }
     return newLayers;
+  }
+
+  /** Get WMS layer legend */
+  public async getWMSLayerLegend(layer: WMSLayer): Promise<string> {
+    const url: string = `${layer.url}?service=WMS&version=1.1.1&request=GetLegendGraphic&layer=${layer.params['layers']}&format=image/png`;
+    return fetch(url)
+      .then((res: Response) => res.blob())
+      .then((blob: Blob) => {
+        return URL.createObjectURL(blob);
+      })
+      .catch(() => {
+        throw new Error(`Errore nel recupero dell'immagine della legenda del layer WMS ${layer.label ?? layer.id}`);
+      })
   }
 }
