@@ -35,7 +35,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
+            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.', { cause: 404 });
 
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1);
         } catch (error) {
@@ -126,7 +126,7 @@ export class PlatformsCommandService implements Command {
         return defaultShapeId;
     }
 
-    private _createUrlWithDate(url: string, date: Date, minuteSpan: number = 60): string {               
+    private _createUrlWithDate(url: string, date: Date, minuteSpan: number = 60): string {
         const span = minuteSpan * 60 * 1000;
         const fromDate = this.apiService.formatDate(new Date(date.getTime() - span));
         const toDate = this.apiService.formatDate(new Date(date.getTime()));

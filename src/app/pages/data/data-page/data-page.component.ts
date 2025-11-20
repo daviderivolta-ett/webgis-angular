@@ -338,7 +338,7 @@ export class DataPageComponent {
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
 
-    stations.forEach((s: Station) => {
+    stations.forEach((s: Station) => {     
       const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);
 
       switch (s.type) {
@@ -429,7 +429,7 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any): void {
+  public onLayerToggled(data: any): void {   
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
@@ -464,7 +464,7 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
+  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {   
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
@@ -485,7 +485,7 @@ export class DataPageComponent {
   }
 
   /** Get and execute generic action from commands registry service class */
-  private async _executeAction(layer: Layer, date?: Date): Promise<void> {
+  private async _executeAction(layer: Layer, date?: Date): Promise<void> {      
     if (!layer.action || !('id' in layer.action)) return;
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
@@ -512,7 +512,6 @@ export class DataPageComponent {
       });
 
     } catch (err: unknown) {
-
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
       this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
@@ -527,7 +526,7 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {
+  public onMapDateChanged(date: Date | undefined): void {   
     this.selectedDate = date;
 
     // Split current layers in timedimension and not-timedimension layers
@@ -538,16 +537,16 @@ export class DataPageComponent {
 
     // Call command for every not-timedimension layer
     const promises: Promise<void>[] = [];
-    layersToUpdate.forEach((id: string) => {
+    layersToUpdate.forEach((id: string) => {   
       const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
       if (foundLayer) promises.push(this._executeAction(foundLayer, date));
     });
 
     // Redraw interface
     Promise.allSettled(promises)
-      .then((results) => {
+      .then((results) => {       
         const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
-        const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
+        const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));            
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
   }
