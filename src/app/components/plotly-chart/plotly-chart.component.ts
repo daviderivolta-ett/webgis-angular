@@ -1,11 +1,11 @@
 /** Dependencies */
 import { Component, effect, ElementRef, input, ViewChild } from '@angular/core'
-import Plotly from 'plotly.js-dist-min'
+import Plotly, { newPlot } from 'plotly.js-dist-min'
 
 /** Types */
 type PlotlyChartData = {
   type: string,
-  data: [number, number][],
+  data: [number, number | null][],
   legend?: string,
   style?: Record<string, any>
 }
@@ -53,16 +53,44 @@ export class PlotlyChartComponent {
 
   private _parseData(serie: PlotlyChartData): Partial<Plotly.Data> {
     return {
-      x: serie.data.map((v: [number, number]) => v[0]),
-      y: serie.data.map((v: [number, number]) => v[1])
+      x: serie.data.map((v: [number, number | null]) => v[0]),
+      y: serie.data.map((v: [number, number | null]) => v[1])
     };
   }
 
   private _normalizeData(serie: PlotlyChartData): Partial<Plotly.Data> {
     return {
-      x: serie.data.map((v: [number, number]) => v[0]),
+      x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map(() => -10),
     }
+  }
+
+  private _fillGapData(data: [number, number][]): [number, number | null][] {
+    let minGap = data[1][0] - data[0][1];
+
+    for (let i = 1; i < data.length - 2; i++) {
+      const gap = data[i + 1][0] - data[i][0];
+      if (gap < minGap) minGap = gap;
+    }
+
+    const newData: [number, number | null][] = [];
+
+    for (let i = 0; i < data.length - 2; i++) {
+      const element = data[i];
+      newData.push(element);
+      let time = element[0];
+      const nextElement = data[i + 1];
+      const nextTime = nextElement[0];
+
+      while ((time + minGap * 1.2) < nextTime) {
+        newData.push([time + minGap, null]);
+        time = time + minGap;
+      }
+    }
+
+    newData.push(data[data.length - 1]);
+
+    return newData;
   }
 
   private _drawChart(data: PlotlyChartData[]): void {
@@ -83,9 +111,11 @@ export class PlotlyChartComponent {
 
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
     return data.map((serie: PlotlyChartData) => {
-
+      
       const trace: Plotly.Data = {
-        ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ? this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) : this._parseData(serie),
+        ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
+          this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
+          this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
         type: serie.type,
         name: serie.legend ?? undefined,
       } as Plotly.Data;
@@ -102,14 +132,15 @@ export class PlotlyChartComponent {
         (trace as Plotly.ScatterData).marker = {
           symbol: serie.style['marker'] ?? undefined,
           size: 12,
-          angle: serie.data.map((d: [number, number]) => d[1]),
+          angle: serie.data.map((d: [number, number | null]) => d[1]),
           color: 'black'
         } as any
       }
 
       return {
         ...trace,
-        hovertemplate: "Ora: %{x}<br>Valore: %{y}<extra></extra>"
+        connectgaps: false,
+        hovertemplate: `%{x}<br>${serie.legend}: %{y}<extra></extra>`
       };
     });
   }
@@ -166,6 +197,12 @@ export class PlotlyChartComponent {
             value: "%d %b"
           }
         ]
+      },
+      hoverlabel: {
+        bgcolor: 'white',
+        font: {
+          color: 'black'
+        }
       },
       shapes: [
         {
