@@ -264,8 +264,6 @@ export class DataPageComponent {
       const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
       if (!colorScale) return;
       this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: this.selectedDate ?? new Date() });
-      this.cdRef.detectChanges();
-      this._legendsMenu.togglePopUpMenu(true);
     }
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);

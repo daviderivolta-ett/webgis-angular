@@ -1747,7 +1747,7 @@
         },
         {
             "id": "satellite",
-            "label": "Satelliti",
+            "label": "Satellite",
             "maxNumber": 1,
             "requiresAuth": true,
             "options": [
