@@ -199,7 +199,7 @@ export class MapComponent {
         const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
-          shapeFactory(color, '#000', { extraValue });
+          shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
         const divIcon = L.divIcon({

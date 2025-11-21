@@ -49,8 +49,8 @@ export class FloatingDialogComponent {
     const deltaX = event.clientX - this._startX;
     const deltaY = event.clientY - this._startY;
 
-    const maxWidth = window.innerWidth - this.dialog.nativeElement.offsetLeft;
-    const maxHeight = window.innerHeight - this.dialog.nativeElement.offsetTop;
+    const maxWidth = window.innerWidth - this.dialog.nativeElement.clientLeft;
+    const maxHeight = window.innerHeight - this.dialog.nativeElement.clientTop;
 
     const newWidth = Math.min(this._initialWidth + deltaX, maxWidth);
     const newHeight = Math.min(this._initialHeight + deltaY, maxHeight);

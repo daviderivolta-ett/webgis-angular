@@ -1,18 +1,19 @@
 .floating-dialog {
     position: absolute;
     z-index: 9999999;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: calc((100dvh - 70dvh) / 2);
+    left: calc((100dvw - 70dvh) / 2);
     background-color: var(--neutral-100, white);
     border: 1px solid var(--neutral-500, grey);
     border-radius: 8px;
     resize: none;
     overflow: hidden;
     transform-origin: bottom right;
-    height: 60dvh;
-    width: 60dvh;
+    width: 500px;
+    min-width: 70dvh;
+    min-height: 70dvh;
     max-width: 95dvw;
+    max-height: 95dvh;
 }
 
 .dragger {

@@ -1792,10 +1792,18 @@
                     "action": {
                         "id": "wms"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "id": "radar",
+            "label": "Radar",
+            "maxNumber": 1,
+            "requiresAuth": true,
+            "options": [
                 {
-                    "id": "satellite_vmi",
-                    "label": "Satellite - VMI",
+                    "id": "radar_vmi",
+                    "label": "Radar - VMI",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,
