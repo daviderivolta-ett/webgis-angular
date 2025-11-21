@@ -62,6 +62,7 @@ export class MapComponent {
   public position = input<[number, number]>([0, 0]);
   public zoom = input<number>(0);
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
+  public minZoom = input<number>(0);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
@@ -103,6 +104,7 @@ export class MapComponent {
     })
       .setView(this.position(), this.zoom())
       .setMaxBounds(this.maxBounds())
+      .setMinZoom(this.minZoom())
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
