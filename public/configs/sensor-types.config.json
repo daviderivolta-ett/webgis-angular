@@ -162,7 +162,7 @@
             "chartType": "scatter",
             "unit": "km/h",
             "range": [
-                0,
+                -20,
                 120
             ],
             "isFeatured": true,
@@ -178,7 +178,7 @@
             "chartType": "scatter",
             "unit": "km/h",
             "range": [
-                0,
+                -20,
                 120
             ],
             "isFeatured": false,
@@ -194,7 +194,7 @@
             },
             "unit": "km/h",
             "range": [
-                0,
+                -20,
                 120
             ],
             "isFeatured": false,

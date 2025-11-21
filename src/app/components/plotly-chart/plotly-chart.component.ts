@@ -61,7 +61,7 @@ export class PlotlyChartComponent {
   private _normalizeData(serie: PlotlyChartData): Partial<Plotly.Data> {
     return {
       x: serie.data.map((v: [number, number]) => v[0]),
-      y: serie.data.map(() => 1),
+      y: serie.data.map(() => -10),
     }
   }
 
@@ -103,7 +103,7 @@ export class PlotlyChartComponent {
           symbol: serie.style['marker'] ?? undefined,
           size: 12,
           angle: serie.data.map((d: [number, number]) => d[1]),
-          color: 'blue'
+          color: 'black'
         } as any
       }
 

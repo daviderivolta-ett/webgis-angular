@@ -61,6 +61,7 @@ export class MapComponent {
   /** Inputs properties */
   public position = input<[number, number]>([0, 0]);
   public zoom = input<number>(0);
+  public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
@@ -101,6 +102,7 @@ export class MapComponent {
       // timeDimensionControl: true
     })
       .setView(this.position(), this.zoom())
+      .setMaxBounds(this.maxBounds())
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
@@ -150,7 +152,7 @@ export class MapComponent {
   }
 
   /** Set layer in internal map and emit event to external */
-  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {    
+  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
     this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
@@ -216,7 +218,7 @@ export class MapComponent {
       ...options
     });
 
-    layer.addTo(this._map);   
+    layer.addTo(this._map);
     this._registerLayer(id, layer, geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(6)!('grey', 'grey') : shapeFactory('grey', 'transparent'));
 
     // Function called when this specific GeoJSON layer is removed

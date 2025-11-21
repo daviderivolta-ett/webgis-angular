@@ -1,7 +1,7 @@
 export class MapConfig {
     public position: [number, number] = [0, 0];
     public zoom: number = 0;
-    public markerColors: Map<string, string> = new Map();
+    public maxBounds: [number, number][] = [[0, 0], [0, 0]];
 
     constructor() { }
 
@@ -11,10 +11,8 @@ export class MapConfig {
         config.position = (object['position'] && Array.isArray(object['position']) && object['position'].length === 2) ?
             [object['position'][0], object['position'][1]] :
             [0, 0];
-        config.zoom = (object['zoom'] && typeof object['zoom'] === 'number') ? object['zoom'] : 0
-        config.markerColors = object['markerColors'] ?
-            new Map(Object.entries(object['markerColors'])) :
-            new Map();
+        config.zoom = (object['zoom'] && typeof object['zoom'] === 'number') ? object['zoom'] : 0;
+        config.maxBounds = (object['maxBounds'] && Array.isArray(object['maxBounds']) && object['maxBounds'].every((v: any) => Array.isArray(v) && v.length === 2)) ? [...object['maxBounds']] : [[0, 0], [0, 0]];
 
         return config;
     }
