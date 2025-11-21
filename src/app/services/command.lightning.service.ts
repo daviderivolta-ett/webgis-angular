@@ -59,7 +59,7 @@ export class LightningCommandService implements Command {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {
                 const properties: any = f.properties ?? {};
-                const date = new Date(properties['creationDate']);
+                const date = new Date(properties['referenceDate']);
                 const timestamp: number = date.getTime();
                 const elapsedMs: number = now - timestamp;
                 const elapsedHours: number = (elapsedMs / (1000 * 60 * 60));

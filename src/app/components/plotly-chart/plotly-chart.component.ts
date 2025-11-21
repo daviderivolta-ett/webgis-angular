@@ -107,7 +107,10 @@ export class PlotlyChartComponent {
         } as any
       }
 
-      return trace;
+      return {
+        ...trace,
+        hovertemplate: "Ora: %{x}<br>Valore: %{y}<extra></extra>"
+      };
     });
   }
 
@@ -154,8 +157,15 @@ export class PlotlyChartComponent {
         // type: this._dateAxis === 'x' ? 'date' : '-',
         type: 'date',
         // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
-        tickformat: '%Y-%m-%d h:%H:%M',
-        automargin: true
+        // tickformat: '%Y-%m-%d h:%H:%M',
+        tickformat: undefined,
+        automargin: true,
+        tickformatstops: [
+          {
+            dtickrange: ["M1", "M1"],
+            value: "%d %b"
+          }
+        ]
       },
       shapes: [
         {

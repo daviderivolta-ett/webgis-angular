@@ -195,9 +195,10 @@ export class MapComponent {
     const layer = L.geoJSON(geoJSON, {
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
+        const value: number | undefined = feature.properties.value;
         const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
-          this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { extraValue }) :
+          this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
@@ -526,23 +527,91 @@ export class MapComponent {
   }
 
   private _createWindBarbShape(color: string, borderColor: string, options: Record<string, any> = {}) {
-    const { opacity, extraValue: angle } = options;
+    const { opacity, value: speed, extraValue: angle } = options;
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 64 64');
     svg.setAttribute('width', '64');
     svg.setAttribute('height', '64');
 
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', '32');
-    line.setAttribute('y1', '32');
-    line.setAttribute('x2', '32');
-    line.setAttribute('y2', '2');
-    line.setAttribute('stroke', borderColor);
-    line.setAttribute('stroke-width', '2');
-    line.setAttribute('stroke-linecap', 'round');
-    line.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
-    svg.appendChild(line);
+    if (speed > 0) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', '32');
+      line.setAttribute('y1', '32');
+      line.setAttribute('x2', '32');
+      line.setAttribute('y2', '4');
+      line.setAttribute('stroke', borderColor);
+      line.setAttribute('stroke-width', '2');
+      line.setAttribute('stroke-linecap', 'round');
+      line.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+      svg.appendChild(line);
+
+      if (speed > 1.8 && speed < 10.8) {
+        const halfBarb = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        halfBarb.setAttribute('x1', '32');
+        halfBarb.setAttribute('y1', '14');
+        halfBarb.setAttribute('x2', '39');
+        halfBarb.setAttribute('y2', '10');
+        halfBarb.setAttribute('stroke', borderColor);
+        halfBarb.setAttribute('stroke-width', '2');
+        halfBarb.setAttribute('stroke-linecap', 'round');
+        halfBarb.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+        svg.appendChild(halfBarb);
+      }
+
+      if (speed > 10.8) {
+        const firstBarb = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        firstBarb.setAttribute('x1', '32');
+        firstBarb.setAttribute('y1', '4');
+        firstBarb.setAttribute('x2', '39');
+        firstBarb.setAttribute('y2', '0');
+        firstBarb.setAttribute('stroke', borderColor);
+        firstBarb.setAttribute('stroke-width', '2');
+        firstBarb.setAttribute('stroke-linecap', 'round');
+        firstBarb.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+        svg.appendChild(firstBarb);
+      }
+
+      if (speed > 18) {
+        const secondBarb = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        secondBarb.setAttribute('x1', '32');
+        secondBarb.setAttribute('y1', '9');
+        secondBarb.setAttribute('x2', speed > 28 ? '39' : '35.5');
+        secondBarb.setAttribute('y2', speed > 28 ? '5' : '7');
+        secondBarb.setAttribute('stroke', borderColor);
+        secondBarb.setAttribute('stroke-width', '2');
+        secondBarb.setAttribute('stroke-linecap', 'round');
+        secondBarb.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+        svg.appendChild(secondBarb);
+      }
+
+      if (speed > 36) {
+        const thirdBarb = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        thirdBarb.setAttribute('x1', '32');
+        thirdBarb.setAttribute('y1', '14');
+        thirdBarb.setAttribute('x2', speed > 46.8 ? '39' : '35.5');
+        thirdBarb.setAttribute('y2', speed > 46.8 ? '10' : '12');
+        thirdBarb.setAttribute('stroke', borderColor);
+        thirdBarb.setAttribute('stroke-width', '2');
+        thirdBarb.setAttribute('stroke-linecap', 'round');
+        thirdBarb.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+        svg.appendChild(thirdBarb);
+      }
+
+      if (speed > 54) {
+        const fourthBarb = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        fourthBarb.setAttribute('x1', '32');
+        fourthBarb.setAttribute('y1', '19');
+        fourthBarb.setAttribute('x2', speed > 64.8 ? '39' : '35.5');
+        fourthBarb.setAttribute('y2', speed > 64.8 ? '15' : '17');
+        fourthBarb.setAttribute('stroke', borderColor);
+        fourthBarb.setAttribute('stroke-width', '2');
+        fourthBarb.setAttribute('stroke-linecap', 'round');
+        fourthBarb.setAttribute('transform', `rotate(${angle ? angle : '0'} 32 32)`);
+        svg.appendChild(fourthBarb);
+      }
+
+    }
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', '32');
