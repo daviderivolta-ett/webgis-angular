@@ -405,6 +405,7 @@ export class DataPageComponent {
             t.chartType,
             data[i],
             t.label,
+            t.unit,
             t.style
           )
         });

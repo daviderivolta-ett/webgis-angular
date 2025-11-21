@@ -1,12 +1,13 @@
 /** Dependencies */
 import { Component, effect, ElementRef, input, ViewChild } from '@angular/core'
-import Plotly, { newPlot } from 'plotly.js-dist-min'
+import Plotly from 'plotly.js-dist-min'
 
 /** Types */
 type PlotlyChartData = {
   type: string,
   data: [number, number | null][],
   legend?: string,
+  unit?: string,
   style?: Record<string, any>
 }
 
@@ -111,7 +112,7 @@ export class PlotlyChartComponent {
 
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
     return data.map((serie: PlotlyChartData) => {
-      
+
       const trace: Plotly.Data = {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
           this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
@@ -140,7 +141,7 @@ export class PlotlyChartComponent {
       return {
         ...trace,
         connectgaps: false,
-        hovertemplate: `%{x}<br>${serie.legend}: %{y}<extra></extra>`
+        hovertemplate: `%{x}<br>${serie.legend}: %{y} ${serie.unit}<extra></extra>`
       };
     });
   }
