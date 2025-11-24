@@ -54,9 +54,9 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
 
     public getColor(value: number): string {
         // Steps mode
-        if (this.steps && this.steps.length >= 1) {
+        if (this.steps && this.steps.length >= 1) {          
             const numValue: number = +value;
-            const index = this.steps.findIndex((step: number) => numValue < step);
+            const index = this.steps.findIndex((step: number) => numValue <= step);
             return this.colors[index === -1 ? (this.colors.length - 1) : index];
         }
 

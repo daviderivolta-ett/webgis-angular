@@ -40,7 +40,7 @@ export class HydroCommandService implements Command {
                     acc[curr] = colorScale.colors[index];
                     return acc;
                 }, {});
-                geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
+                geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
             if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
@@ -53,20 +53,15 @@ export class HydroCommandService implements Command {
     }
 
     /** Methods */
-    private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         const now: number = new Date().getTime();
 
         return {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {
                 const properties: any = f.properties ?? {};
-                const colorCode = properties['alert'];              
-
-                const date = new Date(properties['creationDate']);
-                const timestamp: number = date.getTime();
-                const elapsedMs: number = now - timestamp;
-                const elapsedHours: number = (elapsedMs / (1000 * 60 * 60));
-                const color: string = colorScale.getColor(elapsedHours);
+                const colorCode = properties['alert'];               
+                const color: string = colorScale.getColor(colorCode ?? 0);
 
                 return {
                     ...f,
@@ -83,7 +78,7 @@ export class HydroCommandService implements Command {
         };
     }
 
-    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {       
         return {
             ...geoJSON,
             features: [

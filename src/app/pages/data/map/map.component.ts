@@ -143,8 +143,7 @@ export class MapComponent {
         const btn: HTMLButtonElement | undefined | null = popup.getElement()?.querySelector('#map-popup-btn');
         btn?.addEventListener('click', () => this.popupClicked.emit(this._popup.data()));
 
-        popup.on('remove', () => {
-          this.markerClicked.emit([]);
+        popup.on('remove', () => {          
           btn?.removeEventListener('click', () => this.popupClicked.emit(this._popup.data()));
         });
 
@@ -211,7 +210,8 @@ export class MapComponent {
           iconAnchor: feature.properties.markerShapeId !== 6 ? [12, 12] : [32, 32]
         });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
-        marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('click', () => this.popupClicked.emit(this._popup.data()));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
         return marker;
       },
@@ -286,7 +286,8 @@ export class MapComponent {
           icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
         if (f.geometry.type === 'Point') marker.feature = f as Feature<Point>;
-        marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('click', () => this.popupClicked.emit(this._popup.data()));
         markers.addLayer(marker);
       }
 
@@ -352,6 +353,7 @@ export class MapComponent {
   public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
       className: 'custom-leaflet-popup',
+      offset: new L.Point(0, -16)
     })
       .setContent(`${element.outerHTML}`)
       .setLatLng(coordinates)
@@ -376,8 +378,7 @@ export class MapComponent {
   }
 
   /** Custom marker shapes related methods */
-  private _getNextAvailableMarkerShape(): number {  
-    console.log('CHOOSE MARKER SHAPE');    
+  private _getNextAvailableMarkerShape(): number {
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {       
         this._usedMarkerShapes.add(i);

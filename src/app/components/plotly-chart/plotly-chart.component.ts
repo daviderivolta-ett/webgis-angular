@@ -67,6 +67,8 @@ export class PlotlyChartComponent {
   }
 
   private _fillGapData(data: [number, number][]): [number, number | null][] {
+    if (data.length < 2) return data;
+
     let minGap = data[1][0] - data[0][1];
 
     for (let i = 1; i < data.length - 2; i++) {
