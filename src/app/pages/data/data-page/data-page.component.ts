@@ -509,7 +509,8 @@ export class DataPageComponent {
         baseUrl: this.apiBaseUrl,
         stations: this.stations,
         token: this.authService.getAccessToken(),
-        timeSpan: this.settings.mapTimeSpan
+        timeSpan: this.settings.mapTimeSpan,
+        timeThreshold: this.settings.staleDataThreshold
       });
 
     } catch (err: unknown) {

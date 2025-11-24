@@ -1,3 +1,4 @@
 {
-    "mapTimeSpan": 120
+    "mapTimeSpan": 120,
+    "staleDataThreshold": 120
 }

@@ -19,7 +19,7 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan } = args;
+        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -32,7 +32,7 @@ export class PlatformsCommandService implements Command {
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
-            if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label);
+            if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold);
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
@@ -74,7 +74,7 @@ export class PlatformsCommandService implements Command {
         };
     }
 
-    private _filterStations(geoJSON: GeoJSON.FeatureCollection, stations: Station[], param?: string): GeoJSON.FeatureCollection {      
+    private _filterStations(geoJSON: GeoJSON.FeatureCollection, stations: Station[], param?: string): GeoJSON.FeatureCollection {
         if (!param) return geoJSON;
 
         return {
@@ -82,24 +82,29 @@ export class PlatformsCommandService implements Command {
             features: geoJSON.features.filter((v: GeoJSON.Feature) => {
                 const station: Station | undefined = stations.find((s) => s.id === v.properties?.['stationCode']);
                 if (!station) return v;
-                else {                 
+                else {
                     const sensor: Sensor | undefined = station.sensors.find((s) => s.type === param);
-                    if (station.id === 'PACIS') {
-                        console.log(sensor);                        
-                    }
                     return sensor?.enabled ? v : undefined;
-                }                
+                }
             }).filter((v) => v !== undefined)
         }
     }
 
-    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number): GeoJSON.FeatureCollection {       
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
+                const date: Date = new Date(properties['referenceDate']);
+
                 const value: any = properties['value'];
-                const color: string = colorScale.getColor(value);
+                let color: string = colorScale.getColor(value);
+
+                if (currentDate && !isNaN(date.getTime()) && timeThreshold) {
+                    const isWithin = (currentDate.getTime() - date.getTime()) < timeThreshold * 60 * 1000;
+                    if (!isWithin) color = 'grey';
+                }         
+
                 return {
                     ...feature,
                     properties: {
