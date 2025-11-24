@@ -259,11 +259,20 @@ export class MapComponent {
     // @ts-ignore: donut cluster plugin has no type declaration
     const markers = L.DonutCluster({
       chunkedLoading: true,
-      clusterPane: 'cluster'
+      clusterPane: 'cluster',
+      maxClusterRadius: 5,
     }, {
       key: 'title',
-      arcColorDict
+      arcColorDict,
+      style: {
+        size: 40,
+        fill: '#bbb',
+        opacity: 1,
+        weight: 7
+      },
     });
+
+    console.log(markers);    
 
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
