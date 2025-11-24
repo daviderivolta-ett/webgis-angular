@@ -156,6 +156,7 @@ export class MapComponent {
   /** Set layer in internal map and emit event to external */
   private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
     this._layers.set(id, layer);
+    console.log(icon);    
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
 
@@ -224,7 +225,7 @@ export class MapComponent {
     layer.addTo(this._map);
     this._registerLayer(id, layer,
       geoJSON.features.length > 0 ?
-        geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(6)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
+        geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(1)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
         shapeFactory('grey', 'transparent')
     );
 
