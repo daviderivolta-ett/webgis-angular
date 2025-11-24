@@ -157,7 +157,7 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi(); 
+    this.setDataFromApi();
   }
 
   public ngAfterViewInit(): void {
@@ -340,7 +340,8 @@ export class DataPageComponent {
 
       switch (s.type) {
         case 'hydro':
-          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, this.selectedDate ?? new Date(), this.authService.getAccessToken())
+          const date = this.stationsService.getHydroDateFromSubfolder(this.selectedDate ?? new Date(), s['subfolder'] ?? '');
+          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;

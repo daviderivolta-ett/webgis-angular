@@ -5,11 +5,6 @@ import { Injectable, Injector, Type } from '@angular/core'
 import { Command } from '../models'
 
 /** Services */
-import { GetAndRenderStationsCommandService } from './get-stations.command.service'
-import { GetWMSCommandService } from './get-wms.command.service'
-import { ClusterStationsService } from './cluster-stations.command.service'
-import { ClusterDateStationsService } from './cluster-date-stations.command.service'
-
 import { HydroCommandService } from './command.hydro.service'
 import { LightningCommandService } from './command.lightning.service'
 import { PlatformsCommandService } from './command.platforms.service'
@@ -20,12 +15,7 @@ import { WMSCommandService } from './command.wms.service'
   providedIn: 'root'
 })
 export class CommandsRegistryService {
-  static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([
-    ['getStations', GetAndRenderStationsCommandService],
-    ['getWms', GetWMSCommandService],
-    ['clusterStations', ClusterStationsService],
-    ['clusterDateStations', ClusterDateStationsService],
-    
+  static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([    
     ['hydro', HydroCommandService],
     ['lightning', LightningCommandService],
     ['platforms', PlatformsCommandService],

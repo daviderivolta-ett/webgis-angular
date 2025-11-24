@@ -9,6 +9,7 @@ export class Station extends StationBase implements StationData {
     public unit?: string;
     public date?: Date;
     public commt?: string;
+    public subfolder?: string;
 
     constructor(
         id: string,
@@ -25,6 +26,7 @@ export class Station extends StationBase implements StationData {
         unit?: string,
         date?: Date,
         commt?: string,
+        subfolder?: string,
         type: 'platform' | 'lightning' | 'hydro' = 'platform'
     ) {
         super(id, lat, lng, sensors, uuid, name, city, alt);
@@ -35,6 +37,7 @@ export class Station extends StationBase implements StationData {
         this.unit = unit;
         this.date = date;
         this.commt = commt;
+        this.subfolder = subfolder;
         this.type = type;
     }
 
@@ -78,12 +81,13 @@ export class Station extends StationBase implements StationData {
             const date = new Date(rawDate);
             if (!isNaN(date.getTime())) data.date = date;
         }
-        if (props['commt'] && typeof props['commt'] === 'string') data.commt = props['commt'];       
+        if (props['commt'] && typeof props['commt'] === 'string') data.commt = props['commt']; 
+        if (props['subFolder'] && typeof props['subFolder'] === 'string') data.subfolder = props['subFolder'];
         return data;
     }
 
     static fromStationData(stationBase: StationBase, data: StationData): Station {
-        const { value, parameter, label, unit, date, commt } = data;
+        const { value, parameter, label, unit, date, commt, subfolder } = data;
 
         return new Station(
             stationBase.id,
@@ -100,6 +104,7 @@ export class Station extends StationBase implements StationData {
             unit,
             date,
             commt,
+            subfolder,
             stationBase.type
         )
     }

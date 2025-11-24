@@ -70,23 +70,6 @@ export class StationsService {
   }
 
   public parseTimeSerie(data: any, params: string[]): any {
-    // if (!Array.isArray(data)) return [];
-
-    // const filteredData = data
-    //   .filter((d) => d['parameter'] === params[0])
-    //   .map((d: any) => ({
-    //     value: d['value'],
-    //     date: d['referenceDate']
-    //   }))
-
-    // const parsedData = filteredData.map((d: any) => {
-    //   return [
-    //     new Date(d['date']).getTime(),
-    //     parseFloat(d['value'])
-    //   ]
-    // })
-
-    // return [parsedData];
     if (!Array.isArray(data)) return [];
 
     return params.map(param => {
@@ -99,6 +82,21 @@ export class StationsService {
 
       return filtered;
     });
+  }
+
+  public getHydroDateFromSubfolder(originalDate: Date, subfolder: string): Date {
+    if (subfolder.length !== 4) return originalDate;
+
+    const mid: number = Math.ceil(subfolder.length / 2);
+    const splittedSubfolder: [string, string] = [subfolder.slice(0, mid), subfolder.slice(mid)];
+    const splittedHoursAndMinutes: [number, number] = splittedSubfolder.map((v: string) => parseFloat(v)) as [number, number];
+
+    const date = originalDate;
+    date.setHours(splittedHoursAndMinutes[0]);
+    date.setMinutes(splittedHoursAndMinutes[1]);
+    date.setSeconds(0);
+
+    return date;
   }
 
   public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {

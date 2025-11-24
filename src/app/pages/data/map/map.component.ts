@@ -270,9 +270,7 @@ export class MapComponent {
         opacity: 1,
         weight: 7
       },
-    });
-
-    console.log(markers);    
+    }); 
 
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 

@@ -4,5 +4,6 @@ export interface StationData {
     label?: string,
     unit?: string,
     date?: Date,
-    commt?: string
+    commt?: string,
+    subfolder?: string
 }
