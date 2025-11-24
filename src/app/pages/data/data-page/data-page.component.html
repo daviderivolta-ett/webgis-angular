@@ -65,7 +65,7 @@
         }
 
         @if (geojsonLegends.length > 0) {
-            <app-pop-up-menu class="geojson-legends" position="top-left" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" #legendsMenu>
+            <app-pop-up-menu class="geojson-legends" position="top-left" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" [hasOverflow]="true" #legendsMenu>
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">
                     @for (legend of geojsonLegends; track $index) {
                         <app-layer-legend [label]="legend.layerLabel ?? legend.layerId" [unit]="legend.unit" [colors]="legend.colors" [labels]="legend.labels" [date]="legend.date"></app-layer-legend>

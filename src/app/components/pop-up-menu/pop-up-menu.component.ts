@@ -14,6 +14,8 @@ export class PopUpMenuComponent {
   public iconUrl = input<string>('');
   public maxHeight = input<string>('50px');
   public position = input<string>('top-right');
+  public hasOverflow = input<boolean>(false);
+
   public finalPosition: ['top' | 'bottom', 'left' | 'right'] = ['top', 'right'];
 
   public toggled = output<boolean>();

@@ -94,6 +94,18 @@
             ]
         },
         {
+            "id": "hydro",
+            "colors": [
+                "black",
+                "grey",
+                "lightblue",
+                "white",
+                "green",
+                "yellow",
+                "red"
+            ]
+        },
+        {
             "id": "status",
             "colors": [
                 "#B0B0B0",

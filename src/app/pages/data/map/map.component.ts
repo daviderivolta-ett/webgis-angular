@@ -155,8 +155,7 @@ export class MapComponent {
 
   /** Set layer in internal map and emit event to external */
   private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
-    this._layers.set(id, layer);
-    console.log(icon);    
+    this._layers.set(id, layer);  
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
 

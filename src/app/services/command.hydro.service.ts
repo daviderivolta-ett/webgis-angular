@@ -42,8 +42,8 @@ export class HydroCommandService implements Command {
                 }, {});
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
-            
-            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
+
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {
@@ -60,6 +60,8 @@ export class HydroCommandService implements Command {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {
                 const properties: any = f.properties ?? {};
+                const colorCode = properties['alert'];              
+
                 const date = new Date(properties['creationDate']);
                 const timestamp: number = date.getTime();
                 const elapsedMs: number = now - timestamp;
@@ -79,6 +81,24 @@ export class HydroCommandService implements Command {
             })
 
         };
+    }
+
+    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [0, 0]
+                    },
+                    properties: {
+                        color: 'transparent'
+                    }
+                }
+            ]
+        }
     }
 
     private _mergeFeatureCollections(collections: GeoJSON.FeatureCollection[]): GeoJSON.FeatureCollection {

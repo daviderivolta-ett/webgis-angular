@@ -31,7 +31,7 @@
         },
         {
             "id": "data_geojson-point--cluster",
-            "maxNumber": -1,
+            "maxNumber": 1,
             "incompatibleWith": []
         }
     ],
