@@ -222,11 +222,15 @@ export class MapComponent {
     });
 
     layer.addTo(this._map);
-    this._registerLayer(id, layer, geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(6)!('grey', 'grey') : shapeFactory('grey', 'transparent'));
+    this._registerLayer(id, layer,
+      geoJSON.features.length > 0 ?
+        geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(6)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
+        shapeFactory('grey', 'transparent')
+    );
 
     // Function called when this specific GeoJSON layer is removed
-    layer.on('remove', () => {
-      const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release
+    layer.on('remove', () => {  
+      const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release     
       if (index !== undefined) this._releaseMarkerShape(index); // comparison with 'undefined' because '0' is a valid value and js considers it 'falsy'
     });
   }
@@ -270,7 +274,7 @@ export class MapComponent {
         opacity: 1,
         weight: 7
       },
-    }); 
+    });
 
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
@@ -372,9 +376,10 @@ export class MapComponent {
   }
 
   /** Custom marker shapes related methods */
-  private _getNextAvailableMarkerShape(): number {
+  private _getNextAvailableMarkerShape(): number {  
+    console.log('CHOOSE MARKER SHAPE');    
     for (let i = 0; i < this._markerShapes.size; i++) {
-      if (!this._usedMarkerShapes.has(i)) {
+      if (!this._usedMarkerShapes.has(i)) {       
         this._usedMarkerShapes.add(i);
         return i;
       }

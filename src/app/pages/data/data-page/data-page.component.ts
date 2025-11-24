@@ -467,7 +467,7 @@ export class DataPageComponent {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
-      } else {
+      } else {       
         this._map.removeLayerById(l.id);
       }
     });

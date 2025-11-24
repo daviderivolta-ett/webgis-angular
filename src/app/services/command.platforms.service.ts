@@ -36,7 +36,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.', { cause: 404 });
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1);
         } catch (error) {
@@ -90,7 +90,7 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number): GeoJSON.FeatureCollection {       
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
@@ -103,7 +103,7 @@ export class PlatformsCommandService implements Command {
                 if (currentDate && !isNaN(date.getTime()) && timeThreshold) {
                     const isWithin = (currentDate.getTime() - date.getTime()) < timeThreshold * 60 * 1000;
                     if (!isWithin) color = 'grey';
-                }         
+                }
 
                 return {
                     ...feature,
@@ -133,6 +133,24 @@ export class PlatformsCommandService implements Command {
                     }
                 }
             })
+        }
+    }
+
+    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [0, 0]
+                    },
+                    properties: {
+                        color: 'transparent'
+                    }
+                }
+            ]
         }
     }
 
