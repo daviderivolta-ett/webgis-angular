@@ -34,7 +34,7 @@ export class NavMenuComponent {
       path: 'tabelle',
       label: 'Tabelle',
       iconUrl: 'images/icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
-      requiresAuth: true
+      requiresAuth: false
     },
     {
       path: 'settings',

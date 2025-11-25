@@ -43,7 +43,7 @@ export const routes: Routes = [
         resolve: {
             tableConfigGroups: tableConfigGroupsResolver
         },
-        canMatch: [authGuard]
+        // canMatch: [authGuard]
     },
     {
         path: 'radar',

@@ -171,6 +171,7 @@ export class PlotlyChartComponent {
           standoff: 10
         },
         range: this.yRange().length > 0 ? this.yRange() : undefined,
+        nticks: 20,
         // type: this._dateAxis === 'y' ? 'date' : '-',
         type: '-',
         // tickformat: this._dateAxis === 'y' ? '%Y-%m-%d, %H:%M' : undefined,
@@ -188,6 +189,7 @@ export class PlotlyChartComponent {
           }
         },
         range: this.xRange().length > 0 ? this.xRange() : undefined,
+        nticks: 20,
         // type: this._dateAxis === 'x' ? 'date' : '-',
         type: 'date',
         // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
