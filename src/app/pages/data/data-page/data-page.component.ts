@@ -361,11 +361,13 @@ export class DataPageComponent {
       switch (s.type) {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.selectedDate ?? new Date(), s['subfolder'] ?? '');
+          const snackbarId: string = this.snackbarsService.createSnackbar(`Recuper grafici idro`, 'loader');
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
             })
+            .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
           hydroPromises.push(promise);
           break;
 
