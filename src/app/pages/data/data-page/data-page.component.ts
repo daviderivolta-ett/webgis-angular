@@ -298,8 +298,7 @@ export class DataPageComponent {
     });
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {
-    console.log(data);    
+  public onMapMarkerClicked(data: Record<string, any>[]): void {  
     const stations = data.map((d: any) => {
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';

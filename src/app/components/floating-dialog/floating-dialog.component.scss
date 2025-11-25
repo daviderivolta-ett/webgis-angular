@@ -2,14 +2,14 @@
     position: absolute;
     z-index: 9999999;
     top: calc((100dvh - 70dvh) / 2);
-    left: calc((100dvw - 70dvh) / 2);
+    left: calc((100dvw - 70dvw) / 2);
     background-color: var(--neutral-100, white);
     border: 1px solid var(--neutral-500, grey);
     border-radius: 8px;
     resize: none;
     overflow: hidden;
     transform-origin: bottom right;
-    width: 500px;
+    width: 70dvw;
     min-width: 70dvh;
     min-height: 70dvh;
     max-width: 95dvw;
@@ -55,4 +55,15 @@
     right: 0;
     bottom: 0;
     transform: scale(-1, 1);
+}
+
+@media screen and (max-width: 768px) {
+    .floating-dialog {
+        min-width: unset;
+        min-height: unset;
+        width: 95dvw;
+        height: 70dvh;
+        top: calc((100dvh - 80dvh) / 2);
+        left: calc((100dvw - 95dvw) / 2);
+    }
 }
