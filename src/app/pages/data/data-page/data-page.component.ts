@@ -298,7 +298,7 @@ export class DataPageComponent {
     });
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {  
+  public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';
@@ -315,6 +315,26 @@ export class DataPageComponent {
       return station.addSensorsFromStationLists(this.stations);
     });
     this.popupData = [...stations];
+  }
+
+  public onMapClicked(event: Record<string, any>) {
+    const { bbox, point, size, latLng } = event;   
+
+    // if (!('ne' in bbox) || !Array.isArray(bbox['ne']) || !(bbox['ne'].every((v: any) => typeof v === 'number'))) return;
+    // if (!('sw' in bbox) || !Array.isArray(bbox['sw']) || !(bbox['sw'].every((v: any) => typeof v === 'number'))) return;
+    if (!bbox || typeof bbox !== 'string') return;
+    if (!('x' in point) || typeof point['x'] !== 'number' || !('y' in point) || typeof point['y'] !== 'number') return;
+    if (!('width' in size) || typeof size['width'] !== 'number' || !('height' in size) || typeof size['height'] !== 'number') return;
+    if (!('lat' in latLng) || typeof latLng['lat'] !== 'number' || (!('lng' in latLng) || typeof latLng['lng'] !== 'number')) return;
+
+    const activeWMSLayers: WMSLayer[] = LayerGroup.getAllLayers(this.dataLayers)
+      .filter((l: Layer) => this.currentDataLayers.toArray().includes(l.id))
+      .filter((l: Layer) => l instanceof WMSLayer);
+
+    if (activeWMSLayers.length === 0) return;
+
+    const layer: WMSLayer = activeWMSLayers[0];
+    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng);
   }
 
   private _onBaselayersRadioChange(changes: any): void {
@@ -467,7 +487,7 @@ export class DataPageComponent {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
-      } else {       
+      } else {
         this._map.removeLayerById(l.id);
       }
     });

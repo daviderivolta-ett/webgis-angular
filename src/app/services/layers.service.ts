@@ -73,4 +73,66 @@ export class LayersService {
         throw new Error(`Errore nel recupero dell'immagine della legenda del layer WMS ${layer.label ?? layer.id}`);
       })
   }
+
+  /** Get WMS feature info */
+  // public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: { ne: [number, number], sw: [number, number] }, point: { x: number, y: number }, size: { width: number, height: number }) {
+  public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, latLng: { lat: number, lng: number }) {
+
+    const params: Record<string, any> = {
+      service: 'WCS',
+      request: 'GetCoverage',
+      version: '2.0.1',
+      coverageId: layer.params.layers,
+      subset: [
+        `x(${latLng.lng},${latLng.lng + 0.00001})`,
+        `y(${latLng.lat},${latLng.lat + 0.00001})`
+      ],
+      format: 'text/plain'
+    }
+
+    let baseUrl = layer.url;
+    if (baseUrl.endsWith('ows')) baseUrl = baseUrl.replace('ows', 'wcs');
+    const url: URL = new URL(baseUrl);
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) value.forEach(v => url.searchParams.append(key, v));
+      else url.searchParams.set(key, value);
+    });
+
+    // console.log(url);
+
+    // const params: Record<string, any> = {
+    //   service: 'WMS',
+    //   request: 'GetFeatureInfo',
+    //   version: layer.params.version ?? '1.1.1',
+    //   srs: layer.params.srs ?? 'EPSG:3857',
+    //   layers: layer.params.layers,
+    //   query_layers: layer.params.layers,
+    //   styles: layer.params.styles ?? '',
+    //   format: 'image/png',
+    //   info_format: 'text/plain',
+    //   bbox,
+    //   width: size.width,
+    //   height: size.height,
+    //   x: point.x,
+    //   y: point.y
+    // };
+
+    // let baseUrl = layer.url;
+    // if (baseUrl.endsWith('ows')) baseUrl = baseUrl.replace('ows', 'wms');
+    // const url: URL = new URL(baseUrl);
+    // Object.entries(params).forEach(([key, value]: [string, any]) => url.searchParams.set(key, value));
+
+    fetch(baseUrl + `?service=WCS&version=2.0.1&request=DescribeCoverage&coverageId=omirl:tempMax`)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error(`Errore nella richiesta delle info del layer WMS.`);
+        return res.text()
+      })
+      .then((data: any) => {
+        console.log(data);
+      })
+      .catch((err: unknown) => {
+        throw new Error(err instanceof Error ? err.message : `Errore sconosciuto nel recupero dei dati del layer WMS.`);
+      })
+  }
 }

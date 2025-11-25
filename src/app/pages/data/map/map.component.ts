@@ -107,7 +107,57 @@ export class MapComponent {
       .setMinZoom(this.minZoom())
 
     // Map event to trigger WMS layers GetFeatureInfo
-    this._map.on('click', (e: L.LeafletMouseEvent) => this.mapClicked.emit({ lat: e.latlng.lat, lng: e.latlng.lng }));
+    this._map.on('click', (e: L.LeafletMouseEvent) => {
+      if (!this._map.options.crs) return;
+
+
+
+
+
+
+      // const bounds = this._map.getBounds();
+
+      // // Converti i 4 corner in coordinate della proiezione della mappa (di solito EPSG:3857)
+      // const sw = this._map.project(bounds.getSouthWest());
+      // const ne = this._map.project(bounds.getNorthEast());
+
+      // // Ora hai i min e max nelle stesse coordinate di mx, my
+      // const minx = sw.x;
+      // const miny = sw.y;
+      // const maxx = ne.x;
+      // const maxy = ne.y;
+
+      // // Dimensione mappa in pixel
+      // const width = this._map.getSize().x;
+      // const height = this._map.getSize().y;
+
+      // // Punto cliccato (già proiettato)
+      // const { x: mx, y: my } = this._map.project(e.latlng);
+
+      // // Calcolo X/Y per WMS GetFeatureInfo
+      // const x = ((mx - minx) / (maxx - minx)) * width;
+      // const y = ((maxy - my) / (maxy - miny)) * height;
+
+      // this.mapClicked.emit({
+      //   bbox: { ne: Object.values(this._map.project(bounds.getSouthWest())), sw: Object.values(this._map.project(bounds.getNorthEast())) },
+      //   point: { x, y },
+      //   size: { width, height }
+      // });
+
+
+      const bbox = this._map.getBounds().toBBoxString();
+      const size = { width: this._map.getSize().x, height: this._map.getSize().y };
+      const point = { x: Math.floor(e.containerPoint.x), y: Math.floor(e.containerPoint.y) }
+      const latLng = { lat: e.latlng.lat, lng: e.latlng.lng };
+      this.mapClicked.emit({ bbox, point, size, latLng });
+
+
+      // this.mapClicked.emit({
+      //   bbox: { ne: Object.values(this._map.options.crs.project(this._map.getBounds().getNorthEast())), sw: Object.values(this._map.options.crs.project(this._map.getBounds().getSouthWest())) },
+      //   point: { x: this._map.latLngToContainerPoint(e.latlng).x, y: this._map.latLngToContainerPoint(e.latlng).y },
+      //   size: { width: this._map.getSize().x, height: this._map.getSize().y }
+      // });
+    });
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
@@ -143,7 +193,7 @@ export class MapComponent {
         const btn: HTMLButtonElement | undefined | null = popup.getElement()?.querySelector('#map-popup-btn');
         btn?.addEventListener('click', () => this.popupClicked.emit(this._popup.data()));
 
-        popup.on('remove', () => {          
+        popup.on('remove', () => {
           btn?.removeEventListener('click', () => this.popupClicked.emit(this._popup.data()));
         });
 
@@ -154,7 +204,7 @@ export class MapComponent {
 
   /** Set layer in internal map and emit event to external */
   private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
-    this._layers.set(id, layer);  
+    this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
 
@@ -229,7 +279,7 @@ export class MapComponent {
     );
 
     // Function called when this specific GeoJSON layer is removed
-    layer.on('remove', () => {  
+    layer.on('remove', () => {
       const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release     
       if (index !== undefined) this._releaseMarkerShape(index); // comparison with 'undefined' because '0' is a valid value and js considers it 'falsy'
     });
@@ -380,7 +430,7 @@ export class MapComponent {
   /** Custom marker shapes related methods */
   private _getNextAvailableMarkerShape(): number {
     for (let i = 0; i < this._markerShapes.size; i++) {
-      if (!this._usedMarkerShapes.has(i)) {       
+      if (!this._usedMarkerShapes.has(i)) {
         this._usedMarkerShapes.add(i);
         return i;
       }

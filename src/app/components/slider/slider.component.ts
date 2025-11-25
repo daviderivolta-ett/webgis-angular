@@ -23,7 +23,7 @@ export class SliderComponent {
   @ContentChildren('sliderItem', { read: ElementRef, descendants: true }) _elements!: QueryList<ElementRef<HTMLElement>>;
 
   @HostListener('window:resize', ['$event'])
-  private _onResize(event: UIEvent) {
+  public onResize(event: UIEvent) {
     this._checkHorizontalScroll();
   }
 
