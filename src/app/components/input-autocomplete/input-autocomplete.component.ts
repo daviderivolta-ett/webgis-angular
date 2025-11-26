@@ -40,7 +40,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
   @ViewChildren('option') _options!: QueryList<ElementRef<HTMLSpanElement>>;
 
   @HostListener('window:click', ['$event'])
-  private _windowClick(event: Event) {
+  public windowClick(event: Event) {
     if (!this._container) return;
     const target = event.composedPath?.()[0] as Node;
     const isClickInside: boolean = this._container.nativeElement.contains(target);
