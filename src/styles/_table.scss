@@ -72,6 +72,10 @@ table {
         align-items: stretch;
     }
 
+    .trow:has(.tdata:hover) .tdata {
+        background-color: var(--primary-100, lightgrey) !important;
+    }
+
     .tdata {
         width: 100%;
         min-width: 160px;
