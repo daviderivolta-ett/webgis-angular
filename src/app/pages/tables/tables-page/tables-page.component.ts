@@ -16,6 +16,7 @@ import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderCo
 // Directives
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive';
 import { MapValuePipe } from '../../../pipes';
+import { CSVUtils, Utils } from '../../../utils';
 
 // Component
 @Component({
@@ -126,5 +127,12 @@ export class TablesPageComponent {
       acc[curr] = this.data.extractAllValuesByKey(curr).map((v: string) => ({ id: v }));
       return acc;
     }, {});
+  }
+
+  public onDownloadBtnClick(): void {
+    const table = this.data.convertTableToArray();
+    const csv = CSVUtils.convertArrayToCSV(table, this.data.header);   
+    const param: string | null = this.route.snapshot.paramMap.get('id');
+    if (param) Utils.downloadFile(`${param}.csv`, csv);
   }
 }

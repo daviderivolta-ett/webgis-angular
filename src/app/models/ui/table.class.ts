@@ -119,4 +119,18 @@ export class Table {
         return Array.from(new Set(values));
     }
 
+    public convertTableToArray(): Record<string, any>[] {
+        const table: [string, any][][] = [...this.body];
+
+        return table.reduce((acc: Record<string, any>[], row: [string, any][], i: number) => {
+            const r = row.reduce((r: Record<string, any>, d: [string, any]) => {
+                r[d[0]] = d[1];
+                return r;
+            }, {} as Record<string, any>);
+            
+            acc.push(r);
+            return acc;
+        }, [] as Record<string, any>[]);
+    }
+
 }

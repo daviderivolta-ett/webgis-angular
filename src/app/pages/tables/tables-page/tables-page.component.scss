@@ -89,6 +89,16 @@
     }
 }
 
+.csv-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+}
+
+.mask-icon {
+    @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
 @media screen and (max-width: 768px) {
     .filters-wrapper--desktop {
         display: none;
@@ -101,5 +111,9 @@
     .filters {
         flex-direction: column;
         gap: 8px;
+    }
+
+    .csv-btn {
+        bottom: calc(48px + 24px);
     }
 }
