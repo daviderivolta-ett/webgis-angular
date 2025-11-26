@@ -35,3 +35,52 @@ table {
         text-align: center;
     }
 }
+
+.table {
+    .thead,
+    .tbody {
+        overflow-x: auto;
+    }
+
+    .thead .trow .tdata {
+        font-weight: 700;
+        background-color: var(--primary-100, lightblue);
+    }
+
+    .tbody .trow .tdata {
+        background-color: var(--neutral-100, white);
+    }
+
+    .tbody .trow:nth-child(even) .tdata {
+        background-color: var(--neutral-200, lightgrey);
+    }
+
+    .thead .trow .tdata:first-child,
+    .tbody .trow .tdata:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .thead .trow .tdata:last-child,
+    .tbody .trow .tdata:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .trow {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .tdata {
+        width: 100%;
+        min-width: 160px;
+        padding: 12px;
+        margin: 0;
+        border: none;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

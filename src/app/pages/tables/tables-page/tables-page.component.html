@@ -51,7 +51,7 @@
 
             <!-- START TABLE -->
             <app-sortable-table scrollableTable #table>
-                <table class="table">
+                <!-- <table class="table">
                     <thead>
                         <tr>
                             @for (d of sortedData.header; track $index) {
@@ -68,7 +68,26 @@
                             </tr>
                         }
                     </tbody>
-                </table>
+                </table> -->
+
+                <div class="table">
+                    <div class="thead">
+                        <div class="trow">
+                            @for (d of sortedData.header; track $index) {
+                                <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event); table.resetAllSortHeaders(d)">{{d}}</app-sort-header></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="tbody">
+                        @for (r of sortedData.body; track $index) {
+                            <div class="trow">
+                                @for (d of r; track $index) {
+                                    <div class="tdata"><p>{{d[1]}}</p></div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
             </app-sortable-table>
             <!-- END TABLE -->
 
