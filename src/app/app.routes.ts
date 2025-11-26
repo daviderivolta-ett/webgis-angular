@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver } from './resolvers';
 
 /** Guards */
 import { authGuard } from './guards';
@@ -41,7 +41,8 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
         resolve: {
-            tableConfigGroups: tableConfigGroupsResolver
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver
         },
         // canMatch: [authGuard]
     },

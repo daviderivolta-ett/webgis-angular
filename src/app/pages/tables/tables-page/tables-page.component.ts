@@ -15,6 +15,7 @@ import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderCo
 
 // Directives
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive';
+import { MapValuePipe } from '../../../pipes';
 
 // Component
 @Component({
@@ -31,6 +32,7 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     // Pipes
     KeyValuePipe,
     DatePipe,
+    MapValuePipe,
     // Directives
     RouterLink,
     RouterLinkActive,
@@ -51,6 +53,7 @@ export class TablesPageComponent {
   public data: Table = new Table();
   public sortedData: Table = new Table();
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
+  public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
   public updateTime: Date = new Date();
 
@@ -62,6 +65,7 @@ export class TablesPageComponent {
   ) {
     // Get data from resolvers
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
+    this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
     effect(() => {
@@ -70,7 +74,7 @@ export class TablesPageComponent {
   }
 
   // Component lifecycle
-  public async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {   
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
 
     this.route.paramMap.subscribe((params: ParamMap) => {

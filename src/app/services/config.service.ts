@@ -186,6 +186,20 @@ export class ConfigService {
       })
   }
 
+  public async getTableLabels(): Promise<Map<string, string>> {
+    return fetch(this.appConfig.tablesConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero delle etichette delle tabelle dal file di configurazione /configs/tables.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return new Map(Object.entries(data['labels'])) as Map<string, string>;
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero delle etichette delle tabelle dal file di configurazione /configs/tables.config.json ${err.message || err}`);
+      })
+  }
+
   public async getStations(): Promise<StationBase[]> {
     return fetch(this.appConfig.stationsConfigUri)
       .then((res: Response) => {

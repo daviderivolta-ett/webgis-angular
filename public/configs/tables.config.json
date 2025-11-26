@@ -270,5 +270,17 @@
             ]
         }
     ],
+    "labels": {
+        "name": "Nome",
+        "area": "Area",
+        "basin": "Bacino",
+        "underbasin": "Sottobacino",
+        "code": "Codice",
+        "district": "Provincia",
+        "min": "Minimo",
+        "max": "Massimo",
+        "last": "Ultimo",
+        "municipality": "Comune"
+    },
     "lastModified": "2025-07-16"
 }
