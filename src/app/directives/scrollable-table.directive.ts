@@ -28,7 +28,7 @@ export class ScrollableTableDirective {
   }
 
   private _searchHeaderCell(table: HTMLTableElement): void {
-    const firstTh: Element | null = table.querySelector('thead tr th');
+    const firstTh: Element | null = table.querySelector('thead tr th'); 
     if (firstTh && firstTh instanceof HTMLTableCellElement) {
       this._makeSticky(firstTh, '0px');
     }

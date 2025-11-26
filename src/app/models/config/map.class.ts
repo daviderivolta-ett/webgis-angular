@@ -3,6 +3,7 @@ export class MapConfig {
     public zoom: number = 0;
     public maxBounds: [number, number][] = [[0, 0], [0, 0]];
     public minZoom: number = 0;
+    public maxClusterRadius: number = 0;
 
     constructor() { }
 
@@ -15,6 +16,7 @@ export class MapConfig {
         config.zoom = ('zoom' in object && typeof object['zoom'] === 'number') ? object['zoom'] : 0;
         config.maxBounds = (object['maxBounds'] && Array.isArray(object['maxBounds']) && object['maxBounds'].every((v: any) => Array.isArray(v) && v.length === 2)) ? [...object['maxBounds']] : [[0, 0], [0, 0]];
         config.minZoom = ('minZoom' in object && typeof object['minZoom'] === 'number') ? object['minZoom'] : 0;
+        config.maxClusterRadius = ('maxClusterRadius' in object && typeof object['maxClusterRadius']) ? object['maxClusterRadius'] : 0;
 
         return config;
     }

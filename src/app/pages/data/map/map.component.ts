@@ -63,6 +63,7 @@ export class MapComponent {
   public zoom = input<number>(0);
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
   public minZoom = input<number>(0);
+  public maxClusterRadius = input<number>(0);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
@@ -314,7 +315,7 @@ export class MapComponent {
     const markers = L.DonutCluster({
       chunkedLoading: true,
       clusterPane: 'cluster',
-      maxClusterRadius: 5,
+      maxClusterRadius: this.maxClusterRadius(),
     }, {
       key: 'title',
       arcColorDict,

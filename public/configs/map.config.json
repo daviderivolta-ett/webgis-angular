@@ -14,5 +14,6 @@
             11.82996282400768
         ]
     ],
-    "minZoom": 8
+    "minZoom": 8,
+    "maxClusterRadius": 5
 }

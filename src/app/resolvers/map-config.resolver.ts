@@ -16,6 +16,6 @@ export const mapConfigResolver: ResolveFn<MapConfig> = async (route, state) => {
     .then((config: MapConfig) => config)
     .catch((err: any) => {
       console.error(err);
-      return { position: [0, 0] as [number, number], zoom: 0, maxBounds: [[0, 0], [0, 0]] as [number, number][], minZoom: 0 }
+      return new MapConfig()
     });
 };

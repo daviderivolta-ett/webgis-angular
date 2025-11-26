@@ -82,7 +82,7 @@
         <!-- END RESET BUTTON -->
 
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [isTimeDimensionVisible]="user ? true : false" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [maxClusterRadius]="mapConfig.maxClusterRadius" [isTimeDimensionVisible]="user ? true : false" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
             <app-map-popup [config]="stationPopupConfig" [data]="popupData" #popup></app-map-popup>
         </app-map>
         <!-- END MAP -->
