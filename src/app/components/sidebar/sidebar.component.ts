@@ -1,5 +1,5 @@
 // Libraries
-import { Component, HostListener, input, output } from '@angular/core';
+import { Component, effect, HostListener, input, output } from '@angular/core';
 
 // Component
 @Component({
@@ -19,9 +19,13 @@ export class SidebarComponent {
 
   public toggled = output<boolean>();
 
+  constructor() {
+    effect(() => this.currentWidth = this.width());
+  }
+
   // Methods
   @HostListener('window:resize', ['$event'])
-  private _onResize(event: UIEvent) {
+  public onResize(event: UIEvent) {
     const windowWidth: number = (event.target as Window).innerWidth;
     this.currentWidth = (windowWidth < 768) ? '100%' : this.width();
   }
