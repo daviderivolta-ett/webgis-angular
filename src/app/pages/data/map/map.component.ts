@@ -252,8 +252,8 @@ export class MapComponent {
         const divIcon = L.divIcon({
           html: iconHtml,
           className: 'custom-marker',
-          iconSize: feature.properties.markerShapeId !== 6 ? [24, 24] : [64, 64],
-          iconAnchor: feature.properties.markerShapeId !== 6 ? [12, 12] : [32, 32]
+          iconSize: feature.properties.markerShapeId !== 6 ? [20, 20] : [64, 64],
+          iconAnchor: feature.properties.markerShapeId !== 6 ? [10, 10] : [32, 32]
         });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
         marker.on('mouseover', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
