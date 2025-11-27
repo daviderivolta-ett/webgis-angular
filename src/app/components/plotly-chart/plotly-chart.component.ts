@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, effect, ElementRef, input, ViewChild } from '@angular/core'
+import { Component, effect, ElementRef, input, output, ViewChild } from '@angular/core'
 import Plotly from 'plotly.js-dist-min'
 
 /** Types */
@@ -25,6 +25,8 @@ export class PlotlyChartComponent {
   public xRange = input<any[]>([]);
   public yRange = input<any[]>([]);
   public data = input<PlotlyChartData[]>([]);
+
+  public onCustomButtonClick = output<any>();
 
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
 
@@ -210,6 +212,7 @@ export class PlotlyChartComponent {
         }
       },
       shapes: [
+        // ...this._createHorizontalBands(),
         {
           type: 'rect',
           xref: 'paper',
@@ -226,10 +229,51 @@ export class PlotlyChartComponent {
     }
   }
 
+  private _createHorizontalBands(): Partial<Plotly.Shape>[] {
+    const min = -this.yRange()[1];
+    const max = this.yRange()[1];
+    const step = (max - min) / 40;
+
+    let flip = false;
+    const horizontalBands: Partial<Plotly.Shape>[] = [];
+
+    for (let y = min; y < max; y += step) {
+      if (flip) {
+        horizontalBands.push({
+          type: "rect",
+          x0: 0,
+          x1: 1,
+          y0: y,
+          y1: y + step,
+          xref: "paper",
+          yref: "y",
+          fillcolor: "#EEEEFF",
+          line: { width: 0 },
+          layer: "below"
+        });
+      }
+      flip = !flip;
+    }
+
+    return horizontalBands;
+  }
+
   private _getConfig(): Partial<Plotly.Config> {
     return {
       responsive: true,
-      displaylogo: false
+      displaylogo: false,
+      modeBarButtonsToAdd: [
+        {
+          title: 'Download plot as csv',
+          name: 'csv_download',
+          icon: {
+            width: 960,
+            height: 960,
+            path: 'm480 624-192-192 51-51 105 105v-342h72v342l105-105 51 51-192 192zm-216.28 144q-29.72 0-50.72-21.15t-21-50.85v-72h72v72h432v-72h72v72q0 29.7-21.16 50.85-21.16 21.15-50.88 21.15h-432.24z'
+          },
+          click: () => this.onCustomButtonClick.emit(this.data())
+        }
+      ]
     }
   }
 

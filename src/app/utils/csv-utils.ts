@@ -22,11 +22,34 @@ export class CSVUtils {
         })
 
         return formattedRows.map((row) => row.join(',')).join('\n');
+    }
 
-        const csvContent = 'data:text/csv;charset=utf-8,' +
-            formattedRows.map(row => row.join(",")).join("\n");
+    static convertTimestampValueArrayToCSV(array: [number, number][][], keys: string[]): string {
+        const rows: any[] = [keys];
 
-        return encodeURI(csvContent);
+        const length: number = array.reduce((acc: number, curr: [number, number][]) => {
+            acc = (curr.length > acc) ? curr.length : acc;
+            return acc;
+        }, 0);
+
+        for (let i = 0; i < length; i++) {
+            const timestamp = array[0][i]?.[0] ?? '';
+            const date = new Date(timestamp);
+            const formattedDate = typeof timestamp === 'number' ?
+                (
+                    `${String(date.getDate()).padStart(2, '0')}/` +
+                    `${String(date.getMonth() + 1).padStart(2, '0')}/` +
+                    `${date.getFullYear()} ` +
+                    `${String(date.getHours()).padStart(2, '0')}:` +
+                    `${String(date.getMinutes()).padStart(2, '0')}`
+                ) :
+                '';
+
+            const values: number[] = array.map((dataset: [number, number][]) => dataset[i]?.[1] ?? '');
+            rows.push([formattedDate, ...values]);
+        }
+       
+        return rows.map((row: any) => row.join(',')).join('\n');
     }
 }
 

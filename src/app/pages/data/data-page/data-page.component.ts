@@ -19,7 +19,7 @@ import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selec
 import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
 
 /** Utilities */
-import { Utils } from '../../../utils';
+import { CSVUtils, Utils } from '../../../utils';
 
 /** Component */
 @Component({
@@ -444,6 +444,13 @@ export class DataPageComponent {
       })
       .catch((err: unknown) => console.error(err))
       .finally(() => this.areChartsDisabled = false)
+  }
+
+  public onChartCustomButtonClick(event: any[]): void {
+    if (!Array.isArray(event)) return;
+    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
+    Utils.downloadFile('a.csv', csv);    
   }
 
   /**
