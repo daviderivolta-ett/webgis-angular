@@ -19,7 +19,7 @@ export class LightningCommandService implements Command {
 
     /** Command */
     public async execute(args: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, token } = args;  
+        const { map, date, colorScale, layer, baseUrl, token } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -42,7 +42,7 @@ export class LightningCommandService implements Command {
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date ?? new Date(), colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
-            if (geoJSON.features.length === 0) throw new Error('Non sono presenti dati.');
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
         } catch (error: unknown) {
@@ -78,6 +78,24 @@ export class LightningCommandService implements Command {
             })
 
         };
+    }
+
+    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [0, 0]
+                    },
+                    properties: {
+                        color: 'transparent'
+                    }
+                }
+            ]
+        }
     }
 
     private _mergeFeatureCollections(collections: GeoJSON.FeatureCollection[]): GeoJSON.FeatureCollection {

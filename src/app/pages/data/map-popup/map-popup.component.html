@@ -2,7 +2,7 @@
     @if (data().length > 0) {
     <p class="title regular weight-bold">
         @if (config().name && data()[0].name) { {{data()[0].name}} }
-        @if (config().alt && data()[0].alt) { ({{data()[0].alt}}m) }
+        @if (config().alt && data()[0].alt) { (alt {{data()[0].alt}}m) }
     </p>
     <p class="small greyed">
         @if (config().id && data()[0].id) { {{data()[0].id}} }
@@ -28,9 +28,9 @@
 
     @if (data().length > 0) {
     <p class="small">
-        @if(config().lat) { {{data()[0].lat}} }
+        @if(config().lat) { lat: {{data()[0].lat}} }
         @if(config().lat && config().lng) { - }
-        @if(config().lng) { {{data()[0].lng}} }
+        @if(config().lng) { lng: {{data()[0].lng}} }
     </p>
     }
 

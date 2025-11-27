@@ -103,6 +103,7 @@ export class MapComponent {
       timeDimension: true,
       // timeDimensionControl: true
     })
+      .addControl(new L.Control.Zoom({ position: 'bottomleft' }))
       .setView(this.position(), this.zoom())
       .setMaxBounds(this.maxBounds())
       .setMinZoom(this.minZoom())
@@ -110,11 +111,6 @@ export class MapComponent {
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => {
       if (!this._map.options.crs) return;
-
-
-
-
-
 
       // const bounds = this._map.getBounds();
 
@@ -151,7 +147,6 @@ export class MapComponent {
       const point = { x: Math.floor(e.containerPoint.x), y: Math.floor(e.containerPoint.y) }
       const latLng = { lat: e.latlng.lat, lng: e.latlng.lng };
       this.mapClicked.emit({ bbox, point, size, latLng });
-
 
       // this.mapClicked.emit({
       //   bbox: { ne: Object.values(this._map.options.crs.project(this._map.getBounds().getNorthEast())), sw: Object.values(this._map.options.crs.project(this._map.getBounds().getSouthWest())) },
@@ -404,7 +399,7 @@ export class MapComponent {
   public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
       className: 'custom-leaflet-popup',
-      offset: new L.Point(0, -16)
+      autoPan: false
     })
       .setContent(`${element.outerHTML}`)
       .setLatLng(coordinates)

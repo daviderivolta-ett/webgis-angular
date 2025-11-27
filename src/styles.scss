@@ -136,6 +136,28 @@ app-input-autocomplete::part(option selected) {
     }
 }
 
+.leaflet-control-container {
+    .leaflet-bottom .leaflet-control {
+        margin-bottom: 32px !important;
+    }
+
+    .leaflet-left .leaflet-control {
+        margin-left: 24px !important;
+    }
+
+    .leaflet-control.leaflet-bar {
+        border: none !important;
+    }
+
+    .leaflet-control.leaflet-bar a {
+        width: 40px !important;
+        height: 40px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .leaflet-bar-timecontrol {
         display: flex;
