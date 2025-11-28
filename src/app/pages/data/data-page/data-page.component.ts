@@ -337,7 +337,10 @@ export class DataPageComponent {
         info.forEach(([label, value]: [string, number]) => {
           this._map.openCustomPopup(`<p><strong>${label}:</strong> ${value} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
         });
-      });
+      })
+      .catch((err: unknown) => {
+        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei dati puntuali del layer`, 'error', true);
+      })
   }
 
   private _onBaselayersRadioChange(changes: any): void {
