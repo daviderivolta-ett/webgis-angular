@@ -318,10 +318,8 @@ export class DataPageComponent {
   }
 
   public onMapClicked(event: Record<string, any>) {
-    const { bbox, point, size, latLng } = event;   
+    const { bbox, point, size, latLng } = event;
 
-    // if (!('ne' in bbox) || !Array.isArray(bbox['ne']) || !(bbox['ne'].every((v: any) => typeof v === 'number'))) return;
-    // if (!('sw' in bbox) || !Array.isArray(bbox['sw']) || !(bbox['sw'].every((v: any) => typeof v === 'number'))) return;
     if (!bbox || typeof bbox !== 'string') return;
     if (!('x' in point) || typeof point['x'] !== 'number' || !('y' in point) || typeof point['y'] !== 'number') return;
     if (!('width' in size) || typeof size['width'] !== 'number' || !('height' in size) || typeof size['height'] !== 'number') return;
@@ -356,8 +354,6 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
 
     stations.forEach((s: Station) => {
-      const sensorType: SensorType | undefined = this._sensorTypes.find((t) => t.id === s.parameter);
-
       switch (s.type) {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.selectedDate ?? new Date(), s['subfolder'] ?? '');
@@ -424,7 +420,7 @@ export class DataPageComponent {
         const chartData: MapChartData[] = sensors.map((t: SensorType, i: number) => {
           return new MapChartData(
             t.chartType,
-            data[i],
+            t.multiplier ? this.stationsService.convertData(data[i], t.multiplier) : data[i],
             t.label,
             t.unit,
             t.style
@@ -450,7 +446,7 @@ export class DataPageComponent {
     if (!Array.isArray(event)) return;
     const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
-    Utils.downloadFile('a.csv', csv);    
+    Utils.downloadFile('a.csv', csv);
   }
 
   /**
@@ -539,7 +535,8 @@ export class DataPageComponent {
         stations: this.stations,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
-        timeThreshold: this.settings.staleDataThreshold
+        timeThreshold: this.settings.staleDataThreshold,
+        multiplier: layer instanceof GeoJsonLayer && layer.multiplier
       });
 
     } catch (err: unknown) {

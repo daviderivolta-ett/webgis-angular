@@ -247,6 +247,7 @@ export class ConfigService {
           traceType: t['traceType'] ?? undefined,
           style: t['style'] ?? undefined,
           unit: t['unit'] ?? '',
+          multiplier: t['multiplier'] ?? undefined,
           range: t['range'] ?? undefined,
           isFeatured: t['isFeatured'] ?? false,
           relatedSensors: t['relatedSensors'] ?? []

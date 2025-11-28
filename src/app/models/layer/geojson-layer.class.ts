@@ -3,6 +3,7 @@ import { MarkerMapping } from './marker-mapping.interface';
 
 export class GeoJsonLayer extends Layer {
     public parameter?: string;
+    public multiplier?: number;
     public markers?: MarkerMapping;
 
     constructor(
@@ -13,10 +14,12 @@ export class GeoJsonLayer extends Layer {
         label?: string,
         iconUrl?: string,
         parameter?: string,
-        markers?: MarkerMapping,
+        multiplier?: number,
+        markers?: MarkerMapping
     ) {
         super(id, url, layerType, label, iconUrl, layerCategory);
         this.parameter = parameter;
+        this.multiplier = multiplier;
         this.markers = markers;
     }
 
@@ -28,6 +31,7 @@ export class GeoJsonLayer extends Layer {
         );
 
         if (object['parameter'] && typeof object['parameter'] === 'string') layer.parameter = object['parameter'];
+        if (object['multiplier'] && typeof object['multiplier'] === 'number') layer.multiplier = object['multiplier'];
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];

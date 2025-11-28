@@ -161,6 +161,7 @@
             "label": "Velocità del vento media",
             "chartType": "scatter",
             "unit": "km/h",
+            "multiplier": 3.6,
             "range": [
                 -20,
                 120
@@ -177,6 +178,7 @@
             "label": "Raffiche di vento",
             "chartType": "scatter",
             "unit": "km/h",
+            "multiplier": 3.6,
             "range": [
                 -20,
                 120
@@ -192,10 +194,10 @@
             "style": {
                 "marker": "arrow"
             },
-            "unit": "km/h",
+            "unit": "°",
             "range": [
-                -20,
-                120
+                0,
+                360
             ],
             "isFeatured": false,
             "relatedSensors": []

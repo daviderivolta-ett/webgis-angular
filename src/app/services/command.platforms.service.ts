@@ -19,7 +19,7 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold } = args;
+        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold, multiplier } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -27,11 +27,12 @@ export class PlatformsCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);            
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
 
+            if (multiplier) geoJSON = this._convertGeoJSONData(geoJSON, multiplier);
             if (colorScale instanceof ColorScale && layer.legend) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold);
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
@@ -151,6 +152,25 @@ export class PlatformsCommandService implements Command {
                     }
                 }
             ]
+        }
+    }
+
+    private _convertGeoJSONData(geoJSON: GeoJSON.FeatureCollection, multiplier: number) {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                const value: any = properties['value'];
+
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        value: value ? (value * multiplier) : undefined
+                    }
+                }
+            })
+
         }
     }
 

@@ -24,7 +24,7 @@ export class WMSCommandService implements Command {
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
 
             switch (layerCategory) {
-                case 'data_wms--time':
+                case 'data_wms--time':                  
                     map.addTimeDimensionWMSLayer(id, url, { opacity, ...params });
                     break;
                 case 'data_wms':

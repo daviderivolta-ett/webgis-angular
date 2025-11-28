@@ -69,7 +69,7 @@ export class StationsService {
       })
   }
 
-  public parseTimeSerie(data: any, params: string[]): any {
+  public parseTimeSerie(data: any, params: string[]): [number, number][][] {
     if (!Array.isArray(data)) return [];
 
     return params.map(param => {
@@ -78,10 +78,14 @@ export class StationsService {
         .map(d => [
           new Date(d['referenceDate']).getTime(),
           parseFloat(d['value'])
-        ]);
+        ] as [number, number]);
 
       return filtered;
     });
+  }
+
+  public convertData(input: [number, number][], multiplier: number): [number, number][] {
+    return input.map(([x, y]) => [x, y * multiplier]);
   }
 
   public getHydroDateFromSubfolder(originalDate: Date, subfolder: string): Date {
