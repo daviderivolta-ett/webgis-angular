@@ -486,6 +486,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -506,6 +511,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
                             },
                             "action": {
                                 "id": "wms"
@@ -528,6 +538,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -548,6 +563,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
                             },
                             "action": {
                                 "id": "wms"
@@ -570,6 +590,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -590,6 +615,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
                             },
                             "action": {
                                 "id": "wms"
@@ -612,6 +642,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -632,6 +667,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
                             },
                             "action": {
                                 "id": "wms"
@@ -654,6 +694,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -674,6 +719,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 120
                             },
                             "action": {
                                 "id": "wms"
@@ -704,6 +754,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -725,6 +780,11 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
+                            },
                             "action": {
                                 "id": "wms"
                             }
@@ -745,6 +805,11 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "°C",
+                                "min": -20,
+                                "max": 40
                             },
                             "action": {
                                 "id": "wms"

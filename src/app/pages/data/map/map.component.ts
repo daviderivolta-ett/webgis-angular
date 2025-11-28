@@ -109,51 +109,7 @@ export class MapComponent {
       .setMinZoom(this.minZoom())
 
     // Map event to trigger WMS layers GetFeatureInfo
-    this._map.on('click', (e: L.LeafletMouseEvent) => {
-      if (!this._map.options.crs) return;
-
-      // const bounds = this._map.getBounds();
-
-      // // Converti i 4 corner in coordinate della proiezione della mappa (di solito EPSG:3857)
-      // const sw = this._map.project(bounds.getSouthWest());
-      // const ne = this._map.project(bounds.getNorthEast());
-
-      // // Ora hai i min e max nelle stesse coordinate di mx, my
-      // const minx = sw.x;
-      // const miny = sw.y;
-      // const maxx = ne.x;
-      // const maxy = ne.y;
-
-      // // Dimensione mappa in pixel
-      // const width = this._map.getSize().x;
-      // const height = this._map.getSize().y;
-
-      // // Punto cliccato (già proiettato)
-      // const { x: mx, y: my } = this._map.project(e.latlng);
-
-      // // Calcolo X/Y per WMS GetFeatureInfo
-      // const x = ((mx - minx) / (maxx - minx)) * width;
-      // const y = ((maxy - my) / (maxy - miny)) * height;
-
-      // this.mapClicked.emit({
-      //   bbox: { ne: Object.values(this._map.project(bounds.getSouthWest())), sw: Object.values(this._map.project(bounds.getNorthEast())) },
-      //   point: { x, y },
-      //   size: { width, height }
-      // });
-
-
-      const bbox = this._map.getBounds().toBBoxString();
-      const size = { width: this._map.getSize().x, height: this._map.getSize().y };
-      const point = { x: Math.floor(e.containerPoint.x), y: Math.floor(e.containerPoint.y) }
-      const latLng = { lat: e.latlng.lat, lng: e.latlng.lng };
-      this.mapClicked.emit({ bbox, point, size, latLng });
-
-      // this.mapClicked.emit({
-      //   bbox: { ne: Object.values(this._map.options.crs.project(this._map.getBounds().getNorthEast())), sw: Object.values(this._map.options.crs.project(this._map.getBounds().getSouthWest())) },
-      //   point: { x: this._map.latLngToContainerPoint(e.latlng).x, y: this._map.latLngToContainerPoint(e.latlng).y },
-      //   size: { width: this._map.getSize().x, height: this._map.getSize().y }
-      // });
-    });
+    this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
@@ -196,6 +152,15 @@ export class MapComponent {
         subscription.unsubscribe();
       });
     }
+  }
+
+  private _onMapClick(e: L.LeafletMouseEvent) {
+    if (!this._map.options.crs) return;
+    const bbox = this._map.getBounds().toBBoxString();
+    const size = { width: this._map.getSize().x, height: this._map.getSize().y };
+    const point = { x: Math.floor(e.containerPoint.x), y: Math.floor(e.containerPoint.y) }
+    const latLng = { lat: e.latlng.lat, lng: e.latlng.lng };
+    this.mapClicked.emit({ bbox, point, size, latLng });
   }
 
   /** Set layer in internal map and emit event to external */
@@ -396,12 +361,12 @@ export class MapComponent {
   }
 
   /** Popup methods */
-  public openCustomPopup(element: HTMLElement, coordinates: L.LatLngExpression): L.Popup {
+  public openCustomPopup(element: string | HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
       className: 'custom-leaflet-popup',
       autoPan: false
     })
-      .setContent(`${element.outerHTML}`)
+      .setContent(element instanceof HTMLElement ? `${element.outerHTML}` : element)
       .setLatLng(coordinates)
       .openOn(this._map)
   }

@@ -34,7 +34,7 @@
     </p>
     }
 
-    @if (data().length > 0 && data()[0].type !== 'lightning') {
+    @if (data().length > 0 && data()[0].type !== 'lightning' && data()[0].type !== 'wms') {
     <div class="popup-footer">
         <button type="button" class="chart-btn" id="map-popup-btn" (click)="btnClicked.emit()">
             <span>Grafici</span>

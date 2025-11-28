@@ -3,7 +3,7 @@ import { Geolocation } from '../geographic'
 
 export class StationBase implements Geolocation {
     public id: string;
-    public type: 'platform' | 'lightning' | 'hydro';
+    public type: 'platform' | 'lightning' | 'hydro' | 'wms';
     public lat: number;
     public lng: number;
     public sensors: Sensor[];
@@ -21,7 +21,7 @@ export class StationBase implements Geolocation {
         name?: string,
         city?: string,
         alt?: number,
-        type: 'platform' | 'lightning' | 'hydro' = 'platform'
+        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform'
     ) {
         this.id = id;
         this.lat = lat;

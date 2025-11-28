@@ -3,7 +3,7 @@ import { Component, input, output } from '@angular/core'
 import { DatePipe, DecimalPipe } from '@angular/common'
 
 /** Models */
-import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';
+import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models'
 
 /** Component */
 @Component({

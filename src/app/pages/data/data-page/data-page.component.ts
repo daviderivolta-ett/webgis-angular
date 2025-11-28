@@ -42,7 +42,7 @@ import { CSVUtils, Utils } from '../../../utils';
     MapChartComponent,
     MapChartDatepickerComponent,
     PlotlyChartComponent
-  ],
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -332,7 +332,12 @@ export class DataPageComponent {
     if (activeWMSLayers.length === 0) return;
 
     const layer: WMSLayer = activeWMSLayers[0];
-    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng);
+    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng)
+      .then((info: [string, number][]) => {
+        info.forEach(([label, value]: [string, number]) => {
+          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${value} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
+        });
+      });
   }
 
   private _onBaselayersRadioChange(changes: any): void {

@@ -77,30 +77,6 @@ export class LayersService {
   /** Get WMS feature info */
   // public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: { ne: [number, number], sw: [number, number] }, point: { x: number, y: number }, size: { width: number, height: number }) {
   public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, latLng: { lat: number, lng: number }) {
-
-    // const params: Record<string, any> = {
-    //   service: 'WCS',
-    //   request: 'GetCoverage',
-    //   version: '2.0.1',
-    //   coverageId: layer.params.layers,
-    //   subset: [
-    //     `x(${latLng.lng},${latLng.lng + 0.00001})`,
-    //     `y(${latLng.lat},${latLng.lat + 0.00001})`
-    //   ],
-    //   format: 'text/plain'
-    // }
-
-    // let baseUrl = layer.url;
-    // if (baseUrl.endsWith('ows')) baseUrl = baseUrl.replace('ows', 'wcs');
-    // const url: URL = new URL(baseUrl);
-
-    // Object.entries(params).forEach(([key, value]) => {
-    //   if (Array.isArray(value)) value.forEach(v => url.searchParams.append(key, v));
-    //   else url.searchParams.set(key, value);
-    // });
-
-    // console.log(url);
-
     const params: Record<string, any> = {
       service: 'WMS',
       request: 'GetFeatureInfo',
@@ -123,17 +99,38 @@ export class LayersService {
     if (baseUrl.endsWith('ows')) baseUrl = baseUrl.replace('ows', 'wms');
     const url: URL = new URL(baseUrl);
     Object.entries(params).forEach(([key, value]: [string, any]) => url.searchParams.set(key, value));
-  
-    fetch(url)
+
+    return fetch(url)
       .then((res: Response) => {
         if (!res.ok) throw new Error(`Errore nella richiesta delle info del layer WMS.`);
         return res.json()
       })
       .then((data: any) => {
-        console.log(data);
+        return this._parseGetFeatureInfo(data, layer.label ?? layer.id);
       })
       .catch((err: unknown) => {
         throw new Error(err instanceof Error ? err.message : `Errore sconosciuto nel recupero dei dati del layer WMS.`);
       })
+  }
+
+  private _parseGetFeatureInfo(geoJSON: GeoJSON.FeatureCollection, label: string): [string, number][] {
+    return geoJSON.features.map((f: GeoJSON.Feature) => {
+      const props = f.properties;
+
+      const propMap =
+        props && typeof props === 'object'
+          ? new Map(Object.entries(props))
+          : new Map();
+
+      const result: [string, number][] = [] as [string, number][];
+
+      if (propMap.size === 1) {
+        for (const [_, v] of propMap.entries()) {
+          if (v !== -1000) result.push([label, Math.round(v * 100) / 100]);
+        }
+      }
+
+      return result;
+    }).flat();
   }
 }
