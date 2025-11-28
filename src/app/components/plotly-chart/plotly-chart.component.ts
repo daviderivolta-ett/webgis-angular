@@ -132,6 +132,10 @@ export class PlotlyChartComponent {
         }
       }
 
+      if (serie.type === 'bar' && serie.style && serie.style['color']) {
+        (trace as Plotly.PlotData).marker = { color: serie.style['color'] };
+      }
+
       if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
@@ -156,7 +160,8 @@ export class PlotlyChartComponent {
       legend: {
         x: 1,
         y: 1,
-        xanchor: 'right'
+        xanchor: 'right',
+        bgcolor: 'transparent'
       },
       margin: {
         t: 56

@@ -72,17 +72,71 @@ export class StationsService {
   public parseTimeSerie(data: any, params: string[]): [number, number][][] {
     if (!Array.isArray(data)) return [];
 
-    return params.map(param => {
-      const filtered = data
+    const cumulativeValues = params.map(param => {
+      return data
+        .filter(d => d['parameter'] === param)
+        .map(d => [
+          new Date(d['referenceDate']).getTime(),
+          parseFloat(d['cumulativeValue'])
+        ] as [number, number])
+    });
+
+    const values = params.map(param => {
+      return data
         .filter(d => d['parameter'] === param)
         .map(d => [
           new Date(d['referenceDate']).getTime(),
           parseFloat(d['value'])
-        ] as [number, number]);
-
-      return filtered;
+        ] as [number, number])
     });
+
+    return [...values];
   }
+
+  /** TEST */
+  public async getTimeSeries(url: string, stationId: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
+    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
+    return this.apiService.getApiData(formattedUrlWithDates, token)
+      .then((data: any) => {
+        return this.parseTimeSeries(data, params);
+      })
+      .catch((err) => {
+        console.log(err);
+        return new Map<string, [number, number][]>();
+      })
+  }
+
+  public parseTimeSeries(data: any, params: string[]): Map<string, [number, number][]> {
+    if (!Array.isArray(data)) return new Map();
+
+    const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
+
+    params.map(param => {
+      const serie = data
+        .filter(d => d['parameter'] === param)
+        .map(d => [
+          new Date(d['referenceDate']).getTime(),
+          parseFloat(d['cumulativeValue'])
+        ] as [number, number])
+
+      result.set(`${param}--cumulative`, serie);
+    });
+
+    params.map((param: string) => {
+      const serie = data
+        .filter(d => d['parameter'] === param)
+        .map(d => [
+          new Date(d['referenceDate']).getTime(),
+          parseFloat(d['value'])
+        ] as [number, number])
+
+      result.set(param, serie);
+    })
+ 
+    return result;
+  }
+  /** TEST */
 
   public convertData(input: [number, number][], multiplier: number): [number, number][] {
     return input.map(([x, y]) => [x, y * multiplier]);

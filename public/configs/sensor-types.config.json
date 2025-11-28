@@ -5,12 +5,30 @@
             "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 1 ora",
             "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
             "unit": "mm",
             "range": [
                 0,
                 120
             ],
             "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_01h--cumulative",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
             "relatedSensors": []
         },
         {
@@ -18,12 +36,30 @@
             "iconUrl": "./images/icons/rain_03h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 3 ore",
             "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
             "unit": "mm",
             "range": [
                 0,
                 120
             ],
             "isFeatured": false,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_03h--cumulative",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
             "relatedSensors": []
         },
         {
@@ -31,6 +67,9 @@
             "iconUrl": "./images/icons/rain_06h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 6 ore",
             "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
             "unit": "mm",
             "range": [
                 0,
@@ -40,10 +79,28 @@
             "relatedSensors": []
         },
         {
+            "id": "rain_06h--cumulative",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
             "id": "rain_07d",
             "iconUrl": "./images/icons/rain_07d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 7 giorni",
             "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
             "unit": "mm",
             "range": [
                 0,
@@ -53,16 +110,49 @@
             "relatedSensors": []
         },
         {
+            "id": "rain_07d--cumulative",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
             "id": "rain_30d",
             "iconUrl": "./images/icons/rain_30d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 30 giorni",
             "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
             "unit": "mm",
             "range": [
                 0,
                 120
             ],
             "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_30d--cumulative",
+            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
             "relatedSensors": []
         },
         {
@@ -161,7 +251,6 @@
             "label": "Velocità del vento media",
             "chartType": "scatter",
             "unit": "km/h",
-            "multiplier": 3.6,
             "range": [
                 -20,
                 120
@@ -178,7 +267,6 @@
             "label": "Raffiche di vento",
             "chartType": "scatter",
             "unit": "km/h",
-            "multiplier": 3.6,
             "range": [
                 -20,
                 120

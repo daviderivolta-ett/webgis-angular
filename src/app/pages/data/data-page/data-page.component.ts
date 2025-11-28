@@ -182,7 +182,7 @@ export class DataPageComponent {
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
+        // this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
@@ -414,18 +414,30 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: [number, number][][]) => {
+    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+      .then((data: Map<string, [number, number][]>) => {
+        const chartData: MapChartData[] = [];
 
-        const chartData: MapChartData[] = sensors.map((t: SensorType, i: number) => {
-          return new MapChartData(
-            t.chartType,
-            t.multiplier ? this.stationsService.convertData(data[i], t.multiplier) : data[i],
-            t.label,
-            t.unit,
-            t.style
-          )
-        });
+        this._sensorTypes.forEach((t) => {
+          if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
+        })
+
+        for (const entry of data.entries()) {
+          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
+          if (!sensor) continue;
+
+          const chartSerie: MapChartData = new MapChartData(
+            sensor.chartType,
+            sensor.multiplier ?
+              this.stationsService.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
+              data.get(entry[0]) ?? [],
+            sensor.label,
+            sensor.unit,
+            sensor.style
+          );
+
+          chartData.push(chartSerie);
+        }
 
         const newChart: MapChart = {
           ...chart,
@@ -436,6 +448,7 @@ export class DataPageComponent {
           yUnit: sensorType ? `(${sensorType.unit})` : '',
           yRange: sensorType ? sensorType.range : [],
         }
+
         this.charts[chartIdx] = newChart;
       })
       .catch((err: unknown) => console.error(err))
