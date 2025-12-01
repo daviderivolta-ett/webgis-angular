@@ -28,11 +28,11 @@ export class ApiService {
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     return fetch(url, { headers })
-      .then((res: Response) => {      
+      .then((res: Response) => {
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`)
         return res.json();
       })
-      .then((data: any) => {   
+      .then((data: any) => {
         if (!('statusCode' in data) || data['statusCode'] !== 200) throw new Error(`Errore nel recupero dei dati da ${url}: ${data['statusCode'] ?? 'Errore sconosciuto'}`);
         if (!('content' in data)) throw new Error(`La risposta non contiene il campo 'content'.`);
         return data['content'];
@@ -59,6 +59,14 @@ export class ApiService {
     const url = new URL(baseurl);
     Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));
     return url.toString();
+  }
+
+  public getByPath(obj: any, path: string) {
+    return path
+      .replace(/\[(\d+)\]/g, '.$1')
+      .split('.')
+      .filter(Boolean)
+      .reduce((acc, key) => acc?.[key], obj)
   }
 
   public formatDate(date: Date) {

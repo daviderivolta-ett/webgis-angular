@@ -8,7 +8,7 @@ export class Table {
         return Table.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string): Table {
+    static generateTableStructure(data: Object[], primaryKey?: string): Table {        
         const table = new Table();
 
         /** Header */
@@ -30,11 +30,11 @@ export class Table {
             const [primaryEntry]: [string, any][] = row.splice(index, 1);
             return [primaryEntry, ...row];
         });
-
+       
         return table;
     }
 
-    static extractHeaderKeys(data: Object[]): string[] {
+    static extractHeaderKeys(data: Object[]): string[] {        
         return [...new Set(data.flatMap((d: Object) => Object.keys(d)))];
     }
 

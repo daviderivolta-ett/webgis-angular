@@ -3,8 +3,7 @@ export class TableConfig {
     public url: string;
     public label?: string;
     public filterKeys?: string[];
-    public dataField?: string;
-    public updateTimeField?: string;
+    public dataPath?: string
 
     constructor(id: string, url: string) {
         this.id = id;
@@ -24,8 +23,7 @@ export class TableConfig {
 
         if ('label' in object && typeof object['label'] === 'string') config.label = object['label'];
         if ('filterKeys' in object && Array.isArray(object['filterKeys']) && object['filterKeys'].every((k: any) => typeof k === 'string')) config.filterKeys = [...object['filterKeys']];
-        if ('dataField' in object && typeof object['dataField'] === 'string') config.dataField = object['dataField'];
-        if ('updateTimeField' in object && typeof object['updateTimeField'] === 'string') config.updateTimeField = object['updateTimeField'];
+        if ('dataPath' in object && typeof object['dataPath'] === 'string') config.dataPath = object['dataPath'];
 
         return config;
     }

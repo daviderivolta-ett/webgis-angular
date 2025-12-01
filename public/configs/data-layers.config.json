@@ -732,6 +732,118 @@
                     ]
                 },
                 {
+                    "id": "maps_humidity",
+                    "label": "Umidità",
+                    "iconUrl": "./images/icons/humidity_percentage_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "maxNumber": 1,
+                    "options": [
+                        {
+                            "id": "maps_humidity_0000",
+                            "label": "Umidità del suolo - h. 00:00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "soilmoisture0000",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "%",
+                                "min": 0,
+                                "max": 100
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_humidity_0600",
+                            "label": "Umidità del suolo - h. 06:00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "soilmoisture0600",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "%",
+                                "min": 0,
+                                "max": 100
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_humidity_1200",
+                            "label": "Umidità del suolo - h. 12:00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "soilmoisture1200",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "%",
+                                "min": 0,
+                                "max": 100
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "maps_humidity_1800",
+                            "label": "Umidità del suolo - h. 18:00",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "soilmoisture1800",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "",
+                                "min": 0,
+                                "max": 100
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        }
+                    ]
+                },
+                {
                     "id": "maps_temperature",
                     "label": "Temperatura",
                     "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
@@ -2136,9 +2248,100 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "unit": "mm",
+                        "min": -10,
+                        "max": 64
+                    },
                     "action": {
                         "id": "wms"
                     }
+                },
+                {
+                    "id": "radar_vil",
+                    "label": "Radar - VIL",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "VIL",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "unit": "mm",
+                        "min": 0,
+                        "max": 75
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "radar_echo",
+                    "label": "Echo",
+                    "maxNumber": 1,
+                    "requiresAuth": true,
+                    "options": [
+                        {
+                            "id": "radar_echo_35dbz",
+                            "label": "Radar - Echo - 35dBZ",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "ETP35DBZ",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "m",
+                                "min": 0,
+                                "max": 15000
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_echo_45dbz",
+                            "label": "Radar - Echo - 45dBZ",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "ETP45DBZ",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "m",
+                                "min": 0,
+                                "max": 15000
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        }
+                    ]
                 }
             ]
         }

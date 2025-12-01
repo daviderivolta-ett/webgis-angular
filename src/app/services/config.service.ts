@@ -172,7 +172,7 @@ export class ConfigService {
       })
   }
 
-  public async getTableConfigGroups(): Promise<TableConfigGroup[]> {
+  public async getTableConfigGroups(): Promise<TableConfigGroup[]> {  
     return fetch(this.appConfig.tablesConfigUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json');

@@ -6,7 +6,8 @@
         "stationParametersPatch": "/platforms/update/parameter",
         "timeseries": "/platforms/get/{stationId}/timeserie",
         "periods": "",
-        "hydroImgs": "/platforms/get/hydro/{model}"
+        "hydroImgs": "/platforms/get/hydro/{model}",
+        "tableStations": "/tables/get/stations/{parameter}"
     },
-    "lastModified": "2025-11-10"
+    "lastModified": "2025-12-02"
 }

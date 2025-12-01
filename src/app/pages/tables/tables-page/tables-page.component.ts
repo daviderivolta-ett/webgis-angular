@@ -53,8 +53,13 @@ export class TablesPageComponent {
 
   public data: Table = new Table();
   public sortedData: Table = new Table();
+
+  public apiBaseUrl; // Recovered from route resolver in constructor
+  public stationsTableUrl; // Recovered from route resolver in constructor
+
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
+
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
   public updateTime: Date = new Date();
 
@@ -65,6 +70,8 @@ export class TablesPageComponent {
     private apiService: ApiService
   ) {
     // Get data from resolvers
+    this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
+    this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
@@ -75,7 +82,7 @@ export class TablesPageComponent {
   }
 
   // Component lifecycle
-  public async ngOnInit(): Promise<void> {   
+  public async ngOnInit(): Promise<void> {
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
 
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -93,15 +100,22 @@ export class TablesPageComponent {
     if (!config) {
       this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
       return;
-    } 
+    }
 
-    const response = await this.apiService.getApiJSONData(config.url)
+    const response = await this.apiService.getApiData(this.apiBaseUrl + config.url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       });
 
-    this.data = this.sortedData = Table.generateTableStructure(response[config.dataField ?? config.id], 'name');
-    this.updateTime = new Date(response['updateDateTime']);
+    console.log('API RESPONSE', response);
+
+    let rawData = response
+    if (config.dataPath) rawData = this.apiService.getByPath(response, config.dataPath);
+
+    console.log('READY DATA', rawData);
+
+    this.data = this.sortedData = Table.generateTableStructure(rawData, 'name');
+    this.updateTime = new Date();
     this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);
     this.filters = this._createFilterForm(config.filterKeys ?? []);
 
@@ -131,7 +145,7 @@ export class TablesPageComponent {
 
   public onDownloadBtnClick(): void {
     const table = this.data.convertTableToArray();
-    const csv = CSVUtils.convertArrayToCSV(table, this.data.header);   
+    const csv = CSVUtils.convertArrayToCSV(table, this.data.header);
     const param: string | null = this.route.snapshot.paramMap.get('id');
     if (param) Utils.downloadFile(`${param}.csv`, csv);
   }

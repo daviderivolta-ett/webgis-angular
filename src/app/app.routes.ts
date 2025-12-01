@@ -41,6 +41,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
         resolve: {
+            apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver
         },

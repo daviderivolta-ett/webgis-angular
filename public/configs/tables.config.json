@@ -5,178 +5,168 @@
             "label": "Valori stazioni",
             "options": [
                 {
-                    "id": "precipitazioni",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Pluvio",
+                    "id": "stations-precipitations",
+                    "url": "/tables/get/stations/Precipitazione",
                     "label": "Precipitazioni",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "temperatura",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Termo",
+                    "id": "stations-temperature",
+                    "url": "/tables/get/stations/Temperatura",
                     "label": "Temperatura",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "livelli-idrometrici",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Idro",
-                    "label": "Livelli idrometrici",
+                    "id": "stations-hydrometric_levels",
+                    "url": "/tables/get/stations/Temperatura",
+                    "label": "Livelli Idrometrici",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "vento",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Vento",
+                    "id": "stations-wind",
+                    "url": "/tables/get/stations/Vento",
                     "label": "Vento",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "umidita-aria",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Igro",
+                    "id": "stations-humidity",
+                    "url": "/tables/get/stations/Umidità dell'aria",
                     "label": "Umidità dell'aria",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "eliofanie",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Elio",
+                    "id": "stations-sunshine_duration",
+                    "url": "/tables/get/stations/Eliofanie",
                     "label": "Eliofanie",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "radiazione-solare",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Radio",
+                    "id": "stations-radiations",
+                    "url": "/tables/get/stations/Radiazione Solare",
                     "label": "Radiazione solare",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "bagnatura-fogliare",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Foglie",
-                    "label": "Bagnatura fogliare",
+                    "id": "stations-foliage",
+                    "url": "/tables/get/stations/Bagnatura Foliare",
+                    "label": "Bagnatura foliare",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "pressione-atmosferica",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Press",
+                    "id": "stations-pressure",
+                    "url": "/tables/get/stations/Pressione Atomosferica",
                     "label": "Pressione atmosferica",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "tensione-batteria",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Batt",
+                    "id": "stations-battery",
+                    "url": "/tables/get/stations/Tensione Batteria",
                     "label": "Tensione batteria",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
                 },
                 {
-                    "id": "neve",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/stations/sensorvalues/Neve",
-                    "label": "Neve",
+                    "id": "stations-sea_status",
+                    "url": "/tables/get/stations/Stato de Mare",
+                    "label": "Stato del mare",
                     "filterKeys": [
-                        "name",
-                        "area",
+                        "warnArea",
                         "basin",
                         "district",
-                        "underbasin"
-                    ],
-                    "dataField": "tableRows",
-                    "updateTimeField": "updateDateTime"
+                        "municipality",
+                        "river"
+                    ]
+                },
+                {
+                    "id": "stations-snow",
+                    "url": "/tables/get/stations/Neve",
+                    "label": "Neve",
+                    "filterKeys": [
+                        "warnArea",
+                        "basin",
+                        "district",
+                        "municipality",
+                        "river"
+                    ]
                 }
             ]
         },
         {
-            "id": "massimi-precipitazione",
+            "id": "precipitations-max",
             "label": "Massimi di precipitazione",
             "options": [
                 {
-                    "id": "alertZones",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/max",
+                    "id": "precipitations-max-warn-areas",
+                    "url": "/tables/get/precipitations/max",
                     "label": "Zone di allerta",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "warnAreas"
                 },
                 {
-                    "id": "districts",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/max",
-                    "label": "Province",
+                    "id": "precipitations-max-municipalities",
+                    "url": "/tables/get/precipitations/max",
+                    "label": "Città",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "municipalities"
                 }
             ]
         },
@@ -185,87 +175,73 @@
             "label": "Estremi di temperatura e vento",
             "options": [
                 {
-                    "id": "alertInfo",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/summary",
+                    "id": "estremi-temperatura-vento-cities",
+                    "url": "/tables/get/extremes",
                     "label": "Città",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "tableTemperatureExtremes.cities"
                 },
                 {
-                    "id": "districtInfo",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/summary",
-                    "label": "Area allertamento",
+                    "id": "estremi-temperatura-vento-zone-warnareas",
+                    "url": "/tables/get/extremes",
+                    "label": "Zone di allerta",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
-                },
-                {
-                    "id": "windInfo",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/summary",
-                    "label": "Zona",
-                    "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "tableTemperatureExtremes.warnAreas"
                 }
             ]
         },
         {
-            "id": "livelli-idrometrici",
+            "id": "hydrometric-levels",
             "label": "Livelli idrometrici",
             "options": [
                 {
-                    "id": "alertZonesA",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Marittimi di ponente",
+                    "id": "hydrometric-levels-a",
+                    "url": "/tables/get/hydro/level",
+                    "label": "A - Marittimi di Ponente",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[5].rowInfos"
                 },
                 {
-                    "id": "alertZonesB",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Marittimi di centro",
+                    "id": "hydrometric-levels-b",
+                    "url": "/tables/get/hydro/level",
+                    "label": "B - Marittimi di Centro",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[0].rowInfos"
                 },
                 {
-                    "id": "alertZonesC",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Marittimi di levante",
+                    "id": "hydrometric-levels-c+m",
+                    "url": "/tables/get/hydro/level",
+                    "label": "C+ ed M",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[1].rowInfos"
                 },
                 {
-                    "id": "alertZonesCLess",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "C - Magra",
+                    "id": "hydrometric-levels-cc+m",
+                    "url": "/tables/get/hydro/level",
+                    "label": "C, C+ ed M",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[2].rowInfos"
                 },
                 {
-                    "id": "alertZonesCPlus",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "C + Magra",
+                    "id": "hydrometric-levels-cc+c-",
+                    "url": "/tables/get/hydro/level",
+                    "label": "C, C+ e C-",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[3].rowInfos"
                 },
                 {
-                    "id": "alertZonesD",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Padani di Ponente",
+                    "id": "hydrometric-levels-d",
+                    "url": "/tables/get/hydro/level",
+                    "label": "D - Padani di Ponente",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[6].rowInfos"
                 },
                 {
-                    "id": "alertZonesE",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Padani di Levante",
+                    "id": "hydrometric-levels-e",
+                    "url": "/tables/get/hydro/level",
+                    "label": "E - Padani di Levante",
                     "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
-                },
-                {
-                    "id": "alertZonesM",
-                    "url": "https://omirl.regione.liguria.it/Omirl/rest/tables/maxhydroalert",
-                    "label": "Magra",
-                    "filterKeys": [],
-                    "updateTimeField": "updateDateTime"
+                    "dataPath": "[4].rowInfos"
                 }
             ]
         }
@@ -275,12 +251,17 @@
         "area": "Area",
         "basin": "Bacino",
         "underbasin": "Sottobacino",
+        "river": "Fiume",
+        "value": "Valore",
+        "minValue": "Minimo",
+        "maxValue": "Massimo",
         "code": "Codice",
         "district": "Provincia",
         "min": "Minimo",
         "max": "Massimo",
         "last": "Ultimo",
-        "municipality": "Comune"
+        "municipality": "Comune",
+        "warnArea": "Zona di allerta"
     },
     "lastModified": "2025-07-16"
 }
