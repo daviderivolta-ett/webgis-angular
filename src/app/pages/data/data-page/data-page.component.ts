@@ -183,7 +183,6 @@ export class DataPageComponent {
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative` ));
-        console.log(this._sensorTypes);
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
