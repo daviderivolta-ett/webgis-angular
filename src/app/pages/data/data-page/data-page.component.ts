@@ -42,7 +42,7 @@ import { CSVUtils, Utils } from '../../../utils';
     MapChartComponent,
     MapChartDatepickerComponent,
     PlotlyChartComponent
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -182,7 +182,8 @@ export class DataPageComponent {
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
-        // this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type));
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative` ));
+        console.log(this._sensorTypes);
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);

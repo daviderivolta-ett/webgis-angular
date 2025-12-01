@@ -1,6 +1,130 @@
 {
     "types": [
         {
+            "id": "rain_05m",
+            "iconUrl": "./images/icons/rain_05m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 5 minuti",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_05m--cumulative",
+            "iconUrl": "./images/icons/rain_05m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_10m",
+            "iconUrl": "./images/icons/rain_10m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 10 minuti",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_10m--cumulative",
+            "iconUrl": "./images/icons/rain_10m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_15m",
+            "iconUrl": "./images/icons/rain_15m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 15 minuti",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_15m--cumulative",
+            "iconUrl": "./images/icons/rain_15m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_30m",
+            "iconUrl": "./images/icons/rain_30m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 30 minuti",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_30m--cumulative",
+            "iconUrl": "./images/icons/rain_30m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
             "id": "rain_01h",
             "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Pioggia 1 ora",
@@ -44,12 +168,12 @@
                 0,
                 120
             ],
-            "isFeatured": false,
+            "isFeatured": true,
             "relatedSensors": []
         },
         {
             "id": "rain_03h--cumulative",
-            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/rain_03h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Cumulata",
             "chartType": "scatter",
             "style": {
@@ -75,12 +199,74 @@
                 0,
                 120
             ],
-            "isFeatured": false,
+            "isFeatured": true,
             "relatedSensors": []
         },
         {
             "id": "rain_06h--cumulative",
-            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/rain_06h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_12h",
+            "iconUrl": "./images/icons/rain_12h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 12 ore",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_12h--cumulative",
+            "iconUrl": "./images/icons/rain_12h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_24h",
+            "iconUrl": "./images/icons/rain_24h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 24 ore",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": true,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_24h--cumulative",
+            "iconUrl": "./images/icons/rain_24h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Cumulata",
             "chartType": "scatter",
             "style": {
@@ -111,7 +297,38 @@
         },
         {
             "id": "rain_07d--cumulative",
-            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/rain_07d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Cumulata",
+            "chartType": "scatter",
+            "style": {
+                "color": "black"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                600
+            ],
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_15d",
+            "iconUrl": "./images/icons/rain_15d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "label": "Pioggia 15 giorni",
+            "chartType": "bar",
+            "style": {
+                "color": "#1F77B4"
+            },
+            "unit": "mm",
+            "range": [
+                0,
+                120
+            ],
+            "isFeatured": false,
+            "relatedSensors": []
+        },
+        {
+            "id": "rain_15d--cumulative",
+            "iconUrl": "./images/icons/rain_15d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Cumulata",
             "chartType": "scatter",
             "style": {
@@ -137,12 +354,12 @@
                 0,
                 120
             ],
-            "isFeatured": true,
+            "isFeatured": false,
             "relatedSensors": []
         },
         {
             "id": "rain_30d--cumulative",
-            "iconUrl": "./images/icons/rain_01h_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/rain_30d_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Cumulata",
             "chartType": "scatter",
             "style": {
