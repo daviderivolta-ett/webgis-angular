@@ -1,5 +1,5 @@
 // Libraries
-import { Component, effect } from '@angular/core';
+import { Component, effect, ViewChild } from '@angular/core';
 import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,14 +8,18 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models';
 
 // Services
-import { ApiService, AuthService } from '../../../services';
+import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services';
 
 // Components
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent } from '../../../components';
+import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components';
 
 // Directives
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive';
-import { MapValuePipe } from '../../../pipes';
+
+/** Custom Pipes */
+import { IsDatePipe, MapValuePipe } from '../../../pipes';
+
+/** Utils */
 import { CSVUtils, Utils } from '../../../utils';
 
 // Component
@@ -33,12 +37,14 @@ import { CSVUtils, Utils } from '../../../utils';
     // Pipes
     KeyValuePipe,
     DatePipe,
+    IsDatePipe,
     MapValuePipe,
     // Directives
     RouterLink,
     RouterLinkActive,
     NgTemplateOutlet,
     ScrollableTableDirective,
+    DatepickerComponent
   ],
   templateUrl: './tables-page.component.html',
   styleUrl: './tables-page.component.scss'
@@ -47,6 +53,8 @@ export class TablesPageComponent {
   /** User Interface */
   public navGroups: TreeNode[] = [];
   public filters: FormGroup = new FormGroup({});
+
+  public selectedDate: Date | undefined;
 
   /** Data */
   public user: Record<string, any> | null = null;
@@ -61,13 +69,17 @@ export class TablesPageComponent {
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
-  public updateTime: Date = new Date();
+
+  /** References */
+  @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private tablesService: TablesService,
+    private snackbarsService: SnackbarsService
   ) {
     // Get data from resolvers
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
@@ -93,6 +105,8 @@ export class TablesPageComponent {
 
   // Methods
   private async _init(id: string): Promise<void> {
+    if (this._sidebar) this._sidebar.toggleSidebar(false);
+
     const config: TableConfig | undefined = this._tableConfigGroups
       .map((g: TableConfigGroup) => g.getTableConfig(id))
       .find((g) => g !== undefined);
@@ -102,20 +116,25 @@ export class TablesPageComponent {
       return;
     }
 
-    const response = await this.apiService.getApiData(this.apiBaseUrl + config.url)
+    const url: string = this.selectedDate ?
+      `${this.apiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
+      `${this.apiBaseUrl}${config.url}`;
+
+    // const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
+
+    const response = await this.apiService.getApiData(url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
-      });
+      })
+    // .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
 
-    console.log('API RESPONSE', response);
+    if (!Array.isArray(response)) return;
+    const table = response.find((t: any) => t['tableName'] === config.dataPath)['tableRows'];
+    if (!table || !Array.isArray(table)) return;
+  
+    const rawData = this.tablesService.parseNestedTableData(table, 'values', config.keysToMerge ?? []);   
+    this.data = this.sortedData = Table.generateTableStructure(rawData, 'name', config.keysOrder);
 
-    let rawData = response
-    if (config.dataPath) rawData = this.apiService.getByPath(response, config.dataPath);
-
-    console.log('READY DATA', rawData);
-
-    this.data = this.sortedData = Table.generateTableStructure(rawData, 'name');
-    this.updateTime = new Date();
     this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);
     this.filters = this._createFilterForm(config.filterKeys ?? []);
 
@@ -148,5 +167,13 @@ export class TablesPageComponent {
     const csv = CSVUtils.convertArrayToCSV(table, this.data.header);
     const param: string | null = this.route.snapshot.paramMap.get('id');
     if (param) Utils.downloadFile(`${param}.csv`, csv);
+  }
+
+  public onDateChange(event: any): void {
+    const { date: dateString } = event;
+    if (typeof dateString !== 'string') return;
+    this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
+    const param: string | null = this.route.snapshot.paramMap.get('id');
+    if (param) this._init(param);
   }
 }

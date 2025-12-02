@@ -2,7 +2,7 @@
     <app-header [isAuth]="user ? true : false"></app-header>
     <div class="main">
         <!-- START SIDEBAR -->
-        <app-sidebar height="calc(100dvh - 48px)" width="304px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="304px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
             <div ngProjectAs="sidebar-content" class="sidebar-content">
                 <h3>Tabelle</h3>
                 @for (group of navGroups; track group.id) {
@@ -21,9 +21,9 @@
         
         <div class="content">
             <!-- START MAIN -->
-             <div class="update-time">
-                <p class="update-time__text">Ultimo aggiornamento {{updateTime | date: 'short'}}</p>
-             </div>
+            <div class="update-time">
+                <app-datepicker (dateChanged)="onDateChange($event)"></app-datepicker>
+            </div>
 
             <!-- START FILTERS -->
             <ng-template #filtersContent>
@@ -63,7 +63,14 @@
                         @for (r of sortedData.body; track $index) {
                             <div class="trow">
                                 @for (d of r; track $index) {
-                                    <div class="tdata"><p>{{d[1]}}</p></div>
+                                    <div class="tdata"><p>
+                                        @if (d[1] | isDate) {
+                                            {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
+                                        }
+                                        @else {
+                                            {{d[1]}}
+                                        }
+                                    </p></div>
                                 }
                             </div>
                         }

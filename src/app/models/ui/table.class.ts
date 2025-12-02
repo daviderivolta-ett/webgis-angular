@@ -8,13 +8,16 @@ export class Table {
         return Table.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string): Table {        
+    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[]): Table {
         const table = new Table();
-
+        console.log(keysOrder);
         /** Header */
         let header = Table.extractHeaderKeys(data);
         if (primaryKey && header.includes(primaryKey)) {
             header = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
+        }
+        if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
+            header = [...keysOrder];
         }
         table.header = header;
 
@@ -30,11 +33,11 @@ export class Table {
             const [primaryEntry]: [string, any][] = row.splice(index, 1);
             return [primaryEntry, ...row];
         });
-       
+
         return table;
     }
 
-    static extractHeaderKeys(data: Object[]): string[] {        
+    static extractHeaderKeys(data: Object[]): string[] {
         return [...new Set(data.flatMap((d: Object) => Object.keys(d)))];
     }
 
@@ -127,7 +130,7 @@ export class Table {
                 r[d[0]] = d[1];
                 return r;
             }, {} as Record<string, any>);
-            
+
             acc.push(r);
             return acc;
         }, [] as Record<string, any>[]);

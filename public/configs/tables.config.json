@@ -14,7 +14,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Precipitazione"
                 },
                 {
                     "id": "stations-temperature",
@@ -26,11 +27,12 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Temperatura"
                 },
                 {
                     "id": "stations-hydrometric_levels",
-                    "url": "/tables/get/stations/Temperatura",
+                    "url": "/tables/get/stations/Livelli Idrometrici",
                     "label": "Livelli Idrometrici",
                     "filterKeys": [
                         "warnArea",
@@ -38,7 +40,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Livelli Idrometrici"
                 },
                 {
                     "id": "stations-wind",
@@ -50,7 +53,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Vento"
                 },
                 {
                     "id": "stations-humidity",
@@ -62,7 +66,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Umidità dell'aria"
                 },
                 {
                     "id": "stations-sunshine_duration",
@@ -74,7 +79,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Eliofanie"
                 },
                 {
                     "id": "stations-radiations",
@@ -86,7 +92,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Radiazione Solare"
                 },
                 {
                     "id": "stations-foliage",
@@ -98,7 +105,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Bagnatura Foliare"
                 },
                 {
                     "id": "stations-pressure",
@@ -110,7 +118,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Pressione Atomosferica"
                 },
                 {
                     "id": "stations-battery",
@@ -122,7 +131,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Tensione Batteria"
                 },
                 {
                     "id": "stations-sea_status",
@@ -134,7 +144,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Stato de Mare"
                 },
                 {
                     "id": "stations-snow",
@@ -146,7 +157,8 @@
                         "district",
                         "municipality",
                         "river"
-                    ]
+                    ],
+                    "dataPath": "Neve"
                 }
             ]
         },
@@ -159,14 +171,46 @@
                     "url": "/tables/get/precipitations/max",
                     "label": "Zone di allerta",
                     "filterKeys": [],
-                    "dataPath": "warnAreas"
+                    "dataPath": "WarnArea",
+                    "keysToMerge": [
+                        "lastValue",
+                        "lastReferenceDate",
+                        "stationName"
+                    ],
+                    "keysOrder": [
+                        "region",
+                        "rain_05m",
+                        "rain_15m",
+                        "rain_30m",
+                        "rain_01h",
+                        "rain_03h",
+                        "rain_06h",
+                        "rain_12h",
+                        "rain_24h"
+                    ]
                 },
                 {
                     "id": "precipitations-max-municipalities",
                     "url": "/tables/get/precipitations/max",
                     "label": "Città",
                     "filterKeys": [],
-                    "dataPath": "municipalities"
+                    "dataPath": "Municipality",
+                    "keysToMerge": [
+                        "lastValue",
+                        "lastReferenceDate",
+                        "stationName"
+                    ],
+                    "keysOrder": [
+                        "region",
+                        "rain_05m",
+                        "rain_15m",
+                        "rain_30m",
+                        "rain_01h",
+                        "rain_03h",
+                        "rain_06h",
+                        "rain_12h",
+                        "rain_24h"
+                    ]
                 }
             ]
         },
@@ -179,14 +223,21 @@
                     "url": "/tables/get/extremes",
                     "label": "Città",
                     "filterKeys": [],
-                    "dataPath": "tableTemperatureExtremes.cities"
+                    "dataPath": "Cities"
                 },
                 {
                     "id": "estremi-temperatura-vento-zone-warnareas",
                     "url": "/tables/get/extremes",
                     "label": "Zone di allerta",
                     "filterKeys": [],
-                    "dataPath": "tableTemperatureExtremes.warnAreas"
+                    "dataPath": "WarnArea"
+                },
+                {
+                    "id": "estremi-temperatura-vento-wind-extremes",
+                    "url": "/tables/get/extremes",
+                    "label": "Vento",
+                    "filterKeys": [],
+                    "dataPath": "Wind"
                 }
             ]
         },
@@ -199,49 +250,56 @@
                     "url": "/tables/get/hydro/level",
                     "label": "A - Marittimi di Ponente",
                     "filterKeys": [],
-                    "dataPath": "[5].rowInfos"
+                    "dataPath": "A"
                 },
                 {
                     "id": "hydrometric-levels-b",
                     "url": "/tables/get/hydro/level",
                     "label": "B - Marittimi di Centro",
                     "filterKeys": [],
-                    "dataPath": "[0].rowInfos"
+                    "dataPath": "B"
                 },
                 {
-                    "id": "hydrometric-levels-c+m",
+                    "id": "hydrometric-levels-c",
                     "url": "/tables/get/hydro/level",
-                    "label": "C+ ed M",
+                    "label": "C - Marittimi di Levante",
                     "filterKeys": [],
-                    "dataPath": "[1].rowInfos"
-                },
-                {
-                    "id": "hydrometric-levels-cc+m",
-                    "url": "/tables/get/hydro/level",
-                    "label": "C, C+ ed M",
-                    "filterKeys": [],
-                    "dataPath": "[2].rowInfos"
-                },
-                {
-                    "id": "hydrometric-levels-cc+c-",
-                    "url": "/tables/get/hydro/level",
-                    "label": "C, C+ e C-",
-                    "filterKeys": [],
-                    "dataPath": "[3].rowInfos"
+                    "dataPath": "C"
                 },
                 {
                     "id": "hydrometric-levels-d",
                     "url": "/tables/get/hydro/level",
                     "label": "D - Padani di Ponente",
                     "filterKeys": [],
-                    "dataPath": "[6].rowInfos"
+                    "dataPath": "D"
                 },
                 {
                     "id": "hydrometric-levels-e",
                     "url": "/tables/get/hydro/level",
                     "label": "E - Padani di Levante",
                     "filterKeys": [],
-                    "dataPath": "[4].rowInfos"
+                    "dataPath": "E"
+                },
+                {
+                    "id": "hydrometric-levels-c+",
+                    "url": "/tables/get/hydro/level",
+                    "label": "C+ - C + Magra",
+                    "filterKeys": [],
+                    "dataPath": "C+"
+                },
+                {
+                    "id": "hydrometric-levels-c-",
+                    "url": "/tables/get/hydro/level",
+                    "label": "C- - C - Magra",
+                    "filterKeys": [],
+                    "dataPath": "C-"
+                },
+                {
+                    "id": "hydrometric-levels-m",
+                    "url": "/tables/get/hydro/level",
+                    "label": "M - Magra",
+                    "filterKeys": [],
+                    "dataPath": "M"
                 }
             ]
         }
@@ -253,6 +311,7 @@
         "underbasin": "Sottobacino",
         "river": "Fiume",
         "value": "Valore",
+        "lastValue": "Ultimo valore",
         "minValue": "Minimo",
         "maxValue": "Massimo",
         "code": "Codice",
@@ -261,7 +320,15 @@
         "max": "Massimo",
         "last": "Ultimo",
         "municipality": "Comune",
-        "warnArea": "Zona di allerta"
+        "warnArea": "Zona di allerta",
+        "region": "Regione",
+        "minValueStationName": "Stazione valore minimo",
+        "maxValueStationName": "Stazione valore massimo",
+        "minValueReferenceDate": "Data valore minimo",
+        "maxValueReferenceDate": "Data valore massimo",
+        "lastValueReferenceDate": "Stazione ultimo valore",
+        "stationName": "Nome stazione",
+        "stationCode": "Codice stazione"
     },
     "lastModified": "2025-07-16"
 }
