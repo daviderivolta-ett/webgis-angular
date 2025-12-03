@@ -39,6 +39,7 @@ export class MapComponent {
   /** Internal properties */
   private _map!: L.Map;
   private _layers = new Map<string, L.Layer>();
+  private _hoverTimer: number = 0;
 
   /** Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
@@ -221,7 +222,8 @@ export class MapComponent {
           iconAnchor: feature.properties.markerShapeId !== 6 ? [10, 10] : [32, 32]
         });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
-        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 300));
+        marker.on('mouseout', () => window.clearTimeout(this._hoverTimer));
         marker.on('click', () => this.popupClicked.emit(this._popup.data()));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
         return marker;
@@ -369,6 +371,10 @@ export class MapComponent {
       .setContent(element instanceof HTMLElement ? `${element.outerHTML}` : element)
       .setLatLng(coordinates)
       .openOn(this._map)
+  }
+
+  public closeAllPopups(): void {
+    this._map.closePopup();
   }
 
   /** Util function to create a bounding box around a specific point at a certain distance */

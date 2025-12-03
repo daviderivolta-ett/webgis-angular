@@ -182,7 +182,7 @@ export class DataPageComponent {
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
       .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative` ));
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
@@ -267,10 +267,8 @@ export class DataPageComponent {
     }
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (this.selectedDate) {
-      this.refreshLayersId = window.setInterval(() => {
-        this._refreshLayers();
-      }, 300000);
+    if (!this.selectedDate) {
+      this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
   }
 
@@ -280,6 +278,7 @@ export class DataPageComponent {
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
     this.geojsonLegends = this.geojsonLegends.filter((l: Legend) => l.layerId !== id);
     this.wmsLegends = this.wmsLegends.filter((l: Legend) => l.layerId !== id);
+    this._map.closeAllPopups();
   }
 
   private _refreshLayers(): void {

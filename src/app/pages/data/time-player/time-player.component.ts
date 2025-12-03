@@ -16,7 +16,7 @@ export class TimePlayerComponent {
   /** Properties */
   /** UI */
   public form: FormGroup = new FormGroup({
-    date: new FormControl('', [Validators.required])
+    date: new FormControl(this._truncateDateToFullHour(this._toDatetimeLocal(new Date())), [Validators.required])
   }, {
     updateOn: 'blur'
   });
