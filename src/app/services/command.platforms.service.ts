@@ -27,7 +27,8 @@ export class PlatformsCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);            
+            console.log(urlWithDates);            
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
@@ -189,10 +190,25 @@ export class PlatformsCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date, minuteSpan: number = 60): string {
+        // const span = minuteSpan * 60 * 1000;
+        // const fromDate = this.apiService.formatDate(new Date(date.getTime() - span));
+        // const toDate = this.apiService.formatDate(new Date(date.getTime()));
+        // const separator = url.includes('?') ? '&' : '?';
+        // return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}`;
+
         const span = minuteSpan * 60 * 1000;
-        const fromDate = this.apiService.formatDate(new Date(date.getTime() - span));
-        const toDate = this.apiService.formatDate(new Date(date.getTime()));
+
+        const fromLocal = new Date(date.getTime() - span);
+        const toLocal = new Date(date.getTime());
+
+        const fromUTC = this.apiService.toUTCDate(fromLocal);
+        const toUTC = this.apiService.toUTCDate(toLocal);
+
+        const fromDate = this.apiService.formatDate(fromUTC);
+        const toDate = this.apiService.formatDate(toUTC);
+
         const separator = url.includes('?') ? '&' : '?';
+
         return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}`;
     }
 }

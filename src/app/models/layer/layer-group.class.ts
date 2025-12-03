@@ -82,7 +82,7 @@ export class LayerGroup {
                 return child;
             } else if (child instanceof LayerGroup) {
                 const found = this.searchGeoJsonLayerByParameter(param, child);
-                if (found) return found; 
+                if (found) return found;
             }
         }
 
@@ -154,7 +154,7 @@ export class LayerGroup {
                 for (const option of group.options) {
                     if (option instanceof LayerGroup) {
                         if (!option.requiresAuth || isAuth) result.push(option.id);
-                        result.push(...this.getAuthLayerGroups([option], isAuth));
+                        result.push(...this.getAuthLayers([option], isAuth));
                     } else {
                         if (!option.requiresAuth || isAuth) result.push(option.id);
                     }

@@ -581,7 +581,7 @@ export class DataPageComponent {
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
-     this._map.closeAllPopups();
+    this._map.closeAllPopups();
     this.selectedDate = date;
 
     // Split current layers in timedimension and not-timedimension layers

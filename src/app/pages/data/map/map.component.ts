@@ -222,8 +222,11 @@ export class MapComponent {
           iconAnchor: feature.properties.markerShapeId !== 6 ? [10, 10] : [32, 32]
         });
         const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
-        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 300));
-        marker.on('mouseout', () => window.clearTimeout(this._hoverTimer));
+        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
+        marker.on('mouseout', () => {
+          window.clearTimeout(this._hoverTimer);
+          this.closeAllPopups();
+        });
         marker.on('click', () => this.popupClicked.emit(this._popup.data()));
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
         return marker;
@@ -270,9 +273,6 @@ export class MapComponent {
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {
         if (!feature) return {}
-
-        console.log();
-        
         const color: string = feature.properties.color ?? 'grey';
         const opacity: number = feature.properties.opacity ?? 1;
         return {
@@ -320,7 +320,11 @@ export class MapComponent {
           icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
         if (f.geometry.type === 'Point') marker.feature = f as Feature<Point>;
-        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
+        marker.on('mouseout', () => {
+          window.clearTimeout(this._hoverTimer);
+          this.closeAllPopups();
+        });
         marker.on('click', () => this.popupClicked.emit(this._popup.data()));
         markers.addLayer(marker);
       }

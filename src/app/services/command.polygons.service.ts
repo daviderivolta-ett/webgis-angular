@@ -13,7 +13,7 @@ export class PolygonsCommandService implements Command {
     constructor(private apiService: ApiService) { }
 
     public async execute(args?: any): Promise<void> {
-        const { map, layer, baseUrl, token } = args;       
+        const { map, layer, baseUrl, token } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJSONLayer'.`)
@@ -22,10 +22,10 @@ export class PolygonsCommandService implements Command {
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
             const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(url, token);
-            console.log('GEOJSON', geoJSON);            
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {
-
+            if (error instanceof Error) throw error;
+            else throw new Error(`Errore nell'esecuzione del comando.`);
         }
 
     }
