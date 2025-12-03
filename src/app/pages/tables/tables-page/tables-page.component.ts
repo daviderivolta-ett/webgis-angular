@@ -54,6 +54,7 @@ export class TablesPageComponent {
   public navGroups: TreeNode[] = [];
   public filters: FormGroup = new FormGroup({});
 
+  public selectedTableTitle: string = '';
   public selectedDate: Date | undefined;
 
   /** Data */
@@ -120,19 +121,23 @@ export class TablesPageComponent {
       `${this.apiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
       `${this.apiBaseUrl}${config.url}`;
 
-    // const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
+    const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
 
     const response = await this.apiService.getApiData(url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       })
-    // .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
+      .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
 
     if (!Array.isArray(response)) return;
-    const table = response.find((t: any) => t['tableName'] === config.dataPath)['tableRows'];
-    if (!table || !Array.isArray(table)) return;
-  
-    const rawData = this.tablesService.parseNestedTableData(table, 'values', config.keysToMerge ?? []);   
+    const table = response.find((t: any) => t['tableName'] === config.dataPath);
+    if (!table) return;
+
+    const { tableName, tableRows } = table;
+    if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
+
+    this.selectedTableTitle = tableName;
+    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
     this.data = this.sortedData = Table.generateTableStructure(rawData, 'name', config.keysOrder);
 
     this.filterKeys = this._createFilterKeys(config.filterKeys ?? []);

@@ -15,7 +15,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Precipitazione"
+                    "dataPath": "Precipitazione",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-temperature",
@@ -28,7 +40,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Temperatura"
+                    "dataPath": "Temperatura",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-hydrometric_levels",
@@ -41,7 +65,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Livelli Idrometrici"
+                    "dataPath": "Livelli Idrometrici",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-wind",
@@ -54,7 +90,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Vento"
+                    "dataPath": "Vento",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-humidity",
@@ -67,7 +115,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Umidità dell'aria"
+                    "dataPath": "Umidità dell'aria",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-sunshine_duration",
@@ -80,7 +140,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Eliofanie"
+                    "dataPath": "Eliofanie",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-radiations",
@@ -93,7 +165,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Radiazione Solare"
+                    "dataPath": "Radiazione Solare",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-foliage",
@@ -106,7 +190,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Bagnatura Foliare"
+                    "dataPath": "Bagnatura Foliare",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-pressure",
@@ -119,7 +215,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Pressione Atomosferica"
+                    "dataPath": "Pressione Atomosferica",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-battery",
@@ -132,20 +240,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Tensione Batteria"
-                },
-                {
-                    "id": "stations-sea_status",
-                    "url": "/tables/get/stations/Stato de Mare",
-                    "label": "Stato del mare",
-                    "filterKeys": [
+                    "dataPath": "Tensione Batteria",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
-                        "river"
-                    ],
-                    "dataPath": "Stato de Mare"
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 },
                 {
                     "id": "stations-snow",
@@ -158,7 +265,19 @@
                         "municipality",
                         "river"
                     ],
-                    "dataPath": "Neve"
+                    "dataPath": "Neve",
+                    "keysOrder": [
+                        "name",
+                        "code",
+                        "municipality",
+                        "district",
+                        "warnArea",
+                        "basin",
+                        "river",
+                        "value",
+                        "maxValue",
+                        "minValue"
+                    ]
                 }
             ]
         },
@@ -326,9 +445,23 @@
         "maxValueStationName": "Stazione valore massimo",
         "minValueReferenceDate": "Data valore minimo",
         "maxValueReferenceDate": "Data valore massimo",
-        "lastValueReferenceDate": "Stazione ultimo valore",
+        "lastValueReferenceDate": "Data ultimo valore",
         "stationName": "Nome stazione",
-        "stationCode": "Codice stazione"
+        "stationCode": "Codice stazione",
+        "firstValueStationName": "Stazione valore minimo",
+        "firstValueReferenceDate": "Data valore minimo",
+        "secondValueStationName": "Stazione valore massimo",
+        "secondoValueReferenceDate": "Data valore massimo",
+        "firstValue": "Valore minimo",
+        "secondValue": "Valore massimo",
+        "rain_05m": "5'",
+        "rain_15m": "15'",
+        "rain_30m": "30'",
+        "rain_01h": "1h",
+        "rain_03h": "3h",
+        "rain_06h": "6h",
+        "rain_12h": "12h",
+        "rain_24h": "24h"
     },
     "lastModified": "2025-07-16"
 }

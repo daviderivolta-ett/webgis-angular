@@ -10,7 +10,7 @@ export class Table {
 
     static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[]): Table {
         const table = new Table();
-        console.log(keysOrder);
+
         /** Header */
         let header = Table.extractHeaderKeys(data);
         if (primaryKey && header.includes(primaryKey)) {

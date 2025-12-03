@@ -37,6 +37,8 @@ table {
 }
 
 .table {
+    font-size: .8rem;
+
     .thead,
     .tbody {
         overflow-x: auto;
@@ -78,7 +80,7 @@ table {
 
     .tdata {
         width: 100%;
-        min-width: 160px;
+        min-width: 100px;
         padding: 12px;
         margin: 0;
         border: none;
