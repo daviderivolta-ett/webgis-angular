@@ -60,7 +60,7 @@ export class HydroCommandService implements Command {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {
                 const properties: any = f.properties ?? {};
-                const colorCode = properties['alert'];               
+                const colorCode = properties['alert'];
                 const color: string = colorScale.getColor(colorCode ?? 0);
 
                 return {
@@ -78,7 +78,7 @@ export class HydroCommandService implements Command {
         };
     }
 
-    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {       
+    private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: [
@@ -104,8 +104,14 @@ export class HydroCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date?: Date): string {
-        const d = date || new Date();
-        const formatted = this.apiService.formatDate(d);
+        // const d = date || new Date();
+        // const formatted = this.apiService.formatDate(d);
+        // const encodedTime = encodeURIComponent(formatted);
+        // return `${url}?time=${encodedTime}`;
+
+        const localDate = date || new Date();
+        const utcDate = this.apiService.toUTCDate(localDate);
+        const formatted = this.apiService.formatDate(utcDate);
         const encodedTime = encodeURIComponent(formatted);
         return `${url}?time=${encodedTime}`;
     }

@@ -13,7 +13,7 @@ export class PolygonsCommandService implements Command {
     constructor(private apiService: ApiService) { }
 
     public async execute(args?: any): Promise<void> {
-        const { map, layer, baseUrl, token } = args;
+        const { map, date, layer, baseUrl, token } = args;
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJSONLayer'.`)
@@ -21,6 +21,7 @@ export class PolygonsCommandService implements Command {
 
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
+            // const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
             const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(url, token);
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {
@@ -28,5 +29,11 @@ export class PolygonsCommandService implements Command {
             else throw new Error(`Errore nell'esecuzione del comando.`);
         }
 
+    }
+
+    private _createUrlWithDate(url: string, date: Date): string {
+        // const utcDate = this.apiService.toUTCDate(date);       
+        const separator = url.includes('?') ? '&' : '?';
+        return `${url}${separator}time=${date.toISOString()}`;
     }
 }

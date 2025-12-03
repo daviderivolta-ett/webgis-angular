@@ -106,7 +106,12 @@ export class LightningCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
-        const time = this.apiService.formatDate(new Date(date.getTime()));
+        // const time = this.apiService.formatDate(new Date(date.getTime()));
+        // const separator = url.includes('?') ? '&' : '?';
+        // return `${url}${separator}time=${time}`;
+
+        const utcDate = this.apiService.toUTCDate(date);
+        const time = this.apiService.formatDate(utcDate);
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;
     }
