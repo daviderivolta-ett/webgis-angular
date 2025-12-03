@@ -471,263 +471,873 @@
                     "options": [
                         {
                             "id": "maps_precipitations_10min",
-                            "label": "Precipitazioni - 10 minuti",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall10m",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "10 minuti",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_10min_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall10m",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_30min",
-                            "label": "Precipitazioni - 30 minuti",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall30m",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "30 minuti",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_30min_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall30m",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30min_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30min_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30min_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30min_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30min_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_1h",
-                            "label": "Precipitazioni - 1 ora",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall1h",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "1 ora",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_1h_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall1h",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1h_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1h_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1h_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1h_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1h_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_3h",
-                            "label": "Precipitazioni - 3 ore",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall3h",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "3 ore",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_3h_interpolated",
+                                    "label": "Precipitazioni - 3 ore",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall3h",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_3h_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_3h_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_3h_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_3h_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_3h_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_6h",
-                            "label": "Precipitazioni - 6 ore",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall6h",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "6 ore",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_6h_interpolated",
+                                    "label": "Precipitazioni - 6 ore",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall6h",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_6h_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_6h_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_6h_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_6h_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_6h_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_12h",
-                            "label": "Precipitazioni - 12 ore",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall12h",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "12 ore",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_12h_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall12h",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_12h_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_12h_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_12h_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_12h_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_12h_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_1d",
-                            "label": "Precipitazioni - 1 giorno",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall1d",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "1 giorno",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_1d_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall1d",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1d_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1d_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1d_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1d_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_1d_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_7d",
-                            "label": "Precipitazioni - 7 giorni",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall7d",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "7 giorni",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_7d_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall7d",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_7d_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_7d_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_7d_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_7d_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_7d_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_15d",
-                            "label": "Precipitazioni - 15 giorni",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall15d",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "15 giorni",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_15d_interpolated",
+                                    "label": "Interpolated",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall15d",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_15d_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_15d_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_15d_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_15d_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_15d_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_precipitations_30d",
-                            "label": "Precipitazioni - 30 giorni",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "params": {
-                                "layers": "omirl:rainfall30d",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 120
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "30 giorni",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_precipitations_30d_interpolated",
+                                    "label": "Interpolata",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "params": {
+                                        "layers": "omirl:rainfall30d",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "legend": {
+                                        "unit": "mm",
+                                        "min": 0,
+                                        "max": 120
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30d_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30d_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30d_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30d_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_30d_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },

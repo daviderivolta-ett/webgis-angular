@@ -9,6 +9,7 @@ import { HydroCommandService } from './command.hydro.service'
 import { LightningCommandService } from './command.lightning.service'
 import { PlatformsCommandService } from './command.platforms.service'
 import { WMSCommandService } from './command.wms.service'
+import { PolygonsCommandService } from './command.polygons.service'
 
 // Service
 @Injectable({
@@ -19,7 +20,8 @@ export class CommandsRegistryService {
     ['hydro', HydroCommandService],
     ['lightning', LightningCommandService],
     ['platforms', PlatformsCommandService],
-    ['wms', WMSCommandService]
+    ['wms', WMSCommandService],
+    ['polygons', PolygonsCommandService]
   ]);
 
   constructor(private injector: Injector) { }

@@ -88,6 +88,8 @@ export class DataPageComponent {
   public settings: Settings; // Recovered from route resolver in constructor
 
   public apiBaseUrl; // Recovered from route resolver in constructor
+  public stationsApiBaseUrl; // Recovered from route resolver in constructor
+  public polygonMeanApiBaseUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
@@ -121,11 +123,15 @@ export class DataPageComponent {
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.settings = this.route.snapshot.data['settings'];
+
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
-    this.parametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    this.timeserieUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
-    this.hydroImgsUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
+    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.polygonMeanApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('polygonMeanApi'));
+
+    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
+    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
+    this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
@@ -551,7 +557,7 @@ export class DataPageComponent {
         date,
         colorScale,
         layer,
-        baseUrl: this.apiBaseUrl,
+        baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
         stations: this.stations,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
@@ -575,6 +581,7 @@ export class DataPageComponent {
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
+     this._map.closeAllPopups();
     this.selectedDate = date;
 
     // Split current layers in timedimension and not-timedimension layers

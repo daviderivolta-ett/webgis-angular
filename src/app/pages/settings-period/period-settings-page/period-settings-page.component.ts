@@ -36,6 +36,7 @@ export class PeriodSettingsPageComponent {
   public user: Record<string, any> | null = null;
 
   public apiBaseUrl; // Recovered from route resolver in constructor
+  public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public periodsUrl; // Recovered from route resolver in constructor
 
   constructor(
@@ -44,7 +45,8 @@ export class PeriodSettingsPageComponent {
     private apiService: ApiService
   ) {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
-    this.periodsUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('periods'));
+    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.periodsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('periods'));
 
     /** Effetcs */
     effect(() => {

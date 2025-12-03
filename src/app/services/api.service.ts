@@ -43,6 +43,21 @@ export class ApiService {
       })
   }
 
+  public async getPolygonApiData(url: string, token?: string): Promise<any> {
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    return fetch(url, { headers })
+      .then((res: Response) => {
+        if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`)
+        return res.json();
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error) throw err;
+        else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
+      })
+  }
+
   public buildUrl(baseUrl: string, endpoint: string): string {
     return baseUrl + endpoint;
   }

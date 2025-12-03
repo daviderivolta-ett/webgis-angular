@@ -265,6 +265,27 @@ export class MapComponent {
     this._registerLayer(id, timeDimensionLayer);
   }
 
+
+  public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
+    const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
+      style: (feature) => {
+        if (!feature) return {}
+
+        console.log();
+        
+        const color: string = feature.properties.color ?? 'grey';
+        const opacity: number = feature.properties.opacity ?? 1;
+        return {
+          color: '#000',
+          weight: 2,
+          opacity,
+          fillColor: color
+        }
+      }
+    }).addTo(this._map);
+    this._registerLayer(id, geoJSONLayer);
+  }
+
   /** Add GeoJSON layer with donut cluster */
   public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>, options?: Record<string, any>): void {
     // Create pane for cluster

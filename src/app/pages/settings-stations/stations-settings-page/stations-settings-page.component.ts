@@ -39,6 +39,7 @@ export class StationsSettingsPageComponent {
   public user: Record<string, any> | null = null;
 
   public apiBaseUrl; // Recovered from route resolver in constructor
+  public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public stationParametersUrl; // Recovered from route resolver in constructor
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
@@ -53,8 +54,9 @@ export class StationsSettingsPageComponent {
     private snackbarsService: SnackbarsService
   ) {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
-    this.stationParametersUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    this.stationParametersPatchUrl = this.apiService.buildUrl(this.apiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
+    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.stationParametersPatchUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
 
     /** Effetcs */
     effect(() => {

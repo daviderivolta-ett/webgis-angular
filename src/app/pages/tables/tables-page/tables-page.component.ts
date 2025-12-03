@@ -64,6 +64,7 @@ export class TablesPageComponent {
   public sortedData: Table = new Table();
 
   public apiBaseUrl; // Recovered from route resolver in constructor
+  public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public stationsTableUrl; // Recovered from route resolver in constructor
 
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
@@ -84,6 +85,7 @@ export class TablesPageComponent {
   ) {
     // Get data from resolvers
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
+    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
@@ -118,8 +120,8 @@ export class TablesPageComponent {
     }
 
     const url: string = this.selectedDate ?
-      `${this.apiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
-      `${this.apiBaseUrl}${config.url}`;
+      `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
+      `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
 
