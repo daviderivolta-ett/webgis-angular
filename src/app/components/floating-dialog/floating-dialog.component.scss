@@ -2,14 +2,14 @@
     position: absolute;
     z-index: 9999999;
     top: calc((100dvh - 70dvh) / 2);
-    left: calc((100dvw - 70dvw) / 2);
+    left: calc((100dvw - 80dvh) / 2);
     background-color: var(--neutral-100, white);
     border: 1px solid var(--neutral-500, grey);
     border-radius: 8px;
     resize: none;
     overflow: hidden;
     transform-origin: bottom right;
-    width: 70dvw;
+    width: 80dvh;
     height: 70dvh;
     min-width: 70dvh;
     min-height: 70dvh;
