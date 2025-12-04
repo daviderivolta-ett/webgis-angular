@@ -61,7 +61,8 @@ export class PlotlyChartComponent {
   private _parseData(serie: PlotlyChartData): Partial<Plotly.Data> {
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
-      y: serie.data.map((v: [number, number | null]) => v[1])
+      y: serie.data.map((v: [number, number | null]) => v[1]),
+      hovertemplate: `%{x}<br>${serie.legend}: %{y} ${serie.unit}<extra></extra>`
     };
   }
 
@@ -69,6 +70,8 @@ export class PlotlyChartComponent {
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map(() => -10),
+      text: serie.data.map((v: [number, number | null]) => v[1] !== null && v[1] !== undefined ? String(v[1]) : ''),
+      hoverinfo: 'x+text'
     }
   }
 
@@ -144,7 +147,8 @@ export class PlotlyChartComponent {
       if (serie.type === 'scatter' && serie.style && serie.style['color']) {
         (trace as Plotly.ScatterData).mode = 'lines';
         (trace as Plotly.ScatterData).line = {
-          color: serie.style['color']
+          color: serie.style['color'],
+          width: 1
         }
       }
 
@@ -164,8 +168,7 @@ export class PlotlyChartComponent {
 
       return {
         ...trace,
-        connectgaps: false,
-        hovertemplate: `%{x}<br>${serie.legend}: %{y} ${serie.unit}<extra></extra>`,
+        connectgaps: false
       };
     });
   }
@@ -173,10 +176,11 @@ export class PlotlyChartComponent {
   private _getLayout(data: PlotlyChartData[]): Partial<Plotly.Layout> {
     let layout: Partial<Plotly.Layout> = {
       showlegend: true,
+      hovermode: 'x unified',
       legend: {
-        x: 1,
+        x: 0,
         y: 1,
-        xanchor: 'right',
+        xanchor: 'left',
         bgcolor: 'transparent'
       },
       margin: {
@@ -212,37 +216,27 @@ export class PlotlyChartComponent {
           color: 'black'
         }
       },
-      shapes: [
-        // ...this._createHorizontalBands(),
-        // {
-        //   type: 'rect',
-        //   xref: 'paper',
-        //   yref: 'y',
-        //   x0: 0,
-        //   x1: 1,
-        //   y0: this.yRange().length >= 2 ? this.yRange()[1] : undefined,
-        //   y1: this.yRange().length >= 2 ? this.yRange()[1] + 1 : undefined,
-        //   fillcolor: 'rgba(255, 0, 0, 0.2)',
-        //   line: { width: 0 }
-        // }
-
-      ]
+      shapes: []
     };
 
     let additionalYAxisCounter: number = 2;
 
     data.forEach((d: PlotlyChartData, i: number) => {
       let axisName: string;
+      let axisShortName: string;
+
       if (d.needsAdditionalYAxis) {
         axisName = `yaxis${additionalYAxisCounter}`;
+        axisShortName = `y${additionalYAxisCounter}`
         additionalYAxisCounter++;
       } else {
         axisName = 'yaxis';
+        axisShortName = 'y';
       }
 
       (layout as any)[axisName] = {
         title: {
-          text: d.legend ?? '',
+          text: (d.yLabel && d.unit) ? `${d.yLabel} (${d.unit})` : undefined,
           font: {
             size: 10,
             weight: 400,
@@ -250,100 +244,32 @@ export class PlotlyChartComponent {
           },
           standoff: 10
         },
-        range: d.yRange ?? undefined,
+        range: d.unit && d.unit !== '°' ? d.yRange : undefined,
         nticks: 20,
-        type: '-',
         tickformat: undefined,
-        automargin: true,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
-        side: d.needsAdditionalYAxis ? 'right' : 'left',
-        // anchor: d.needsAdditionalYAxis ? 'free' : 'x',
-        // position: d.needsAdditionalYAxis ? i : 0
+        side: d.needsAdditionalYAxis ? 'right' : 'left'
+      }
+
+      if (d.unit !== '°') {
+        layout.shapes?.push({
+          type: 'line',
+          xref: 'paper',
+          x0: 0,
+          x1: 1,
+          yref: axisShortName as any,
+          y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+          y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+          line: {
+            color: 'rgba(255, 0, 0, .2)',
+            width: 4
+          }
+        });
       }
     });
 
     return layout;
   }
-
-  // private _getLayout(): Partial<Plotly.Layout> {
-  //   return {
-  //     showlegend: true,
-  //     legend: {
-  //       x: 1,
-  //       y: 1,
-  //       xanchor: 'right',
-  //       bgcolor: 'transparent'
-  //     },
-  //     margin: {
-  //       t: 56
-  //     },
-  //     yaxis: {
-  //       title: {
-  //         // text: this._yUnit,
-  //         text: this.yLabel(),
-  //         font: {
-  //           size: 10,
-  //           weight: 400,
-  //           color: '#b0b0b0'
-  //         },
-  //         standoff: 10
-  //       },
-  //       range: this.yRange().length > 0 ? this.yRange() : undefined,
-  //       nticks: 20,
-  //       // type: this._dateAxis === 'y' ? 'date' : '-',
-  //       type: '-',
-  //       // tickformat: this._dateAxis === 'y' ? '%Y-%m-%d, %H:%M' : undefined,
-  //       tickformat: undefined,
-  //       automargin: true
-  //     },
-  //     xaxis: {
-  //       title: {
-  //         // text: this._xUnit,
-  //         text: this.xLabel(),
-  //         font: {
-  //           size: 10,
-  //           weight: 400,
-  //           color: '#b0b0b0'
-  //         }
-  //       },
-  //       range: this.xRange().length > 0 ? this.xRange() : undefined,
-  //       nticks: 20,
-  //       // type: this._dateAxis === 'x' ? 'date' : '-',
-  //       type: 'date',
-  //       // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
-  //       // tickformat: '%Y-%m-%d h:%H:%M',
-  //       tickformat: undefined,
-  //       automargin: true,
-  //       tickformatstops: [
-  //         {
-  //           dtickrange: ["M1", "M1"],
-  //           value: "%d %b"
-  //         }
-  //       ]
-  //     },
-  //     hoverlabel: {
-  //       bgcolor: 'white',
-  //       font: {
-  //         color: 'black'
-  //       }
-  //     },
-  //     shapes: [
-  //       // ...this._createHorizontalBands(),
-  //       {
-  //         type: 'rect',
-  //         xref: 'paper',
-  //         yref: 'y',
-  //         x0: 0,
-  //         x1: 1,
-  //         y0: this.yRange().length >= 2 ? this.yRange()[1] : undefined,
-  //         y1: this.yRange().length >= 2 ? this.yRange()[1] + 1 : undefined,
-  //         fillcolor: 'rgba(255, 0, 0, 0.2)',
-  //         line: { width: 0 }
-  //       }
-
-  //     ]
-  //   }
-  // }
 
   // private _createHorizontalBands(): Partial<Plotly.Shape>[] {
   //   const min = -this.yRange()[1];
@@ -378,6 +304,8 @@ export class PlotlyChartComponent {
     return {
       responsive: true,
       displaylogo: false,
+      showAxisDragHandles: false,
+      modeBarButtonsToRemove: ['autoScale2d'],
       modeBarButtonsToAdd: [
         {
           title: 'Download plot as csv',
