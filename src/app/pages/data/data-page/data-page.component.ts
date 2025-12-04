@@ -397,9 +397,9 @@ export class DataPageComponent {
               'Data',
               '',
               undefined,
-              sensorType ? sensorType.label : s.parameter,
-              s.unit ? `(${s.unit})` : '',
-              sensorType?.range
+              // sensorType ? sensorType.label : s.parameter,
+              // s.unit ? `(${s.unit})` : '',
+              // sensorType?.range
             ));
           break;
       }
@@ -446,20 +446,21 @@ export class DataPageComponent {
               data.get(entry[0]) ?? [],
             sensor.label,
             sensor.unit,
-            sensor.style
+            sensor.style,
+            sensor.label,
+            `(${sensor.unit})`,
+            sensor.range,
+            sensor.id.includes('--cumulative') ? true : false
           );
-
+        
           chartData.push(chartSerie);
-        }
+        }     
 
         const newChart: MapChart = {
           ...chart,
           data: chartData,
           currentParameter: param,
-          currentParameterLabel: sensorType ? sensorType.label : param,
-          yLabel: sensorType ? sensorType.label : param,
-          yUnit: sensorType ? `(${sensorType.unit})` : '',
-          yRange: sensorType ? sensorType.range : [],
+          currentParameterLabel: sensorType ? sensorType.label : param
         }
 
         this.charts[chartIdx] = newChart;
