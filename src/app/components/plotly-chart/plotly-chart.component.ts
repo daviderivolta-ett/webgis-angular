@@ -216,7 +216,7 @@ export class PlotlyChartComponent {
           color: 'black'
         }
       },
-      shapes: []
+      shapes: [this._createShapeForLastDateValue(data)]
     };
 
     let additionalYAxisCounter: number = 2;
@@ -333,5 +333,23 @@ export class PlotlyChartComponent {
     if (data.length <= maxPoints) return data;
     const ratio = Math.ceil(data.length / maxPoints);
     return data.filter((_, i) => i % ratio === 0);
+  }
+
+  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> {
+    const lastXValue: number = Math.max(
+      ...data.flatMap((v: PlotlyChartData) => v.data.map((d: [number, number | null]) => d[0]))
+    );
+
+    return {
+      type: 'rect',
+      yref: 'paper',
+      y0: 0,
+      y1: 1,
+      xref: 'x',
+      x0: lastXValue,
+      x1: new Date().getTime(),
+      fillcolor: 'rgba(255, 252, 127, 1)',
+      line: { width: 0 }
+    }
   }
 }

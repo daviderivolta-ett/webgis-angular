@@ -417,6 +417,7 @@ export class DataPageComponent {
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
+    const newEndingDate: string = Utils.addDaysToDateString(endingDate, 1);
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -427,7 +428,7 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, newEndingDate, this.authService.getAccessToken())
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
@@ -452,9 +453,9 @@ export class DataPageComponent {
             sensor.range,
             sensor.id.includes('--cumulative') ? true : false
           );
-        
+
           chartData.push(chartSerie);
-        }     
+        }
 
         const newChart: MapChart = {
           ...chart,
