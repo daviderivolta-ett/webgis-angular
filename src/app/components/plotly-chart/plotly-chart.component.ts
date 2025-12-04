@@ -120,7 +120,8 @@ export class PlotlyChartComponent {
       const trace: Plotly.Data = {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
           this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
-          this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
+          // this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
+          this._parseData({ ...serie, data: serie.data }),
         type: serie.type,
         name: serie.legend ?? undefined,
       } as Plotly.Data;
