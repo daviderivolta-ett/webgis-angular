@@ -2,6 +2,7 @@
 import { Component, ContentChild, effect, input, model, output } from '@angular/core';
 
 /** Components */
+import { PlotlyChartComponent } from '../../../components';
 import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
 import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
 
@@ -27,6 +28,7 @@ export class MapChartComponent {
 
   @ContentChild(MapChartDatepickerComponent) chartDatePicker?: MapChartDatepickerComponent;
   @ContentChild(MapChartSelectorComponent) chartSelector?: MapChartSelectorComponent;
+  @ContentChild(PlotlyChartComponent) chart?: PlotlyChartComponent;
 
   constructor() {
     effect(() => this.formValue['param'] = this.param());
@@ -47,7 +49,7 @@ export class MapChartComponent {
     }
 
     if (this.chartDatePicker) {
-      this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {            
+      this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {
         this.dates.set([dates[0], dates[1]]);
         this.formValue['initialDate'] = dates[0];
         this.formValue['endingDate'] = dates[1];
@@ -64,6 +66,11 @@ export class MapChartComponent {
   }
 
   private _formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return date.getFullYear() + '-' +
+      pad(date.getMonth() + 1) + '-' +
+      pad(date.getDate()) + 'T' +
+      pad(date.getHours()) + ':' +
+      pad(date.getMinutes());
   }
 }

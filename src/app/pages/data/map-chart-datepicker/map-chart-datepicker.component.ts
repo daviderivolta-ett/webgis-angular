@@ -5,7 +5,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 /** Component */
 @Component({
   selector: 'app-map-chart-datepicker',
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule
+  ],
   templateUrl: './map-chart-datepicker.component.html',
   styleUrl: './map-chart-datepicker.component.scss'
 })
@@ -31,7 +33,7 @@ export class MapChartDatepickerComponent {
     const initialDate = changes['initialDate'];
     const endingDate = changes['endingDate'];
     setTimeout(() => {
-      if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);      
+      if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);
     });
   }
 
@@ -42,6 +44,11 @@ export class MapChartDatepickerComponent {
   }
 
   private _formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return date.getFullYear() + '-' +
+      pad(date.getMonth() + 1) + '-' +
+      pad(date.getDate()) + 'T' +
+      pad(date.getHours()) + ':' +
+      pad(date.getMinutes());
   }
 }

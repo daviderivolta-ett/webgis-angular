@@ -189,13 +189,7 @@ export class PlatformsCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date, minuteSpan: number = 60): string {
-        // const span = minuteSpan * 60 * 1000;
-        // const fromDate = this.apiService.formatDate(new Date(date.getTime() - span));
-        // const toDate = this.apiService.formatDate(new Date(date.getTime()));
-        // const separator = url.includes('?') ? '&' : '?';
-        // return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}`;
-
-        const span = minuteSpan * 60 * 1000;
+        const span: number = minuteSpan * 60 * 1000;
 
         const fromLocal = new Date(date.getTime() - span);
         const toLocal = new Date(date.getTime());

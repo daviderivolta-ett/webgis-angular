@@ -66,6 +66,7 @@ export class DataPageComponent {
   public areChartsDisabled: boolean = false;
 
   public selectedDate: Date | undefined;
+  public chartReferenceDate: Date | undefined;
 
   /** References */
   @ViewChild('map') _map!: MapComponent;
@@ -414,7 +415,8 @@ export class DataPageComponent {
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    const newEndingDate: string = Utils.addDaysToDateString(endingDate, 1);
+    
+    this.chartReferenceDate = new Date(endingDate);
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -425,7 +427,7 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, newEndingDate, this.authService.getAccessToken())
+    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
@@ -582,6 +584,7 @@ export class DataPageComponent {
   public onMapDateChanged(date: Date | undefined): void {
     this._map.closeAllPopups();
     this.selectedDate = date;
+    this.chartReferenceDate = date;
 
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
