@@ -2475,8 +2475,8 @@
                     },
                     "legend": {
                         "unit": "mm",
-                        "min": -10,
-                        "max": 64
+                        "min": 0,
+                        "max": 500
                     },
                     "action": {
                         "id": "wms"
@@ -2501,8 +2501,8 @@
                     },
                     "legend": {
                         "unit": "mm",
-                        "min": -10,
-                        "max": 64
+                        "min": 0,
+                        "max": 500
                     },
                     "action": {
                         "id": "wms"
@@ -2527,8 +2527,8 @@
                     },
                     "legend": {
                         "unit": "mm",
-                        "min": -10,
-                        "max": 64
+                        "min": 0,
+                        "max": 500
                     },
                     "action": {
                         "id": "wms"
