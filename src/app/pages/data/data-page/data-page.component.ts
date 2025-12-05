@@ -1,6 +1,5 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -42,9 +41,7 @@ import { CSVUtils, Utils } from '../../../utils';
     MapChartSelectorComponent,
     MapChartComponent,
     MapChartDatepickerComponent,
-    PlotlyChartComponent,
-    // Pipes
-    DatePipe
+    PlotlyChartComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
