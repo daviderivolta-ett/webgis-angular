@@ -375,7 +375,7 @@
         {
             "id": "min_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura",
+            "label": "Temperatura minima",
             "chartType": "scatter",
             "style": {
                 "color": "blue"
@@ -391,7 +391,7 @@
         {
             "id": "mean_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura",
+            "label": "Temperatura media",
             "chartType": "scatter",
             "style": {
                 "color": "#7cb5ec"
@@ -410,7 +410,7 @@
         {
             "id": "max_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura",
+            "label": "Temperatura massima",
             "chartType": "scatter",
             "style": {
                 "color": "red"

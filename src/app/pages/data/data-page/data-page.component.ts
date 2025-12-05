@@ -397,17 +397,13 @@ export class DataPageComponent {
               sensorType ? sensorType.label : s.parameter,
               'Data',
               '',
-              undefined,
-              // sensorType ? sensorType.label : s.parameter,
-              // s.unit ? `(${s.unit})` : '',
-              // sensorType?.range
+              undefined
             ));
           break;
       }
     });
 
-    this.charts = [...this.charts, ...newCharts];
-
+    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
   }
 
