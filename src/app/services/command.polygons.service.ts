@@ -35,7 +35,5 @@ export class PolygonsCommandService implements Command {
         const utcDate = this.apiService.toUTCDate(date);
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${utcDate.toISOString()}`;
-        // const separator = url.includes('?') ? '&' : '?';
-        // return `${url}${separator}time=${date.toISOString()}`;
     }
 }
