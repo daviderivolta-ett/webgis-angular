@@ -21,8 +21,8 @@ export class PolygonsCommandService implements Command {
 
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
-            // const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(url, token);
+            const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
+            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -32,8 +32,10 @@ export class PolygonsCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
-        // const utcDate = this.apiService.toUTCDate(date);       
+        const utcDate = this.apiService.toUTCDate(date);
         const separator = url.includes('?') ? '&' : '?';
-        return `${url}${separator}time=${date.toISOString()}`;
+        return `${url}${separator}time=${utcDate.toISOString()}`;
+        // const separator = url.includes('?') ? '&' : '?';
+        // return `${url}${separator}time=${date.toISOString()}`;
     }
 }
