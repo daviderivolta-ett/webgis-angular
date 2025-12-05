@@ -1569,17 +1569,17 @@
             "requiresAuth": true,
             "options": [
                 {
-                    "id": "hydro_boxplot",
-                    "label": "Ensemble boxplot",
+                    "id": "hydro_initial_condition",
+                    "label": "Condizioni iniziali",
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "hydro_boxplot_main",
-                            "label": "Ensemble boxplot",
+                            "id": "hydro_initial_condition_vmc",
+                            "label": "VMC",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Boxplot",
-                            "parameter": "Boxplot",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservationsUmiditaSuolo",
+                            "parameter": "RunObservationsUmiditaSuolo",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1608,17 +1608,17 @@
                     ]
                 },
                 {
-                    "id": "hydro_ensemble_multimodel",
-                    "label": "Ensemble multimodel",
+                    "id": "hydro_monitoring_models",
+                    "label": "Modelli di monitoraggio",
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "hydro_ensemble_multimodel_prod",
-                            "label": "Ensemble multimodel prod",
+                            "id": "hydro_monitoring_models_run_observations_10m",
+                            "label": "Simulato osservato 10 minuti",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/EnsembleMultimodel",
-                            "parameter": "EnsembleMultimodel",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_10min",
+                            "parameter": "RunObservations_10min",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1645,51 +1645,12 @@
                             }
                         },
                         {
-                            "id": "hydro_ensemble_multimodel_dev",
-                            "label": "Ensemble multimodel dev",
+                            "id": "hydro_monitoring_models_run_observations_1h",
+                            "label": "Simulato osservato 1 ora",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/EnsembleMultimodel-dev",
-                            "parameter": "EnsembleMultimodel-dev",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "hydro_magra",
-                    "label": "Magra",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "hydro_magra_multi_ensemble_H",
-                            "label": "Magra Multi Ensemble H",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/MagraMultiEnsembleH",
-                            "parameter": "MagraMultiEnsembleH",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60min",
+                            "parameter": "RunObservations_60min",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1716,12 +1677,12 @@
                             }
                         },
                         {
-                            "id": "hydro_magra_multi_ensemble_Q",
-                            "label": "Magra Multi Ensemble Q",
+                            "id": "hydro_monitoring_models_run_observations_1h_dams",
+                            "label": "Simulato osservato 1 ora - Dighe",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/MagraMultiEnsembleQ",
-                            "parameter": "MagraMultiEnsembleQ",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60minDighe",
+                            "parameter": "RunObservations_60minDighe",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1748,79 +1709,8 @@
                             }
                         },
                         {
-                            "id": "hydro_magra_observations_H",
-                            "label": "Magra Observations H",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/MagraObservationsH",
-                            "parameter": "MagraObservationsH",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_magra_observations_Q",
-                            "label": "Magra Observations Q",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/MagraObservationsQ",
-                            "parameter": "MagraObservationsQ",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "hydro_now_casting",
-                    "label": "Now Casting",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "hydro_now_casting_main",
-                            "label": "Now Casting",
+                            "id": "hydro_monitoring_models_nowcasting_hydro",
+                            "label": "Nowcasting Hydro",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
                             "url": "{{BASE_URL}}/platforms/get/hydro/NowcastingHydro",
@@ -1851,12 +1741,12 @@
                             }
                         },
                         {
-                            "id": "hydro_now_casting_com10025",
-                            "label": "Now Casting com10025",
+                            "id": "hydro_monitoring_models_nowcasting_hydro_small_basins",
+                            "label": "Nowcasting Hydro - Piccoli Bacini",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/NowcastingHydroCom10025",
-                            "parameter": "NowcastingHydroCom10025",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadar",
+                            "parameter": "SmallBasinsRadar",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1885,17 +1775,17 @@
                     ]
                 },
                 {
-                    "id": "hydro_rainfarm",
-                    "label": "Rainfarm",
+                    "id": "hydro_monitoring_models_municipality",
+                    "label": "Modelli di monitoraggio comuni",
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "hydro_rainfarm_subjective",
-                            "label": "Rainfarm subjective",
+                            "id": "hydro_monitoring_models_nowcasting_hydro_small_basins_external",
+                            "label": "Nowcasting Hydro - Piccoli Bacini Comuni",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RainfarmSubjective",
-                            "parameter": "RainfarmSubjective",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadarEsterni",
+                            "parameter": "SmallBasinsRadarEsterni",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -1922,430 +1812,7 @@
                             }
                         },
                         {
-                            "id": "hydro_rainfarm_subjective_auto",
-                            "label": "Rainfarm subjective auto",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RainfarmSubjectiveAuto",
-                            "parameter": "RainfarmSubjectiveAuto",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_08+00",
-                            "label": "Rainfarm 08+00",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+00",
-                            "parameter": "Rainfarmbo08+00",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_08+06",
-                            "label": "Rainfarm 08+06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+06",
-                            "parameter": "Rainfarmbo08+06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_08-06",
-                            "label": "Rainfarm 08-06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-06",
-                            "parameter": "Rainfarmbo08-06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_08-12",
-                            "label": "Rainfarm 08-12",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-12",
-                            "parameter": "Rainfarmbo08-12",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_22ar+00",
-                            "label": "Rainfarm 22ar+00",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmlm22ar+00",
-                            "parameter": "Rainfarmlm22ar+00",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_22ar-12",
-                            "label": "Rainfarm 22ar-12",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmlm22ar-12",
-                            "parameter": "Rainfarmlm22ar-12",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_5ar+00",
-                            "label": "Rainfarm 5ar+00",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmlm5ar+00",
-                            "parameter": "Rainfarmlm5ar+00",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_5ar-12",
-                            "label": "Rainfarm 5ar-12",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmlm5ar-12",
-                            "parameter": "Rainfarmlm5ar-12",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_molita_15sfc+00",
-                            "label": "Rainfarm molita_15sfc+00",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+00",
-                            "parameter": "Rainfarmmolita15sfc+00",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_molita_15sfc+06",
-                            "label": "Rainfarm molita_15sfc+06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+06",
-                            "parameter": "Rainfarmmolita15sfc+06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_molita_15sfc-06",
-                            "label": "Rainfarm molita_15sfc-06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-06",
-                            "parameter": "Rainfarmmolita15sfc-06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_rainfarm_molita_15sfc-12",
-                            "label": "Rainfarm molita_15sfc-12",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-12",
-                            "parameter": "Rainfarmmolita15sfc-12",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "hydro_rete_fiduciaria",
-                    "label": "Rete fiduciaria",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "hydro_rete_fiduciaria",
+                            "id": "hydro_monitoring_models_rete_fiduciaria",
                             "label": "Rete fiduciaria",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
@@ -2379,145 +1846,17 @@
                     ]
                 },
                 {
-                    "id": "hydro_run_observations",
-                    "label": "Run observations",
+                    "id": "hydro_deterministic_forecasting_models",
+                    "label": "Modelli previsione deterministica",
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "hydro_run_observation_umidita_suolo",
-                            "label": "Run observation umidità suolo",
+                            "id": "hydro_monitoring_models_deterministica",
+                            "label": "Deterministica",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservationsUmiditaSuolo",
-                            "parameter": "RunObservationsUmiditaSuolo",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_run_observation_10min",
-                            "label": "Run observation 10min",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_10min",
-                            "parameter": "RunObservations_10min",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_run_observation_10minCom10025",
-                            "label": "Run observation 10minCom10025",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_10minCom10025",
-                            "parameter": "RunObservations_10minCom10025",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_run_observation_60min",
-                            "label": "Run observation 60min",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60min",
-                            "parameter": "RunObservations_60min",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_run_observation_60min10025",
-                            "label": "Run observation 60min10025",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60minCom10025",
-                            "parameter": "RunObservations_60minCom10025",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/EnsembleMultimodel",
+                            "parameter": "EnsembleMultimodel",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -2546,17 +1885,17 @@
                     ]
                 },
                 {
-                    "id": "hydro_small_basins",
-                    "label": "Piccoli bacini",
+                    "id": "hydro_probabilistic_forecasting_models",
+                    "label": "Modelli previsione probabilistica",
                     "maxNumber": 1,
                     "options": [
                         {
-                            "id": "hydro_small_basins_radar",
-                            "label": "Piccoli bacini radar",
+                            "id": "hydro_monitoring_models_probabilistica_soggettiva",
+                            "label": "Probabilistica soggettiva",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadar",
-                            "parameter": "SmallBasinsRadar",
+                            "url": "{{BASE_URL}}/platforms/get/hydro/RainfarmSubjective",
+                            "parameter": "RainfarmSubjective",
                             "legend": {
                                 "colorScaleId": "hydro",
                                 "labels": [
@@ -2583,203 +1922,479 @@
                             }
                         },
                         {
-                            "id": "hydro_small_basins_radar_com10025",
-                            "label": "Piccoli bacini radar com10025",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadarCom10025",
-                            "parameter": "SmallBasinsRadarCom10025",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
+                            "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica",
+                            "label": "Previsione soggettiva automatica",
+                            "options": [
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica_-06",
+                                    "label": "Probabilistica soggettiva automatica -06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-06",
+                                    "parameter": "SoggettivaAutomatica-06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica_00",
+                                    "label": "Probabilistica soggettiva automatica 00",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+00",
+                                    "parameter": "SoggettivaAutomatica+00",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica_06",
+                                    "label": "Probabilistica soggettiva automatica +06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+06",
+                                    "parameter": "SoggettivaAutomatica+06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica_-12",
+                                    "label": "Probabilistica soggettiva automatica 12",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-12",
+                                    "parameter": "SoggettivaAutomatica-12",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                }
+                            ]
                         },
                         {
-                            "id": "hydro_small_basins_radar_esterni",
-                            "label": "Piccoli bacini radar esterni",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadarEsterni",
-                            "parameter": "SmallBasinsRadarEsterni",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "hydro_soggettiva_automatica",
-                    "label": "Soggettiva automatica",
-                    "maxNumber": 1,
-                    "options": [
-                        {
-                            "id": "hydro_soggettiva_automatica+00",
-                            "label": "Soggettiva automatica +00",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+00",
-                            "parameter": "SoggettivaAutomatica+00",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
+                            "id": "hydro_monitoring_models_probabilistica_bolam",
+                            "label": "Previsione Bolam 8km",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_bolam_-06",
+                                    "label": "Bolam 8km -06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-06",
+                                    "parameter": "Rainfarmbo08-06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_bolam_00",
+                                    "label": "Bolam 8km 00",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+00",
+                                    "parameter": "Rainfarmbo08+00",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_bolam_06",
+                                    "label": "Bolam 8km 06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+06",
+                                    "parameter": "Rainfarmbo08+06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_bolam_12",
+                                    "label": "Bolam 8km 12",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-12",
+                                    "parameter": "Rainfarmbo08-12",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                }
+                            ]
                         },
                         {
-                            "id": "hydro_soggettiva_automatica+06",
-                            "label": "Soggettiva automatica +06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+06",
-                            "parameter": "SoggettivaAutomatica+06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
+                            "id": "hydro_monitoring_models_probabilistica_moloch",
+                            "label": "Previsione Moloch 1.5km",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_moloch_-06",
+                                    "label": "Moloch 1.5km -06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                                    "parameter": "Rainfarmmolita15sfc-06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_moloch_00",
+                                    "label": "Moloch 1.5km 00",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                                    "parameter": "Rainfarmmolita15sfc+00",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_moloch_+06",
+                                    "label": "Moloch 1.5km 06",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                                    "parameter": "Rainfarmmolita15sfc+06",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_moloch_12",
+                                    "label": "Moloch 1.5km 12",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                                    "parameter": "Rainfarmmolita15sfc-12",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                }
+                            ]
                         },
                         {
-                            "id": "hydro_soggettiva_automatica-06",
-                            "label": "Soggettiva automatica -06",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-06",
-                            "parameter": "SoggettivaAutomatica-06",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
-                        },
-                        {
-                            "id": "hydro_soggettiva_automatica-12",
-                            "label": "Soggettiva automatica -12",
-                            "layerType": "geojson",
-                            "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-12",
-                            "parameter": "SoggettivaAutomatica-12",
-                            "legend": {
-                                "colorScaleId": "hydro",
-                                "labels": [
-                                    "Non eseguito",
-                                    "Server OMIRL non riceve prodotti da server IDRO",
-                                    "In corso",
-                                    "Eseguito sottosoglia",
-                                    "Eseguito Qmax < Qthr1",
-                                    "Eseguito Qthr1 ≤ Qmax < Qthr2",
-                                    "Eseguito Qmax ≥ Qthr2"
-                                ],
-                                "steps": [
-                                    -2,
-                                    -1,
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "action": {
-                                "id": "hydro"
-                            }
+                            "id": "hydro_monitoring_models_probabilistica_icon",
+                            "label": "Previsione Icon 2km",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_icon_00",
+                                    "label": "Icon 2km 00",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmicon2i+00",
+                                    "parameter": "Rainfarmicon2i+00",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                },
+                                {
+                                    "id": "hydro_monitoring_models_probabilistica_icon_-12",
+                                    "label": "Icon 2km 12",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_geojson-point--cluster",
+                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmicon2i-12",
+                                    "parameter": "Rainfarmicon2i-12",
+                                    "legend": {
+                                        "colorScaleId": "hydro",
+                                        "labels": [
+                                            "Non eseguito",
+                                            "Server OMIRL non riceve prodotti da server IDRO",
+                                            "In corso",
+                                            "Eseguito sottosoglia",
+                                            "Eseguito Qmax < Qthr1",
+                                            "Eseguito Qthr1 ≤ Qmax < Qthr2",
+                                            "Eseguito Qmax ≥ Qthr2"
+                                        ],
+                                        "steps": [
+                                            -2,
+                                            -1,
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "hydro"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -2842,8 +2457,86 @@
             "requiresAuth": true,
             "options": [
                 {
+                    "id": "radar_rainInt5m",
+                    "label": "Intensità 1 ora",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:radarRainInt5m",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "unit": "mm",
+                        "min": -10,
+                        "max": 64
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "radar_rain1h",
+                    "label": "Cumulata 1 ora",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:radarRain1h",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "unit": "mm",
+                        "min": -10,
+                        "max": 64
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "radar_rainStation1h",
+                    "label": "Merging radar pluviometri",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:radarRainStation1h",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "unit": "mm",
+                        "min": -10,
+                        "max": 64
+                    },
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
                     "id": "radar_vmi",
-                    "label": "Radar - VMI",
+                    "label": "Riflettività radar DPCN",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,
@@ -2869,13 +2562,13 @@
                 },
                 {
                     "id": "radar_vil",
-                    "label": "Radar - VIL",
+                    "label": "VIL",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
-                        "layers": "VIL",
+                        "layers": "omirl:VIL",
                         "transparent": true,
                         "format": "image/png",
                         "service": "WMS",
@@ -2895,13 +2588,13 @@
                 },
                 {
                     "id": "radar_echo",
-                    "label": "Echo",
+                    "label": "Echo Top",
                     "maxNumber": 1,
                     "requiresAuth": true,
                     "options": [
                         {
                             "id": "radar_echo_35dbz",
-                            "label": "Radar - Echo - 35dBZ",
+                            "label": "Echo Top 35dBZ",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
@@ -2927,7 +2620,7 @@
                         },
                         {
                             "id": "radar_echo_45dbz",
-                            "label": "Radar - Echo - 45dBZ",
+                            "label": "Echo Top 45dBZ",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
@@ -2952,9 +2645,337 @@
                             }
                         }
                     ]
+                },
+                {
+                    "id": "radar_worst_case",
+                    "label": "Worst case",
+                    "maxNumber": 1,
+                    "requiresAuth": true,
+                    "options": [
+                        {
+                            "id": "radar_worst_case_10m",
+                            "label": "Worst Scenario +10 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-10min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_worst_case_20m",
+                            "label": "Worst Scenario +20 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-20min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_worst_case_30m",
+                            "label": "Worst Scenario +30 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-30min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_worst_case_40m",
+                            "label": "Worst Scenario +40 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-40min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_worst_case_50m",
+                            "label": "Worst Scenario +50 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-50min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_worst_case_60m",
+                            "label": "Worst Scenario +60 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "worstscenario-60min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "radar_superamento_soglie",
+                    "label": "Superamento soglie",
+                    "maxNumber": 1,
+                    "requiresAuth": true,
+                    "options": [
+                        {
+                            "id": "radar_superamento_soglie_10m",
+                            "label": "Probabilità +10 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-10min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_superamento_soglie_20m",
+                            "label": "Probabilità +20 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-20min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_superamento_soglie_30m",
+                            "label": "Probabilità +30 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-30min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_superamento_soglie_40m",
+                            "label": "Probabilità +40 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-40min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_superamento_soglie_50m",
+                            "label": "Probabilità +50 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-50min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        },
+                        {
+                            "id": "radar_superamento_soglie_60m",
+                            "label": "Probabilità +60 minuti",
+                            "layerType": "wms",
+                            "layerCategory": "data_wms--time",
+                            "opacity": 0.5,
+                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "params": {
+                                "layers": "prob2thr-60min",
+                                "transparent": true,
+                                "format": "image/png",
+                                "service": "WMS",
+                                "version": "1.1.1",
+                                "request": "GetMap",
+                                "styles": "",
+                                "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "unit": "mm",
+                                "min": 0,
+                                "max": 500
+                            },
+                            "action": {
+                                "id": "wms"
+                            }
+                        }
+                    ]
                 }
             ]
         }
     ],
-    "lastModified": "2025-10-20"
+    "lastModified": "2025-12-05"
 }
