@@ -25,10 +25,9 @@ type PlotlyChartData = {
 export class PlotlyChartComponent {
   public id = input<string>('plotly-chart');
   public xLabel = input<string>('TEXT');
-  // public yLabel = input<string[]>([]);
   public xRange = input<any[]>([]);
-  // public yRange = input<any[][]>([]);
   public data = input<PlotlyChartData[]>([]);
+  public referenceDate = input<Date | undefined>(new Date());
 
   public onCustomButtonClick = output<any>();
 
@@ -216,8 +215,11 @@ export class PlotlyChartComponent {
           color: 'black'
         }
       },
-      shapes: [this._createShapeForLastDateValue(data)]
+      shapes: []
     };
+
+    const lastDateShape: Partial<Plotly.Shape> | undefined = this._createShapeForLastDateValue(data);
+    if (lastDateShape) layout.shapes?.push(lastDateShape);
 
     let additionalYAxisCounter: number = 2;
 
@@ -335,11 +337,13 @@ export class PlotlyChartComponent {
     return data.filter((_, i) => i % ratio === 0);
   }
 
-  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> {
-    const lastXValue: number = Math.max(
-      ...data.flatMap((v: PlotlyChartData) => v.data.map((d: [number, number | null]) => d[0]))
-    );
+  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {  
+    if (data.length === 0) return undefined;
 
+    const lastXValue: number = Math.max(
+      ...data.flatMap((v: PlotlyChartData) => v.data.map((d: [number, number | null]) => d[0]).filter(date => !isNaN(date) && date !== null))
+    );
+   
     return {
       type: 'rect',
       yref: 'paper',
@@ -347,7 +351,7 @@ export class PlotlyChartComponent {
       y1: 1,
       xref: 'x',
       x0: lastXValue,
-      x1: new Date().getTime(),
+      x1: this.referenceDate()?.getTime() ?? new Date().getTime(),
       fillcolor: 'rgba(255, 252, 127, 1)',
       line: { width: 0 }
     }
