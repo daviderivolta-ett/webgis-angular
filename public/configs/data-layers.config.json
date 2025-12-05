@@ -2408,7 +2408,7 @@
             "options": [
                 {
                     "id": "satellite_infrared",
-                    "label": "Satellite - Infrarosso",
+                    "label": "Infrarosso",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,
@@ -2429,7 +2429,7 @@
                 },
                 {
                     "id": "satellite_vis",
-                    "label": "Satellite - Visibile VIS",
+                    "label": "Visibile VIS",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,

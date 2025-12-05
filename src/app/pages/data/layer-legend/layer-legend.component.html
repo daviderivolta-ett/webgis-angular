@@ -8,19 +8,26 @@
             @if (date()) { {{date() | date: 'dd/MM/yyyy - HH:mm'}} }
         </p>
     </div>
-    <div class="scale">
-        <div class="scale__element scale__colors">
-            @for (item of colors(); track $index) {
-                <div class="scale__color" [style.width]="elementWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
-            }
+    @if (imgUrl().length === 0) {    
+        <div class="scale">
+            <div class="scale__element scale__colors">
+                @for (item of colors(); track $index) {
+                    <div class="scale__color" [style.width]="elementWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
+                }
+            </div>
+            <div class="scale__element scale__labels">
+                @if (labels().length >= 2) {
+                    <p class="scale__label">{{labels()[0]}}</p>
+                    <p class="scale__label">{{labels()[labels().length - 1]}}</p>
+                }
+            </div>
         </div>
-        <div class="scale__element scale__labels">
-            @if (labels().length >= 2) {
-                <p class="scale__label">{{labels()[0]}}</p>
-                <p class="scale__label">{{labels()[labels().length - 1]}}</p>
-            }
+    }
+    @else {
+        <div class="img">
+            <img [src]="imgUrl()">
         </div>
-    </div>
+    }
     @if (hoveredLabel) {
         <div class="tooltip" [style.left]="tooltipPosition + '%'">
             <p class="tooltip__label">{{hoveredLabel}}</p>

@@ -17,6 +17,7 @@ export class LayerLegendComponent {
   public unit = input<string | undefined>(undefined);
   public colors = input<string[]>([]);
   public labels = input<string[]>([]);
+  public imgUrl = input<string>('');
   public date = input<Date | undefined>(new Date());
 
   /** User Interface */

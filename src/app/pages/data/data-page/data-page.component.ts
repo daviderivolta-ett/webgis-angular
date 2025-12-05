@@ -1,5 +1,6 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -41,7 +42,9 @@ import { CSVUtils, Utils } from '../../../utils';
     MapChartSelectorComponent,
     MapChartComponent,
     MapChartDatepickerComponent,
-    PlotlyChartComponent
+    PlotlyChartComponent,
+    // Pipes
+    DatePipe
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -56,6 +59,7 @@ export class DataPageComponent {
   public baseLayersForm: FormGroup = new FormGroup({ baseLayer: new FormControl() });
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
+
   public geojsonLegends: GeojsonLegend[] = [];
   public wmsLegends: WMSLegend[] = [];
 

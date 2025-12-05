@@ -63,7 +63,7 @@ export class LayersService {
 
   /** Get WMS layer legend */
   public async getWMSLayerLegend(layer: WMSLayer): Promise<string> {
-    const url: string = `${layer.url}?service=WMS&version=1.1.1&request=GetLegendGraphic&layer=${layer.params['layers']}&format=image/png`;
+    const url: string = `${layer.url}?service=WMS&version=1.1.1&request=GetLegendGraphic&layer=${layer.params['layers']}&format=image/png&legend_options=layout:horizontal`;
     return fetch(url)
       .then((res: Response) => res.blob())
       .then((blob: Blob) => {

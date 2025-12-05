@@ -65,39 +65,18 @@
     gap: 4px;
 }
 
-.wms-legends {
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    height: 560px;
-    padding: 8px;
-    background-color: var(--neutral-100, white);
-    border: 1px solid var(--neutral-500, lightgrey);
-    border-radius: 8px;
-}
-
-.wms-legend {
-    height: 100%;
-    width: auto;
-}
-
-.geojson-legends {
+.legends {
     position: absolute;
     bottom: 80px;
     right: 16px;
     z-index: 9998;
 }
 
-.geojson-legends .pop-up-menu-content {
+.legends .pop-up-menu-content {
     width: 500px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 }
 
 .reset-btn {
