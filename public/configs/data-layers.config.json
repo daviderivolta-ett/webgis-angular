@@ -499,6 +499,66 @@
                                     "action": {
                                         "id": "wms"
                                     }
+                                },
+                                {
+                                    "id": "maps_precipitations_10min_basin",
+                                    "label": "Bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_10min_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_10min_municipalities",
+                                    "label": "Comuni",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComuniLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_10min_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_precipitations_10min_warnareas",
+                                    "label": "Zone allerta",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "requiresAuth": true,
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
                                 }
                             ]
                         },
