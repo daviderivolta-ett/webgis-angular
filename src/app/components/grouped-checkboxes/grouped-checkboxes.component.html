@@ -1,8 +1,8 @@
-<ng-template #groupTemplate let-group let-parentDefined="parentDefined">
+<ng-template #groupTemplate let-group let-parentDefined="parentDefined" let-parentId="parentId">
     @if (group.isVisible) {
     <div class="tree">
         @if (group.options) {
-            <details class="styled-details" [attr.name]="!parentDefined ? 'group' : null">
+            <details class="styled-details" [style.paddingLeft]="parentDefined && '24px'" [attr.name]="parentDefined ? parentId : null">
                 <summary class="summary">
                     <div class="summary__text" [style.fontWeight]="!parentDefined ? '600' : '400'">
                         @if (group.iconUrl) {
@@ -13,7 +13,7 @@
                 </summary>
                 <div class="styled-details__content">                    
                     @for (child of group.options; track child.id) {
-                        <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: child, parentDefined: true }"></ng-container>
+                        <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: child, parentDefined: true, parentId: group.id }"></ng-container>
                     }
                 </div>
             </details>
@@ -33,4 +33,4 @@
     }
 </ng-template>
 
-<ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: group(), parentDefined: false }"></ng-container>
+<ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: group(), parentDefined: false, parentId: 'group' }"></ng-container>
