@@ -56,47 +56,9 @@ export class StationsService {
       })
   }
 
-  public async getTimeSerie(url: string, stationId: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<[number, number][][]> {
+  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
-    return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {
-        return this.parseTimeSerie(data, params);
-      })
-      .catch((err) => {
-        console.log(err);
-        return [];
-      })
-  }
-
-  public parseTimeSerie(data: any, params: string[]): [number, number][][] {
-    if (!Array.isArray(data)) return [];
-
-    const cumulativeValues = params.map(param => {
-      return data
-        .filter(d => d['parameter'] === param)
-        .map(d => [
-          new Date(d['referenceDate']).getTime(),
-          parseFloat(d['cumulativeValue'])
-        ] as [number, number])
-    });
-
-    const values = params.map(param => {
-      return data
-        .filter(d => d['parameter'] === param)
-        .map(d => [
-          new Date(d['referenceDate']).getTime(),
-          parseFloat(d['value'])
-        ] as [number, number])
-    });
-
-    return [...values];
-  }
-
-  /** TEST */
-  public async getTimeSeries(url: string, stationId: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithDates, token)
       .then((data: any) => {
         return this.parseTimeSeries(data, params);
@@ -136,7 +98,6 @@ export class StationsService {
  
     return result;
   }
-  /** TEST */
 
   public convertData(input: [number, number][], multiplier: number): [number, number][] {
     return input.map(([x, y]) => [x, y * multiplier]);

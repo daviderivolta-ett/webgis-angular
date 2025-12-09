@@ -1,6 +1,6 @@
 {
     "apis": {
-        "baseUrl": "http://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal",
+        "baseUrl": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal",
         "stationsApi": "/stations-api/v1",
         "polygonMeanApi": "/polygonmean-api/v1",
         "parameters": "/parameters/get/all",

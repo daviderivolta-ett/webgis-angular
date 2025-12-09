@@ -1,10 +1,15 @@
 <div class="map-chart-selector">
-    <form class="radio-list">
+    <form class="radio-list" #list>
         @for (type of sensorTypes(); track $index) {
-            <div class="radio">
+            <div class="radio" (mouseenter)="onIconMouseEnter($index)" (mouseleave)="hoveredSensor=null">
                 <input type="radio" class="radio__input" [id]="id() + '_' + type.id" [value]="type.id" [disabled]="isDisabled()" [(ngModel)]="selectedSensorType" [ngModelOptions]="{standalone: true}" (ngModelChange)="sensorTypeSelected.emit($event)">
                 <label [style.maskImage]="'url(' + type.iconUrl + ')'" [for]="id() + '_' + type.id" class="radio__icon"></label>
             </div>
         }
     </form>
+    @if (hoveredSensor) {
+        <div class="tooltip" [style.left]="tooltipPosition + 'px'">
+            <p class="tooltip__label">{{hoveredSensor}}</p>
+        </div>
+    }
 </div>
