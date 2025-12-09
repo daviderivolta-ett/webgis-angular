@@ -12,13 +12,21 @@
         <div class="scale">
             <div class="scale__element scale__colors">
                 @for (item of colors(); track $index) {
-                    <div class="scale__color" [style.width]="elementWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
+                    <div class="scale__color" [style.width]="colorWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
                 }
             </div>
-            <div class="scale__element scale__labels">
-                @if (labels().length >= 2) {
-                    <p class="scale__label">{{labels()[0]}}</p>
-                    <p class="scale__label">{{labels()[labels().length - 1]}}</p>
+
+            <div class="scale__element scale__ticks">
+                @if (labels().length === colors().length + 1) {
+                    @for (label of labels(); track $index) {
+                        <p class="scale__tick scale__tick--border" [style.left]="($index * tickStep) + '%'">{{label}}</p>
+                    }
+                }
+
+                @if (labels().length === colors().length) {
+                    @for (label of labels(); track $index) {
+                        <p class="scale__tick scale__tick--center" [style.width]="colorWidth + '%'" [style.left]="($index * tickStep) + '%'">{{label}}</p>
+                    }
                 }
             </div>
         </div>
@@ -28,9 +36,11 @@
             <img [src]="imgUrl()">
         </div>
     }
+    <!--
     @if (hoveredLabel) {
         <div class="tooltip" [style.left]="tooltipPosition + '%'">
             <p class="tooltip__label">{{hoveredLabel}}</p>
         </div>
     }
+    -->
 </div>

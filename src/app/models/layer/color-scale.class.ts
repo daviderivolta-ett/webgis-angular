@@ -20,6 +20,38 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
         this.steps = layerLegend.steps;
     }
 
+    public calculateTicks(): string[] {
+        if (this.steps) {
+            if (!Array.isArray(this.steps) || this.steps.length === 0) {
+                throw new Error(`Gli 'steps' devono essere un array non vuoto.`);
+            }
+
+            let labels: string[] = [];
+
+            labels.push(`<${this.steps[0]}`);
+            labels = [...labels, ...this.steps.map((v: number) => String(v))];
+            labels.push(`>${this.steps[this.steps.length - 1]}`);
+
+            return labels;
+        }
+
+        if (this.min === undefined || this.max === undefined) {
+            throw new Error(`Impossibile calcolare le labels: 'min' o 'max' non definiti.`);
+        }
+
+        const labels: string[] = [];
+        const steps = this.colors.length;
+        const range = this.max - this.min;
+        const stepSize = range / (steps - 1);
+
+        for (let i = 0; i < steps; i++) {
+            const value = this.min + i * stepSize;
+            labels.push(value.toFixed(2));
+        }
+
+        return labels;
+    }
+
     public calculateLabels(): string[] {
         if (this.steps) {
             if (!Array.isArray(this.steps) || this.steps.length === 0) {
@@ -54,14 +86,14 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
 
     public getColor(value: number): string {
         // Steps mode
-        if (this.steps && this.steps.length >= 1) {          
+        if (this.steps && this.steps.length >= 1) {
             const numValue: number = +value;
             const index = this.steps.findIndex((step: number) => numValue <= step);
             return this.colors[index === -1 ? (this.colors.length - 1) : index];
         }
 
         // Numeric mode (min/max defined)
-        if (this.min !== undefined && this.max !== undefined) {            
+        if (this.min !== undefined && this.max !== undefined) {
             const numValue = +value;
             const steps = this.colors.length - 1;
             const range = this.max - this.min;

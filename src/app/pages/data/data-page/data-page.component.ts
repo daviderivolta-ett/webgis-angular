@@ -269,9 +269,9 @@ export class DataPageComponent {
 
     if (foundLayer instanceof GeoJsonLayer) {
       if (!foundLayer || !foundLayer.legend) return;
-      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
+      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);     
       if (!colorScale) return;
-      this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateLabels(), date: this.selectedDate ?? new Date() });
+      this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
     }
 
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);

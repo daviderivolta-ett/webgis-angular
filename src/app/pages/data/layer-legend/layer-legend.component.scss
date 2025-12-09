@@ -29,6 +29,19 @@
     text-align: center;
 }
 
+.scale__tick {
+    position: absolute;
+    font-size: .6rem;
+}
+
+.scale__tick--border {
+    transform: translateX(-50%);
+}
+
+.scale__tick--center {
+    text-align: center;
+}
+
 .tooltip {
     position: absolute;
     text-align: center;

@@ -21,16 +21,20 @@ export class LayerLegendComponent {
   public date = input<Date | undefined>(new Date());
 
   /** User Interface */
-  public elementWidth: number = 0;
+  public colorWidth: number = 0;
+  public tickStep: number = 0;
   public hoveredLabel: string | null = null;
   public tooltipPosition: number = 0;
 
   constructor() {
-    effect(() => this.elementWidth = 100 / this.labels().length);
+    effect(() => this.colorWidth = 100 / this.colors().length);
+    effect(() => this.tickStep = 100 / this.colors().length);
+
+    effect(() => console.log(this.colors(), this.labels()));
   }
 
   /** Methods */
-  public onColorMouseEnter(index: number): void {   
+  public onColorMouseEnter(index: number): void {
     this.hoveredLabel = this.labels()[index];
     const stepWidth: number = 100 / this.labels().length;
     this.tooltipPosition = (stepWidth * index) + (stepWidth / 2);
