@@ -29,8 +29,6 @@ export class LayerLegendComponent {
   constructor() {
     effect(() => this.colorWidth = 100 / this.colors().length);
     effect(() => this.tickStep = 100 / this.colors().length);
-
-    effect(() => console.log(this.colors(), this.labels()));
   }
 
   /** Methods */
