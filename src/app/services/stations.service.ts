@@ -56,10 +56,30 @@ export class StationsService {
       })
   }
 
+  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+    const promises: Promise<Map<string, [number, number][]>>[] = [];
+    params.forEach((p: string) => {
+      promises.push(this.getTimeSerie(url, stationId, p, params, initialDate, endingDate, token));
+    });
+    const maps = await Promise.all(promises);
+    const resultMap = new Map<string, [number, number][]>();
+    maps.forEach(map => {
+      map.forEach((value, key) => {
+        if (resultMap.has(key)) {
+          resultMap.get(key)!.push(...value);
+        } else {
+          resultMap.set(key, value);
+        }
+      });
+    });
+
+    return resultMap;
+  }
+
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
-    return this.apiService.getApiData(formattedUrlWithDates, token)
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
+    return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);
       })
@@ -81,8 +101,9 @@ export class StationsService {
           new Date(d['referenceDate']).getTime(),
           parseFloat(d['cumulativeValue'])
         ] as [number, number])
+        .filter(d => d[1])
 
-      result.set(`${param}--cumulative`, serie);
+      if (serie.length > 0) result.set(`${param}--cumulative`, serie);
     });
 
     params.map((param: string) => {

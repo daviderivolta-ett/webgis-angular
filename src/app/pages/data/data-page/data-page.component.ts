@@ -429,7 +429,7 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
