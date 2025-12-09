@@ -1984,6 +1984,7 @@
                         {
                             "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica",
                             "label": "Previsione soggettiva automatica",
+                            "maxNumber": 1,
                             "options": [
                                 {
                                     "id": "hydro_monitoring_models_probabilistica_soggettiva_automatica_-06",
