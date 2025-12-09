@@ -13,8 +13,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_05m--cumulative",
@@ -44,8 +44,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_10m--cumulative",
@@ -75,8 +75,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_15m--cumulative",
@@ -106,8 +106,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_30m--cumulative",
@@ -168,8 +168,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_03h--cumulative",
@@ -199,8 +199,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_06h--cumulative",
@@ -230,8 +230,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_12h--cumulative",
@@ -261,8 +261,8 @@
                 0,
                 120
             ],
-            "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_24h--cumulative",
@@ -323,8 +323,8 @@
                 0,
                 120
             ],
-            "isFeatured": false,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "compareWith": "rain"
         },
         {
             "id": "rain_15d--cumulative",
@@ -612,5 +612,5 @@
             "relatedSensors": []
         }
     ],
-    "lastModified": "2025-11-13"
+    "lastModified": "2025-12-09"
 }

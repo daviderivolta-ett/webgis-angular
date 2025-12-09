@@ -9,4 +9,5 @@ export interface SensorType {
     range?: any[];
     isFeatured: boolean;
     relatedSensors: string[];
+    compareWith: string;
 }

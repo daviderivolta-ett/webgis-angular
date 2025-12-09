@@ -269,7 +269,7 @@ export class DataPageComponent {
 
     if (foundLayer instanceof GeoJsonLayer) {
       if (!foundLayer || !foundLayer.legend) return;
-      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);     
+      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
       if (!colorScale) return;
       this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
     }
@@ -321,7 +321,7 @@ export class DataPageComponent {
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
     });
-    this.popupData = [...stations];
+    this.popupData = [...stations];   
   }
 
   public onMapClicked(event: Record<string, any>) {
@@ -383,9 +383,11 @@ export class DataPageComponent {
           break;
 
         default:
-          const stationSensorTypeIds = s.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
-          const stationSensorTypes = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
-          const sensorType = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
+          const stationSensorTypeIds: string[] = s.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
+          const stationSensorTypes: SensorType[] = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
+          const minSensor: SensorType | undefined = this.stationsService.compareSensorTypes(this._sensorTypes, 'rain', 'Pioggia nativa');
+          if (minSensor) stationSensorTypes.unshift(minSensor);
+          const sensorType: SensorType | undefined = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
 
           newCharts.push(
             new MapChart(
@@ -415,7 +417,7 @@ export class DataPageComponent {
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    
+
     this.chartReferenceDate = new Date(endingDate);
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -427,13 +429,13 @@ export class DataPageComponent {
     const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
+    this.stationsService.getTimeSerie(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
         this._sensorTypes.forEach((t) => {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
-        })
+        });
 
         for (const entry of data.entries()) {
           const sensor = sensors.find((t: SensorType) => t.id === entry[0]);

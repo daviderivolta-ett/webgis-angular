@@ -239,18 +239,18 @@ export class ConfigService {
 
         if (!rawTypes || !Array.isArray(rawTypes)) throw new Error('Il campo \'types\' non è un oggetto valido');
 
-        return rawTypes.map((t: any) => ({
+        return rawTypes.map((t: any): SensorType => ({
           id: t['id'] ?? '',
           iconUrl: t['iconUrl'] ?? '',
           label: t['label'] ?? '',
           chartType: t['chartType'] ?? 'line',
-          traceType: t['traceType'] ?? undefined,
           style: t['style'] ?? undefined,
           unit: t['unit'] ?? '',
           multiplier: t['multiplier'] ?? undefined,
           range: t['range'] ?? undefined,
           isFeatured: t['isFeatured'] ?? false,
-          relatedSensors: t['relatedSensors'] ?? []
+          relatedSensors: t['relatedSensors'] ?? [],
+          compareWith: t['compareWith'] ?? undefined
         }))
       })
       .catch((err: any) => {

@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { Sensor, StationBase } from '../models';
+import { Sensor, SensorType, StationBase } from '../models';
 
 /** Services */
 import { ApiService } from './api.service';
@@ -56,12 +56,12 @@ export class StationsService {
       })
   }
 
-  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithDates, token)
       .then((data: any) => {
-        return this.parseTimeSeries(data, params);
+        return this.parseTimeSerie(data, params);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +69,7 @@ export class StationsService {
       })
   }
 
-  public parseTimeSeries(data: any, params: string[]): Map<string, [number, number][]> {
+  public parseTimeSerie(data: any, params: string[]): Map<string, [number, number][]> {
     if (!Array.isArray(data)) return new Map();
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
@@ -95,7 +95,7 @@ export class StationsService {
 
       result.set(param, serie);
     })
- 
+
     return result;
   }
 
@@ -131,5 +131,14 @@ export class StationsService {
       .catch((err: unknown) => {
         throw new Error(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`);
       });
+  }
+
+  public compareSensorTypes(types: SensorType[], compare: string, newLabel: string): SensorType | undefined {
+    const found: SensorType | undefined = types.find((t: SensorType) => {
+      if (t.compareWith && typeof t.compareWith === 'string' && t.compareWith === compare) return t;
+      else return undefined;
+    });
+
+    return found ? { ...found, label: newLabel } : undefined;
   }
 }
