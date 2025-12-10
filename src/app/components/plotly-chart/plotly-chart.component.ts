@@ -136,8 +136,8 @@ export class PlotlyChartComponent {
       const trace: Plotly.Data = {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
           this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
-          // this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
-          this._parseData({ ...serie, data: serie.data }),
+          this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
+          // this._parseData({ ...serie, data: serie.data }),
         type: serie.type,
         name: serie.legend ?? undefined,
         yaxis: yaxisName
@@ -367,8 +367,9 @@ export class PlotlyChartComponent {
       xref: 'x',
       x0: lastXValue,
       x1: this.referenceDate()?.getTime() ?? new Date().getTime(),
-      fillcolor: 'rgba(255, 252, 127, 1)',
-      line: { width: 0 }
+      fillcolor: 'rgba(255, 252, 127, .5)',
+      line: { width: 0 },
+      layer: 'below'
     }
   }
 

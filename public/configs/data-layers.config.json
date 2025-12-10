@@ -1220,7 +1220,7 @@
                             "options": [
                                 {
                                     "id": "maps_precipitations_15d_interpolated",
-                                    "label": "Interpolated",
+                                    "label": "Interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,

@@ -419,6 +419,7 @@ export class DataPageComponent {
     const { param, initialDate, endingDate } = formChange;
 
     this.chartReferenceDate = new Date(endingDate);
+    console.log(this.chartReferenceDate);    
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -431,6 +432,7 @@ export class DataPageComponent {
 
     this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
       .then((data: Map<string, [number, number][]>) => {
+        console.log(data);        
         const chartData: MapChartData[] = [];
 
         this._sensorTypes.forEach((t) => {

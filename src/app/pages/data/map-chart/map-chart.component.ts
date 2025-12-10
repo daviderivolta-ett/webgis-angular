@@ -60,7 +60,7 @@ export class MapChartComponent {
 
   /** Methods */
   private _getInitialDateFrom(date: Date): Date {
-    const initialDate = new Date(date);
+    const initialDate = new Date(date);  
     initialDate.setDate(date.getDate() - 15);
     return initialDate;
   }
