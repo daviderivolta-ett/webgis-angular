@@ -6,88 +6,69 @@
             <div ngProjectAs="sidebar-content" class="sidebar-content">
                 <h3>Tabelle</h3>
                 @for (group of navGroups; track group.id) {
-                    <details name="tables" class="styled-details">
-                        <summary class="summary" class="table-links-title">{{group.label ?? group.id}}</summary>
-                        <div class="styled-details__content table-links">
-                            @for (option of group.options; track option.id) {
-                                <a class="table-link" [routerLink]="'/tabelle/' + option.id" routerLinkActive="table-link--active">{{option.label ?? option.id}}</a>
-                            }
-                        </div>
-                    </details>
+                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active">{{group.label ?? group.id}}</a>
                 }
             </div>
         </app-sidebar>
         <!-- END SIDEBAR -->
-        
+
         <div class="content">
-            <!-- START MAIN -->            
-            <div class="update-time">
-                <app-datepicker (dateChanged)="onDateChange($event)"></app-datepicker>
-            </div>
+            <!-- START MAIN -->
 
-            <div class="table-name">
-                <h2>{{selectedTableTitle}}</h2>
-            </div>
-
-            <!-- START FILTERS -->
-            <ng-template #filtersContent>
-                <div [formGroup]="filters" class="filters styled-details__content">
-                    @for (keyvalue of filterKeys | keyvalue; track $index) {
-                        <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key | mapValue: tableLabels" [options]="keyvalue.value"></app-input-autocomplete>
-                    }
+            <!-- START TITLE -->
+            @if (configGroup) {
+                <div class="page-title">
+                    <h2>{{configGroup.label ?? configGroup.id}}</h2>
                 </div>
-            </ng-template>
+            }
+            <!-- END TITLE -->
 
-            <!-- Start desktop -->
-            <div class="filters-wrapper--desktop">
-                <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
-            </div>      
-            <!-- End desktop -->
-            <!-- Start mobile -->
-            <div class="filters-wrapper--mobile">
-                <details class="styled-details">
-                    <summary class="summary">Filtri</summary>
-                    <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
-                </details>
+            <!-- START CONTROLS -->
+            <div class="controls">
+                <div class="update-time">
+                    <label class="label">Data misurazione</label>
+                    <app-datepicker (dateChanged)="onDateChange($event)"></app-datepicker>
+                </div>
             </div>
-            <!-- End mobile -->
-            <!-- END FILTERS -->
+            <!-- END CONTROLS -->
 
-            <!-- START TABLE -->
-            <app-sortable-table scrollableTable #table>
-                <div class="table">
-                    <div class="thead">
-                        <div class="trow">
-                            @for (d of sortedData.header; track $index) {
-                                <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
-                            }
-                        </div>
-                    </div>
-                    <div class="tbody">
-                        @for (r of sortedData.body; track $index) {
-                            <div class="trow">
-                                @for (d of r; track $index) {
-                                    <div class="tdata"><p>
-                                        @if (d[1] | isDate) {
-                                            {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
+            <!-- START TABLES -->
+            <div class="tables">
+                @for (t of sortedTables; track $index) {
+                    <div class="table-wrapper">
+                        <h3>{{t.label}}</h3>
+                        <app-sortable-table scrollableTable #table>
+                            <div class="table">
+                                <div class="thead">
+                                    <div class="trow">
+                                        @for (d of t.table.header; track $index) {
+                                            <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event, t.id); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
                                         }
-                                        @else {
-                                            {{d[1]}}
-                                        }
-                                    </p></div>
-                                }
+                                    </div>
+                                </div>
+
+                                <div class="tbody">
+                                    @for (r of t.table.body; track $index) {
+                                        <div class="trow" (click)="onTableRowClick(r)">
+                                            @for (d of r; track $index) {
+                                                <div class="tdata"><p>
+                                                    @if (d[1] | isDate) {
+                                                        {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
+                                                    }
+                                                    @else {
+                                                        {{d[1]}}
+                                                    }
+                                                </p></div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        }
+                        </app-sortable-table>
                     </div>
-                </div>
-            </app-sortable-table>
-            <!-- END TABLE -->
-
-            <!-- START DOWNLOAD BUTTON -->
-            <button type="button" class="fab csv-btn" (click)="onDownloadBtnClick()">
-                <span class="mask-icon"></span>
-            </button>
-            <!-- END DOWNLOAD BUTTON -->
+                }
+            </div>
+            <!-- END TABLES -->
 
             <!-- END MAIN -->
         </div>

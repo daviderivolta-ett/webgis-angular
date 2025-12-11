@@ -49,33 +49,13 @@ export const routes: Routes = [
     {
         path: 'tabelle/:id',
         title: 'OMIRL ARPAL - Tabelle',
-        loadComponent: () => import('./pages/tables-precipitations/tables-precipitations-page/tables-precipitations-page.component').then(c => c.TablesPrecipitationsPageComponent),
+        loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
         resolve: {
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver
         }
     },
-    // {
-    //     path: 'tabelle/massimi-precipitazione',
-    //     title: 'OMIRL ARPAL - Massimi di precipitazione',
-    //     loadComponent: () => import('./pages/tables-precipitations/tables-precipitations-page/tables-precipitations-page.component').then(c => c.TablesPrecipitationsPageComponent),
-    //     resolve: {
-    //         apisConfig: apisResolver,
-    //         tableConfigGroups: tableConfigGroupsResolver,
-    //         tableLabels: tableLabelsResolver
-    //     }
-    // },
-    // {
-    //     path: 'tabelle/:id',
-    //     title: 'OMIRL ARPAL - Tabelle',
-    //     loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
-    //     resolve: {
-    //         apisConfig: apisResolver,
-    //         tableConfigGroups: tableConfigGroupsResolver,
-    //         tableLabels: tableLabelsResolver
-    //     }
-    // },
     {
         path: 'radar',
         title: 'OMIRL ARPAL - Satellite e radar',
