@@ -37,6 +37,17 @@ export const routes: Routes = [
         redirectTo: 'tabelle/precipitazioni'
     },
     {
+        path: 'tabelle/stazioni',
+        title: 'OMIRL ARPAL - Tabelle stazioni',
+        loadComponent: () => import('./pages/tables-stations/tables-stations-page/tables-stations-page.component').then(c => c.TablesStationsPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
+        }
+    },
+    {
         path: 'tabelle/:id',
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
@@ -44,8 +55,7 @@ export const routes: Routes = [
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver
-        },
-        // canMatch: [authGuard]
+        }
     },
     {
         path: 'radar',

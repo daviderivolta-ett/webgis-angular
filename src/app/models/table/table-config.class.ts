@@ -6,6 +6,7 @@ export class TableConfig {
     public dataPath?: string;
     public keysToMerge?: string[];
     public keysOrder?: string[];
+    public parameter?: string;
 
     constructor(id: string, url: string) {
         this.id = id;
@@ -28,6 +29,7 @@ export class TableConfig {
         if ('dataPath' in object && typeof object['dataPath'] === 'string') config.dataPath = object['dataPath'];
         if ('keysToMerge' in object && Array.isArray(object['keysToMerge']) && object['keysToMerge'].every((k: any) => typeof k === 'string')) config.keysToMerge = [...object['keysToMerge']];
         if ('keysOrder' in object && Array.isArray(object['keysOrder']) && object['keysOrder'].every((k: any) => typeof k === 'string')) config.keysOrder = [...object['keysOrder']];
+        if ('parameter' in object && typeof object['parameter'] === 'string') config.parameter = object['parameter'];
 
         return config;
     }

@@ -98,7 +98,7 @@ export class TablesPageComponent {
 
   // Component lifecycle
   public async ngOnInit(): Promise<void> {
-    this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
+    this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));   
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       const param: string | null = this.route.snapshot.paramMap.get('id');

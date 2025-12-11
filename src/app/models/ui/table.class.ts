@@ -136,4 +136,12 @@ export class Table {
         }, [] as Record<string, any>[]);
     }
 
+    public getLatestDate(): number {
+        return this.body.reduce((acc: number, curr: [string, any][]) => {
+            const values: any[] = curr.map(([_, v]: [string, any]) => v);
+            const rowMax = Math.max(...values);
+            if (rowMax > acc) acc = rowMax;
+            return acc;
+        }, 0);
+    }
 }

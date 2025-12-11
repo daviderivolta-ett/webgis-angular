@@ -1,0 +1,142 @@
+@use 'index' as mixins;
+@include mixins.header-position;
+
+.main {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+}
+
+.page-title {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 24px 0;
+}
+
+.table-link {
+    padding: 4px 8px;
+    display: block;
+    color: var(--primary-900, black);
+    text-decoration: none;
+}
+
+.table-link--active {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightgrey);
+    border-radius: 4px;
+}
+
+.content {
+    width: 92%;
+    margin: auto;
+    padding: 40px 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 24px 0;
+}
+
+.label {
+    font-size: .85rem;
+}
+
+.styled-select {
+    height: 31.6px;
+    width: 200px;
+}
+
+app-datepicker {
+    display: block;
+    width: 200px;
+}
+
+.filters-wrapper--mobile {
+    display: none;
+    margin: 0 0 24px 0;
+}
+
+.filters {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 0 0 24px 0;
+}
+
+.autocomplete {
+    display: block;
+    width: 100%;
+}
+
+.autocomplete::part(input) {
+    color: var(--neutral-900, black);
+    border: 1px solid var(--neutral-500, lightgray);
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 0;
+}
+
+.autocomplete::part(input)::placeholder {
+    color: var(--neutral-800, black);
+}
+
+.table {
+    width: 100%;
+
+    th,
+    td {
+        min-width: 120px;
+    }
+}
+
+.csv-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+}
+
+.mask-icon {
+    @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
+@media screen and (max-width: 768px) {
+    .filters-wrapper--desktop {
+        display: none;
+    }
+
+    .filters-wrapper--mobile {
+        display: block;
+    }
+
+    .filters {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .csv-btn {
+        bottom: calc(48px + 24px);
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .select-row,
+    .update-time {
+        width: 100%;
+    }
+
+    .styled-select,
+    app-datepicker {
+        width: 100%;
+    }
+}

@@ -27,7 +27,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "rain_01h"
                 },
                 {
                     "id": "stations-temperature",
@@ -52,7 +53,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "mean_air_temp"
                 },
                 {
                     "id": "stations-hydrometric_levels",
@@ -77,7 +79,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "stations-wind",
@@ -102,7 +105,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "mean_wind_speed"
                 },
                 {
                     "id": "stations-humidity",
@@ -127,7 +131,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "humidity"
                 },
                 {
                     "id": "stations-sunshine_duration",
@@ -152,7 +157,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "sunshine_duration"
                 },
                 {
                     "id": "stations-radiations",
@@ -177,7 +183,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "solar_radiation_pwr"
                 },
                 {
                     "id": "stations-foliage",
@@ -202,7 +209,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "leaf_wetness"
                 },
                 {
                     "id": "stations-pressure",
@@ -227,7 +235,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "mean_sea_level_press"
                 },
                 {
                     "id": "stations-battery",
@@ -252,7 +261,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "battery_voltage"
                 },
                 {
                     "id": "stations-snow",
@@ -277,7 +287,8 @@
                         "value",
                         "maxValue",
                         "minValue"
-                    ]
+                    ],
+                    "parameter": "mean_snow_depth"
                 }
             ]
         },
@@ -306,7 +317,8 @@
                         "rain_06h",
                         "rain_12h",
                         "rain_24h"
-                    ]
+                    ],
+                    "parameter": "rain_01h"
                 },
                 {
                     "id": "precipitations-max-municipalities",
@@ -329,7 +341,8 @@
                         "rain_06h",
                         "rain_12h",
                         "rain_24h"
-                    ]
+                    ],
+                    "parameter": "rain_01h"
                 }
             ]
         },
@@ -342,21 +355,24 @@
                     "url": "/tables/get/extremes",
                     "label": "Città",
                     "filterKeys": [],
-                    "dataPath": "Cities"
+                    "dataPath": "Cities",
+                    "parameter": "mean_air_temp"
                 },
                 {
                     "id": "estremi-temperatura-vento-zone-warnareas",
                     "url": "/tables/get/extremes",
                     "label": "Zone di allerta",
                     "filterKeys": [],
-                    "dataPath": "WarnArea"
+                    "dataPath": "WarnArea",
+                    "parameter": "mean_air_temp"
                 },
                 {
                     "id": "estremi-temperatura-vento-wind-extremes",
                     "url": "/tables/get/extremes",
                     "label": "Vento",
                     "filterKeys": [],
-                    "dataPath": "Wind"
+                    "dataPath": "Wind",
+                    "parameter": "mean_air_temp"
                 }
             ]
         },
@@ -369,56 +385,64 @@
                     "url": "/tables/get/hydro/level",
                     "label": "A - Marittimi di Ponente",
                     "filterKeys": [],
-                    "dataPath": "A"
+                    "dataPath": "A",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-b",
                     "url": "/tables/get/hydro/level",
                     "label": "B - Marittimi di Centro",
                     "filterKeys": [],
-                    "dataPath": "B"
+                    "dataPath": "B",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-c",
                     "url": "/tables/get/hydro/level",
                     "label": "C - Marittimi di Levante",
                     "filterKeys": [],
-                    "dataPath": "C"
+                    "dataPath": "C",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-d",
                     "url": "/tables/get/hydro/level",
                     "label": "D - Padani di Ponente",
                     "filterKeys": [],
-                    "dataPath": "D"
+                    "dataPath": "D",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-e",
                     "url": "/tables/get/hydro/level",
                     "label": "E - Padani di Levante",
                     "filterKeys": [],
-                    "dataPath": "E"
+                    "dataPath": "E",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-c+",
                     "url": "/tables/get/hydro/level",
                     "label": "C+ - C + Magra",
                     "filterKeys": [],
-                    "dataPath": "C+"
+                    "dataPath": "C+",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-c-",
                     "url": "/tables/get/hydro/level",
                     "label": "C- - C - Magra",
                     "filterKeys": [],
-                    "dataPath": "C-"
+                    "dataPath": "C-",
+                    "parameter": "mean_creek_level"
                 },
                 {
                     "id": "hydrometric-levels-m",
                     "url": "/tables/get/hydro/level",
                     "label": "M - Magra",
                     "filterKeys": [],
-                    "dataPath": "M"
+                    "dataPath": "M",
+                    "parameter": "mean_creek_level"
                 }
             ]
         }

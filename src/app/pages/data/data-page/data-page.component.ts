@@ -418,8 +418,7 @@ export class DataPageComponent {
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
-    this.chartReferenceDate = new Date(endingDate);
-    console.log(this.chartReferenceDate);    
+    this.chartReferenceDate = new Date(endingDate);  
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
