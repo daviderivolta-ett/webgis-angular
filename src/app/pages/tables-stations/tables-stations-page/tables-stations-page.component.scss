@@ -19,12 +19,6 @@
     padding: 24px;
 }
 
-.page-title {
-    display: flex;
-    justify-content: center;
-    margin: 0 0 24px 0;
-}
-
 .table-link {
     padding: 4px 8px;
     display: block;
@@ -36,6 +30,12 @@
     color: var(--primary-500, blue);
     background-color: var(--primary-100, lightgrey);
     border-radius: 4px;
+}
+
+.page-title {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 24px 0;
 }
 
 .controls {

@@ -38,6 +38,23 @@
     margin: 0 0 24px 0;
 }
 
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 24px 0;
+}
+
+.label {
+    font-size: .85rem;
+}
+
+app-datepicker {
+    display: block;
+    width: 200px;
+}
+
 .tables {
     display: flex;
     flex-direction: column;
@@ -52,4 +69,28 @@
 
 .table-wrapper h3 {
     text-align: center;
+}
+
+.table {
+    width: 100%;
+
+    th,
+    td {
+        min-width: 120px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .update-time {
+        width: 100%;
+    }
+
+    .styled-select,
+    app-datepicker {
+        width: 100%;
+    }
 }

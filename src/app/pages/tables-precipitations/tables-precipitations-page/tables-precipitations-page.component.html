@@ -23,6 +23,15 @@
             }
             <!-- END TITLE -->
 
+            <!-- START CONTROLS -->
+            <div class="controls">
+                <div class="update-time">
+                    <label class="label">Data misurazione</label>
+                    <app-datepicker (dateChanged)="onDateChange($event)"></app-datepicker>
+                </div>
+            </div>
+            <!-- END CONTROLS -->
+
             <!-- START TABLES -->
             <div class="tables">
                 @for (t of sortedTables; track $index) {

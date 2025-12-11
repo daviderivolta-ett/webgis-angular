@@ -17,7 +17,7 @@ type PageTable = {
 import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent } from '../../../components'
+import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
 
 /** Pipes */
 import { IsDatePipe, MapValuePipe } from '../../../pipes'
@@ -41,7 +41,8 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
     /** Pipes */
     DatePipe,
     MapValuePipe,
-    IsDatePipe
+    IsDatePipe,
+    DatepickerComponent
   ],
   templateUrl: './tables-precipitations-page.component.html',
   styleUrl: './tables-precipitations-page.component.scss'
@@ -89,14 +90,21 @@ export class TablesPrecipitationsPageComponent {
   /** Component lifecycle */
   public ngOnInit(): void {
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-    this._init('massimi-precipitazione');
+
+    this.route.paramMap.subscribe(() => {
+      const param: string | null = this.route.snapshot.paramMap.get('id');
+      if (param) this._init(param);
+    });
   }
 
   /** Methods */
   private async _init(id: string): Promise<void> {
+    this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
+
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
+
     await this._getData(this.configGroup.options[0]);
   }
 
@@ -110,13 +118,16 @@ export class TablesPrecipitationsPageComponent {
     return config;
   }
 
+  private _reset(): void {
+    this.tables = this.sortedTables = [];
+  }
+
   private async _getData(config: TableConfig): Promise<void> {
     const url = this.selectedDate ?
       `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
-
     const response = await this.apiService.getApiData(url)
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
@@ -148,6 +159,14 @@ export class TablesPrecipitationsPageComponent {
         { ...t, table: t.table.sortTableData(sort.sortBy, sort.direction) } :
         t
     })
+  }
+
+  public onDateChange(event: any): void {
+    const { date: dateString } = event;
+    if (typeof dateString !== 'string') return;
+    this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
+    const param: string | null = this.route.snapshot.paramMap.get('id');
+    if (param) this._init(param);
   }
 
   public onTableRowClick(row: [string, any][]): void {

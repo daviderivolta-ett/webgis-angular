@@ -38,18 +38,8 @@ export const routes: Routes = [
     },
     {
         path: 'tabelle/stazioni',
-        title: 'OMIRL ARPAL - Tabelle stazioni',
+        title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables-stations/tables-stations-page/tables-stations-page.component').then(c => c.TablesStationsPageComponent),
-        resolve: {
-            apisConfig: apisResolver,
-            tableConfigGroups: tableConfigGroupsResolver,
-            tableLabels: tableLabelsResolver
-        }
-    },
-    {
-        path: 'tabelle/massimi-precipitazione',
-        title: 'OMIRL ARPAL - Massimi di precipitazione',
-        loadComponent: () => import('./pages/tables-precipitations/tables-precipitations-page/tables-precipitations-page.component').then(c => c.TablesPrecipitationsPageComponent),
         resolve: {
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
@@ -59,13 +49,33 @@ export const routes: Routes = [
     {
         path: 'tabelle/:id',
         title: 'OMIRL ARPAL - Tabelle',
-        loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
+        loadComponent: () => import('./pages/tables-precipitations/tables-precipitations-page/tables-precipitations-page.component').then(c => c.TablesPrecipitationsPageComponent),
         resolve: {
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver
         }
     },
+    // {
+    //     path: 'tabelle/massimi-precipitazione',
+    //     title: 'OMIRL ARPAL - Massimi di precipitazione',
+    //     loadComponent: () => import('./pages/tables-precipitations/tables-precipitations-page/tables-precipitations-page.component').then(c => c.TablesPrecipitationsPageComponent),
+    //     resolve: {
+    //         apisConfig: apisResolver,
+    //         tableConfigGroups: tableConfigGroupsResolver,
+    //         tableLabels: tableLabelsResolver
+    //     }
+    // },
+    // {
+    //     path: 'tabelle/:id',
+    //     title: 'OMIRL ARPAL - Tabelle',
+    //     loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
+    //     resolve: {
+    //         apisConfig: apisResolver,
+    //         tableConfigGroups: tableConfigGroupsResolver,
+    //         tableLabels: tableLabelsResolver
+    //     }
+    // },
     {
         path: 'radar',
         title: 'OMIRL ARPAL - Satellite e radar',
