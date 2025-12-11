@@ -25,6 +25,9 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
+/** Utils */
+import { CSVUtils, Utils } from '../../../utils'
+
 /** Component */
 @Component({
   selector: 'app-tables-page',
@@ -105,7 +108,9 @@ export class TablesPageComponent {
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
 
-    await this._getData(this.configGroup.options[0]);
+    const res: any = await this._getData(this.configGroup.options[0]);
+    if (!res) return;
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -122,7 +127,7 @@ export class TablesPageComponent {
     this.tables = this.sortedTables = [];
   }
 
-  private async _getData(config: TableConfig): Promise<void> {
+  private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
       `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
       `${this.stationsApiBaseUrl}${config.url}`;
@@ -136,11 +141,17 @@ export class TablesPageComponent {
         this.snackbarsService.removeSnackbar(snackbarId);
       })
 
-    if (!Array.isArray(response) || response.length === 0) return;
+    // if (!Array.isArray(response) || response.length === 0) return;
 
-    this.tables = this.sortedTables = response.map((t: any) => {
+    return (!Array.isArray(response) || response.length === 0) ? undefined : response;
+  }
+
+  private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
+    return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
+      const config: TableConfig = configGroup.options[i];
+      if (!config) return undefined;
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
       const table: Table = Table.generateTableStructure(rawData, 'name', config.keysOrder);
       return {
@@ -148,7 +159,7 @@ export class TablesPageComponent {
         label: tableName,
         table
       }
-    }).filter(d => d !== undefined)
+    }).filter((d: unknown) => d !== undefined)
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }, tableId: string): void {
@@ -159,6 +170,16 @@ export class TablesPageComponent {
         { ...t, table: t.table.sortTableData(sort.sortBy, sort.direction) } :
         t
     })
+  }
+
+  public onDownloadBtnClick(tableId: string): void {
+    const foundTable: PageTable | undefined = this.tables.find((t: PageTable) => t.id === tableId);
+    if (!foundTable) return;
+
+    const table = foundTable.table.convertTableToArray();
+    const csv = CSVUtils.convertArrayToCSV(table, foundTable.table.header);
+    const param: string | null = this.route.snapshot.paramMap.get('id');
+    if (param) Utils.downloadFile(`${param}.csv`, csv);
   }
 
   public onDateChange(event: any): void {

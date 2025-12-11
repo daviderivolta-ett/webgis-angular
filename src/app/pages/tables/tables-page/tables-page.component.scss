@@ -67,6 +67,23 @@ app-datepicker {
     gap: 16px;
 }
 
+.table-title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.table-title .csv-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+}
+
+.mask-icon {
+    @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
 .table-wrapper h3 {
     text-align: center;
 }
