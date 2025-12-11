@@ -293,7 +293,7 @@
             ]
         },
         {
-            "id": "precipitations-max",
+            "id": "massimi-precipitazione",
             "label": "Massimi di precipitazione",
             "options": [
                 {

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Station, StationBase, Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services'
@@ -72,7 +72,6 @@ export class TablesStationsPageComponent {
   public stationsTableUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
-  public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -221,7 +220,5 @@ export class TablesStationsPageComponent {
   public onTableRowClick(row: [string, any][]): void {    
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
-    const station: Station = Station.fromStationData(new StationBase(code, 0, 0, []), { value: 0, parameter: this.config?.parameter ?? '' });
-    station.addSensorsFromStationLists(this.stations);
   }
 }

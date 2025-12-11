@@ -6,6 +6,12 @@
     overflow-x: hidden;
 }
 
+.content {
+    width: 92%;
+    margin: auto;
+    padding: 40px 0;
+}
+
 .sidebar-content {
     display: flex;
     flex-direction: column;
@@ -30,12 +36,6 @@
     color: var(--primary-500, blue);
     background-color: var(--primary-100, lightgrey);
     border-radius: 4px;
-}
-
-.content {
-    width: 92%;
-    margin: auto;
-    padding: 40px 0;
 }
 
 .controls {

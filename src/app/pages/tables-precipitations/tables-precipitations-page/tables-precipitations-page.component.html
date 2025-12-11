@@ -1,0 +1,67 @@
+<div class="page">
+    <app-header [isAuth]="user ? true : false"></app-header>
+    <div class="main">
+        <!-- START SIDEBAR -->
+        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">
+                <h3>Tabelle</h3>
+                @for (group of navGroups; track group.id) {
+                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active">{{group.label ?? group.id}}</a>
+                }
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <div class="content">
+            <!-- START MAIN -->
+
+            <!-- START TITLE -->
+            @if (configGroup) {
+                <div class="page-title">
+                    <h2>{{configGroup.label ?? configGroup.id}}</h2>
+                </div>
+            }
+            <!-- END TITLE -->
+
+            <!-- START TABLES -->
+            <div class="tables">
+                @for (t of sortedTables; track $index) {
+                    <div class="table-wrapper">
+                        <h3>{{t.label}}</h3>
+                        <app-sortable-table scrollableTable #table>
+                            <div class="table">
+                                <div class="thead">
+                                    <div class="trow">
+                                        @for (d of t.table.header; track $index) {
+                                            <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event, t.id); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="tbody">
+                                    @for (r of t.table.body; track $index) {
+                                        <div class="trow" (click)="onTableRowClick(r)">
+                                            @for (d of r; track $index) {
+                                                <div class="tdata"><p>
+                                                    @if (d[1] | isDate) {
+                                                        {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
+                                                    }
+                                                    @else {
+                                                        {{d[1]}}
+                                                    }
+                                                </p></div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </app-sortable-table>
+                    </div>
+                }
+            </div>
+            <!-- END TABLES -->
+
+            <!-- END MAIN -->
+        </div>
+    </div>
+</div>
