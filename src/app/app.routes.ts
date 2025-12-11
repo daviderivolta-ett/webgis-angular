@@ -34,7 +34,7 @@ export const routes: Routes = [
     {
         path: 'tabelle',
         pathMatch: 'full',
-        redirectTo: 'tabelle/precipitazioni'
+        redirectTo: 'tabelle/stazioni'
     },
     {
         path: 'tabelle/stazioni',
