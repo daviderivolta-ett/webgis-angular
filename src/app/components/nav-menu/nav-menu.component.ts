@@ -42,11 +42,11 @@ export class NavMenuComponent {
       iconUrl: 'images/icons/settings_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
       requiresAuth: true
     },
-    // {
-    //   path: 'radar',
-    //   label: 'Satellite e radar',
-    //   iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
-    //   requiresAuth: false
-    // }
+    {
+      path: 'radar',
+      label: 'Satellite e radar',
+      iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
+      requiresAuth: false
+    }
   ];
 }

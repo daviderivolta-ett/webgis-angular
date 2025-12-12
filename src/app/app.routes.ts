@@ -61,8 +61,7 @@ export const routes: Routes = [
     {
         path: 'radar',
         title: 'OMIRL ARPAL - Satellite e radar',
-        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
-        canMatch: [authGuard]
+        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent)
     },
     {
         path: 'settings',
