@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private oauthService: OAuthService) {
     this.configureAuth();
 
-    this.oauthService.events.subscribe((event) => {      
+    this.oauthService.events.subscribe((event) => {  
       if (event.type === 'token_received') {
         const claims: Record<string, any> = this.oauthService.getIdentityClaims();
         claims ? this.user.set(claims) : this.user.set(null);
