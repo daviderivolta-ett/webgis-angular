@@ -80,6 +80,7 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/settings-stations/stations-settings-page/stations-settings-page.component').then(c => c.StationsSettingsPageComponent),
                 resolve: {
                     apisConfig: apisResolver,
+                    sensorTypes: sensorTypesResolver
                     // stations: stationsResolver
                 }
             },

@@ -32,7 +32,7 @@
                                 @for (sensor of station.sensors; track $index) {
                                     <div class="sensor">
                                         <label class="checkbox">
-                                            {{sensor.type}}
+                                            {{sensor.type | mapValue: sensorTypesMap}}
                                             <div class="checkbox-toggle">
                                                 <div class="checkbox-toggle--slider"></div>                                    
                                                 <input type="checkbox" [formControlName]="$index">

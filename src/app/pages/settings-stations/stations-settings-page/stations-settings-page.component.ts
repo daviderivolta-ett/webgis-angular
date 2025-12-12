@@ -4,14 +4,19 @@ import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Sensor, StationBase } from '../../../models';
+import { Sensor, SensorType, StationBase } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, SnackbarsService, StationsService } from '../../../services';
-import { Utils } from '../../../utils';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
+
+/** Pipes */
+import { MapValuePipe } from '../../../pipes';
+
+/** Utils */
+import { Utils } from '../../../utils';
 
 /** Component */
 @Component({
@@ -24,7 +29,9 @@ import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuC
     SidebarComponent,
     SearchbarComponent,
     SettingsNavMenuComponent,
-    LoadingBtnComponent
+    LoadingBtnComponent,
+    /** Pipes */
+    MapValuePipe
   ],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
@@ -44,6 +51,9 @@ export class StationsSettingsPageComponent {
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   public filteredStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+  private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
+
+  public sensorTypesMap: Map<string, string> = new Map();
 
   /** Constructor */
   constructor(
@@ -57,6 +67,7 @@ export class StationsSettingsPageComponent {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.stationParametersPatchUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
+    this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
     /** Effetcs */
     effect(() => {
@@ -72,6 +83,8 @@ export class StationsSettingsPageComponent {
         this.form = this._createStationsForm(stations);
         this.initialFormValue = { ...this.form.value };
       })
+
+    this.sensorTypesMap = new Map(this._sensorTypes.map((t: SensorType) => [t.id, t.label]));
   }
 
   /** Methods */
