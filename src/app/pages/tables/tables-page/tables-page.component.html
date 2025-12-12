@@ -54,7 +54,7 @@
 
                                 <div class="tbody">
                                     @for (r of t.table.body; track $index) {
-                                        <div class="trow" (click)="onTableRowClick(r)">
+                                        <div class="trow" (click)="onTableRowClick(t.id, r)">
                                             @for (d of r; track $index) {
                                                 <div class="tdata"><p>
                                                     @if (d[1] | isDate) {

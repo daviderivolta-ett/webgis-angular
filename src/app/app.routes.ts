@@ -43,7 +43,8 @@ export const routes: Routes = [
         resolve: {
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
-            tableLabels: tableLabelsResolver
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
         }
     },
     {
@@ -53,7 +54,8 @@ export const routes: Routes = [
         resolve: {
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
-            tableLabels: tableLabelsResolver
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
         }
     },
     {

@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Sensor, SensorType, Station, StationBase, Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Types */
 type PageTable = {
@@ -14,7 +14,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services'
+import { ApiService, AuthService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -61,9 +61,14 @@ export class TablesPageComponent {
   public user: Record<string, any> | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
+  public parametersUrl; // Recovered from route resolver in constructor 
+  public stationParametersUrl; // Recovered from route resolver in constructor
+  private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
   public stationsTableUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
+
+  public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
   public tables: PageTable[] = [];
   public sortedTables: PageTable[] = [];
@@ -76,10 +81,14 @@ export class TablesPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private stationsService: StationsService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
+    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this._sensorTypes = this.route.snapshot.data['sensorTypes'];
     this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
@@ -101,6 +110,32 @@ export class TablesPageComponent {
   }
 
   /** Methods */
+  public setDataFromApi() {
+    // this.isLoading = true;
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
+      })
+      .finally(() => {
+        // this.isLoading = false;
+      })
+
+    // this.isLoading = true;
+    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      .then((data) => {
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
+      })
+      .finally(() => {
+        // this.isLoading = false;
+      })
+  }
+
   private async _init(id: string): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
@@ -150,13 +185,13 @@ export class TablesPageComponent {
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
-      const config: TableConfig = configGroup.options[i];
+      const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);     
       if (!config) return undefined;
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
       const table: Table = Table.generateTableStructure(rawData, 'name', config.keysOrder);
       return {
-        id: tableName,
-        label: tableName,
+        id: config.id,
+        label: config.label ?? config.id,
         table
       }
     }).filter((d: unknown) => d !== undefined)
@@ -190,8 +225,16 @@ export class TablesPageComponent {
     if (param) this._init(param);
   }
 
-  public onTableRowClick(row: [string, any][]): void {
+  public onTableRowClick(tableId: string, row: [string, any][]): void {
+    const config: TableConfig | undefined = this.configGroup?.options.find((c: TableConfig) => c.id === tableId);  
+    if (!config || !config.parameter) return;
+
+    console.log(row);    
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
+    console.log('CODE', code);
+    const station = new Station(code, 0, 0, [], 0, config.parameter);
+    station.addSensorsFromStationLists(this.stations);
+    console.log('STATION', station);
   }
 }

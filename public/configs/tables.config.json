@@ -359,7 +359,7 @@
                     "parameter": "mean_air_temp"
                 },
                 {
-                    "id": "estremi-temperatura-vento-zone-warnareas",
+                    "id": "estremi-temperatura-vento-warnareas",
                     "url": "/tables/get/extremes",
                     "label": "Zone di allerta",
                     "filterKeys": [],
