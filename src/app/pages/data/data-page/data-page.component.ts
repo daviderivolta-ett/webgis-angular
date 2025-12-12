@@ -1,6 +1,6 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
@@ -165,7 +165,8 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    this.setDataFromApi();
+    await this.setDataFromApi();
+    this.route.queryParamMap.subscribe((params: ParamMap) => this._applyLayersFromQueryParams(params));
   }
 
   public ngAfterViewInit(): void {
@@ -178,7 +179,7 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  public setDataFromApi() {
+  public async setDataFromApi() {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
@@ -202,6 +203,20 @@ export class DataPageComponent {
       .finally(() => {
         this.isLoading = false;
       })
+  }
+
+  private _applyLayersFromQueryParams(params: ParamMap) {
+    const layerIds: string[] = params.getAll('layer');
+    const layers: Layer[] = layerIds.map((id: string) => {
+      return this.dataLayers.map((g: LayerGroup) => g.searchLayerById(id))
+    }).flat().filter(l => l !== undefined);
+   
+    layers.forEach((l: Layer) => {   
+      if (l.requiresAuth && !this.user) return;
+      this._currentDataLayers = this.layersService.checkLayerCategories(l, true, this.currentDataLayers.map, this._layerCategories, !!this.user);
+    })
+
+    this._updateMultipleLayers(undefined);
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
@@ -540,7 +555,10 @@ export class DataPageComponent {
     this._map.closeAllPopups();
     this.selectedDate = date;
     this.chartReferenceDate = date;
+    this._updateMultipleLayers(date);
+  }
 
+  private _updateMultipleLayers(date: Date | undefined) {
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
     layersToUpdate
