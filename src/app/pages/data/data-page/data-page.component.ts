@@ -1,6 +1,7 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
@@ -112,7 +113,9 @@ export class DataPageComponent {
   /** Constructor */
   constructor(
     private cdRef: ChangeDetectorRef,
+    private location: Location,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
     private snackbarsService: SnackbarsService,
@@ -166,7 +169,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this.route.queryParamMap.subscribe((params: ParamMap) => this._applyLayersFromQueryParams(params));
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngAfterViewInit(): void {
@@ -205,18 +208,24 @@ export class DataPageComponent {
       })
   }
 
-  private _applyLayersFromQueryParams(params: ParamMap) {
+  private _applyLayersFromQueryParams(params: ParamMap): void {
     const layerIds: string[] = params.getAll('layer');
     const layers: Layer[] = layerIds.map((id: string) => {
       return this.dataLayers.map((g: LayerGroup) => g.searchLayerById(id))
     }).flat().filter(l => l !== undefined);
-   
-    layers.forEach((l: Layer) => {   
-      if (l.requiresAuth && !this.user) return;
+
+    layers.forEach((l: Layer) => {
+      // if (l.requiresAuth && !this.user) return;
       this._currentDataLayers = this.layersService.checkLayerCategories(l, true, this.currentDataLayers.map, this._layerCategories, !!this.user);
     })
 
     this._updateMultipleLayers(undefined);
+  }
+
+  private _updateLayerQueryParams(activeLayersIds: string[]): void {
+    const base = this.router.url.split('?')[0];
+    const query: string = activeLayersIds.map((id: string) => `layer=${id}`).join('&');
+    this.location.replaceState(base, query);
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
@@ -450,12 +459,13 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any): void {
+  public onLayerToggled(data: any, updateUrl: boolean = true): void {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
+    if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
   }
 
   private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean, isAuth: boolean): void {
@@ -563,7 +573,7 @@ export class DataPageComponent {
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
     layersToUpdate
       .reverse()
-      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }));
+      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, false));
 
     // Call command for every not-timedimension layer
     const promises: Promise<void>[] = [];
