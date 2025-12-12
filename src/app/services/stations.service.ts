@@ -92,6 +92,8 @@ export class StationsService {
   public parseTimeSerie(data: any, params: string[]): Map<string, [number, number][]> {
     if (!Array.isArray(data)) return new Map();
 
+    console.log(data);    
+
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
     params.map(param => {
