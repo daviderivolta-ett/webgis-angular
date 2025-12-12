@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { Sensor, SensorType, StationBase } from '../models';
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase } from '../models';
 
 /** Services */
 import { ApiService } from './api.service';
@@ -161,5 +161,72 @@ export class StationsService {
     });
 
     return found ? { ...found, label: newLabel } : undefined;
+  }
+
+  public createChart(station: Station, sensorTypes: SensorType[]): MapChart {
+    const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
+    const stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
+    const minSensor: SensorType | undefined = this.compareSensorTypes(sensorTypes, 'rain', 'Pioggia nativa');
+    if (minSensor) stationSensorTypes.unshift(minSensor);
+    const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
+
+    return new MapChart(
+      station.id,
+      [],
+      station.parameter,
+      stationSensorTypes,
+      undefined,
+      station.name ?? station.parameter,
+      sensorType ? sensorType.label : station.parameter,
+      'Data',
+      '',
+      undefined
+    );
+  }
+
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, token?: string): Promise<MapChart> {
+    const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
+    const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
+    const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
+
+    return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
+      .then((data: Map<string, [number, number][]>) => {
+        const chartData: MapChartData[] = [];
+
+        sensorTypes.forEach(t => {
+          if (sensors.some(s => `${s.id}---cumulative` === t.id)) sensors.push(t);
+        });
+
+        for (const entry of data.entries()) {
+          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
+          if (!sensor) continue;
+
+          const chartSerie: MapChartData = new MapChartData(
+            sensor.chartType,
+            sensor.multiplier ?
+              this.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
+              data.get(entry[0]) ?? [],
+            sensor.label,
+            sensor.unit,
+            sensor.style,
+            sensor.label,
+            `(${sensor.unit})`,
+            sensor.range,
+            sensor.id.includes('--cumulative') ? true : false
+          );
+
+          chartData.push(chartSerie);
+        }
+
+        return {
+          ...chartToUpdate,
+          data: chartData,
+          currentParameter: param,
+          currentParameterLabel: sensorType ? sensorType.label : param
+        }
+      })
+      .catch((err: unknown) => {
+        throw new Error(err instanceof Error ? err.message : `Errore nel recupero della timeseries.`);
+      })
   }
 }

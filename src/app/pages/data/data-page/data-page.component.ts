@@ -172,6 +172,10 @@ export class DataPageComponent {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
   }
 
+  public ngOnDestroy(): void {
+    if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
+  }
+
   /** Methods  */
   /** Init */
   public setDataFromApi() {
@@ -321,7 +325,7 @@ export class DataPageComponent {
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
     });
-    this.popupData = [...stations];   
+    this.popupData = [...stations];
   }
 
   public onMapClicked(event: Record<string, any>) {
@@ -383,25 +387,7 @@ export class DataPageComponent {
           break;
 
         default:
-          const stationSensorTypeIds: string[] = s.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
-          const stationSensorTypes: SensorType[] = this._sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
-          const minSensor: SensorType | undefined = this.stationsService.compareSensorTypes(this._sensorTypes, 'rain', 'Pioggia nativa');
-          if (minSensor) stationSensorTypes.unshift(minSensor);
-          const sensorType: SensorType | undefined = this._sensorTypes.find((t: SensorType) => t.id === s.parameter);
-
-          newCharts.push(
-            new MapChart(
-              s.id,
-              [],
-              s.parameter,
-              stationSensorTypes,
-              undefined,
-              s.name ?? s.parameter,
-              sensorType ? sensorType.label : s.parameter,
-              'Data',
-              '',
-              undefined
-            ));
+          newCharts.push(this.stationsService.createChart(s, this._sensorTypes));
           break;
       }
     });
@@ -418,58 +404,24 @@ export class DataPageComponent {
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
-    this.chartReferenceDate = new Date(endingDate);  
+    this.chartReferenceDate = new Date(endingDate);
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
 
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
-    const sensorType = this._sensorTypes.find((t: SensorType) => t.id === param);
-    const relatedSensors = this._sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
-    const sensors = [sensorType, ...relatedSensors].filter((s) => s !== undefined);
 
-    this.stationsService.getTimeSeries(this.timeserieUrl, chart.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, this.authService.getAccessToken())
-      .then((data: Map<string, [number, number][]>) => {
-        console.log(data);        
-        const chartData: MapChartData[] = [];
-
-        this._sensorTypes.forEach((t) => {
-          if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
-        });
-
-        for (const entry of data.entries()) {
-          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
-          if (!sensor) continue;
-
-          const chartSerie: MapChartData = new MapChartData(
-            sensor.chartType,
-            sensor.multiplier ?
-              this.stationsService.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
-              data.get(entry[0]) ?? [],
-            sensor.label,
-            sensor.unit,
-            sensor.style,
-            sensor.label,
-            `(${sensor.unit})`,
-            sensor.range,
-            sensor.id.includes('--cumulative') ? true : false
-          );
-
-          chartData.push(chartSerie);
-        }
-
-        const newChart: MapChart = {
-          ...chart,
-          data: chartData,
-          currentParameter: param,
-          currentParameterLabel: sensorType ? sensorType.label : param
-        }
-
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, this.authService.getAccessToken())
+      .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
-      .catch((err: unknown) => console.error(err))
-      .finally(() => this.areChartsDisabled = false)
+      .catch((err: Error) => {
+        this.snackbarsService.createSnackbar(err.message, 'error', true);
+      })
+      .finally(() => {
+        this.areChartsDisabled = false;
+      })
   }
 
   public onChartCustomButtonClick(event: any[]): void {
