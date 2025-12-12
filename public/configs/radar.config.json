@@ -1,0 +1,131 @@
+{
+    "layers": [
+        {
+            "id": "satellite",
+            "label": "Satellite",
+            "options": [
+                {
+                    "id": "satellite_nord",
+                    "label": "Area nord Italia",
+                    "options": [
+                        {
+                            "id": "satellite_nord_visible",
+                            "label": "Visibile",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_nord_ir",
+                            "label": "IR 10.8",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_nord_lightning",
+                            "label": "Radar, fulmini e IR 10.8",
+                            "url": ""
+                        }
+                    ]
+                },
+                {
+                    "id": "satellite_mediterranean",
+                    "label": "Area mediterraneaneo",
+                    "options": [
+                        {
+                            "id": "satellite_mediterranean_visible",
+                            "label": "Visibile",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_mediterranean_ir",
+                            "label": "IR 10.8",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_mediterranean_lightning",
+                            "label": "Radar, fulmini e IR 10.8",
+                            "url": ""
+                        }
+                    ]
+                },
+                {
+                    "id": "satellite_scan",
+                    "label": "Rapid scan",
+                    "options": [
+                        {
+                            "id": "satellite_scan_visible",
+                            "label": "Visibile",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_scan_ir",
+                            "label": "IR 10.8",
+                            "url": ""
+                        },
+                        {
+                            "id": "satellite_scan_lightning",
+                            "label": "Radar, fulmini e IR 10.8",
+                            "url": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "radar",
+            "label": "Radar",
+            "options": [
+                {
+                    "id": "radar_liguria",
+                    "label": "Liguria",
+                    "options": [
+                        {
+                            "id": "radar_liguria_precipitations",
+                            "label": "Intensità oraria pioggia",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_liguria_cumulated",
+                            "label": "Cumulata oraria pioggia",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_liguria_pluviometri",
+                            "label": "Pioggia 1h radar e pluviometri",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_liguria_riflettivita",
+                            "label": "Intensità oraria pioggia",
+                            "url": ""
+                        }
+                    ]
+                },
+                {
+                    "id": "radar_piemonte",
+                    "label": "Piemonte",
+                    "options": [
+                        {
+                            "id": "radar_piemonte_precipitations",
+                            "label": "Intensità oraria pioggia",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_piemonte_cumulated",
+                            "label": "Cumulata oraria pioggia",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_piemonte_pluviometri",
+                            "label": "Pioggia 1h radar e pluviometri",
+                            "url": ""
+                        },
+                        {
+                            "id": "radar_piemonte_riflettivita",
+                            "label": "Intensità oraria pioggia",
+                            "url": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
