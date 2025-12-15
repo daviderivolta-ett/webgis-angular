@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Models
-import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, SensorType, Settings, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, RadarConfigGroup, SensorType, Settings, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
 
 // Service
 @Injectable({
@@ -172,7 +172,7 @@ export class ConfigService {
       })
   }
 
-  public async getTableConfigGroups(): Promise<TableConfigGroup[]> {  
+  public async getTableConfigGroups(): Promise<TableConfigGroup[]> {
     return fetch(this.appConfig.tablesConfigUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione delle tabelle dal file di configurazione /configs/tables.config.json');
@@ -197,6 +197,20 @@ export class ConfigService {
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero delle etichette delle tabelle dal file di configurazione /configs/tables.config.json ${err.message || err}`);
+      })
+  }
+
+  public async getRadarConfigGroups(): Promise<RadarConfigGroup[]> {
+    return fetch(this.appConfig.radarConfigUri)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero della configurazione dei radar dal file di configurazione /configs/radar.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        return data['layers'].map((d: any) => RadarConfigGroup.createFromObject(d));
+      })
+      .catch((err: any) => {
+        throw new Error(`Errore nel recupero della configurazione dei radar dal file di configurazione /configs/radar.config.json ${err.message || err}`);
       })
   }
 

@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 
 // Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver } from './resolvers';
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver, radarConfigGroupsResolver } from './resolvers';
 
 /** Guards */
 import { authGuard } from './guards';
@@ -60,8 +60,17 @@ export const routes: Routes = [
     },
     {
         path: 'radar',
+        pathMatch: 'full',
+        redirectTo: 'radar/satellite_nord_visible'
+    },
+    {
+        path: 'radar/:id',
         title: 'OMIRL ARPAL - Satellite e radar',
-        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent)
+        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            radarConfigGroups: radarConfigGroupsResolver
+        }
     },
     {
         path: 'settings',

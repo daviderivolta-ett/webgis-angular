@@ -1,0 +1,13 @@
+<form class="toggle" [formGroup]="form">
+    @for (option of options(); track option.id) {
+        <div class="toggle__option">
+            <input type="radio" [id]="option.id" [value]="option.id" formControlName="toggle">
+            <label [for]="option.id">
+                @if (option.iconUrl) {
+                    <span [style.maskImage]="'url(' + option.iconUrl + ')'" [style.webkitMaskImage]="'url(' + option.iconUrl + ')'" class="icon"></span>
+                }
+                {{option.label}}
+            </label>
+        </div>
+    }
+</form>

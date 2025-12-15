@@ -1,2 +1,45 @@
 @use 'index' as mixins;
 @include mixins.header-position;
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.sidebar__checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.summary {
+    font-weight: 600;
+}
+
+.styled-details__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.radar-link {
+    padding: 4px 8px;
+    display: block;
+    color: var(--primary-900, black);
+    text-decoration: none;
+}
+
+.radar-link--active {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightgrey);
+    border-radius: 4px;
+}
+
+.toggle {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+}

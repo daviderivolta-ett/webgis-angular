@@ -7,6 +7,7 @@ export class AppConfig {
     public layerCategoriesUri: string = '';
     public apiConfigUri: string = '';
     public tablesConfigUri: string = '';
+    public radarConfigUri: string = '';
     public stationsConfigUri: string = '';
     public stationsPopupConfigUri: string = '';
     public sensorTypesUri: string = '';
@@ -33,6 +34,7 @@ export class AppConfig {
         config.layerCategoriesUri = _get<string>(object['layerCategoriesUri'], '');
         config.apiConfigUri = _get<string>(object['apiConfigUri'], '');
         config.tablesConfigUri = _get<string>(object['tablesConfigUri'], '');
+        config.radarConfigUri = _get<string>(object['radarConfigUri'], '');
         config.stationsConfigUri = _get<string>(object['stationsConfigUri'], '');
         config.stationsPopupConfigUri = _get<string>(object['stationsPopupConfigUri'], '');
         config.sensorTypesUri = _get<string>(object['sensorTypesConfigUri'], '');

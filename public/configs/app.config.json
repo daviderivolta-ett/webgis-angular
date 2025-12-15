@@ -7,6 +7,7 @@
     "colorScalesUri": "./configs/color-scales.config.json",
     "apiConfigUri": "./configs/api.config.json",
     "tablesConfigUri": "./configs/tables.config.json",
+    "radarConfigUri": "./configs/radar.config.json",
     "stationsConfigUri": "./configs/stations.config.json",
     "stationsPopupConfigUri": "./configs/stations-popup.config.json",
     "sensorTypesConfigUri": "./configs/sensor-types.config.json",

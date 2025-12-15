@@ -1,4 +1,39 @@
 <div class="page">
     <app-header [isAuth]="user ? true : false"></app-header>
-    <div class="main"></div>
+    <div class="main">
+        <!-- START SIDEBAR -->
+        <ng-template #groupTemplate let-group let-hasParent="hasParent" let-parentId="parentId">
+            @if (group.options) {
+                <details class="styled-details" [style.paddingLeft]="hasParent && '24px'" [attr.name]="parentId">
+                    <summary class="summary">
+                        <div class="summary__text">{{group.label || group.id}}</div>
+                    </summary>
+                    <div class="styled-details__content">
+                        @for (child of group.options; track $index) {
+                            <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: child, hasParent: true, parentId: group.id }"></ng-container>
+                        }
+                    </div>
+                </details>
+            }
+            @else {
+                <a class="radar-link" [routerLink]="'/radar/' + group.id" routerLinkActive="radar-link--active">{{group.label || group.id}}</a>
+            }
+        </ng-template>
+
+        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">
+                <h3>Tabelle</h3>
+                <div class="sidebar__checkboxes">
+                    @for (group of navGroups; track group.id) {
+                        <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: group, hasParent: false, parentId: 'group' }"></ng-container>
+                    }
+                </div>
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <!-- START TOGGLE -->
+        <app-toggle class="toggle" [options]="[{id: 'last', label: 'Ultima immagine', iconUrl: './images/icons/image_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}, {id: 'animation', label: 'Animazione', iconUrl: './images/icons/video_camera_back_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}]"></app-toggle>
+        <!-- END TOGGLE -->
+    </div>
 </div>

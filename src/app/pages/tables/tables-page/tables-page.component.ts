@@ -64,7 +64,6 @@ export class TablesPageComponent {
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
-  public stationsTableUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
@@ -89,7 +88,6 @@ export class TablesPageComponent {
     this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
-    this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
@@ -100,7 +98,7 @@ export class TablesPageComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
+  public ngOnInit(): void {       
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
 
     this.route.paramMap.subscribe(() => {
