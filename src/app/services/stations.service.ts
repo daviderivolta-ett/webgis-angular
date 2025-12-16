@@ -90,9 +90,7 @@ export class StationsService {
   }
 
   public parseTimeSerie(data: any, params: string[]): Map<string, [number, number][]> {
-    if (!Array.isArray(data)) return new Map();
-
-    console.log(data);    
+    if (!Array.isArray(data)) return new Map();  
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
@@ -117,7 +115,7 @@ export class StationsService {
         ] as [number, number])
 
       result.set(param, serie);
-    })
+    })   
 
     return result;
   }
@@ -192,15 +190,15 @@ export class StationsService {
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
-      .then((data: Map<string, [number, number][]>) => {
+      .then((data: Map<string, [number, number][]>) => {      
         const chartData: MapChartData[] = [];
 
         sensorTypes.forEach(t => {
-          if (sensors.some(s => `${s.id}---cumulative` === t.id)) sensors.push(t);
+          if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
         });
-
+        
         for (const entry of data.entries()) {
-          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
+          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);        
           if (!sensor) continue;
 
           const chartSerie: MapChartData = new MapChartData(

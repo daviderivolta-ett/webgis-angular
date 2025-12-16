@@ -437,7 +437,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {
+      .then((newChart: MapChart) => {      
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {
