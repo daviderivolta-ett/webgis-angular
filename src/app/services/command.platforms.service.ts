@@ -37,7 +37,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);         
 
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1);
         } catch (error) {
