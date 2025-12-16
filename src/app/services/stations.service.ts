@@ -41,7 +41,7 @@ export class StationsService {
 
   public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {  
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (token) headers['Authorization'] = `Bearer ${token}`;    
 
     return fetch(url, {
       method: 'PATCH',
