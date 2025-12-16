@@ -124,19 +124,22 @@ export class StationsSettingsPageComponent {
     this.filteredStations = this.stations.filter((s) => s.id.toLowerCase().includes(value.toLowerCase()));
   }
 
-  public onFormSubmit(): void {
+  public async onFormSubmit(): Promise<void> {
     const changes: Record<string, any[]> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
     const result = this._createStationsOnFormChanges(changes);
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
 
     this.isLoading = true;
-    try {
-      this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.authService.getAccessToken());
-    } catch (error: unknown) {
-      this.snackbarsService.createSnackbar(error instanceof Error ? error.message : 'Errore nel recupero dei parametri delle stazioni', 'error', true);
-    } finally {
-      this.isLoading = false;
-      this.form.markAsPristine();
-    }
+    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.authService.getAccessToken())
+      .then(() => {
+        this.snackbarsService.createSnackbar('Stato della stazione aggiornato con successo.', 'success', true)
+      })
+      .catch((error: unknown) => {
+        this.snackbarsService.createSnackbar(error instanceof Error ? error.message : 'Errore nel recupero dei parametri delle stazioni', 'error', true)
+      })
+      .finally(() => {
+        this.isLoading = false;
+        this.form.markAsPristine();
+      })
   }
 }
