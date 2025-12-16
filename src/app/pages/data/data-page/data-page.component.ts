@@ -187,17 +187,6 @@ export class DataPageComponent {
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
-
-        const a = this.stations
-          .filter((s) => {
-            return s.sensors.some((t: Sensor) => t.type === 'sunshine_duration')
-          })
-          .map((s) => ({
-            label: s.name ?? s.id,
-            value: s.id
-          }))
-
-        console.log(JSON.stringify(a));
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
