@@ -53,11 +53,12 @@ export class PlatformsCommandService implements Command {
         for (const feature of geoJSON.features) {
             const code = feature.properties?.['stationCode'];
             const dateStr = feature.properties?.['referenceDate'];
-            const value = feature.properties?.['value'];
-            const intensity = feature.properties?.['intensity'];
+            
+            // const value = feature.properties?.['value'];
+            // const intensity = feature.properties?.['intensity'];
 
             if (!code || !dateStr) continue;
-            if (!value && !intensity) continue;
+            // if (!value && !intensity) continue;
 
             const current = map.get(code);
             const newDate = new Date(dateStr);
