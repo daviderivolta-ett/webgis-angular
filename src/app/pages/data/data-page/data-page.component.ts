@@ -169,6 +169,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
+    this.cdRef.detectChanges();
     this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
@@ -437,7 +438,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {      
+      .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {
