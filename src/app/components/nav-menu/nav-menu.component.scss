@@ -50,7 +50,7 @@ $gap: 8px;
     background-color: var(--primary-900, black);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
     .menu {
         gap: unset;
         justify-content: space-around;
