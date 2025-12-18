@@ -12,7 +12,8 @@ type PlotlyChartData = {
   yLabel?: string;
   yUnit?: string;
   yRange?: any[];
-  needsAdditionalYAxis?: boolean
+  needsAdditionalYAxis?: boolean;
+  isMainYAxis?: boolean;
 }
 
 /** Component */
@@ -137,7 +138,6 @@ export class PlotlyChartComponent {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
           this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
           this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
-          // this._parseData({ ...serie, data: serie.data }),
         type: serie.type,
         name: serie.legend ?? undefined,
         yaxis: yaxisName
@@ -223,7 +223,9 @@ export class PlotlyChartComponent {
 
     let additionalYAxisCounter: number = 2;
 
-    data.forEach((d: PlotlyChartData, i: number) => {
+    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis);
+
+    data.forEach((d: PlotlyChartData) => {
       let axisName: string;
       let axisShortName: string;
 
@@ -238,7 +240,10 @@ export class PlotlyChartComponent {
 
       (layout as any)[axisName] = {
         title: {
-          text: (d.yLabel && d.unit) ? `${d.yLabel} (${d.unit})` : undefined,
+          text: !mainYAxis ?
+            ((d.yLabel && d.unit) ? `${d.yLabel} (${d.unit})` : undefined) :
+            (mainYAxis.yLabel && mainYAxis.unit) ? `${mainYAxis.yLabel} (${mainYAxis.unit})` : undefined
+          ,
           font: {
             size: 10,
             weight: 400,

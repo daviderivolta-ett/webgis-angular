@@ -391,7 +391,7 @@
         {
             "id": "mean_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura media",
+            "label": "Temperatura",
             "chartType": "scatter",
             "style": {
                 "color": "#7cb5ec"
@@ -405,7 +405,8 @@
             "relatedSensors": [
                 "min_air_temp",
                 "max_air_temp"
-            ]
+            ],
+            "isMainYAxis": true
         },
         {
             "id": "max_air_temp",
@@ -465,7 +466,7 @@
         {
             "id": "mean_wind_speed",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Velocità del vento media",
+            "label": "Velocità del vento",
             "chartType": "scatter",
             "unit": "km/h",
             "range": [
@@ -476,7 +477,8 @@
             "relatedSensors": [
                 "wind_gust",
                 "prevailing_wind_dir"
-            ]
+            ],
+            "isMainYAxis": true
         },
         {
             "id": "wind_gust",
@@ -612,5 +614,5 @@
             "relatedSensors": []
         }
     ],
-    "lastModified": "2025-12-09"
+    "lastModified": "2025-12-18"
 }

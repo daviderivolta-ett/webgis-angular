@@ -12,9 +12,6 @@ export class MapChart {
     public xLabel?: string;
     public xUnit?: string;
     public xRange?: any[];
-    // public yLabel?: string;
-    // public yUnit?: string;
-    // public yRange?: any[];
 
     constructor(
         stationId: string,
@@ -27,9 +24,6 @@ export class MapChart {
         xLabel?: string,
         xUnit?: string,
         xRange?: any[],
-        // yLabel?: string,
-        // yUnit?: string,
-        // yRange?: any[]
     ) {
         this.id = id ?? `${new Date().getTime() + Math.random().toString(36).substring(2, 10)}`;
         this.stationId = stationId;
@@ -41,8 +35,5 @@ export class MapChart {
         this.xLabel = xLabel;
         this.xUnit = xUnit;
         this.xRange = xRange;
-        // this.yLabel = yLabel;
-        // this.yUnit = yUnit;
-        // this.yRange = yRange;
     }
 }

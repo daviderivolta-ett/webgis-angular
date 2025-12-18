@@ -197,8 +197,8 @@ export class DataPageComponent {
 
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
-      .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
+      .then((data) => {      
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));        
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
@@ -332,8 +332,7 @@ export class DataPageComponent {
     });
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {
-    console.log(data);    
+  public onMapMarkerClicked(data: Record<string, any>[]): void {  
     const stations = data.map((d: any) => {
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';
