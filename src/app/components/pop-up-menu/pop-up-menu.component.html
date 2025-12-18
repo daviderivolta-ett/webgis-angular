@@ -2,7 +2,7 @@
     <button type="button" class="pop-up-menu__toggle fab" [class.pop-up-menu__toggle--open]="isOpen" (click)="togglePopUpMenu(!isOpen)">
         <span class="pop-up-menu__toggle-icon" [style.maskImage]="'url(' + iconUrl() + ')'" [style.webkitMaskImage]="'url(' + iconUrl() + ')'"></span>
     </button>
-    <div class="pop-up-menu__content" [style.overflow]="hasOverflow() ? 'visible' : undefined" [style.minHeight]="maxHeight()" [class.pop-up-menu__content--open]="isOpen" [style.transformOrigin]="(finalPosition[0] === 'bottom' ? 'top' : 'bottom') + ' ' + (finalPosition[1] === 'left' ? 'right' : 'left')" [style.bottom]="finalPosition[0] === 'top' ? '0' : 'unset'" [style.top]="finalPosition[0] === 'bottom' ? '0' : 'unset'" [style.right]="finalPosition[1] === 'left' ? '48px' : 'unset'" [style.left]="finalPosition[1] === 'right' ? '48px' : 'unset'">
+    <div class="pop-up-menu__content" [style.backgroundColor]="backgroundColor()" [style.borderColor]="borderColor()" [style.overflow]="hasOverflow() ? 'visible' : undefined" [style.minHeight]="maxHeight()" [class.pop-up-menu__content--open]="isOpen" [style.transformOrigin]="(finalPosition[0] === 'bottom' ? 'top' : 'bottom') + ' ' + (finalPosition[1] === 'left' ? 'right' : 'left')" [style.bottom]="finalPosition[0] === 'top' ? '0' : 'unset'" [style.top]="finalPosition[0] === 'bottom' ? '0' : 'unset'" [style.right]="finalPosition[1] === 'left' ? '48px' : 'unset'" [style.left]="finalPosition[1] === 'right' ? '48px' : 'unset'">
         <ng-content ngProjectAs="pop-up-menu-content"></ng-content>
     </div>
 </div>

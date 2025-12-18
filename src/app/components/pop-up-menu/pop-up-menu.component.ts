@@ -15,6 +15,8 @@ export class PopUpMenuComponent {
   public maxHeight = input<string>('50px');
   public position = input<string>('top-right');
   public hasOverflow = input<boolean>(false);
+  public backgroundColor = input<string>('#fff');
+  public borderColor = input<string>('#ddd');
 
   public finalPosition: ['top' | 'bottom', 'left' | 'right'] = ['top', 'right'];
 
