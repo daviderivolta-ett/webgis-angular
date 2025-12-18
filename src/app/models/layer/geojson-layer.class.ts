@@ -12,12 +12,13 @@ export class GeoJsonLayer extends Layer {
         url: string,
         layerCategory?: string,
         label?: string,
+        longLabel?: string,
         iconUrl?: string,
         parameter?: string,
         multiplier?: number,
         markers?: MarkerMapping
     ) {
-        super(id, url, layerType, label, iconUrl, layerCategory);
+        super(id, url, layerType, label, longLabel, iconUrl, layerCategory);
         this.parameter = parameter;
         this.multiplier = multiplier;
         this.markers = markers;
@@ -35,6 +36,7 @@ export class GeoJsonLayer extends Layer {
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
+        if (typeof object['longLabel'] === 'string' && object['longLabel']) layer.longLabel = object['longLabel'];
         if ('legend' in object && object['legend']) layer.addLegendFromObject(object['legend']);
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         layer.requiresAuth = object['requiresAuth'] ?? false;

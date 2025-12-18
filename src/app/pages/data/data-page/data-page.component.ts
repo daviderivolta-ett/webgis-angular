@@ -283,7 +283,7 @@ export class DataPageComponent {
 
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
-    const chip = new Chip(event['id'], foundLayer.label ?? event['id'], iconUrl);
+    const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
     if (foundLayer instanceof WMSLayer) {

@@ -6,6 +6,7 @@ export abstract class Layer {
     layerType: string;
     layerCategory?: string;
     label?: string;
+    longLabel?: string;
     legend?: LayerLegend;
     iconUrl?: string;
     requiresAuth?: boolean;
@@ -17,6 +18,7 @@ export abstract class Layer {
         layerType: string,
         layerCategory?: string,
         label?: string,
+        longLabel?: string,
         iconUrl?: string
     ) {
         this.id = id;
@@ -24,6 +26,7 @@ export abstract class Layer {
         this.layerType = layerType;
         this.layerCategory = layerCategory;
         this.label = label;
+        this.longLabel = longLabel;
         this.iconUrl = iconUrl;
     }
 
