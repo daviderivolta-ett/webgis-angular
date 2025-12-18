@@ -145,7 +145,7 @@
         {
             "id": "rain",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#E0EBFF",
                 "#B5C9FF",
                 "#8EB2FF",
@@ -208,7 +208,7 @@
         {
             "id": "wind",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#99DDB4",
                 "#30B4FB",
                 "#1991F9",
@@ -243,7 +243,7 @@
         {
             "id": "sunshine_duration",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#00F9E1",
                 "#00DA3E",
                 "#93E451",
@@ -259,7 +259,7 @@
         {
             "id": "snow",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#E0EBFF",
                 "#B5C9FF",
                 "#8EB2FF",
