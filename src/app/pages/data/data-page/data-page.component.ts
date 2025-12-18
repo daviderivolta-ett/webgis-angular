@@ -317,12 +317,12 @@ export class DataPageComponent {
   }
 
   private _refreshLayers(): void {
-    const currentLayerIds = Array.from(this._currentDataLayers.values()).flat();
+    const currentLayerIds: string[] = Array.from(this._currentDataLayers.values()).flat();
 
     if (currentLayerIds.length === 0) {
       if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
       return;
-    }
+    }   
 
     const allLayers = LayerGroup.getAllLayers(this.dataLayers);
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));

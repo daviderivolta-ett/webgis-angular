@@ -16,7 +16,8 @@ export class TimePlayerComponent {
   /** Properties */
   /** UI */
   public form: FormGroup = new FormGroup({
-    date: new FormControl(this._truncateDateToFullHour(this._toDatetimeLocal(new Date())), [Validators.required])
+    // date: new FormControl(this._truncateDateToFullHour(this._toDatetimeLocal(new Date())), [Validators.required])
+    date: new FormControl('', [Validators.required])
   }, {
     updateOn: 'blur'
   });
@@ -43,10 +44,15 @@ export class TimePlayerComponent {
     value ? this._play() : this._stop();
   }
 
+  /** Component lifecycle */
+  public ngOnInit(): void {
+    this.patchValue(new Date(), true);
+  }
+
   /** Methods */
   /** Form */
-  public patchValue(value: Date): void {
-    this.form.patchValue({ date: this._toDatetimeLocal(value) }, { emitEvent: false });
+  public patchValue(value: Date, emitEvent: boolean = false): void {
+    this.form.patchValue({ date: this._toDatetimeLocal(value) }, { emitEvent });
   }
 
   private _onFormChange(changes: any): void {
