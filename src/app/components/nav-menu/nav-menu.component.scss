@@ -45,9 +45,16 @@ $gap: 8px;
 
 .menu__item-icon {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     background-color: var(--primary-900, black);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.menu__item-text {
+    font-size: .9rem;
 }
 
 @media screen and (max-width: 992px) {
@@ -63,5 +70,10 @@ $gap: 8px;
 
     .menu__item-text {
         display: none;
+    }
+
+    .menu__item-icon {
+        width: 20px;
+        height: 20px;
     }
 }
