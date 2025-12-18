@@ -333,6 +333,7 @@ export class DataPageComponent {
   }
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
+    console.log(data);    
     const stations = data.map((d: any) => {
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';
@@ -347,7 +348,7 @@ export class DataPageComponent {
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });
+    });  
     this.popupData = [...stations];
   }
 
