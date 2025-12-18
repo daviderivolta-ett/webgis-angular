@@ -16,6 +16,9 @@ export class SidebarComponent {
   public height = input<string>('100%');
   public width = input<string>('360px');
   public currentWidth: string = this.width();
+  public backgroundColor = input<string>('#fff');
+  public borderColor = input<string>('#ddd');
+  public color = input<string>('#373737');
 
   public toggled = output<boolean>();
 
