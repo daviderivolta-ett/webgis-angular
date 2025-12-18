@@ -11,7 +11,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -42,7 +42,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -73,7 +73,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -104,7 +104,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -135,7 +135,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -166,7 +166,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -197,7 +197,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -228,7 +228,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -259,7 +259,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -290,7 +290,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -321,7 +321,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "relatedSensors": [],
             "compareWith": "rain"
@@ -352,7 +352,7 @@
             "unit": "mm",
             "range": [
                 0,
-                150
+                120
             ],
             "isFeatured": true,
             "relatedSensors": []

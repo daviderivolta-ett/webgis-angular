@@ -196,16 +196,23 @@ export class PlotlyChartComponent {
           }
         },
         range: this.xRange().length > 0 ? this.xRange() : undefined,
-        nticks: 20,
         type: 'date',
-        // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
-        // tickformat: '%Y-%m-%d h:%H:%M',
-        tickformat: undefined,
+        ticklabelmode: 'instant',
+        showgrid: true,
+        gridwidth: 1,
         automargin: true,
         tickformatstops: [
           {
-            dtickrange: ["M1", "M1"],
-            value: "%d %b"
+            dtickrange: [null, "D1"],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: ["D1", "M1"],
+            value: "%d/%m"
+          },
+          {
+            dtickrange: ["M1", null],
+            value: "%b %Y"
           }
         ]
       },
@@ -255,7 +262,8 @@ export class PlotlyChartComponent {
         nticks: 20,
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
-        side: d.needsAdditionalYAxis ? 'right' : 'left'
+        side: d.needsAdditionalYAxis ? 'right' : 'left',
+        showgrid: mainYAxis
       }
 
       if (d.unit !== '°') {
