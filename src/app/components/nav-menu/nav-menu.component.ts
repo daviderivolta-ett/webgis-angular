@@ -50,7 +50,7 @@ export class NavMenuComponent {
       requiresAuth: false
     },
     {
-      path: '',
+      path: 'https://omirl-dev-ett.cfmi.arpal.org/dashboard',
       label: 'Dashboard',
       iconUrl: 'images/icons/open_in_new_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
       requiresAuth: true,
