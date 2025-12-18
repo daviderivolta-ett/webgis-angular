@@ -320,7 +320,10 @@ export class PlotlyChartComponent {
       responsive: true,
       displaylogo: false,
       showAxisDragHandles: false,
-      modeBarButtonsToRemove: ['toImage', 'autoScale2d'],
+      modeBarButtonsToRemove: [
+        'toImage',
+        'autoScale2d'
+      ],
       modeBarButtonsToAdd: [
         {
           title: 'Download plot as png',

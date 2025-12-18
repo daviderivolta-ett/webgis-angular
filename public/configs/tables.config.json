@@ -294,7 +294,7 @@
         },
         {
             "id": "massimi-precipitazione",
-            "label": "Massimi di precipitazione",
+            "label": "Massimi di giornalieri di precipitazione",
             "options": [
                 {
                     "id": "precipitations-max-warn-areas",
