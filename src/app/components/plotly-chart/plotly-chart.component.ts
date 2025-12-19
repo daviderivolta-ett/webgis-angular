@@ -187,15 +187,38 @@ export class PlotlyChartComponent {
       },
       xaxis: {
         title: {
-          // text: this._xUnit,
           text: this.xLabel(),
           font: {
             size: 10,
             weight: 400,
             color: '#b0b0b0'
-          }
+          },
         },
         range: this.xRange().length > 0 ? this.xRange() : undefined,
+        rangeselector: {
+          bordercolor: '#ddd',
+          bgcolor: '#fff',
+          activecolor: '#eeeeff',
+          borderwidth: 1,
+          buttons: [
+            {
+              step: 'hour',
+              stepmode: 'backward',
+              count: 24,
+              label: '24h'
+            },
+            {
+              step: 'hour',
+              stepmode: 'backward',
+              count: 48,
+              label: '48h'
+            },
+            {
+              step: 'all',
+              label: 'Default'
+            }
+          ]
+        },
         type: 'date',
         ticklabelmode: 'instant',
         showgrid: true,
