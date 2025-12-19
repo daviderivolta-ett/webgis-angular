@@ -322,7 +322,7 @@ export class PlotlyChartComponent {
       showAxisDragHandles: false,
       modeBarButtonsToRemove: [
         'toImage',
-        // 'autoScale2d'
+        'autoScale2d'
       ],
       modeBarButtonsToAdd: [
         {
