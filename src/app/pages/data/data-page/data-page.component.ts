@@ -197,8 +197,8 @@ export class DataPageComponent {
 
     this.isLoading = true;
     this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
-      .then((data) => {      
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));        
+      .then((data) => {
+        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
@@ -281,30 +281,23 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
+    // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
     const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
-    if (foundLayer instanceof WMSLayer) {
-      this.layersService.getWMSLayerLegend(foundLayer)
-        .then((imgUrl: string) => {
-          this.wmsLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: '', imgUrl, date: this.selectedDate ?? new Date() });
-        })
-        .catch((err: unknown) => this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore', 'error', true));
-    }
-
-    if (foundLayer instanceof GeoJsonLayer) {
-      if (!foundLayer || !foundLayer.legend) return;
-      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-      if (!colorScale) return;
-      this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
-    }
-
+    // Refresh
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
     if (!this.selectedDate) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
+
+    // Legends
+    if (!foundLayer || !foundLayer.legend) return;
+    const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
+    if (!colorScale) return;
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -322,7 +315,7 @@ export class DataPageComponent {
     if (currentLayerIds.length === 0) {
       if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
       return;
-    }   
+    }
 
     const allLayers = LayerGroup.getAllLayers(this.dataLayers);
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
@@ -332,7 +325,7 @@ export class DataPageComponent {
     });
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {  
+  public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
       if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
         d['stationCode'] = 'Fulminazione';
@@ -347,7 +340,7 @@ export class DataPageComponent {
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
       return station.addSensorsFromStationLists(this.stations);
-    });  
+    });
     this.popupData = [...stations];
   }
 
