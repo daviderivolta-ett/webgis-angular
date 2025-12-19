@@ -230,9 +230,9 @@ export class PlotlyChartComponent {
 
     let additionalYAxisCounter: number = 2;
 
-    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis);
+    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis); 
 
-    data.forEach((d: PlotlyChartData) => {
+    data.forEach((d: PlotlyChartData, i: number) => {      
       let axisName: string;
       let axisShortName: string;
 
@@ -263,26 +263,26 @@ export class PlotlyChartComponent {
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
         side: d.needsAdditionalYAxis ? 'right' : 'left',
-        showgrid: mainYAxis
+        showgrid: axisName === 'yaxis' ? true : false
       }
 
-      if (d.unit !== '°') {
-        layout.shapes?.push({
-          type: 'line',
-          xref: 'paper',
-          x0: 0,
-          x1: 1,
-          yref: axisShortName as any,
-          y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-          y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-          line: {
-            color: 'rgba(255, 0, 0, .2)',
-            width: 4
-          }
-        });
-      }
+      // if (d.unit !== '°') {
+      //   layout.shapes?.push({
+      //     type: 'line',
+      //     xref: 'paper',
+      //     x0: 0,
+      //     x1: 1,
+      //     yref: axisShortName as any,
+      //     y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+      //     y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+      //     line: {
+      //       color: 'rgba(255, 0, 0, .2)',
+      //       width: 4
+      //     }
+      //   });
+      // }
     });
-
+  
     return layout;
   }
 
