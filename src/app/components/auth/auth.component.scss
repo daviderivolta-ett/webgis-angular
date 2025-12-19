@@ -14,7 +14,7 @@
         color: var(--primary-500, blue);
         background-color: var(--primary-100, lightgrey);
 
-        .auth-btn__icon  {
+        .auth-btn__icon {
             background-color: var(--primary-500, blue);
         }
     }
@@ -22,17 +22,29 @@
 
 .auth-btn__icon {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     background-color: var(--primary-900, black);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
 }
 
-@media screen and (max-width: 768px) {
+.auth-btn__text {
+    font-size: .9rem;
+}
+
+@media screen and (max-width: 992px) {
     .auth-btn {
         padding: 8px;
     }
 
     .auth-btn__text {
         display: none;
+    }
+
+    .auth-btn__icon {
+        width: 20px;
+        height: 20px;
     }
 }

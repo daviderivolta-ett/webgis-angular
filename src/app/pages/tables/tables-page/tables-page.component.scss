@@ -7,7 +7,7 @@
 }
 
 .content {
-    width: 92%;
+    width: 970px;
     margin: auto;
     padding: 40px 0;
 }
@@ -94,6 +94,12 @@ app-datepicker {
     th,
     td {
         min-width: 120px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .content {
+        width: 92%;
     }
 }
 

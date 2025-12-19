@@ -217,9 +217,8 @@ export class DataPageComponent {
     layers.forEach((l: Layer) => {
       // if (l.requiresAuth && !this.user) return;
       this._currentDataLayers = this.layersService.checkLayerCategories(l, true, this.currentDataLayers.map, this._layerCategories, !!this.user);
-    })
-
-    this._updateMultipleLayers(undefined);
+    });
+    this._updateMultipleLayers(undefined, true);
   }
 
   private _updateLayerQueryParams(activeLayersIds: string[]): void {
@@ -282,30 +281,23 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
+    // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
-    const chip = new Chip(event['id'], foundLayer.label ?? event['id'], iconUrl);
+    const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
-    if (foundLayer instanceof WMSLayer) {
-      this.layersService.getWMSLayerLegend(foundLayer)
-        .then((imgUrl: string) => {
-          this.wmsLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: '', imgUrl, date: this.selectedDate ?? new Date() });
-        })
-        .catch((err: unknown) => this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore', 'error', true));
-    }
-
-    if (foundLayer instanceof GeoJsonLayer) {
-      if (!foundLayer || !foundLayer.legend) return;
-      const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-      if (!colorScale) return;
-      this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
-    }
-
+    // Refresh
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
     if (!this.selectedDate) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
+
+    // Legends
+    if (!foundLayer || !foundLayer.legend) return;
+    const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
+    if (!colorScale) return;
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -318,7 +310,7 @@ export class DataPageComponent {
   }
 
   private _refreshLayers(): void {
-    const currentLayerIds = Array.from(this._currentDataLayers.values()).flat();
+    const currentLayerIds: string[] = Array.from(this._currentDataLayers.values()).flat();
 
     if (currentLayerIds.length === 0) {
       if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
@@ -437,7 +429,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {      
+      .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {
@@ -568,19 +560,22 @@ export class DataPageComponent {
     this._updateMultipleLayers(date);
   }
 
-  private _updateMultipleLayers(date: Date | undefined) {
+  private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
-    layersToUpdate
+
+    // Remove every not-timedimension layer (except in case of map reset)
+    [...layersToUpdate, ...(isReset ? layersToKeep : [])]
       .reverse()
       .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, false));
 
-    // Call command for every not-timedimension layer
+    // Call command for every not-timedimension layer (except in case of map reset)
     const promises: Promise<void>[] = [];
-    layersToUpdate.forEach((id: string) => {
-      const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
-      if (foundLayer) promises.push(this._executeAction(foundLayer, date));
-    });
+    [...layersToUpdate, ...(isReset ? layersToKeep : [])]
+      .forEach((id: string) => {
+        const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
+        if (foundLayer) promises.push(this._executeAction(foundLayer, date));
+      });
 
     // Redraw interface
     Promise.allSettled(promises)

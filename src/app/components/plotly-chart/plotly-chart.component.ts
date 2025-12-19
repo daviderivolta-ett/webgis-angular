@@ -12,7 +12,8 @@ type PlotlyChartData = {
   yLabel?: string;
   yUnit?: string;
   yRange?: any[];
-  needsAdditionalYAxis?: boolean
+  needsAdditionalYAxis?: boolean;
+  isMainYAxis?: boolean;
 }
 
 /** Component */
@@ -137,7 +138,6 @@ export class PlotlyChartComponent {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
           this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
           this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
-          // this._parseData({ ...serie, data: serie.data }),
         type: serie.type,
         name: serie.legend ?? undefined,
         yaxis: yaxisName
@@ -187,25 +187,55 @@ export class PlotlyChartComponent {
       },
       xaxis: {
         title: {
-          // text: this._xUnit,
           text: this.xLabel(),
           font: {
             size: 10,
             weight: 400,
             color: '#b0b0b0'
-          }
+          },
         },
         range: this.xRange().length > 0 ? this.xRange() : undefined,
-        nticks: 20,
+        rangeselector: {
+          bordercolor: '#ddd',
+          bgcolor: '#fff',
+          activecolor: '#eeeeff',
+          borderwidth: 1,
+          buttons: [
+            {
+              step: 'hour',
+              stepmode: 'backward',
+              count: 24,
+              label: '24h'
+            },
+            {
+              step: 'hour',
+              stepmode: 'backward',
+              count: 48,
+              label: '48h'
+            },
+            {
+              step: 'all',
+              label: 'Default'
+            }
+          ]
+        },
         type: 'date',
-        // tickformat: this._dateAxis === 'x' ? '%Y-%m-%d h:%H:%M' : undefined,
-        // tickformat: '%Y-%m-%d h:%H:%M',
-        tickformat: undefined,
+        ticklabelmode: 'instant',
+        showgrid: true,
+        gridwidth: 1,
         automargin: true,
         tickformatstops: [
           {
-            dtickrange: ["M1", "M1"],
-            value: "%d %b"
+            dtickrange: [null, "D1"],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: ["D1", "M1"],
+            value: "%d/%m"
+          },
+          {
+            dtickrange: ["M1", null],
+            value: "%b %Y"
           }
         ]
       },
@@ -223,6 +253,8 @@ export class PlotlyChartComponent {
 
     let additionalYAxisCounter: number = 2;
 
+    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis);
+
     data.forEach((d: PlotlyChartData, i: number) => {
       let axisName: string;
       let axisShortName: string;
@@ -238,7 +270,10 @@ export class PlotlyChartComponent {
 
       (layout as any)[axisName] = {
         title: {
-          text: (d.yLabel && d.unit) ? `${d.yLabel} (${d.unit})` : undefined,
+          text: !mainYAxis ?
+            ((d.yLabel && d.unit) ? `${d.yLabel} (${d.unit})` : undefined) :
+            (mainYAxis.yLabel && mainYAxis.unit) ? `${mainYAxis.yLabel} (${mainYAxis.unit})` : undefined
+          ,
           font: {
             size: 10,
             weight: 400,
@@ -250,24 +285,25 @@ export class PlotlyChartComponent {
         nticks: 20,
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
-        side: d.needsAdditionalYAxis ? 'right' : 'left'
+        side: d.needsAdditionalYAxis ? 'right' : 'left',
+        showgrid: axisName === 'yaxis' ? true : false
       }
 
-      if (d.unit !== '°') {
-        layout.shapes?.push({
-          type: 'line',
-          xref: 'paper',
-          x0: 0,
-          x1: 1,
-          yref: axisShortName as any,
-          y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-          y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-          line: {
-            color: 'rgba(255, 0, 0, .2)',
-            width: 4
-          }
-        });
-      }
+      // if (d.unit !== '°') {
+      //   layout.shapes?.push({
+      //     type: 'line',
+      //     xref: 'paper',
+      //     x0: 0,
+      //     x1: 1,
+      //     yref: axisShortName as any,
+      //     y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+      //     y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
+      //     line: {
+      //       color: 'rgba(255, 0, 0, .2)',
+      //       width: 4
+      //     }
+      //   });
+      // }
     });
 
     return layout;
@@ -307,7 +343,10 @@ export class PlotlyChartComponent {
       responsive: true,
       displaylogo: false,
       showAxisDragHandles: false,
-      modeBarButtonsToRemove: ['toImage', 'autoScale2d'],
+      modeBarButtonsToRemove: [
+        'toImage',
+        'autoScale2d'
+      ],
       modeBarButtonsToAdd: [
         {
           title: 'Download plot as png',

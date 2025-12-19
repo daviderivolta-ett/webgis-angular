@@ -10,4 +10,5 @@ export interface SensorType {
     isFeatured: boolean;
     relatedSensors: string[];
     compareWith: string;
+    isMainYAxis?: boolean;
 }

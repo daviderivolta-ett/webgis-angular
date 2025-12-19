@@ -59,18 +59,34 @@ export const routes: Routes = [
         }
     },
     {
-        path: 'radar',
+        path: 'satellite',
         pathMatch: 'full',
-        redirectTo: 'radar/satellite_nord_visible'
+        redirectTo: 'satellite/satellite_nord_visible'
     },
     {
-        path: 'radar/:id',
-        title: 'OMIRL ARPAL - Satellite e radar',
+        path: 'satellite/:id',
+        title: 'OMIRL ARPAL - Satellite',
         loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
         resolve: {
             apisConfig: apisResolver,
             radarConfigGroups: radarConfigGroupsResolver
-        }
+        },
+        data: { type: 'satellite' }
+    },
+    {
+        path: 'radar',
+        pathMatch: 'full',
+        redirectTo: 'radar/radar_liguria_precipitations'
+    },
+    {
+        path: 'radar/:id',
+        title: 'OMIRL ARPAL - Radar',
+        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            radarConfigGroups: radarConfigGroupsResolver
+        },
+        data: { type: 'radar' }
     },
     {
         path: 'settings',

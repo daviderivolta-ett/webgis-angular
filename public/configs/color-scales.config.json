@@ -145,7 +145,7 @@
         {
             "id": "rain",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#E0EBFF",
                 "#B5C9FF",
                 "#8EB2FF",
@@ -206,9 +206,48 @@
             ]
         },
         {
+            "id": "temperature_alt",
+            "colors": [
+                "#FEEBEC",
+                "#E5CFC7",
+                "#E1AFC3",
+                "#D29BAF",
+                "#EC78B9 ",
+                "#DA5DC0",
+                "#BE10BE",
+                "#9D00C8",
+                "#7900E1",
+                "#8840D7",
+                "#5340E4",
+                "#1E3CEB",
+                "#0F6EFA",
+                "#009BF5",
+                "#14B4DC",
+                "#41D2FA",
+                "#05FAE1",
+                "#00FF55",
+                "#00DC00",
+                "#A0E632",
+                "#C3F53C",
+                "#CFED39",
+                "#DBE536",
+                "#E6DC32",
+                "#E6C832",
+                "#E6AF2D",
+                "#EB9628",
+                "#F08228",
+                "#F55F32",
+                "#FA3C3C",
+                "#E61E50",
+                "#CD0064",
+                "#AA0078",
+                "#87008C"
+            ]
+        },
+        {
             "id": "wind",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#99DDB4",
                 "#30B4FB",
                 "#1991F9",
@@ -241,9 +280,27 @@
             ]
         },
         {
+            "id": "humidity_alt",
+            "colors": [
+                "#FFFFFF",
+                "#E6C832",
+                "#E6DC32",
+                "#C3F53C",
+                "#A0E632",
+                "#00DC00",
+                "#00FF55",
+                "#05FAE1",
+                "#41D2FA",
+                "#14B4DC",
+                "#009BF5",
+                "#0F6EFA",
+                "#1E3CEB"
+            ]
+        },
+        {
             "id": "sunshine_duration",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#00F9E1",
                 "#00DA3E",
                 "#93E451",
@@ -259,7 +316,7 @@
         {
             "id": "snow",
             "colors": [
-                "#FEFEFE",
+                "#FFFFFF",
                 "#E0EBFF",
                 "#B5C9FF",
                 "#8EB2FF",
@@ -279,7 +336,7 @@
                 "#BE8CC8",
                 "#E1AFC3",
                 "#E1C8BE",
-                "#F0DCE1" 
+                "#F0DCE1"
             ]
         },
         {

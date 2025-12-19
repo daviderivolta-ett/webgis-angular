@@ -106,6 +106,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
@@ -168,6 +169,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
@@ -261,6 +263,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
@@ -382,8 +385,8 @@
             },
             "unit": "°C",
             "range": [
-                -20,
-                40
+                -4,
+                36
             ],
             "isFeatured": false,
             "relatedSensors": []
@@ -391,21 +394,22 @@
         {
             "id": "mean_air_temp",
             "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Temperatura media",
+            "label": "Temperatura",
             "chartType": "scatter",
             "style": {
                 "color": "#7cb5ec"
             },
             "unit": "°C",
             "range": [
-                -20,
-                40
+                -4,
+                36
             ],
             "isFeatured": true,
             "relatedSensors": [
                 "min_air_temp",
                 "max_air_temp"
-            ]
+            ],
+            "isMainYAxis": true
         },
         {
             "id": "max_air_temp",
@@ -417,8 +421,8 @@
             },
             "unit": "°C",
             "range": [
-                -20,
-                40
+                -4,
+                36
             ],
             "isFeatured": false,
             "relatedSensors": []
@@ -465,7 +469,7 @@
         {
             "id": "mean_wind_speed",
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
-            "label": "Velocità del vento media",
+            "label": "Velocità del vento",
             "chartType": "scatter",
             "unit": "km/h",
             "range": [
@@ -476,7 +480,8 @@
             "relatedSensors": [
                 "wind_gust",
                 "prevailing_wind_dir"
-            ]
+            ],
+            "isMainYAxis": true
         },
         {
             "id": "wind_gust",
@@ -528,7 +533,7 @@
             "unit": "Wm⁻²",
             "range": [
                 0,
-                1300
+                1200
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -579,7 +584,7 @@
             "chartType": "scatter",
             "unit": "V",
             "range": [
-                0,
+                7,
                 15
             ],
             "isFeatured": true,
@@ -606,11 +611,11 @@
             "unit": "cm",
             "range": [
                 0,
-                350
+                200
             ],
             "isFeatured": true,
             "relatedSensors": []
         }
     ],
-    "lastModified": "2025-12-09"
+    "lastModified": "2025-12-18"
 }

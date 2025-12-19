@@ -268,7 +268,6 @@ export class MapComponent {
     this._registerLayer(id, timeDimensionLayer);
   }
 
-
   public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {

@@ -4,10 +4,14 @@
     [style.height]="height()"
     [style.width]="currentWidth"
     [style.border-width]="side() === 'left' ? '0 1px 0 0' : '0 0 0 1px'"
+    [style.backgroundColor]="backgroundColor()"
+    [style.borderColor]="borderColor()"
+    [style.color]="color()"
 >
     <button type="button" class="sidebar__toggle fab"
         [style.right]="side() === 'left' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
         [style.left]="side() === 'right' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
+        [style.color]="color()"
         (click)="toggleSidebar(!isOpen)"
     >
         <span class="sidebar__toggle-icon" [style.maskImage]="'url(' + iconUrl() + ')'" [style.webkitMaskImage]="'url(' + iconUrl() + ')'"></span>

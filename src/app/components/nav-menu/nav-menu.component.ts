@@ -7,7 +7,8 @@ type AppRoute = {
   path: string,
   label: string,
   iconUrl: string,
-  requiresAuth: boolean
+  requiresAuth: boolean,
+  isExternal?: boolean
 }
 
 // Component
@@ -22,7 +23,7 @@ type AppRoute = {
 })
 export class NavMenuComponent {
   public isAuth = input<boolean>(false);
-  
+
   public menu: AppRoute[] = [
     {
       path: 'dati',
@@ -37,16 +38,29 @@ export class NavMenuComponent {
       requiresAuth: false
     },
     {
+      path: 'satellite',
+      label: 'Satellite',
+      iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
+      requiresAuth: false
+    },
+    {
+      path: 'radar',
+      label: 'Radar',
+      iconUrl: 'images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
+      requiresAuth: false
+    },
+    {
+      path: 'https://omirl-dev-ett.cfmi.arpal.org/dashboard',
+      label: 'Dashboard',
+      iconUrl: 'images/icons/open_in_new_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
+      requiresAuth: true,
+      isExternal: true
+    },
+    {
       path: 'settings',
       label: 'Configurazioni',
       iconUrl: 'images/icons/settings_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
       requiresAuth: true
-    },
-    {
-      path: 'radar',
-      label: 'Satellite e radar',
-      iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
-      requiresAuth: false
     }
   ];
 }

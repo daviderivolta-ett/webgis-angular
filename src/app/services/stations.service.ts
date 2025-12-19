@@ -212,12 +212,13 @@ export class StationsService {
             sensor.label,
             `(${sensor.unit})`,
             sensor.range,
-            sensor.id.includes('--cumulative') ? true : false
+            sensor.id.includes('--cumulative') ? true : false,
+            sensor.isMainYAxis ?? false
           );
 
           chartData.push(chartSerie);
         }
-
+      
         return {
           ...chartToUpdate,
           data: chartData,

@@ -12,7 +12,7 @@
         <div class="scale">
             <div class="scale__element scale__colors">
                 @for (item of colors(); track $index) {
-                    <div class="scale__color" [style.width]="colorWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
+                    <div class="scale__color" [style.width]="colorWidth + '%'" [style.backgroundColor]="item" [style.borderColor]="(item === 'white' || item === '#ffffff' || item === '#FFFFFF') && '#e0e0e0'" (mouseenter)="onColorMouseEnter($index)" (mouseleave)="hoveredLabel=null"></div>
                 }
             </div>
 

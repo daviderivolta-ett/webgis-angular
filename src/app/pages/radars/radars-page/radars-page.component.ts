@@ -1,6 +1,6 @@
 /** Libraries */
 import { Component, effect, ViewChild } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 /** Services */
@@ -23,8 +23,10 @@ import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../com
     /**Directives */
     RouterLink,
     NgTemplateOutlet,
-    RouterLinkActive
-],
+    RouterLinkActive,
+    /** Pipes */
+    TitleCasePipe
+  ],
   templateUrl: './radars-page.component.html',
   styleUrl: './radars-page.component.scss'
 })
@@ -36,6 +38,7 @@ export class RadarsPageComponent {
   /** Data */
   public user: Record<string, any> | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
+  public pageTitle: string = '';
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -47,6 +50,7 @@ export class RadarsPageComponent {
   ) {
     /** Resolvers */
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
+    this.pageTitle = this.route.snapshot.data['type'];
 
     /** Effetcs */
     effect(() => {
@@ -56,7 +60,10 @@ export class RadarsPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    this.navGroups = this._radarConfigGroups.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
+    const configGroup: RadarConfigGroup | undefined = this._initConfigGroup(this.pageTitle ?? 'radar');
+    if (!configGroup || !configGroup.options.every((c: RadarConfig | RadarConfigGroup) => c instanceof RadarConfigGroup)) return;
+
+    this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.subscribe(() => {
       const param: string | null = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
@@ -69,6 +76,16 @@ export class RadarsPageComponent {
     this.config = this._initConfig(id);
     if (!this.config) return;
     console.log(this.config);
+  }
+
+  private _initConfigGroup(id: string): RadarConfigGroup | undefined {
+    const config: RadarConfigGroup | undefined = this._radarConfigGroups.find(g => g.id === id);
+
+    if (!config) {
+      this._radarConfigGroups.length > 0 ? this.router.navigateByUrl(`/${id}/${this._radarConfigGroups[0].options[0].id}`) : '';
+      return undefined;
+    }
+    return config;
   }
 
   private _initConfig(id: string): RadarConfig | undefined {

@@ -8,6 +8,7 @@ export class MapChartData {
     public yUnit?: string;
     public yRange?: any[];
     public needsAdditionalYAxis?: boolean;
+    public isMainYAxis?: boolean;
 
     constructor(
         type: string,
@@ -18,7 +19,8 @@ export class MapChartData {
         yLabel?: string,
         yUnit?: string,
         yRange?: any[],
-        needsAdditionalYAxis?: boolean
+        needsAdditionalYAxis?: boolean,
+        isMainYAxis?: boolean
     ) {
         this.type = type;
         this.data = data;
@@ -29,5 +31,6 @@ export class MapChartData {
         this.yUnit = yUnit,
         this.yRange = yRange
         this.needsAdditionalYAxis = needsAdditionalYAxis;
+        this.isMainYAxis = isMainYAxis;
     }
 }

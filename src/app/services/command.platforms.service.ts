@@ -50,14 +50,11 @@ export class PlatformsCommandService implements Command {
     private _filterPlatforms(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
         const map = new Map<string, GeoJSON.Feature>();
 
-        for (const feature of geoJSON.features) {
+        for (const feature of geoJSON.features) {           
             const code = feature.properties?.['stationCode'];
-            const dateStr = feature.properties?.['referenceDate'];
-            const value = feature.properties?.['value'];
-            const intensity = feature.properties?.['intensity'];
+            const dateStr = feature.properties?.['referenceDate'];         
 
             if (!code || !dateStr) continue;
-            if (!value && !intensity) continue;
 
             const current = map.get(code);
             const newDate = new Date(dateStr);
@@ -169,7 +166,7 @@ export class PlatformsCommandService implements Command {
                     ...feature,
                     properties: {
                         ...properties,
-                        value: value ? (value * multiplier) : undefined
+                        value: (value !== undefined) ? (value * multiplier) : undefined
                     }
                 }
             })

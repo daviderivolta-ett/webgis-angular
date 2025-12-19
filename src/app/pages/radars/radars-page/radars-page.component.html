@@ -20,9 +20,9 @@
             }
         </ng-template>
 
-        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc">
             <div ngProjectAs="sidebar-content" class="sidebar-content">
-                <h3>Tabelle</h3>
+                <h3>{{pageTitle | titlecase}}</h3>
                 <div class="sidebar__checkboxes">
                     @for (group of navGroups; track group.id) {
                         <ng-container *ngTemplateOutlet="groupTemplate; context: { $implicit: group, hasParent: false, parentId: 'group' }"></ng-container>

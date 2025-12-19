@@ -12,10 +12,11 @@ export class WMSLayer extends Layer {
         params: WMSLayerParams,
         opacity?: number,
         label?: string,
+        longLabel?: string,
         iconUrl?: string,
         layerCategory?: string
     ) {
-        super(id, url, layerType, label, iconUrl, layerCategory);
+        super(id, url, layerType, label, longLabel, iconUrl, layerCategory);
         this.url = url;
         this.params = params;
         this.opacity = opacity ?? 1
@@ -43,6 +44,7 @@ export class WMSLayer extends Layer {
 
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
+        if (typeof object['longLabel'] === 'string' && object['longLabel']) layer.longLabel = object['longLabel'];
         if ('legend' in object && object['legend']) layer.addLegendFromObject(object['legend']);
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         layer.requiresAuth = object['requiresAuth'] ?? false;

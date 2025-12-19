@@ -6,13 +6,127 @@
             "maxNumber": 4,
             "options": [
                 {
-                    "id": "station_precipitations",
-                    "label": "Precipitazioni",
+                    "id": "station_precipitations_30m",
+                    "label": "Precipitazioni 30 minuti",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_30m",
+                    "parameter": "rain_30m",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_1h",
+                    "label": "Precipitazioni 1 ora",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/rain_01h",
                     "parameter": "rain_01h",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_3h",
+                    "label": "Precipitazioni 3 ore",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_03h",
+                    "parameter": "rain_03h",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_24h",
+                    "label": "Precipitazioni 24 ore",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_24h",
+                    "parameter": "rain_24h",
                     "legend": {
                         "colorScaleId": "rain",
                         "unit": "mm",
@@ -477,6 +591,7 @@
                                 {
                                     "id": "maps_precipitations_10min_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 10min interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -492,9 +607,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            0.2,
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5,
+                                            6,
+                                            8,
+                                            10,
+                                            12,
+                                            14,
+                                            16,
+                                            18,
+                                            20,
+                                            25,
+                                            30,
+                                            35,
+                                            40,
+                                            45,
+                                            50
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -503,6 +639,7 @@
                                 {
                                     "id": "maps_precipitations_10min_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 10min bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -514,7 +651,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_10min_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 10min compresori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -527,6 +665,7 @@
                                 {
                                     "id": "maps_precipitations_10min_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 10min comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -539,6 +678,7 @@
                                 {
                                     "id": "maps_precipitations_10min_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 10min piccoli bacini",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -551,6 +691,7 @@
                                 {
                                     "id": "maps_precipitations_10min_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 10min zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -570,6 +711,7 @@
                                 {
                                     "id": "maps_precipitations_30min_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 30min interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -585,9 +727,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            0.2,
+                                            0.5,
+                                            1,
+                                            2,
+                                            4,
+                                            6,
+                                            8,
+                                            10,
+                                            15,
+                                            20,
+                                            25,
+                                            30,
+                                            35,
+                                            40,
+                                            45,
+                                            50,
+                                            55,
+                                            60,
+                                            70,
+                                            80
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -596,6 +759,7 @@
                                 {
                                     "id": "maps_precipitations_30min_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 30min bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -607,7 +771,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_30min_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 30min comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -620,6 +785,7 @@
                                 {
                                     "id": "maps_precipitations_30min_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 30min comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -632,6 +798,7 @@
                                 {
                                     "id": "maps_precipitations_30min_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 30min bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -644,6 +811,7 @@
                                 {
                                     "id": "maps_precipitations_30min_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 30min zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -663,6 +831,7 @@
                                 {
                                     "id": "maps_precipitations_1h_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 1h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -678,9 +847,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            0.2,
+                                            0.5,
+                                            1,
+                                            2,
+                                            5,
+                                            10,
+                                            15,
+                                            20,
+                                            25,
+                                            30,
+                                            35,
+                                            40,
+                                            45,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            100,
+                                            120
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -689,6 +879,7 @@
                                 {
                                     "id": "maps_precipitations_1h_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 1h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -700,7 +891,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_1h_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 1h comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -713,6 +905,7 @@
                                 {
                                     "id": "maps_precipitations_1h_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 1h comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -725,6 +918,7 @@
                                 {
                                     "id": "maps_precipitations_1h_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 1h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -737,6 +931,7 @@
                                 {
                                     "id": "maps_precipitations_1h_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 1h zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -756,6 +951,7 @@
                                 {
                                     "id": "maps_precipitations_3h_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 3h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -771,9 +967,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            1,
+                                            5,
+                                            10,
+                                            15,
+                                            20,
+                                            25,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            100,
+                                            110,
+                                            120,
+                                            130,
+                                            140,
+                                            160,
+                                            180
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -782,6 +999,7 @@
                                 {
                                     "id": "maps_precipitations_3h_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 3h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -793,7 +1011,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_3h_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 3h comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -806,6 +1025,7 @@
                                 {
                                     "id": "maps_precipitations_3h_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 3h comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -818,6 +1038,7 @@
                                 {
                                     "id": "maps_precipitations_3h_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 3h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -830,6 +1051,7 @@
                                 {
                                     "id": "maps_precipitations_3h_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 3h zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -849,6 +1071,7 @@
                                 {
                                     "id": "maps_precipitations_6h_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 6h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -864,9 +1087,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            1,
+                                            5,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            100,
+                                            120,
+                                            140,
+                                            160,
+                                            180,
+                                            200,
+                                            220,
+                                            240,
+                                            270
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -875,6 +1119,7 @@
                                 {
                                     "id": "maps_precipitations_6h_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 6h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -886,7 +1131,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_6h_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 6h comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -899,6 +1145,7 @@
                                 {
                                     "id": "maps_precipitations_6h_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 6h comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -911,6 +1158,7 @@
                                 {
                                     "id": "maps_precipitations_6h_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 6h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -923,6 +1171,7 @@
                                 {
                                     "id": "maps_precipitations_6h_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 6h zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -942,6 +1191,7 @@
                                 {
                                     "id": "maps_precipitations_12h_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 12h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -957,9 +1207,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            60,
+                                            80,
+                                            100,
+                                            120,
+                                            140,
+                                            160,
+                                            180,
+                                            200,
+                                            225,
+                                            250,
+                                            275,
+                                            300,
+                                            325,
+                                            350,
+                                            400
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -968,6 +1239,7 @@
                                 {
                                     "id": "maps_precipitations_12h_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 12h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -979,7 +1251,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_12h_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 12h comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -992,6 +1265,7 @@
                                 {
                                     "id": "maps_precipitations_12h_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 12h comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -1004,6 +1278,7 @@
                                 {
                                     "id": "maps_precipitations_12h_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 12h bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -1016,6 +1291,7 @@
                                 {
                                     "id": "maps_precipitations_12h_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 12h zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -1035,6 +1311,7 @@
                                 {
                                     "id": "maps_precipitations_1d_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 1d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -1050,9 +1327,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            2,
+                                            10,
+                                            20,
+                                            40,
+                                            60,
+                                            80,
+                                            100,
+                                            125,
+                                            150,
+                                            175,
+                                            200,
+                                            225,
+                                            250,
+                                            275,
+                                            300,
+                                            325,
+                                            350,
+                                            400,
+                                            450,
+                                            500
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -1061,6 +1359,7 @@
                                 {
                                     "id": "maps_precipitations_1d_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 1d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -1072,7 +1371,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_1d_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 1d comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -1085,6 +1385,7 @@
                                 {
                                     "id": "maps_precipitations_1d_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 1d comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -1097,6 +1398,7 @@
                                 {
                                     "id": "maps_precipitations_1d_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 1d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -1109,6 +1411,7 @@
                                 {
                                     "id": "maps_precipitations_1d_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 1d zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -1128,6 +1431,7 @@
                                 {
                                     "id": "maps_precipitations_7d_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 7d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -1143,9 +1447,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            2,
+                                            10,
+                                            20,
+                                            40,
+                                            60,
+                                            80,
+                                            100,
+                                            125,
+                                            150,
+                                            175,
+                                            200,
+                                            225,
+                                            250,
+                                            275,
+                                            300,
+                                            325,
+                                            350,
+                                            400,
+                                            450,
+                                            500
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -1154,6 +1479,7 @@
                                 {
                                     "id": "maps_precipitations_7d_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 7d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -1166,6 +1492,7 @@
                                 {
                                     "id": "maps_precipitations_7d_basichydrogeologicalarea",
                                     "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Precipitazioni 7d comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -1178,6 +1505,7 @@
                                 {
                                     "id": "maps_precipitations_7d_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 7d comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -1190,6 +1518,7 @@
                                 {
                                     "id": "maps_precipitations_7d_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 7d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -1202,6 +1531,7 @@
                                 {
                                     "id": "maps_precipitations_7d_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 7d zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -1221,6 +1551,7 @@
                                 {
                                     "id": "maps_precipitations_15d_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 15d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -1236,9 +1567,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            2,
+                                            10,
+                                            20,
+                                            40,
+                                            60,
+                                            80,
+                                            100,
+                                            125,
+                                            150,
+                                            175,
+                                            200,
+                                            225,
+                                            250,
+                                            275,
+                                            300,
+                                            325,
+                                            350,
+                                            400,
+                                            450,
+                                            500
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -1247,6 +1599,7 @@
                                 {
                                     "id": "maps_precipitations_15d_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 15d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -1259,6 +1612,7 @@
                                 {
                                     "id": "maps_precipitations_15d_basichydrogeologicalarea",
                                     "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Precipitazioni 15d comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -1271,6 +1625,7 @@
                                 {
                                     "id": "maps_precipitations_15d_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 15d comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -1283,6 +1638,7 @@
                                 {
                                     "id": "maps_precipitations_15d_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 15d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -1295,6 +1651,7 @@
                                 {
                                     "id": "maps_precipitations_15d_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 15d zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -1314,6 +1671,7 @@
                                 {
                                     "id": "maps_precipitations_30d_interpolated",
                                     "label": "Interpolata",
+                                    "longLabel": "Precipitazioni 30d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.5,
@@ -1329,9 +1687,30 @@
                                         "srs": "EPSG:4326"
                                     },
                                     "legend": {
+                                        "colorScaleId": "rain",
                                         "unit": "mm",
-                                        "min": 0,
-                                        "max": 120
+                                        "steps": [
+                                            2,
+                                            10,
+                                            25,
+                                            50,
+                                            75,
+                                            100,
+                                            125,
+                                            150,
+                                            175,
+                                            200,
+                                            250,
+                                            300,
+                                            350,
+                                            400,
+                                            500,
+                                            600,
+                                            700,
+                                            800,
+                                            1000,
+                                            1200
+                                        ]
                                     },
                                     "action": {
                                         "id": "wms"
@@ -1340,6 +1719,7 @@
                                 {
                                     "id": "maps_precipitations_30d_basin",
                                     "label": "Bacini idrografici",
+                                    "longLabel": "Precipitazioni 30d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=BaciniIdrografici_wgs84_epsg4326",
@@ -1351,7 +1731,8 @@
                                 },
                                 {
                                     "id": "maps_precipitations_30d_basichydrogeologicalarea",
-                                    "label": "Comprensori idrogeologici di base",
+                                    "label": "Comprensori idrologici di base",
+                                    "longLabel": "Precipitazioni 30d comprensori idrologici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
@@ -1364,6 +1745,7 @@
                                 {
                                     "id": "maps_precipitations_30d_municipalities",
                                     "label": "Comuni",
+                                    "longLabel": "Precipitazioni 30d comuni",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComuniLiguria_wgs84_epsg4326",
@@ -1376,6 +1758,7 @@
                                 {
                                     "id": "maps_precipitations_30d_smallriverbasins",
                                     "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Precipitazioni 30d bacini idrografici",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
@@ -1388,6 +1771,7 @@
                                 {
                                     "id": "maps_precipitations_30d_warnareas",
                                     "label": "Zone allerta",
+                                    "longLabel": "Precipitazioni 30d zone di allerta",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
@@ -1425,9 +1809,22 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "humidity_alt",
                                 "unit": "%",
-                                "min": 0,
-                                "max": 100
+                                "steps": [
+                                    1,
+                                    2,
+                                    10,
+                                    20,
+                                    30,
+                                    40,
+                                    50,
+                                    60,
+                                    70,
+                                    80,
+                                    90,
+                                    98
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1451,9 +1848,22 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "humidity_alt",
                                 "unit": "%",
-                                "min": 0,
-                                "max": 100
+                                "steps": [
+                                    1,
+                                    2,
+                                    10,
+                                    20,
+                                    30,
+                                    40,
+                                    50,
+                                    60,
+                                    70,
+                                    80,
+                                    90,
+                                    98
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1477,9 +1887,22 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "humidity_alt",
                                 "unit": "%",
-                                "min": 0,
-                                "max": 100
+                                "steps": [
+                                    1,
+                                    2,
+                                    10,
+                                    20,
+                                    30,
+                                    40,
+                                    50,
+                                    60,
+                                    70,
+                                    80,
+                                    90,
+                                    98
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1503,9 +1926,22 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "unit": "",
-                                "min": 0,
-                                "max": 100
+                                "colorScaleId": "humidity_alt",
+                                "unit": "%",
+                                "steps": [
+                                    1,
+                                    2,
+                                    10,
+                                    20,
+                                    30,
+                                    40,
+                                    50,
+                                    60,
+                                    70,
+                                    80,
+                                    90,
+                                    98
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1537,9 +1973,43 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "temperature_alt",
                                 "unit": "°C",
-                                "min": -20,
-                                "max": 40
+                                "steps": [
+                                    -40,
+                                    -20,
+                                    -18,
+                                    -16,
+                                    -14,
+                                    -12,
+                                    -10,
+                                    -8,
+                                    -6,
+                                    -4,
+                                    -2,
+                                    0,
+                                    2,
+                                    4,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    22,
+                                    24,
+                                    26,
+                                    28,
+                                    30,
+                                    32,
+                                    24,
+                                    36,
+                                    38,
+                                    40,
+                                    100
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1563,9 +2033,43 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "temperature_alt",
                                 "unit": "°C",
-                                "min": -20,
-                                "max": 40
+                                "steps": [
+                                    -40,
+                                    -20,
+                                    -18,
+                                    -16,
+                                    -14,
+                                    -12,
+                                    -10,
+                                    -8,
+                                    -6,
+                                    -4,
+                                    -2,
+                                    0,
+                                    2,
+                                    4,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    22,
+                                    24,
+                                    26,
+                                    28,
+                                    30,
+                                    32,
+                                    24,
+                                    36,
+                                    38,
+                                    40,
+                                    100
+                                ]
                             },
                             "action": {
                                 "id": "wms"
@@ -1589,9 +2093,43 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
+                                "colorScaleId": "temperature_alt",
                                 "unit": "°C",
-                                "min": -20,
-                                "max": 40
+                                "steps": [
+                                    -40,
+                                    -20,
+                                    -18,
+                                    -16,
+                                    -14,
+                                    -12,
+                                    -10,
+                                    -8,
+                                    -6,
+                                    -4,
+                                    -2,
+                                    0,
+                                    2,
+                                    4,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    22,
+                                    24,
+                                    26,
+                                    28,
+                                    30,
+                                    32,
+                                    24,
+                                    36,
+                                    38,
+                                    40,
+                                    100
+                                ]
                             },
                             "action": {
                                 "id": "wms"
