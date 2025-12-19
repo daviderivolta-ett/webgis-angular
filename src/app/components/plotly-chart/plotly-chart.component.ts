@@ -230,9 +230,9 @@ export class PlotlyChartComponent {
 
     let additionalYAxisCounter: number = 2;
 
-    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis); 
+    const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis);
 
-    data.forEach((d: PlotlyChartData, i: number) => {      
+    data.forEach((d: PlotlyChartData, i: number) => {
       let axisName: string;
       let axisShortName: string;
 
@@ -282,7 +282,7 @@ export class PlotlyChartComponent {
       //   });
       // }
     });
-  
+
     return layout;
   }
 
@@ -322,7 +322,7 @@ export class PlotlyChartComponent {
       showAxisDragHandles: false,
       modeBarButtonsToRemove: [
         'toImage',
-        'autoScale2d'
+        // 'autoScale2d'
       ],
       modeBarButtonsToAdd: [
         {

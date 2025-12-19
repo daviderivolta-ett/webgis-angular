@@ -6,13 +6,127 @@
             "maxNumber": 4,
             "options": [
                 {
-                    "id": "station_precipitations",
-                    "label": "Precipitazioni",
+                    "id": "station_precipitations_30m",
+                    "label": "Precipitazioni 30 minuti",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_30m",
+                    "parameter": "rain_30m",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_1h",
+                    "label": "Precipitazioni 1 ora",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/rain_01h",
                     "parameter": "rain_01h",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_3h",
+                    "label": "Precipitazioni 3 ore",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_03h",
+                    "parameter": "rain_03h",
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
+                    "action": {
+                        "id": "platforms"
+                    }
+                },
+                {
+                    "id": "station_precipitations_24h",
+                    "label": "Precipitazioni 24 ore",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/water_drop_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/rain_24h",
+                    "parameter": "rain_24h",
                     "legend": {
                         "colorScaleId": "rain",
                         "unit": "mm",

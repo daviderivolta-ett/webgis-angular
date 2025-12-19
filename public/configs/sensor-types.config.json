@@ -106,6 +106,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
@@ -168,6 +169,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
@@ -261,6 +263,7 @@
                 0,
                 120
             ],
+            "isFeatured": true,
             "relatedSensors": [],
             "compareWith": "rain"
         },
