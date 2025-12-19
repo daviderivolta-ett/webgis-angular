@@ -7,7 +7,7 @@
 }
 
 .content {
-    width: 92%;
+    width: 970px;
     margin: auto;
     padding: 40px 0;
 }
@@ -106,6 +106,12 @@ app-datepicker {
 
 .mask-icon {
     @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
+@media screen and (max-width: 992px) {
+    .content {
+        width: 92%;
+    }
 }
 
 @media screen and (max-width: 768px) {
