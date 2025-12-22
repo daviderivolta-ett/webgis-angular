@@ -66,7 +66,6 @@ export class DataPageComponent {
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
 
-  public selectedDate: Date | undefined;
   public chartReferenceDate: Date | undefined;
 
   /** References */
@@ -290,7 +289,7 @@ export class DataPageComponent {
 
     // Refresh
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (!this.dateService.date) {
+    if (!this.dateService.date()) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
 
@@ -298,7 +297,7 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.dateService.date ?? new Date() });
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.dateService.date() ?? new Date() });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -322,7 +321,7 @@ export class DataPageComponent {
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
       this._map.removeLayerById(l.id);
-      this._executeAction(l, this.dateService.date);
+      this._executeAction(l, this.dateService.date());
     });
   }
 
@@ -392,7 +391,7 @@ export class DataPageComponent {
     stations.forEach((s: Station) => {
       switch (s.type) {
         case 'hydro':
-          const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date ?? new Date(), s['subfolder'] ?? '');
+          const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
           const snackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
@@ -489,7 +488,7 @@ export class DataPageComponent {
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date);
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date());
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -554,7 +553,7 @@ export class DataPageComponent {
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {     
     this._map.closeAllPopups();
-    this.dateService.date = date;
+    this.dateService.date.set(date);
     this.chartReferenceDate = date;  
     this._updateMultipleLayers(date);
   }

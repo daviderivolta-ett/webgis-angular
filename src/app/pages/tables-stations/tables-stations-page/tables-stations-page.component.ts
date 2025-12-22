@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components'
@@ -44,7 +44,7 @@ import { CSVUtils, Utils } from '../../../utils'
     IsDatePipe,
     MapValuePipe,
     DatepickerComponent
-],
+  ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
 })
@@ -81,6 +81,7 @@ export class TablesStationsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private dateService: DateService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
@@ -90,8 +91,10 @@ export class TablesStationsPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
+    effect(() => this.user = this.authService.user());
     effect(() => {
-      this.user = this.authService.user();
+      const date = this.dateService.date();
+      if (this.selectedDate !== date) this.selectedDate = this.dateService.date();
     });
   }
 
@@ -212,12 +215,12 @@ export class TablesStationsPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
+    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
     const selectedStation: any = this.form.get('select')?.value;
     if (selectedStation && typeof selectedStation === 'string') this._init(selectedStation);
   }
 
-  public onTableRowClick(row: [string, any][]): void {    
+  public onTableRowClick(row: [string, any][]): void {
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
   }

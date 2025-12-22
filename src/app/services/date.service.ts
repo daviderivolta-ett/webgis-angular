@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 /** Service */
 @Injectable({
@@ -7,9 +7,5 @@ import { Injectable } from '@angular/core';
 })
 export class DateService {
   /** Properties */
-  private _date: Date | undefined;
-
-  /** Getter and setter */
-  public get date(): Date | undefined { return this._date }
-  public set date(value: Date | undefined) { this._date = value }
+  public date = signal<Date | undefined>(undefined);
 }
