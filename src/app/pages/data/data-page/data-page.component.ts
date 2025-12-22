@@ -421,8 +421,6 @@ export class DataPageComponent {
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
-    this.chartReferenceDate = new Date(endingDate);
-
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
 
@@ -554,10 +552,10 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {
+  public onMapDateChanged(date: Date | undefined): void {     
     this._map.closeAllPopups();
     this.dateService.date = date;
-    this.chartReferenceDate = date;
+    this.chartReferenceDate = date;  
     this._updateMultipleLayers(date);
   }
 
