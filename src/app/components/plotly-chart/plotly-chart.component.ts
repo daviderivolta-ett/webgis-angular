@@ -268,6 +268,8 @@ export class PlotlyChartComponent {
         axisShortName = 'y';
       }
 
+      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));
+
       (layout as any)[axisName] = {
         title: {
           text: !mainYAxis ?
@@ -281,7 +283,10 @@ export class PlotlyChartComponent {
           },
           standoff: 10
         },
-        range: d.unit && d.unit !== '°' ? d.yRange : undefined,
+        range: (d.unit && d.unit !== '°') ?
+          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0], maxYValue] : d.yRange) :
+          // d.yRange :
+          undefined,
         nticks: 20,
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
@@ -410,5 +415,25 @@ export class PlotlyChartComponent {
       line: { width: 0 },
       layer: 'below'
     }
+  }
+
+  private _calculateNewYRange(charts: PlotlyChartData[]): void {
+    console.log(charts);
+
+    let percentage: number;
+
+    charts.forEach((c: PlotlyChartData) => {
+      const lastYValue: number = Math.max(...c.data.map((v) => v[1]).filter((v) => v !== null));
+      const yRangeLimit: number = c.yRange?.[1];
+
+      if (!lastYValue || !yRangeLimit) return;
+
+      console.log(lastYValue, yRangeLimit);
+
+      if (lastYValue > yRangeLimit) percentage = ((lastYValue - yRangeLimit) / yRangeLimit) * 100;
+      console.log(percentage);
+
+
+    });
   }
 }
