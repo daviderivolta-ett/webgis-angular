@@ -59,6 +59,7 @@ export class TablesStationsPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
+  public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   /** Data */
@@ -94,14 +95,15 @@ export class TablesStationsPageComponent {
     effect(() => this.user = this.authService.user());
     effect(() => {
       const date = this.dateService.date();
-      if (this.selectedDate !== date) this.selectedDate = this.dateService.date();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._onGlobalDateChange();
     });
   }
 
   /** Component lifecycle */
   public ngOnInit(): void {
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-    this._init(this._tableConfigGroups[0].options[0].id);
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
   }
 
@@ -117,7 +119,7 @@ export class TablesStationsPageComponent {
     this.config = this._initConfig(id);
     if (!this.config) return;
 
-    await this._getData(this.config);
+    await this._getData(this.config)
 
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
     this.filters = this._createFilterForm(this.config.filterKeys ?? []);
@@ -216,8 +218,17 @@ export class TablesStationsPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+  }
+
+  private _onGlobalDateChange(): void {
     const selectedStation: any = this.form.get('select')?.value;
-    if (selectedStation && typeof selectedStation === 'string') this._init(selectedStation);
+    if (selectedStation && typeof selectedStation === 'string') {
+      this._init(selectedStation);
+      return;
+    }
+
+    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return;
+    this._init(this._tableConfigGroups[0].options[0].id);
   }
 
   public onTableRowClick(row: [string, any][]): void {

@@ -67,6 +67,8 @@ export class DataPageComponent {
   public areChartsDisabled: boolean = false;
 
   public chartReferenceDate: Date | undefined;
+  public initialDate: Date | undefined;
+  public selectedDate: Date | undefined;
 
   /** References */
   @ViewChild('map') _map!: MapComponent;
@@ -155,6 +157,12 @@ export class DataPageComponent {
       this._changeCheckboxesVisibility(isAuth);
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
+    });
+
+    effect(() => {
+      const date = this.dateService.date();    
+      this.initialDate = date;
+      this.selectedDate = date;      
     });
   }
 
@@ -552,7 +560,7 @@ export class DataPageComponent {
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {     
-    this._map.closeAllPopups();
+    if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
     this.chartReferenceDate = date;  
     this._updateMultipleLayers(date);

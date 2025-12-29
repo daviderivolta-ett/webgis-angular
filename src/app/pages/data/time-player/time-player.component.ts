@@ -33,6 +33,10 @@ export class TimePlayerComponent {
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
     effect(() => this._onIsLoadingChange(this.isLoading()));
+    effect(() => {
+      const date = this.date();  
+      if (date) this.patchValue(date, false);
+    });
   }
 
   /** Getter and setter */
