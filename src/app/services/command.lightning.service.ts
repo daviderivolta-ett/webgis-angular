@@ -8,7 +8,7 @@ import { ColorScale, Command, GeoJsonLayer } from '../models'
 import { ApiService } from './api.service'
 
 /** Utils */
-import { GeoJsonUtils } from '../utils'
+import { DateUtils, GeoJsonUtils } from '../utils'
 
 /** Service */
 @Injectable({
@@ -110,8 +110,9 @@ export class LightningCommandService implements Command {
         // const separator = url.includes('?') ? '&' : '?';
         // return `${url}${separator}time=${time}`;
 
-        const utcDate = this.apiService.toUTCDate(date);
-        const time = this.apiService.formatDate(utcDate);
+        // const utcDate = this.apiService.toUTCDate(date);
+        // const time = this.apiService.formatDate(utcDate);
+        const time = DateUtils.toUTCDate(date.toISOString());
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;
     }

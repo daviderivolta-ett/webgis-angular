@@ -83,20 +83,4 @@ export class ApiService {
       .filter(Boolean)
       .reduce((acc, key) => acc?.[key], obj)
   }
-
-  public toUTCDate(date: Date): Date {
-    return new Date(Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours(),
-      date.getUTCMinutes(),
-      date.getUTCSeconds(),
-      date.getUTCMilliseconds()
-    ));
-  }
-
-  public formatDate(date: Date) {
-    return `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}-${date.getUTCDate().toString().padStart(2, '0')} ${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`;
-  }
 }

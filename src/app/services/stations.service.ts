@@ -7,6 +7,9 @@ import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase } from
 /** Services */
 import { ApiService } from './api.service';
 
+/** Utils */
+import { DateUtils } from '../utils';
+
 /** Service */
 @Injectable({
   providedIn: 'root'
@@ -39,7 +42,7 @@ export class StationsService {
       })
   }
 
-  public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {  
+  public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
@@ -59,7 +62,7 @@ export class StationsService {
   public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
-      promises.push(this.getTimeSerie(url, stationId, p, params, initialDate, endingDate, token));
+      promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toUTCDate(initialDate), DateUtils.toUTCDate(endingDate), token));
     });
     const maps = await Promise.all(promises);
     const resultMap = new Map<string, [number, number][]>();
@@ -90,7 +93,7 @@ export class StationsService {
   }
 
   public parseTimeSerie(data: any, params: string[]): Map<string, [number, number][]> {
-    if (!Array.isArray(data)) return new Map();  
+    if (!Array.isArray(data)) return new Map();
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
@@ -115,7 +118,7 @@ export class StationsService {
         ] as [number, number])
 
       result.set(param, serie);
-    })   
+    })
 
     return result;
   }
@@ -142,7 +145,7 @@ export class StationsService {
   public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, model);
     const formattedUrlWithStationId: string = `${formattedUrl}/${stationId}`;
-    const formattedDate: string = this.apiService.formatDate(date);
+    const formattedDate: string = DateUtils.toUTCDate(date.toISOString());
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
 
     return this.apiService.getApiData(formattedUrlWithDates, token)
@@ -190,15 +193,15 @@ export class StationsService {
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
-      .then((data: Map<string, [number, number][]>) => {      
+      .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
         sensorTypes.forEach(t => {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
         });
-        
+
         for (const entry of data.entries()) {
-          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);        
+          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
           if (!sensor) continue;
 
           const chartSerie: MapChartData = new MapChartData(
@@ -218,7 +221,7 @@ export class StationsService {
 
           chartData.push(chartSerie);
         }
-      
+
         return {
           ...chartToUpdate,
           data: chartData,

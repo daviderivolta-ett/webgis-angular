@@ -20,7 +20,7 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
 /** Utils */
-import { CSVUtils, Utils } from '../../../utils'
+import { CSVUtils, DateUtils, Utils } from '../../../utils'
 
 /** Component */
 @Component({
@@ -165,7 +165,7 @@ export class TablesStationsPageComponent {
 
   private async _getData(config: TableConfig): Promise<void> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
+      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
