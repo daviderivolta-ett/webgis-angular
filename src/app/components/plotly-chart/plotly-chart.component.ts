@@ -350,6 +350,8 @@ export class PlotlyChartComponent {
       responsive: true,
       displaylogo: false,
       showAxisDragHandles: false,
+      doubleClick: false,
+      scrollZoom: true,
       modeBarButtonsToRemove: [
         'toImage',
         'autoScale2d'
