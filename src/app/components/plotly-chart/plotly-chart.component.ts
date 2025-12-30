@@ -152,15 +152,15 @@ export class PlotlyChartComponent {
       }
 
       if (serie.type === 'bar' && serie.style && serie.style['color']) {
-        (trace as Plotly.PlotData).marker = { color: serie.style['color'] };
+        (trace as Plotly.PlotData).marker = {
+          color: serie.style['color']
+        };
       }
 
       if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
-          // symbol: serie.style['marker'] ?? undefined,
-          size: 12,
-          // angle: serie.data.map((d: [number, number | null]) => d[1]),          
+          size: 12,          
           color: 'transparent',
 
         } as any
@@ -176,6 +176,7 @@ export class PlotlyChartComponent {
   private _getLayout(data: PlotlyChartData[]): Partial<Plotly.Layout> {
     let layout: Partial<Plotly.Layout> = {
       showlegend: true,
+      bargap: 0,
       hovermode: 'x unified',
       legend: {
         x: 0,
