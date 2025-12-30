@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, LayersService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
@@ -66,8 +66,9 @@ export class DataPageComponent {
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
 
-  public selectedDate: Date | undefined;
   public chartReferenceDate: Date | undefined;
+  public initialDate: Date | undefined;
+  public selectedDate: Date | undefined;
 
   /** References */
   @ViewChild('map') _map!: MapComponent;
@@ -118,6 +119,7 @@ export class DataPageComponent {
     private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
+    private dateService: DateService,
     private snackbarsService: SnackbarsService,
     private layersService: LayersService,
     private stationsService: StationsService,
@@ -155,6 +157,12 @@ export class DataPageComponent {
       this._changeCheckboxesVisibility(isAuth);
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
+    });
+
+    effect(() => {
+      const date = this.dateService.date();    
+      this.initialDate = date;
+      this.selectedDate = date;      
     });
   }
 
@@ -289,7 +297,7 @@ export class DataPageComponent {
 
     // Refresh
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (!this.selectedDate) {
+    if (!this.dateService.date()) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
 
@@ -297,7 +305,7 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.selectedDate ?? new Date() });
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.dateService.date() ?? new Date() });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -316,12 +324,12 @@ export class DataPageComponent {
       if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
       return;
     }
-
+ 
     const allLayers = LayerGroup.getAllLayers(this.dataLayers);
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
       this._map.removeLayerById(l.id);
-      this._executeAction(l, this.selectedDate);
+      this._executeAction(l, this.dateService.date());
     });
   }
 
@@ -391,7 +399,7 @@ export class DataPageComponent {
     stations.forEach((s: Station) => {
       switch (s.type) {
         case 'hydro':
-          const date = this.stationsService.getHydroDateFromSubfolder(this.selectedDate ?? new Date(), s['subfolder'] ?? '');
+          const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
           const snackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
           const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
@@ -419,8 +427,6 @@ export class DataPageComponent {
 
   public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-
-    this.chartReferenceDate = new Date(endingDate);
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -490,7 +496,7 @@ export class DataPageComponent {
   private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
     LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.selectedDate);
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date());
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -553,10 +559,10 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {
-    this._map.closeAllPopups();
-    this.selectedDate = date;
-    this.chartReferenceDate = date;
+  public onMapDateChanged(date: Date | undefined): void {     
+    if (this._map) this._map.closeAllPopups();
+    this.dateService.date.set(date);
+    this.chartReferenceDate = date;  
     this._updateMultipleLayers(date);
   }
 

@@ -8,7 +8,7 @@ import { ColorScale, Command, GeoJsonLayer } from '../models'
 import { ApiService } from './api.service'
 
 /** Utils */
-import { GeoJsonUtils } from '../utils'
+import { DateUtils, GeoJsonUtils } from '../utils'
 
 /** Service */
 @Injectable({
@@ -105,8 +105,9 @@ export class HydroCommandService implements Command {
 
     private _createUrlWithDate(url: string, date?: Date): string {
         const localDate = date || new Date();
-        const utcDate = this.apiService.toUTCDate(localDate);
-        const formatted = this.apiService.formatDate(utcDate);
+        // const utcDate = this.apiService.toUTCDate(localDate);
+        // const formatted = this.apiService.formatDate(utcDate);
+        const formatted = DateUtils.toUTCDate(localDate.toISOString());
         const encodedTime = encodeURIComponent(formatted);
         return `${url}?time=${encodedTime}`;
     }

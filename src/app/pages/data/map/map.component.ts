@@ -44,7 +44,8 @@ export class MapComponent {
   /** Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
   public isLoading = model<boolean>(false);
-  private _selectedDate: Date | undefined = undefined;
+  public initialDate = model<Date | undefined>(undefined);
+  public selectedDate = model<Date | undefined>(undefined);
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -120,7 +121,7 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', () => {
       requestAnimationFrame(() => {
-        if (this._selectedDate) this._setCurrentTime(this._selectedDate);
+        if (this.selectedDate()) this._setCurrentTime(this.selectedDate()!);
       })
     });
   }
@@ -352,7 +353,7 @@ export class MapComponent {
 
   /** Time dimension methods */
   public onTimePlayerToggle(date: Date | undefined): void {
-    this._selectedDate = date;
+    this.selectedDate.set(date);
     this.dateChanged.emit(date);
 
     if (date) {
@@ -373,7 +374,7 @@ export class MapComponent {
 
   private _setCurrentTime(date: Date | number): void {
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
+    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
   private _nextTime(): void {

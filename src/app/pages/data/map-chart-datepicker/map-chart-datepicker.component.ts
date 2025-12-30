@@ -1,5 +1,5 @@
 /** Dependencies */
-import { ChangeDetectorRef, Component, effect, model, output } from '@angular/core';
+import { Component, effect, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Component */
@@ -20,10 +20,10 @@ export class MapChartDatepickerComponent {
   });
   public datesChanged = output<[string, string]>();
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
-    effect(() => {
+    effect(() => {    
       this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) });
     });
   }

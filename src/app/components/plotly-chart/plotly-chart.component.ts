@@ -70,7 +70,7 @@ export class PlotlyChartComponent {
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map(() => -10),
-      text: serie.data.map((v: [number, number | null]) => v[1] !== null && v[1] !== undefined ? String(v[1]) : ''),
+      text: serie.data.map((v: [number, number | null]) => v[1] !== null && v[1] !== undefined ? `${serie.legend}: ${String(v[1])} ${serie.unit}` : ''),
       hoverinfo: 'x+text'
     }
   }
@@ -136,7 +136,7 @@ export class PlotlyChartComponent {
 
       const trace: Plotly.Data = {
         ...(serie.type === 'scatter' && serie.style && serie.style['marker']) ?
-          this._normalizeData({ ...serie, data: this._decimateData(serie.data, 30) }) :
+          this._normalizeData({ ...serie, data: this._decimateData(serie.data, 20) }) :
           this._parseData({ ...serie, data: this._fillGapData(serie.data as [number, number][]) }),
         type: serie.type,
         name: serie.legend ?? undefined,
@@ -158,10 +158,11 @@ export class PlotlyChartComponent {
       if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
-          symbol: serie.style['marker'] ?? undefined,
+          // symbol: serie.style['marker'] ?? undefined,
           size: 12,
-          angle: serie.data.map((d: [number, number | null]) => d[1]),
-          color: 'black'
+          // angle: serie.data.map((d: [number, number | null]) => d[1]),          
+          color: 'transparent',
+
         } as any
       }
 
@@ -268,6 +269,8 @@ export class PlotlyChartComponent {
         axisShortName = 'y';
       }
 
+      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));
+
       (layout as any)[axisName] = {
         title: {
           text: !mainYAxis ?
@@ -281,7 +284,9 @@ export class PlotlyChartComponent {
           },
           standoff: 10
         },
-        range: d.unit && d.unit !== '°' ? d.yRange : undefined,
+        range: (d.unit && d.unit !== '°') ?
+          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0], maxYValue] : d.yRange) :
+          undefined,
         nticks: 20,
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
@@ -304,6 +309,8 @@ export class PlotlyChartComponent {
       //     }
       //   });
       // }
+
+      if (d.type === 'scatter' && d.style && d.style['marker']) layout.annotations = this._createFakeMarkersAsAnnotations(d);
     });
 
     return layout;
@@ -389,6 +396,26 @@ export class PlotlyChartComponent {
     if (data.length <= maxPoints) return data;
     const ratio = Math.ceil(data.length / maxPoints);
     return data.filter((_, i) => i % ratio === 0);
+  }
+
+  private _createFakeMarkersAsAnnotations(chartData: PlotlyChartData): Partial<Plotly.Annotations>[] {
+    const data = this._decimateData(chartData.data, 20);
+    return data.map((p: [number, number | null]) => {
+      return {
+        x: p[0],
+        y: -5,
+        text: chartData.style ? chartData.style['marker'] : '',
+        textangle: `${p[1] ?? 0}`,
+        align: 'center',
+        font: {
+          size: 24
+        },
+        showarrow: false,
+        arrowhead: 1,
+        arrowsize: 2,
+        arrowwidth: 1,
+      };
+    });
   }
 
   private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {

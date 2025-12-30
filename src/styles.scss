@@ -156,6 +156,16 @@ app-input-autocomplete::part(option selected) {
         align-items: center;
         justify-content: center;
     }
+
+    .leaflet-bar a:first-child {
+        border-top-left-radius: 8px !important;
+        border-top-right-radius: 8px !important;
+    }
+
+    .leaflet-bar a:last-child {
+        border-bottom-left-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
+    }
 }
 
 @media screen and (max-width: 768px) {

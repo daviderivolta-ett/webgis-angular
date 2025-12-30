@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components'
@@ -20,7 +20,7 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
 /** Utils */
-import { CSVUtils, Utils } from '../../../utils'
+import { CSVUtils, DateUtils, Utils } from '../../../utils'
 
 /** Component */
 @Component({
@@ -44,7 +44,7 @@ import { CSVUtils, Utils } from '../../../utils'
     IsDatePipe,
     MapValuePipe,
     DatepickerComponent
-],
+  ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
 })
@@ -59,6 +59,7 @@ export class TablesStationsPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
+  public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   /** Data */
@@ -81,6 +82,7 @@ export class TablesStationsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private dateService: DateService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
@@ -90,15 +92,18 @@ export class TablesStationsPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
+    effect(() => this.user = this.authService.user());
     effect(() => {
-      this.user = this.authService.user();
+      const date = this.dateService.date();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._onGlobalDateChange();
     });
   }
 
   /** Component lifecycle */
   public ngOnInit(): void {
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-    this._init(this._tableConfigGroups[0].options[0].id);
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
   }
 
@@ -114,7 +119,7 @@ export class TablesStationsPageComponent {
     this.config = this._initConfig(id);
     if (!this.config) return;
 
-    await this._getData(this.config);
+    await this._getData(this.config)
 
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
     this.filters = this._createFilterForm(this.config.filterKeys ?? []);
@@ -160,7 +165,7 @@ export class TablesStationsPageComponent {
 
   private async _getData(config: TableConfig): Promise<void> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
+      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -212,12 +217,21 @@ export class TablesStationsPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
-    const selectedStation: any = this.form.get('select')?.value;
-    if (selectedStation && typeof selectedStation === 'string') this._init(selectedStation);
+    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
   }
 
-  public onTableRowClick(row: [string, any][]): void {    
+  private _onGlobalDateChange(): void {
+    const selectedStation: any = this.form.get('select')?.value;
+    if (selectedStation && typeof selectedStation === 'string') {
+      this._init(selectedStation);
+      return;
+    }
+
+    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return;
+    this._init(this._tableConfigGroups[0].options[0].id);
+  }
+
+  public onTableRowClick(row: [string, any][]): void {
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
   }

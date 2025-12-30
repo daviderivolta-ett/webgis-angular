@@ -31,11 +31,22 @@
         color: var(--primary-500, blue);
         background-color: var(--primary-100, lightblue);
     }
-    
+
     &:disabled {
         cursor: not-allowed;
         color: var(--neutral-600, black);
         background-color: var(--neutral-300, lightgrey);
+    }
+}
+
+.button--warning {
+    color: var(--primary-900, black);
+    background-color: var(--warning-500, orange);
+    border: 1px solid var(--primary-900, black);
+
+    &:hover {
+        color: var(--primary-900, black);
+        background-color: var(--warning-600, darkorange);
     }
 }
 
@@ -63,7 +74,7 @@
     .input {
         flex-basis: 100%;
     }
-    
+
 }
 
 @keyframes rotating {

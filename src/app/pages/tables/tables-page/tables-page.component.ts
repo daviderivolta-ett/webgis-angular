@@ -14,7 +14,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -26,7 +26,7 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
 /** Utils */
-import { CSVUtils, Utils } from '../../../utils'
+import { CSVUtils, DateUtils, Utils } from '../../../utils'
 
 /** Component */
 @Component({
@@ -55,6 +55,7 @@ export class TablesPageComponent {
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
 
+  public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   /** Data */
@@ -80,6 +81,7 @@ export class TablesPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private dateService: DateService,
     private stationsService: StationsService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
@@ -92,13 +94,18 @@ export class TablesPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
+    effect(() => this.user = this.authService.user()
+    );
     effect(() => {
-      this.user = this.authService.user();
+      const date = this.dateService.date();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._onGlobalDateChange();
     });
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {       
+  public ngOnInit(): void {
     this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
 
     this.route.paramMap.subscribe(() => {
@@ -162,7 +169,7 @@ export class TablesPageComponent {
 
   private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${this.apiService.formatDate(this.selectedDate)}` :
+      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -183,7 +190,7 @@ export class TablesPageComponent {
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
-      const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);     
+      const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
       const table: Table = Table.generateTableStructure(rawData, 'name', config.keysOrder);
@@ -218,16 +225,22 @@ export class TablesPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
+    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    // this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
+    // const param: string | null = this.route.snapshot.paramMap.get('id');
+    // if (param) this._init(param);
+  }
+
+  private _onGlobalDateChange(): void {
     const param: string | null = this.route.snapshot.paramMap.get('id');
     if (param) this._init(param);
   }
 
   public onTableRowClick(tableId: string, row: [string, any][]): void {
-    const config: TableConfig | undefined = this.configGroup?.options.find((c: TableConfig) => c.id === tableId);  
+    const config: TableConfig | undefined = this.configGroup?.options.find((c: TableConfig) => c.id === tableId);
     if (!config || !config.parameter) return;
 
-    console.log(row);    
+    console.log(row);
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
     console.log('CODE', code);

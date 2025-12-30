@@ -14,9 +14,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class TimePlayerComponent {
   /** Properties */
+  /** Date */
+  public date = input<Date | undefined>();
+
   /** UI */
   public form: FormGroup = new FormGroup({
-    // date: new FormControl(this._truncateDateToFullHour(this._toDatetimeLocal(new Date())), [Validators.required])
     date: new FormControl('', [Validators.required])
   }, {
     updateOn: 'blur'
@@ -31,6 +33,10 @@ export class TimePlayerComponent {
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
     effect(() => this._onIsLoadingChange(this.isLoading()));
+    effect(() => {
+      const date = this.date();
+      if (date) this.patchValue(date, false);
+    });
   }
 
   /** Getter and setter */
@@ -45,9 +51,9 @@ export class TimePlayerComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
-    this.patchValue(new Date(), true);
-  }
+  // public ngOnInit(): void {
+  //   this.patchValue(new Date(), true);
+  // }
 
   /** Methods */
   /** Form */
@@ -70,21 +76,28 @@ export class TimePlayerComponent {
 
   /** Actions */
   public onToggleBtnClick(isPlaying: boolean): void {
+    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
     this.setIsPlaying(isPlaying);
-    const date: Date = new Date(this.form.get('date')?.value);
+    const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date();
     this.onToggle.emit(!isNaN(date.getTime()) ? date : undefined)
   }
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
     this.setIsPlaying(false);
-
-    const date: Date = new Date(this.form.get('date')?.value);
+    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
+    const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date();
     if (isNaN(date.getTime())) return;
 
     const newDate: Date = this._calculateNewDate(date, direction);
 
     this.form.patchValue({ date: this._toDatetimeLocal(newDate) }, { emitEvent: false });
     this.onToggle.emit(newDate);
+  }
+
+  public onResetBtnClick(): void {
+    this.form.patchValue({ date: '' }, { emitEvent: false });
+    this.setIsPlaying(false);
+    this.onToggle.emit(undefined);
   }
 
   private _play() {
@@ -102,22 +115,44 @@ export class TimePlayerComponent {
     if (this._intervalId) window.clearInterval(this._intervalId);
   }
 
+
+
   private _onIsLoadingChange(isLoading: boolean): void {
     if (isLoading) this._stop();
     if (!isLoading && this.isPlaying) this._play();
   }
 
   /** Utils */
+  // private _truncateDateToFullHour(date: string): string {
+  //   const splittedDate: string[] = date.split('T');
+  //   const day: string = splittedDate[0];
+  //   const hourAndMinutes: string = splittedDate[1];
+  //   const hour: string = hourAndMinutes.split(':')[0];
+  //   const minutes: string = hourAndMinutes.split(':')[1];
+  //   const num: number = parseInt(minutes);
+  //   const newMinutes: number = (num % 5 === 0) ? num : num - (num % 5);
+  //   const newMinutesStr: string = newMinutes.toString().padStart(2, '0');
+  //   return `${day}T${hour}:${newMinutesStr}`;
+  // }
+
   private _truncateDateToFullHour(date: string): string {
-    const splittedDate: string[] = date.split('T');
-    const day: string = splittedDate[0];
-    const hourAndMinutes: string = splittedDate[1];
-    const hour: string = hourAndMinutes.split(':')[0];
-    const minutes: string = hourAndMinutes.split(':')[1];
-    const num: number = parseInt(minutes);
-    const newMinutes: number = (num % 5 === 0) ? num : num - (num % 5);
-    const newMinutesStr: string = newMinutes.toString().padStart(2, '0');
-    return `${day}T${hour}:${newMinutesStr}`;
+    // Creiamo un oggetto Date con la stringa passata
+    const dateObj = new Date(date);
+
+    // Otteniamo la parte della data (senza fuso orario)
+    const day = dateObj.getFullYear() + '-' + this._pad(dateObj.getMonth() + 1) + '-' + this._pad(dateObj.getDate());
+
+    // Calcoliamo l'ora e i minuti, tenendo conto del fuso orario locale
+    const hour = this._pad(dateObj.getHours());
+    const minutes = dateObj.getMinutes();
+    const truncatedMinutes = (minutes % 5 === 0) ? minutes : minutes - (minutes % 5);  // Troncamento dei minuti
+
+    return `${day}T${hour}:${this._pad(truncatedMinutes)}`;
+  }
+
+  // Funzione di padding per le date e ore
+  private _pad(n: number): string {
+    return n.toString().padStart(2, '0');
   }
 
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
