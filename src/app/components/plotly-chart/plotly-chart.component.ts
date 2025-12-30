@@ -403,7 +403,7 @@ export class PlotlyChartComponent {
     return data.map((p: [number, number | null]) => {
       return {
         x: p[0],
-        y: -10,
+        y: -5,
         text: chartData.style ? chartData.style['marker'] : '',
         textangle: `${p[1] ?? 0}`,
         align: 'center',
