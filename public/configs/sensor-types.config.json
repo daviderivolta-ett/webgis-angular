@@ -502,7 +502,7 @@
             "label": "Direzione del vento",
             "chartType": "scatter",
             "style": {
-                "marker": "arrow"
+                "marker": "↑"
             },
             "unit": "°",
             "range": [
