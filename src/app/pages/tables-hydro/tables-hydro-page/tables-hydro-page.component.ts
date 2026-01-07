@@ -1,6 +1,6 @@
 /** Dependencies */
 import { Component, effect, ViewChild } from '@angular/core'
-import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common'
+import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
@@ -11,49 +11,41 @@ import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter
 import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components'
-
-/** Pipes */
-import { IsDatePipe, MapValuePipe } from '../../../pipes'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
+/** Pipes */
+import { IsDatePipe } from '../../../pipes'
+
 /** Utils */
-import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { DateUtils, GeoJsonUtils } from '../../../utils'
 
 /** Component */
 @Component({
-  selector: 'app-tables-stations-page',
+  selector: 'app-tables-hydro-page',
   imports: [
     /** Components */
     HeaderComponent,
     SidebarComponent,
-    InputAutocompleteComponent,
+    SortableTableComponent,
     /** Directives */
-    NgTemplateOutlet,
     RouterLink,
     RouterLinkActive,
     ReactiveFormsModule,
+    DatepickerComponent,
     ScrollableTableDirective,
-    SortableTableComponent,
-    SortHeaderComponent,
     /** Pipes */
-    KeyValuePipe,
-    DatePipe,
     IsDatePipe,
-    MapValuePipe,
-    DatepickerComponent
+    DatePipe
   ],
-  templateUrl: './tables-stations-page.component.html',
-  styleUrl: './tables-stations-page.component.scss'
+  templateUrl: './tables-hydro-page.component.html',
+  styleUrl: './tables-hydro-page.component.scss'
 })
-export class TablesStationsPageComponent {
+export class TablesHydroPageComponent {
   /** User Interface */
   public form: FormGroup = new FormGroup({ select: new FormControl('') });
-  public filters: FormGroup | null = null;
-
-  public areChartsDisabled: boolean = false;
 
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
@@ -67,10 +59,8 @@ export class TablesStationsPageComponent {
 
   public data: Table = new Table();
   public sortedData: Table = new Table();
-  public filterKeys: Record<string, { id: string, label?: string }[]> = {};
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public stationsTableUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
@@ -87,11 +77,10 @@ export class TablesStationsPageComponent {
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
-    /** Effetcs */
+    /** Effects */
     effect(() => {
       this.user = this.authService.user();
       this._initNavbar();
@@ -129,12 +118,6 @@ export class TablesStationsPageComponent {
     if (!this.config) return;
 
     await this._getData(this.config)
-
-    this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
-    this.filters = this._createFilterForm(this.config.filterKeys ?? []);
-    this.filters.valueChanges.subscribe((changes: any) => {
-      this.sortedData = this.data.filterTableData(changes);
-    });
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -168,7 +151,6 @@ export class TablesStationsPageComponent {
   }
 
   private _reset(): void {
-    this.filters = null;
     this.data = this.sortedData = new Table();
   }
 
@@ -179,7 +161,7 @@ export class TablesStationsPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
-    const response = await this.apiService.getApiData(url)
+    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch((err: any) => {
         throw new Error('Errore nel recupero dei dati', err);
       })
@@ -188,39 +170,17 @@ export class TablesStationsPageComponent {
         this.form.get('select')?.enable({ emitEvent: false });
       })
 
-    if (!Array.isArray(response) || response.length === 0) return;
-    const table: any = response[0];
+    if (!GeoJsonUtils.isGeoJSON(response)) return;
+    const tableRows = GeoJsonUtils.fromGeoJSONToArraY(response);
 
-    const { tableName, tableRows } = table;
-    if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
-    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-    this.data = this.sortedData = Table.generateTableStructure(rawData, 'name', config.keysOrder);
+    if (!tableRows || !Array.isArray(tableRows)) return;
+    const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, ['basin', 'name']);
+    const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin');
+    this.data = this.sortedData = Table.generateTableStructure(mergedRows, 'basin', config.keysOrder);
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.sortedData = this.sortedData.sortTableData(sort.sortBy, sort.direction);
-  }
-
-  private _createFilterForm(filterKeys: string[]): FormGroup {
-    const controls = filterKeys.reduce((acc: Record<string, any>, curr: string) => {
-      acc[curr] = new FormControl('');
-      return acc;
-    }, {});
-    return new FormGroup(controls);
-  }
-
-  private _createFilterKeys(filterKeys: string[]) {
-    return filterKeys.reduce((acc: Record<string, { id: string, label?: string }[]>, curr: string) => {
-      acc[curr] = this.data.extractAllValuesByKey(curr).map((v: string) => ({ id: v }));
-      return acc;
-    }, {});
-  }
-
-  public onDownloadBtnClick(): void {
-    const table = this.data.convertTableToArray();
-    const csv = CSVUtils.convertArrayToCSV(table, this.data.header);
-    const param: string | null = this.route.snapshot.paramMap.get('id');
-    if (param) Utils.downloadFile(`${param}.csv`, csv);
   }
 
   public onDateChange(event: any): void {
@@ -237,11 +197,6 @@ export class TablesStationsPageComponent {
     }
 
     if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return;
-    this._init(this._tableConfigGroups[0].options[0].id);
-  }
-
-  public onTableRowClick(row: [string, any][]): void {
-    const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
-    if (!code) return;
+    this._init('modelli-idrologici-nowcasting-hydro');
   }
 }

@@ -48,6 +48,17 @@ export const routes: Routes = [
         }
     },
     {
+        path: 'tabelle/modelli-idrologici',
+        title: 'OMIRL ARPAL - Tabelle',
+        canMatch: [authGuard],
+        loadComponent: () => import('./pages/tables-hydro/tables-hydro-page/tables-hydro-page.component').then(c => c.TablesHydroPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver
+        }
+    },
+    {
         path: 'tabelle/:id',
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),

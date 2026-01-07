@@ -94,8 +94,10 @@ export class TablesPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
-    effect(() => this.user = this.authService.user()
-    );
+    effect(() => {
+      this.user = this.authService.user();
+      this._initNavbar();
+    });
     effect(() => {
       const date = this.dateService.date();
       this.initialDate = date;
@@ -106,8 +108,7 @@ export class TablesPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-
+    this._initNavbar();
     this.route.paramMap.subscribe(() => {
       const param: string | null = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
@@ -115,6 +116,12 @@ export class TablesPageComponent {
   }
 
   /** Methods */
+  private _initNavbar() {
+    this.navGroups = this._tableConfigGroups
+      .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
+      .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
+  }
+
   public setDataFromApi() {
     // this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
