@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
@@ -56,6 +56,9 @@ export class TablesHydroPageComponent {
 
   /** Data */
   public user: Record<string, any> | null = null;
+
+  public newData: Table2 = new Table2();
+  public newSortedData: Table2 = new Table2();
 
   public data: Table = new Table();
   public sortedData: Table = new Table();
@@ -151,7 +154,7 @@ export class TablesHydroPageComponent {
   }
 
   private _reset(): void {
-    this.data = this.sortedData = new Table();
+    this.newData = this.newSortedData = new Table2();
   }
 
   private async _getData(config: TableConfig): Promise<void> {
@@ -172,15 +175,14 @@ export class TablesHydroPageComponent {
 
     if (!GeoJsonUtils.isGeoJSON(response)) return;
     const tableRows = GeoJsonUtils.fromGeoJSONToArraY(response);
-
     if (!tableRows || !Array.isArray(tableRows)) return;
-    const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, ['basin', 'name']);
-    const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin');
-    this.data = this.sortedData = Table.generateTableStructure(mergedRows, 'basin', config.keysOrder);
+    const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
+    const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
+    this.newData = this.newSortedData = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder); 
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
-    this.sortedData = this.sortedData.sortTableData(sort.sortBy, sort.direction);
+    this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
   public onDateChange(event: any): void {

@@ -1,20 +1,20 @@
 /** Dependencies */
 import { Component, effect, ViewChild } from '@angular/core'
-import { DatePipe, KeyValuePipe, NgTemplateOutlet } from '@angular/common'
+import { KeyValuePipe, NgTemplateOutlet } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components'
 
 /** Pipes */
-import { IsDatePipe, MapValuePipe } from '../../../pipes'
+import { MapValuePipe } from '../../../pipes'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -40,8 +40,6 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
     SortHeaderComponent,
     /** Pipes */
     KeyValuePipe,
-    DatePipe,
-    IsDatePipe,
     MapValuePipe,
     DatepickerComponent
   ],
@@ -65,12 +63,14 @@ export class TablesStationsPageComponent {
   /** Data */
   public user: Record<string, any> | null = null;
 
-  public data: Table = new Table();
-  public sortedData: Table = new Table();
+  public newData: Table2 = new Table2();
+  public newSortedData: Table2 = new Table2();
+
   public filterKeys: Record<string, { id: string, label?: string }[]> = {};
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public stationsTableUrl; // Recovered from route resolver in constructor
+  public timeserieUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
@@ -82,12 +82,14 @@ export class TablesStationsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private stationsService: StationsService,
     private dateService: DateService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
+    this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
@@ -133,7 +135,7 @@ export class TablesStationsPageComponent {
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
     this.filters = this._createFilterForm(this.config.filterKeys ?? []);
     this.filters.valueChanges.subscribe((changes: any) => {
-      this.sortedData = this.data.filterTableData(changes);
+      this.newSortedData = this.newData.filterTableData(changes);
     });
   }
 
@@ -169,7 +171,7 @@ export class TablesStationsPageComponent {
 
   private _reset(): void {
     this.filters = null;
-    this.data = this.sortedData = new Table();
+    this.newData = this.newSortedData = new Table2();
   }
 
   private async _getData(config: TableConfig): Promise<void> {
@@ -194,11 +196,12 @@ export class TablesStationsPageComponent {
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
     const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-    this.data = this.sortedData = Table.generateTableStructure(rawData, 'name', config.keysOrder);
+    
+    this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
   }
 
-  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
-    this.sortedData = this.sortedData.sortTableData(sort.sortBy, sort.direction);
+  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {    
+    this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
   private _createFilterForm(filterKeys: string[]): FormGroup {
@@ -211,16 +214,16 @@ export class TablesStationsPageComponent {
 
   private _createFilterKeys(filterKeys: string[]) {
     return filterKeys.reduce((acc: Record<string, { id: string, label?: string }[]>, curr: string) => {
-      acc[curr] = this.data.extractAllValuesByKey(curr).map((v: string) => ({ id: v }));
+      acc[curr] = this.newData.extractAllValuesByKey(curr).map((v: string) => ({ id: v }));
       return acc;
     }, {});
   }
 
-  public onDownloadBtnClick(): void {
-    const table = this.data.convertTableToArray();
-    const csv = CSVUtils.convertArrayToCSV(table, this.data.header);
-    const param: string | null = this.route.snapshot.paramMap.get('id');
-    if (param) Utils.downloadFile(`${param}.csv`, csv);
+  public onDownloadBtnClick(): void {    
+    const table = this.newData.convertTableToArray();
+    const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);
+    Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}`, csv);
+    
   }
 
   public onDateChange(event: any): void {
@@ -240,8 +243,9 @@ export class TablesStationsPageComponent {
     this._init(this._tableConfigGroups[0].options[0].id);
   }
 
-  public onTableRowClick(row: [string, any][]): void {
-    const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
-    if (!code) return;
+  public onCellClick(cell: any, keyToFind: string): void {
+    const hiddenValue: string | undefined = cell['hiddenValue'];
+    if (!hiddenValue) return;
+    this.stationsService.getTimeSerie(this.timeserieUrl, hiddenValue, this.config && this.config.parameter ? this.config.parameter : '', [], '2025-12-30T20:00', '2025-12-31T20:00');
   }
 }

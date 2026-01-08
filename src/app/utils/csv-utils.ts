@@ -21,7 +21,7 @@ export class CSVUtils {
             })
         })
 
-        return formattedRows.map((row) => row.join(',')).join('\n');
+        return formattedRows.map((row) => row.join(';')).join('\n');
     }
 
     static convertTimestampValueArrayToCSV(array: [number, number][][], keys: string[]): string {

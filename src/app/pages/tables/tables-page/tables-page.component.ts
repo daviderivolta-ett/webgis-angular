@@ -4,13 +4,13 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { Sensor, SensorType, Station, StationBase, Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Sensor, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
 
 /** Types */
 type PageTable = {
   id: string,
   label: string,
-  table: Table
+  table: Table2
 }
 
 /** Services */
@@ -157,7 +157,7 @@ export class TablesPageComponent {
 
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);  
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -200,7 +200,7 @@ export class TablesPageComponent {
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      const table: Table = Table.generateTableStructure(rawData, 'name', config.keysOrder);
+      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder);
       return {
         id: config.id,
         label: config.label ?? config.id,

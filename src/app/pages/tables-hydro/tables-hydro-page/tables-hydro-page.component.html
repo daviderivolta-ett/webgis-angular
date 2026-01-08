@@ -44,7 +44,26 @@
             <!-- END CONTROLS -->
 
             <!-- START TABLE -->
-             <app-sortable-table scrollableTable #table>
+            <app-sortable-table scrollableTable #table>
+                <div class="table">
+                    <div class="tbody">
+                        @for (r of newSortedData.body; track $index) {
+                            <div class="trow">
+                                @for (d of r; track $index) {
+                                    <div class="tdata">
+                                        <p>
+                                            @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                            @else { {{d['dataValue'] ?? '-'}} }
+                                        </p>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </app-sortable-table>
+            <!--
+            <app-sortable-table scrollableTable #table>
                 <div class="table">
                     <div class="tbody">
                         @for (r of sortedData.body; track $index) {
@@ -65,7 +84,8 @@
                         }
                     </div>
                 </div>
-             </app-sortable-table>
+            </app-sortable-table>
+            -->
             <!-- END TABLE -->
         </div>
     </div>

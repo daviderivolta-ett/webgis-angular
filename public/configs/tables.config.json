@@ -28,7 +28,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-temperature",
@@ -54,7 +55,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-hydrometric_levels",
@@ -80,7 +82,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-wind",
@@ -106,7 +109,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_wind_speed"
+                    "parameter": "mean_wind_speed",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-humidity",
@@ -132,7 +136,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "humidity"
+                    "parameter": "humidity",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-sunshine_duration",
@@ -158,7 +163,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "sunshine_duration"
+                    "parameter": "sunshine_duration",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-radiations",
@@ -184,7 +190,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "solar_radiation_pwr"
+                    "parameter": "solar_radiation_pwr",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-foliage",
@@ -210,7 +217,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "leaf_wetness"
+                    "parameter": "leaf_wetness",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-pressure",
@@ -236,7 +244,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_sea_level_press"
+                    "parameter": "mean_sea_level_press",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-battery",
@@ -262,7 +271,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "battery_voltage"
+                    "parameter": "battery_voltage",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-snow",
@@ -288,7 +298,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_snow_depth"
+                    "parameter": "mean_snow_depth",
+                    "actionKey": "code"
                 }
             ]
         },
@@ -448,7 +459,7 @@
         },
         {
             "id": "modelli-idrologici",
-            "label": "Tabella modelli idrologici",
+            "label": "Modelli idrologici",
             "requiresAuth": true,
             "options": [
                 {
