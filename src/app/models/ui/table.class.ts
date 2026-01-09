@@ -28,6 +28,143 @@ export class Table2 {
         return table;
     }
 
+    static generateTableStructure2(data: any[], fieldToSearch: string, keysToMerge: string[], hiddenKey: string, primaryKey?: string, keysOrder?: string[]): Table2 {
+        const table = new Table2();
+        if (!data.every(r => fieldToSearch in r)) return table;
+
+        let header: string[] = Array.from(
+            new Set(
+                data.flatMap((r: any) => {
+                    if (!(fieldToSearch in r)) return [];
+
+                    const values = r[fieldToSearch];
+                    const rest = { ...r };
+                    delete rest[fieldToSearch];
+
+                    if (!Array.isArray(values)) {
+                        return Object.keys(rest);
+                    }
+
+                    return [
+                        ...Object.keys(rest),
+                        ...values.map((d: any) => String(d['parameter']))
+                    ];
+                })
+            )
+        )
+
+        if (primaryKey && header.includes(primaryKey)) {
+            header = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
+        }
+        if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
+            header = [...keysOrder];
+        }
+        table.header = header;
+
+        const body: any[][] = data.map((r: any) => {
+            if (fieldToSearch in r) {
+                const values = r[fieldToSearch];
+                const rest = { ...r };
+                delete rest[fieldToSearch];
+
+                if (!Array.isArray(values)) return { ...rest };
+
+                const row: any[] = [];
+
+                header.forEach((key: string) => {
+                    let cell = null;
+
+                    // cerca in rest
+                    if (key in rest) {
+                        cell = {
+                            dataKey: key,
+                            dataValue: rest[key],
+                            hiddenValue: undefined
+                        };
+                    }
+
+                    // cerca in values (solo se non trovata)
+                    if (!cell) {
+                        const found = values.find((d: any) => d.parameter === key);
+
+                        if (found) {
+                            const { parameter, ...r } = found;
+                            const entries = Object.entries(r);
+
+                            let value = '';
+                            keysToMerge.forEach((k: string) => {
+                                const pair: [string, any] | undefined = entries.find(([kk]) => kk === k);
+                                if (pair) {
+                                    const isDate = Table2._isISODate(pair[1]);
+                                    value += isDate
+                                        ? ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]`
+                                        : ` ${pair[1]}`;
+                                }
+                            });
+
+                            cell = {
+                                dataKey: key,
+                                dataValue: value,
+                                hiddenValue: found[hiddenKey]
+                            };
+                        }
+                    }
+
+                    // fallback: valore mancante
+                    if (!cell) {
+                        cell = {
+                            dataKey: key,
+                            dataValue: '-',
+                            hiddenValue: undefined
+                        };
+                    }
+
+                    row.push(cell);
+                });
+
+                // header.forEach((key: string) => {
+                //     Object.entries(rest).map(([k, v]: [any, any]) => {
+                //         if (key === k) {
+                //             row.push({
+                //                 dataKey: k,
+                //                 dataValue: v,
+                //                 hiddenValue: undefined
+                //             })
+                //         }
+                //     })
+
+                //     values.forEach((d: any) => {
+                //         const { parameter, ...r } = d;
+                //         if (parameter === key) {
+                //             const entries: [string, any][] = Object.entries(r);
+
+                //             let value: string = '';
+                //             keysToMerge.forEach((key: string) => {
+                //                 const pair: [string, any] | undefined = entries.find(([k, _]: [string, any]) => k === key);
+                //                 if (pair) {
+                //                     const isDate: boolean = Table2._isISODate(pair[1]);
+                //                     value += isDate ?
+                //                         ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]` :
+                //                         ` ${pair[1]}`;
+                //                 }
+                //             });
+
+                //             row.push({
+                //                 dataKey: d['parameter'],
+                //                 dataValue: value,
+                //                 hiddenvalue: d[hiddenKey]
+                //             })
+                //         }
+                //     })
+                // });
+
+                return row;
+            }
+        });
+        table.body = Table2.orderTableData(body, primaryKey);
+        return table;
+    }
+
     static extractHeaderKeys(data: Object[]): string[] {
         return [...new Set(data.flatMap((d: Object) => Object.keys(d)))];
     }
@@ -162,6 +299,15 @@ export class Table2 {
             if (rowMax > acc) acc = rowMax;
             return acc;
         }, 0);
+    }
+
+    static _isISODate(date: string): boolean {
+        if (typeof date !== 'string') return false;
+
+        const ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+        if (!ISO_REGEX.test(date)) return false;
+
+        return !isNaN(new Date(date).valueOf());
     }
 }
 

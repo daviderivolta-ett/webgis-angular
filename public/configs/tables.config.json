@@ -329,7 +329,8 @@
                         "rain_12h",
                         "rain_24h"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "precipitations-max-municipalities",
@@ -353,7 +354,8 @@
                         "rain_12h",
                         "rain_24h"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "actionKey": "stationCode"
                 }
             ]
         },

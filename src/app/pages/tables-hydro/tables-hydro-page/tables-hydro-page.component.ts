@@ -178,7 +178,7 @@ export class TablesHydroPageComponent {
     if (!tableRows || !Array.isArray(tableRows)) return;
     const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
     const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
-    this.newData = this.newSortedData = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder); 
+    this.newData = this.newSortedData = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);    
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {

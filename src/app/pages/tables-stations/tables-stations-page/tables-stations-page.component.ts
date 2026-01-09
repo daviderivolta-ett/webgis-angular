@@ -119,7 +119,7 @@ export class TablesStationsPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string): Promise<void> {   
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -195,8 +195,7 @@ export class TablesStationsPageComponent {
 
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
-    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-    
+    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);  
     this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
   }
 

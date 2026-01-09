@@ -27,6 +27,7 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { skip } from 'rxjs'
 
 /** Component */
 @Component({
@@ -109,10 +110,12 @@ export class TablesPageComponent {
   /** Component lifecycle */
   public ngOnInit(): void {
     this._initNavbar();
-    this.route.paramMap.subscribe(() => {
-      const param: string | null = this.route.snapshot.paramMap.get('id');
-      if (param) this._init(param);
-    });
+    this.route.paramMap
+      .pipe(skip(1))
+      .subscribe(() => {
+        const param: string | null = this.route.snapshot.paramMap.get('id');
+        if (param) this._init(param);
+      });
   }
 
   /** Methods */
@@ -148,7 +151,7 @@ export class TablesPageComponent {
       })
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string): Promise<void> {  
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -157,7 +160,7 @@ export class TablesPageComponent {
 
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);  
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -199,8 +202,16 @@ export class TablesPageComponent {
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
-      const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder);
+
+
+      let table = new Table2();
+      if (tableRows.every((r) => 'values' in r)) {
+        table = Table2.generateTableStructure2(tableRows, 'values', config.keysToMerge ?? [], 'stationCode', 'region', config.keysOrder ?? []);
+      } else {
+        const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
+        table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, 'stationCode');
+      }
+
       return {
         id: config.id,
         label: config.label ?? config.id,
@@ -233,9 +244,6 @@ export class TablesPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
-    // this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
-    // const param: string | null = this.route.snapshot.paramMap.get('id');
-    // if (param) this._init(param);
   }
 
   private _onGlobalDateChange(): void {
