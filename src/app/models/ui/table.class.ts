@@ -122,42 +122,6 @@ export class Table2 {
                     row.push(cell);
                 });
 
-                // header.forEach((key: string) => {
-                //     Object.entries(rest).map(([k, v]: [any, any]) => {
-                //         if (key === k) {
-                //             row.push({
-                //                 dataKey: k,
-                //                 dataValue: v,
-                //                 hiddenValue: undefined
-                //             })
-                //         }
-                //     })
-
-                //     values.forEach((d: any) => {
-                //         const { parameter, ...r } = d;
-                //         if (parameter === key) {
-                //             const entries: [string, any][] = Object.entries(r);
-
-                //             let value: string = '';
-                //             keysToMerge.forEach((key: string) => {
-                //                 const pair: [string, any] | undefined = entries.find(([k, _]: [string, any]) => k === key);
-                //                 if (pair) {
-                //                     const isDate: boolean = Table2._isISODate(pair[1]);
-                //                     value += isDate ?
-                //                         ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]` :
-                //                         ` ${pair[1]}`;
-                //                 }
-                //             });
-
-                //             row.push({
-                //                 dataKey: d['parameter'],
-                //                 dataValue: value,
-                //                 hiddenvalue: d[hiddenKey]
-                //             })
-                //         }
-                //     })
-                // });
-
                 return row;
             }
         });

@@ -48,6 +48,16 @@ export const routes: Routes = [
         }
     },
     {
+        path: 'tabelle/massimi-precipitazione',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-max/tables-max-page/tables-max-page.component').then(c => c.TablesMaxPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver
+        }
+    },
+    {
         path: 'tabelle/modelli-idrologici',
         title: 'OMIRL ARPAL - Tabelle',
         canMatch: [authGuard],
