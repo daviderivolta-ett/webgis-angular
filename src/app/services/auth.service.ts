@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private oauthService: OAuthService) {
     this.configureAuth();
 
-    this.oauthService.events.subscribe((event) => {  
+    this.oauthService.events.subscribe((event) => {        
       if (event.type === 'token_received') {
         const claims: Record<string, any> = this.oauthService.getIdentityClaims();
         claims ? this.user.set(claims) : this.user.set(null);
@@ -53,12 +53,21 @@ export class AuthService {
     return this.oauthService.hasValidAccessToken();
   }
 
-  public login(): void {    
+  public login(): void {
     if (!this.isLoggedIn()) this.oauthService.initLoginFlow();
   }
 
   public logout(): void {
     this.oauthService.logOut();
     this.oauthService.revokeTokenAndLogout();
+  }
+
+  private _parseJsonWebToken(jwt: string) {
+    const base64Url = jwt.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    }).join(''));
+    return JSON.parse(jsonPayload);
   }
 }
