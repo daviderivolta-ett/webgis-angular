@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Sensor, SensorType, StationBase } from '../../../models';
+import { Sensor, SensorType, StationBase, User } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, SnackbarsService, StationsService } from '../../../services';
@@ -43,7 +43,7 @@ export class StationsSettingsPageComponent {
   public isLoading: boolean = false;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationsApiBaseUrl; // Recovered from route resolver in constructor

@@ -1,13 +1,16 @@
 /** Libraries */
 import { Component, effect } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /** Services */
 import { ApiService, AuthService } from '../../../services';
 
+/** Models */
+import { User } from '../../../models';
+
 /** Components */
 import { HeaderComponent, SidebarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from "../../../components";
-import { ActivatedRoute } from '@angular/router';
 
 /** Component */
 @Component({
@@ -33,7 +36,7 @@ export class PeriodSettingsPageComponent {
   });
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationsApiBaseUrl; // Recovered from route resolver in constructor

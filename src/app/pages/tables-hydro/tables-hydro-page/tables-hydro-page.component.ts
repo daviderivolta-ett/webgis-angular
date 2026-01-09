@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
@@ -55,7 +55,7 @@ export class TablesHydroPageComponent {
   public selectedDate: Date | undefined;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   public newData: Table2 = new Table2();
   public newSortedData: Table2 = new Table2();

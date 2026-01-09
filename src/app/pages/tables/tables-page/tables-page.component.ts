@@ -2,9 +2,10 @@
 import { Component, effect, ViewChild } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
+import { skip } from 'rxjs'
 
 /** Models */
-import { Sensor, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Sensor, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Types */
 type PageTable = {
@@ -27,7 +28,6 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
-import { skip } from 'rxjs'
 
 /** Component */
 @Component({
@@ -60,7 +60,7 @@ export class TablesPageComponent {
   public selectedDate: Date | undefined;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 

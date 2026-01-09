@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { AuthService } from '../../../services';
 
 /** Models */
-import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models';
+import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../components';
@@ -36,7 +36,7 @@ export class RadarsPageComponent {
   public config: RadarConfig | undefined;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
   public pageTitle: string = '';
 

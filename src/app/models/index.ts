@@ -1,4 +1,5 @@
 export * from './adapter'
+export * from './auth'
 export * from './config'
 export * from './core'
 export * from './geographic'
