@@ -145,6 +145,7 @@ export class TablesExtremesPageComponent {
   }
 
   private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
+    console.log(data);    
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
@@ -152,9 +153,9 @@ export class TablesExtremesPageComponent {
       if (!config) return undefined;
 
       let table = new Table2();
-      let header = this._createTableHeader(tableRows, ['firstValueStationCode', 'secondValueStationCode']);
+      let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
       table.header = this._orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, header, [['firstValue', 'firstValueReferenceDate'], ['secondValue', 'secondValueReferenceDate']]);
+      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? []);
 
       return {
         id: config.id,
@@ -164,11 +165,11 @@ export class TablesExtremesPageComponent {
     }).filter((d: unknown) => d !== undefined)
   }
 
-  private _createTableHeader(data: any[], keysToExclude: string[]): string[] {
+  private _createTableHeader(data: any[], keysToKeep: string[]): string[] {
     return Array.from(
       new Set(
         data.flatMap((r: any) => {
-          return Object.keys(r).filter(k => !keysToExclude.includes(k))
+          return Object.keys(r).filter(k => keysToKeep.includes(k))
         })
       )
     )

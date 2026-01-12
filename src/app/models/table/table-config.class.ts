@@ -32,7 +32,7 @@ export class TableConfig {
         if ('dataPath' in object && typeof object['dataPath'] === 'string') config.dataPath = object['dataPath'];
         if ('keysToHide' in object && Array.isArray(object['keysToHide']) && object['keysToHide'].every((k: any) => typeof k === 'string')) config.keysToHide = [...object['keysToHide']];
         if ('keysToKeep' in object && Array.isArray(object['keysToKeep']) && object['keysToKeep'].every((k: any) => typeof k === 'string')) config.keysToKeep = [...object['keysToKeep']];
-        if ('keysToMerge' in object && Array.isArray(object['keysToMerge']) && object['keysToMerge'].every((k: any) => typeof k === 'string')) config.keysToMerge = [...object['keysToMerge']];
+        if ('keysToMerge' in object && Array.isArray(object['keysToMerge'])) config.keysToMerge = [...object['keysToMerge']];
         if ('keysOrder' in object && Array.isArray(object['keysOrder']) && object['keysOrder'].every((k: any) => typeof k === 'string')) config.keysOrder = [...object['keysOrder']];
         if ('parameter' in object && typeof object['parameter'] === 'string') config.parameter = object['parameter'];
         if ('actionKey' in object && typeof object['actionKey'] === 'string') config.actionKey = object['actionKey'];

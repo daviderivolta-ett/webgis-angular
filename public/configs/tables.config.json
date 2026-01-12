@@ -369,7 +369,26 @@
                     "label": "Città",
                     "filterKeys": [],
                     "dataPath": "Cities",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 },
                 {
                     "id": "estremi-temperatura-vento-warnareas",
@@ -377,7 +396,26 @@
                     "label": "Zone di allerta",
                     "filterKeys": [],
                     "dataPath": "WarnArea",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 },
                 {
                     "id": "estremi-temperatura-vento-wind-extremes",
@@ -385,7 +423,26 @@
                     "label": "Vento",
                     "filterKeys": [],
                     "dataPath": "Wind",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 }
             ]
         },
