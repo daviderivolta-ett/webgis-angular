@@ -205,12 +205,12 @@ export class TablesPageComponent {
 
 
       let table = new Table2();
-      if (tableRows.every((r) => 'values' in r)) {
-        table = Table2.generateTableStructure2(tableRows, 'values', config.keysToMerge ?? [], 'stationCode', 'region', config.keysOrder ?? []);
-      } else {
-        const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-        table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, 'stationCode');
-      }
+      // if (tableRows.every((r) => 'values' in r)) {
+      //   table = Table2.generateTableStructure2(tableRows, 'values', config.keysToMerge ?? [], 'stationCode', 'region', config.keysOrder ?? []);
+      // } else {
+      //   const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
+      //   table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, 'stationCode');
+      // }
 
       return {
         id: config.id,

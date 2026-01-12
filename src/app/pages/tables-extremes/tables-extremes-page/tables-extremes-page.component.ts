@@ -144,8 +144,7 @@ export class TablesExtremesPageComponent {
     return (!Array.isArray(response) || response.length === 0) ? undefined : response;
   }
 
-  private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
-    console.log(data);    
+  private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {  
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
@@ -154,7 +153,7 @@ export class TablesExtremesPageComponent {
 
       let table = new Table2();
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
-      table.header = this._orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
+      table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
       table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? []);
 
       return {
@@ -173,17 +172,6 @@ export class TablesExtremesPageComponent {
         })
       )
     )
-  }
-
-  private _orderTableHeader(header: string[], primaryKey?: string, keysOrder?: string[]): string[] {
-    let orderedHeader = [...header];
-    if (primaryKey && header.includes(primaryKey)) {
-      orderedHeader = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
-    }
-    if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
-      orderedHeader = [...keysOrder];
-    }
-    return orderedHeader;
   }
 
   private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][]): any[] {

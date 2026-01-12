@@ -21,6 +21,8 @@ export class Table2 {
         }
         table.header = header;
 
+        header = Table2.orderTableHeader(header, primaryKey);
+
         /** Body */
         const body: any[][] = Table2.normalizeData(data, header, hiddenKey);
         table.body = Table2.orderTableData(body, primaryKey);
@@ -28,105 +30,15 @@ export class Table2 {
         return table;
     }
 
-    static generateTableStructure2(data: any[], fieldToSearch: string, keysToMerge: string[], hiddenKey: string, primaryKey?: string, keysOrder?: string[]): Table2 {
-        const table = new Table2();
-        if (!data.every(r => fieldToSearch in r)) return table;
-
-        let header: string[] = Array.from(
-            new Set(
-                data.flatMap((r: any) => {
-                    if (!(fieldToSearch in r)) return [];
-
-                    const values = r[fieldToSearch];
-                    const rest = { ...r };
-                    delete rest[fieldToSearch];
-
-                    if (!Array.isArray(values)) {
-                        return Object.keys(rest);
-                    }
-
-                    return [
-                        ...Object.keys(rest),
-                        ...values.map((d: any) => String(d['parameter']))
-                    ];
-                })
-            )
-        )
-
+    static orderTableHeader(header: string[], primaryKey?: string, keysOrder?: string[]): string[] {
+        let orderedHeader = [...header];
         if (primaryKey && header.includes(primaryKey)) {
-            header = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
+            orderedHeader = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
         }
         if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
-            header = [...keysOrder];
+            orderedHeader = [...keysOrder];
         }
-        table.header = header;
-
-        const body: any[][] = data.map((r: any) => {
-            if (fieldToSearch in r) {
-                const values = r[fieldToSearch];
-                const rest = { ...r };
-                delete rest[fieldToSearch];
-
-                if (!Array.isArray(values)) return { ...rest };
-
-                const row: any[] = [];
-
-                header.forEach((key: string) => {
-                    let cell = null;
-
-                    // cerca in rest
-                    if (key in rest) {
-                        cell = {
-                            dataKey: key,
-                            dataValue: rest[key],
-                            hiddenValue: undefined
-                        };
-                    }
-
-                    // cerca in values (solo se non trovata)
-                    if (!cell) {
-                        const found = values.find((d: any) => d.parameter === key);
-
-                        if (found) {
-                            const { parameter, ...r } = found;
-                            const entries = Object.entries(r);
-
-                            let value = '';
-                            keysToMerge.forEach((k: string) => {
-                                const pair: [string, any] | undefined = entries.find(([kk]) => kk === k);
-                                if (pair) {
-                                    const isDate = Table2._isISODate(pair[1]);
-                                    value += isDate
-                                        ? ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]`
-                                        : ` ${pair[1]}`;
-                                }
-                            });
-
-                            cell = {
-                                dataKey: key,
-                                dataValue: value,
-                                hiddenValue: found[hiddenKey]
-                            };
-                        }
-                    }
-
-                    // fallback: valore mancante
-                    if (!cell) {
-                        cell = {
-                            dataKey: key,
-                            dataValue: '-',
-                            hiddenValue: undefined
-                        };
-                    }
-
-                    row.push(cell);
-                });
-
-                return row;
-            }
-        });
-        table.body = Table2.orderTableData(body, primaryKey);
-        return table;
+        return orderedHeader;
     }
 
     static extractHeaderKeys(data: Object[]): string[] {

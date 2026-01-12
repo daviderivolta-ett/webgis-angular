@@ -19,25 +19,6 @@ export class TablesService {
     });
   }
 
-  // public mergeTableDataRowsByParam(data: any[], param: string): any[] {
-  //   console.log(data);    
-  //   return data.reduce((acc: any[], curr: any) => {
-  //     let found = acc.find((c) => c[param] === curr[param]);
-  //     if (!found) {
-  //       found = {
-  //         [param]: curr[param]
-  //       };
-  //       acc.push(found);
-  //     }
-
-  //     const nameIndex = Object.keys(found).filter(k => k.startsWith('name')).length + 1;
-  //     found[`name${nameIndex}`] = curr.name;
-  //     found[`code${nameIndex}`] = curr.code;
-
-  //     return acc;
-  //   }, [] as any[]);
-  // }
-
   public mergeTableDataRowsByParam(
     data: any[],
     groupBy: string,

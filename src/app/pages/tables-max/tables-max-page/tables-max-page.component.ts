@@ -153,7 +153,7 @@ export class TablesMaxPageComponent {
 
       let table = new Table2();
       let header = this._createTableHeader(tableRows, 'values', 'parameter');
-      table.header = this._orderTableHeader(header, 'name', config.keysOrder);
+      table.header =Table2.orderTableHeader(header, 'name', config.keysOrder);
       table.body = this._parseTableBody(tableRows, 'values', header, config.keysToMerge ?? [], config.actionKey ?? '');
 
       return {
@@ -185,17 +185,6 @@ export class TablesMaxPageComponent {
         })
       )
     )
-  }
-
-  private _orderTableHeader(header: string[], primaryKey?: string, keysOrder?: string[]): string[] {
-    let orderedHeader = [...header];
-    if (primaryKey && header.includes(primaryKey)) {
-      orderedHeader = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
-    }
-    if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
-      orderedHeader = [...keysOrder];
-    }
-    return orderedHeader;
   }
 
   private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string): any[] {
