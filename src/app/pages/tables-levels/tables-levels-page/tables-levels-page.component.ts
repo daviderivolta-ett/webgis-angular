@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -30,7 +30,7 @@ type PageTable = {
 
 /** Component */
 @Component({
-  selector: 'app-tables-extremes-page',
+  selector: 'app-tables-levels-page',
   imports: [
     /** Components */
     HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent,
@@ -39,10 +39,10 @@ type PageTable = {
     /** Pipes */
     MapValuePipe, IsDatePipe, DatePipe
   ],
-  templateUrl: './tables-extremes-page.component.html',
-  styleUrl: './tables-extremes-page.component.scss'
+  templateUrl: './tables-levels-page.component.html',
+  styleUrl: './tables-levels-page.component.scss'
 })
-export class TablesExtremesPageComponent {
+export class TablesLevelsPageComponent {
   /** User interface */
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
@@ -69,6 +69,7 @@ export class TablesExtremesPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private dateService: DateService,
+    private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
@@ -85,7 +86,7 @@ export class TablesExtremesPageComponent {
       const date = this.dateService.date();
       this.initialDate = date;
       this.selectedDate = date;
-      this._init('estremi-temperatura-vento');
+      this._init('livelli-idrometrici');
     });
   }
 
@@ -101,6 +102,7 @@ export class TablesExtremesPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
+
   private async _init(id: string): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
@@ -111,6 +113,7 @@ export class TablesExtremesPageComponent {
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
     this.tables = this.sortedTables = this._createTables(res, this.configGroup);
+    console.log(this.tables);    
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -151,10 +154,8 @@ export class TablesExtremesPageComponent {
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
 
-      let table = new Table2();
-      let header = this._createTableHeader(tableRows, ['firstValueStationCode', 'secondValueStationCode']);
-      table.header = this._orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, header, [['firstValue', 'firstValueReferenceDate'], ['secondValue', 'secondValueReferenceDate']]);
+      const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
+      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
 
       return {
         id: config.id,
@@ -162,82 +163,6 @@ export class TablesExtremesPageComponent {
         table
       }
     }).filter((d: unknown) => d !== undefined)
-  }
-
-  private _createTableHeader(data: any[], keysToExclude: string[]): string[] {
-    return Array.from(
-      new Set(
-        data.flatMap((r: any) => {
-          return Object.keys(r).filter(k => !keysToExclude.includes(k))
-        })
-      )
-    )
-  }
-
-  private _orderTableHeader(header: string[], primaryKey?: string, keysOrder?: string[]): string[] {
-    let orderedHeader = [...header];
-    if (primaryKey && header.includes(primaryKey)) {
-      orderedHeader = [primaryKey, ...header.filter((k: string) => k !== primaryKey)];
-    }
-    if (keysOrder && keysOrder.every((s: string) => header.includes(s))) {
-      orderedHeader = [...keysOrder];
-    }
-    return orderedHeader;
-  }
-
-  private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][]): any[] {
-    return data.map((r: any) => {
-
-      const row: any[] = [];
-
-      for (const key of headerkeys) {
-        if (!keysToMerge.flat().includes(key)) {
-          row.push({
-            dataKey: key,
-            dataValue: r[key] ?? '-',
-            hiddenvalue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
-              key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
-                undefined
-          })
-        } else {
-          const mergeGroup: string[] | undefined = keysToMerge.find((s: string[]) => s.includes(key));
-
-          if (!mergeGroup) {
-            row.push({
-              dataKey: key,
-              dataValue: r[key] ?? '-',
-              hiddenValue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
-                key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
-                  undefined
-            });
-            continue;
-          }
-
-          if (key !== mergeGroup[0]) continue;
-
-          const date: any = r[mergeGroup[1]];
-          let hour: string = '00:00';
-          if (date && !isNaN(new Date(date).getDate())) {
-            const d = new Date(date);
-
-            const hh = String(d.getHours()).padStart(2, '0');
-            const mm = String(d.getMinutes()).padStart(2, '0');
-
-            hour = `${hh}:${mm}`;
-          }
-
-          row.push({
-            dataKey: mergeGroup[0],
-            dataValue: `${r[mergeGroup[0]]} [${hour}]`,
-            hiddenKey: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
-              key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
-                undefined
-          })
-        }
-
-      }
-      return row.filter((d) => Object.keys(d).length > 0);
-    }).filter((d) => Object.keys(d).length > 0);
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }, tableId: string): void {

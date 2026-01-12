@@ -390,7 +390,7 @@
             ]
         },
         {
-            "id": "hydrometric-levels",
+            "id": "livelli-idrometrici",
             "label": "Livelli idrometrici",
             "options": [
                 {
@@ -399,7 +399,8 @@
                     "label": "A - Marittimi di Ponente",
                     "filterKeys": [],
                     "dataPath": "A",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-b",
@@ -407,7 +408,8 @@
                     "label": "B - Marittimi di Centro",
                     "filterKeys": [],
                     "dataPath": "B",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c",
@@ -415,7 +417,8 @@
                     "label": "C - Marittimi di Levante",
                     "filterKeys": [],
                     "dataPath": "C",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-d",
@@ -423,7 +426,8 @@
                     "label": "D - Padani di Ponente",
                     "filterKeys": [],
                     "dataPath": "D",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-e",
@@ -431,7 +435,8 @@
                     "label": "E - Padani di Levante",
                     "filterKeys": [],
                     "dataPath": "E",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c+",
@@ -439,7 +444,8 @@
                     "label": "C+ - C + Magra",
                     "filterKeys": [],
                     "dataPath": "C+",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c-",
@@ -447,7 +453,8 @@
                     "label": "C- - C - Magra",
                     "filterKeys": [],
                     "dataPath": "C-",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-m",
@@ -455,7 +462,8 @@
                     "label": "M - Magra",
                     "filterKeys": [],
                     "dataPath": "M",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 }
             ]
         },

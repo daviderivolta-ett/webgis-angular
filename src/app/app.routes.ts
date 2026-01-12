@@ -58,6 +58,26 @@ export const routes: Routes = [
         }
     },
     {
+        path: 'tabelle/estremi-temperatura-vento',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-extremes/tables-extremes-page/tables-extremes-page.component').then(c => c.TablesExtremesPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver
+        }
+    },
+    {
+        path: 'tabelle/livelli-idrometrici',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-levels/tables-levels-page/tables-levels-page.component').then(c => c.TablesLevelsPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver
+        }
+    },
+    {
         path: 'tabelle/modelli-idrologici',
         title: 'OMIRL ARPAL - Tabelle',
         canMatch: [authGuard],
