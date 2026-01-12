@@ -221,7 +221,7 @@ export class StationsService {
 
           chartData.push(chartSerie);
         }
-
+     
         return {
           ...chartToUpdate,
           data: chartData,

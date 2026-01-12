@@ -1,5 +1,5 @@
 .floating-dialog {
-    position: absolute;
+    position: fixed;
     z-index: 9999999;
     top: calc((100dvh - 70dvh) / 2);
     left: calc((100dvw - 80dvh) / 2);

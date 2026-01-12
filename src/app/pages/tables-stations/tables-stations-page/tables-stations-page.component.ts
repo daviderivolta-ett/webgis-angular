@@ -5,13 +5,13 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent } from '../../../components'
+import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent } from '../../../components'
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes'
@@ -21,6 +21,8 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
+import { MapChartComponent } from "../../data/map-chart/map-chart.component";
 
 /** Component */
 @Component({
@@ -41,7 +43,11 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
     /** Pipes */
     KeyValuePipe,
     MapValuePipe,
-    DatepickerComponent
+    DatepickerComponent,
+    PlotlyChartComponent,
+    MapChartDatepickerComponent,
+    MapChartComponent,
+    FloatingDialogComponent
   ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
@@ -51,14 +57,15 @@ export class TablesStationsPageComponent {
   public form: FormGroup = new FormGroup({ select: new FormControl('') });
   public filters: FormGroup | null = null;
 
-  public areChartsDisabled: boolean = false;
-
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
+
+  public chart: MapChart | null = null;
+  public isChartLoading: boolean = false;
 
   /** Data */
   public user: User | null = null;
@@ -70,9 +77,14 @@ export class TablesStationsPageComponent {
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public stationsTableUrl; // Recovered from route resolver in constructor
+  public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
+
+  private _stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
+  private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -89,9 +101,11 @@ export class TablesStationsPageComponent {
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
+    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
+    this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
     /** Effetcs */
     effect(() => {
@@ -100,8 +114,8 @@ export class TablesStationsPageComponent {
     });
     effect(() => {
       const date = this.dateService.date();
-      this.initialDate = date;
-      this.selectedDate = date;
+      this.initialDate = date ?? new Date();
+      this.selectedDate = date ?? new Date();
       this._onGlobalDateChange();
     });
   }
@@ -110,6 +124,11 @@ export class TablesStationsPageComponent {
   public ngOnInit(): void {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
+
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this._stations = stations;
+      });
   }
 
   /** Methods */
@@ -119,7 +138,7 @@ export class TablesStationsPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
-  private async _init(id: string): Promise<void> {   
+  private async _init(id: string): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -195,11 +214,11 @@ export class TablesStationsPageComponent {
 
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
-    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);  
+    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
     this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
   }
 
-  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {    
+  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
@@ -218,11 +237,11 @@ export class TablesStationsPageComponent {
     }, {});
   }
 
-  public onDownloadBtnClick(): void {    
+  public onDownloadBtnClick(): void {
     const table = this.newData.convertTableToArray();
     const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);
     Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}`, csv);
-    
+
   }
 
   public onDateChange(event: any): void {
@@ -242,9 +261,32 @@ export class TablesStationsPageComponent {
     this._init(this._tableConfigGroups[0].options[0].id);
   }
 
-  public onCellClick(cell: any, keyToFind: string): void {
+  public async onCellClick(cell: any): Promise<void> {
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
-    this.stationsService.getTimeSerie(this.timeserieUrl, hiddenValue, this.config && this.config.parameter ? this.config.parameter : '', [], '2025-12-30T20:00', '2025-12-31T20:00');
+
+    const stationPick = this._stations.find((s) => s.id === hiddenValue);
+    const stationBase = new StationBase(hiddenValue, 0, 0, stationPick ? stationPick.sensors : [], undefined, stationPick?.name);
+    const station = Station.fromStationData(stationBase, { value: 0, parameter: '' });
+
+    let chart = this.stationsService.createChart(station, []); 
+    this.chart = chart;
+    this.isChartLoading = true;
+
+    const dates: [string, string] = DateUtils.createDateRangeFromDate(this.selectedDate ?? new Date(), 3);
+    this.stationsService.updateChart(this.config && this.config.parameter ? this.config.parameter : '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1])
+      .then((chart: MapChart) => {
+        this.chart = chart;
+      })
+      .finally(() => {
+        this.isChartLoading = false;
+      })
+  }
+
+  public onChartCustomButtonClick(event: any[]): void {
+    if (!Array.isArray(event)) return;
+    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
+    Utils.downloadFile('a.csv', csv);
   }
 }
