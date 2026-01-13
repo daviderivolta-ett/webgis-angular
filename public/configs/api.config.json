@@ -9,7 +9,8 @@
         "timeseries": "/platforms/get/{stationId}/timeserie",
         "periods": "/",
         "hydroImgs": "/platforms/get/hydro/{model}",
-        "tableStations": "/tables/get/stations/{parameter}"
+        "tableStations": "/tables/get/stations/{parameter}",
+        "radarImgs": "/radarsat/get/latest/{radarType}"
     },
-    "lastModified": "2025-12-02"
+    "lastModified": "2026-01-13"
 }

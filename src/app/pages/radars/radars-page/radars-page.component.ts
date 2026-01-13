@@ -1,29 +1,25 @@
 /** Libraries */
-import { Component, effect, ViewChild } from '@angular/core';
-import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, effect, ViewChild } from '@angular/core'
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Services */
-import { AuthService } from '../../../services';
+import { ApiService, AuthService, RadarService, SnackbarsService } from '../../../services'
 
 /** Models */
-import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models';
+import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, RadarType, TreeNode, User } from '../../../models'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../components';
+import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../components'
 
 /** Component */
 @Component({
   selector: 'app-radars-page',
   imports: [
     /** Components */
-    HeaderComponent,
-    SidebarComponent,
-    ToggleComponent,
+    HeaderComponent, SidebarComponent, ToggleComponent,
     /**Directives */
-    RouterLink,
-    NgTemplateOutlet,
-    RouterLinkActive,
+    RouterLink, NgTemplateOutlet, RouterLinkActive,
     /** Pipes */
     TitleCasePipe
   ],
@@ -34,11 +30,15 @@ export class RadarsPageComponent {
   /** User Interface */
   public navGroups: TreeNode[] = [];
   public config: RadarConfig | undefined;
+  public currentImgType: RadarType = 'Image';
+
+  public pageTitle: string = '';
+  public imgUrl: string = '';
 
   /** Data */
   public user: User | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
-  public pageTitle: string = '';
+  public radarImgsUrl; // Recovered from route resolver in constructor
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -46,11 +46,16 @@ export class RadarsPageComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private apiService: ApiService,
+    private radarService: RadarService,
+    private snackbarsService: SnackbarsService,
   ) {
-    /** Resolvers */
+    /** Recovering data from resolvers */
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
     this.pageTitle = this.route.snapshot.data['type'];
+
+    this.radarImgsUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('radarImgs'));
 
     /** Effetcs */
     effect(() => {
@@ -75,7 +80,7 @@ export class RadarsPageComponent {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     this.config = this._initConfig(id);
     if (!this.config) return;
-    console.log(this.config);
+    this._getRadarImg(this._createUrl(this.config.url, this.currentImgType));
   }
 
   private _initConfigGroup(id: string): RadarConfigGroup | undefined {
@@ -97,5 +102,30 @@ export class RadarsPageComponent {
       return undefined;
     }
     return config;
+  }
+
+  public onToggleChanged(id: string) {
+    this.currentImgType = (id === 'Image' || id === 'Animation') ? id : this.currentImgType;
+    if (!this.config) return;
+    this._getRadarImg(this._createUrl(this.config.url, id));
+  }
+
+  private _createUrl(baseUrl: string, imgType: string) {
+    const endpoint = this.apiService.replaceApiUrlPlaceholder(baseUrl, imgType);
+    return this.apiService.replaceApiUrlPlaceholder(this.radarImgsUrl, endpoint);
+  }
+
+  private _getRadarImg(url: string) {
+    const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento immagine del radar.', 'loader', false);
+    this.radarService.getRadarImg(url, this.authService.getAccessToken())
+      .then((imgUrl: string) => {
+        this.imgUrl = imgUrl;
+      })
+      .catch((err: unknown) => {
+        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero delle immagini del radar.`, 'error', true);
+      })
+      .finally(() => {
+        this.snackbarsService.removeSnackbar(snackbarId);
+      })
   }
 }
