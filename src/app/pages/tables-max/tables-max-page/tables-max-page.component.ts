@@ -4,13 +4,13 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, StationsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -20,6 +20,7 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { MapChartComponent } from "../../data/map-chart/map-chart.component";
 
 /** Types */
 type PageTable = {
@@ -35,10 +36,13 @@ type PageTable = {
     /** Components */
     HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent,
     /** Directives */
-    RouterLink, ScrollableTableDirective, RouterLinkActive,    
+    RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
-    MapValuePipe, IsDatePipe, DatePipe
-],
+    MapValuePipe, IsDatePipe, DatePipe,
+    FloatingDialogComponent,
+    MapChartComponent,
+    PlotlyChartComponent
+  ],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
 })
@@ -46,19 +50,29 @@ export class TablesMaxPageComponent {
   /** User interface */
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
+  public config: TableConfig | undefined;
 
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
+
+  public tables: PageTable[] = [];
+  public sortedTables: PageTable[] = [];
+
+  public chart: MapChart | null = null;
+  public isChartLoading: boolean = false;
 
   /** Data */
   public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
+  public stationParametersUrl; // Recovered from route resolver in constructor
+  public timeserieUrl; // Recovered from route resolver in constructor
+
+  private _stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
-
-  public tables: PageTable[] = [];
-  public sortedTables: PageTable[] = [];
+  private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -68,12 +82,16 @@ export class TablesMaxPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private stationsService: StationsService,
     private dateService: DateService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
+    this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
     /** Effects */
     effect(() => {
@@ -92,6 +110,7 @@ export class TablesMaxPageComponent {
   /** Component lifecycle */
   public ngOnInit(): void {
     this._initNavbar();
+    this._getStationParameters();
   }
 
   /** Methods */
@@ -99,6 +118,16 @@ export class TablesMaxPageComponent {
     this.navGroups = this._tableConfigGroups
       .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
+  }
+
+  private async _getStationParameters(): Promise<void> {
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this._stations = stations;
+      })
+      .catch((err: unknown) => {
+        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei parametri delle stazioni.`, 'error', true);
+      })
   }
 
   private async _init(id: string): Promise<void> {
@@ -153,7 +182,7 @@ export class TablesMaxPageComponent {
 
       let table = new Table2();
       let header = this._createTableHeader(tableRows, 'values', 'parameter');
-      table.header =Table2.orderTableHeader(header, 'name', config.keysOrder);
+      table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);
       table.body = this._parseTableBody(tableRows, 'values', header, config.keysToMerge ?? [], config.actionKey ?? '');
 
       return {
@@ -278,5 +307,37 @@ export class TablesMaxPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+  }
+
+  public async onCellClick(cell: any, tableId: string): Promise<void> {
+    const hiddenValue: string | undefined = cell['hiddenValue'];
+    if (!hiddenValue) return;
+
+    const tableConfig = TableConfigGroup.findTableConfig(tableId, this._tableConfigGroups);
+    if (!tableConfig) return;
+
+    const stationPick = this._stations.find((s) => s.id === hiddenValue);
+    if (!stationPick) return;
+    const station: Station = Station.fromStationPick(stationPick);
+
+    let chart = this.stationsService.createChart(station, []);
+    this.chart = chart;
+    this.isChartLoading = true;
+
+    const dates: [string, string] = DateUtils.createDateRangeFromDate(this.selectedDate ?? new Date(), 3);
+    this.stationsService.updateChart(tableConfig.parameter ?? '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1])
+      .then((chart: MapChart) => {
+        this.chart = chart;
+      })
+      .finally(() => {
+        this.isChartLoading = false;
+      })
+  }
+
+  public onChartCustomButtonClick(event: any[]): void {
+    if (!Array.isArray(event)) return;
+    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
+    Utils.downloadFile('massimi-precipitazione.csv', csv);
   }
 }

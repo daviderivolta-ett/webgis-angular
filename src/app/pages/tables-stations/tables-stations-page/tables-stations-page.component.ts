@@ -28,24 +28,11 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
   selector: 'app-tables-stations-page',
   imports: [
     /** Components */
-    HeaderComponent,
-    SidebarComponent,
-    InputAutocompleteComponent,
+    HeaderComponent, SidebarComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, MapChartComponent, FloatingDialogComponent,
     /** Directives */
-    NgTemplateOutlet,
-    RouterLink,
-    RouterLinkActive,
-    ReactiveFormsModule,
-    ScrollableTableDirective,
-    SortableTableComponent,
-    SortHeaderComponent,
+    NgTemplateOutlet, RouterLink, RouterLinkActive, ReactiveFormsModule, ScrollableTableDirective, SortableTableComponent, SortHeaderComponent,
     /** Pipes */
-    KeyValuePipe,
-    MapValuePipe,
-    DatepickerComponent,
-    PlotlyChartComponent,
-    MapChartComponent,
-    FloatingDialogComponent
+    KeyValuePipe, MapValuePipe
   ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
@@ -122,11 +109,7 @@ export class TablesStationsPageComponent {
   public ngOnInit(): void {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
-
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this._stations = stations;
-      });
+    this._getStationParameters();
   }
 
   /** Methods */
@@ -134,6 +117,16 @@ export class TablesStationsPageComponent {
     this.navGroups = this._tableConfigGroups
       .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
+  }
+
+  private async _getStationParameters(): Promise<void> {
+    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+      .then((stations) => {
+        this._stations = stations;
+      })
+      .catch((err: unknown) => {
+        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei parametri delle stazioni.`, 'error', true);
+      })
   }
 
   private async _init(id: string): Promise<void> {
@@ -166,9 +159,7 @@ export class TablesStationsPageComponent {
   }
 
   private _initConfig(id: string): TableConfig | undefined {
-    const config = this._tableConfigGroups
-      .map((g: TableConfigGroup) => g.getTableConfig(id))
-      .find((g) => g !== undefined);
+    const config = TableConfigGroup.findTableConfig(id, this._tableConfigGroups);
     if (!config) {
       this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
       return undefined;
@@ -264,10 +255,10 @@ export class TablesStationsPageComponent {
     if (!hiddenValue) return;
 
     const stationPick = this._stations.find((s) => s.id === hiddenValue);
-    const stationBase = new StationBase(hiddenValue, 0, 0, stationPick ? stationPick.sensors : [], undefined, stationPick?.name);
-    const station = Station.fromStationData(stationBase, { value: 0, parameter: '' });
+    if (!stationPick) return;
+    const station: Station = Station.fromStationPick(stationPick);
 
-    let chart = this.stationsService.createChart(station, []); 
+    let chart = this.stationsService.createChart(station, []);
     this.chart = chart;
     this.isChartLoading = true;
 
@@ -285,6 +276,6 @@ export class TablesStationsPageComponent {
     if (!Array.isArray(event)) return;
     const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
-    Utils.downloadFile('a.csv', csv);
+    Utils.downloadFile('stazioni.csv', csv);
   }
 }

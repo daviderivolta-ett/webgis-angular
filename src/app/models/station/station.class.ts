@@ -114,4 +114,9 @@ export class Station extends StationBase implements StationData {
         if (station) this.sensors = [...station.sensors];
         return this;
     }
+
+    static fromStationPick(stationPick: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>): Station {
+        const stationBase = new StationBase(stationPick.id, 0, 0, stationPick.sensors, undefined, stationPick.name);
+        return Station.fromStationData(stationBase, { value: 0, parameter: '' });
+    }
 }

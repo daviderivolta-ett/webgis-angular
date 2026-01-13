@@ -423,7 +423,7 @@
                     "label": "Vento",
                     "filterKeys": [],
                     "dataPath": "Wind",
-                    "parameter": "mean_air_temp",
+                    "parameter": "mean_wind_speed",
                     "keysToKeep": [
                         "region",
                         "firstValue",

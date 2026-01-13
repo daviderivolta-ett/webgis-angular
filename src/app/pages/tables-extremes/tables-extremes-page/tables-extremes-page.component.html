@@ -56,7 +56,7 @@
                                     @for (r of t.table.body; track $index) {
                                         <div class="trow">
                                             @for (d of r; track $index) {
-                                                <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'">
+                                                <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" (click)="onCellClick(d, t.id)">
                                                     <p>
                                                         @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
                                                         @else { {{d['dataValue'] ?? '-'}} }
@@ -72,6 +72,22 @@
                 }
             </div>
             <!-- END TABLES -->
+
+            <!-- START FLOATING CHARTS -->
+            @if (chart) {
+                <app-floating-dialog (removeDialog)="chart=null">
+                    <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="isChartLoading" [param]="chart.currentParameter">
+                        <!-- <app-map-chart-datepicker [endingDate]="chartReferenceDate"></app-map-chart-datepicker> -->
+                        <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [referenceDate]="selectedDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
+                        <!-- <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector> -->
+                    </app-map-chart>
+                </app-floating-dialog>
+            }
+                        
+            @if (chart) {
+                <div class="overlay"></div>
+            }
+            <!-- END FLOATING CHARTS -->
 
             <!-- END MAIN -->
         </div>

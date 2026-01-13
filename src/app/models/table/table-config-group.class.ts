@@ -31,6 +31,12 @@ export class TableConfigGroup {
         return config;
     }
 
+    static findTableConfig(tableId: string, groups: TableConfigGroup[]): TableConfig | undefined {
+        return groups
+            .map((g: TableConfigGroup) => g.getTableConfig(tableId))
+            .find((g) => g !== undefined)
+    }
+
     public getTableConfig(id: string): TableConfig | undefined {
         return this.options.find((o: TableConfig) => o.id === id);
     }
