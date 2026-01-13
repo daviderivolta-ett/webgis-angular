@@ -254,7 +254,6 @@ export class MapComponent {
 
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
-    console.log('ADD TIMEDIMENSION WMS LAYER');    
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
       // @ts-ignore
@@ -357,13 +356,26 @@ export class MapComponent {
     this.selectedDate.set(date);
     this.dateChanged.emit(date);
 
+    // @ts-ignore: time dimension plugin has no type declaration
+    const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+
     if (date) {
-      this._setCurrentTime(date);
+      const num: number = date.getTime() - date.getTimezoneOffset() * 60000;
+      if (this._checkDateInRange(availableTimes, num) && this._checkDateInAvailableTimes(availableTimes, num)) this._setCurrentTime(date);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
-      const availableTimes: numbers[] = this._map.timeDimension.getAvailableTimes();
       availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
     }
+  }
+
+  private _checkDateInRange(availableTimes: number[], date: number): boolean {
+    const minTime: number = Math.min(...availableTimes);
+    const maxTime: number = Math.max(...availableTimes);
+    return date >= minTime && date <= maxTime;
+  }
+
+  private _checkDateInAvailableTimes(availableTimes: number[], date: number): boolean {
+    return availableTimes.includes(date);
   }
 
   private _resetTimeDimension(): void {
@@ -374,7 +386,6 @@ export class MapComponent {
   }
 
   private _setCurrentTime(date: Date | number): void {
-    console.log(date);    
     // @ts-ignore: time dimension plugin has no type declaration
     if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() - date.getTimezoneOffset() * 60000 : date);
   }
