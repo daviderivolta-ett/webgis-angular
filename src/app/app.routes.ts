@@ -103,21 +103,21 @@ export const routes: Routes = [
             sensorTypes: sensorTypesResolver
         }
     },
-    {
-        path: 'satellite',
-        pathMatch: 'full',
-        redirectTo: 'satellite/satellite_nord_visible'
-    },
-    {
-        path: 'satellite/:id',
-        title: 'OMIRL ARPAL - Satellite',
-        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
-        resolve: {
-            apisConfig: apisResolver,
-            radarConfigGroups: radarConfigGroupsResolver
-        },
-        data: { type: 'satellite' }
-    },
+    // {
+    //     path: 'satellite',
+    //     pathMatch: 'full',
+    //     redirectTo: 'satellite/satellite_nord_visible'
+    // },
+    // {
+    //     path: 'satellite/:id',
+    //     title: 'OMIRL ARPAL - Satellite',
+    //     loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
+    //     resolve: {
+    //         apisConfig: apisResolver,
+    //         radarConfigGroups: radarConfigGroupsResolver
+    //     },
+    //     data: { type: 'satellite' }
+    // },
     {
         path: 'radar',
         pathMatch: 'full',
