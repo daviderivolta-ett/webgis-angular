@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { ApiService, AuthService, RadarService, SnackbarsService } from '../../../services'
 
 /** Models */
-import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, RadarType, TreeNode, User } from '../../../models'
+import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../components'
@@ -30,7 +30,7 @@ export class RadarsPageComponent {
   /** User Interface */
   public navGroups: TreeNode[] = [];
   public config: RadarConfig | undefined;
-  public currentImgType: RadarType = 'Image';
+  public currentImgType: 'Image' | 'Animation' = 'Image';
 
   public pageTitle: string = '';
   public imgUrl: string = '';
