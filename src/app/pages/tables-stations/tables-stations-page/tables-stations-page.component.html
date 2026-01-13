@@ -85,7 +85,7 @@
                         @for (r of newSortedData.body; track $index) {
                             <div class="trow">
                                 @for (d of r; track $index) {
-                                    <div class="tdata" (click)="onCellClick(d)">
+                                    <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" (click)="onCellClick(d)">
                                         <p>{{d['dataValue'] ?? '-'}}</p>
                                     </div>
                                 }

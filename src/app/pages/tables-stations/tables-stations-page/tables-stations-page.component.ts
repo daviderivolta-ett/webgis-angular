@@ -5,13 +5,14 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { MapChart, MapChartData, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent } from '../../../components'
+import { MapChartComponent } from '../../data/map-chart/map-chart.component';
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes'
@@ -21,8 +22,6 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
-import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
-import { MapChartComponent } from "../../data/map-chart/map-chart.component";
 
 /** Component */
 @Component({
@@ -45,7 +44,6 @@ import { MapChartComponent } from "../../data/map-chart/map-chart.component";
     MapValuePipe,
     DatepickerComponent,
     PlotlyChartComponent,
-    MapChartDatepickerComponent,
     MapChartComponent,
     FloatingDialogComponent
   ],
@@ -114,8 +112,8 @@ export class TablesStationsPageComponent {
     });
     effect(() => {
       const date = this.dateService.date();
-      this.initialDate = date ?? new Date();
-      this.selectedDate = date ?? new Date();
+      this.initialDate = date;
+      this.selectedDate = date;
       this._onGlobalDateChange();
     });
   }
