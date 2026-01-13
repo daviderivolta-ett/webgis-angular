@@ -34,14 +34,11 @@ type PageTable = {
   selector: 'app-tables-max-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent,
+    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, MapChartComponent, PlotlyChartComponent,
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
-    MapValuePipe, IsDatePipe, DatePipe,
-    FloatingDialogComponent,
-    MapChartComponent,
-    PlotlyChartComponent
+    MapValuePipe, IsDatePipe, DatePipe
   ],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
