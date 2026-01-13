@@ -254,6 +254,7 @@ export class MapComponent {
 
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    console.log('ADD TIMEDIMENSION WMS LAYER');    
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
       // @ts-ignore
@@ -373,8 +374,9 @@ export class MapComponent {
   }
 
   private _setCurrentTime(date: Date | number): void {
+    console.log(date);    
     // @ts-ignore: time dimension plugin has no type declaration
-    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
+    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() - date.getTimezoneOffset() * 60000 : date);
   }
 
   private _nextTime(): void {
