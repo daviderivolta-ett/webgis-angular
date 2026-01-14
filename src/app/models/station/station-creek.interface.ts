@@ -1,4 +1,4 @@
-export class StationCreekThreshold {
+export class StationThresholdConfig {
     public yMin?: number;
     public yMax?: number;
     public sms?: number;
@@ -8,8 +8,8 @@ export class StationCreekThreshold {
     public black?: number;
     public white?: number;
 
-    static createFromObject(object: any): StationCreekThreshold {
-        const creekThreshold: StationCreekThreshold = new StationCreekThreshold();
+    static createFromObject(object: any): StationThresholdConfig {
+        const creekThreshold: StationThresholdConfig = new StationThresholdConfig();
 
         if ('yMin' in object && typeof object['yMin'] === 'number') creekThreshold['yMin'] = object['yMin'];
         if ('yMax' in object && typeof object['yMax'] === 'number') creekThreshold['yMax'] = object['yMax'];

@@ -428,10 +428,9 @@ export class DataPageComponent {
         default:
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
-          if (station?.creekThreshold) Object.entries(station.creekThreshold).forEach(([k, v]: [string, number]) => {
+          if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
             if (Utils.isValidColor(k) && v) thresholds[k] = v ;
-          })
-          console.log(thresholds);          
+          });
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
           break;
       }
@@ -457,7 +456,7 @@ export class DataPageComponent {
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
-    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.creekThreshold, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })

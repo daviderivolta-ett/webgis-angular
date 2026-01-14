@@ -435,7 +435,10 @@
             "unit": "m",
             "isFeatured": true,
             "relatedSensors": [],
-            "customRange": "creekThreshold"
+            "thresholdKeys": [
+                "orange",
+                "red"
+            ]
         },
         {
             "id": "max_creek_level",
@@ -445,7 +448,10 @@
             "unit": "m",
             "isFeatured": false,
             "relatedSensors": [],
-            "customRange": "creekThreshold"
+            "thresholdKeys": [
+                "orange",
+                "red"
+            ]
         },
         {
             "id": "instant_creek_level",
@@ -455,7 +461,10 @@
             "unit": "m",
             "isFeatured": false,
             "relatedSensors": [],
-            "customRange": "creekThreshold"
+            "thresholdKeys": [
+                "orange",
+                "red"
+            ]
         },
         {
             "id": "mean_wind_speed",

@@ -1,6 +1,6 @@
 import { Sensor } from './sensor.class'
 import { Geolocation } from '../geographic'
-import { StationCreekThreshold } from './station-creek.interface';
+import { StationThresholdConfig } from './station-creek.interface';
 
 export class StationBase implements Geolocation {
     public id: string;
@@ -12,7 +12,7 @@ export class StationBase implements Geolocation {
     public name?: string;
     public city?: string;
     public alt?: number;
-    public creekThreshold?: StationCreekThreshold;
+    public thresholdConfig?: StationThresholdConfig;
 
     constructor(
         id: string,
@@ -24,7 +24,7 @@ export class StationBase implements Geolocation {
         city?: string,
         alt?: number,
         type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform',
-        creekThreshold?: StationCreekThreshold
+        thresholdConfig?: StationThresholdConfig
     ) {
         this.id = id;
         this.lat = lat;
@@ -35,7 +35,7 @@ export class StationBase implements Geolocation {
         this.city = city;
         this.alt = alt;
         this.type = type;
-        this.creekThreshold = creekThreshold;
+        this.thresholdConfig = thresholdConfig;
     }
 
     static createDefault(): StationBase {
@@ -67,8 +67,8 @@ export class StationBase implements Geolocation {
         if (object['municipality'] && typeof object['municipality'] === 'string') station.city = object['municipality'];
         if ('alt' in object && typeof object['alt'] === 'number') station.alt = object['alt'];
 
-        const creekThreshold = StationCreekThreshold.createFromObject(object);
-        if (Object.keys(creekThreshold).length > 0) station.creekThreshold = creekThreshold;
+        const creekThreshold = StationThresholdConfig.createFromObject(object);
+        if (Object.keys(creekThreshold).length > 0) station.thresholdConfig = creekThreshold;
 
         return station;
     }
@@ -128,8 +128,8 @@ export class StationBase implements Geolocation {
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
         if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'platform' || props['type'] === 'lightning' || props['type'] === 'hydro')) station.type = props['type'];
 
-        const creekThreshold = StationCreekThreshold.createFromObject(props);
-        if (Object.keys(creekThreshold).length > 0) station.creekThreshold = creekThreshold;
+        const creekThreshold = StationThresholdConfig.createFromObject(props);
+        if (Object.keys(creekThreshold).length > 0) station.thresholdConfig = creekThreshold;
 
         return station;
     }

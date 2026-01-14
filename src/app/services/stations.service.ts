@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationCreekThreshold } from '../models';
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationThresholdConfig } from '../models';
 
 /** Services */
 import { ApiService } from './api.service';
@@ -20,8 +20,8 @@ export class StationsService {
 
   public async getAllStations(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {      
-        if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);        
+      .then((data: any) => {
+        if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);
         return data['features'].map((s: any) => StationBase.createFromObject(StationBase.createFromGeoJSONFeature(s)));
       })
       .catch((err: unknown) => {
@@ -185,6 +185,9 @@ export class StationsService {
     if (minSensor) stationSensorTypes.unshift(minSensor);
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
 
+    let sensorThresholds: Record<string, number> | undefined;
+    if (sensorType && thresholds) sensorThresholds = this._getSensorThresholds(sensorType, thresholds);
+
     return new MapChart(
       station.id,
       [],
@@ -196,18 +199,18 @@ export class StationsService {
       'Data',
       '',
       undefined,
-      thresholds
+      sensorThresholds ? sensorThresholds : undefined
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, rangeConfig?: StationCreekThreshold, token?: string): Promise<MapChart> {
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
-    const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);   
+    const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
       .then((data: Map<string, [number, number][]>) => {
-        const chartData: MapChartData[] = [];       
+        const chartData: MapChartData[] = [];
 
         sensorTypes.forEach(t => {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
@@ -216,6 +219,9 @@ export class StationsService {
         for (const entry of data.entries()) {
           const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
           if (!sensor) continue;
+
+          let customRange: [number, number] | undefined;
+          if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 
           const chartSerie: MapChartData = new MapChartData(
             sensor.chartType,
@@ -227,7 +233,7 @@ export class StationsService {
             sensor.style,
             sensor.label,
             `(${sensor.unit})`,
-            rangeConfig ? [rangeConfig.yMin, rangeConfig.yMax] : sensor.range,
+            customRange ?? sensor.range,
             sensor.id.includes('--cumulative') ? true : false,
             sensor.isMainYAxis ?? false
           );
@@ -246,4 +252,17 @@ export class StationsService {
         throw new Error(err instanceof Error ? err.message : `Errore nel recupero della timeseries.`);
       })
   }
+
+  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {
+    return sensorType.thresholdKeys?.reduce((acc: Record<string, number>, curr: string) => {
+      const value = (thresholdConfig as any)[curr];
+      if (typeof value === 'number') acc[curr] = value;
+      return acc;
+    }, {} as Record<string, number>) ?? undefined;
+  }
+
+  private _getSensorRange(sensorType: SensorType, thresholdConfig: StationThresholdConfig): [number, number] | undefined {
+    return (sensorType && sensorType.thresholdKeys && thresholdConfig.yMin && thresholdConfig.yMax) ? [thresholdConfig.yMin, thresholdConfig.yMax] : undefined;
+  }
+
 }
