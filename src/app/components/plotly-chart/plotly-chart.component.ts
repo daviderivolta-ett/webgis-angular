@@ -28,6 +28,7 @@ export class PlotlyChartComponent {
   public xLabel = input<string>('TEXT');
   public xRange = input<any[]>([]);
   public data = input<PlotlyChartData[]>([]);
+  public thresholds = input<Record<string, number>>({});
   public referenceDate = input<Date | undefined>(new Date());
 
   public onCustomButtonClick = output<any>();
@@ -42,6 +43,7 @@ export class PlotlyChartComponent {
     });
 
     effect(() => this._drawChart(this.data()));
+    effect(() => this._drawThresholds(this.thresholds()));
   }
 
   /** Component lifecycle */
@@ -118,7 +120,10 @@ export class PlotlyChartComponent {
       layout,
       config
     )
-      .then(() => this._setup())
+      .then(() => {
+        this._drawThresholds(this.thresholds());
+        this._setup();
+      })
   }
 
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
@@ -160,7 +165,7 @@ export class PlotlyChartComponent {
       if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
-          size: 12,          
+          size: 12,
           color: 'transparent',
 
         } as any
@@ -317,34 +322,32 @@ export class PlotlyChartComponent {
     return layout;
   }
 
-  // private _createHorizontalBands(): Partial<Plotly.Shape>[] {
-  //   const min = -this.yRange()[1];
-  //   const max = this.yRange()[1];
-  //   const step = (max - min) / 40;
+  private _drawThresholds(thresholds: Record<string, number>): void {
+    if (!this.plotly) return;
 
-  //   let flip = false;
-  //   const horizontalBands: Partial<Plotly.Shape>[] = [];
+    const plotly = this.plotly.nativeElement as any;
 
-  //   for (let y = min; y < max; y += step) {
-  //     if (flip) {
-  //       horizontalBands.push({
-  //         type: "rect",
-  //         x0: 0,
-  //         x1: 1,
-  //         y0: y,
-  //         y1: y + step,
-  //         xref: "paper",
-  //         yref: "y",
-  //         fillcolor: "#EEEEFF",
-  //         line: { width: 0 },
-  //         layer: "below"
-  //       });
-  //     }
-  //     flip = !flip;
-  //   }
+    const shapes: Partial<Plotly.Shape>[] = Object.entries(thresholds)
+      .map(([color, value]: [string, number]) => {
+        return {
+          type: 'line',
+          xref: 'paper',
+          x0: 0,
+          x1: 1,
+          yref: 'y',
+          y0: value,
+          y1: value,
+          line: {
+            color,
+            width: 1
+          }
+        }
+      })
 
-  //   return horizontalBands;
-  // }
+    Plotly.relayout(this.plotly.nativeElement, {
+      shapes: [...plotly._fullLayout?.shapes, ...shapes]
+    });
+  }
 
   private _getConfig(): Partial<Plotly.Config> {
     return {

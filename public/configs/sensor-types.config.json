@@ -433,12 +433,9 @@
             "label": "Livelli idrometrici medi",
             "chartType": "scatter",
             "unit": "m",
-            "range": [
-                0,
-                8
-            ],
             "isFeatured": true,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "customRange": "creekThreshold"
         },
         {
             "id": "max_creek_level",
@@ -446,12 +443,9 @@
             "label": "Livelli idrometrici massimi",
             "chartType": "scatter",
             "unit": "m",
-            "range": [
-                0,
-                8
-            ],
             "isFeatured": false,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "customRange": "creekThreshold"
         },
         {
             "id": "instant_creek_level",
@@ -459,12 +453,9 @@
             "label": "Livelli idrometrici istantanei",
             "chartType": "scatter",
             "unit": "m",
-            "range": [
-                0,
-                8
-            ],
             "isFeatured": false,
-            "relatedSensors": []
+            "relatedSensors": [],
+            "customRange": "creekThreshold"
         },
         {
             "id": "mean_wind_speed",

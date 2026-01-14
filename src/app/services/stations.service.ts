@@ -2,13 +2,13 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase } from '../models';
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationCreekThreshold } from '../models';
 
 /** Services */
 import { ApiService } from './api.service';
 
 /** Utils */
-import { DateUtils } from '../utils';
+import { DateUtils, Utils } from '../utils';
 
 /** Service */
 @Injectable({
@@ -17,6 +17,18 @@ import { DateUtils } from '../utils';
 export class StationsService {
 
   constructor(private apiService: ApiService) { }
+
+  public async getAllStations(url: string, token?: string) {
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {      
+        if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);        
+        return data['features'].map((s: any) => StationBase.createFromObject(StationBase.createFromGeoJSONFeature(s)));
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error) throw err;
+        else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
+      })
+  }
 
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
@@ -166,7 +178,7 @@ export class StationsService {
     return found ? { ...found, label: newLabel } : undefined;
   }
 
-  public createChart(station: Station, sensorTypes: SensorType[]): MapChart {
+  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {
     const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
     const stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
     const minSensor: SensorType | undefined = this.compareSensorTypes(sensorTypes, 'rain', 'Pioggia nativa');
@@ -183,18 +195,19 @@ export class StationsService {
       sensorType ? sensorType.label : station.parameter,
       'Data',
       '',
-      undefined
+      undefined,
+      thresholds
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, token?: string): Promise<MapChart> {
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, rangeConfig?: StationCreekThreshold, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
-    const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
+    const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);   
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
       .then((data: Map<string, [number, number][]>) => {
-        const chartData: MapChartData[] = [];
+        const chartData: MapChartData[] = [];       
 
         sensorTypes.forEach(t => {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
@@ -214,14 +227,14 @@ export class StationsService {
             sensor.style,
             sensor.label,
             `(${sensor.unit})`,
-            sensor.range,
+            rangeConfig ? [rangeConfig.yMin, rangeConfig.yMax] : sensor.range,
             sensor.id.includes('--cumulative') ? true : false,
             sensor.isMainYAxis ?? false
           );
 
           chartData.push(chartSerie);
         }
-     
+
         return {
           ...chartToUpdate,
           data: chartData,

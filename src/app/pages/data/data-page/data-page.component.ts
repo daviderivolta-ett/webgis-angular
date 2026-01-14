@@ -94,13 +94,15 @@ export class DataPageComponent {
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public polygonMeanApiBaseUrl; // Recovered from route resolver in constructor
+  public stationsUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
 
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
-  public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+  public stations: StationBase[] = [];
+  public stationsPick: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
@@ -135,6 +137,7 @@ export class DataPageComponent {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.polygonMeanApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('polygonMeanApi'));
 
+    this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
     this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
@@ -160,9 +163,9 @@ export class DataPageComponent {
     });
 
     effect(() => {
-      const date = this.dateService.date();    
+      const date = this.dateService.date();
       this.initialDate = date;
-      this.selectedDate = date;      
+      this.selectedDate = date;
     });
   }
 
@@ -194,7 +197,7 @@ export class DataPageComponent {
     this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
       .then((stations) => {
-        this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
+        this.stationsPick = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
@@ -210,6 +213,18 @@ export class DataPageComponent {
       })
       .catch(() => {
         this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
+
+    this.isLoading = true;
+    this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken())
+      .then((data) => {
+        this.stations = [...data];
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar('Errore nel recupero dei dati anagrafici delle stazioni', 'error', true);
       })
       .finally(() => {
         this.isLoading = false;
@@ -324,7 +339,7 @@ export class DataPageComponent {
       if (this.refreshLayersId) window.clearInterval(this.refreshLayersId)
       return;
     }
- 
+
     const allLayers = LayerGroup.getAllLayers(this.dataLayers);
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
@@ -347,7 +362,7 @@ export class DataPageComponent {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
-      return station.addSensorsFromStationLists(this.stations);
+      return station.addSensorsFromStationLists(this.stationsPick);
     });
     this.popupData = [...stations];
   }
@@ -411,7 +426,13 @@ export class DataPageComponent {
           break;
 
         default:
-          newCharts.push(this.stationsService.createChart(s, this._sensorTypes));
+          const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
+          const thresholds: Record<string, number> = {};
+          if (station?.creekThreshold) Object.entries(station.creekThreshold).forEach(([k, v]: [string, number]) => {
+            if (Utils.isValidColor(k) && v) thresholds[k] = v ;
+          })
+          console.log(thresholds);          
+          newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
           break;
       }
     });
@@ -425,7 +446,7 @@ export class DataPageComponent {
     this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
   }
 
-  public async onChartParameterChange(chartId: string, formChange: Record<string, string>): Promise<void> {
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -434,7 +455,9 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
 
-    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, this.authService.getAccessToken())
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
+
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.creekThreshold, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
@@ -450,7 +473,7 @@ export class DataPageComponent {
     if (!Array.isArray(event)) return;
     const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
-    Utils.downloadFile('a.csv', csv);
+    Utils.downloadFile('station_chart.csv', csv);
   }
 
   /**
@@ -537,7 +560,7 @@ export class DataPageComponent {
         colorScale,
         layer,
         baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
-        stations: this.stations,
+        stations: this.stationsPick,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
         timeThreshold: this.settings.staleDataThreshold,
@@ -559,10 +582,10 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {     
+  public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
-    this.chartReferenceDate = date;  
+    this.chartReferenceDate = date;
     this._updateMultipleLayers(date);
   }
 

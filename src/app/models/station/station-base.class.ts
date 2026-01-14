@@ -1,5 +1,6 @@
 import { Sensor } from './sensor.class'
 import { Geolocation } from '../geographic'
+import { StationCreekThreshold } from './station-creek.interface';
 
 export class StationBase implements Geolocation {
     public id: string;
@@ -11,6 +12,7 @@ export class StationBase implements Geolocation {
     public name?: string;
     public city?: string;
     public alt?: number;
+    public creekThreshold?: StationCreekThreshold;
 
     constructor(
         id: string,
@@ -21,7 +23,8 @@ export class StationBase implements Geolocation {
         name?: string,
         city?: string,
         alt?: number,
-        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform'
+        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform',
+        creekThreshold?: StationCreekThreshold
     ) {
         this.id = id;
         this.lat = lat;
@@ -32,6 +35,7 @@ export class StationBase implements Geolocation {
         this.city = city;
         this.alt = alt;
         this.type = type;
+        this.creekThreshold = creekThreshold;
     }
 
     static createDefault(): StationBase {
@@ -57,9 +61,14 @@ export class StationBase implements Geolocation {
 
         const station = new StationBase(object['id'], object['lat'], object['lng'], object['sensors'].map((s: any) => Sensor.createFromObject(s)));
 
+        if ('uuid' in object && typeof object['uuid'] === 'string') station.uuid = object['uuid'];
         if (object['name'] && typeof object['name'] === 'string') station.name = object['name'];
         if (object['city'] && typeof object['city'] === 'string') station.city = object['city'];
+        if (object['municipality'] && typeof object['municipality'] === 'string') station.city = object['municipality'];
         if ('alt' in object && typeof object['alt'] === 'number') station.alt = object['alt'];
+
+        const creekThreshold = StationCreekThreshold.createFromObject(object);
+        if (Object.keys(creekThreshold).length > 0) station.creekThreshold = creekThreshold;
 
         return station;
     }
@@ -82,7 +91,20 @@ export class StationBase implements Geolocation {
         return station;
     }
 
-    static createFromGeoJSONProps(props: Record<string, any>): StationBase {      
+    static createFromGeoJSONFeature(feature: GeoJSON.Feature): StationBase {
+        if (!feature.geometry || feature.geometry.type !== 'Point') {
+            throw new Error('La geometria non è un Point.');
+        }
+
+        const lat: number = feature.geometry.coordinates[1];
+        const lng: number = feature.geometry.coordinates[0];
+        const uuid: string | number | undefined = feature.id;
+        const id: string | undefined = feature.properties?.['code'];    
+
+        return StationBase.createFromObject({ ...feature.properties, id, uuid, lat, lng, sensors: [] });
+    }
+
+    static createFromGeoJSONProps(props: Record<string, any>): StationBase {
         if (
             (!('shortCode' in props) || typeof props['shortCode'] !== 'string') &&
             (!('stationCode' in props) || typeof props['stationCode'] !== 'string') &&
@@ -105,9 +127,14 @@ export class StationBase implements Geolocation {
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
         if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'platform' || props['type'] === 'lightning' || props['type'] === 'hydro')) station.type = props['type'];
-      
+
+        const creekThreshold = StationCreekThreshold.createFromObject(props);
+        if (Object.keys(creekThreshold).length > 0) station.creekThreshold = creekThreshold;
+
         return station;
     }
+
+
 
     static fromPartialToDatabaseStationParameter(station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) {
         return {

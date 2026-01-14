@@ -7,6 +7,7 @@ export interface SensorType {
     unit: string;
     multiplier?: number;
     range?: any[];
+    customRange?: string;
     isFeatured: boolean;
     relatedSensors: string[];
     compareWith: string;

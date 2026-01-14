@@ -3,6 +3,7 @@
         "baseUrl": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal",
         "stationsApi": "/stations-api/v1",
         "polygonMeanApi": "/polygonmean-api/v1",
+        "stations": "/platforms/get/all",
         "parameters": "/parameters/get/all",
         "stationParameters": "/platforms/get/parameter/all",
         "stationParametersPatch": "/platforms/update/parameter",

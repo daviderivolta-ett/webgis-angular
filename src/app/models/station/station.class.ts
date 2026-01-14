@@ -1,6 +1,7 @@
 import { StationBase } from './station-base.class'
 import { StationData } from './station-data.interface'
 import { Sensor } from './sensor.class'
+import { StationCreekThreshold } from './station-creek.interface'
 
 export class Station extends StationBase implements StationData {
     public value: number;
@@ -27,9 +28,10 @@ export class Station extends StationBase implements StationData {
         date?: Date,
         commt?: string,
         subfolder?: string,
-        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform'
+        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform',
+        creekThreshold?: StationCreekThreshold
     ) {
-        super(id, lat, lng, sensors, uuid, name, city, alt);
+        super(id, lat, lng, sensors, uuid, name, city, alt, type, creekThreshold);
 
         this.value = value;
         this.parameter = parameter;
@@ -39,6 +41,7 @@ export class Station extends StationBase implements StationData {
         this.commt = commt;
         this.subfolder = subfolder;
         this.type = type;
+        this.creekThreshold = creekThreshold;
     }
 
     static override createDefault(): Station {
@@ -105,7 +108,8 @@ export class Station extends StationBase implements StationData {
             date,
             commt,
             subfolder,
-            stationBase.type
+            stationBase.type,
+            stationBase.creekThreshold
         )
     }
 
