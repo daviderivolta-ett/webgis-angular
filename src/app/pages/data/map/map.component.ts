@@ -360,8 +360,8 @@ export class MapComponent {
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
 
     if (date) {
-      const num: number = date.getTime() - date.getTimezoneOffset() * 60000;
-      if (this._checkDateInRange(availableTimes, num)) this._setCurrentTime(date);
+      const time = this._getNearestAvailableTime(date);
+      if (time) this._setCurrentTime(time);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
       availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
@@ -378,6 +378,24 @@ export class MapComponent {
     return availableTimes.includes(date);
   }
 
+  private _getNearestAvailableTime(date: Date, maxGap: number = 30 * 24 * 60 * 60 * 1000): number | undefined {
+    // @ts-ignore: time dimension plugin has no type declaration
+    const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+    const selectedTime: number = date.getTime();
+
+    let foundTime: number = -1;
+    for (let i = 1; i < availableTimes.length; i++) {
+      const curr = availableTimes[i];
+      if (selectedTime < curr) {
+        foundTime = availableTimes[i - 1];
+        break;
+      }
+    }
+
+    return Math.abs(selectedTime - foundTime) > maxGap ? undefined : foundTime;
+
+  }
+
   private _resetTimeDimension(): void {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.setAvailableTimes([], 'replace');
@@ -387,7 +405,7 @@ export class MapComponent {
 
   private _setCurrentTime(date: Date | number): void {
     // @ts-ignore: time dimension plugin has no type declaration
-    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() - date.getTimezoneOffset() * 60000 : date);
+    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
   private _nextTime(): void {
