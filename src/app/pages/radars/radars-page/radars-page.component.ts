@@ -38,6 +38,8 @@ export class RadarsPageComponent {
   /** Data */
   public user: User | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
+
+  public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public radarImgsUrl; // Recovered from route resolver in constructor
 
   /** References */
@@ -55,7 +57,8 @@ export class RadarsPageComponent {
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
     this.pageTitle = this.route.snapshot.data['type'];
 
-    this.radarImgsUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('radarImgs'));
+    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.radarImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('radarImgs'));
 
     /** Effetcs */
     effect(() => {
