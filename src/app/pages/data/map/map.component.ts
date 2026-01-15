@@ -361,7 +361,7 @@ export class MapComponent {
 
     if (date) {
       const num: number = date.getTime() - date.getTimezoneOffset() * 60000;
-      if (this._checkDateInRange(availableTimes, num) && this._checkDateInAvailableTimes(availableTimes, num)) this._setCurrentTime(date);
+      if (this._checkDateInRange(availableTimes, num)) this._setCurrentTime(date);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
       availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
