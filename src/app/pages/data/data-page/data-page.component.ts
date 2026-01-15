@@ -102,7 +102,6 @@ export class DataPageComponent {
 
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public stations: StationBase[] = [];
-  public stationsPick: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
 
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
   public baseLayers: TileLayer[]; // Recovered from route resolver in constructor
@@ -195,40 +194,22 @@ export class DataPageComponent {
   /** Init */
   public async setDataFromApi() {
     this.isLoading = true;
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this.stationsPick = stations.sort((a, b) => a.id.localeCompare(b.id));
-      })
-      .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri delle stazioni', 'error', true);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      })
+    try {
+      const [stationsPick, allStations, sensorTypes] = await Promise.all([
+        this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      ]);
 
-    this.isLoading = true;
-    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
-      .then((data) => {
-        this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
-      })
-      .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei parametri', 'error', true);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      })
-
-    this.isLoading = true;
-    this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken())
-      .then((data) => {
-        this.stations = [...data];
-      })
-      .catch(() => {
-        this.snackbarsService.createSnackbar('Errore nel recupero dei dati anagrafici delle stazioni', 'error', true);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      })
+      this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
+      this.stations = this.stationsService
+        .mergeBaseStationsAndPickStations(allStations, stationsPick)
+        .sort((a, b) => a.id.localeCompare(b.id));
+    } catch (error) {
+      this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   private _applyLayersFromQueryParams(params: ParamMap): void {
@@ -362,7 +343,7 @@ export class DataPageComponent {
       const stationBase = StationBase.createFromGeoJSONProps(d);
       const stationData = Station.createStationDataFromGeoJSONProps(d);
       const station = Station.fromStationData(stationBase, stationData);
-      return station.addSensorsFromStationLists(this.stationsPick);
+      return station.addSensorsFromStationLists(this.stations);
     });
     this.popupData = [...stations];
   }
@@ -429,7 +410,7 @@ export class DataPageComponent {
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
-            if (Utils.isValidColor(k) && v) thresholds[k] = v ;
+            if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
           break;
@@ -559,11 +540,12 @@ export class DataPageComponent {
         colorScale,
         layer,
         baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
-        stations: this.stationsPick,
+        stations: this.stations,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
         timeThreshold: this.settings.staleDataThreshold,
-        multiplier: layer instanceof GeoJsonLayer && layer.multiplier
+        multiplier: layer instanceof GeoJsonLayer && layer.multiplier,
+        sensorTypes: this._sensorTypes
       });
 
     } catch (err: unknown) {

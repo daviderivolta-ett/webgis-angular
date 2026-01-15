@@ -113,7 +113,7 @@ export class Station extends StationBase implements StationData {
         )
     }
 
-    public addSensorsFromStationLists(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): Station {
+    public addSensorsFromStationLists(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] | StationBase[]): Station {
         const station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'> | undefined = stations.find((s: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) => s.id === this.id);
         if (station) this.sensors = [...station.sensors];
         return this;

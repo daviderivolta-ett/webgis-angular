@@ -265,4 +265,12 @@ export class StationsService {
     return (sensorType && sensorType.thresholdKeys && thresholdConfig.yMin && thresholdConfig.yMax) ? [thresholdConfig.yMin, thresholdConfig.yMax] : undefined;
   }
 
+  public mergeBaseStationsAndPickStations(baseStations: StationBase[], pickStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): StationBase[] {
+    return baseStations.map((s: StationBase) => {
+      const pick = pickStations.find((p) => s.id === p.id);
+      if (!pick) return undefined;
+      return s.mergeWithPick(pick);
+    }).filter((s) => s !== undefined)
+  }
+
 }

@@ -9,6 +9,7 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
     public max?: number;
     public labels?: string[];
     public steps?: number[];
+    public hasRelativeSteps?: boolean;
 
     constructor(scaleBase: ColorScaleBase, layerLegend: LayerLegend) {
         this.id = scaleBase.id;
@@ -18,6 +19,7 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
         this.max = layerLegend.max;
         this.labels = layerLegend.labels;
         this.steps = layerLegend.steps;
+        this.hasRelativeSteps = layerLegend.hasRelativeSteps;
     }
 
     public calculateTicks(): string[] {

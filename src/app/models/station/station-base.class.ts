@@ -99,7 +99,7 @@ export class StationBase implements Geolocation {
         const lat: number = feature.geometry.coordinates[1];
         const lng: number = feature.geometry.coordinates[0];
         const uuid: string | number | undefined = feature.id;
-        const id: string | undefined = feature.properties?.['code'];    
+        const id: string | undefined = feature.properties?.['code'];
 
         return StationBase.createFromObject({ ...feature.properties, id, uuid, lat, lng, sensors: [] });
     }
@@ -134,12 +134,20 @@ export class StationBase implements Geolocation {
         return station;
     }
 
-
-
     static fromPartialToDatabaseStationParameter(station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) {
         return {
             stationId: station.uuid,
             parameters: station.sensors.map((s: Sensor) => ({ id: s.id, newEnabledValue: s.enabled }))
+        }
+    }
+
+    public mergeWithPick(pick: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>): StationBase {
+        return {
+            ...this,
+            id: pick.id,
+            uuid: pick.uuid ?? this.uuid,
+            name: pick.name ?? this.name,
+            sensors: [...pick.sensors]
         }
     }
 }

@@ -6,4 +6,5 @@ export interface LayerLegend {
     max?: number;
     labels?: string[];
     steps?: number[];
+    hasRelativeSteps?: boolean;
 }
