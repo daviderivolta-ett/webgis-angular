@@ -92,6 +92,7 @@ export class MapComponent {
   */
   public ngAfterViewInit(): void {
     this._initMap();
+    this._initTimeDimension();
   }
 
   /*
@@ -100,10 +101,7 @@ export class MapComponent {
   private _initMap(): void {
     /** Map instance */
     this._map = new L.Map('map', {
-      zoomControl: false,
-      // @ts-ignore: time dimension plugin has no type declaration
-      timeDimension: true,
-      // timeDimensionControl: true
+      zoomControl: false
     })
       .addControl(new L.Control.Zoom({ position: 'bottomleft' }))
       .setView(this.position(), this.zoom())
@@ -112,17 +110,24 @@ export class MapComponent {
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
+  }
+
+  private _initTimeDimension() {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension = L.timeDimension({
+      currentTime: this.selectedDate() ?? new Date().getTime()
+    });
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
+    
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('availabletimeschanged', () => {
-      requestAnimationFrame(() => {
-        if (this.selectedDate()) this._setCurrentTime(this.selectedDate()!);
-      })
+    this._map.timeDimension.on('availabletimeschanged', (obj) => {
+      const selectedDate: Date | undefined = this.selectedDate();
+      this._setCurrentTime(selectedDate ?? obj['availableTimes'][obj['availableTimes'].length - 1]);
     });
   }
 
@@ -166,7 +171,7 @@ export class MapComponent {
   }
 
   /** Set layer in internal map and emit event to external */
-  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
+  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement, date?: number): void {
     this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
@@ -190,15 +195,6 @@ export class MapComponent {
   /** Add layer  */
   public addLayer(id: string, url: string, options: Record<string, any>): void {
     const layer = L.tileLayer(url, options).addTo(this._map);
-    this._registerLayer(id, layer);
-  }
-
-  /** Add WMS layer */
-  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
-    const layer: L.TileLayer = L.tileLayer.wms(url, {
-      opacity: options['opacity'] ?? 1,
-      ...options
-    }).addTo(this._map);
     this._registerLayer(id, layer);
   }
 
@@ -252,21 +248,26 @@ export class MapComponent {
     });
   }
 
+  /** Add WMS layer */
+  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    const layer: L.TileLayer = L.tileLayer.wms(url, {
+      opacity: options['opacity'] ?? 1,
+      ...options
+    }).addTo(this._map);
+    this._registerLayer(id, layer);
+  }
+
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
-      ...options,
-      // @ts-ignore
-      setDefaultTime: false
+      ...options
     });
     // @ts-ignore: time dimension plugin has no type declaration
-    const timeDimensionLayer = L.timeDimension.layer.wms(layer);
-    try {
-      timeDimensionLayer.addTo(this._map);
-    } catch (error: unknown) {
-      throw new Error(error instanceof Error ? error.message : `Errore nell'aggiunta del layer alla mappa.`);
-    }
-    this._registerLayer(id, timeDimensionLayer);
+    const timeDimensionLayer = L.timeDimension.layer.wms(layer, {
+      setDefaultTime: false
+    });
+    timeDimensionLayer.addTo(this._map);
+    this._registerLayer(id, timeDimensionLayer, undefined);
   }
 
   public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
@@ -364,21 +365,12 @@ export class MapComponent {
       if (time) this._setCurrentTime(time);
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
-      availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
+      // availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
+      if (availableTimes.length > 0) this._setCurrentTime(availableTimes[availableTimes.length - 1]);
     }
   }
 
-  private _checkDateInRange(availableTimes: number[], date: number): boolean {
-    const minTime: number = Math.min(...availableTimes);
-    const maxTime: number = Math.max(...availableTimes);
-    return date >= minTime && date <= maxTime;
-  }
-
-  private _checkDateInAvailableTimes(availableTimes: number[], date: number): boolean {
-    return availableTimes.includes(date);
-  }
-
-  private _getNearestAvailableTime(date: Date, maxGap: number = 30 * 24 * 60 * 60 * 1000): number | undefined {
+  private _getNearestAvailableTime(date: Date, maxGap: number = 24 * 60 * 60 * 1000): number | undefined {
     // @ts-ignore: time dimension plugin has no type declaration
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
     const selectedTime: number = date.getTime();
@@ -404,18 +396,11 @@ export class MapComponent {
   }
 
   private _setCurrentTime(date: Date | number): void {
+    console.log('SET CURRENT TIME', date);
     // @ts-ignore: time dimension plugin has no type declaration
     if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
-  }
 
-  private _nextTime(): void {
-    // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.nextTime();
-  }
-
-  private _previousTime(): void {
-    // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.previousTime();
+    // this._map.timeDimension.setCurrentTime(new Date().getTime())
   }
 
   /** Popup methods */

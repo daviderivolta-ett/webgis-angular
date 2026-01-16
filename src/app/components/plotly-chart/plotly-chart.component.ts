@@ -181,7 +181,7 @@ export class PlotlyChartComponent {
   private _getLayout(data: PlotlyChartData[]): Partial<Plotly.Layout> {
     let layout: Partial<Plotly.Layout> = {
       showlegend: true,
-      bargap: 0,
+      bargap: 4,
       hovermode: 'x unified',
       legend: {
         x: 0,
@@ -358,7 +358,9 @@ export class PlotlyChartComponent {
       scrollZoom: true,
       modeBarButtonsToRemove: [
         'toImage',
-        'autoScale2d'
+        'autoScale2d',
+        'zoomIn2d',
+        'zoomOut2d'
       ],
       modeBarButtonsToAdd: [
         {

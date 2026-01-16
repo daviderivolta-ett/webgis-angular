@@ -4384,7 +4384,7 @@
             "options": [
                 {
                     "id": "radar_rainInt5m",
-                    "label": "Intensità 1 ora",
+                    "label": "Intensità oraria",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,

@@ -279,7 +279,6 @@ export class DataPageComponent {
   }
 
   public onMapLayerAdded(event: Record<string, any>): void {
-    console.log('ON MAP LAYER ADDED', event);    
     const { id } = event;
     if (!id) return;
 

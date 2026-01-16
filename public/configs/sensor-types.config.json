@@ -436,7 +436,7 @@
             "isFeatured": true,
             "relatedSensors": [],
             "thresholdKeys": [
-                "yellow",
+                "sms",
                 "orange",
                 "red"
             ]
@@ -450,7 +450,7 @@
             "isFeatured": false,
             "relatedSensors": [],
             "thresholdKeys": [
-                "yellow",
+                "sms",
                 "orange",
                 "red"
             ]
@@ -464,7 +464,7 @@
             "isFeatured": false,
             "relatedSensors": [],
             "thresholdKeys": [
-                "yellow",
+                "sms",
                 "orange",
                 "red"
             ]
