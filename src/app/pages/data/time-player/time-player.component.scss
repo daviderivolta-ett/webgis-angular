@@ -6,7 +6,7 @@
 }
 
 .time-player {
-    gap: 24px;
+    gap: 16px;
 }
 
 .controls {
@@ -64,15 +64,28 @@
     .time-player {
         max-width: 200px;
         gap: 8px;
+        justify-content: center;
     }
 
     .controls {
-        width: 100%;
+        // width: 100%;
         justify-content: center;
     }
 
     .input {
         flex-basis: 100%;
+    }
+
+    .player-controls {
+        order: 1;
+    }
+
+    .reset-btn {
+        order: 2;
+    }
+
+    .input {
+        order: 3;
     }
 
 }

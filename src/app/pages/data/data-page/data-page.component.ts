@@ -26,23 +26,10 @@ import { CSVUtils, Utils } from '../../../utils';
 @Component({
   selector: 'app-data-page',
   imports: [
-    // Libraries
-    ReactiveFormsModule,
     // Components
-    HeaderComponent,
-    SidebarComponent,
-    MapComponent,
-    LayerLegendComponent,
-    PopUpMenuComponent,
-    GroupedCheckboxesComponent,
-    ChipComponent,
-    MapPopupComponent,
-    SliderComponent,
-    FloatingDialogComponent,
-    MapChartSelectorComponent,
-    MapChartComponent,
-    MapChartDatepickerComponent,
-    PlotlyChartComponent
+    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent,
+    // Directives
+    ReactiveFormsModule
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -65,8 +52,8 @@ export class DataPageComponent {
   public charts: MapChart[] = [];
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
-
   public chartReferenceDate: Date | undefined;
+  
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 

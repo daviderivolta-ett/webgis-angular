@@ -86,6 +86,9 @@ export class MapComponent {
   */
   public getMap(): L.Map { return this._map }
   public getLayers(): Map<string, L.Layer> { return this._layers }
+  public getLayersArray(): [string, L.Layer][] {
+    return Array.from(this._layers);
+  }
 
   /*
   * Component lifecycle
@@ -120,7 +123,7 @@ export class MapComponent {
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
-    
+
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
@@ -253,6 +256,7 @@ export class MapComponent {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       opacity: options['opacity'] ?? 1,
       ...options
+
     }).addTo(this._map);
     this._registerLayer(id, layer);
   }
@@ -260,7 +264,7 @@ export class MapComponent {
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
-      ...options
+      ...options,
     });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer, {
@@ -362,7 +366,13 @@ export class MapComponent {
 
     if (date) {
       const time = this._getNearestAvailableTime(date);
-      if (time) this._setCurrentTime(time);
+      if (time) {
+        this._setCurrentTime(time);
+      } else {
+        const timeLayer = this._getTimeLayer();
+        if (timeLayer) this.removeLayerById(timeLayer[0]);
+      }
+
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
       // availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
@@ -373,19 +383,27 @@ export class MapComponent {
   private _getNearestAvailableTime(date: Date, maxGap: number = 24 * 60 * 60 * 1000): number | undefined {
     // @ts-ignore: time dimension plugin has no type declaration
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+    if (!availableTimes.length) return;
+
     const selectedTime: number = date.getTime();
 
-    let foundTime: number = -1;
+    if (selectedTime < availableTimes[0]) return;
+
+    if (selectedTime >= availableTimes[availableTimes.length - 1]) {
+      return Math.abs(selectedTime - availableTimes[availableTimes.length - 1]) <= maxGap
+        ? availableTimes[availableTimes.length - 1]
+        : undefined;
+    }
+
     for (let i = 1; i < availableTimes.length; i++) {
       const curr = availableTimes[i];
       if (selectedTime < curr) {
-        foundTime = availableTimes[i - 1];
-        break;
+        const prev = availableTimes[i - 1];
+        return Math.abs(selectedTime - prev) <= maxGap ? prev : undefined;
       }
     }
 
-    return Math.abs(selectedTime - foundTime) > maxGap ? undefined : foundTime;
-
+    return;
   }
 
   private _resetTimeDimension(): void {
@@ -396,11 +414,8 @@ export class MapComponent {
   }
 
   private _setCurrentTime(date: Date | number): void {
-    console.log('SET CURRENT TIME', date);
     // @ts-ignore: time dimension plugin has no type declaration
     if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
-
-    // this._map.timeDimension.setCurrentTime(new Date().getTime())
   }
 
   /** Popup methods */
@@ -748,5 +763,11 @@ export class MapComponent {
       object['lng'] = Array.isArray(object['lng']) ? object['lng'] : [object['lng']];
       if (!object['lng'].includes(lng)) object['lng'].push(lng);
     }
+  }
+
+  private _getTimeLayer(): [string, L.Layer] | undefined {
+    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
+      return '_availableTimes' in layer;
+    })
   }
 }
