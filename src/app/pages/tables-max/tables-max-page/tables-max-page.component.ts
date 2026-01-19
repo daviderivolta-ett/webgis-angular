@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService } from '../../../services'
@@ -133,11 +133,10 @@ export class TablesMaxPageComponent {
 
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
-    console.log(this.configGroup);    
-
+    
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);  
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -172,7 +171,6 @@ export class TablesMaxPageComponent {
   }
 
   private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
-    console.log('TABLE DATA', data);    
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
@@ -182,7 +180,7 @@ export class TablesMaxPageComponent {
       let table = new Table2();
       let header = this._createTableHeader(tableRows, 'values', 'parameter');  
       table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);   
-      table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '');
+      table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '', config.colors ?? []);
 
       return {
         id: config.id,
@@ -215,7 +213,7 @@ export class TablesMaxPageComponent {
     )
   }
 
-  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string): any[] {
+  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string, colors: TableColorConfig[]): any[] {    
     return data.map((r: any) => {
       if (fieldToSearch in r) {
         const values = r[fieldToSearch];
@@ -229,22 +227,24 @@ export class TablesMaxPageComponent {
         headerkeys.forEach((key: string) => {
           let cell = null;
 
+          const colorConfig: TableColorConfig | undefined = colors.find((c) => c.key === key);        
+
           // cerca in rest
           if (key in rest) {
             cell = {
               dataKey: key,
               dataValue: rest[key],
-              hiddenValue: undefined
+              hiddenValue: colorConfig ? colorConfig.getBackgroundColor(rest['lastValue']) : undefined
             };
           }
 
           // cerca in values (solo se non trovata)
           if (!cell) {
-            const found = values.find((d: any) => d.parameter === key);
+            const found = values.find((d: any) => d.parameter === key);      
 
             if (found) {
               const { parameter, ...r } = found;
-              const entries = Object.entries(r);
+              const entries = Object.entries(r);             
 
               let value = '';
               keysToMerge.forEach((k: string) => {
@@ -260,7 +260,8 @@ export class TablesMaxPageComponent {
               cell = {
                 dataKey: key,
                 dataValue: value,
-                hiddenValue: found[hiddenKey]
+                hiddenValue: found[hiddenKey],
+                backgroundColor: colorConfig ? colorConfig.getBackgroundColor(found['lastValue']) : undefined
               };
             }
           }
@@ -270,7 +271,8 @@ export class TablesMaxPageComponent {
             cell = {
               dataKey: key,
               dataValue: '-',
-              hiddenValue: undefined
+              hiddenValue: undefined,
+              backgroundColor: undefined
             };
           }
 

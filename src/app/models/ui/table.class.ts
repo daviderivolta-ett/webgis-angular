@@ -1,3 +1,5 @@
+import { TableColorConfig } from "../table";
+
 export class Table2 {
     public header: string[] = [];
     public body: any[][] = [];
@@ -65,7 +67,8 @@ export class Table2 {
                 row.push({
                     dataKey: k,
                     dataValue: d[k] ?? '-',
-                    hiddenValue: (hiddenKey && d[hiddenKey]) ? d[hiddenKey] : undefined
+                    hiddenValue: (hiddenKey && d[hiddenKey]) ? d[hiddenKey] : undefined,
+                    backgroundColor: undefined
                 })
             });
 

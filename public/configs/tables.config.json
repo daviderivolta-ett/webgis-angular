@@ -453,6 +453,104 @@
                         "rain_24h"
                     ],
                     "parameter": "rain_01h",
+                    "colors": [
+                        {
+                            "key": "rain_05m",
+                            "steps": [
+                                4,
+                                8
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_15m",
+                            "steps": [
+                                6,
+                                12
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_30m",
+                            "steps": [
+                                20,
+                                40
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_01h",
+                            "steps": [
+                                35,
+                                50
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_03h",
+                            "steps": [
+                                55,
+                                75
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_06h",
+                            "steps": [
+                                45,
+                                85
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_12h",
+                            "steps": [
+                                50,
+                                110
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_24h",
+                            "steps": [
+                                65,
+                                145
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        }
+                    ],
                     "actionKey": "stationCode"
                 }
             ]

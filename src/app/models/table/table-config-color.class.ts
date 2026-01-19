@@ -1,9 +1,9 @@
 export class TableColorConfig {
     public key: string;
-    public steps: string[];
+    public steps: number[];
     public backgroundColors: string[];
 
-    constructor(key: string, steps: string[], backgroundColors: string[]) {
+    constructor(key: string, steps: number[], backgroundColors: string[]) {
         this.key = key;
         this.steps = steps;
         this.backgroundColors = backgroundColors;
@@ -23,6 +23,12 @@ export class TableColorConfig {
         }
 
         return new TableColorConfig(object['key'], object['steps'], object['backgroundColors']);
+    }
+
+    public getBackgroundColor(value: number): string {
+        const foundIndex: number = this.steps.findIndex((i) => Number.isFinite(i) && value < i);
+        const safeIndex = foundIndex === -1 ? this.steps.length : foundIndex;        
+        return this.backgroundColors[safeIndex];
     }
 
 }
