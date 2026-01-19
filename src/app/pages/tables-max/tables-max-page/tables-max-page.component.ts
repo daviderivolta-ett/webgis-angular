@@ -11,6 +11,7 @@ import { ApiService, AuthService, DateService, SnackbarsService, StationsService
 
 /** Components */
 import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
+import { MapChartComponent } from '../../data/map-chart/map-chart.component'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -20,7 +21,6 @@ import { IsDatePipe, MapValuePipe } from '../../../pipes'
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
-import { MapChartComponent } from "../../data/map-chart/map-chart.component";
 
 /** Types */
 type PageTable = {
@@ -133,6 +133,7 @@ export class TablesMaxPageComponent {
 
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
+    console.log(this.configGroup);    
 
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
@@ -171,6 +172,7 @@ export class TablesMaxPageComponent {
   }
 
   private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
+    console.log('TABLE DATA', data);    
     return data.map((t: any, i: number) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
@@ -178,9 +180,9 @@ export class TablesMaxPageComponent {
       if (!config) return undefined;
 
       let table = new Table2();
-      let header = this._createTableHeader(tableRows, 'values', 'parameter');
-      table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, 'values', header, config.keysToMerge ?? [], config.actionKey ?? '');
+      let header = this._createTableHeader(tableRows, 'values', 'parameter');  
+      table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);   
+      table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '');
 
       return {
         id: config.id,

@@ -1,3 +1,5 @@
+import { TableColorConfig } from './table-config-color.class'
+
 export class TableConfig {
     public id: string;
     public url: string;
@@ -9,6 +11,7 @@ export class TableConfig {
     public keysToMerge?: string[];
     public keysOrder?: string[];
     public parameter?: string;
+    public colors?: TableColorConfig[];
     public actionKey?: string;
 
     constructor(id: string, url: string) {
@@ -35,6 +38,7 @@ export class TableConfig {
         if ('keysToMerge' in object && Array.isArray(object['keysToMerge'])) config.keysToMerge = [...object['keysToMerge']];
         if ('keysOrder' in object && Array.isArray(object['keysOrder']) && object['keysOrder'].every((k: any) => typeof k === 'string')) config.keysOrder = [...object['keysOrder']];
         if ('parameter' in object && typeof object['parameter'] === 'string') config.parameter = object['parameter'];
+        if ('colors' in object && Array.isArray(object['colors'])) config.colors = object['colors'].map((c) => TableColorConfig.createFromObject(c));
         if ('actionKey' in object && typeof object['actionKey'] === 'string') config.actionKey = object['actionKey'];
 
         return config;
