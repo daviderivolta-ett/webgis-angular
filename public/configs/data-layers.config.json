@@ -214,7 +214,6 @@
                     "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/mean_wind_speed?ExtraParam=prevailing_wind_dir",
                     "parameter": "mean_wind_speed",
-                    "multiplier": 3.6,
                     "markers": {
                         "featureProperty": "value",
                         "rules": [
