@@ -60,7 +60,7 @@
     animation: rotating 1s infinite linear;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
     .time-player {
         max-width: 200px;
         gap: 8px;
@@ -68,7 +68,6 @@
     }
 
     .controls {
-        // width: 100%;
         justify-content: center;
     }
 

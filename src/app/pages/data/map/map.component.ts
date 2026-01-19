@@ -46,6 +46,7 @@ export class MapComponent {
   public isLoading = model<boolean>(false);
   public initialDate = model<Date | undefined>(undefined);
   public selectedDate = model<Date | undefined>(undefined);
+  public timeDimensionDateChanged = output<Date | undefined>();
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -122,7 +123,10 @@ export class MapComponent {
     });
 
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
+    this._map.timeDimension.on('timeload', (event: any) => {
+      this.isLoading.set(false);
+      this.timeDimensionDateChanged.emit(event['time'] ? new Date(event['time']) : undefined);
+    });
 
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
@@ -368,9 +372,11 @@ export class MapComponent {
       const time = this._getNearestAvailableTime(date);
       if (time) {
         this._setCurrentTime(time);
+        this.timeDimensionDateChanged.emit(new Date(time));
       } else {
         const timeLayer = this._getTimeLayer();
         if (timeLayer) this.removeLayerById(timeLayer[0]);
+        this.timeDimensionDateChanged.emit(undefined);
       }
 
     } else {
@@ -766,7 +772,7 @@ export class MapComponent {
   }
 
   private _getTimeLayer(): [string, L.Layer] | undefined {
-    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
+    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {      
       return '_availableTimes' in layer;
     })
   }

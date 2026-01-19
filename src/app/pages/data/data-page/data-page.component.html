@@ -77,10 +77,19 @@
         <!-- END RESET BUTTON -->
 
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [maxClusterRadius]="mapConfig.maxClusterRadius" [isTimeDimensionVisible]="user ? true : false" [initialDate]="initialDate" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [maxClusterRadius]="mapConfig.maxClusterRadius" [isTimeDimensionVisible]="user ? true : false" [initialDate]="initialDate" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" (timeDimensionDateChanged)="onMapAdditionalDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
             <app-map-popup [config]="stationPopupConfig" [data]="popupData" #popup></app-map-popup>
         </app-map>
         <!-- END MAP -->
+
+        <!-- START WMS DATE -->
+        @if (wmsLayersDate) {
+            <div class="wms-date fab" [style.bottom]="windowWidth < 992 ? (!user ? '80px' : '176px') : (!user ? '40px' : '96px')">
+                <p class="wms-date__text">Ultimo aggiornamento layer raster</p>
+                <p>{{wmsLayersDate | date: 'dd/MM/yyyy - HH:mm'}}</p>
+            </div>
+        }
+        <!-- END WMS DATE -->
     </div>
 
     <!-- START FLOATING CHARTS -->

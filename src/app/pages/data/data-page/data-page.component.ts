@@ -1,6 +1,6 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -29,7 +29,9 @@ import { CSVUtils, Utils } from '../../../utils';
     // Components
     HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent,
     // Directives
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // Pipes
+    DatePipe
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -53,9 +55,10 @@ export class DataPageComponent {
   public hydroImgs: string[] = [];
   public areChartsDisabled: boolean = false;
   public chartReferenceDate: Date | undefined;
-  
+
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
+  public wmsLayersDate: Date | undefined;
 
   /** References */
   @ViewChild('map') _map!: MapComponent;
@@ -279,10 +282,10 @@ export class DataPageComponent {
     this.chips.push(chip);
 
     // Refresh
-    if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (!this.dateService.date()) {
-      this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
-    }
+    // if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
+    // if (!this.dateService.date()) {
+    //   this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
+    // }
 
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
@@ -454,6 +457,7 @@ export class DataPageComponent {
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
+    if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
   }
 
   private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean, isAuth: boolean): void {
@@ -555,6 +559,10 @@ export class DataPageComponent {
     this.dateService.date.set(date);
     this.chartReferenceDate = date;
     this._updateMultipleLayers(date);
+  }
+
+  public onMapAdditionalDateChanged(date: Date | undefined): void {    
+    this.wmsLayersDate = date;  
   }
 
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {

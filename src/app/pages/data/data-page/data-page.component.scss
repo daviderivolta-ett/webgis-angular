@@ -94,6 +94,25 @@
     z-index: 9998;
 }
 
+.wms-date {
+    position: fixed;
+    bottom: 96px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    color: var(--primary-900, black);
+    background-color: var(--neutral-100, white);
+    border: 1px solid var(--neutral-500, lightgrey);
+    border-radius: 8px;
+    margin: 0;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.wms-date__text {
+    font-size: .8rem;
+}
+
 .mask-icon {
     @include mixins.maskIcon('/images/icons/zoom_out_map_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
 }
@@ -120,5 +139,9 @@
 
     .time-player {
         bottom: 80px;
+    }
+
+    .wms-date {
+        bottom: 176px;
     }
 }
