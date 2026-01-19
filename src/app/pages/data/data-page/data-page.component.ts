@@ -169,7 +169,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);   
   }
 
   public ngAfterViewInit(): void {
@@ -356,7 +356,7 @@ export class DataPageComponent {
     this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng)
       .then((info: [string, number][]) => {
         info.forEach(([label, value]: [string, number]) => {
-          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${value} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
+          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? value * layer.multiplier : value} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
         });
       })
       .catch((err: unknown) => {

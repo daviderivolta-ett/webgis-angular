@@ -4,6 +4,7 @@ import { WMSLayerParams } from './wms-params.interface';
 export class WMSLayer extends Layer {
     public params: WMSLayerParams;
     public opacity: number;
+    public multiplier?: number;
 
     constructor(
         id: string,
@@ -14,12 +15,14 @@ export class WMSLayer extends Layer {
         label?: string,
         longLabel?: string,
         iconUrl?: string,
-        layerCategory?: string
+        layerCategory?: string,
+        multiplier?: number,
     ) {
         super(id, url, layerType, label, longLabel, iconUrl, layerCategory);
         this.url = url;
         this.params = params;
-        this.opacity = opacity ?? 1
+        this.opacity = opacity ?? 1;
+        this.multiplier = multiplier;
     }
 
     static createFromObject(object: any): WMSLayer {
@@ -49,6 +52,7 @@ export class WMSLayer extends Layer {
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         layer.requiresAuth = object['requiresAuth'] ?? false;
         if (object['action']) layer.action = { ...object['action'] };
+        if (object['multiplier'] && typeof object['multiplier'] === 'number') layer.multiplier = object['multiplier'];
 
         return layer;
     }

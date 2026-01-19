@@ -3098,6 +3098,7 @@
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "multiplier": 100,
                             "params": {
                                 "layers": "soilmoisture0000",
                                 "transparent": true,
@@ -3137,6 +3138,7 @@
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "multiplier": 100,
                             "params": {
                                 "layers": "soilmoisture0600",
                                 "transparent": true,
@@ -3176,6 +3178,7 @@
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "multiplier": 100,
                             "params": {
                                 "layers": "soilmoisture1200",
                                 "transparent": true,
@@ -3215,6 +3218,7 @@
                             "layerCategory": "data_wms--time",
                             "opacity": 0.5,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                            "multiplier": 100,
                             "params": {
                                 "layers": "soilmoisture1800",
                                 "transparent": true,
