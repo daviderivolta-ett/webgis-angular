@@ -201,7 +201,9 @@ export class PlotlyChartComponent {
             color: '#b0b0b0'
           },
         },
-        range: this.xRange().length > 0 ? this.xRange() : undefined,
+        range: this.xRange().length > 0 ?
+          this.xRange() :
+          undefined,
         rangeselector: {
           bordercolor: '#ddd',
           bgcolor: '#fff',
@@ -257,6 +259,9 @@ export class PlotlyChartComponent {
 
     const lastDateShape: Partial<Plotly.Shape> | undefined = this._createShapeForLastDateValue(data);
     if (lastDateShape) layout.shapes?.push(lastDateShape);
+
+    const range: [number, number] | undefined = this._getDateRange(data);
+    if (range && layout.xaxis) layout.xaxis.range = [range[0], range[1] + 3 * 60 * 60 * 1000];
 
     let additionalYAxisCounter: number = 2;
 
@@ -445,5 +450,20 @@ export class PlotlyChartComponent {
       line: { width: 0 },
       layer: 'below'
     }
+  }
+
+  private _getDateRange(chartData: PlotlyChartData[]): [number, number] | undefined {
+    const data = chartData
+      .map(c => c.data)
+      .map(v =>
+        v.filter((p): p is [number, number] => p[1] !== null)
+      );
+
+    const flatData: [number, number][] = data.flat(1);
+    const firstDate: number = Math.min(...flatData.map((c) => c[0]));
+    const lastDate: number = Math.max(...flatData.map((c) => c[0]));
+    return Number.isFinite(firstDate) && Number.isFinite(lastDate)
+      ? [firstDate, lastDate]
+      : undefined;
   }
 }
