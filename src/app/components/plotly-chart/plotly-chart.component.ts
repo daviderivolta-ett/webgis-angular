@@ -184,10 +184,11 @@ export class PlotlyChartComponent {
       bargap: 4,
       hovermode: 'x unified',
       legend: {
-        x: 0,
-        y: 1,
-        xanchor: 'left',
-        bgcolor: 'transparent'
+        orientation: 'h',
+        x: .5,
+        xanchor: 'center',
+        y: -.2,
+        yanchor: 'top'
       },
       margin: {
         t: 56
