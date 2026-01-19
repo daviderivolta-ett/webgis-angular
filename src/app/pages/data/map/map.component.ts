@@ -73,6 +73,7 @@ export class MapComponent {
   public layerRemoved = output<Record<string, any>>();
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>[]>();
+  public featureClicked = output<Record<string, any>[]>();
   public dateChanged = output<Date | undefined>();
   public popupClicked = output<any[]>();
 
@@ -278,6 +279,7 @@ export class MapComponent {
     this._registerLayer(id, timeDimensionLayer, undefined);
   }
 
+  /** Add GeoJSON classic layer */
   public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {
@@ -290,6 +292,9 @@ export class MapComponent {
           opacity,
           fillColor: color
         }
+      },
+      onEachFeature: (feature, layer) => {
+        layer.on('click', (event) => this.featureClicked.emit({...feature.properties, coordinates: event.latlng}))
       }
     }).addTo(this._map);
     this._registerLayer(id, geoJSONLayer);
@@ -772,7 +777,7 @@ export class MapComponent {
   }
 
   private _getTimeLayer(): [string, L.Layer] | undefined {
-    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {      
+    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
       return '_availableTimes' in layer;
     })
   }

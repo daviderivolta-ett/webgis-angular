@@ -169,7 +169,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);   
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngAfterViewInit(): void {
@@ -362,6 +362,20 @@ export class DataPageComponent {
       .catch((err: unknown) => {
         this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei dati puntuali del layer`, 'error', true);
       })
+  }
+
+  public onFeatureClicked(event: Record<string, any>): void {
+    const { coordinates, ...properties } = event;
+
+    const activeGeoJSONLayers: GeoJsonLayer[] = LayerGroup.getAllLayers(this.dataLayers)
+      .filter((l: Layer) => this.currentDataLayers.toArray().includes(l.id))
+      .filter((l: Layer) => l instanceof GeoJsonLayer)
+      .filter(l => l.layerCategory === 'data_wms');
+
+    if (activeGeoJSONLayers.length === 0) return;
+
+    const layer: GeoJsonLayer = activeGeoJSONLayers[0];
+    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Math.round(properties['mean_value'] * 100) / 100} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
   }
 
   private _onBaselayersRadioChange(changes: any): void {
@@ -561,8 +575,8 @@ export class DataPageComponent {
     this._updateMultipleLayers(date);
   }
 
-  public onMapAdditionalDateChanged(date: Date | undefined): void {    
-    this.wmsLayersDate = date;  
+  public onMapAdditionalDateChanged(date: Date | undefined): void {
+    this.wmsLayersDate = date;
   }
 
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {
