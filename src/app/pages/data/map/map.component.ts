@@ -67,10 +67,12 @@ export class MapComponent {
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
   public minZoom = input<number>(0);
   public maxClusterRadius = input<number>(0);
+  public maxTimedimensionGap = input<number>(24 * 60 * 60 * 1000);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
   public layerRemoved = output<Record<string, any>>();
+  public layerTimeNotFound = output<string>();
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>[]>();
   public featureClicked = output<Record<string, any>[]>();
@@ -374,13 +376,13 @@ export class MapComponent {
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
 
     if (date) {
-      const time = this._getNearestAvailableTime(date);
+      const time = this._getNearestAvailableTime(date, this.maxTimedimensionGap());
       if (time) {
         this._setCurrentTime(time);
         this.timeDimensionDateChanged.emit(new Date(time));
       } else {
         const timeLayer = this._getTimeLayer();
-        if (timeLayer) this.removeLayerById(timeLayer[0]);
+        if (timeLayer) this.layerTimeNotFound.emit(timeLayer[0]);
         this.timeDimensionDateChanged.emit(undefined);
       }
 
