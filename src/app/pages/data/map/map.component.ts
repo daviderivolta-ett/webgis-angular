@@ -46,6 +46,7 @@ export class MapComponent {
   public isLoading = model<boolean>(false);
   public initialDate = model<Date | undefined>(undefined);
   public selectedDate = model<Date | undefined>(undefined);
+  public timeDimensionDateChanged = output<Date | undefined>();
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -66,12 +67,15 @@ export class MapComponent {
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
   public minZoom = input<number>(0);
   public maxClusterRadius = input<number>(0);
+  public maxTimedimensionGap = input<number>(24 * 60 * 60 * 1000);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();
   public layerRemoved = output<Record<string, any>>();
+  public layerTimeNotFound = output<string>();
   public mapClicked = output<Record<string, any>>();
   public markerClicked = output<Record<string, any>[]>();
+  public featureClicked = output<Record<string, any>[]>();
   public dateChanged = output<Date | undefined>();
   public popupClicked = output<any[]>();
 
@@ -86,12 +90,16 @@ export class MapComponent {
   */
   public getMap(): L.Map { return this._map }
   public getLayers(): Map<string, L.Layer> { return this._layers }
+  public getLayersArray(): [string, L.Layer][] {
+    return Array.from(this._layers);
+  }
 
   /*
   * Component lifecycle
   */
   public ngAfterViewInit(): void {
     this._initMap();
+    this._initTimeDimension();
   }
 
   /*
@@ -100,10 +108,7 @@ export class MapComponent {
   private _initMap(): void {
     /** Map instance */
     this._map = new L.Map('map', {
-      zoomControl: false,
-      // @ts-ignore: time dimension plugin has no type declaration
-      timeDimension: true,
-      // timeDimensionControl: true
+      zoomControl: false
     })
       .addControl(new L.Control.Zoom({ position: 'bottomleft' }))
       .setView(this.position(), this.zoom())
@@ -112,17 +117,27 @@ export class MapComponent {
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
+  }
+
+  private _initTimeDimension() {
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension = L.timeDimension({
+      currentTime: this.selectedDate() ?? new Date().getTime()
+    });
 
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeload', () => this.isLoading.set(false));
+    this._map.timeDimension.on('timeload', (event: any) => {
+      this.isLoading.set(false);
+      this.timeDimensionDateChanged.emit(event['time'] ? new Date(event['time']) : undefined);
+    });
+
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
     // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('availabletimeschanged', () => {
-      requestAnimationFrame(() => {
-        if (this.selectedDate()) this._setCurrentTime(this.selectedDate()!);
-      })
+    this._map.timeDimension.on('availabletimeschanged', (obj) => {
+      const selectedDate: Date | undefined = this.selectedDate();
+      this._setCurrentTime(selectedDate ?? obj['availableTimes'][obj['availableTimes'].length - 1]);
     });
   }
 
@@ -166,7 +181,7 @@ export class MapComponent {
   }
 
   /** Set layer in internal map and emit event to external */
-  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
+  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement, date?: number): void {
     this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
@@ -193,17 +208,8 @@ export class MapComponent {
     this._registerLayer(id, layer);
   }
 
-  /** Add WMS layer */
-  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
-    const layer: L.TileLayer = L.tileLayer.wms(url, {
-      opacity: options['opacity'] ?? 1,
-      ...options
-    }).addTo(this._map);
-    this._registerLayer(id, layer);
-  }
-
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number): void {
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
     const layer = L.geoJSON(geoJSON, {
@@ -215,14 +221,26 @@ export class MapComponent {
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
-        const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
-        const divIcon = L.divIcon({
-          html: iconHtml,
+        // const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
+
+        const markerIcon = L.divIcon({
+          html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',
           iconSize: feature.properties.markerShapeId !== 6 ? [20, 20] : [64, 64],
           iconAnchor: feature.properties.markerShapeId !== 6 ? [10, 10] : [32, 32]
         });
-        const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
+
+        const textIcon = L.divIcon({
+          html: this._createTextIcon(value ?? 0, color),
+          className: 'text-marker',
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        });
+
+        const marker = L.marker(latLng, { icon: markerIcon, zIndexOffset: shapeKey });
+        (marker as any)._markerIcon = markerIcon; // Adding custom key in order to know which icon choosed based on map zoom
+        (marker as any)._textIcon = textIcon; // Adding custom key in order to know which icon choosed based on map zoom
+
         marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
         marker.on('mouseout', () => {
           window.clearTimeout(this._hoverTimer);
@@ -243,32 +261,46 @@ export class MapComponent {
       geoJSON.features.length > 0 ?
         geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(1)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
         shapeFactory('grey', 'transparent')
-    );
+    );  
+
+    if (showValueOnZoom) {
+      // Function called on this specific GeoJSON layer when map is zoomed
+      this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station');      
+      this._map.on('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
+    }
 
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
+      if (showValueOnZoom) this._map.off('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
       const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release     
       if (index !== undefined) this._releaseMarkerShape(index); // comparison with 'undefined' because '0' is a valid value and js considers it 'falsy'
     });
+  }
+
+  /** Add WMS layer */
+  public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    const layer: L.TileLayer = L.tileLayer.wms(url, {
+      opacity: options['opacity'] ?? 1,
+      ...options
+
+    }).addTo(this._map);
+    this._registerLayer(id, layer);
   }
 
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
-      // @ts-ignore
-      setDefaultTime: false
     });
     // @ts-ignore: time dimension plugin has no type declaration
-    const timeDimensionLayer = L.timeDimension.layer.wms(layer);
-    try {
-      timeDimensionLayer.addTo(this._map);
-    } catch (error: unknown) {
-      throw new Error(error instanceof Error ? error.message : `Errore nell'aggiunta del layer alla mappa.`);
-    }
-    this._registerLayer(id, timeDimensionLayer);
+    const timeDimensionLayer = L.timeDimension.layer.wms(layer, {
+      setDefaultTime: false
+    });
+    timeDimensionLayer.addTo(this._map);
+    this._registerLayer(id, timeDimensionLayer, undefined);
   }
 
+  /** Add GeoJSON classic layer */
   public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {
@@ -281,6 +313,9 @@ export class MapComponent {
           opacity,
           fillColor: color
         }
+      },
+      onEachFeature: (feature, layer) => {
+        layer.on('click', (event) => this.featureClicked.emit({ ...feature.properties, coordinates: event.latlng }))
       }
     }).addTo(this._map);
     this._registerLayer(id, geoJSONLayer);
@@ -356,13 +391,51 @@ export class MapComponent {
     this.selectedDate.set(date);
     this.dateChanged.emit(date);
 
+    // @ts-ignore: time dimension plugin has no type declaration
+    const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+
     if (date) {
-      this._setCurrentTime(date);
+      const time = this._getNearestAvailableTime(date, this.maxTimedimensionGap());
+      if (time) {
+        this._setCurrentTime(time);
+        this.timeDimensionDateChanged.emit(new Date(time));
+      } else {
+        const timeLayer = this._getTimeLayer();
+        if (timeLayer) this.layerTimeNotFound.emit(timeLayer[0]);
+        this.timeDimensionDateChanged.emit(undefined);
+      }
+
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
-      const availableTimes: numbers[] = this._map.timeDimension.getAvailableTimes();
-      availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
+      // availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
+      if (availableTimes.length > 0) this._setCurrentTime(availableTimes[availableTimes.length - 1]);
     }
+  }
+
+  private _getNearestAvailableTime(date: Date, maxGap: number = 24 * 60 * 60 * 1000): number | undefined {
+    // @ts-ignore: time dimension plugin has no type declaration
+    const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+    if (!availableTimes.length) return;
+
+    const selectedTime: number = date.getTime();
+
+    if (selectedTime < availableTimes[0]) return;
+
+    if (selectedTime >= availableTimes[availableTimes.length - 1]) {
+      return Math.abs(selectedTime - availableTimes[availableTimes.length - 1]) <= maxGap
+        ? availableTimes[availableTimes.length - 1]
+        : undefined;
+    }
+
+    for (let i = 1; i < availableTimes.length; i++) {
+      const curr = availableTimes[i];
+      if (selectedTime < curr) {
+        const prev = availableTimes[i - 1];
+        return Math.abs(selectedTime - prev) <= maxGap ? prev : undefined;
+      }
+    }
+
+    return;
   }
 
   private _resetTimeDimension(): void {
@@ -375,16 +448,6 @@ export class MapComponent {
   private _setCurrentTime(date: Date | number): void {
     // @ts-ignore: time dimension plugin has no type declaration
     if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
-  }
-
-  private _nextTime(): void {
-    // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.nextTime();
-  }
-
-  private _previousTime(): void {
-    // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.previousTime();
   }
 
   /** Popup methods */
@@ -452,6 +515,23 @@ export class MapComponent {
     html.style.width = '100%';
     html.style.height = '100%';
     return html;
+  }
+
+  private _chooseMarkerOnZoom(layer: L.GeoJSON, zoom: number, zoomThreshold: number, layerGroupPrefix: string) {
+    const stationLayers = [...this._layers.keys()].filter((k: string) => k.includes(layerGroupPrefix));    
+    
+    if (stationLayers.length > 1) return;
+    layer.eachLayer((l: L.Layer) => {
+      if (l instanceof L.Marker && (l as any)._markerIcon && (l as any)._textIcon) {
+        l.setIcon(zoom < zoomThreshold ? (l as any)._markerIcon : (l as any)._textIcon)
+      }
+    });
+  }
+
+  private _createTextIcon(value: number, color: string): string {
+    return `
+      <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;"><span>${value.toFixed(2)}</span></div>
+      `
   }
 
   private _createCircleShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
@@ -732,5 +812,11 @@ export class MapComponent {
       object['lng'] = Array.isArray(object['lng']) ? object['lng'] : [object['lng']];
       if (!object['lng'].includes(lng)) object['lng'].push(lng);
     }
+  }
+
+  private _getTimeLayer(): [string, L.Layer] | undefined {
+    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
+      return '_availableTimes' in layer;
+    })
   }
 }

@@ -265,7 +265,8 @@ export class ConfigService {
           isFeatured: t['isFeatured'] ?? false,
           relatedSensors: t['relatedSensors'] ?? [],
           compareWith: t['compareWith'] ?? undefined,
-          isMainYAxis: t['isMainYAxis'] ?? false
+          isMainYAxis: t['isMainYAxis'] ?? false,
+          thresholdKeys: t['thresholdKeys'] ?? undefined
         }))
       })
       .catch((err: any) => {

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { createStationPopupConfigFromObject, StationPopupConfig } from '../../../models';
+import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models';
 
 /** Services */
 import { AuthService, PopupService } from '../../../services';
@@ -37,7 +37,7 @@ export class PopupSettingsPageComponent {
   public isLoading = false;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
   
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
 

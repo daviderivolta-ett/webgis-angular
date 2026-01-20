@@ -33,7 +33,13 @@
         <!-- END SIDEBAR -->
 
         <!-- START TOGGLE -->
-        <app-toggle class="toggle" [options]="[{id: 'last', label: 'Ultima immagine', iconUrl: './images/icons/image_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}, {id: 'animation', label: 'Animazione', iconUrl: './images/icons/video_camera_back_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}]"></app-toggle>
+        <app-toggle class="toggle" [options]="[{id: 'Image', label: 'Ultima', iconUrl: './images/icons/image_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}, {id: 'Animation', label: 'Animazione', iconUrl: './images/icons/video_camera_back_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg'}]" (toggleChanged)="onToggleChanged($event)"></app-toggle>
         <!-- END TOGGLE -->
+
+        <!-- START MAIN -->
+        <div class="content">
+            <img [src]="imgUrl" class="radar-img">
+        </div>
+        <!-- END MAIN -->
     </div>
 </div>

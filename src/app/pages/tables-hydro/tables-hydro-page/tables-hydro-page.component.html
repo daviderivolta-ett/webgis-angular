@@ -1,0 +1,68 @@
+<div class="page">
+    <app-header [isAuth]="user ? true : false"></app-header>
+    <div class="main">
+        <!-- START SIDEBAR -->
+         <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">
+                <h3>Tabelle</h3>
+                @for (group of navGroups; track group.id) {
+                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active">{{group.label ?? group.id}}</a>
+                }
+            </div>
+         </app-sidebar>
+        <!-- END SIDEBAR -->
+
+        <div class="content">
+            <!-- START MAIN -->
+             @if (configGroup) {
+                <div class="page-title">
+                    <h2>{{configGroup.label ?? configGroup.id}}</h2>
+                </div>
+             }
+            <!-- END MAIN -->
+
+            <!-- START CONTROLS -->
+             <div class="controls">
+                @if (configGroup) {
+                    <div class="select-row">
+                        <label class="label">Modello idrologico</label>
+                        <form [formGroup]="form">
+                            <select formControlName="select" class="styled-select">
+                                @for (option of configGroup.options; track $index) {
+                                    <option [value]="option.id" [selected]="$index === 0">{{option.label ?? option.id}}</option>
+                                }
+                            </select>
+                        </form>
+                    </div>
+                }
+
+                <div class="update-time">
+                    <label class="label">Data misurazione</label>
+                    <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+                </div>
+             </div>
+            <!-- END CONTROLS -->
+
+            <!-- START TABLE -->
+            <app-sortable-table scrollableTable #table>
+                <div class="table">
+                    <div class="tbody">
+                        @for (r of newSortedData.body; track $index) {
+                            <div class="trow">
+                                @for (d of r; track $index) {
+                                    <div class="tdata">
+                                        <p>
+                                            @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                            @else { {{d['dataValue'] ?? '-'}} }
+                                        </p>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </app-sortable-table>
+            <!-- END TABLE -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="page">
+    <app-header [isAuth]="user ? true : false"></app-header>
+    <div class="main">
+        <!-- START SIDEBAR -->
+        <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc">
+            <div ngProjectAs="sidebar-content" class="sidebar-content">
+                <h3>Tabelle</h3>
+                @for (group of navGroups; track group.id) {
+                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active">{{group.label ?? group.id}}</a>
+                }
+            </div>
+        </app-sidebar>
+        <!-- END SIDEBAR -->
+        
+        <div class="content">
+            <!-- START MAIN -->
+
+            <!-- START TITLE -->
+            @if (configGroup) {
+                <div class="page-title">
+                    <h2>{{configGroup.label ?? configGroup.id}}</h2>
+                </div>
+            }
+            <!-- END TITLE -->
+
+            <!-- START CONTROLS -->
+            <div class="controls">
+                <div class="update-time">
+                    <label class="label">Data misurazione</label>
+                    <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+                </div>
+            </div>
+            <!-- END CONTROLS -->
+
+            <!-- START TABLES -->
+            <div class="tables">
+                @for (t of sortedTables; track $index) {
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <h3>{{t.label}}</h3>
+                            <button type="button" class="fab csv-button" (click)="onDownloadBtnClick(t.id)">
+                                <span class="mask-icon"></span>
+                            </button>
+                        </div>
+                        <app-sortable-table scrollableTable #table>
+                            <div class="table">
+                                <div class="thead">
+                                    <div class="trow">
+                                        @for (d of t.table.header; track $index) {
+                                            <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event, t.id); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="tbody">
+                                    @for (r of t.table.body; track $index) {
+                                        <div class="trow">
+                                            @for (d of r; track $index) {
+                                                <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" [style.backgroundColor]="d['backgroundColor']" [style.color]="d['backgroundColor'] === 'black' ? 'white' : 'inherit'" (click)="onCellClick(d, t.id)">
+                                                    <p>
+                                                        @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                                        @else { {{d['dataValue'] ?? '-'}} }
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </app-sortable-table>
+                    </div>
+                }
+            </div>
+            <!-- END TABLES -->
+
+            <!-- START FLOATING CHARTS -->
+            @if (chart) {
+                <app-floating-dialog (removeDialog)="chart=null">
+                    <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="isChartLoading" [param]="chart.currentParameter">
+                        <!-- <app-map-chart-datepicker [endingDate]="chartReferenceDate"></app-map-chart-datepicker> -->
+                        <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [referenceDate]="selectedDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
+                        <!-- <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector> -->
+                    </app-map-chart>
+                </app-floating-dialog>
+            }
+                        
+            @if (chart) {
+                <div class="overlay"></div>
+            }
+            <!-- END FLOATING CHARTS -->
+
+            <!-- END MAIN -->
+        </div>
+    </div>
+</div>

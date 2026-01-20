@@ -108,6 +108,15 @@ app-datepicker {
     @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: color-mix(in srgb, var(--primary-900), transparent 50%);
+}
+
 @media screen and (max-width: 992px) {
     .content {
         width: 92%;

@@ -7,4 +7,14 @@ export class DateUtils {
     static pad(n: number): string {
         return n.toString().padStart(2, '0');
     }
+
+    static createDateRangeFromDate(date: Date, days: number): [string, string] {
+        const initialDate = new Date(date);
+        initialDate.setDate(date.getDate() - days);
+        return [
+            `${initialDate.getFullYear()}-${DateUtils.pad(initialDate.getMonth() + 1)}-${DateUtils.pad(initialDate.getDate())}T${DateUtils.pad(initialDate.getHours())}:${DateUtils.pad(initialDate.getMinutes())}`,
+            `${date.getFullYear()}-${DateUtils.pad(date.getMonth() + 1)}-${DateUtils.pad(date.getDate())}T${DateUtils.pad(date.getHours())}:${DateUtils.pad(date.getMinutes())}`
+        ]
+
+    }
 }  

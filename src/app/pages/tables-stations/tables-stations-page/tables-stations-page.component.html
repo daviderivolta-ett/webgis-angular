@@ -76,23 +76,18 @@
                 <div class="table">
                     <div class="thead">
                         <div class="trow">
-                            @for (d of sortedData.header; track $index) {
+                            @for (d of newSortedData.header; track $index) {
                                 <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
                             }
                         </div>
                     </div>
                     <div class="tbody">
-                        @for (r of sortedData.body; track $index) {
-                            <div class="trow" (click)="onTableRowClick(r)">
+                        @for (r of newSortedData.body; track $index) {
+                            <div class="trow">
                                 @for (d of r; track $index) {
-                                    <div class="tdata"><p>
-                                        @if (d[1] | isDate) {
-                                            {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
-                                        }
-                                        @else {
-                                            {{d[1]}}
-                                        }
-                                    </p></div>
+                                    <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" (click)="onCellClick(d)">
+                                        <p>{{d['dataValue'] ?? '-'}}</p>
+                                    </div>
                                 }
                             </div>
                         }
@@ -106,6 +101,22 @@
                 <span class="mask-icon"></span>
             </button>
             <!-- END DOWNLOAD BUTTON -->
+
+            <!-- START FLOATING CHARTS -->
+            @if (chart) {
+                <app-floating-dialog (removeDialog)="chart=null">
+                    <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="isChartLoading" [param]="chart.currentParameter">
+                        <!-- <app-map-chart-datepicker [endingDate]="chartReferenceDate"></app-map-chart-datepicker> -->
+                        <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [referenceDate]="selectedDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
+                        <!-- <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector> -->
+                    </app-map-chart>
+                </app-floating-dialog>
+            }
+                        
+            @if (chart) {
+                <div class="overlay"></div>
+            }
+            <!-- END FLOATING CHARTS -->
 
             <!-- END MAIN -->
         </div>

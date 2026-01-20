@@ -25,6 +25,7 @@
     "leaflet-timedimension": "^1.1.1",
     "leaflet.markercluster": "^1.5.3",
     "plotly.js-dist-min": "^3.1.1",
+    "plotly.js-locales": "^3.3.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

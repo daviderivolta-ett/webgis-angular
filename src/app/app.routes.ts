@@ -48,6 +48,51 @@ export const routes: Routes = [
         }
     },
     {
+        path: 'tabelle/massimi-precipitazione',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-max/tables-max-page/tables-max-page.component').then(c => c.TablesMaxPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
+        }
+    },
+    {
+        path: 'tabelle/estremi-temperatura-vento',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-extremes/tables-extremes-page/tables-extremes-page.component').then(c => c.TablesExtremesPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
+        }
+    },
+    {
+        path: 'tabelle/livelli-idrometrici',
+        title: 'OMIRL ARPAL - Tabelle',
+        loadComponent: () => import('./pages/tables-levels/tables-levels-page/tables-levels-page.component').then(c => c.TablesLevelsPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
+        }
+    },
+    {
+        path: 'tabelle/modelli-idrologici',
+        title: 'OMIRL ARPAL - Tabelle',
+        canMatch: [authGuard],
+        loadComponent: () => import('./pages/tables-hydro/tables-hydro-page/tables-hydro-page.component').then(c => c.TablesHydroPageComponent),
+        resolve: {
+            apisConfig: apisResolver,
+            tableConfigGroups: tableConfigGroupsResolver,
+            tableLabels: tableLabelsResolver,
+            sensorTypes: sensorTypesResolver
+        }
+    },
+    {
         path: 'tabelle/:id',
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables/tables-page/tables-page.component').then(c => c.TablesPageComponent),
@@ -58,25 +103,25 @@ export const routes: Routes = [
             sensorTypes: sensorTypesResolver
         }
     },
-    {
-        path: 'satellite',
-        pathMatch: 'full',
-        redirectTo: 'satellite/satellite_nord_visible'
-    },
-    {
-        path: 'satellite/:id',
-        title: 'OMIRL ARPAL - Satellite',
-        loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
-        resolve: {
-            apisConfig: apisResolver,
-            radarConfigGroups: radarConfigGroupsResolver
-        },
-        data: { type: 'satellite' }
-    },
+    // {
+    //     path: 'satellite',
+    //     pathMatch: 'full',
+    //     redirectTo: 'satellite/satellite_nord_visible'
+    // },
+    // {
+    //     path: 'satellite/:id',
+    //     title: 'OMIRL ARPAL - Satellite',
+    //     loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
+    //     resolve: {
+    //         apisConfig: apisResolver,
+    //         radarConfigGroups: radarConfigGroupsResolver
+    //     },
+    //     data: { type: 'satellite' }
+    // },
     {
         path: 'radar',
         pathMatch: 'full',
-        redirectTo: 'radar/radar_liguria_precipitations'
+        redirectTo: 'radar/radar_rain_1h'
     },
     {
         path: 'radar/:id',

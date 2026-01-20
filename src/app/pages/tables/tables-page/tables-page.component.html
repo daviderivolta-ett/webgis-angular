@@ -54,16 +54,14 @@
 
                                 <div class="tbody">
                                     @for (r of t.table.body; track $index) {
-                                        <div class="trow" (click)="onTableRowClick(t.id, r)">
+                                        <div class="trow">
                                             @for (d of r; track $index) {
-                                                <div class="tdata"><p>
-                                                    @if (d[1] | isDate) {
-                                                        {{d[1] | date: 'dd/MM/yyyy - hh:mm'}}
-                                                    }
-                                                    @else {
-                                                        {{d[1]}}
-                                                    }
-                                                </p></div>
+                                                <div class="tdata">
+                                                    <p>
+                                                        @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                                        @else { {{d['dataValue'] ?? '-'}} }
+                                                    </p>
+                                                </div>
                                             }
                                         </div>
                                     }

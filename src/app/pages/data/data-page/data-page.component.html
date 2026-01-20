@@ -77,18 +77,27 @@
         <!-- END RESET BUTTON -->
 
         <!-- START MAP -->
-        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [maxClusterRadius]="mapConfig.maxClusterRadius" [isTimeDimensionVisible]="user ? true : false" [initialDate]="initialDate" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (markerClicked)="onMapMarkerClicked($event)" (dateChanged)="onMapDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
+        <app-map [position]="mapConfig.position" [zoom]="mapConfig.zoom" [maxBounds]="mapConfig.maxBounds" [minZoom]="mapConfig.minZoom" [maxClusterRadius]="mapConfig.maxClusterRadius" [isTimeDimensionVisible]="user ? true : false" [initialDate]="initialDate" (click)="onMapClick()" (mapClicked)="onMapClicked($event)" (layerAdded)="onMapLayerAdded($event)" (layerRemoved)="onMapLayerRemoved($event)" (layerTimeNotFound)="this.onLayerToggled({ id: $event, isChecked: false })" (markerClicked)="onMapMarkerClicked($event)" (featureClicked)="onFeatureClicked($event)" (dateChanged)="onMapDateChanged($event)" (timeDimensionDateChanged)="onMapAdditionalDateChanged($event)" (popupClicked)="onMapPopupOpenChartBtnClick($event)" #map>
             <app-map-popup [config]="stationPopupConfig" [data]="popupData" #popup></app-map-popup>
         </app-map>
         <!-- END MAP -->
+
+        <!-- START WMS DATE -->
+        @if (wmsLayersDate) {
+            <div class="wms-date fab" [style.bottom]="windowWidth < 992 ? (!user ? '80px' : '176px') : (!user ? '40px' : '96px')">
+                <p class="wms-date__text">Ultimo aggiornamento layer raster</p>
+                <p>{{wmsLayersDate | date: 'dd/MM/yyyy - HH:mm'}}</p>
+            </div>
+        }
+        <!-- END WMS DATE -->
     </div>
 
     <!-- START FLOATING CHARTS -->
     @for (chart of charts; track chart.id) {
         <app-floating-dialog (removeDialog)="removeDialog(chart.id)">
-            <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="areChartsDisabled" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.id, $event)">
+            <app-map-chart ngProjectAs="floating-dialog-content" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="areChartsDisabled" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.stationId, chart.id, $event)">
                 <app-map-chart-datepicker [endingDate]="chartReferenceDate"></app-map-chart-datepicker>
-                <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [referenceDate]="chartReferenceDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
+                <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [thresholds]="chart.thresholds ?? {}" [referenceDate]="chartReferenceDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
                 <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="areChartsDisabled"></app-map-chart-selector>
             </app-map-chart>
         </app-floating-dialog>

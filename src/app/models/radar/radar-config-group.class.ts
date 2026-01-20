@@ -1,4 +1,4 @@
-import { RadarConfig } from './radar-config';
+import { RadarConfig } from './radar-config.class';
 
 export class RadarConfigGroup {
     public id: string;

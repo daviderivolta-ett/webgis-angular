@@ -97,4 +97,11 @@ export class Utils {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
+
+    static isValidColor(color: string): boolean {
+        const el = document.createElement('div');
+        el.style.color = '';
+        el.style.color = color;
+        return el.style.color !== '';
+    }
 }

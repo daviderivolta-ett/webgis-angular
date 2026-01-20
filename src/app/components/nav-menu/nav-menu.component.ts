@@ -37,12 +37,12 @@ export class NavMenuComponent {
       iconUrl: 'images/icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
       requiresAuth: false
     },
-    {
-      path: 'satellite',
-      label: 'Satellite',
-      iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
-      requiresAuth: false
-    },
+    // {
+    //   path: 'satellite',
+    //   label: 'Satellite',
+    //   iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
+    //   requiresAuth: false
+    // },
     {
       path: 'radar',
       label: 'Radar',

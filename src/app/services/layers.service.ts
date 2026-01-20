@@ -61,6 +61,12 @@ export class LayersService {
     return newLayers;
   }
 
+  /** Check layer count by category */
+  public getLayerCountByCategory(currentLayers: Map<string, string[]>, categoryId: string): number {
+    const category: string[] | undefined = currentLayers.get(categoryId);
+    return category ? category.length : -1;
+  }
+
   /** Get WMS layer legend */
   public async getWMSLayerLegend(layer: WMSLayer): Promise<string> {
     const url: string = `${layer.url}?service=WMS&version=1.1.1&request=GetLegendGraphic&layer=${layer.params['layers']}&format=image/png&legend_options=layout:horizontal`;

@@ -5,6 +5,7 @@ export class GeoJsonLayer extends Layer {
     public parameter?: string;
     public multiplier?: number;
     public markers?: MarkerMapping;
+    public showValueOnZoom?: boolean;
 
     constructor(
         id: string,
@@ -16,12 +17,14 @@ export class GeoJsonLayer extends Layer {
         iconUrl?: string,
         parameter?: string,
         multiplier?: number,
-        markers?: MarkerMapping
+        markers?: MarkerMapping,
+        showValueOnZoom?: boolean
     ) {
         super(id, url, layerType, label, longLabel, iconUrl, layerCategory);
         this.parameter = parameter;
         this.multiplier = multiplier;
         this.markers = markers;
+        this.showValueOnZoom = showValueOnZoom;
     }
 
     static createFromObject(object: any): GeoJsonLayer {
@@ -34,6 +37,7 @@ export class GeoJsonLayer extends Layer {
         if (object['parameter'] && typeof object['parameter'] === 'string') layer.parameter = object['parameter'];
         if (object['multiplier'] && typeof object['multiplier'] === 'number') layer.multiplier = object['multiplier'];
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
+        if ('showValueOnZoom' in object && typeof object['showValueOnZoom'] === 'boolean') layer.showValueOnZoom = object['showValueOnZoom'] ?? false;
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
         if (typeof object['label'] === 'string' && object['label']) layer.label = object['label'];
         if (typeof object['longLabel'] === 'string' && object['longLabel']) layer.longLabel = object['longLabel'];

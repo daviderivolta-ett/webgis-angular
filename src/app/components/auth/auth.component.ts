@@ -4,6 +4,9 @@ import { Component, effect, input } from '@angular/core';
 /** Services */
 import { AuthService } from '../../services';
 
+/** Models */
+import { User } from '../../models';
+
 /** Component */
 @Component({
   selector: 'app-auth',
@@ -17,7 +20,7 @@ export class AuthComponent {
   public logoutIcon = input<string>('');
   public logoutText = input<string>('Esci');
 
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   constructor(private authService: AuthService) {
     effect(() => this.user = this.authService.user());

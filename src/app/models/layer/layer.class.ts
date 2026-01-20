@@ -46,7 +46,8 @@ export abstract class Layer {
             ...(object.min !== undefined ? { min: object.min } : {}),
             ...(object.max !== undefined ? { max: object.max } : {}),
             ...(object.labels ? { labels: object.labels } : {}),
-            ...(object.steps ? { steps: object.steps } : {})
+            ...(object.steps ? { steps: object.steps } : {}),
+            hasRelativeSteps : object.hasRelativeSteps ?? false
         };
 
         return this;

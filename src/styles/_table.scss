@@ -53,30 +53,35 @@ table {
         background-color: var(--neutral-100, white);
     }
 
-    .tbody .trow:nth-child(even) .tdata {
-        background-color: var(--neutral-200, lightgrey);
+    .tbody .trow .tdata:hover {
+        color: var(--neutral-800, black) !important;
+        background-color: var(--neutral-200, lightgrey) !important;
     }
 
-    .thead .trow .tdata:first-child,
-    .tbody .trow .tdata:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-    }
+    // .tbody .trow:nth-child(even) .tdata {
+    //     background-color: var(--neutral-200, lightgrey);
+    // }
 
-    .thead .trow .tdata:last-child,
-    .tbody .trow .tdata:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-    }
+    // .thead .trow .tdata:first-child,
+    // .tbody .trow .tdata:first-child {
+    //     border-top-left-radius: 8px;
+    //     border-bottom-left-radius: 8px;
+    // }
+
+    // .thead .trow .tdata:last-child,
+    // .tbody .trow .tdata:last-child {
+    //     border-top-right-radius: 8px;
+    //     border-bottom-right-radius: 8px;
+    // }
 
     .trow {
         display: flex;
         align-items: stretch;
     }
 
-    .trow:has(.tdata:hover) .tdata {
-        background-color: var(--primary-100, lightgrey) !important;
-    }
+    // .trow:has(.tdata:hover) .tdata {
+    //     background-color: var(--primary-100, lightgrey) !important;
+    // }
 
     .tdata {
         width: 100%;

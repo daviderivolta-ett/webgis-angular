@@ -25,15 +25,24 @@ export class ToggleComponent {
 
   public toggleChanged = output<string>();
 
+  private _isInitialized: boolean = false;
+
   constructor() {
     effect(() => this._initForm(this.form, 'toggle', this.options().map((t: Toggle) => t.id)));
     effect(() => this.isDisabled() ? this.form.get('toggle')?.disable() : this.form.get('toggle')?.enable());
-    this.form.valueChanges.subscribe((changes: any) => this.toggleChanged.emit(changes['toggle']));
+  }
+
+  /** Component lifecycle */
+  public ngOnInit(): void {
+    this.form.valueChanges.subscribe((changes: any) => {
+      if (this._isInitialized) this.toggleChanged.emit(changes['toggle'])
+      else this._isInitialized = true;
+    });
   }
 
   /** Methods */
   private _initForm(form: FormGroup, controlId: string, options: string[]): void {
     if (options.length === 0) return;
-    form.patchValue({ [controlId]: options[0] });
+    form.patchValue({ [controlId]: options[0] }, { emitEvent: false });
   }
 }

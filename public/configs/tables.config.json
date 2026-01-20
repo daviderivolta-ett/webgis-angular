@@ -28,7 +28,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-temperature",
@@ -54,7 +55,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-hydrometric_levels",
@@ -80,7 +82,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-wind",
@@ -106,7 +109,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_wind_speed"
+                    "parameter": "mean_wind_speed",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-humidity",
@@ -132,7 +136,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "humidity"
+                    "parameter": "humidity",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-sunshine_duration",
@@ -158,7 +163,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "sunshine_duration"
+                    "parameter": "sunshine_duration",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-radiations",
@@ -184,7 +190,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "solar_radiation_pwr"
+                    "parameter": "solar_radiation_pwr",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-foliage",
@@ -210,7 +217,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "leaf_wetness"
+                    "parameter": "leaf_wetness",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-pressure",
@@ -236,7 +244,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_sea_level_press"
+                    "parameter": "mean_sea_level_press",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-battery",
@@ -262,7 +271,8 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "battery_voltage"
+                    "parameter": "battery_voltage",
+                    "actionKey": "code"
                 },
                 {
                     "id": "stations-snow",
@@ -288,13 +298,14 @@
                         "maxValue",
                         "minValue"
                     ],
-                    "parameter": "mean_snow_depth"
+                    "parameter": "mean_snow_depth",
+                    "actionKey": "code"
                 }
             ]
         },
         {
             "id": "massimi-precipitazione",
-            "label": "Massimi di giornalieri di precipitazione",
+            "label": "Massimi giornalieri di precipitazione",
             "options": [
                 {
                     "id": "precipitations-max-warn-areas",
@@ -318,7 +329,106 @@
                         "rain_12h",
                         "rain_24h"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "colors": [
+                        {
+                            "key": "rain_05m",
+                            "steps": [
+                                4,
+                                8
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_15m",
+                            "steps": [
+                                6,
+                                12
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_30m",
+                            "steps": [
+                                20,
+                                40
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_01h",
+                            "steps": [
+                                35,
+                                50
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_03h",
+                            "steps": [
+                                55,
+                                75
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_06h",
+                            "steps": [
+                                45,
+                                85
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_12h",
+                            "steps": [
+                                50,
+                                110
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_24h",
+                            "steps": [
+                                65,
+                                145
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        }
+                    ],
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "precipitations-max-municipalities",
@@ -342,7 +452,106 @@
                         "rain_12h",
                         "rain_24h"
                     ],
-                    "parameter": "rain_01h"
+                    "parameter": "rain_01h",
+                    "colors": [
+                        {
+                            "key": "rain_05m",
+                            "steps": [
+                                4,
+                                8
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_15m",
+                            "steps": [
+                                6,
+                                12
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_30m",
+                            "steps": [
+                                20,
+                                40
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_01h",
+                            "steps": [
+                                35,
+                                50
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_03h",
+                            "steps": [
+                                55,
+                                75
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_06h",
+                            "steps": [
+                                45,
+                                85
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_12h",
+                            "steps": [
+                                50,
+                                110
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        },
+                        {
+                            "key": "rain_24h",
+                            "steps": [
+                                65,
+                                145
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "black"
+                            ]
+                        }
+                    ],
+                    "actionKey": "stationCode"
                 }
             ]
         },
@@ -356,7 +565,26 @@
                     "label": "Città",
                     "filterKeys": [],
                     "dataPath": "Cities",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 },
                 {
                     "id": "estremi-temperatura-vento-warnareas",
@@ -364,7 +592,26 @@
                     "label": "Zone di allerta",
                     "filterKeys": [],
                     "dataPath": "WarnArea",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_air_temp",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 },
                 {
                     "id": "estremi-temperatura-vento-wind-extremes",
@@ -372,12 +619,31 @@
                     "label": "Vento",
                     "filterKeys": [],
                     "dataPath": "Wind",
-                    "parameter": "mean_air_temp"
+                    "parameter": "mean_wind_speed",
+                    "keysToKeep": [
+                        "region",
+                        "firstValue",
+                        "firstValueReferenceDate",
+                        "firstValueStationName",
+                        "secondValue",
+                        "secondValueReferenceDate",
+                        "secondValueStationName"
+                    ],
+                    "keysToMerge": [
+                        [
+                            "firstValue",
+                            "firstValueReferenceDate"
+                        ],
+                        [
+                            "secondValue",
+                            "secondValueReferenceDate"
+                        ]
+                    ]
                 }
             ]
         },
         {
-            "id": "hydrometric-levels",
+            "id": "livelli-idrometrici",
             "label": "Livelli idrometrici",
             "options": [
                 {
@@ -386,7 +652,8 @@
                     "label": "A - Marittimi di Ponente",
                     "filterKeys": [],
                     "dataPath": "A",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-b",
@@ -394,7 +661,8 @@
                     "label": "B - Marittimi di Centro",
                     "filterKeys": [],
                     "dataPath": "B",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c",
@@ -402,7 +670,8 @@
                     "label": "C - Marittimi di Levante",
                     "filterKeys": [],
                     "dataPath": "C",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-d",
@@ -410,7 +679,8 @@
                     "label": "D - Padani di Ponente",
                     "filterKeys": [],
                     "dataPath": "D",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-e",
@@ -418,7 +688,8 @@
                     "label": "E - Padani di Levante",
                     "filterKeys": [],
                     "dataPath": "E",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c+",
@@ -426,7 +697,8 @@
                     "label": "C+ - C + Magra",
                     "filterKeys": [],
                     "dataPath": "C+",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-c-",
@@ -434,7 +706,8 @@
                     "label": "C- - C - Magra",
                     "filterKeys": [],
                     "dataPath": "C-",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
                 },
                 {
                     "id": "hydrometric-levels-m",
@@ -442,7 +715,168 @@
                     "label": "M - Magra",
                     "filterKeys": [],
                     "dataPath": "M",
-                    "parameter": "mean_creek_level"
+                    "parameter": "mean_creek_level",
+                    "actionKey": "stationCode"
+                }
+            ]
+        },
+        {
+            "id": "modelli-idrologici",
+            "label": "Modelli idrologici",
+            "requiresAuth": true,
+            "options": [
+                {
+                    "id": "modelli-idrologici-nowcasting-hydro",
+                    "url": "/platforms/get/hydro/NowcastingHydro",
+                    "label": "Nowcasting Hydro",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-run-observations-10m",
+                    "url": "/platforms/get/hydro/RunObservations_10min",
+                    "label": "Simulato osservato 10 minuti",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-rainfarm-subjective",
+                    "url": "/platforms/get/hydro/RainfarmSubjective",
+                    "label": "Probabilistica soggettiva",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-soggettiva-automatica--06",
+                    "url": "/platforms/get/hydro/SoggettivaAutomatica-06",
+                    "label": "Probabilistica soggettiva automatica -06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-soggettiva-automatica-00",
+                    "url": "/platforms/get/hydro/SoggettivaAutomatica+00",
+                    "label": "Probabilistica soggettiva automatica 00",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-soggettiva-automatica-06",
+                    "url": "/platforms/get/hydro/SoggettivaAutomatica+06",
+                    "label": "Probabilistica soggettiva automatica +06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-soggettiva-automatica-12",
+                    "url": "/platforms/get/hydro/SoggettivaAutomatica-12",
+                    "label": "Probabilistica soggettiva automatica 12",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-rainfarmbo--06",
+                    "url": "/platforms/get/hydro/Rainfarmbo08-06",
+                    "label": "Bolam 8km -06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-rainfarmbo-00",
+                    "url": "/platforms/get/hydro/Rainfarmbo08+00",
+                    "label": "Bolam 8km 00",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-rainfarmbo-06",
+                    "url": "/platforms/get/hydro/Rainfarmbo08+06",
+                    "label": "Bolam 8km 06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-rainfarmbo-12",
+                    "url": "/platforms/get/hydro/Rainfarmbo08-12",
+                    "label": "Bolam 8km 12",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-moloch--06",
+                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                    "label": "Moloch 1.5km -06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-moloch-00",
+                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                    "label": "Moloch 1.5km 00",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-moloch-06",
+                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                    "label": "Moloch 1.5km 06",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-moloch-12",
+                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                    "label": "Moloch 1.5km 12",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-icon-00",
+                    "url": "/platforms/get/hydro/Rainfarmicon2i+00",
+                    "label": "Icon 2km 00",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
+                },
+                {
+                    "id": "modelli-idrologici-icon--12",
+                    "url": "/platforms/get/hydro/Rainfarmicon2i-12",
+                    "label": "Icon 2km 12",
+                    "keysOrder": [
+                        "basin",
+                        "name"
+                    ]
                 }
             ]
         }

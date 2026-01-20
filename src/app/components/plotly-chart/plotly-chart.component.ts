@@ -1,6 +1,8 @@
 /** Dependencies */
 import { Component, effect, ElementRef, input, output, ViewChild } from '@angular/core'
 import Plotly from 'plotly.js-dist-min'
+// @ts-ignore
+import itLocale from 'plotly.js-locales/it'
 
 /** Types */
 type PlotlyChartData = {
@@ -28,6 +30,7 @@ export class PlotlyChartComponent {
   public xLabel = input<string>('TEXT');
   public xRange = input<any[]>([]);
   public data = input<PlotlyChartData[]>([]);
+  public thresholds = input<Record<string, number>>({});
   public referenceDate = input<Date | undefined>(new Date());
 
   public onCustomButtonClick = output<any>();
@@ -37,11 +40,14 @@ export class PlotlyChartComponent {
   private _resizeObserver: ResizeObserver;
 
   constructor() {
+    Plotly.register(itLocale);
+
     this._resizeObserver = new ResizeObserver(() => {
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
 
     effect(() => this._drawChart(this.data()));
+    effect(() => this._drawThresholds(this.thresholds()));
   }
 
   /** Component lifecycle */
@@ -118,7 +124,10 @@ export class PlotlyChartComponent {
       layout,
       config
     )
-      .then(() => this._setup())
+      .then(() => {
+        this._drawThresholds(this.thresholds());
+        this._setup();
+      })
   }
 
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
@@ -152,15 +161,15 @@ export class PlotlyChartComponent {
       }
 
       if (serie.type === 'bar' && serie.style && serie.style['color']) {
-        (trace as Plotly.PlotData).marker = { color: serie.style['color'] };
+        (trace as Plotly.PlotData).marker = {
+          color: serie.style['color']
+        };
       }
 
       if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
-          // symbol: serie.style['marker'] ?? undefined,
           size: 12,
-          // angle: serie.data.map((d: [number, number | null]) => d[1]),          
           color: 'transparent',
 
         } as any
@@ -176,12 +185,14 @@ export class PlotlyChartComponent {
   private _getLayout(data: PlotlyChartData[]): Partial<Plotly.Layout> {
     let layout: Partial<Plotly.Layout> = {
       showlegend: true,
+      bargap: 4,
       hovermode: 'x unified',
       legend: {
-        x: 0,
-        y: 1,
-        xanchor: 'left',
-        bgcolor: 'transparent'
+        orientation: 'h',
+        x: .5,
+        xanchor: 'center',
+        y: -.2,
+        yanchor: 'top'
       },
       margin: {
         t: 56
@@ -195,7 +206,9 @@ export class PlotlyChartComponent {
             color: '#b0b0b0'
           },
         },
-        range: this.xRange().length > 0 ? this.xRange() : undefined,
+        range: this.xRange().length > 0 ?
+          this.xRange() :
+          undefined,
         rangeselector: {
           bordercolor: '#ddd',
           bgcolor: '#fff',
@@ -226,17 +239,49 @@ export class PlotlyChartComponent {
         gridwidth: 1,
         automargin: true,
         tickformatstops: [
+          // {
+          //   dtickrange: [null, "D1"],
+          //   value: "%H:%M"
+          // },
+          // {
+          //   dtickrange: ["D1", "M1"],
+          //   value: "%d/%m"
+          // },
+          // {
+          //   dtickrange: ["M1", null],
+          //   value: "%b %Y"
+          // }
           {
-            dtickrange: [null, "D1"],
+            dtickrange: [null, 1000],
             value: "%H:%M"
           },
           {
-            dtickrange: ["D1", "M1"],
+            dtickrange: [1000, 60000],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: [60000, 3600000],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: [3600000, 86400000],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: [86400000, 604800000],
             value: "%d/%m"
           },
           {
-            dtickrange: ["M1", null],
-            value: "%b %Y"
+            dtickrange: [604800000, "M1"],
+            value: "%d/%m"
+          },
+          {
+            dtickrange: ["M1", "M12"],
+            value: "%m/%y"
+          },
+          {
+            dtickrange: ["M12", null],
+            value: "%Y"
           }
         ]
       },
@@ -251,6 +296,9 @@ export class PlotlyChartComponent {
 
     const lastDateShape: Partial<Plotly.Shape> | undefined = this._createShapeForLastDateValue(data);
     if (lastDateShape) layout.shapes?.push(lastDateShape);
+
+    const range: [number, number] | undefined = this._getDateRange(data);
+    if (range && layout.xaxis) layout.xaxis.range = [range[0], range[1] + 3 * 60 * 60 * 1000];
 
     let additionalYAxisCounter: number = 2;
 
@@ -285,7 +333,7 @@ export class PlotlyChartComponent {
           standoff: 10
         },
         range: (d.unit && d.unit !== '°') ?
-          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0], maxYValue] : d.yRange) :
+          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0] - 10, maxYValue + 10] : d.yRange) :
           undefined,
         nticks: 20,
         tickformat: undefined,
@@ -316,47 +364,50 @@ export class PlotlyChartComponent {
     return layout;
   }
 
-  // private _createHorizontalBands(): Partial<Plotly.Shape>[] {
-  //   const min = -this.yRange()[1];
-  //   const max = this.yRange()[1];
-  //   const step = (max - min) / 40;
+  private _drawThresholds(thresholds: Record<string, number>): void {
+    if (!this.plotly) return;
 
-  //   let flip = false;
-  //   const horizontalBands: Partial<Plotly.Shape>[] = [];
+    const plotly = this.plotly.nativeElement as any;
 
-  //   for (let y = min; y < max; y += step) {
-  //     if (flip) {
-  //       horizontalBands.push({
-  //         type: "rect",
-  //         x0: 0,
-  //         x1: 1,
-  //         y0: y,
-  //         y1: y + step,
-  //         xref: "paper",
-  //         yref: "y",
-  //         fillcolor: "#EEEEFF",
-  //         line: { width: 0 },
-  //         layer: "below"
-  //       });
-  //     }
-  //     flip = !flip;
-  //   }
+    const shapes: Partial<Plotly.Shape>[] = Object.entries(thresholds)
+      .map(([color, value]: [string, number]) => {
+        return {
+          type: 'line',
+          xref: 'paper',
+          x0: 0,
+          x1: 1,
+          yref: 'y',
+          y0: value,
+          y1: value,
+          line: {
+            color,
+            width: 1
+          }
+        }
+      })
 
-  //   return horizontalBands;
-  // }
+    Plotly.relayout(this.plotly.nativeElement, {
+      shapes: [...plotly._fullLayout?.shapes, ...shapes]
+    });
+  }
 
   private _getConfig(): Partial<Plotly.Config> {
     return {
+      locale: 'it',
       responsive: true,
       displaylogo: false,
       showAxisDragHandles: false,
+      doubleClick: false,
+      scrollZoom: true,
       modeBarButtonsToRemove: [
         'toImage',
-        'autoScale2d'
+        'autoScale2d',
+        'zoomIn2d',
+        'zoomOut2d'
       ],
       modeBarButtonsToAdd: [
         {
-          title: 'Download plot as png',
+          title: 'Scarica il grafico come immagine PNG',
           name: 'png_download',
           icon: {
             width: 960,
@@ -371,7 +422,7 @@ export class PlotlyChartComponent {
           })
         },
         {
-          title: 'Download plot as csv',
+          title: 'Scarica il grafico come file CSV',
           name: 'csv_download',
           icon: {
             width: 960,
@@ -437,5 +488,20 @@ export class PlotlyChartComponent {
       line: { width: 0 },
       layer: 'below'
     }
+  }
+
+  private _getDateRange(chartData: PlotlyChartData[]): [number, number] | undefined {
+    const data = chartData
+      .map(c => c.data)
+      .map(v =>
+        v.filter((p): p is [number, number] => p[1] !== null)
+      );
+
+    const flatData: [number, number][] = data.flat(1);
+    const firstDate: number = Math.min(...flatData.map((c) => c[0]));
+    const lastDate: number = Math.max(...flatData.map((c) => c[0]));
+    return Number.isFinite(firstDate) && Number.isFinite(lastDate)
+      ? [firstDate, lastDate]
+      : undefined;
   }
 }

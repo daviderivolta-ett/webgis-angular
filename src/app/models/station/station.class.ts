@@ -1,6 +1,7 @@
 import { StationBase } from './station-base.class'
 import { StationData } from './station-data.interface'
 import { Sensor } from './sensor.class'
+import { StationThresholdConfig } from './station-creek.interface'
 
 export class Station extends StationBase implements StationData {
     public value: number;
@@ -27,9 +28,10 @@ export class Station extends StationBase implements StationData {
         date?: Date,
         commt?: string,
         subfolder?: string,
-        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform'
+        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform',
+        thresholdConfig?: StationThresholdConfig
     ) {
-        super(id, lat, lng, sensors, uuid, name, city, alt);
+        super(id, lat, lng, sensors, uuid, name, city, alt, type, thresholdConfig);
 
         this.value = value;
         this.parameter = parameter;
@@ -39,6 +41,7 @@ export class Station extends StationBase implements StationData {
         this.commt = commt;
         this.subfolder = subfolder;
         this.type = type;
+        this.thresholdConfig = thresholdConfig;
     }
 
     static override createDefault(): Station {
@@ -105,13 +108,19 @@ export class Station extends StationBase implements StationData {
             date,
             commt,
             subfolder,
-            stationBase.type
+            stationBase.type,
+            stationBase.thresholdConfig
         )
     }
 
-    public addSensorsFromStationLists(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): Station {
+    public addSensorsFromStationLists(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] | StationBase[]): Station {
         const station: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'> | undefined = stations.find((s: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>) => s.id === this.id);
         if (station) this.sensors = [...station.sensors];
         return this;
+    }
+
+    static fromStationPick(stationPick: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>): Station {
+        const stationBase = new StationBase(stationPick.id, 0, 0, stationPick.sensors, undefined, stationPick.name);
+        return Station.fromStationData(stationBase, { value: 0, parameter: '' });
     }
 }

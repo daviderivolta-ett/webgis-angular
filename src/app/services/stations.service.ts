@@ -2,13 +2,13 @@
 import { Injectable } from '@angular/core';
 
 /** Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase } from '../models';
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationThresholdConfig } from '../models';
 
 /** Services */
 import { ApiService } from './api.service';
 
 /** Utils */
-import { DateUtils } from '../utils';
+import { DateUtils, Utils } from '../utils';
 
 /** Service */
 @Injectable({
@@ -17,6 +17,18 @@ import { DateUtils } from '../utils';
 export class StationsService {
 
   constructor(private apiService: ApiService) { }
+
+  public async getAllStations(url: string, token?: string) {
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);
+        return data['features'].map((s: any) => StationBase.createFromObject(StationBase.createFromGeoJSONFeature(s)));
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error) throw err;
+        else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
+      })
+  }
 
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
@@ -81,7 +93,7 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: endingDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);
@@ -166,12 +178,15 @@ export class StationsService {
     return found ? { ...found, label: newLabel } : undefined;
   }
 
-  public createChart(station: Station, sensorTypes: SensorType[]): MapChart {
+  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {
     const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
     const stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
     const minSensor: SensorType | undefined = this.compareSensorTypes(sensorTypes, 'rain', 'Pioggia nativa');
     if (minSensor) stationSensorTypes.unshift(minSensor);
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
+
+    let sensorThresholds: Record<string, number> | undefined;
+    if (sensorType && thresholds) sensorThresholds = this._getSensorThresholds(sensorType, thresholds);
 
     return new MapChart(
       station.id,
@@ -183,11 +198,12 @@ export class StationsService {
       sensorType ? sensorType.label : station.parameter,
       'Data',
       '',
-      undefined
+      undefined,
+      sensorThresholds ? sensorThresholds : undefined
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, token?: string): Promise<MapChart> {
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
@@ -204,6 +220,9 @@ export class StationsService {
           const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
           if (!sensor) continue;
 
+          let customRange: [number, number] | undefined;
+          if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
+
           const chartSerie: MapChartData = new MapChartData(
             sensor.chartType,
             sensor.multiplier ?
@@ -214,7 +233,7 @@ export class StationsService {
             sensor.style,
             sensor.label,
             `(${sensor.unit})`,
-            sensor.range,
+            customRange ?? sensor.range,
             sensor.id.includes('--cumulative') ? true : false,
             sensor.isMainYAxis ?? false
           );
@@ -233,4 +252,25 @@ export class StationsService {
         throw new Error(err instanceof Error ? err.message : `Errore nel recupero della timeseries.`);
       })
   }
+
+  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {
+    return sensorType.thresholdKeys?.reduce((acc: Record<string, number>, curr: string) => {
+      const value = (thresholdConfig as any)[curr];
+      if (typeof value === 'number') acc[curr] = value;
+      return acc;
+    }, {} as Record<string, number>) ?? undefined;
+  }
+
+  private _getSensorRange(sensorType: SensorType, thresholdConfig: StationThresholdConfig): [number, number] | undefined {
+    return (sensorType && sensorType.thresholdKeys && thresholdConfig.yMin && thresholdConfig.yMax) ? [thresholdConfig.yMin, thresholdConfig.yMax] : undefined;
+  }
+
+  public mergeBaseStationsAndPickStations(baseStations: StationBase[], pickStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): StationBase[] {
+    return baseStations.map((s: StationBase) => {
+      const pick = pickStations.find((p) => s.id === p.id);
+      if (!pick) return undefined;
+      return s.mergeWithPick(pick);
+    }).filter((s) => s !== undefined)
+  }
+
 }

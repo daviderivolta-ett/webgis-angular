@@ -12,6 +12,7 @@ export class MapChart {
     public xLabel?: string;
     public xUnit?: string;
     public xRange?: any[];
+    public thresholds?: Record<string, number>;
 
     constructor(
         stationId: string,
@@ -24,6 +25,7 @@ export class MapChart {
         xLabel?: string,
         xUnit?: string,
         xRange?: any[],
+        thresholds?: Record<string, number>
     ) {
         this.id = id ?? `${new Date().getTime() + Math.random().toString(36).substring(2, 10)}`;
         this.stationId = stationId;
@@ -35,5 +37,6 @@ export class MapChart {
         this.xLabel = xLabel;
         this.xUnit = xUnit;
         this.xRange = xRange;
+        this.thresholds = thresholds;
     }
 }

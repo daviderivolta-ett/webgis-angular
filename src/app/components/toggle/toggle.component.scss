@@ -5,7 +5,7 @@
 
 .toggle__option {
     position: relative;
-    min-width: 150px;
+    min-width: 128px;
 }
 
 .toggle__option input {
@@ -42,17 +42,20 @@
     gap: 4px;
     width: 100%;
     min-height: 32px;
+    border: 1px solid var(--neutral-400, lightgrey);
 
     &:hover {
         cursor: pointer;
     }
 }
 
-.toggle__option:first-child {
+.toggle__option:first-child,
+.toggle__option:first-child label {
     border-radius: 8px 0 0 8px;
 }
 
-.toggle__option:last-child {
+.toggle__option:last-child,
+.toggle__option:last-child label {
     border-radius: 0 8px 8px 0;
 }
 

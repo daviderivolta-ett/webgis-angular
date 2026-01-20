@@ -1,0 +1,119 @@
+@use 'index' as mixins;
+@include mixins.header-position;
+
+.main {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content {
+    width: 970px;
+    margin: auto;
+    padding: 40px 0;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+}
+
+.table-link {
+    padding: 4px 8px;
+    display: block;
+    color: var(--primary-900, black);
+    text-decoration: none;
+}
+
+.table-link--active {
+    color: var(--primary-500, blue);
+    background-color: var(--primary-100, lightgrey);
+    border-radius: 4px;
+}
+
+.page-title {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 24px 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 24px 0;
+}
+
+.label {
+    font-size: .85rem;
+}
+
+app-datepicker {
+    display: block;
+    width: 200px;
+}
+
+.tables {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.table-title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.table-title .csv-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+}
+
+.mask-icon {
+    @include mixins.maskIcon('/images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg');
+}
+
+.table-wrapper h3 {
+    text-align: center;
+}
+
+.table {
+    width: 100%;
+
+    th,
+    td {
+        min-width: 120px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .content {
+        width: 92%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .update-time {
+        width: 100%;
+    }
+
+    .styled-select,
+    app-datepicker {
+        width: 100%;
+    }
+}

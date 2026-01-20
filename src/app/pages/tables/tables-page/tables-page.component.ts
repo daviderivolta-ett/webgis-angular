@@ -2,15 +2,16 @@
 import { Component, effect, ViewChild } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
+import { skip } from 'rxjs'
 
 /** Models */
-import { Sensor, SensorType, Station, StationBase, Table, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode } from '../../../models'
+import { Sensor, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Types */
 type PageTable = {
   id: string,
   label: string,
-  table: Table
+  table: Table2
 }
 
 /** Services */
@@ -59,7 +60,7 @@ export class TablesPageComponent {
   public selectedDate: Date | undefined;
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
@@ -94,8 +95,10 @@ export class TablesPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
     /** Effetcs */
-    effect(() => this.user = this.authService.user()
-    );
+    effect(() => {
+      this.user = this.authService.user();
+      this._initNavbar();
+    });
     effect(() => {
       const date = this.dateService.date();
       this.initialDate = date;
@@ -106,15 +109,22 @@ export class TablesPageComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    this.navGroups = this._tableConfigGroups.map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-
-    this.route.paramMap.subscribe(() => {
-      const param: string | null = this.route.snapshot.paramMap.get('id');
-      if (param) this._init(param);
-    });
+    this._initNavbar();
+    this.route.paramMap
+      .pipe(skip(1))
+      .subscribe(() => {
+        const param: string | null = this.route.snapshot.paramMap.get('id');
+        if (param) this._init(param);
+      });
   }
 
   /** Methods */
+  private _initNavbar() {
+    this.navGroups = this._tableConfigGroups
+      .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
+      .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
+  }
+
   public setDataFromApi() {
     // this.isLoading = true;
     this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
@@ -141,7 +151,7 @@ export class TablesPageComponent {
       })
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string): Promise<void> {  
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -192,8 +202,16 @@ export class TablesPageComponent {
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
-      const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      const table: Table = Table.generateTableStructure(rawData, 'name', config.keysOrder);
+
+
+      let table = new Table2();
+      // if (tableRows.every((r) => 'values' in r)) {
+      //   table = Table2.generateTableStructure2(tableRows, 'values', config.keysToMerge ?? [], 'stationCode', 'region', config.keysOrder ?? []);
+      // } else {
+      //   const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
+      //   table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, 'stationCode');
+      // }
+
       return {
         id: config.id,
         label: config.label ?? config.id,
@@ -226,9 +244,6 @@ export class TablesPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
-    // this.selectedDate = !isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined;
-    // const param: string | null = this.route.snapshot.paramMap.get('id');
-    // if (param) this._init(param);
   }
 
   private _onGlobalDateChange(): void {
