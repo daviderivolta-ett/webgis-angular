@@ -209,7 +209,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number): void {
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
     const layer = L.geoJSON(geoJSON, {
@@ -221,14 +221,26 @@ export class MapComponent {
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
-        const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
-        const divIcon = L.divIcon({
-          html: iconHtml,
+        // const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
+
+        const markerIcon = L.divIcon({
+          html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',
           iconSize: feature.properties.markerShapeId !== 6 ? [20, 20] : [64, 64],
           iconAnchor: feature.properties.markerShapeId !== 6 ? [10, 10] : [32, 32]
         });
-        const marker = L.marker(latLng, { icon: divIcon, zIndexOffset: shapeKey });
+
+        const textIcon = L.divIcon({
+          html: this._createTextIcon(value ?? 0, color),
+          className: 'text-marker',
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        });
+
+        const marker = L.marker(latLng, { icon: markerIcon, zIndexOffset: shapeKey });
+        (marker as any)._markerIcon = markerIcon; // Adding custom key in order to know which icon choosed based on map zoom
+        (marker as any)._textIcon = textIcon; // Adding custom key in order to know which icon choosed based on map zoom
+
         marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
         marker.on('mouseout', () => {
           window.clearTimeout(this._hoverTimer);
@@ -249,10 +261,17 @@ export class MapComponent {
       geoJSON.features.length > 0 ?
         geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(1)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
         shapeFactory('grey', 'transparent')
-    );
+    );  
+
+    if (showValueOnZoom) {
+      // Function called on this specific GeoJSON layer when map is zoomed
+      this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station');      
+      this._map.on('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
+    }
 
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
+      if (showValueOnZoom) this._map.off('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
       const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release     
       if (index !== undefined) this._releaseMarkerShape(index); // comparison with 'undefined' because '0' is a valid value and js considers it 'falsy'
     });
@@ -296,7 +315,7 @@ export class MapComponent {
         }
       },
       onEachFeature: (feature, layer) => {
-        layer.on('click', (event) => this.featureClicked.emit({...feature.properties, coordinates: event.latlng}))
+        layer.on('click', (event) => this.featureClicked.emit({ ...feature.properties, coordinates: event.latlng }))
       }
     }).addTo(this._map);
     this._registerLayer(id, geoJSONLayer);
@@ -496,6 +515,23 @@ export class MapComponent {
     html.style.width = '100%';
     html.style.height = '100%';
     return html;
+  }
+
+  private _chooseMarkerOnZoom(layer: L.GeoJSON, zoom: number, zoomThreshold: number, layerGroupPrefix: string) {
+    const stationLayers = [...this._layers.keys()].filter((k: string) => k.includes(layerGroupPrefix));    
+    
+    if (stationLayers.length > 1) return;
+    layer.eachLayer((l: L.Layer) => {
+      if (l instanceof L.Marker && (l as any)._markerIcon && (l as any)._textIcon) {
+        l.setIcon(zoom < zoomThreshold ? (l as any)._markerIcon : (l as any)._textIcon)
+      }
+    });
+  }
+
+  private _createTextIcon(value: number, color: string): string {
+    return `
+      <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;"><span>${value.toFixed(2)}</span></div>
+      `
   }
 
   private _createCircleShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {

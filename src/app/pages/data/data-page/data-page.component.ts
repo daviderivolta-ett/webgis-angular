@@ -169,7 +169,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);    
   }
 
   public ngAfterViewInit(): void {
@@ -550,7 +550,8 @@ export class DataPageComponent {
         timeSpan: this.settings.mapTimeSpan,
         timeThreshold: this.settings.staleDataThreshold,
         multiplier: layer instanceof GeoJsonLayer && layer.multiplier,
-        sensorTypes: this._sensorTypes
+        sensorTypes: this._sensorTypes,
+        showValueOnZoom: layer instanceof GeoJsonLayer ? layer.showValueOnZoom : undefined
       });
 
     } catch (err: unknown) {
