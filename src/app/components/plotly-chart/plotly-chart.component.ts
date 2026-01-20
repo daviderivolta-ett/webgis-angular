@@ -1,6 +1,8 @@
 /** Dependencies */
 import { Component, effect, ElementRef, input, output, ViewChild } from '@angular/core'
 import Plotly from 'plotly.js-dist-min'
+// @ts-ignore
+import itLocale from 'plotly.js-locales/it'
 
 /** Types */
 type PlotlyChartData = {
@@ -38,6 +40,8 @@ export class PlotlyChartComponent {
   private _resizeObserver: ResizeObserver;
 
   constructor() {
+    Plotly.register(itLocale);
+
     this._resizeObserver = new ResizeObserver(() => {
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
@@ -357,6 +361,7 @@ export class PlotlyChartComponent {
 
   private _getConfig(): Partial<Plotly.Config> {
     return {
+      locale: 'it',
       responsive: true,
       displaylogo: false,
       showAxisDragHandles: false,
@@ -370,7 +375,7 @@ export class PlotlyChartComponent {
       ],
       modeBarButtonsToAdd: [
         {
-          title: 'Download plot as png',
+          title: 'Scarica il grafico come immagine PNG',
           name: 'png_download',
           icon: {
             width: 960,
@@ -385,7 +390,7 @@ export class PlotlyChartComponent {
           })
         },
         {
-          title: 'Download plot as csv',
+          title: 'Scarica il grafico come file CSV',
           name: 'csv_download',
           icon: {
             width: 960,

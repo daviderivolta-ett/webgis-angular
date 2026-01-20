@@ -93,7 +93,7 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: endingDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);

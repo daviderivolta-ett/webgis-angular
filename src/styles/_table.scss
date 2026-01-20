@@ -53,6 +53,11 @@ table {
         background-color: var(--neutral-100, white);
     }
 
+    .tbody .trow .tdata:hover {
+        color: var(--neutral-800, black) !important;
+        background-color: var(--neutral-200, lightgrey) !important;
+    }
+
     // .tbody .trow:nth-child(even) .tdata {
     //     background-color: var(--neutral-200, lightgrey);
     // }
