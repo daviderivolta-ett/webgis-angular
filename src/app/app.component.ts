@@ -2,9 +2,6 @@
 import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
-/** Services */
-import { AuthService } from './services'
-
 /** Components */
 import { SnackbarContainerComponent } from './components'
 
@@ -20,6 +17,4 @@ import { SnackbarContainerComponent } from './components'
 })
 export class AppComponent {
   title = 'omirl';
-
-  constructor(private authService: AuthService) { }
 }
