@@ -282,7 +282,7 @@ export class DataPageComponent {
     const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
-    // Refresh
+    // Refresh   
     // if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
     // if (!this.dateService.date()) {
     //   this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
@@ -467,8 +467,8 @@ export class DataPageComponent {
   */
   public onLayerToggled(data: any, updateUrl: boolean = true): void {    
     const { id, isChecked } = data;
-    if (!id || typeof isChecked !== 'boolean') return;
-
+    if (!id || typeof isChecked !== 'boolean') return; 
+   
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     if (updateUrl) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
@@ -502,7 +502,7 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
+  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {   
     const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {        
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
@@ -572,11 +572,11 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {
+  public onMapDateChanged(date: Date | undefined): void {   
     if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
     this.chartReferenceDate = date;
-    this._updateMultipleLayers(date);
+    this._updateMultipleLayers(date, false);
   }
 
   public onMapAdditionalDateChanged(date: Date | undefined): void {
@@ -586,11 +586,11 @@ export class DataPageComponent {
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {
     // Split current layers in timedimension and not-timedimension layers
     const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');    
-
+  
     // Remove every not-timedimension layer (except in case of map reset)
     [...layersToUpdate, ...(isReset ? layersToKeep : [])]
       .reverse()
-      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, false));
+      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, !isReset));
 
     // Call command for every not-timedimension layer (except in case of map reset)
     const promises: Promise<void>[] = [];
