@@ -228,9 +228,21 @@ export class PlotlyChartComponent {
               label: '48h'
             },
             {
+              step: 'day',
+              stepmode: 'backward',
+              count: 7,
+              label: '7gg'
+            },
+            {
+              step: 'day',
+              stepmode: 'backward',
+              count: 15,
+              label: '15gg'
+            },
+            {
               step: 'all',
               label: 'Default'
-            }
+            },
           ]
         },
         type: 'date',
@@ -239,50 +251,50 @@ export class PlotlyChartComponent {
         gridwidth: 1,
         automargin: true,
         tickformatstops: [
+          {
+            dtickrange: [null, "D1"],
+            value: "%H:%M"
+          },
+          {
+            dtickrange: ["D1", "M1"],
+            value: "%d/%m"
+          },
+          {
+            dtickrange: ["M1", null],
+            value: "%b %Y"
+          }
           // {
-          //   dtickrange: [null, "D1"],
+          //   dtickrange: [null, 1000],
           //   value: "%H:%M"
           // },
           // {
-          //   dtickrange: ["D1", "M1"],
+          //   dtickrange: [1000, 60000],
+          //   value: "%H:%M"
+          // },
+          // {
+          //   dtickrange: [60000, 3600000],
+          //   value: "%H:%M"
+          // },
+          // {
+          //   dtickrange: [3600000, 86400000],
+          //   value: "%H:%M"
+          // },
+          // {
+          //   dtickrange: [86400000, 604800000],
           //   value: "%d/%m"
           // },
           // {
-          //   dtickrange: ["M1", null],
-          //   value: "%b %Y"
+          //   dtickrange: [604800000, "M1"],
+          //   value: "%d/%m"
+          // },
+          // {
+          //   dtickrange: ["M1", "M12"],
+          //   value: "%m/%y"
+          // },
+          // {
+          //   dtickrange: ["M12", null],
+          //   value: "%Y"
           // }
-          {
-            dtickrange: [null, 1000],
-            value: "%H:%M"
-          },
-          {
-            dtickrange: [1000, 60000],
-            value: "%H:%M"
-          },
-          {
-            dtickrange: [60000, 3600000],
-            value: "%H:%M"
-          },
-          {
-            dtickrange: [3600000, 86400000],
-            value: "%H:%M"
-          },
-          {
-            dtickrange: [86400000, 604800000],
-            value: "%d/%m"
-          },
-          {
-            dtickrange: [604800000, "M1"],
-            value: "%d/%m"
-          },
-          {
-            dtickrange: ["M1", "M12"],
-            value: "%m/%y"
-          },
-          {
-            dtickrange: ["M12", null],
-            value: "%Y"
-          }
         ]
       },
       hoverlabel: {

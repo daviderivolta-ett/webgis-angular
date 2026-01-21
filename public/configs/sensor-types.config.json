@@ -385,8 +385,8 @@
             },
             "unit": "°C",
             "range": [
-                -4,
-                36
+                -20,
+                40
             ],
             "isFeatured": false,
             "relatedSensors": []
@@ -401,8 +401,8 @@
             },
             "unit": "°C",
             "range": [
-                -4,
-                36
+                -20,
+                40
             ],
             "isFeatured": true,
             "relatedSensors": [
@@ -421,8 +421,8 @@
             },
             "unit": "°C",
             "range": [
-                -4,
-                36
+                -20,
+                40
             ],
             "isFeatured": false,
             "relatedSensors": []
@@ -522,8 +522,8 @@
             "chartType": "scatter",
             "unit": "%",
             "range": [
-                0,
-                100
+                -5,
+                105
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -535,7 +535,7 @@
             "chartType": "scatter",
             "unit": "Wm⁻²",
             "range": [
-                0,
+                -5,
                 1200
             ],
             "isFeatured": true,
@@ -548,8 +548,8 @@
             "chartType": "scatter",
             "unit": "%",
             "range": [
-                0,
-                100
+                -5,
+                105
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -561,8 +561,8 @@
             "chartType": "scatter",
             "unit": "%",
             "range": [
-                0,
-                100
+                -5,
+                105
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -588,7 +588,7 @@
             "unit": "V",
             "range": [
                 7,
-                15
+                16
             ],
             "isFeatured": true,
             "relatedSensors": []
@@ -613,12 +613,12 @@
             "chartType": "scatter",
             "unit": "cm",
             "range": [
-                0,
+                -5,
                 200
             ],
             "isFeatured": true,
             "relatedSensors": []
         }
     ],
-    "lastModified": "2025-12-18"
+    "lastModified": "2026-01-21"
 }
