@@ -42,7 +42,7 @@ export class StationBase implements Geolocation {
         return new StationBase('', 0, 0, []);
     }
 
-    static createFromObject(object: any): StationBase {
+    static createFromObject(object: any): StationBase {    
         if (!('id' in object) || typeof object['id'] !== 'string') {
             throw new Error('Oggetto non valido: \'id\' mancante.');
         }

@@ -382,6 +382,7 @@ export class PlotlyChartComponent {
     const plotly = this.plotly.nativeElement as any;
 
     const shapes: Partial<Plotly.Shape>[] = Object.entries(thresholds)
+      .filter((_, i) => i !== 0)
       .map(([color, value]: [string, number]) => {
         return {
           type: 'line',

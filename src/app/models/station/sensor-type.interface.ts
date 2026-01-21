@@ -11,5 +11,6 @@ export interface SensorType {
     relatedSensors: string[];
     compareWith: string;
     isMainYAxis?: boolean;
+    baseColor?: string;
     thresholdKeys?: string[];
 }

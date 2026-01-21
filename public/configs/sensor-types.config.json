@@ -435,8 +435,9 @@
             "unit": "m",
             "isFeatured": true,
             "relatedSensors": [],
+            "baseColor": "green",
             "thresholdKeys": [
-                "sms",
+                "yellow",
                 "orange",
                 "red"
             ]
@@ -449,8 +450,9 @@
             "unit": "m",
             "isFeatured": false,
             "relatedSensors": [],
+            "baseColor": "green",
             "thresholdKeys": [
-                "sms",
+                "yellow",
                 "orange",
                 "red"
             ]
@@ -463,8 +465,9 @@
             "unit": "m",
             "isFeatured": false,
             "relatedSensors": [],
+            "baseColor": "green",
             "thresholdKeys": [
-                "sms",
+                "yellow",
                 "orange",
                 "red"
             ]

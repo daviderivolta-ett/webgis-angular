@@ -20,7 +20,7 @@ export class StationsService {
 
   public async getAllStations(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: any) => {  
         if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);
         return data['features'].map((s: any) => StationBase.createFromObject(StationBase.createFromGeoJSONFeature(s)));
       })

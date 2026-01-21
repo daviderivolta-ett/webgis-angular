@@ -211,7 +211,7 @@ export class DataPageComponent {
     this._currentDataLayers = layers.reduce((acc: Map<string, string[]>, curr: Layer) => {
       return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
     }, new Map(this.currentDataLayers.map));
-    
+
 
     this._updateMultipleLayers(undefined, true);
   }
@@ -271,7 +271,7 @@ export class DataPageComponent {
 
   public onMapLayerAdded(event: Record<string, any>): void {
     const { id } = event;
-    if (!id) return;   
+    if (!id) return;
 
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
@@ -465,10 +465,10 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any, updateUrl: boolean = true): void {    
+  public onLayerToggled(data: any, updateUrl: boolean = true): void {
     const { id, isChecked } = data;
-    if (!id || typeof isChecked !== 'boolean') return; 
-   
+    if (!id || typeof isChecked !== 'boolean') return;
+
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     if (updateUrl) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
@@ -502,15 +502,15 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {   
+  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
     const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
-      if (currentLayers.includes(l.id)) {        
+      if (currentLayers.includes(l.id)) {
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
       } else {
         this._map.removeLayerById(l.id);
       }
     });
-   
+
     await Promise.all(promises)
   }
 
@@ -525,7 +525,7 @@ export class DataPageComponent {
   }
 
   /** Get and execute generic action from commands registry service class */
-  private async _executeAction(layer: Layer, date?: Date): Promise<void> {   
+  private async _executeAction(layer: Layer, date?: Date): Promise<void> {
     if (!layer.action || !('id' in layer.action)) return;
 
     const command: Command | null = this.commandsRegistry.getCommand(layer.action.id);
@@ -572,7 +572,7 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {   
+  public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
     this.chartReferenceDate = date;
@@ -585,8 +585,8 @@ export class DataPageComponent {
 
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {
     // Split current layers in timedimension and not-timedimension layers
-    const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');    
-  
+    const { withKey: layersToKeep, withoutKey: layersToUpdate } = Utils.splitMapByKey(this.currentDataLayers.map, 'data_wms--time');
+
     // Remove every not-timedimension layer (except in case of map reset)
     [...layersToUpdate, ...(isReset ? layersToKeep : [])]
       .reverse()
