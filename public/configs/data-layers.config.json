@@ -4461,11 +4461,6 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
-                    "legend": {
-                        "unit": "mm",
-                        "min": 0,
-                        "max": 500
-                    },
                     "requiresAuth": false,
                     "action": {
                         "id": "wms"
@@ -4487,11 +4482,6 @@
                         "request": "GetMap",
                         "styles": "",
                         "srs": "EPSG:4326"
-                    },
-                    "legend": {
-                        "unit": "mm",
-                        "min": 0,
-                        "max": 500
                     },
                     "requiresAuth": false,
                     "action": {
@@ -4515,11 +4505,6 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
-                    "legend": {
-                        "unit": "mm",
-                        "min": 0,
-                        "max": 500
-                    },
                     "requiresAuth": false,
                     "action": {
                         "id": "wms"
@@ -4542,11 +4527,6 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
-                    "legend": {
-                        "unit": "mm",
-                        "min": -10,
-                        "max": 64
-                    },
                     "requiresAuth": true,
                     "action": {
                         "id": "wms"
@@ -4568,11 +4548,6 @@
                         "request": "GetMap",
                         "styles": "",
                         "srs": "EPSG:4326"
-                    },
-                    "legend": {
-                        "unit": "mm",
-                        "min": 0,
-                        "max": 75
                     },
                     "requiresAuth": true,
                     "action": {
@@ -4602,11 +4577,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "m",
-                                "min": 0,
-                                "max": 15000
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4628,11 +4598,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "m",
-                                "min": 0,
-                                "max": 15000
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4664,11 +4629,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4690,11 +4650,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4718,11 +4673,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4744,11 +4694,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4772,11 +4717,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4798,11 +4738,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4834,11 +4769,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4860,11 +4790,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4888,11 +4813,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4914,11 +4834,6 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
-                            },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4942,11 +4857,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4969,11 +4879,6 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
-                            "legend": {
-                                "unit": "mm",
-                                "min": 0,
-                                "max": 500
-                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4984,5 +4889,5 @@
             ]
         }
     ],
-    "lastModified": "2025-12-05"
+    "lastModified": "2026-01-21"
 }
