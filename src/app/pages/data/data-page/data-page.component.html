@@ -7,7 +7,7 @@
                 <h3>Livelli</h3>
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
-                        <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" #groupedCheckbox></app-grouped-checkboxes>
+                        <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" [style.display]="group.isVisible ? '' : 'none'" #groupedCheckbox></app-grouped-checkboxes>
                     }
                 </div>
             </div>

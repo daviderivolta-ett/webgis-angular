@@ -669,7 +669,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -708,7 +707,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -747,7 +745,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -786,7 +783,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -825,7 +821,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall10m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -919,7 +914,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -958,7 +952,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -997,7 +990,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1036,7 +1028,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1075,7 +1066,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30m&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1169,7 +1159,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1208,7 +1197,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1247,7 +1235,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1286,7 +1273,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1325,7 +1311,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1419,7 +1404,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1458,7 +1442,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1497,7 +1480,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1536,7 +1518,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1575,7 +1556,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall3h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1669,7 +1649,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1708,7 +1687,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1747,7 +1725,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1786,7 +1763,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1825,7 +1801,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall6h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1919,7 +1894,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1958,7 +1932,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -1997,7 +1970,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2036,7 +2008,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2075,7 +2046,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall12h&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2169,7 +2139,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2208,7 +2177,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2247,7 +2215,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2286,7 +2253,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2325,7 +2291,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall1d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2419,7 +2384,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2458,7 +2422,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2497,7 +2460,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2536,7 +2498,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2575,7 +2536,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall7d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2669,7 +2629,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2708,7 +2667,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2747,7 +2705,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2786,7 +2743,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2825,7 +2781,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall15d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2919,7 +2874,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=BaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2958,7 +2912,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -2997,7 +2950,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ComuniLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -3036,7 +2988,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -3075,7 +3026,6 @@
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
                                     "url": "{{BASE_URL}}/polygon_means?raster=omirl:rainfall30d&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
-                                    "requiresAuth": true,
                                     "legend": {
                                         "colorScaleId": "rain",
                                         "unit": "mm",
@@ -4415,6 +4365,36 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "colorScaleId": "satellite_ir",
+                        "unit": "",
+                        "steps": [
+                            -2.5,
+                            -5.0,
+                            -8.5,
+                            -10.0,
+                            -12.5,
+                            -15.0,
+                            -17.0,
+                            -20.0,
+                            -22.5,
+                            -25.0,
+                            -27.5,
+                            -30.0,
+                            -32.5,
+                            -35.0,
+                            -37.5,
+                            -40.0,
+                            -42.5,
+                            -45.0,
+                            -47.5,
+                            -50.0,
+                            -52.5,
+                            -55.0,
+                            -57.5,
+                            -60
+                        ]
+                    },
                     "requiresAuth": true,
                     "action": {
                         "id": "wms"
@@ -4437,6 +4417,21 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "colorScaleId": "satellite_vis",
+                        "unit": "",
+                        "steps": [
+                            20,
+                            30,
+                            40,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            95
+                        ]
+                    },
                     "requiresAuth": true,
                     "action": {
                         "id": "wms"
@@ -4448,7 +4443,6 @@
             "id": "radar",
             "label": "Radar",
             "maxNumber": 1,
-            "requiresAuth": true,
             "options": [
                 {
                     "id": "radar_rainInt5m",
@@ -4472,14 +4466,14 @@
                         "min": 0,
                         "max": 500
                     },
-                    "requiresAuth": true,
+                    "requiresAuth": false,
                     "action": {
                         "id": "wms"
                     }
                 },
                 {
                     "id": "radar_rain1h",
-                    "label": "Cumulata 1 ora",
+                    "label": "Cumulata oraria",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
                     "opacity": 0.5,
@@ -4499,7 +4493,7 @@
                         "min": 0,
                         "max": 500
                     },
-                    "requiresAuth": true,
+                    "requiresAuth": false,
                     "action": {
                         "id": "wms"
                     }
@@ -4526,7 +4520,7 @@
                         "min": 0,
                         "max": 500
                     },
-                    "requiresAuth": true,
+                    "requiresAuth": false,
                     "action": {
                         "id": "wms"
                     }

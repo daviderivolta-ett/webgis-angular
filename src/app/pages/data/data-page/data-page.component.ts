@@ -212,7 +212,6 @@ export class DataPageComponent {
       return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
     }, new Map(this.currentDataLayers.map));
 
-
     this._updateMultipleLayers(undefined, true);
   }
 
@@ -269,12 +268,13 @@ export class DataPageComponent {
     this._map.resetMap();
   }
 
-  public onMapLayerAdded(event: Record<string, any>): void {
+  public onMapLayerAdded(event: Record<string, any>): void {  
     const { id } = event;
-    if (!id) return;
+    if (!id) return;    
 
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
+  
 
     // Chips
     let iconUrl: string = '';
@@ -283,10 +283,14 @@ export class DataPageComponent {
     this.chips.push(chip);
 
     // Refresh   
-    // if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    // if (!this.dateService.date()) {
-    //   this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
-    // }
+    if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
+    if (!this.dateService.date()) {      
+      this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
+    }
+
+    /** TEST */
+    // this._currentLayers.push(foundLayer)
+    /** TEST */
 
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
@@ -386,7 +390,7 @@ export class DataPageComponent {
     this._map.addBaseLayer(url, rest);
   }
 
-  public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {
+  public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {    
     const value = (event.target as HTMLInputElement).checked;
     const { id, url, params } = layer;
     if (value) this._map.addWMSLayer(id, url, params);
