@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core'
 
 /** Models */
 import { Command, GeoJsonLayer } from '../models'
+
+/** Services */
 import { ApiService } from './api.service'
-import { DateUtils } from '../utils';
 
 /** Service */
 @Injectable({
@@ -33,7 +34,6 @@ export class PolygonsCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
-        // const utcDate = this.apiService.toUTCDate(date);
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${date.toISOString()}`;
     }

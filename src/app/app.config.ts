@@ -2,7 +2,7 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideOAuthClient } from 'angular-oauth2-oidc';
+import { OAuthStorage, provideOAuthClient } from 'angular-oauth2-oidc';
 
 /** Routes */
 import { routes } from './app.routes';
@@ -21,6 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideOAuthClient(),
+    {
+      provide: OAuthStorage,
+      useFactory: () => localStorage
+    },
     provideAppInitializer(() => {
       const configService = inject(ConfigService);
       return configService.getAppConfig()

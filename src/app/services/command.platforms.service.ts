@@ -19,7 +19,7 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold, multiplier, sensorTypes, showValueOnZoom } = args;
+        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold, multiplier, sensorTypes, showValueOnZoom } = args;               
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -27,16 +27,17 @@ export class PlatformsCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);         
+            
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
-            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'platform');
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
 
             if (multiplier) geoJSON = this._convertGeoJSONData(geoJSON, multiplier);
             if (colorScale instanceof ColorScale && layer.legend) {
                 if (sensorTypes && Array.isArray(sensorTypes)) {
                     const currentSensorType = sensorTypes.find((s) => s.id === layer.parameter);
-                    if (currentSensorType && 'thresholdKeys' in currentSensorType) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold, currentSensorType.thresholdKeys, stations);
+                    if (currentSensorType && 'thresholdKeys' in currentSensorType) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold, currentSensorType.thresholdKeys, stations, currentSensorType['baseColor']);
                 } else {
                     geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold);
                 }
@@ -44,7 +45,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);           
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1, showValueOnZoom);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -97,7 +98,7 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[]): GeoJSON.FeatureCollection {
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[], baseColor?: string): GeoJSON.FeatureCollection {   
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
@@ -106,7 +107,7 @@ export class PlatformsCommandService implements Command {
 
                 const value: any = properties['value'];
                 let color: string = colorScale.getColor(value);
-                if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys) ?? color;
+                if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor) ?? color;
 
                 if (currentDate && !isNaN(date.getTime()) && timeThreshold) {
                     const isWithin = (currentDate.getTime() - date.getTime()) < timeThreshold * 60 * 1000;
@@ -126,7 +127,7 @@ export class PlatformsCommandService implements Command {
         };
     }
 
-    private _getRelativeColor(value: number, stationCode: string, stations: StationBase[], thresholdKeys: string[]): string | undefined {
+    private _getRelativeColor(value: number, stationCode: string, stations: StationBase[], thresholdKeys: string[], baseColor: string | undefined): string | undefined {
         const station: StationBase | undefined = stations.find((s) => s.id === stationCode);
 
         const thresholds: Record<string, number> = {};
@@ -136,14 +137,14 @@ export class PlatformsCommandService implements Command {
                     thresholds[key] = (station.thresholdConfig as any)?.[key];
                 }
             });
-        }
+        }      
 
         if (Object.keys(thresholds).length > 0) {
-            const colors = Object.keys(thresholds);
+            const colors = baseColor ? [baseColor, ...Object.keys(thresholds)] : Object.keys(thresholds);
             const values = Object.values(thresholds);
             const index = values.findIndex((step: number) => value <= step);
-            return index === -1 ? colors[colors.length - 1] : colors[index];
-        }
+            return index === -1 ? colors[0] : colors[index];
+        }        
 
         return;
     }

@@ -266,6 +266,7 @@ export class ConfigService {
           relatedSensors: t['relatedSensors'] ?? [],
           compareWith: t['compareWith'] ?? undefined,
           isMainYAxis: t['isMainYAxis'] ?? false,
+          baseColor: t['baseColor'] ?? undefined,
           thresholdKeys: t['thresholdKeys'] ?? undefined
         }))
       })

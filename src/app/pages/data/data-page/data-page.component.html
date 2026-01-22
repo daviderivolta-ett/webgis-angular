@@ -7,7 +7,7 @@
                 <h3>Livelli</h3>
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
-                        <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" #groupedCheckbox></app-grouped-checkboxes>
+                        <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" [style.display]="group.isVisible ? '' : 'none'" #groupedCheckbox></app-grouped-checkboxes>
                     }
                 </div>
             </div>
@@ -105,11 +105,17 @@
     <!-- END FLOATING CHARTS -->
 
     <!-- START FLOATING IMAGES -->
-     @for (img of hydroImgs; track img) {
+    @for (img of hydroImgs; track img) {
         <app-floating-dialog (removeDialog)="removeDialog(img)">
             <img ngProjectAs="floating-dialog-content" [src]="img">
         </app-floating-dialog>
-     }
+    }
+
+    @for (webcam of webcams; track webcam.id) {
+        <app-floating-dialog height="auto" minHeight="50dvh" (removeDialog)="removeDialog(webcam.id)">
+            <app-webcam ngProjectAs="floating-dialog-content" [header]="webcam.stationName ?? webcam.id" [imgUrl]="webcam.imgUrl"></app-webcam>
+        </app-floating-dialog>
+    }
     <!-- END FLOATING IMAGES -->
 
     <!-- START LOADER -->

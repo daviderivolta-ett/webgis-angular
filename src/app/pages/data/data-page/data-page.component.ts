@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, WMSLayer, WMSLegend } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, SnackbarsService, StationsService } from '../../../services';
@@ -18,6 +18,7 @@ import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
 import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
+import { WebcamComponent } from '../webcam/webcam.component';
 
 /** Utilities */
 import { CSVUtils, Utils } from '../../../utils';
@@ -27,12 +28,12 @@ import { CSVUtils, Utils } from '../../../utils';
   selector: 'app-data-page',
   imports: [
     // Components
-    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent,
+    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, WebcamComponent,
     // Directives
     ReactiveFormsModule,
     // Pipes
     DatePipe
-  ],
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -53,6 +54,7 @@ export class DataPageComponent {
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
   public hydroImgs: string[] = [];
+  public webcams: Webcam[] = [];
   public areChartsDisabled: boolean = false;
   public chartReferenceDate: Date | undefined;
 
@@ -89,6 +91,7 @@ export class DataPageComponent {
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
+  public webcamImgsUrl; // Recovered from route resolver in constructor
 
   public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
   public stations: StationBase[] = [];
@@ -131,6 +134,8 @@ export class DataPageComponent {
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
+    this.webcamImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs'));
+
     this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
@@ -169,7 +174,7 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);    
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngAfterViewInit(): void {
@@ -208,10 +213,10 @@ export class DataPageComponent {
       return this.dataLayers.map((g: LayerGroup) => g.searchLayerById(id))
     }).flat().filter(l => l !== undefined);
 
-    layers.forEach((l: Layer) => {
-      // if (l.requiresAuth && !this.user) return;
-      this._currentDataLayers = this.layersService.checkLayerCategories(l, true, this.currentDataLayers.map, this._layerCategories, !!this.user);
-    });
+    this._currentDataLayers = layers.reduce((acc: Map<string, string[]>, curr: Layer) => {
+      return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
+    }, new Map(this.currentDataLayers.map));
+
     this._updateMultipleLayers(undefined, true);
   }
 
@@ -275,17 +280,22 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
+
     // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
     const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
     this.chips.push(chip);
 
-    // Refresh
-    // if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    // if (!this.dateService.date()) {
-    //   this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
-    // }
+    // Refresh   
+    if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
+    if (!this.dateService.date()) {
+      this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
+    }
+
+    /** TEST */
+    // this._currentLayers.push(foundLayer)
+    /** TEST */
 
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
@@ -321,13 +331,20 @@ export class DataPageComponent {
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
-      if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
-        d['stationCode'] = 'Fulminazione';
-        d['unit'] = 'A';
-      }
+      if ('type' in d && typeof d['type'] === 'string') {
+        switch (d['type']) {
+          case 'lightning':
+            d['stationCode'] = 'Fulminazione';
+            d['unit'] = 'A';
+            break;
 
-      if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'hydro') {
-        d['value'] = 0;
+          case 'hydro':
+            d['value'] = 0;
+            break;
+
+          default:
+            break;
+        }
       }
 
       const stationBase = StationBase.createFromGeoJSONProps(d);
@@ -395,22 +412,23 @@ export class DataPageComponent {
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
+    const webcamPromises: Promise<string>[] = [];
 
-    stations.forEach((s: Station) => {
+    stations.forEach(async (s: Station) => {
       switch (s.type) {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
-          const snackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
-          const promise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
+          const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
+          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
             })
-            .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
-          hydroPromises.push(promise);
+            .finally(() => this.snackbarsService.removeSnackbar(hydroSnackbarId))
+          hydroPromises.push(hydroPromise);
           break;
 
-        default:
+        case 'platform':
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
@@ -418,16 +436,33 @@ export class DataPageComponent {
           });
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
           break;
+
+        case 'webcam':
+          const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
+          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.dateService.date() ?? new Date(), this.authService.getAccessToken())
+            .catch((err: unknown) => {
+              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
+              throw err;
+            })
+            .finally(() => this.snackbarsService.removeSnackbar(webcamSnackbarId))
+          webcamPromises.push(webcamPromise);         
+          break;
+
+
+        default:
+          break;
       }
     });
 
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
-    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
+    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)]; 
+    this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
     this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
+    this.webcams = this.webcams.filter((webcam: Webcam) => webcam.id !== id);
   }
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
@@ -469,7 +504,7 @@ export class DataPageComponent {
     if (!id || typeof isChecked !== 'boolean') return;
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
-    this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
+    if (updateUrl) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
   }
@@ -501,14 +536,16 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): void {
-    LayerGroup.getAllLayers(dataLayers).forEach(async (l: Layer) => {
+  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
+    const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date());
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
       } else {
         this._map.removeLayerById(l.id);
       }
     });
+
+    await Promise.all(promises)
   }
 
   /** Generate color scale */
@@ -556,7 +593,7 @@ export class DataPageComponent {
 
     } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
-      this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
+      this.snackbarsService.createSnackbar(`Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
 
     } finally {
@@ -573,7 +610,7 @@ export class DataPageComponent {
     if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
     this.chartReferenceDate = date;
-    this._updateMultipleLayers(date);
+    this._updateMultipleLayers(date, false);
   }
 
   public onMapAdditionalDateChanged(date: Date | undefined): void {
@@ -587,7 +624,7 @@ export class DataPageComponent {
     // Remove every not-timedimension layer (except in case of map reset)
     [...layersToUpdate, ...(isReset ? layersToKeep : [])]
       .reverse()
-      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, false));
+      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, !isReset));
 
     // Call command for every not-timedimension layer (except in case of map reset)
     const promises: Promise<void>[] = [];

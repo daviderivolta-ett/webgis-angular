@@ -1,0 +1,15 @@
+.webcam {
+    height: 100%;
+}
+
+.webcam__header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.webcam__img {
+    height: calc(100% - 40px);
+    object-fit: contain;
+}

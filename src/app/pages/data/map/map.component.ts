@@ -151,7 +151,7 @@ export class MapComponent {
 
     const result = this._getMultiMarkersData(nearbyMarkers, 'group');
     let data: Record<string, any>[];
-    data = Array.isArray(result) ? result : [result];
+    data = Array.isArray(result) ? result : [result];   
 
     this.markerClicked.emit(data);
 
@@ -209,7 +209,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {    
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
     const layer = L.geoJSON(geoJSON, {

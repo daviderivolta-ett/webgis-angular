@@ -140,7 +140,6 @@ export class TablesLevelsPageComponent {
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
     this.tables = this.sortedTables = this._createTables(res, this.configGroup);
-    console.log(this.tables);
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {

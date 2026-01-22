@@ -165,7 +165,19 @@ export class StationsService {
         return `data:${data['mimeType']};base64,${data['base64Data']}`;
       })
       .catch((err: unknown) => {
-        throw new Error(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`);
+        throw new Error(`Errore nel recupero dell'immagine dell'hydro.`);
+      });
+  }
+
+  public async getWebcamImageAt(url: string, stationId: string, date: Date, token?: string) {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
+    const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
+    return this.apiService.getApiData(formattedUrlWithDate, token)
+      .then((data: any) => {
+        return `data:${data['mimeType']};base64,${data['base64Data']}`;
+      })
+      .catch((err: unknown) => {
+        throw new Error(`Errore nel recupero dell'immagine della webcam.`)
       });
   }
 

@@ -15,7 +15,7 @@ import { User } from '../models';
 export class AuthService {
   public user = signal<User | null>(null);
 
-  constructor(private oauthService: OAuthService) {
+  constructor(private oauthService: OAuthService) {    
     this.configureAuth();
 
     this.oauthService.events.subscribe((event) => {
@@ -40,12 +40,12 @@ export class AuthService {
       })
   }
 
-  private _checkAccessTokenAndLogin() {
-    if (this.oauthService.hasValidAccessToken()) {
+  private _checkAccessTokenAndLogin() {   
+    if (this.oauthService.hasValidAccessToken()) { 
       const payload: any = this._parseJsonWebToken(this.getAccessToken());
       const user = this._createUserFromJsonWebToken(payload);
       this.user.set(user ?? null);
-    } else {
+    } else {    
       this.user.set(null);
     }
   }
