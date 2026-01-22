@@ -593,7 +593,7 @@ export class DataPageComponent {
 
     } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
-      this.snackbarsService.createSnackbar(err instanceof Error ? err.message : 'Errore nel caricamento del layer', 'error', true);
+      this.snackbarsService.createSnackbar(`Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
 
     } finally {
