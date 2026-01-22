@@ -104,8 +104,7 @@ export class StationBase implements Geolocation {
         return StationBase.createFromObject({ ...feature.properties, id, uuid, lat, lng, sensors: [] });
     }
 
-    static createFromGeoJSONProps(props: Record<string, any>): StationBase {
-        console.log('PROPS', props);        
+    static createFromGeoJSONProps(props: Record<string, any>): StationBase {     
         if (
             (!('shortCode' in props) || typeof props['shortCode'] !== 'string') &&
             (!('stationCode' in props) || typeof props['stationCode'] !== 'string') &&

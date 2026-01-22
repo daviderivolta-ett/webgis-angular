@@ -151,7 +151,7 @@ export class MapComponent {
 
     const result = this._getMultiMarkersData(nearbyMarkers, 'group');
     let data: Record<string, any>[];
-    data = Array.isArray(result) ? result : [result];   
+    data = Array.isArray(result) ? result : [result];
 
     this.markerClicked.emit(data);
 
@@ -209,7 +209,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {    
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
     const layer = L.geoJSON(geoJSON, {
@@ -261,11 +261,11 @@ export class MapComponent {
       geoJSON.features.length > 0 ?
         geoJSON.features[0].properties?.['markerShapeId'] === 6 ? this._markerShapes.get(1)!('grey', 'grey') : shapeFactory('grey', 'transparent') :
         shapeFactory('grey', 'transparent')
-    );  
+    );
 
     if (showValueOnZoom) {
       // Function called on this specific GeoJSON layer when map is zoomed
-      this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station');      
+      this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station');
       this._map.on('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
     }
 
@@ -518,14 +518,17 @@ export class MapComponent {
   }
 
   private _chooseMarkerOnZoom(layer: L.GeoJSON, zoom: number, zoomThreshold: number, layerGroupPrefix: string) {
-    const stationLayers = [...this._layers.keys()].filter((k: string) => k.includes(layerGroupPrefix));    
-    
-    if (stationLayers.length > 1) return;
-    layer.eachLayer((l: L.Layer) => {
+    const stationLayers = [...this._layers.keys()].filter((k: string) => k.includes(layerGroupPrefix));
+    this._map.eachLayer((l: L.Layer) => {
       if (l instanceof L.Marker && (l as any)._markerIcon && (l as any)._textIcon) {
-        l.setIcon(zoom < zoomThreshold ? (l as any)._markerIcon : (l as any)._textIcon)
+        l.setIcon(
+          zoom >= zoomThreshold && stationLayers.length === 1
+            ? (l as any)._textIcon
+            : (l as any)._markerIcon
+        )
       }
-    });
+    })
+
   }
 
   private _createTextIcon(value: number, color: string): string {
