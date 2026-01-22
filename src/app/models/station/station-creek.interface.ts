@@ -20,11 +20,11 @@ export class StationThresholdConfig {
         if ('black' in object && typeof object['black'] === 'number') creekThreshold['black'] = object['black'];
         if ('white' in object && typeof object['white'] === 'number') creekThreshold['white'] = object['white'];
 
-        creekThreshold.yMin = -1;
-        creekThreshold.yMax = 6;
-        creekThreshold.yellow = 0.5;
-        creekThreshold.orange = 2.5;
-        creekThreshold.red = 3.5;
+        // creekThreshold.yMin = -1;
+        // creekThreshold.yMax = 6;
+        // creekThreshold.yellow = 0.5;
+        // creekThreshold.orange = 2.5;
+        // creekThreshold.red = 3.5;
 
         return creekThreshold;
     }
