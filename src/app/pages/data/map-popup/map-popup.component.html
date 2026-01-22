@@ -13,25 +13,25 @@
 
     <div class="values">
         @for (item of data(); track `${item.id}_${item.label}`) {
-        <div class="station-value">
-            <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
-            @if (item.type !== 'hydro') {
-                <p class="big weight-bold">
-                    @if(config().value) { {{item.value | number: '1.2-2'}} }
-                    @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
-                </p>
-            }
-            <p class="small greyed">@if(config().date) { {{item.date | date: 'dd/MM/yyyy - HH:mm'}} }</p>
-        </div>
+            <div class="station-value">
+                <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
+                @if (item.type !== 'hydro') {
+                    <p class="big weight-bold">
+                        @if(config().value) { {{item.value | number: '1.2-2'}} }
+                        @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
+                    </p>
+                }
+                <p class="small greyed">@if(config().date) { {{item.date | date: 'dd/MM/yyyy - HH:mm'}} }</p>
+            </div>
         }
     </div>
 
     @if (data().length > 0) {
-    <p class="small">
-        @if(config().lat) { lat: {{data()[0].lat}} }
-        @if(config().lat && config().lng) { - }
-        @if(config().lng) { lon: {{data()[0].lng}} }
-    </p>
+        <p class="small">
+            @if(config().lat) { lat: {{data()[0].lat}} }
+            @if(config().lat && config().lng) { - }
+            @if(config().lng) { lon: {{data()[0].lng}} }
+        </p>
     }
 
     <!-- @if (data().length > 0 && data()[0].type !== 'lightning' && data()[0].type !== 'wms') {

@@ -398,6 +398,7 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
+    console.log('STATIONS CLICKED', stations);    
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
 
@@ -413,6 +414,9 @@ export class DataPageComponent {
             })
             .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
           hydroPromises.push(promise);
+          break;
+        
+        case 'lightning':
           break;
 
         default:
