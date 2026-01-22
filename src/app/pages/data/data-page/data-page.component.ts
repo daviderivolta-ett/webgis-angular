@@ -268,13 +268,13 @@ export class DataPageComponent {
     this._map.resetMap();
   }
 
-  public onMapLayerAdded(event: Record<string, any>): void {  
+  public onMapLayerAdded(event: Record<string, any>): void {
     const { id } = event;
-    if (!id) return;    
+    if (!id) return;
 
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
-  
+
 
     // Chips
     let iconUrl: string = '';
@@ -284,7 +284,7 @@ export class DataPageComponent {
 
     // Refresh   
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (!this.dateService.date()) {      
+    if (!this.dateService.date()) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
 
@@ -326,13 +326,20 @@ export class DataPageComponent {
 
   public onMapMarkerClicked(data: Record<string, any>[]): void {
     const stations = data.map((d: any) => {
-      if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'lightning') {
-        d['stationCode'] = 'Fulminazione';
-        d['unit'] = 'A';
-      }
+      if ('type' in d && typeof d['type'] === 'string') {
+        switch (d['type']) {
+          case 'lightning':
+            d['stationCode'] = 'Fulminazione';
+            d['unit'] = 'A';
+            break;
 
-      if ('type' in d && typeof d['type'] === 'string' && d['type'] === 'hydro') {
-        d['value'] = 0;
+          case 'hydro':
+            d['value'] = 0;
+            break;
+
+          default:
+            break;
+        }
       }
 
       const stationBase = StationBase.createFromGeoJSONProps(d);
@@ -390,7 +397,7 @@ export class DataPageComponent {
     this._map.addBaseLayer(url, rest);
   }
 
-  public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {    
+  public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {
     const value = (event.target as HTMLInputElement).checked;
     const { id, url, params } = layer;
     if (value) this._map.addWMSLayer(id, url, params);
@@ -398,7 +405,7 @@ export class DataPageComponent {
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
-    console.log('STATIONS CLICKED', stations);    
+    console.log('STATIONS CLICKED', stations);
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
 
@@ -415,17 +422,17 @@ export class DataPageComponent {
             .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
           hydroPromises.push(promise);
           break;
-        
-        case 'lightning':
-          break;
 
-        default:
+        case 'platform':
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
             if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
+          break;
+
+        default:
           break;
       }
     });

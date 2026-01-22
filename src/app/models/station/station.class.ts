@@ -28,7 +28,7 @@ export class Station extends StationBase implements StationData {
         date?: Date,
         commt?: string,
         subfolder?: string,
-        type: 'platform' | 'lightning' | 'hydro' | 'wms' = 'platform',
+        type: 'platform' | 'lightning' | 'hydro' | 'webcam' | 'wms' = 'platform',
         thresholdConfig?: StationThresholdConfig
     ) {
         super(id, lat, lng, sensors, uuid, name, city, alt, type, thresholdConfig);

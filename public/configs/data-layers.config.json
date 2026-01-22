@@ -617,7 +617,8 @@
                     "url": "{{BASE_URL}}/platforms/get/all/webcam",
                     "parameter": "webcam",
                     "action": {
-                        "id": "platforms"
+                        "id": "platforms",
+                        "type": "webcam"
                     }
                 }
             ]
