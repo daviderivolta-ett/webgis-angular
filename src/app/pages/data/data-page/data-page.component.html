@@ -112,11 +112,10 @@
     }
 
     @for (webcam of webcams; track webcam.id) {
-        <app-floating-dialog (removeDialog)="removeDialog(webcam.id)">
+        <app-floating-dialog height="auto" minHeight="50dvh" (removeDialog)="removeDialog(webcam.id)">
             <app-webcam ngProjectAs="floating-dialog-content" [header]="webcam.stationName ?? webcam.id" [imgUrl]="webcam.imgUrl"></app-webcam>
         </app-floating-dialog>
     }
-
     <!-- END FLOATING IMAGES -->
 
     <!-- START LOADER -->
