@@ -191,11 +191,13 @@ export class PlotlyChartComponent {
         orientation: 'h',
         x: .5,
         xanchor: 'center',
-        y: -.2,
+        y: -.15,
         yanchor: 'top'
       },
       margin: {
-        t: 56
+        t: 56,
+        l: 40,
+        r: 24
       },
       xaxis: {
         title: {

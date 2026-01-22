@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, ElementRef, output, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 /** Component */
@@ -13,6 +13,13 @@ import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
   styleUrl: './floating-dialog.component.scss'
 })
 export class FloatingDialogComponent {
+  public width = input<string>('80dvh');
+  public height = input<string>('70dvh');
+  public minWidth = input<string>('70dvh');
+  public minHeight = input<string>('70dvh');
+  public maxWidth = input<string>('95dvw');
+  public maxHeight = input<string>('95dvh');
+
   private _isResizing: boolean = false;
 
   private _initialWidth: number = 0;

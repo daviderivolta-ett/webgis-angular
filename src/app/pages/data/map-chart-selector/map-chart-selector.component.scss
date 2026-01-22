@@ -9,6 +9,10 @@
     overflow-x: auto;
 }
 
+.radio {
+    background-color: var(--neutral-100, #fff);
+}
+
 .tooltip {
     position: absolute;
     text-align: center;
