@@ -33,7 +33,7 @@ import { CSVUtils, Utils } from '../../../utils';
     ReactiveFormsModule,
     // Pipes
     DatePipe
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -445,7 +445,7 @@ export class DataPageComponent {
               throw err;
             })
             .finally(() => this.snackbarsService.removeSnackbar(webcamSnackbarId))
-          webcamPromises.push(webcamPromise);         
+          webcamPromises.push(webcamPromise);
           break;
 
 
@@ -455,7 +455,7 @@ export class DataPageComponent {
     });
 
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
-    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)]; 
+    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
   }
 
@@ -615,6 +615,18 @@ export class DataPageComponent {
 
   public onMapAdditionalDateChanged(date: Date | undefined): void {
     this.wmsLayersDate = date;
+  }
+
+  public onMapTimedimensionLayerNotFound(layerId: string) {
+    // this.onLayerToggled({ id: $event, isChecked: false })
+    this.onLayerToggled({ id: layerId, isChecked: false });
+    const layersToRemove = this.dataLayers
+      .map((g: LayerGroup) => g.searchLayerById(layerId))
+      .flat()
+      .filter((l) => l !== undefined);
+
+    if (layersToRemove.length > 1) return;
+    this.snackbarsService.createSnackbar(`Il layer ${layersToRemove[0].label ?? layersToRemove[0].id} non è disponibile alla data selezionata.`, 'success', false);
   }
 
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {

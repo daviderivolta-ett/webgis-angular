@@ -1,8 +1,8 @@
-/*
-* Libraries
-*/
+/** Libraries */
 import { Component, ContentChild, ElementRef, input, model, NgZone, output } from '@angular/core';
 import { Feature, Point } from 'geojson';
+
+import * as L from 'leaflet';
 
 import 'leaflet-timedimension';
 import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
@@ -14,15 +14,11 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.js';
 import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
 
-import * as L from 'leaflet';
-
 /** Components */
 import { TimePlayerComponent } from '../time-player/time-player.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 
-/*
-* Component
-*/
+/** Component */
 @Component({
   selector: 'app-map',
   imports: [
@@ -137,7 +133,10 @@ export class MapComponent {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', (obj) => {
       const selectedDate: Date | undefined = this.selectedDate();
-      this._setCurrentTime(selectedDate ?? obj['availableTimes'][obj['availableTimes'].length - 1]);
+      setTimeout(() => {
+        // this._setCurrentTime(selectedDate ?? obj['availableTimes'][obj['availableTimes'].length - 1]);
+        this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes'])
+      }, 100);
     });
   }
 
@@ -294,7 +293,7 @@ export class MapComponent {
     });
     // @ts-ignore: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer, {
-      setDefaultTime: false
+      setDefaultTime: true
     });
     timeDimensionLayer.addTo(this._map);
     this._registerLayer(id, timeDimensionLayer, undefined);
@@ -393,7 +392,10 @@ export class MapComponent {
 
     // @ts-ignore: time dimension plugin has no type declaration
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
+    this._checkAvailableTimesAndSetCurrentTime(date, availableTimes);
+  }
 
+  private _checkAvailableTimesAndSetCurrentTime(date: Date | undefined, availableTimes: number[]) {
     if (date) {
       const time = this._getNearestAvailableTime(date, this.maxTimedimensionGap());
       if (time) {
@@ -407,7 +409,6 @@ export class MapComponent {
 
     } else {
       // @ts-ignore: time dimension plugin has no type declaration
-      // availableTimes.length > 0 ? this._setCurrentTime(availableTimes[availableTimes.length - 1]) : this._resetTimeDimension();
       if (availableTimes.length > 0) this._setCurrentTime(availableTimes[availableTimes.length - 1]);
     }
   }
