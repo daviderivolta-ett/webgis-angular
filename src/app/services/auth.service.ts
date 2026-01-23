@@ -21,7 +21,7 @@ export class AuthService {
     this.oauthService.events.subscribe((event) => {
       if (event.type === 'token_received') {
         const payload: any = this._parseJsonWebToken(this.getAccessToken());
-        const user: User | undefined = this._createUserFromJsonWebToken(payload);
+        const user: User | undefined = this._createUserFromJsonWebToken(payload);     
         this.user.set(user ?? null);
       }
 
@@ -76,13 +76,8 @@ export class AuthService {
     return JSON.parse(jsonPayload);
   }
 
-  private _createUserFromJsonWebToken(payload: any): User | undefined {
-    console.log(payload);    
+  private _createUserFromJsonWebToken(payload: any): User | undefined {  
     if (!payload) return;
-    const email: string | undefined = payload['email'];
-    const roles: string[] = ('realm_access' in payload && 'roles' in payload['realm_access'] && Array.isArray(payload['realm_access']['roles'])) ?
-      payload['realm_access']['roles'] :
-      [];
-    return (email && roles.length > 0) ? new User(email, roles) : undefined;
+    return User.createFromObject(payload);
   }
 }

@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, ContentChild, ElementRef, input, model, NgZone, output } from '@angular/core';
+import { Component, ContentChild, effect, ElementRef, input, model, NgZone, output } from '@angular/core';
 import { Feature, Point } from 'geojson';
 
 import * as L from 'leaflet';
@@ -79,7 +79,12 @@ export class MapComponent {
   @ContentChild('popup') _popup!: MapPopupComponent;
   @ContentChild('popup', { read: ElementRef }) _popupElement!: ElementRef;
 
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone) {
+    effect(() => {
+      const position = this.position();
+      if (this._map) this.resetMap();
+    });
+  }
 
   /*
   * Getters and setters

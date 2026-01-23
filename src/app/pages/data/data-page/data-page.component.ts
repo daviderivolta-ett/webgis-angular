@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, Webcam, WMSLayer, WMSLegend } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, SnackbarsService, StationsService } from '../../../services';
@@ -77,7 +77,7 @@ export class DataPageComponent {
   }
 
   /** Data */
-  public user: Record<string, any> | null = null;
+  public user: User | null = null;
   public refreshLayersId: number | null = null;
 
   public mapConfig: MapConfig; // Recovered from route resolver in constructor
