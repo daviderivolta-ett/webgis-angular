@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   private _createUserFromJsonWebToken(payload: any): User | undefined {
-    // const payload: any = this._parseJsonWebToken(this.getAccessToken());
+    console.log(payload);    
     if (!payload) return;
     const email: string | undefined = payload['email'];
     const roles: string[] = ('realm_access' in payload && 'roles' in payload['realm_access'] && Array.isArray(payload['realm_access']['roles'])) ?
