@@ -4486,6 +4486,33 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "colorScaleId": "radar_int5m",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            3,
+                            5,
+                            7,
+                            10,
+                            15,
+                            20,
+                            25,
+                            35,
+                            45,
+                            60,
+                            75,
+                            90,
+                            120,
+                            150,
+                            180,
+                            210,
+                            500
+                        ]
+                    },
                     "requiresAuth": false,
                     "action": {
                         "id": "wms"
@@ -4507,6 +4534,32 @@
                         "request": "GetMap",
                         "styles": "",
                         "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
                     },
                     "requiresAuth": false,
                     "action": {
@@ -4530,6 +4583,32 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "colorScaleId": "rain",
+                        "unit": "mm",
+                        "steps": [
+                            0.2,
+                            0.5,
+                            1,
+                            2,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            100,
+                            120
+                        ]
+                    },
                     "requiresAuth": false,
                     "action": {
                         "id": "wms"
@@ -4552,6 +4631,30 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "legend": {
+                        "colorScaleId": "radar_vmi",
+                        "unit": "mm",
+                        "steps": [
+                            -4,
+                            0,
+                            4,
+                            8,
+                            12,
+                            16,
+                            20,
+                            24,
+                            28,
+                            32,
+                            36,
+                            40,
+                            44,
+                            48,
+                            52,
+                            56,
+                            60,
+                            64
+                        ]
+                    },
                     "requiresAuth": true,
                     "action": {
                         "id": "wms"
@@ -4573,6 +4676,30 @@
                         "request": "GetMap",
                         "styles": "",
                         "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "colorScaleId": "radar_vil",
+                        "unit": "mm",
+                        "steps": [
+                            0,
+                            1,
+                            3,
+                            5,
+                            10,
+                            15,
+                            20,
+                            25,
+                            30,
+                            35,
+                            40,
+                            45,
+                            50,
+                            55,
+                            60,
+                            65,
+                            70,
+                            75
+                        ]
                     },
                     "requiresAuth": true,
                     "action": {
@@ -4602,6 +4729,26 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "radar_etp",
+                                "unit": "mm",
+                                "steps": [
+                                    0,
+                                    1000,
+                                    2000,
+                                    3000,
+                                    4000,
+                                    5000,
+                                    6000,
+                                    7000,
+                                    8000,
+                                    9000,
+                                    10000,
+                                    11000,
+                                    12000,
+                                    15000
+                                ]
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4623,6 +4770,26 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "radar_etp",
+                                "unit": "mm",
+                                "steps": [
+                                    0,
+                                    1000,
+                                    2000,
+                                    3000,
+                                    4000,
+                                    5000,
+                                    6000,
+                                    7000,
+                                    8000,
+                                    9000,
+                                    10000,
+                                    11000,
+                                    12000,
+                                    15000
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4654,6 +4821,30 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4675,6 +4866,30 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4698,6 +4913,30 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4719,6 +4958,30 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4742,6 +5005,30 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4763,6 +5050,30 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "radar_rainworst",
+                                "unit": "mm",
+                                "steps": [
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    25,
+                                    30,
+                                    35,
+                                    40,
+                                    45,
+                                    50,
+                                    500
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4794,6 +5105,9 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4815,6 +5129,9 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4838,6 +5155,9 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4859,6 +5179,9 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
                             },
                             "requiresAuth": true,
                             "action": {
@@ -4882,6 +5205,9 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
+                            },
                             "requiresAuth": true,
                             "action": {
                                 "id": "wms"
@@ -4903,6 +5229,9 @@
                                 "request": "GetMap",
                                 "styles": "",
                                 "srs": "EPSG:4326"
+                            },
+                            "legend": {
+                                "colorScaleId": "prob2thr"
                             },
                             "requiresAuth": true,
                             "action": {

@@ -446,7 +446,7 @@
                 "#FFFFFF"
             ]
         },
-                {
+        {
             "id": "satellite_vis",
             "colors": [
                 "#D9D9D9",
@@ -460,7 +460,142 @@
                 "#DDDDDD",
                 "#EDEDED"
             ]
+        },
+        {
+            "id": "radar_int5m",
+            "colors": [
+                "#FFFFFF",
+                "#F1F5FE",
+                "#CEDDFF",
+                "#A0BCFF",
+                "#88A6FF",
+                "#7081FA",
+                "#447EB4",
+                "#19AB2B",
+                "#6BD34F",
+                "#DDF93F",
+                "#FCE318",
+                "#F1AB23",
+                "#F26732",
+                "#E01A4C",
+                "#C3007C",
+                "#A500BE",
+                "#9D4DD7",
+                "#B07AD0",
+                "#D4A2C4",
+                "#E1BEBF",
+                "#EBD5D6",
+                "#F0DCE1"
+            ]
+        },
+        {
+            "id": "radar_vmi",
+            "colors": [
+                "#D9D9D9",
+                "#F1F1F1",
+                "#9393D5",
+                "#1414C6",
+                "#0011FF",
+                "#2B8FFF",
+                "#0EEAFF",
+                "#00A184",
+                "#11840D",
+                "#0BDE00",
+                "#5FFF11",
+                "#D1FF10",
+                "#FFCC25",
+                "#FF7115",
+                "#FF2C00",
+                "#BB2C40",
+                "#EE53A0",
+                "#CF5FA6",
+                "#B01CE1"
+            ]
+        },
+        {
+            "id": "radar_vil",
+            "colors": [
+                "#D9D9D9",
+                "#D2CCD6",
+                "#362A6F",
+                "#4154BF",
+                "#4185F1",
+                "#31AAEF",
+                "#32A9F0",
+                "#2EEBA1",
+                "#60F96D",
+                "#8EFA4C",
+                "#BDEF38",
+                "#E2D637",
+                "#FBAB32",
+                "#FA9328",
+                "#F16416",
+                "#DF4309",
+                "#BC2202",
+                "#940E01",
+                "#7A0403"
+            ]
+        },
+        {
+            "id": "radar_etp",
+            "colors": [
+                "#9898FF",
+                "#0051FF",
+                "#00CFFF",
+                "#00FFA2",
+                "#52FF00",
+                "#D7FF00",
+                "#FFDB00",
+                "#FFC300",
+                "#FF7F00",
+                "#FF2400",
+                "#C80000",
+                "#EB00C4",
+                "#FF6AFF",
+                "#FFD8FF",
+                "#FFFFFF"
+            ]
+        },
+        {
+            "id": "radar_rainworst",
+            "colors": [
+                "#D9D9D9",
+                "#CAD7FF",
+                "#7184FB",
+                "#348593",
+                "#16AA2A",
+                "#85DF59",
+                "#E1F93A",
+                "#FCDE19",
+                "#F3B122",
+                "#F36133",
+                "#E11B4B",
+                "#C10083",
+                "#A200BF",
+                "#9B3BD3",
+                "#AD77D2",
+                "#D09EC5",
+                "#E1BDC0",
+                "#EAD5D5",
+                "#F0DCE1"
+            ]
+        },
+        {
+            "id": "prob2thr",
+            "colors": [
+                "#F4FBF4",
+                "#96DB96",
+                "#5BB467",
+                "#3D9A4A",
+                "#287828",
+                "#D5EA5D",
+                "#FDC532",
+                "#FFBB29",
+                "#FF943D",
+                "#7F992D",
+                "#009F1E"
+            ]
         }
     ],
-    "lastModified": "2025-11-14"
+    "lastModified": "2026-01-23"
 }
