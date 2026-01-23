@@ -5106,7 +5106,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -5131,7 +5140,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -5156,7 +5174,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -5181,7 +5208,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -5206,7 +5242,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
@@ -5231,7 +5276,16 @@
                                 "srs": "EPSG:4326"
                             },
                             "legend": {
-                                "colorScaleId": "prob2thr"
+                                "colorScaleId": "prob2thr",
+                                "unit": "%",
+                                "labels": [
+                                    "20-30",
+                                    "30-60",
+                                    "60-100",
+                                    "20-30",
+                                    "30-60",
+                                    "60-100"
+                                ]
                             },
                             "requiresAuth": true,
                             "action": {
