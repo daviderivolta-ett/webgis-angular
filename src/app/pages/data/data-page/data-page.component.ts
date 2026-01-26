@@ -591,9 +591,10 @@ export class DataPageComponent {
         showValueOnZoom: layer instanceof GeoJsonLayer ? layer.showValueOnZoom : undefined
       });
 
-    } catch (err: unknown) {
+    } catch (err: unknown) {     
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
-      this.snackbarsService.createSnackbar(`Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, 'error', true);
+      const isNotFoundTimError: boolean = err instanceof Error && err.message.includes('non disponibile per la data selezionata');
+      this.snackbarsService.createSnackbar(err instanceof Error && isNotFoundTimError ? err.message : `Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, isNotFoundTimError ? 'success' : 'error', !isNotFoundTimError);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
 
     } finally {

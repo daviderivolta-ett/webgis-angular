@@ -26,8 +26,8 @@ export class PolygonsCommandService implements Command {
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
             const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
             map.addGeoJSONLayer(layer.id, geoJSON);
-        } catch (error) {
-            if (error instanceof Error) throw error;
+        } catch (error) {                              
+            if (error instanceof Error) throw new Error(`Layer ${layer.id} non disponibile per la data selezionata.`);
             else throw new Error(`Errore nell'esecuzione del comando.`);
         }
 

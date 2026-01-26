@@ -48,11 +48,11 @@ export class ApiService {
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     return fetch(url, { headers })
-      .then((res: Response) => {
+      .then((res: Response) => {      
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`)
         return res.json();
       })
-      .catch((err: unknown) => {
+      .catch((err: unknown) => {       
         if (err instanceof Error) throw err;
         else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
       })
