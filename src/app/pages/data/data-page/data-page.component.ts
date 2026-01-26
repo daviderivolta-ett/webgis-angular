@@ -153,7 +153,7 @@ export class DataPageComponent {
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
       if (!this.user && currentUser) this.setDataFromApi();
-      this.user = currentUser;
+      this.user = currentUser;     
     });
 
     effect(() => {

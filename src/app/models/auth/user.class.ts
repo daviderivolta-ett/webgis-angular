@@ -15,7 +15,7 @@ export class User {
         this.geolocation = geolocation;
     }
 
-    static createFromObject(obj: any): User | undefined {
+    static createFromObject(obj: any): User | undefined {     
         const email: string | undefined = obj['email'];
         const roles: string[] = ('realm_access' in obj && 'roles' in obj['realm_access'] && Array.isArray(obj['realm_access']['roles'])) ?
             obj['realm_access']['roles'] :

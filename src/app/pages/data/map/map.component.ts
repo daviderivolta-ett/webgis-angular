@@ -28,9 +28,7 @@ import { MapPopupComponent } from '../map-popup/map-popup.component';
   styleUrl: './map.component.scss'
 })
 export class MapComponent {
-  /*
-  * Class properties
-  */
+  /** Class properties */
 
   /** Internal properties */
   private _map!: L.Map;
@@ -63,6 +61,7 @@ export class MapComponent {
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
   public minZoom = input<number>(0);
   public maxClusterRadius = input<number>(0);
+  public maxMarkerDisplayRadius = input<number>(Infinity);
   public maxTimedimensionGap = input<number>(24 * 60 * 60 * 1000);
 
   /** Output properties */
@@ -255,7 +254,11 @@ export class MapComponent {
         return marker;
       },
       filter: (feature) => {
-        return feature.geometry.type === 'Point';
+        if (feature.geometry.type !== 'Point') return false;
+        const coords = feature.geometry.coordinates;
+        const latLng = L.latLng(coords[1], coords[0]);
+        const d = new L.LatLng(this.position()[0], this.position()[1]).distanceTo(latLng);
+        return d <= this.maxMarkerDisplayRadius() * 1000;
       },
       ...options
     });
