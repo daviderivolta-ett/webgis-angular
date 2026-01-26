@@ -5,7 +5,7 @@ import { Routes } from '@angular/router';
 import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver, radarConfigGroupsResolver } from './resolvers';
 
 /** Guards */
-import { authGuard } from './guards';
+import { authGuard, editorGuard } from './guards';
 
 // Routes
 export const routes: Routes = [
@@ -136,7 +136,7 @@ export const routes: Routes = [
     {
         path: 'settings',
         title: 'OMIRL ARPAL - Impostazioni',
-        canMatch: [authGuard],
+        canMatch: [editorGuard],
         children: [
             {
                 path: '',
@@ -169,6 +169,7 @@ export const routes: Routes = [
                     apisConfig: apisResolver
                 }
             }
-        ]
+        ],
+        data: { requiredRole: 'editor' }
     }
 ];

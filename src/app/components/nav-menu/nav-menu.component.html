@@ -1,7 +1,7 @@
 <div class="nav-menu">
     <ul class="menu">
         @for (route of menu; track route.path) {
-            @if (!route.requiresAuth || isAuth()) {
+             @if ((!route.requiresAuth || userRoles().length > 0) && (!route.requiredRole || (route.requiredRole | arrayIncludes: userRoles()))) {
                 <div class="menu__item">
                     @if (route.isExternal) {
                         <a class="menu__item-link" [href]="route.path" target="_blank">

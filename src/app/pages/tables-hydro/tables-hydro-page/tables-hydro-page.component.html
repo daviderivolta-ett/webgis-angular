@@ -1,5 +1,5 @@
 <div class="page">
-    <app-header [isAuth]="user ? true : false"></app-header>
+    <app-header [userRoles]="user ? user.roles : []"></app-header>
     <div class="main">
         <!-- START SIDEBAR -->
          <app-sidebar #sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc">

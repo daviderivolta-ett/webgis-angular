@@ -1,6 +1,6 @@
 <header class="header">
     <img src="images/logo.png" alt="Logo ARPAL" class="logo">
-    <app-nav-menu class="nav-menu" [isAuth]="isAuth()">
+    <app-nav-menu class="nav-menu" [userRoles]="userRoles()">
         <app-auth ngProjectAs="additional-menu-item" loginIcon="./images/icons/login_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" logoutIcon="./images/icons/logout_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"></app-auth>
     </app-nav-menu>
 </header>

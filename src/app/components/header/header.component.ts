@@ -11,10 +11,10 @@ import { AuthComponent } from '../auth/auth.component';
   imports: [
     NavMenuComponent,
     AuthComponent
-],
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  public isAuth = input<boolean>(false);
+  public userRoles = input<string[]>([]);
 }

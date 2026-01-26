@@ -1,6 +1,9 @@
 // Libraries
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
+/** Pipes */
+import { ArrayIncludesPipe } from '../../pipes';
 
 // Types
 type AppRoute = {
@@ -8,7 +11,8 @@ type AppRoute = {
   label: string,
   iconUrl: string,
   requiresAuth: boolean,
-  isExternal?: boolean
+  isExternal?: boolean,
+  requiredRole?: string
 }
 
 // Component
@@ -16,13 +20,20 @@ type AppRoute = {
   selector: 'app-nav-menu',
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    ArrayIncludesPipe
   ],
   templateUrl: './nav-menu.component.html',
   styleUrl: './nav-menu.component.scss'
 })
 export class NavMenuComponent {
-  public isAuth = input<boolean>(false);
+  public userRoles = input<string[]>([]);
+
+  constructor() {
+    effect(() => {
+      console.log(this.userRoles());      
+    })
+  }
 
   public menu: AppRoute[] = [
     {
@@ -60,7 +71,8 @@ export class NavMenuComponent {
       path: 'settings',
       label: 'Configurazioni',
       iconUrl: 'images/icons/settings_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
-      requiresAuth: true
+      requiresAuth: true,
+      requiredRole: 'editor'
     }
   ];
 }

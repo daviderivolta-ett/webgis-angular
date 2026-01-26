@@ -1,5 +1,5 @@
 <div class="page">
-    <app-header [isAuth]="user ? true : false"></app-header>
+    <app-header [userRoles]="user ? user.roles : []"></app-header>
     <div class="main">
         <!-- START SIDEBAR -->
         <ng-template #groupTemplate let-group let-hasParent="hasParent" let-parentId="parentId">
