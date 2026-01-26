@@ -1,5 +1,5 @@
 // Libraries
-import { Component, effect, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 /** Pipes */
@@ -28,12 +28,6 @@ type AppRoute = {
 })
 export class NavMenuComponent {
   public userRoles = input<string[]>([]);
-
-  constructor() {
-    effect(() => {
-      console.log(this.userRoles());      
-    })
-  }
 
   public menu: AppRoute[] = [
     {

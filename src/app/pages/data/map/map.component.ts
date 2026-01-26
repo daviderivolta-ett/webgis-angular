@@ -308,7 +308,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON classic layer */
-  public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
+  public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {  
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {
         if (!feature) return {}
@@ -325,6 +325,7 @@ export class MapComponent {
         layer.on('click', (event) => this.featureClicked.emit({ ...feature.properties, coordinates: event.latlng }))
       }
     }).addTo(this._map);
+    if ((geoJSON as any)['timestamp'] && typeof (geoJSON as any)['timestamp'] === 'string') this.timeDimensionDateChanged.emit(new Date((geoJSON as any)['timestamp']));
     this._registerLayer(id, geoJSONLayer);
   }
 
