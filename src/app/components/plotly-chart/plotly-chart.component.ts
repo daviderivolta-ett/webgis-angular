@@ -244,7 +244,7 @@ export class PlotlyChartComponent {
             },
             {
               step: 'all',
-              label: 'Default'
+              label: '30gg'
             },
           ]
         },
