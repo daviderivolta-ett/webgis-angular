@@ -213,9 +213,15 @@ export class MapComponent {
 
   /** Add GeoJSON layer */
   public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
-    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
+    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();    
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
+
+    if (this._map.getPane(`markers_${shapeKey}`)) {
+      this._map.createPane(`markers_${shapeKey}`).style.zIndex = `6${shapeKey}0`;
+    }
+
     const layer = L.geoJSON(geoJSON, {
+      pane: `markers_${shapeKey}`,
       pointToLayer: (feature, latLng) => {
         const color: string = feature.properties.color ?? 'grey';
         const value: number | undefined = feature.properties.value;
@@ -224,7 +230,6 @@ export class MapComponent {
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
-        // const iconHtml = iconElement.outerHTML; // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
 
         const markerIcon = L.divIcon({
           html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
@@ -494,12 +499,17 @@ export class MapComponent {
 
   /** Custom marker shapes related methods */
   private _getNextAvailableMarkerShape(): number {
+    if (!this._usedMarkerShapes.has(1)) {
+      this._usedMarkerShapes.add(1);
+      return 1;
+    }
+    
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {
         this._usedMarkerShapes.add(i);
         return i;
       }
-    }
+    }    
 
     this._usedMarkerShapes.clear();
     this._usedMarkerShapes.add(0);
