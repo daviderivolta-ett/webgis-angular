@@ -124,7 +124,8 @@ export class PlotlyChartComponent {
       layout,
       config
     )
-      .then(() => {
+      .then((chart: Plotly.PlotlyHTMLElement) => {
+        chart.on('plotly_relayout', (e: Plotly.PlotRelayoutEvent) => this._onChartRelayout(e, data, traces, layout, config));
         this._drawThresholds(this.thresholds());
         this._setup();
       })
@@ -372,7 +373,11 @@ export class PlotlyChartComponent {
       //   });
       // }
 
-      if (d.type === 'scatter' && d.style && d.style['marker']) layout.annotations = this._createFakeMarkersAsAnnotations(d);
+      if (d.type === 'scatter' && d.style && d.style['marker']) {
+        const xMin = d.data[0];
+        const xMax = d.data[d.data.length - 1];
+        if (typeof xMin[0] === 'number' && typeof xMax[0] === 'number') layout.annotations = this._createFakeMarkersAsAnnotations(d, xMin[0], xMax[0]);
+      }
     });
 
     return layout;
@@ -450,6 +455,17 @@ export class PlotlyChartComponent {
     }
   }
 
+  private _onChartRelayout(event: Plotly.PlotRelayoutEvent, data: PlotlyChartData[], traces: Plotly.Data[], layout: Plotly.Layout, config: Plotly.Config): void {
+    const xRange = this._getRelayoutXRange(event);
+    if (!xRange) return;
+    data.forEach((d: PlotlyChartData) => {
+      if (d.type === 'scatter' && d.style && d.style['marker']) {
+        const annotations = this._createFakeMarkersAsAnnotations(d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
+        Plotly.react(this.id(), traces, { ...layout, annotations }, config);
+      }
+    });
+  }
+
   private _shouldResize(): boolean {
     const plotDiv = this.plotly.nativeElement as any;
     if (!plotDiv || !plotDiv._fullLayout) return false;
@@ -464,8 +480,35 @@ export class PlotlyChartComponent {
     return data.filter((_, i) => i % ratio === 0);
   }
 
-  private _createFakeMarkersAsAnnotations(chartData: PlotlyChartData): Partial<Plotly.Annotations>[] {
-    const data = this._decimateData(chartData.data, 20);
+  private _getRelayoutXRange(event: Plotly.PlotRelayoutEvent): [number, number] | undefined {
+    const xRange = event['xaxis.range'] || [event['xaxis.range[0]'], event['xaxis.range[1]']];
+    if (xRange.every((v) => v === undefined)) return undefined;
+
+    const isXMinDate: boolean = Boolean(xRange[0] && typeof xRange[0] === 'string' && !isNaN(new Date(xRange[0]).getTime()));
+    const isXMaxDate: boolean = Boolean(xRange[1] && typeof xRange[1] === 'string' && !isNaN(new Date(xRange[1]).getTime()));
+
+    const xMin = isXMinDate ? new Date(xRange[0] as unknown as string).getTime() : undefined;
+    const xMax = isXMaxDate ? new Date(xRange[1] as unknown as string).getTime() : undefined;
+
+    return xMin && xMax ? [xMin, xMax] : undefined;
+  }
+
+  private _getVisileDataFromXRange(chartData: PlotlyChartData, xMin: number, xMax: number) {
+    return chartData.data.filter(([x]) => x >= xMin && x <= xMax);
+  }
+
+  private _getDensityFromRange(range: number) {
+    if (range < 10) return 100;
+    if (range < 50) return 50;
+    if (range < 200) return 20;
+    return 20;
+  }
+
+  private _createFakeMarkersAsAnnotations(chartData: PlotlyChartData, xMin: number, xMax: number): Partial<Plotly.Annotations>[] {
+    const visibleData = this._getVisileDataFromXRange(chartData, xMin, xMax);
+    const target = this._getDensityFromRange(xMax - xMin);
+    const data = this._decimateData(visibleData, target);
+
     return data.map((p: [number, number | null]) => {
       return {
         x: p[0],
