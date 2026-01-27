@@ -53,3 +53,16 @@
 .radar-img {
     max-width: 1140px;
 }
+
+.update-time {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 992px) {
+    .update-time {
+        bottom: calc(48px + 20px);
+    }
+}

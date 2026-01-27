@@ -16,17 +16,17 @@
                         {
                             "id": "radar_rain_1h",
                             "label": "Pioggia 1 ora",
-                            "url": "LatestRadar_Rain1h_{imgType}"
+                            "url": "Rain1h_{imgType}"
                         },
                         {
                             "id": "radar_rain_int_5m",
                             "label": "Pioggia 5 minuti",
-                            "url": "LatestRadar_RainInt5m_{imgType}"
+                            "url": "RainInt5m_{imgType}"
                         },
                         {
                             "id": "radar_rain_station_1h",
                             "label": "Pioggia 1 ora stazioni",
-                            "url": "LatestRadar_RainStation1h_{imgType}"
+                            "url": "RainStation1h_{imgType}"
                         }
                     ]
                 }

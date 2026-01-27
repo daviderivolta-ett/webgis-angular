@@ -4,20 +4,20 @@ import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Services */
-import { ApiService, AuthService, RadarService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, DateService, RadarService, SnackbarsService } from '../../../services'
 
 /** Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, ToggleComponent } from '../../../components'
+import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent } from '../../../components'
 
 /** Component */
 @Component({
   selector: 'app-radars-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, ToggleComponent,
+    HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent,
     /**Directives */
     RouterLink, NgTemplateOutlet, RouterLinkActive,
     /** Pipes */
@@ -39,6 +39,8 @@ export class RadarsPageComponent {
   public user: User | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
 
+  public referenceDate: Date | undefined;
+
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public radarImgsUrl; // Recovered from route resolver in constructor
 
@@ -51,6 +53,7 @@ export class RadarsPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private radarService: RadarService,
+    private dateService: DateService,
     private snackbarsService: SnackbarsService,
   ) {
     /** Recovering data from resolvers */
@@ -61,8 +64,10 @@ export class RadarsPageComponent {
     this.radarImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('radarImgs'));
 
     /** Effetcs */
-    effect(() => {
-      this.user = this.authService.user();
+    effect(() => this.user = this.authService.user());
+    effect(() => {      
+      this.referenceDate = this.dateService.date();
+      if (this.config) this._getRadarImg(this._createUrl(this.config.url, this.currentImgType, this.referenceDate));
     });
   }
 
@@ -83,7 +88,6 @@ export class RadarsPageComponent {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     this.config = this._initConfig(id);
     if (!this.config) return;
-    this._getRadarImg(this._createUrl(this.config.url, this.currentImgType));
   }
 
   private _initConfigGroup(id: string): RadarConfigGroup | undefined {
@@ -110,15 +114,22 @@ export class RadarsPageComponent {
   public onToggleChanged(id: string) {
     this.currentImgType = (id === 'Image' || id === 'Animation') ? id : this.currentImgType;
     if (!this.config) return;
-    this._getRadarImg(this._createUrl(this.config.url, id));
+    this._getRadarImg(this._createUrl(this.config.url, id, this.referenceDate));
   }
 
-  private _createUrl(baseUrl: string, imgType: string) {
+  public onDateChange(event: any): void {
+    const { date: dateString } = event;
+    if (typeof dateString !== 'string') return;
+    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+  }
+
+  private _createUrl(baseUrl: string, imgType: string, date: Date | undefined) {
     const endpoint = this.apiService.replaceApiUrlPlaceholder(baseUrl, imgType);
-    return this.apiService.replaceApiUrlPlaceholder(this.radarImgsUrl, endpoint);
+    const url: string = this.apiService.replaceApiUrlPlaceholder(this.radarImgsUrl, endpoint);
+    return this.apiService.addSearchParamsToUrl(url, { date: date ? date.toISOString() : new Date().toISOString() });
   }
 
-  private _getRadarImg(url: string) {
+  private _getRadarImg(url: string) {   
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento immagine del radar.', 'loader', false);
     this.radarService.getRadarImg(url, this.authService.getAccessToken())
       .then((imgUrl: string) => {
@@ -129,6 +140,6 @@ export class RadarsPageComponent {
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
-      })
+      });
   }
 }

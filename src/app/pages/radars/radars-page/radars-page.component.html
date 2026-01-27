@@ -41,5 +41,11 @@
             <img [src]="imgUrl" class="radar-img">
         </div>
         <!-- END MAIN -->
+
+        <!-- START CONTROLS -->
+        <div class="update-time">
+            <app-datepicker [date]="referenceDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+        </div>
+        <!-- END CONTROLS -->
     </div>
 </div>
