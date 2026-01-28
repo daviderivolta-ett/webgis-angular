@@ -213,7 +213,7 @@ export class MapComponent {
 
   /** Add GeoJSON layer */
   public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
-    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();    
+    const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
 
     if (this._map.getPane(`markers_${shapeKey}`)) {
@@ -239,7 +239,7 @@ export class MapComponent {
         });
 
         const textIcon = L.divIcon({
-          html: this._createTextIcon(value ?? 0, color),
+          html: this._createTextIcon(value ?? 0, color, options ? options['decimals'] : undefined),
           className: 'text-marker',
           iconSize: [32, 32],
           iconAnchor: [16, 16]
@@ -247,7 +247,7 @@ export class MapComponent {
 
         const marker = L.marker(latLng, { icon: markerIcon, zIndexOffset: shapeKey });
         (marker as any)._markerIcon = markerIcon; // Adding custom key in order to know which icon choosed based on map zoom
-        (marker as any)._textIcon = textIcon; // Adding custom key in order to know which icon choosed based on map zoom
+        if (feature.properties.markerShapeId || feature.properties.markerShapeId !== 6) (marker as any)._textIcon = textIcon; // Adding custom key in order to know which icon choosed based on map zoom
 
         marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
         marker.on('mouseout', () => {
@@ -313,7 +313,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON classic layer */
-  public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {  
+  public addGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection): void {
     const geoJSONLayer: L.GeoJSON = L.geoJSON(geoJSON, {
       style: (feature) => {
         if (!feature) return {}
@@ -503,13 +503,13 @@ export class MapComponent {
       this._usedMarkerShapes.add(1);
       return 1;
     }
-    
+
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {
         this._usedMarkerShapes.add(i);
         return i;
       }
-    }    
+    }
 
     this._usedMarkerShapes.clear();
     this._usedMarkerShapes.add(0);
@@ -542,7 +542,7 @@ export class MapComponent {
     this._map.eachLayer((l: L.Layer) => {
       if (l instanceof L.Marker && (l as any)._markerIcon && (l as any)._textIcon) {
         l.setIcon(
-          zoom >= zoomThreshold && stationLayers.length === 1
+          zoom >= zoomThreshold && stationLayers.length === 1 && (l as any)._textIcon
             ? (l as any)._textIcon
             : (l as any)._markerIcon
         )
@@ -551,9 +551,13 @@ export class MapComponent {
 
   }
 
-  private _createTextIcon(value: number, color: string): string {
+  private _createTextIcon(value: number, color: string, decimals: number = 1): string {
+    const factor: number = 10 ** decimals;
+    const truncatedValue: number = Math.trunc(value * factor) / factor;
     return `
-      <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;"><span>${value.toFixed(2)}</span></div>
+      <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;">
+        <span>${truncatedValue}</span>
+      </div>
       `
   }
 

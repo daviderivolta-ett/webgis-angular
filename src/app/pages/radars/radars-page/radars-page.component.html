@@ -43,9 +43,11 @@
         <!-- END MAIN -->
 
         <!-- START CONTROLS -->
-        <div class="update-time">
-            <app-datepicker [date]="referenceDate" (dateChanged)="onDateChange($event)"></app-datepicker>
-        </div>
+        @if (user) {
+            <div class="update-time">
+                <app-datepicker [date]="referenceDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+            </div>
+        }
         <!-- END CONTROLS -->
     </div>
 </div>

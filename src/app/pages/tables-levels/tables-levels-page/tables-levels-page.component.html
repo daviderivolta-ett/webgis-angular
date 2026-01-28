@@ -24,12 +24,14 @@
             <!-- END TITLE -->
 
             <!-- START CONTROLS -->
-            <div class="controls">
-                <div class="update-time">
-                    <label class="label">Data misurazione</label>
-                    <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+            @if (user) {
+                <div class="controls">
+                    <div class="update-time">
+                        <label class="label">Data misurazione</label>
+                        <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+                    </div>
                 </div>
-            </div>
+            }
             <!-- END CONTROLS -->
 
             <!-- START TABLES -->

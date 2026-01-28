@@ -275,38 +275,6 @@ export class PlotlyChartComponent {
             dtickrange: ["M1", null],
             value: "%b %Y"
           }
-          // {
-          //   dtickrange: [null, 1000],
-          //   value: "%H:%M"
-          // },
-          // {
-          //   dtickrange: [1000, 60000],
-          //   value: "%H:%M"
-          // },
-          // {
-          //   dtickrange: [60000, 3600000],
-          //   value: "%H:%M"
-          // },
-          // {
-          //   dtickrange: [3600000, 86400000],
-          //   value: "%H:%M"
-          // },
-          // {
-          //   dtickrange: [86400000, 604800000],
-          //   value: "%d/%m"
-          // },
-          // {
-          //   dtickrange: [604800000, "M1"],
-          //   value: "%d/%m"
-          // },
-          // {
-          //   dtickrange: ["M1", "M12"],
-          //   value: "%m/%y"
-          // },
-          // {
-          //   dtickrange: ["M12", null],
-          //   value: "%Y"
-          // }
         ]
       },
       hoverlabel: {
@@ -487,6 +455,12 @@ export class PlotlyChartComponent {
     });
   }
 
+  private _calculateDateTickFormat(range: number): string {
+    return range > 1000 * 60 * 60 * 24 * 365 ? '%Y' :
+      range > 1000 * 60 * 60 * 24 * 30 ? '%b %Y' :
+        range > 1000 * 60 * 60 * 24 ? '%d/%m' :
+          '%H:%M';
+  }
 
   private _shouldResize(): boolean {
     const plotDiv = this.plotly.nativeElement as any;

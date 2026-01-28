@@ -22,7 +22,7 @@
             <!-- END MAIN -->
 
             <!-- START CONTROLS -->
-             <div class="controls">
+            <div class="controls">
                 @if (configGroup) {
                     <div class="select-row">
                         <label class="label">Modello idrologico</label>
@@ -36,11 +36,13 @@
                     </div>
                 }
 
-                <div class="update-time">
-                    <label class="label">Data misurazione</label>
-                    <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
-                </div>
-             </div>
+                @if (user) {
+                    <div class="update-time">
+                        <label class="label">Data misurazione</label>
+                        <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+                    </div>
+                }
+            </div>
             <!-- END CONTROLS -->
 
             <!-- START TABLE -->

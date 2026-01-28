@@ -155,7 +155,7 @@ export class PlatformsCommandService implements Command {
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
                 const featureProperty: any = properties[markers.featureProperty];
-                const markerShapeId: number = this._getMarkerShapeFromRule(featureProperty, markers.rules, 0);
+                const markerShapeId: number = this._getMarkerShapeFromRule(featureProperty, markers.rules, 0);                
                 return {
                     ...feature,
                     properties: {

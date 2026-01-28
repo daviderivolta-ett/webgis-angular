@@ -136,7 +136,7 @@ export class RadarsPageComponent {
         this.imgUrl = imgUrl;
       })
       .catch((err: unknown) => {
-        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero delle immagini del radar.`, 'error', true);
+        this.snackbarsService.createSnackbar(`Errore nel recupero delle immagini del radar.`, 'error', true);
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);

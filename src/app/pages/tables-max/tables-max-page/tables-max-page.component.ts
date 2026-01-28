@@ -161,7 +161,7 @@ export class TablesMaxPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     const response = await this.apiService.getApiData(url)
       .catch((err: any) => {
-        throw new Error('Errore nel recupero dei dati', err);
+        this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
