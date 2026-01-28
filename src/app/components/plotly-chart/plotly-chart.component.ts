@@ -537,6 +537,7 @@ export class PlotlyChartComponent {
         x: p[0],
         y: -5,
         text: chartData.style ? chartData.style['marker'] : '',
+        // ◯
         textangle: `${p[1] ?? 0}`,
         align: 'center',
         font: {
