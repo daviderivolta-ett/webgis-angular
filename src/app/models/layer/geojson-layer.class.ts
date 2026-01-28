@@ -3,6 +3,7 @@ import { MarkerMapping } from './marker-mapping.interface';
 
 export class GeoJsonLayer extends Layer {
     public parameter?: string;
+    public decimals?: number;
     public multiplier?: number;
     public markers?: MarkerMapping;
     public showValueOnZoom?: boolean;
@@ -16,18 +17,20 @@ export class GeoJsonLayer extends Layer {
         longLabel?: string,
         iconUrl?: string,
         parameter?: string,
+        decimals?: number,
         multiplier?: number,
         markers?: MarkerMapping,
         showValueOnZoom?: boolean
     ) {
         super(id, url, layerType, label, longLabel, iconUrl, layerCategory);
         this.parameter = parameter;
+        this.decimals = decimals;
         this.multiplier = multiplier;
         this.markers = markers;
         this.showValueOnZoom = showValueOnZoom;
     }
 
-    static createFromObject(object: any): GeoJsonLayer {
+    static createFromObject(object: any): GeoJsonLayer {      
         const layer: GeoJsonLayer = new GeoJsonLayer(
             (typeof object['id'] === 'string' && object['id']) || '',
             (typeof object['layerType'] === 'string' && object['layerType']) || 'base',
@@ -35,6 +38,7 @@ export class GeoJsonLayer extends Layer {
         );
 
         if (object['parameter'] && typeof object['parameter'] === 'string') layer.parameter = object['parameter'];
+        if ('decimals' in object && typeof object['decimals'] === 'number') layer.decimals = object['decimals'];
         if (object['multiplier'] && typeof object['multiplier'] === 'number') layer.multiplier = object['multiplier'];
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
         if ('showValueOnZoom' in object && typeof object['showValueOnZoom'] === 'boolean') layer.showValueOnZoom = object['showValueOnZoom'] ?? false;
@@ -45,7 +49,7 @@ export class GeoJsonLayer extends Layer {
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         layer.requiresAuth = object['requiresAuth'] ?? false;
         if (object['action']) layer.action = { ...object['action'] };
-
+       
         return layer;
     }
 

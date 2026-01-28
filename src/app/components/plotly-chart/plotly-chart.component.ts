@@ -246,6 +246,12 @@ export class PlotlyChartComponent {
               label: '15gg'
             },
             {
+              step: 'day',
+              stepmode: 'backward',
+              count: 30,
+              label: '30gg'
+            },
+            {
               step: 'all',
               label: 'Totale'
             },
@@ -462,11 +468,11 @@ export class PlotlyChartComponent {
     const xRange = this._getRelayoutXRange(event);
     if (!xRange) return;
 
-    data.forEach((d: PlotlyChartData, i: number) => {       
+    data.forEach((d: PlotlyChartData, i: number) => {
       if (d.isCumulated) {
         const otherData: PlotlyChartData | undefined = data.find((d) => !d.isCumulated);
         if (!otherData) return;
-        const cumulatedValues: [number, number][] = this._calculateCumulatedValue(otherData, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());     
+        const cumulatedValues: [number, number][] = this._calculateCumulatedValue(otherData, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
         traces[i] = {
           ...traces[i],
           x: cumulatedValues.map(v => v[0]),

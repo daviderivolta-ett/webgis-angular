@@ -19,7 +19,7 @@ export class PlatformsCommandService implements Command {
 
     /** Command */
     public async execute(args?: any): Promise<void> {
-        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold, multiplier, sensorTypes, showValueOnZoom } = args;               
+        const { map, date, colorScale, layer, baseUrl, stations, token, timeSpan, timeThreshold, sensorTypes, showValueOnZoom } = args;               
 
         try {
             if (!layer || !(layer instanceof GeoJsonLayer)) throw new Error(`Parametro 'layer' mancante od errato. Assicurati di passare al comando un layer di classe 'GeoJsonLayer'.`);
@@ -27,13 +27,13 @@ export class PlatformsCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);         
-            
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);                            
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
 
-            if (multiplier) geoJSON = this._convertGeoJSONData(geoJSON, multiplier);
+            if (layer.multiplier) geoJSON = this._convertGeoJSONData(geoJSON, layer.multiplier);
+            geoJSON = this._truncateGeoJSONData(geoJSON, layer.decimals);
             if (colorScale instanceof ColorScale && layer.legend) {
                 if (sensorTypes && Array.isArray(sensorTypes)) {
                     const currentSensorType = sensorTypes.find((s) => s.id === layer.parameter);
@@ -45,7 +45,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);           
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);                      
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1, showValueOnZoom);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -201,6 +201,25 @@ export class PlatformsCommandService implements Command {
                 }
             })
 
+        }
+    }
+
+    private _truncateGeoJSONData(geoJSON: GeoJSON.FeatureCollection, decimals: number = 1): GeoJSON.FeatureCollection {        
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                const value: any = properties['value'];
+                const factor = 10 ** decimals;
+
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        value: (value !== undefined) ? Math.trunc(value * factor) / factor : undefined
+                    }
+                }
+            })
         }
     }
 
