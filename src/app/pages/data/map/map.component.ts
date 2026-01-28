@@ -220,9 +220,11 @@ export class MapComponent {
       this._map.createPane(`markers_${shapeKey}`).style.zIndex = `6${shapeKey}0`;
     }
 
+    console.log('GEOJSON', geoJSON);    
+
     const layer = L.geoJSON(geoJSON, {
       pane: `markers_${shapeKey}`,
-      pointToLayer: (feature, latLng) => {
+      pointToLayer: (feature: Feature<Point, any>, latLng: L.LatLng) => {       
         const color: string = feature.properties.color ?? 'grey';
         const value: number | undefined = feature.properties.value;
         const extraValue: number | undefined = feature.properties.extraValue;
@@ -230,7 +232,7 @@ export class MapComponent {
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
-
+        console.log(shape);        
         const markerIcon = L.divIcon({
           html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',
@@ -261,6 +263,7 @@ export class MapComponent {
       filter: (feature) => {
         if (feature.geometry.type !== 'Point') return false;
         const coords = feature.geometry.coordinates;
+        if (coords[0] === 0 && coords[1] === 0) return true; // Avoid placeholder marker being excluded before being created
         const latLng = L.latLng(coords[1], coords[0]);
         const d = new L.LatLng(this.position()[0], this.position()[1]).distanceTo(latLng);
         return d <= this.maxMarkerDisplayRadius() * 1000;
@@ -284,7 +287,7 @@ export class MapComponent {
     // Function called when this specific GeoJSON layer is removed
     layer.on('remove', () => {
       if (showValueOnZoom) this._map.off('zoomend', () => this._chooseMarkerOnZoom(layer, this._map.getZoom(), 12, 'station'));
-      const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release     
+      const index: number | undefined = this._searchMarkerShapeInGeoJSONLayer(layer); // Retrieving marker custom key in order to know which key release          
       if (index !== undefined) this._releaseMarkerShape(index); // comparison with 'undefined' because '0' is a valid value and js considers it 'falsy'
     });
   }
@@ -498,21 +501,21 @@ export class MapComponent {
   }
 
   /** Custom marker shapes related methods */
-  private _getNextAvailableMarkerShape(): number {
+  private _getNextAvailableMarkerShape(): number {  
     if (!this._usedMarkerShapes.has(1)) {
-      this._usedMarkerShapes.add(1);
+      this._usedMarkerShapes.add(1);    
       return 1;
     }
 
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {
-        this._usedMarkerShapes.add(i);
+        this._usedMarkerShapes.add(i);      
         return i;
       }
     }
 
     this._usedMarkerShapes.clear();
-    this._usedMarkerShapes.add(0);
+    this._usedMarkerShapes.add(0);    
     return 0;
   }
 
