@@ -297,7 +297,7 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: this.dateService.date() ?? new Date() });
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.dateService.date() ?? new Date() : undefined });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -610,8 +610,8 @@ export class DataPageComponent {
     this._updateMultipleLayers(date, false);
   }
 
-  public onMapAdditionalDateChanged(date: Date | undefined): void {  
-    this.wmsLayersDate = date;
+  public onMapAdditionalDateChanged(date: Date | undefined): void {    
+    this.wmsLayersDate = date; 
   }
 
   public onMapTimedimensionLayerNotFound(layerId: string) {

@@ -19,7 +19,7 @@
             <div class="scale__element scale__ticks">
                 @if (labels().length === colors().length + 1) {
                     @for (label of labels(); track $index) {
-                        <p class="scale__tick scale__tick--border" [style.left]="($index * tickStep) + '%'">{{label}}</p>
+                        <p class="scale__tick scale__tick--border" [style.display]="$index !== 0 && $index !== colors().length ? '' : 'none'" [style.left]="($index * tickStep) + '%'">{{label}}</p>
                     }
                 }
 
