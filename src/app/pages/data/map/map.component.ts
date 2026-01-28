@@ -218,9 +218,7 @@ export class MapComponent {
 
     if (this._map.getPane(`markers_${shapeKey}`)) {
       this._map.createPane(`markers_${shapeKey}`).style.zIndex = `6${shapeKey}0`;
-    }
-
-    console.log('GEOJSON', geoJSON);    
+    }   
 
     const layer = L.geoJSON(geoJSON, {
       pane: `markers_${shapeKey}`,
@@ -231,8 +229,7 @@ export class MapComponent {
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
-        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
-        console.log(shape);        
+        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));       
         const markerIcon = L.divIcon({
           html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',
