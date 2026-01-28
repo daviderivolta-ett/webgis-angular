@@ -71,7 +71,7 @@ export class PlotlyChartComponent {
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map((v: [number, number | null]) => v[1]),
-      hovertemplate: `%{x}<br>${serie.legend}: %{y} ${serie.unit}<extra></extra>`
+      hovertemplate: `%{y} ${serie.unit}<extra></extra>`
     };
   }
 
@@ -79,8 +79,8 @@ export class PlotlyChartComponent {
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map(() => -10),
-      text: serie.data.map((v: [number, number | null]) => v[1] !== null && v[1] !== undefined ? `${serie.legend}: ${String(v[1])} ${serie.unit}` : ''),
-      hoverinfo: 'x+text'
+      text: serie.data.map((v: [number, number | null]) => v[1] !== null && v[1] !== undefined ? `${String(v[1])} ${serie.unit}` : ''),
+      hoverinfo: 'text'
     }
   }
 
@@ -137,7 +137,7 @@ export class PlotlyChartComponent {
   private _getTraces(data: PlotlyChartData[]): Plotly.Data[] {
     let additionalYAxisCounter: number = 2;
 
-    return data.map((serie: PlotlyChartData, i: number) => {
+    return data.map((serie: PlotlyChartData) => {
       let yaxisName: string;
 
       if (serie.needsAdditionalYAxis) {
@@ -174,8 +174,7 @@ export class PlotlyChartComponent {
         (trace as Plotly.ScatterData).mode = 'markers';
         (trace as Plotly.ScatterData).marker = {
           size: 12,
-          color: 'transparent',
-
+          color: 'transparent'
         } as any
       }
 
@@ -278,7 +277,7 @@ export class PlotlyChartComponent {
         ]
       },
       hoverlabel: {
-        bgcolor: 'white',
+        bgcolor: '#ffffffbf',
         font: {
           color: 'black'
         }
@@ -437,29 +436,20 @@ export class PlotlyChartComponent {
     if (!xRange) return;
 
     data.forEach((d: PlotlyChartData, i: number) => {
+      /** Cumulated */
       if (d.isCumulated) {
-        const otherData: PlotlyChartData | undefined = data.find((d) => !d.isCumulated);
-        if (!otherData) return;
-        const cumulatedValues: [number, number][] = this._calculateCumulatedValue(otherData, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
-        traces[i] = {
-          ...traces[i],
-          x: cumulatedValues.map(v => v[0]),
-          y: cumulatedValues.map(v => v[1])
-        } as Plotly.Data;
-        Plotly.react(this.id(), [...traces], layout, config);
+        const newTraces: Plotly.Data[] | undefined = this._relayoutCumulatedValues(data, traces, i, xRange);
+        Plotly.react(this.id(), newTraces ? [...newTraces] : [...traces], layout, config);
       }
-      if (d.type === 'scatter' && d.style && d.style['marker']) {
-        const annotations = this._createFakeMarkersAsAnnotations(d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
-        Plotly.react(this.id(), traces, { ...layout, annotations }, config);
-      }
-    });
-  }
 
-  private _calculateDateTickFormat(range: number): string {
-    return range > 1000 * 60 * 60 * 24 * 365 ? '%Y' :
-      range > 1000 * 60 * 60 * 24 * 30 ? '%b %Y' :
-        range > 1000 * 60 * 60 * 24 ? '%d/%m' :
-          '%H:%M';
+      /** Arrows */
+      if (d.type === 'scatter' && d.style && d.style['marker']) {
+        const newTraces: Plotly.Data[] | undefined = this._relayoutMarkers(d, traces, i, xRange);
+        const annotations = this._createFakeMarkersAsAnnotations(d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
+        Plotly.react(this.id(), newTraces ? [...newTraces] : [...traces], { ...layout, annotations }, config);
+      }
+
+    });
   }
 
   private _shouldResize(): boolean {
@@ -474,6 +464,31 @@ export class PlotlyChartComponent {
     if (data.length <= maxPoints) return data;
     const ratio = Math.ceil(data.length / maxPoints);
     return data.filter((_, i) => i % ratio === 0);
+  }
+
+  private _relayoutCumulatedValues(data: PlotlyChartData[], traces: Plotly.Data[], traceIndex: number, xRange: [number, number]): Plotly.Data[] | undefined {
+    const otherData: PlotlyChartData | undefined = data.find((d) => !d.isCumulated);
+    if (!otherData) return;
+    const cumulatedValues: [number, number][] = this._calculateCumulatedValue(otherData, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
+    traces[traceIndex] = {
+      ...traces[traceIndex],
+      x: cumulatedValues.map(v => v[0]),
+      y: cumulatedValues.map(v => v[1])
+    } as Plotly.Data;
+    return traces;
+  }
+
+  private _relayoutMarkers(serie: PlotlyChartData, traces: Plotly.Data[], traceIndex: number, xRange: [number, number]): Plotly.Data[] | undefined {
+    const newValues = this._getVisileDataFromXRange(serie.data, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
+    traces[traceIndex] = this._normalizeData({ ...serie, data: this._decimateData(newValues, 20) })
+    if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
+      (traces[traceIndex] as Plotly.ScatterData).mode = 'markers';
+      (traces[traceIndex] as Plotly.ScatterData).marker = {
+        size: 12,
+        color: 'transparent'
+      } as any
+    }
+    return traces;
   }
 
   private _calculateCumulatedValue(chartData: PlotlyChartData, xMin: number, xMax: number): [number, number][] {
