@@ -16,6 +16,7 @@ type PlotlyChartData = {
   yRange?: any[];
   needsAdditionalYAxis?: boolean;
   isMainYAxis?: boolean;
+  isCumulated?: boolean;
 }
 
 /** Component */
@@ -46,7 +47,9 @@ export class PlotlyChartComponent {
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
 
-    effect(() => this._drawChart(this.data()));
+    effect(() => {
+      this._drawChart(this.data());
+    });
     effect(() => this._drawThresholds(this.thresholds()));
   }
 
@@ -198,7 +201,7 @@ export class PlotlyChartComponent {
       margin: {
         t: 56,
         l: 40,
-        r: 24
+        r: 40
       },
       xaxis: {
         title: {
@@ -244,7 +247,7 @@ export class PlotlyChartComponent {
             },
             {
               step: 'all',
-              label: '30gg'
+              label: 'Totale'
             },
           ]
         },
@@ -458,13 +461,26 @@ export class PlotlyChartComponent {
   private _onChartRelayout(event: Plotly.PlotRelayoutEvent, data: PlotlyChartData[], traces: Plotly.Data[], layout: Plotly.Layout, config: Plotly.Config): void {
     const xRange = this._getRelayoutXRange(event);
     if (!xRange) return;
-    data.forEach((d: PlotlyChartData) => {
+
+    data.forEach((d: PlotlyChartData, i: number) => {       
+      if (d.isCumulated) {
+        const otherData: PlotlyChartData | undefined = data.find((d) => !d.isCumulated);
+        if (!otherData) return;
+        const cumulatedValues: [number, number][] = this._calculateCumulatedValue(otherData, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());     
+        traces[i] = {
+          ...traces[i],
+          x: cumulatedValues.map(v => v[0]),
+          y: cumulatedValues.map(v => v[1])
+        } as Plotly.Data;
+        Plotly.react(this.id(), [...traces], layout, config);
+      }
       if (d.type === 'scatter' && d.style && d.style['marker']) {
         const annotations = this._createFakeMarkersAsAnnotations(d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
         Plotly.react(this.id(), traces, { ...layout, annotations }, config);
       }
     });
   }
+
 
   private _shouldResize(): boolean {
     const plotDiv = this.plotly.nativeElement as any;
@@ -480,6 +496,18 @@ export class PlotlyChartComponent {
     return data.filter((_, i) => i % ratio === 0);
   }
 
+  private _calculateCumulatedValue(chartData: PlotlyChartData, xMin: number, xMax: number): [number, number][] {
+    if (!chartData.data) return [];
+    const values = this._getVisileDataFromXRange(chartData.data, xMin, xMax);
+    const result: [number, number][] = [];
+    let sum = 0;
+    for (const [date, value] of values) {
+      sum += value;
+      result.push([date, sum]);
+    }
+    return result;
+  }
+
   private _getRelayoutXRange(event: Plotly.PlotRelayoutEvent): [number, number] | undefined {
     const xRange = event['xaxis.range'] || [event['xaxis.range[0]'], event['xaxis.range[1]']];
     if (xRange.every((v) => v === undefined)) return undefined;
@@ -493,8 +521,8 @@ export class PlotlyChartComponent {
     return xMin && xMax ? [xMin, xMax] : undefined;
   }
 
-  private _getVisileDataFromXRange(chartData: PlotlyChartData, xMin: number, xMax: number) {
-    return chartData.data.filter(([x]) => x >= xMin && x <= xMax);
+  private _getVisileDataFromXRange(data: [number, number | null][], xMin: number, xMax: number): [number, number][] {
+    return data.filter((point): point is [number, number] => point[0] >= xMin && point[0] <= xMax && point[1] !== null);
   }
 
   private _getDensityFromRange(range: number) {
@@ -505,7 +533,7 @@ export class PlotlyChartComponent {
   }
 
   private _createFakeMarkersAsAnnotations(chartData: PlotlyChartData, xMin: number, xMax: number): Partial<Plotly.Annotations>[] {
-    const visibleData = this._getVisileDataFromXRange(chartData, xMin, xMax);
+    const visibleData = this._getVisileDataFromXRange(chartData.data, xMin, xMax);
     const target = this._getDensityFromRange(xMax - xMin);
     const data = this._decimateData(visibleData, target);
 

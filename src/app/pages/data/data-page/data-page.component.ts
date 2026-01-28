@@ -293,10 +293,6 @@ export class DataPageComponent {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
 
-    /** TEST */
-    // this._currentLayers.push(foundLayer)
-    /** TEST */
-
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);

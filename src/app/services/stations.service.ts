@@ -56,7 +56,7 @@ export class StationsService {
 
   public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    if (token) headers['Authorization'] = `Bearer ${token}`;    
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
     return fetch(url, {
       method: 'PATCH',
@@ -109,17 +109,17 @@ export class StationsService {
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
-    params.map(param => {
-      const serie = data
-        .filter(d => d['parameter'] === param)
-        .map(d => [
-          new Date(d['referenceDate']).getTime(),
-          parseFloat(d['cumulativeValue'])
-        ] as [number, number])
-        .filter(d => d[1])
+    // params.map(param => {
+    //   const serie = data
+    //     .filter(d => d['parameter'] === param)
+    //     .map(d => [
+    //       new Date(d['referenceDate']).getTime(),
+    //       parseFloat(d['cumulativeValue'])
+    //     ] as [number, number])
+    //     .filter(d => d[1])
 
-      if (serie.length > 0) result.set(`${param}--cumulative`, serie);
-    });
+    //   if (serie.length > 0) result.set(`${param}--cumulative`, serie);
+    // });
 
     params.map((param: string) => {
       const serie = data
@@ -131,6 +131,18 @@ export class StationsService {
 
       result.set(param, serie);
     })
+
+    return result;
+  }
+
+  public calculateCumulatedValue(values: [number, number][]): [number, number][] {
+    const result: [number, number][] = [];
+    let sum = 0;
+
+    for (const [date, value] of values) {
+      sum += value;
+      result.push([date, sum]);
+    }
 
     return result;
   }
@@ -228,18 +240,21 @@ export class StationsService {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
         });
 
-        for (const entry of data.entries()) {
-          const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
-          if (!sensor) continue;
+        /** TEST */
+        for (const sensor of sensors) {
+          let values = data.get(sensor.id);
+          if (sensor.id.includes('--cumulative')) {
+            const localValues: [number, number][] | undefined = data.get(sensor.id.split('--cumulative')[0]);
+            if (localValues) values = [...this.calculateCumulatedValue(localValues)];             
+          }
+          if (!values) continue;
 
           let customRange: [number, number] | undefined;
           if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 
           const chartSerie: MapChartData = new MapChartData(
             sensor.chartType,
-            sensor.multiplier ?
-              this.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
-              data.get(entry[0]) ?? [],
+            sensor.multiplier ? this.convertData(values, sensor.multiplier) : values,
             sensor.label,
             sensor.unit,
             sensor.style,
@@ -247,11 +262,40 @@ export class StationsService {
             `(${sensor.unit})`,
             customRange ?? sensor.range,
             sensor.id.includes('--cumulative') ? true : false,
-            sensor.isMainYAxis ?? false
+            sensor.isMainYAxis ?? false,
+            sensor.id.includes('--cumulative') ? true : false
           );
 
           chartData.push(chartSerie);
+
         }
+        /** TEST */
+
+        // for (const entry of data.entries()) {
+        //   const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
+        //   if (!sensor) continue;
+
+        //   let customRange: [number, number] | undefined;
+        //   if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
+
+        //   const chartSerie: MapChartData = new MapChartData(
+        //     sensor.chartType,
+        //     sensor.multiplier ?
+        //       this.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
+        //       data.get(entry[0]) ?? [],
+        //     sensor.label,
+        //     sensor.unit,
+        //     sensor.style,
+        //     sensor.label,
+        //     `(${sensor.unit})`,
+        //     customRange ?? sensor.range,
+        //     sensor.id.includes('--cumulative') ? true : false,
+        //     sensor.isMainYAxis ?? false,
+        //     sensor.id.includes('--cumulative') ? true : false
+        //   );
+
+        //   chartData.push(chartSerie);
+        // }
 
         return {
           ...chartToUpdate,
