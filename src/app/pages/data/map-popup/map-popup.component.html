@@ -18,7 +18,6 @@
                 @if (item.type !== 'hydro' && item.type !== 'webcam') {
                     <p class="big weight-bold">
                         @if(config().value) { {{item.value}} }
-                        <!-- @if(config().value) { {{item.value | number: '1.2-2'}} } -->
                         @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
                     </p>
                 }
