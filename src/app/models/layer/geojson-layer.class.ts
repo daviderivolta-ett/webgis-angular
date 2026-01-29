@@ -85,7 +85,7 @@ export class GeoJsonLayer extends Layer {
                 rules: markers['rules'].map((m: any) => {
                     if (
                         'comparisonOperator' in m && typeof m['comparisonOperator'] === 'string' &&
-                        'threshold' in m && typeof m['threshold'] === 'number' &&
+                        'threshold' in m && (typeof m['threshold'] === 'string' || typeof m['threshold'] === 'number') &&
                         'shapeId' in m && typeof m['shapeId'] === 'number'
                     ) {
                         return {

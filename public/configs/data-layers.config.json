@@ -576,6 +576,21 @@
                     "layerCategory": "data_geojson-point--cluster",
                     "iconUrl": "./images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/lamps/get/all",
+                    "markers": {
+                        "featureProperty": "commt",
+                        "rules": [
+                            {
+                                "comparisonOperator": "===",
+                                "threshold": "G",
+                                "shapeId": 4
+                            },
+                            {
+                                "comparisonOperator": "===",
+                                "threshold": "C",
+                                "shapeId": 5
+                            }
+                        ]
+                    },
                     "legend": {
                         "colorScaleId": "elapsed-time",
                         "unit": "h",

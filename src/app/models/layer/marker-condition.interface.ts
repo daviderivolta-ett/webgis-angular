@@ -1,5 +1,5 @@
 export interface MarkerCondition {
     comparisonOperator: string;
-    threshold: number;
+    threshold: string | number;
     shapeId: number;
 }

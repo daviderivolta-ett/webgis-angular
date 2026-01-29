@@ -224,13 +224,13 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _getMarkerShapeFromRule(value: number, markers: MarkerCondition[], defaultShapeId: number = 0): number {
+    private _getMarkerShapeFromRule(value: string | number, markers: MarkerCondition[], defaultShapeId: number = 0): number {
         for (const marker of markers) {
             switch (marker.comparisonOperator) {
-                case '<': if (value < marker.threshold) return marker.shapeId; break;
-                case '<=': if (value <= marker.threshold) return marker.shapeId; break;
-                case '>': if (value > marker.threshold) return marker.shapeId; break;
-                case '>=': if (value >= marker.threshold) return marker.shapeId; break;
+                case '<': if (typeof value === 'number' && typeof marker.threshold === 'number' && value < marker.threshold) return marker.shapeId; break;
+                case '<=': if (typeof value === 'number' && typeof marker.threshold === 'number' && value <= marker.threshold) return marker.shapeId; break;
+                case '>': if (typeof value === 'number' && typeof marker.threshold === 'number' && value > marker.threshold) return marker.shapeId; break;
+                case '>=': if (typeof value === 'number' && typeof marker.threshold === 'number' && value >= marker.threshold) return marker.shapeId; break;
                 case '===': if (value === marker.threshold) return marker.shapeId; break;
                 case '!==': if (value !== marker.threshold) return marker.shapeId; break;
             }

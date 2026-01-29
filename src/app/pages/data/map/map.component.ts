@@ -363,8 +363,8 @@ export class MapComponent {
       if (f.geometry.type === 'Point') {
         const color: string = f.properties?.['color'] ?? 'grey';
         const shape: SVGSVGElement = f.properties?.['markerShapeId'] ?
-          this._markerShapes.get(f.properties['markerShapeId'])!(color, (f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 }) :
-          this._markerShapes.get(1)!(color, (f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 })
+          this._markerShapes.get(f.properties['markerShapeId'])!((f.properties && f.properties['color']) ?? '#B0B0B0', '#000') :
+          this._markerShapes.get(1)!((f.properties && f.properties['color']) ?? '#B0B0B0', '#000')
 
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
