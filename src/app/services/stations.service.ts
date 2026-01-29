@@ -240,12 +240,11 @@ export class StationsService {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
         });
 
-        /** TEST */
         for (const sensor of sensors) {
           let values = data.get(sensor.id);
           if (sensor.id.includes('--cumulative')) {
             const localValues: [number, number][] | undefined = data.get(sensor.id.split('--cumulative')[0]);
-            if (localValues) values = [...this.calculateCumulatedValue(localValues)];             
+            if (localValues) values = [...this.calculateCumulatedValue(localValues)];
           }
           if (!values) continue;
 
@@ -265,37 +264,9 @@ export class StationsService {
             sensor.isMainYAxis ?? false,
             sensor.id.includes('--cumulative') ? true : false
           );
-
+          console.log(chartSerie);
           chartData.push(chartSerie);
-
         }
-        /** TEST */
-
-        // for (const entry of data.entries()) {
-        //   const sensor = sensors.find((t: SensorType) => t.id === entry[0]);
-        //   if (!sensor) continue;
-
-        //   let customRange: [number, number] | undefined;
-        //   if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
-
-        //   const chartSerie: MapChartData = new MapChartData(
-        //     sensor.chartType,
-        //     sensor.multiplier ?
-        //       this.convertData(data.get(entry[0]) ?? [], sensor.multiplier) :
-        //       data.get(entry[0]) ?? [],
-        //     sensor.label,
-        //     sensor.unit,
-        //     sensor.style,
-        //     sensor.label,
-        //     `(${sensor.unit})`,
-        //     customRange ?? sensor.range,
-        //     sensor.id.includes('--cumulative') ? true : false,
-        //     sensor.isMainYAxis ?? false,
-        //     sensor.id.includes('--cumulative') ? true : false
-        //   );
-
-        //   chartData.push(chartSerie);
-        // }
 
         return {
           ...chartToUpdate,

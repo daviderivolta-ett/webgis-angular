@@ -47,9 +47,7 @@ export class PlotlyChartComponent {
       if (this._shouldResize()) Plotly.Plots.resize(this.plotly.nativeElement);
     });
 
-    effect(() => {
-      this._drawChart(this.data());
-    });
+    effect(() => this._drawChart(this.data()));
     effect(() => this._drawThresholds(this.thresholds()));
   }
 
@@ -96,7 +94,7 @@ export class PlotlyChartComponent {
 
     const newData: [number, number | null][] = [];
 
-    for (let i = 0; i < data.length - 2; i++) {
+    for (let i = 0; i < data.length - 1; i++) {
       const element = data[i];
       newData.push(element);
       let time = element[0];
@@ -115,11 +113,14 @@ export class PlotlyChartComponent {
   }
 
   private _drawChart(data: PlotlyChartData[]): void {
+    if (data.length > 0) console.log(data);    
     const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout(data) as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
-    if (!this.plotly) return;
+    if (!this.plotly) return;   
+
+    console.log(traces);    
 
     Plotly.newPlot(
       this.id(),
@@ -176,7 +177,7 @@ export class PlotlyChartComponent {
           size: 12,
           color: 'transparent'
         } as any
-      }
+      }   
 
       return {
         ...trace,
@@ -490,7 +491,7 @@ export class PlotlyChartComponent {
       trace.marker = {
         size: 12,
         color: 'transparent'
-      }      
+      }
     }
 
     return traces;
