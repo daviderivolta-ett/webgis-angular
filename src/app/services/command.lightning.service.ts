@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core'
 
 /** Models */
-import { ColorScale, Command, GeoJsonLayer } from '../models'
+import { ColorScale, Command, FeatureFilter, GeoJsonLayer, MarkerCondition, MarkerMapping } from '../models'
 
 /** Services */
 import { ApiService } from './api.service'
@@ -28,7 +28,9 @@ export class LightningCommandService implements Command {
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
             let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token);
+
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
+            if (layer.filter) geoJSON = this._filterFeatures(geoJSON, layer.filter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'lightning');
 
             let arcColorDict: Record<string, string> = {};
@@ -42,6 +44,7 @@ export class LightningCommandService implements Command {
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date ?? new Date(), colorScale, arcColorDict, layer.legend.unit, layer.label);
             }
 
+            if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
             if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
             map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
@@ -52,6 +55,27 @@ export class LightningCommandService implements Command {
     }
 
     /** Methods */
+    private _filterFeatures(geoJSON: GeoJSON.FeatureCollection, filter: FeatureFilter): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.filter((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                const featureProperty: any = properties[filter.featureProperty];
+
+                switch (filter.rule.comparisonOperator) {
+                    case '<': if (featureProperty < filter.rule.value) return true; break;
+                    case '<=': if (featureProperty <= filter.rule.value) return true; break;
+                    case '>': if (featureProperty > filter.rule.value) return true; break;
+                    case '>=': if (featureProperty >= filter.rule.value) return true; break;
+                    case '===': if (featureProperty === filter.rule.value) return true; break;
+                    case '!==': if (featureProperty !== filter.rule.value) return true; break;
+                }
+
+                return false;
+            })
+        }
+    }
+
     private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, date: Date, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         const now: number = date.getTime();
 
@@ -80,6 +104,39 @@ export class LightningCommandService implements Command {
         };
     }
 
+    private _addMarkerShapeIdToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, markers: MarkerMapping): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                const featureProperty: any = properties[markers.featureProperty];
+                const markerShapeId: number = this._getMarkerShapeFromRule(Math.abs(featureProperty), markers.rules, 0);
+
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        markerShapeId
+                    }
+                }
+            })
+        }
+    }
+
+    private _getMarkerShapeFromRule(value: number, markers: MarkerCondition[], defaultShapeId: number = 0): number {
+        for (const marker of markers) {
+            switch (marker.comparisonOperator) {
+                case '<': if (value < marker.threshold) return marker.shapeId; break;
+                case '<=': if (value <= marker.threshold) return marker.shapeId; break;
+                case '>': if (value > marker.threshold) return marker.shapeId; break;
+                case '>=': if (value >= marker.threshold) return marker.shapeId; break;
+                case '===': if (value === marker.threshold) return marker.shapeId; break;
+                case '!==': if (value !== marker.threshold) return marker.shapeId; break;
+            }
+        }
+        return defaultShapeId;
+    }
+
     private _fillEmptyGeoJSON(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
@@ -106,12 +163,6 @@ export class LightningCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
-        // const time = this.apiService.formatDate(new Date(date.getTime()));
-        // const separator = url.includes('?') ? '&' : '?';
-        // return `${url}${separator}time=${time}`;
-
-        // const utcDate = this.apiService.toUTCDate(date);
-        // const time = this.apiService.formatDate(utcDate);
         const time = DateUtils.toUTCDate(date.toISOString());
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;

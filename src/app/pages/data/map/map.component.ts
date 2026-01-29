@@ -199,7 +199,7 @@ export class MapComponent {
   }
 
   /** Add base tile layer */
-  public addBaseLayer(url: string, options: Record<string, any>): void {    
+  public addBaseLayer(url: string, options: Record<string, any>): void {
     this.removeLayerById('base');
     const layer = L.tileLayer(url, { zIndex: 0, ...options }).addTo(this._map);
     this._registerLayer('base', layer);
@@ -218,18 +218,18 @@ export class MapComponent {
 
     if (this._map.getPane(`markers_${shapeKey}`)) {
       this._map.createPane(`markers_${shapeKey}`).style.zIndex = `6${shapeKey}0`;
-    }   
+    }
 
     const layer = L.geoJSON(geoJSON, {
       pane: `markers_${shapeKey}`,
-      pointToLayer: (feature: Feature<Point, any>, latLng: L.LatLng) => {       
+      pointToLayer: (feature: Feature<Point, any>, latLng: L.LatLng) => {
         const color: string = feature.properties.color ?? 'grey';
         const value: number | undefined = feature.properties.value;
         const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
-        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));       
+        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
         const markerIcon = L.divIcon({
           html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',
@@ -346,7 +346,7 @@ export class MapComponent {
     const markers = L.DonutCluster({
       chunkedLoading: true,
       clusterPane: 'cluster',
-      maxClusterRadius: this.maxClusterRadius(),
+      maxClusterRadius: this.maxClusterRadius()
     }, {
       key: 'title',
       arcColorDict,
@@ -361,13 +361,19 @@ export class MapComponent {
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
       if (f.geometry.type === 'Point') {
-        const icon = this._createCircleShape((f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 });
-        const iconElement = this._scaleMarkerIcon(icon.cloneNode(true) as HTMLElement, 0.9);
+        const color: string = f.properties?.['color'] ?? 'grey';
+        const shape: SVGSVGElement = f.properties?.['markerShapeId'] ?
+          this._markerShapes.get(f.properties['markerShapeId'])!(color, (f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 }) :
+          this._markerShapes.get(1)!(color, (f.properties && f.properties['color']) ?? '#B0B0B0', '#000', { opacity: 1 })
+
+        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
           title: (f.properties && f.properties['clusterLabel']) ?? Object.keys(arcColorDict)[0],
           icon: L.divIcon({ html: iconElement.outerHTML, className: '', iconSize: [16, 16] })
         });
         if (f.geometry.type === 'Point') marker.feature = f as Feature<Point>;
+        (marker as any)._shapeKey = f.properties?.['markerShapeId'] ?? 1; // Adding custom key in order to know which marker release when layer is removed
+
         marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
         marker.on('mouseout', () => {
           window.clearTimeout(this._hoverTimer);
@@ -380,7 +386,11 @@ export class MapComponent {
     });
 
     this._map.addLayer(markers);
-    this._registerLayer(id, markers);
+    this._registerLayer(id, markers,
+      geoJSON.features.length > 0 ?
+        geoJSON.features[0].properties?.['markerShapeId'] ? this._markerShapes.get(geoJSON.features[0].properties?.['markerShapeId'])!('grey', 'grey') : this._markerShapes.get(1)!('grey', 'grey') :
+        this._markerShapes.get(1)!('grey', 'grey')
+    )
   }
 
   /** Remove layer using id */
@@ -498,21 +508,21 @@ export class MapComponent {
   }
 
   /** Custom marker shapes related methods */
-  private _getNextAvailableMarkerShape(): number {  
+  private _getNextAvailableMarkerShape(): number {
     if (!this._usedMarkerShapes.has(1)) {
-      this._usedMarkerShapes.add(1);    
+      this._usedMarkerShapes.add(1);
       return 1;
     }
 
     for (let i = 0; i < this._markerShapes.size; i++) {
       if (!this._usedMarkerShapes.has(i)) {
-        this._usedMarkerShapes.add(i);      
+        this._usedMarkerShapes.add(i);
         return i;
       }
     }
 
     this._usedMarkerShapes.clear();
-    this._usedMarkerShapes.add(0);    
+    this._usedMarkerShapes.add(0);
     return 0;
   }
 

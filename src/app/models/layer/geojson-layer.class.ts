@@ -1,3 +1,4 @@
+import { FeatureFilter } from './feature-filter.interface';
 import { Layer } from './layer.class';
 import { MarkerMapping } from './marker-mapping.interface';
 
@@ -5,6 +6,7 @@ export class GeoJsonLayer extends Layer {
     public parameter?: string;
     public decimals?: number;
     public multiplier?: number;
+    public filter?: FeatureFilter;
     public markers?: MarkerMapping;
     public showValueOnZoom?: boolean;
 
@@ -19,6 +21,7 @@ export class GeoJsonLayer extends Layer {
         parameter?: string,
         decimals?: number,
         multiplier?: number,
+        filter?: FeatureFilter,
         markers?: MarkerMapping,
         showValueOnZoom?: boolean
     ) {
@@ -26,6 +29,7 @@ export class GeoJsonLayer extends Layer {
         this.parameter = parameter;
         this.decimals = decimals;
         this.multiplier = multiplier;
+        this.filter = filter;
         this.markers = markers;
         this.showValueOnZoom = showValueOnZoom;
     }
@@ -40,6 +44,7 @@ export class GeoJsonLayer extends Layer {
         if (object['parameter'] && typeof object['parameter'] === 'string') layer.parameter = object['parameter'];
         if ('decimals' in object && typeof object['decimals'] === 'number') layer.decimals = object['decimals'];
         if (object['multiplier'] && typeof object['multiplier'] === 'number') layer.multiplier = object['multiplier'];
+        if (object['filter'] && typeof object['filter'] === 'object') layer.addFeatureFilterFromObject(object['filter']);
         if (object['markers'] && typeof object['markers'] === 'object') layer.addCustomMarkersFromArray(object['markers']);
         if ('showValueOnZoom' in object && typeof object['showValueOnZoom'] === 'boolean') layer.showValueOnZoom = object['showValueOnZoom'] ?? false;
         if (typeof object['layerCategory'] === 'string' && object['layerCategory']) layer.layerCategory = object['layerCategory'];
@@ -48,9 +53,26 @@ export class GeoJsonLayer extends Layer {
         if ('legend' in object && object['legend']) layer.addLegendFromObject(object['legend']);
         if (typeof object['iconUrl'] === 'string' && object['iconUrl']) layer.iconUrl = object['iconUrl'];
         layer.requiresAuth = object['requiresAuth'] ?? false;
-        if (object['action']) layer.action = { ...object['action'] };
-       
+        if (object['action']) layer.action = { ...object['action'] };       
+
         return layer;
+    }
+
+    public addFeatureFilterFromObject(object: any): this {
+        if (
+            'featureProperty' in object && typeof object['featureProperty'] === 'string' &&
+            'rule' in object && typeof object['rule'] === 'object'
+        ) {
+            this.filter = {
+                featureProperty: object['featureProperty'],
+                rule: {
+                    comparisonOperator: 'comparisonOperator' in object['rule'] && typeof object['rule']['comparisonOperator'] === 'string' ? object['rule']['comparisonOperator'] : '',
+                    value: 'value' in object['rule'] && (typeof object['rule']['value'] === 'string' || typeof object['rule']['value'] === 'number') ? object['rule']['value'] : ''
+                }
+            }
+        }
+
+        return this;
     }
 
     public addCustomMarkersFromArray(markers: any): this {

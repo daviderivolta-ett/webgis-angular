@@ -1,5 +1,7 @@
 export * from './color-scale-base.interface'
 export * from './color-scale.class'
+export * from './feature-filter-condition.interface'
+export * from './feature-filter.interface'
 export * from './geojson-layer.class'
 export * from './layer-category.class'
 export * from './layer-group.class'

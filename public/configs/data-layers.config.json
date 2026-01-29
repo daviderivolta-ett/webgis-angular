@@ -571,11 +571,127 @@
                 },
                 {
                     "id": "station_lightning",
-                    "label": "Fulminazioni",
+                    "label": "Fulminazioni totali",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point--cluster",
                     "iconUrl": "./images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/lamps/get/all",
+                    "legend": {
+                        "colorScaleId": "elapsed-time",
+                        "unit": "h",
+                        "steps": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24
+                        ]
+                    },
+                    "action": {
+                        "id": "lightning"
+                    }
+                },
+                {
+                    "id": "station_lightning_cc",
+                    "label": "Fulminazioni nube-nube",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point--cluster",
+                    "iconUrl": "./images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/lamps/get/all",
+                    "filter": {
+                        "featureProperty": "commt",
+                        "rule": {
+                            "comparisonOperator": "===",
+                            "value": "C"
+                        }
+                    },
+                    "markers": {
+                        "featureProperty": "intensity",
+                        "rules": [
+                            {
+                                "comparisonOperator": ">=",
+                                "threshold": 0,
+                                "shapeId": 5
+                            }
+                        ]
+                    },
+                    "legend": {
+                        "colorScaleId": "elapsed-time",
+                        "unit": "h",
+                        "steps": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24
+                        ]
+                    },
+                    "action": {
+                        "id": "lightning"
+                    }
+                },
+                {
+                    "id": "station_lightning_cg",
+                    "label": "Fulminazioni nube-suolo",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point--cluster",
+                    "iconUrl": "./images/icons/flash_on_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/lamps/get/all",
+                    "filter": {
+                        "featureProperty": "commt",
+                        "rule": {
+                            "comparisonOperator": "===",
+                            "value": "G"
+                        }
+                    },
+                    "markers": {
+                        "featureProperty": "intensity",
+                        "rules": [
+                            {
+                                "comparisonOperator": ">=",
+                                "threshold": 0,
+                                "shapeId": 4
+                            }
+                        ]
+                    },
                     "legend": {
                         "colorScaleId": "elapsed-time",
                         "unit": "h",
