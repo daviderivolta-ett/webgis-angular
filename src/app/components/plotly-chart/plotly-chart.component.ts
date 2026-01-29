@@ -481,13 +481,30 @@ export class PlotlyChartComponent {
   private _relayoutMarkers(serie: PlotlyChartData, traces: Plotly.Data[], traceIndex: number, xRange: [number, number]): Plotly.Data[] | undefined {
     const newValues = this._getVisileDataFromXRange(serie.data, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
     traces[traceIndex] = this._normalizeData({ ...serie, data: this._decimateData(newValues, 20) })
-    if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
-      (traces[traceIndex] as Plotly.ScatterData).mode = 'markers';
-      (traces[traceIndex] as Plotly.ScatterData).marker = {
+    // if (serie.type === 'scatter' && serie.style && serie.style['marker']) {
+    //   (traces[traceIndex] as Plotly.ScatterData) = {
+    //     ...traces[traceIndex]
+    //   };
+    //   (traces[traceIndex] as Plotly.ScatterData).mode = 'markers';
+    //   (traces[traceIndex] as Plotly.ScatterData).marker = {
+    //     size: 12,
+    //     color: 'transparent'
+    //   } as any
+
+    // }
+
+    if (serie.type === 'scatter' && serie.style?.['marker']) {
+      const trace = traces[traceIndex] as Plotly.ScatterData;
+
+      trace.name = serie.legend ?? '';
+      trace.mode = 'markers';
+      trace.marker = {
         size: 12,
         color: 'transparent'
-      } as any
+      }
+      
     }
+
     return traces;
   }
 
@@ -537,7 +554,6 @@ export class PlotlyChartComponent {
         x: p[0],
         y: -5,
         text: chartData.style ? chartData.style['marker'] : '',
-        // ◯
         textangle: `${p[1] ?? 0}`,
         align: 'center',
         font: {
