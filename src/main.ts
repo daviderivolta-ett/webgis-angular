@@ -1,12 +1,15 @@
-// Libraries
+/** Additional scripts */
+import './scripts'
+
+/** Dependencies */
 import { bootstrapApplication } from '@angular/platform-browser';
 
-// Config
+/** Config */
 import { appConfig } from './app/app.config';
 
-// Component
+/** Component */
 import { AppComponent } from './app/app.component';
 
-// Bootstrap
+/** Bootstrap */
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

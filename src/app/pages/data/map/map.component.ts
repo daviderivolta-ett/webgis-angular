@@ -4,16 +4,6 @@ import { Feature, Point } from 'geojson';
 
 import * as L from 'leaflet';
 
-import 'leaflet-timedimension';
-import 'leaflet-timedimension/dist/leaflet.timedimension.control.min.css';
-
-import 'leaflet.markercluster';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-
-import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.js';
-import '@kalisio/leaflet.donutcluster/src/Leaflet.DonutCluster.css';
-
 /** Components */
 import { TimePlayerComponent } from '../time-player/time-player.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
@@ -119,7 +109,7 @@ export class MapComponent {
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
   }
 
-  private _initTimeDimension() {
+  private _initTimeDimension() {    
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension = L.timeDimension({
       currentTime: this.selectedDate() ?? new Date().getTime()
