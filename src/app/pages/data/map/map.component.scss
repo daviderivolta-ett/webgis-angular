@@ -1,6 +1,7 @@
 .wrapper,
 .map {
     height: 100%;
+    background-color: var(--neutral-200, lightgrey);
 }
 
 .wrapper {
@@ -12,5 +13,5 @@
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 9998; 
+    z-index: 9998;
 }

@@ -391,7 +391,7 @@ export class DataPageComponent {
     this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Math.round(properties['mean_value'] * 100) / 100} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
   }
 
-  private _onBaselayersRadioChange(changes: any): void {
+  private _onBaselayersRadioChange(changes: any): void {  
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
     if (!layer) return;
     const { id, label, url, ...rest } = layer;
