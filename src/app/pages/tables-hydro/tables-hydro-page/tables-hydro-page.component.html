@@ -52,7 +52,7 @@
                         @for (r of newSortedData.body; track $index) {
                             <div class="trow">
                                 @for (d of r; track $index) {
-                                    <div class="tdata">
+                                    <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" [style.backgroundColor]="d['backgroundColor']" [style.color]="d['backgroundColor'] === 'black' ? 'white' : 'inherit'" (click)="onCellClick(d)">
                                         <p>
                                             @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
                                             @else { {{d['dataValue'] ?? '-'}} }
@@ -65,6 +65,14 @@
                 </div>
             </app-sortable-table>
             <!-- END TABLE -->
+
+            <!-- START FLOATING CHARTS -->
+            @if (hydroImg) {
+                <app-floating-dialog (removeDialog)="hydroImg=null">
+                    <img ngProjectAs="floating-dialog-content" [src]="hydroImg">
+                </app-floating-dialog>
+            }
+            <!-- END FLOATING CHARTS -->
         </div>
     </div>
 </div>

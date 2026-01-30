@@ -49,7 +49,7 @@
                                 <div class="thead">
                                     <div class="trow">
                                         @for (d of t.table.header; track $index) {
-                                            <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event, t.id); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
+                                            <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event, t.id); table.resetAllSortHeaders(d)">{{d | mapValue: t.table.labels}}</app-sort-header></div>
                                         }
                                     </div>
                                 </div>

@@ -157,7 +157,7 @@ export class TablesExtremesPageComponent {
 
   private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -183,6 +183,7 @@ export class TablesExtremesPageComponent {
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
       table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
       table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? []);
+      table.labels = config.labels ?? new Map<string, string>();
 
       return {
         id: config.id,

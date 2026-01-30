@@ -10,6 +10,7 @@ export class TableConfig {
     public keysToKeep?: string[];
     public keysToMerge?: string[];
     public keysOrder?: string[];
+    public labels?: Map<string, string>;
     public parameter?: string;
     public colors?: TableColorConfig[];
     public actionKey?: string;
@@ -37,10 +38,11 @@ export class TableConfig {
         if ('keysToKeep' in object && Array.isArray(object['keysToKeep']) && object['keysToKeep'].every((k: any) => typeof k === 'string')) config.keysToKeep = [...object['keysToKeep']];
         if ('keysToMerge' in object && Array.isArray(object['keysToMerge'])) config.keysToMerge = [...object['keysToMerge']];
         if ('keysOrder' in object && Array.isArray(object['keysOrder']) && object['keysOrder'].every((k: any) => typeof k === 'string')) config.keysOrder = [...object['keysOrder']];
+        if ('labels' in object && typeof object['labels'] === 'object') config.labels = new Map(Object.entries(object['labels']));
         if ('parameter' in object && typeof object['parameter'] === 'string') config.parameter = object['parameter'];
         if ('colors' in object && Array.isArray(object['colors'])) config.colors = object['colors'].map((c) => TableColorConfig.createFromObject(c));
         if ('actionKey' in object && typeof object['actionKey'] === 'string') config.actionKey = object['actionKey'];
-
+      
         return config;
     }
 }

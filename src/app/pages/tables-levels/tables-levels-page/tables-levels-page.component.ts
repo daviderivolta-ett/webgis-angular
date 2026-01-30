@@ -158,7 +158,7 @@ export class TablesLevelsPageComponent {
 
   private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -181,7 +181,7 @@ export class TablesLevelsPageComponent {
       if (!config) return undefined;
 
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
+      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels);
 
       return {
         id: config.id,

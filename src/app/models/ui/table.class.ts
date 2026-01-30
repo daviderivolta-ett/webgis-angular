@@ -3,6 +3,7 @@ import { TableColorConfig } from "../table";
 export class Table2 {
     public header: string[] = [];
     public body: any[][] = [];
+    public labels: Map<string, string> = new Map();
 
     constructor() { }
 
@@ -10,7 +11,7 @@ export class Table2 {
         return Table2.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string): Table2 {
+    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string, labels?: Map<string, string>): Table2 {
         const table = new Table2();
 
         /** Header */
@@ -28,6 +29,7 @@ export class Table2 {
         /** Body */
         const body: any[][] = Table2.normalizeData(data, header, hiddenKey);
         table.body = Table2.orderTableData(body, primaryKey);
+        table.labels = labels ?? new Map<string, string>();
 
         return table;
     }
@@ -183,7 +185,7 @@ export class Table2 {
     static _isISODate(date: string): boolean {
         if (typeof date !== 'string') return false;
 
-        const ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+        const ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/;
         if (!ISO_REGEX.test(date)) return false;
 
         return !isNaN(new Date(date).valueOf());

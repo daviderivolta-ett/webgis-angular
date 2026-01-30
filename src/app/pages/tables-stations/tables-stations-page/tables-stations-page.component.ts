@@ -190,7 +190,7 @@ export class TablesStationsPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
     const response = await this.apiService.getApiData(url)
-      .catch((err: any) => {
+      .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
@@ -204,7 +204,7 @@ export class TablesStationsPageComponent {
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
     const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-    this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey);
+    this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels);
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {

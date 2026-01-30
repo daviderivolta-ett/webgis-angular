@@ -5,13 +5,13 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { Station, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -38,7 +38,8 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
     ScrollableTableDirective,
     /** Pipes */
     IsDatePipe,
-    DatePipe
+    DatePipe,
+    FloatingDialogComponent
   ],
   templateUrl: './tables-hydro-page.component.html',
   styleUrl: './tables-hydro-page.component.scss'
@@ -54,6 +55,8 @@ export class TablesHydroPageComponent {
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 
+  public hydroImg: string | null = null;
+
   /** Data */
   public user: User | null = null;
 
@@ -64,6 +67,7 @@ export class TablesHydroPageComponent {
   public sortedData: Table = new Table();
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
+  public hydroImgsUrl; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
@@ -76,10 +80,12 @@ export class TablesHydroPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private dateService: DateService,
+    private stationsService: StationsService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
@@ -159,7 +165,7 @@ export class TablesHydroPageComponent {
 
   private async _getData(config: TableConfig): Promise<void> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -178,17 +184,66 @@ export class TablesHydroPageComponent {
     if (!tableRows || !Array.isArray(tableRows)) return;
     const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
     const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
-    this.newData = this.newSortedData = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);    
+
+    const table = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);
+    table.body = this._parseTableBody(table.body, 'name', 'code');
+    this.newData = this.newSortedData = table.cloneTable();
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
+  private _parseTableBody(data: any[][], dataPrefix: string, hiddenPrefix: string): any[] {
+    return data.map((row: any[]) => {
+      return row.reduce((acc: any[], curr: any) => {
+        const key: string = curr.dataKey;
+
+        // niente numero → lo teniamo
+        if (!key.includes(dataPrefix) && !key.includes(hiddenPrefix)) {
+          acc.push(curr);
+          return acc;
+        }
+
+        // è un code → lo scartiamo
+        if (key.includes(hiddenPrefix)) return acc;
+
+        // è un name → cerchiamo il code
+        const index = key.replace(dataPrefix, '');
+        const hidden = row.find(el => el.dataKey === `${hiddenPrefix}${index}`);
+
+        acc.push({
+          ...curr,
+          hiddenValue: hidden?.dataValue
+        });
+
+        return acc;
+      }, []);
+    });
+  }
+
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+  }
+
+  public async onCellClick(cell: any) {
+    if (!this.config) return;
+
+    const hiddenValue: string | undefined = cell['hiddenValue'];
+    if (!hiddenValue) return;
+
+    const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), '');
+    const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
+    this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())
+      .then((img: any) => {
+        this.hydroImg = img;
+      })
+      .catch((err: unknown) => {
+        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
+      })
+      .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
   }
 
   private _onGlobalDateChange(): void {

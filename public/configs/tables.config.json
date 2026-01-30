@@ -29,6 +29,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "rain_01h",
                     "actionKey": "code"
                 },
@@ -37,10 +49,11 @@
                     "url": "/tables/get/stations/Temperatura",
                     "label": "Temperatura",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Temperatura",
@@ -56,6 +69,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "mean_air_temp",
                     "actionKey": "code"
                 },
@@ -64,10 +89,11 @@
                     "url": "/tables/get/stations/Livelli Idrometrici",
                     "label": "Livelli Idrometrici",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Livelli Idrometrici",
@@ -83,6 +109,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "mean_creek_level",
                     "actionKey": "code"
                 },
@@ -91,10 +129,11 @@
                     "url": "/tables/get/stations/Vento",
                     "label": "Vento",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Vento",
@@ -110,6 +149,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "mean_wind_speed",
                     "actionKey": "code"
                 },
@@ -118,10 +169,11 @@
                     "url": "/tables/get/stations/Umidità dell'aria",
                     "label": "Umidità dell'aria",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Umidità dell'aria",
@@ -137,6 +189,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "humidity",
                     "actionKey": "code"
                 },
@@ -145,10 +209,11 @@
                     "url": "/tables/get/stations/Eliofanie",
                     "label": "Eliofanie",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Eliofanie",
@@ -164,6 +229,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "sunshine_duration",
                     "actionKey": "code"
                 },
@@ -172,10 +249,11 @@
                     "url": "/tables/get/stations/Radiazione Solare",
                     "label": "Radiazione solare",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Radiazione Solare",
@@ -191,6 +269,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "solar_radiation_pwr",
                     "actionKey": "code"
                 },
@@ -199,10 +289,11 @@
                     "url": "/tables/get/stations/Bagnatura Foliare",
                     "label": "Bagnatura foliare",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Bagnatura Foliare",
@@ -218,6 +309,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "leaf_wetness",
                     "actionKey": "code"
                 },
@@ -226,10 +329,11 @@
                     "url": "/tables/get/stations/Pressione Atomosferica",
                     "label": "Pressione atmosferica",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Pressione Atomosferica",
@@ -245,6 +349,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "mean_sea_level_press",
                     "actionKey": "code"
                 },
@@ -253,10 +369,11 @@
                     "url": "/tables/get/stations/Tensione Batteria",
                     "label": "Tensione batteria",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Tensione Batteria",
@@ -272,6 +389,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "battery_voltage",
                     "actionKey": "code"
                 },
@@ -280,10 +409,11 @@
                     "url": "/tables/get/stations/Neve",
                     "label": "Neve",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Neve",
@@ -299,6 +429,18 @@
                         "maxValue",
                         "minValue"
                     ],
+                    "labels": {
+                        "name": "Nome",
+                        "code": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "warnArea": "Area",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "value": "Ultimo",
+                        "maxValue": "Max",
+                        "minValue": "Min"
+                    },
                     "parameter": "mean_snow_depth",
                     "actionKey": "code"
                 }
@@ -330,6 +472,17 @@
                         "rain_12h",
                         "rain_24h"
                     ],
+                    "labels": {
+                        "region": "Area",
+                        "rain_05m": "5m",
+                        "rain_15m": "15m",
+                        "rain_30m": "30m",
+                        "rain_01h": "1h",
+                        "rain_03h": "3h",
+                        "rain_06h": "6h",
+                        "rain_12h": "12h",
+                        "rain_24h": "24h"
+                    },
                     "parameter": "rain_01h",
                     "colors": [
                         {
@@ -434,7 +587,7 @@
                 {
                     "id": "precipitations-max-municipalities",
                     "url": "/tables/get/precipitations/max",
-                    "label": "Città",
+                    "label": "Province",
                     "filterKeys": [],
                     "dataPath": "Municipality",
                     "keysToMerge": [
@@ -453,6 +606,17 @@
                         "rain_12h",
                         "rain_24h"
                     ],
+                    "labels": {
+                        "region": "Provincia",
+                        "rain_05m": "5m",
+                        "rain_15m": "15m",
+                        "rain_30m": "30m",
+                        "rain_01h": "1h",
+                        "rain_03h": "3h",
+                        "rain_06h": "6h",
+                        "rain_12h": "12h",
+                        "rain_24h": "24h"
+                    },
                     "parameter": "rain_01h",
                     "colors": [
                         {
@@ -585,7 +749,14 @@
                             "secondValue",
                             "secondValueReferenceDate"
                         ]
-                    ]
+                    ],
+                    "labels": {
+                        "region": "Città",
+                        "firstValue": "min (°C)",
+                        "firstValueStationName": "Nella stazione",
+                        "secondValue": "max (°C)",
+                        "secondValueStationName": "Nella stazione"
+                    }
                 },
                 {
                     "id": "estremi-temperatura-vento-warnareas",
@@ -612,7 +783,14 @@
                             "secondValue",
                             "secondValueReferenceDate"
                         ]
-                    ]
+                    ],
+                    "labels": {
+                        "region": "Area allerta",
+                        "firstValue": "min (°C)",
+                        "firstValueStationName": "Nella stazione",
+                        "secondValue": "max (°C)",
+                        "secondValueStationName": "Nella stazione"
+                    }
                 },
                 {
                     "id": "estremi-temperatura-vento-wind-extremes",
@@ -639,7 +817,14 @@
                             "secondValue",
                             "secondValueReferenceDate"
                         ]
-                    ]
+                    ],
+                    "labels": {
+                        "region": "Zona",
+                        "firstValue": "min (km/h)",
+                        "firstValueStationName": "Nella stazione",
+                        "secondValue": "max (km/h)",
+                        "secondValueStationName": "Nella stazione"
+                    }
                 }
             ]
         },
@@ -654,7 +839,19 @@
                     "filterKeys": [],
                     "dataPath": "A",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-b",
@@ -663,7 +860,19 @@
                     "filterKeys": [],
                     "dataPath": "B",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-c",
@@ -672,7 +881,19 @@
                     "filterKeys": [],
                     "dataPath": "C",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-d",
@@ -681,7 +902,19 @@
                     "filterKeys": [],
                     "dataPath": "D",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-e",
@@ -690,7 +923,19 @@
                     "filterKeys": [],
                     "dataPath": "E",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-c+",
@@ -699,7 +944,19 @@
                     "filterKeys": [],
                     "dataPath": "C+",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-c-",
@@ -708,7 +965,19 @@
                     "filterKeys": [],
                     "dataPath": "C-",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 },
                 {
                     "id": "hydrometric-levels-m",
@@ -717,7 +986,19 @@
                     "filterKeys": [],
                     "dataPath": "M",
                     "parameter": "mean_creek_level",
-                    "actionKey": "stationCode"
+                    "actionKey": "stationCode",
+                    "labels": {
+                        "stationName": "Nome",
+                        "stationCode": "Codice",
+                        "municipality": "Comune",
+                        "district": "Provincia",
+                        "basin": "Bacino",
+                        "river": "Fiume",
+                        "maxValue": "Max",
+                        "maxValueReferenceDate": "Nella stazione",
+                        "lastValue": "Ultimo",
+                        "lastValueReferenceDate": "Nella stazione"
+                    }
                 }
             ]
         },

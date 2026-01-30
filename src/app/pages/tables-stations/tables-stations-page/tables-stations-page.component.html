@@ -52,7 +52,7 @@
                 @if (filters) {
                 <div [formGroup]="filters" class="filters styled-details__content">
                     @for (keyvalue of filterKeys | keyvalue; track $index) {
-                        <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key | mapValue: tableLabels" [options]="keyvalue.value"></app-input-autocomplete>
+                        <app-input-autocomplete [formControlName]="keyvalue.key" class="autocomplete" type="text" [placeholder]="keyvalue.key | mapValue: newSortedData.labels" [options]="keyvalue.value"></app-input-autocomplete>
                     }
                 </div>
                 }
@@ -79,7 +79,7 @@
                     <div class="thead">
                         <div class="trow">
                             @for (d of newSortedData.header; track $index) {
-                                <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event); table.resetAllSortHeaders(d)">{{d | mapValue: tableLabels}}</app-sort-header></div>
+                                <div class="tdata"><app-sort-header [sortBy]="d" (sortData)="sortData($event); table.resetAllSortHeaders(d)">{{d | mapValue: newSortedData.labels}}</app-sort-header></div>
                             }
                         </div>
                     </div>

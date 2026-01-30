@@ -1,6 +1,5 @@
 /** Dependencies */
 import { Component, effect, ViewChild } from '@angular/core'
-import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
@@ -17,7 +16,7 @@ import { MapChartComponent } from '../../data/map-chart/map-chart.component'
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
 /** Pipes */
-import { IsDatePipe, MapValuePipe } from '../../../pipes'
+import { MapValuePipe } from '../../../pipes'
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
@@ -38,7 +37,7 @@ type PageTable = {
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
-    MapValuePipe, IsDatePipe, DatePipe
+    MapValuePipe
   ],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
@@ -133,10 +132,10 @@ export class TablesMaxPageComponent {
 
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
-    
+
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);  
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -155,12 +154,12 @@ export class TablesMaxPageComponent {
 
   private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     const response = await this.apiService.getApiData(url)
-      .catch((err: any) => {
+      .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
@@ -171,16 +170,17 @@ export class TablesMaxPageComponent {
   }
 
   private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
-    return data.map((t: any, i: number) => {
+    return data.map((t: any) => {
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
 
       let table = new Table2();
-      let header = this._createTableHeader(tableRows, 'values', 'parameter');  
-      table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);   
+      let header = this._createTableHeader(tableRows, 'values', 'parameter');
+      table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);
       table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '', config.colors ?? []);
+      table.labels = config.labels ?? new Map<string, string>();
 
       return {
         id: config.id,
@@ -213,7 +213,7 @@ export class TablesMaxPageComponent {
     )
   }
 
-  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string, colors: TableColorConfig[]): any[] {    
+  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string, colors: TableColorConfig[]): any[] {
     return data.map((r: any) => {
       if (fieldToSearch in r) {
         const values = r[fieldToSearch];
@@ -227,7 +227,7 @@ export class TablesMaxPageComponent {
         headerkeys.forEach((key: string) => {
           let cell = null;
 
-          const colorConfig: TableColorConfig | undefined = colors.find((c) => c.key === key);        
+          const colorConfig: TableColorConfig | undefined = colors.find((c) => c.key === key);
 
           // cerca in rest
           if (key in rest) {
@@ -240,20 +240,22 @@ export class TablesMaxPageComponent {
 
           // cerca in values (solo se non trovata)
           if (!cell) {
-            const found = values.find((d: any) => d.parameter === key);      
+            const found = values.find((d: any) => d.parameter === key);
 
             if (found) {
               const { parameter, ...r } = found;
-              const entries = Object.entries(r);             
+              const entries = Object.entries(r);
 
               let value = '';
-              keysToMerge.forEach((k: string) => {
+              keysToMerge.forEach((k: string, i: number) => {
                 const pair: [string, any] | undefined = entries.find(([kk]) => kk === k);
                 if (pair) {
                   const isDate = Table2._isISODate(pair[1]);
-                  value += isDate
-                    ? ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]`
-                    : ` ${pair[1]}`;
+                  value += isDate ?
+                    ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]<br>` :
+                    i === 0 ?
+                      `<strong>${pair[1]}</strong><br>` :
+                      `${pair[1]}`;
                 }
               });
 
