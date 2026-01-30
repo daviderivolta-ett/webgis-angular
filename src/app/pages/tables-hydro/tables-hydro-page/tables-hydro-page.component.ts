@@ -11,7 +11,7 @@ import { Station, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroup
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, SortHeaderComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -39,7 +39,8 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
     /** Pipes */
     IsDatePipe,
     DatePipe,
-    FloatingDialogComponent
+    FloatingDialogComponent,
+    SortHeaderComponent
   ],
   templateUrl: './tables-hydro-page.component.html',
   styleUrl: './tables-hydro-page.component.scss'
@@ -62,6 +63,7 @@ export class TablesHydroPageComponent {
 
   public newData: Table2 = new Table2();
   public newSortedData: Table2 = new Table2();
+  public tableHeader: string[] = [];
 
   public data: Table = new Table();
   public sortedData: Table = new Table();
@@ -188,6 +190,9 @@ export class TablesHydroPageComponent {
     const table = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);
     table.body = this._parseTableBody(table.body, 'name', 'code');
     this.newData = this.newSortedData = table.cloneTable();
+    this.tableHeader = new Array(table.body[0].length).fill('');
+    this.tableHeader[0] = 'Bacino';
+    this.tableHeader[1] = 'Sezioni';
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
