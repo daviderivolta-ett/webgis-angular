@@ -9,10 +9,11 @@
                     "url": "/tables/get/stations/Precipitazione",
                     "label": "Precipitazioni",
                     "filterKeys": [
+                        "code",
+                        "municipality",
+                        "district",
                         "warnArea",
                         "basin",
-                        "district",
-                        "municipality",
                         "river"
                     ],
                     "dataPath": "Precipitazione",
