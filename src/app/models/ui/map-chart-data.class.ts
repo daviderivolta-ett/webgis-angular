@@ -1,4 +1,5 @@
 export class MapChartData {
+    public sensor: string;
     public type: string;
     public data: [number, number][];
     public legend?: string;
@@ -12,6 +13,7 @@ export class MapChartData {
     public isCumulated?: boolean;
 
     constructor(
+        sensor: string,
         type: string,
         data: [number, number][],
         legend?: string,
@@ -24,6 +26,7 @@ export class MapChartData {
         isMainYAxis?: boolean,
         isCumulated?: boolean
     ) {
+        this.sensor = sensor;
         this.type = type;
         this.data = data;
         this.legend = legend;

@@ -507,7 +507,22 @@
             "label": "Direzione del vento",
             "chartType": "scatter",
             "style": {
-                "marker": "↑"
+                "marker": "↑",
+                "markers": {
+                    "relatedSensor": "mean_wind_speed",
+                    "rules": [
+                        {
+                            "comparisonOperator": "<=",
+                            "threshold": 5,
+                            "marker": "○"
+                        },
+                        {
+                            "comparisonOperator": ">",
+                            "threshold": 5,
+                            "marker": "↑"
+                        }
+                    ]
+                }
             },
             "unit": "°",
             "range": [

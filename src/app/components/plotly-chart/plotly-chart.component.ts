@@ -6,6 +6,7 @@ import itLocale from 'plotly.js-locales/it'
 
 /** Types */
 type PlotlyChartData = {
+  sensor: string,
   type: string,
   data: [number, number | null][],
   legend?: string,
@@ -113,14 +114,11 @@ export class PlotlyChartComponent {
   }
 
   private _drawChart(data: PlotlyChartData[]): void {
-    if (data.length > 0) console.log(data);    
     const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout(data) as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
 
-    if (!this.plotly) return;   
-
-    console.log(traces);    
+    if (!this.plotly) return;
 
     Plotly.newPlot(
       this.id(),
@@ -177,7 +175,7 @@ export class PlotlyChartComponent {
           size: 12,
           color: 'transparent'
         } as any
-      }   
+      }
 
       return {
         ...trace,
@@ -353,7 +351,7 @@ export class PlotlyChartComponent {
       if (d.type === 'scatter' && d.style && d.style['marker']) {
         const xMin = d.data[0];
         const xMax = d.data[d.data.length - 1];
-        if (typeof xMin[0] === 'number' && typeof xMax[0] === 'number') layout.annotations = this._createFakeMarkersAsAnnotations(d, xMin[0], xMax[0]);
+        if (typeof xMin[0] === 'number' && typeof xMax[0] === 'number') layout.annotations = this._createFakeMarkersAsAnnotations(data, d, xMin[0], xMax[0]);
       }
     });
 
@@ -446,7 +444,7 @@ export class PlotlyChartComponent {
       /** Arrows */
       if (d.type === 'scatter' && d.style && d.style['marker']) {
         const newTraces: Plotly.Data[] | undefined = this._relayoutMarkers(d, traces, i, xRange);
-        const annotations = this._createFakeMarkersAsAnnotations(d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
+        const annotations = this._createFakeMarkersAsAnnotations(data, d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
         Plotly.react(this.id(), newTraces ? [...newTraces] : [...traces], { ...layout, annotations }, config);
       }
 
@@ -533,16 +531,23 @@ export class PlotlyChartComponent {
     return 20;
   }
 
-  private _createFakeMarkersAsAnnotations(chartData: PlotlyChartData, xMin: number, xMax: number): Partial<Plotly.Annotations>[] {
+  private _createFakeMarkersAsAnnotations(allData: PlotlyChartData[], chartData: PlotlyChartData, xMin: number, xMax: number): Partial<Plotly.Annotations>[] {
+    const otherData: PlotlyChartData | undefined = allData.find((d) => d.sensor === chartData.style?.['markers']?.['relatedSensor']);
+
+    if (!otherData) return [];
+
     const visibleData = this._getVisileDataFromXRange(chartData.data, xMin, xMax);
     const target = this._getDensityFromRange(xMax - xMin);
     const data = this._decimateData(visibleData, target);
 
     return data.map((p: [number, number | null]) => {
+      const relatedData: [number, number | null] | undefined = otherData.data.find(([t, _]) => t === p[0]);
+
       return {
         x: p[0],
         y: -5,
-        text: chartData.style ? chartData.style['marker'] : '',
+        // text: chartData.style ? chartData.style['marker'] : '',
+        text: relatedData && relatedData[1] && chartData.style ? this._getMarkerFromStyle(relatedData[1], chartData.style['markers']) : '',
         textangle: `${p[1] ?? 0}`,
         align: 'center',
         font: {
@@ -554,6 +559,22 @@ export class PlotlyChartComponent {
         arrowwidth: 1,
       };
     });
+  }
+
+  private _getMarkerFromStyle(value: number, markers: Record<string, any>): string {
+    if (!('rules' in markers) && !(Array.isArray(markers['rules'])) && !('comparisonOperator' in markers['rules']) && !('threshold' in markers['rules']) && !('marker' in markers['rules'])) return '';
+
+    for (const rule of markers['rules']) {
+      switch (rule['comparisonOperator']) {
+        case '<': if (value < rule['threshold']) return rule['marker']; break;
+        case '<=': if (value <= rule['threshold']) return rule['marker']; break;
+        case '>': if (value > rule['threshold']) return rule['marker']; break;
+        case '>=': if (value >= rule['threshold']) return rule['marker']; break;
+        case '===': if (value === rule['threshold']) return rule['marker']; break;
+        case '!==': if (value !== rule['threshold']) return rule['marker']; break;
+      }
+    }
+    return '';
   }
 
   private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {

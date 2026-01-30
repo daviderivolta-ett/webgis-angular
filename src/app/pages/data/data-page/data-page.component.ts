@@ -450,7 +450,7 @@ export class DataPageComponent {
       }
     });
 
-    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
+    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];  
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
   }

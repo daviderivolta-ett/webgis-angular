@@ -252,6 +252,7 @@ export class StationsService {
           if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 
           const chartSerie: MapChartData = new MapChartData(
+            sensor.id,
             sensor.chartType,
             sensor.multiplier ? this.convertData(values, sensor.multiplier) : values,
             sensor.label,
@@ -264,7 +265,7 @@ export class StationsService {
             sensor.isMainYAxis ?? false,
             sensor.id.includes('--cumulative') ? true : false
           );
-          console.log(chartSerie);
+
           chartData.push(chartSerie);
         }
 
