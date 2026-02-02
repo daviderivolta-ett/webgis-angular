@@ -37,9 +37,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (mm)",
+                        "maxValue": "Max (mm)",
+                        "minValue": "Min (mm)"
                     },
                     "parameter": "rain_01h",
                     "actionKey": "code"
@@ -77,9 +77,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (°C)",
+                        "maxValue": "Max (°C)",
+                        "minValue": "Min (°C)"
                     },
                     "parameter": "mean_air_temp",
                     "actionKey": "code"
@@ -117,9 +117,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (m)",
+                        "maxValue": "Max (m)",
+                        "minValue": "Min (m)"
                     },
                     "parameter": "mean_creek_level",
                     "actionKey": "code"
@@ -157,9 +157,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (km/h)",
+                        "maxValue": "Max (km/h)",
+                        "minValue": "Min (km/h)"
                     },
                     "parameter": "mean_wind_speed",
                     "actionKey": "code"
@@ -197,9 +197,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (%)",
+                        "maxValue": "Max (%)",
+                        "minValue": "Min (%)"
                     },
                     "parameter": "humidity",
                     "actionKey": "code"
@@ -237,9 +237,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (%)",
+                        "maxValue": "Max (%)",
+                        "minValue": "Min (%)"
                     },
                     "parameter": "sunshine_duration",
                     "actionKey": "code"
@@ -277,9 +277,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (W/m²)",
+                        "maxValue": "Max (W/m²)",
+                        "minValue": "Min (W/m²)"
                     },
                     "parameter": "solar_radiation_pwr",
                     "actionKey": "code"
@@ -317,9 +317,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (%)",
+                        "maxValue": "Max (%)",
+                        "minValue": "Min (%)"
                     },
                     "parameter": "leaf_wetness",
                     "actionKey": "code"
@@ -357,9 +357,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (hPa)",
+                        "maxValue": "Max (hPa)",
+                        "minValue": "Min (hPa)"
                     },
                     "parameter": "mean_sea_level_press",
                     "actionKey": "code"
@@ -397,9 +397,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (V)",
+                        "maxValue": "Max (V)",
+                        "minValue": "Min (V)"
                     },
                     "parameter": "battery_voltage",
                     "actionKey": "code"
@@ -437,9 +437,9 @@
                         "warnArea": "Area",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "value": "Ultimo",
-                        "maxValue": "Max",
-                        "minValue": "Min"
+                        "value": "Ultimo (cm)",
+                        "maxValue": "Max (cm)",
+                        "minValue": "Min (cm)"
                     },
                     "parameter": "mean_snow_depth",
                     "actionKey": "code"
