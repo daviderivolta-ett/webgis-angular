@@ -177,7 +177,7 @@ export class TablesStationsPageComponent {
     this._init(select);
   }
 
-  private _reset(): void {
+  private _reset(): void {  
     this.filters = null;
     this.newData = this.newSortedData = new Table2();
   }
@@ -207,7 +207,7 @@ export class TablesStationsPageComponent {
     this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels);
   }
 
-  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
+  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {    
     this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
@@ -230,7 +230,6 @@ export class TablesStationsPageComponent {
     const table = this.newData.convertTableToArray();
     const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);
     Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}`, csv);
-
   }
 
   public onDateChange(event: any): void {

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MapValuePipe implements PipeTransform {
 
-  transform(value: string, map: Map<string, string>): string {
+  transform(value: string, map: Map<string, string>): string {    
     return map.get(value) ?? value;
   }
 

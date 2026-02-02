@@ -147,6 +147,7 @@ export class Table2 {
         const table = new Table2();
         table.header = [...this.header];
         table.body = [...this.body];
+        table.labels = new Map<string, string>([...this.labels]);
         return table;
     }
 
