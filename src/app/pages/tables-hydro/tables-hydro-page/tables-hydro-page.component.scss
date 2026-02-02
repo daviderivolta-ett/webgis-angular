@@ -112,6 +112,10 @@ app-datepicker {
     .content {
         width: 92%;
     }
+
+    .csv-btn {
+        bottom: calc(48px + 24px);
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -126,10 +130,6 @@ app-datepicker {
     .filters {
         flex-direction: column;
         gap: 8px;
-    }
-
-    .csv-btn {
-        bottom: calc(48px + 24px);
     }
 
     .controls {
