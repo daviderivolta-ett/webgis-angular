@@ -495,7 +495,7 @@
                     "decimals": 0,
                     "legend": {
                         "colorScaleId": "solar_radiation",
-                        "unit": "Wm⁻²",
+                        "unit": "W/m²",
                         "steps": [
                             100,
                             200,
@@ -550,7 +550,7 @@
                 },
                 {
                     "id": "station_battery",
-                    "label": "Stato batteria",
+                    "label": "Tensione batteria",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/battery_4_bar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",

@@ -89,7 +89,8 @@ export const routes: Routes = [
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,
-            sensorTypes: sensorTypesResolver
+            sensorTypes: sensorTypesResolver,
+            colorScales: colorScalesResolver
         }
     },
     {

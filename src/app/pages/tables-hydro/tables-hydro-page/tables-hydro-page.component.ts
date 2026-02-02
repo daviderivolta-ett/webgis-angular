@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { ColorScale, ColorScaleBase, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
@@ -71,6 +71,8 @@ export class TablesHydroPageComponent {
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
+
+  public baseColorScales: ColorScaleBase[];
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
 
@@ -89,6 +91,7 @@ export class TablesHydroPageComponent {
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
+    this.baseColorScales = this.route.snapshot.data['colorScales'];
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
@@ -173,7 +176,7 @@ export class TablesHydroPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
-    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
+    let response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -191,13 +194,16 @@ export class TablesHydroPageComponent {
       return Station.fromStationData(stationBase, stationData);
     }).filter((s) => s !== null);
 
-    const tableRows = GeoJsonUtils.fromGeoJSONToArraY(response);
+    const colorScale: ColorScaleBase | undefined = this.baseColorScales.find((s) => s.id === 'hydro');
+    if (colorScale) response = this._addColorToGeoJSONFeatures(response, new ColorScale(colorScale, { layerId: '', colorScaleId: '', steps: [-2, -1, 0, 1, 2, 3, 4] }));
+
+    const tableRows = GeoJsonUtils.fromGeoJSONToArray(response);
     if (!tableRows || !Array.isArray(tableRows)) return;
     const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
     const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
-
     const table = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);
     table.body = this._parseTableBody(table.body, 'name', 'code');
+    if (colorScale) table.body = this._addBackgroundColorToTableData(table.body, response);
     this.newData = this.newSortedData = table.cloneTable();
     this.tableHeader = new Array(table.body[0].length).fill('');
     this.tableHeader[0] = 'Bacino';
@@ -206,6 +212,26 @@ export class TablesHydroPageComponent {
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
+  }
+
+  private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale): GeoJSON.FeatureCollection {
+    return {
+      ...geoJSON,
+      features: geoJSON.features.map((f: GeoJSON.Feature) => {
+        const properties: any = f.properties ?? {};
+        const colorCode = properties['alert'];
+        const color: string = colorScale.getColor(colorCode ?? 0);
+
+        return {
+          ...f,
+          properties: {
+            ...properties,
+            color
+          }
+        }
+      })
+
+    };
   }
 
   private _parseTableBody(data: any[][], dataPrefix: string, hiddenPrefix: string): any[] {
@@ -236,6 +262,17 @@ export class TablesHydroPageComponent {
     });
   }
 
+  private _addBackgroundColorToTableData(body: any[][], geojson: GeoJSON.FeatureCollection): any[][] {
+    return body.map((row: any[]) => {
+      return row.map((el: any) => {
+        if (!('hiddenValue' in el) || typeof el['hiddenValue'] !== 'string') return { ...el, backgroundColor: 'white' };
+        const feature: GeoJSON.Feature | undefined = geojson.features.find((f) => f.properties && f.properties['code'] === el['hiddenValue']);
+        if (!feature || !feature.properties || !('color' in feature.properties)) return { ...el, backgroundColor: 'white' };
+        return { ...el, backgroundColor: feature.properties['color'] };
+      }).filter((el) => el !== null)
+    });
+  }
+
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
@@ -248,7 +285,7 @@ export class TablesHydroPageComponent {
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
 
-    const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue); 
+    const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue);
     const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())

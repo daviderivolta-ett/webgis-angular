@@ -19,11 +19,7 @@ export class TablesService {
     });
   }
 
-  public mergeTableDataRowsByParam(
-    data: any[],
-    groupBy: string,
-    fieldsToMerge: string[]
-  ): any[] {
+  public mergeTableDataRowsByParam(data: any[], groupBy: string, fieldsToMerge: string[]): any[] {
 
     return data.reduce((acc: any[], curr: any) => {
       let found = acc.find(item => item[groupBy] === curr[groupBy]);

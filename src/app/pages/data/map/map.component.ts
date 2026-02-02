@@ -309,10 +309,12 @@ export class MapComponent {
         if (!feature) return {}
         const color: string = feature.properties.color ?? 'grey';
         const opacity: number = feature.properties.opacity ?? 1;
+       
         return {
           color: '#000',
           weight: 2,
           opacity,
+          fillOpacity: opacity,
           fillColor: color
         }
       },

@@ -79,7 +79,7 @@ export class GeoJsonUtils {
         }
     }
 
-    static fromGeoJSONToArraY(geoJSON: GeoJSON.FeatureCollection): any[] {
+    static fromGeoJSONToArray(geoJSON: GeoJSON.FeatureCollection): any[] {
         return geoJSON.features.map((f: GeoJSON.Feature) => {
             return f.properties
         });

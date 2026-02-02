@@ -24,7 +24,7 @@ export class PolygonsCommandService implements Command {
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
+            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);          
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {                              
             if (error instanceof Error) throw new Error(`Layer ${layer.id} non disponibile per la data selezionata.`);

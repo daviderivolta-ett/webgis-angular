@@ -752,9 +752,9 @@
                     ],
                     "labels": {
                         "region": "Città",
-                        "firstValue": "min (°C)",
+                        "firstValue": "Min (°C)",
                         "firstValueStationName": "Nella stazione",
-                        "secondValue": "max (°C)",
+                        "secondValue": "Max (°C)",
                         "secondValueStationName": "Nella stazione"
                     }
                 },
@@ -786,9 +786,9 @@
                     ],
                     "labels": {
                         "region": "Area allerta",
-                        "firstValue": "min (°C)",
+                        "firstValue": "Min (°C)",
                         "firstValueStationName": "Nella stazione",
-                        "secondValue": "max (°C)",
+                        "secondValue": "Max (°C)",
                         "secondValueStationName": "Nella stazione"
                     }
                 },
@@ -820,9 +820,9 @@
                     ],
                     "labels": {
                         "region": "Zona",
-                        "firstValue": "min (km/h)",
+                        "firstValue": "Max (km/h)",
                         "firstValueStationName": "Nella stazione",
-                        "secondValue": "max (km/h)",
+                        "secondValue": "Raffica (km/h)",
                         "secondValueStationName": "Nella stazione"
                     }
                 }
@@ -847,9 +847,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -868,9 +868,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -889,9 +889,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -910,9 +910,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -931,9 +931,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -952,9 +952,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -973,9 +973,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 },
@@ -994,9 +994,9 @@
                         "district": "Provincia",
                         "basin": "Bacino",
                         "river": "Fiume",
-                        "maxValue": "Max",
+                        "maxValue": "Max (m)",
                         "maxValueReferenceDate": "Nella stazione",
-                        "lastValue": "Ultimo",
+                        "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Nella stazione"
                     }
                 }
