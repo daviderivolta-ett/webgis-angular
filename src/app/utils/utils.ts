@@ -104,4 +104,9 @@ export class Utils {
         el.style.color = color;
         return el.style.color !== '';
     }
+
+    static truncateValueByDecimals(value: number, decimals: number): number {
+        const factor: number = 10 ** decimals;
+        return Math.trunc(value * factor) / factor;
+    }
 }

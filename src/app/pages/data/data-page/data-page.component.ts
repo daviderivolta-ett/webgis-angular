@@ -365,11 +365,11 @@ export class DataPageComponent {
 
     if (activeWMSLayers.length === 0) return;
 
-    const layer: WMSLayer = activeWMSLayers[0];
+    const layer: WMSLayer = activeWMSLayers[0];    
     this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng)
       .then((info: [string, number][]) => {
         info.forEach(([label, value]: [string, number]) => {
-          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? value * layer.multiplier : value} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
+          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? Utils.truncateValueByDecimals(value * layer.multiplier, layer.decimals ?? 1) : Utils.truncateValueByDecimals(value, layer.decimals ?? 1)} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
         });
       })
       .catch((err: unknown) => {
