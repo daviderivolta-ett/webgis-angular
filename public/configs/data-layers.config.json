@@ -4573,103 +4573,6 @@
             ]
         },
         {
-            "id": "satellite",
-            "label": "Satellite",
-            "maxNumber": 1,
-            "requiresAuth": true,
-            "options": [
-                {
-                    "id": "satellite_infrared",
-                    "label": "Infrarosso",
-                    "layerType": "wms",
-                    "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
-                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                    "params": {
-                        "layers": "omirl:satelliteir",
-                        "transparent": true,
-                        "format": "image/png",
-                        "service": "WMS",
-                        "version": "1.1.1",
-                        "request": "GetMap",
-                        "styles": "",
-                        "srs": "EPSG:4326"
-                    },
-                    "legend": {
-                        "colorScaleId": "satellite_ir",
-                        "unit": "",
-                        "steps": [
-                            -2.5,
-                            -5.0,
-                            -8.5,
-                            -10.0,
-                            -12.5,
-                            -15.0,
-                            -17.0,
-                            -20.0,
-                            -22.5,
-                            -25.0,
-                            -27.5,
-                            -30.0,
-                            -32.5,
-                            -35.0,
-                            -37.5,
-                            -40.0,
-                            -42.5,
-                            -45.0,
-                            -47.5,
-                            -50.0,
-                            -52.5,
-                            -55.0,
-                            -57.5,
-                            -60
-                        ]
-                    },
-                    "requiresAuth": true,
-                    "action": {
-                        "id": "wms"
-                    }
-                },
-                {
-                    "id": "satellite_vis",
-                    "label": "Visibile VIS",
-                    "layerType": "wms",
-                    "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
-                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                    "params": {
-                        "layers": "omirl:satellitevis",
-                        "transparent": true,
-                        "format": "image/png",
-                        "service": "WMS",
-                        "version": "1.1.1",
-                        "request": "GetMap",
-                        "styles": "",
-                        "srs": "EPSG:4326"
-                    },
-                    "legend": {
-                        "colorScaleId": "satellite_vis",
-                        "unit": "",
-                        "steps": [
-                            20,
-                            30,
-                            40,
-                            50,
-                            60,
-                            70,
-                            80,
-                            90,
-                            95
-                        ]
-                    },
-                    "requiresAuth": true,
-                    "action": {
-                        "id": "wms"
-                    }
-                }
-            ]
-        },
-        {
             "id": "radar",
             "label": "Radar",
             "maxNumber": 1,
@@ -4693,7 +4596,7 @@
                     },
                     "legend": {
                         "colorScaleId": "radar_int5m",
-                        "unit": "mm",
+                        "unit": "mm/h",
                         "steps": [
                             0.2,
                             0.5,
@@ -4836,9 +4739,10 @@
                         "styles": "",
                         "srs": "EPSG:4326"
                     },
+                    "decimals": 0,
                     "legend": {
                         "colorScaleId": "radar_vmi",
-                        "unit": "mm",
+                        "unit": "dBZ",
                         "steps": [
                             -4,
                             0,
@@ -4884,7 +4788,7 @@
                     },
                     "legend": {
                         "colorScaleId": "radar_vil",
-                        "unit": "mm",
+                        "unit": "kg/m²",
                         "steps": [
                             0,
                             1,
@@ -4934,9 +4838,10 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "radar_etp",
-                                "unit": "mm",
+                                "unit": "m",
                                 "steps": [
                                     0,
                                     1000,
@@ -4976,6 +4881,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "radar_etp",
                                 "unit": "mm",
@@ -5310,6 +5216,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5344,6 +5251,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5378,6 +5286,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5412,6 +5321,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5446,6 +5356,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5480,6 +5391,7 @@
                                 "styles": "",
                                 "srs": "EPSG:4326"
                             },
+                            "decimals": 0,
                             "legend": {
                                 "colorScaleId": "prob2thr",
                                 "unit": "%",
@@ -5500,7 +5412,104 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "satellite",
+            "label": "Satellite",
+            "maxNumber": 1,
+            "requiresAuth": true,
+            "options": [
+                {
+                    "id": "satellite_infrared",
+                    "label": "Infrarosso",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:satelliteir",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "colorScaleId": "satellite_ir",
+                        "unit": "°C",
+                        "steps": [
+                            -2.5,
+                            -5.0,
+                            -8.5,
+                            -10.0,
+                            -12.5,
+                            -15.0,
+                            -17.0,
+                            -20.0,
+                            -22.5,
+                            -25.0,
+                            -27.5,
+                            -30.0,
+                            -32.5,
+                            -35.0,
+                            -37.5,
+                            -40.0,
+                            -42.5,
+                            -45.0,
+                            -47.5,
+                            -50.0,
+                            -52.5,
+                            -55.0,
+                            -57.5,
+                            -60
+                        ]
+                    },
+                    "requiresAuth": true,
+                    "action": {
+                        "id": "wms"
+                    }
+                },
+                {
+                    "id": "satellite_vis",
+                    "label": "Visibile VIS",
+                    "layerType": "wms",
+                    "layerCategory": "data_wms--time",
+                    "opacity": 0.5,
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                    "params": {
+                        "layers": "omirl:satellitevis",
+                        "transparent": true,
+                        "format": "image/png",
+                        "service": "WMS",
+                        "version": "1.1.1",
+                        "request": "GetMap",
+                        "styles": "",
+                        "srs": "EPSG:4326"
+                    },
+                    "legend": {
+                        "colorScaleId": "satellite_vis",
+                        "unit": "%",
+                        "steps": [
+                            20,
+                            30,
+                            40,
+                            50,
+                            60,
+                            70,
+                            80,
+                            90,
+                            95
+                        ]
+                    },
+                    "requiresAuth": true,
+                    "action": {
+                        "id": "wms"
+                    }
+                }
+            ]
         }
     ],
-    "lastModified": "2026-01-21"
+    "lastModified": "2026-02-02"
 }
