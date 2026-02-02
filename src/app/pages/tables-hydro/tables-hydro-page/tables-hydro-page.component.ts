@@ -5,13 +5,13 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { Station, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, SortHeaderComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -39,8 +39,7 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
     /** Pipes */
     IsDatePipe,
     DatePipe,
-    FloatingDialogComponent,
-    SortHeaderComponent
+    FloatingDialogComponent
   ],
   templateUrl: './tables-hydro-page.component.html',
   styleUrl: './tables-hydro-page.component.scss'
@@ -67,6 +66,8 @@ export class TablesHydroPageComponent {
 
   public data: Table = new Table();
   public sortedData: Table = new Table();
+
+  private _stations: Station[] = [];
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
@@ -182,6 +183,14 @@ export class TablesHydroPageComponent {
       })
 
     if (!GeoJsonUtils.isGeoJSON(response)) return;
+
+    this._stations = (response as GeoJSON.FeatureCollection).features.map((f) => {
+      if (!f.geometry || f.geometry.type !== 'Point' || !f.properties) return null;
+      const stationBase = StationBase.createFromGeoJSONProps({ ...f.properties, lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0] });
+      const stationData = Station.createStationDataFromGeoJSONProps({ ...f.properties, value: 0 });
+      return Station.fromStationData(stationBase, stationData);
+    }).filter((s) => s !== null);
+
     const tableRows = GeoJsonUtils.fromGeoJSONToArraY(response);
     if (!tableRows || !Array.isArray(tableRows)) return;
     const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
@@ -239,7 +248,8 @@ export class TablesHydroPageComponent {
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
 
-    const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), '');
+    const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue); 
+    const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())
       .then((img: any) => {

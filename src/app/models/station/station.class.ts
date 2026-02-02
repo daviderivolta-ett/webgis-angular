@@ -48,7 +48,7 @@ export class Station extends StationBase implements StationData {
         return new Station('', 0, 0, [], 0, '');
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData {
+    static createStationDataFromGeoJSONProps(props: any): StationData {      
         if (
             (!('value' in props) || typeof props['value'] !== 'number') &&
             (!('intensity' in props) || typeof props['intensity'] !== 'number')

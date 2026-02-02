@@ -410,7 +410,7 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
     const webcamPromises: Promise<string>[] = [];
 
-    stations.forEach(async (s: Station) => {
+    stations.forEach(async (s: Station) => {      
       switch (s.type) {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
