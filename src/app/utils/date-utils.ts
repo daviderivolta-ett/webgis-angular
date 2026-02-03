@@ -4,6 +4,11 @@ export class DateUtils {
         return `${date.getUTCFullYear()}-${DateUtils.pad(date.getUTCMonth() + 1)}-${DateUtils.pad(date.getUTCDate())}T${DateUtils.pad(date.getUTCHours())}:${DateUtils.pad(date.getUTCMinutes())}`;
     }
 
+    static toApiFormat(dateString: string): string {
+        const date: Date = new Date(dateString);
+        return `${date.getFullYear()}-${DateUtils.pad(date.getMonth() + 1)}-${DateUtils.pad(date.getDate())}T${DateUtils.pad(date.getHours())}:${DateUtils.pad(date.getMinutes())}`
+    }
+
     static pad(n: number): string {
         return n.toString().padStart(2, '0');
     }

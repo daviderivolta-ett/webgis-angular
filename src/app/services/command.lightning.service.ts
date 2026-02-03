@@ -163,7 +163,7 @@ export class LightningCommandService implements Command {
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
-        const time = DateUtils.toUTCDate(date.toISOString());
+        const time = DateUtils.toApiFormat(date.toISOString());
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;
     }

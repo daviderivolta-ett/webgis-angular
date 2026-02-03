@@ -74,7 +74,7 @@ export class StationsService {
   public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
-      promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toUTCDate(initialDate), DateUtils.toUTCDate(endingDate), token));
+      promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toApiFormat(initialDate), DateUtils.toApiFormat(endingDate), token));
     });
     const maps = await Promise.all(promises);
     const resultMap = new Map<string, [number, number][]>();
@@ -169,7 +169,7 @@ export class StationsService {
   public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, model);
     const formattedUrlWithStationId: string = `${formattedUrl}/${stationId}`;
-    const formattedDate: string = DateUtils.toUTCDate(date.toISOString());
+    const formattedDate: string = DateUtils.toApiFormat(date.toISOString());
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
 
     return this.apiService.getApiData(formattedUrlWithDates, token)

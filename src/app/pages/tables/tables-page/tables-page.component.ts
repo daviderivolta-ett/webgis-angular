@@ -179,7 +179,7 @@ export class TablesPageComponent {
 
   private async _getData(config: TableConfig): Promise<any> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');

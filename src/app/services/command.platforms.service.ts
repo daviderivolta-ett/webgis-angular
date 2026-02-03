@@ -244,14 +244,8 @@ export class PlatformsCommandService implements Command {
         const fromLocal = new Date(date.getTime() - span);
         const toLocal = new Date(date.getTime());
 
-        // const fromUTC = this.apiService.toUTCDate(fromLocal);
-        // const toUTC = this.apiService.toUTCDate(toLocal);
-
-        // const fromDate = this.apiService.formatDate(fromUTC);
-        // const toDate = this.apiService.formatDate(toUTC);
-
-        const fromDate = DateUtils.toUTCDate(fromLocal.toISOString());
-        const toDate = DateUtils.toUTCDate(toLocal.toISOString());
+        const fromDate = DateUtils.toApiFormat(fromLocal.toISOString());
+        const toDate = DateUtils.toApiFormat(toLocal.toISOString());
 
         const separator = url.includes('?') ? '&' : '?';
 

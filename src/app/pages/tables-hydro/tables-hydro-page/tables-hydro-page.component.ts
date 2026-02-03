@@ -171,7 +171,7 @@ export class TablesHydroPageComponent {
 
   private async _getData(config: TableConfig): Promise<void> {
     const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toUTCDate(this.selectedDate.toISOString())}` :
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
