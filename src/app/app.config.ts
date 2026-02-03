@@ -1,6 +1,6 @@
 /** Dependencies */
 import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withHashLocation } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { OAuthStorage, provideOAuthClient } from 'angular-oauth2-oidc';
 
@@ -17,7 +17,6 @@ import { ConfigService } from './services/config.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    // provideRouter(routes, withHashLocation()),
     provideRouter(routes),
     provideHttpClient(),
     provideOAuthClient(),

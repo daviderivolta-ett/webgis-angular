@@ -15,13 +15,13 @@ import { User } from '../models';
 export class AuthService {
   public user = signal<User | null>(null);
 
-  constructor(private oauthService: OAuthService) {    
+  constructor(private oauthService: OAuthService) {
     this.configureAuth();
 
     this.oauthService.events.subscribe((event) => {
       if (event.type === 'token_received') {
         const payload: any = this._parseJsonWebToken(this.getAccessToken());
-        const user: User | undefined = this._createUserFromJsonWebToken(payload);     
+        const user: User | undefined = this._createUserFromJsonWebToken(payload);
         this.user.set(user ?? null);
       }
 
@@ -34,18 +34,35 @@ export class AuthService {
   public configureAuth(): void {
     this.oauthService.configure(environment.keycloak);
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
-      .then(() => {
-        this.oauthService.setupAutomaticSilentRefresh()
-        this._checkAccessTokenAndLogin()
+      .then(async () => {
+        this.oauthService.setupAutomaticSilentRefresh();
+        await this.checkAccessAndRefreshToken();
+        this._checkAccessTokenAndLogin();
       })
   }
 
-  private _checkAccessTokenAndLogin() {   
-    if (this.oauthService.hasValidAccessToken()) { 
+  public async checkAccessAndRefreshToken() {    
+    if (!this.oauthService.hasValidAccessToken()) {
+      if (this.oauthService.getRefreshToken()) {
+        try {
+          await this.oauthService.refreshToken();
+        } catch {
+          this.logout();
+          this.user.set(null);
+          return;
+        }
+      } else {
+        this.user.set(null);
+      }
+    }
+  }
+
+  private _checkAccessTokenAndLogin() {
+    if (this.oauthService.hasValidAccessToken()) {
       const payload: any = this._parseJsonWebToken(this.getAccessToken());
       const user = this._createUserFromJsonWebToken(payload);
       this.user.set(user ?? null);
-    } else {    
+    } else {
       this.user.set(null);
     }
   }
@@ -63,7 +80,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.oauthService.logOut();
+    this.oauthService.logOut(true);
     this.oauthService.revokeTokenAndLogout();
   }
 
@@ -76,7 +93,7 @@ export class AuthService {
     return JSON.parse(jsonPayload);
   }
 
-  private _createUserFromJsonWebToken(payload: any): User | undefined {  
+  private _createUserFromJsonWebToken(payload: any): User | undefined {
     if (!payload) return;
     return User.createFromObject(payload);
   }

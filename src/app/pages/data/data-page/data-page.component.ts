@@ -203,7 +203,7 @@ export class DataPageComponent {
     } catch (error) {
       this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
     } finally {
-      this.isLoading = false;
+      this.isLoading = false;      
     }
   }
 
