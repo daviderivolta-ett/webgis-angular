@@ -1,0 +1,14 @@
+<div class="tabs">
+    <form class="tabs__header" [formGroup]="form">
+        @for (tab of tabs(); track $index) {
+            <label class="tab">
+                <input type="radio" class="tab__input" [value]="tab.id" formControlName="tab">
+                <span class="tab__label">{{tab.label}}</span>
+            </label>
+        }
+    </form>
+
+    <div class="tabs__content">
+        <ng-content></ng-content>
+    </div>
+</div>
