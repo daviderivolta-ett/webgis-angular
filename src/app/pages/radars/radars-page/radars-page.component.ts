@@ -11,6 +11,7 @@ import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeN
 
 /** Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent } from '../../../components'
+import { skip } from 'rxjs'
 
 /** Component */
 @Component({
@@ -65,26 +66,28 @@ export class RadarsPageComponent {
 
     /** Effetcs */
     effect(() => this.user = this.authService.user());
-    effect(() => {           
-      this.referenceDate = this.dateService.date();     
-      if (this.config) this._getRadarImg(this._createUrl(this.config.url, this.currentImgType, this.referenceDate));
+    effect(() => {                
+      this.referenceDate = this.dateService.date();
+      const param = this.route.snapshot.paramMap.get('id');
+      if (param) this._init(param);
     });
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
+  public ngOnInit(): void {    
     const configGroup: RadarConfigGroup | undefined = this._initConfigGroup(this.pageTitle ?? 'radar');
     if (!configGroup || !configGroup.options.every((c: RadarConfig | RadarConfigGroup) => c instanceof RadarConfigGroup)) return;
+    console.log(configGroup);    
 
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
-    this.route.paramMap.subscribe(() => {  
+    this.route.paramMap.pipe(skip(1)).subscribe(() => {
       const param: string | null = this.route.snapshot.paramMap.get('id');    
       if (param) this._init(param);
     });
   }
 
   /** Methods */
-  private async _init(id: string): Promise<void> {   
+  private async _init(id: string): Promise<void> {     
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     this.config = this._initConfig(id);
     if (!this.config) return;
@@ -138,6 +141,7 @@ export class RadarsPageComponent {
       })
       .catch((err: unknown) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero delle immagini del radar.`, 'error', true);
+        this.imgUrl = '';
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
