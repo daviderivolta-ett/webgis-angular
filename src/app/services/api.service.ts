@@ -29,6 +29,7 @@ export class ApiService {
 
     return fetch(url, { headers })
       .then(async (res: Response) => {
+        if (res.status === 404) throw new Error(`Risorsa non trovata`, { cause: 404 });
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`)
         return res.json();
       })
@@ -37,7 +38,7 @@ export class ApiService {
         if (!('content' in data)) throw new Error(`La risposta non contiene il campo 'content'.`);
         return data['content'];
       })
-      .catch((err: unknown) => {
+      .catch((err: unknown) => {       
         if (err instanceof Error) throw err;
         else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
       })

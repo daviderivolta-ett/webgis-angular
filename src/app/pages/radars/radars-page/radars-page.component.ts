@@ -66,7 +66,7 @@ export class RadarsPageComponent {
 
     /** Effetcs */
     effect(() => this.user = this.authService.user());
-    effect(() => {                
+    effect(() => {
       this.referenceDate = this.dateService.date();
       const param = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
@@ -74,20 +74,19 @@ export class RadarsPageComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {    
+  public ngOnInit(): void {
     const configGroup: RadarConfigGroup | undefined = this._initConfigGroup(this.pageTitle ?? 'radar');
     if (!configGroup || !configGroup.options.every((c: RadarConfig | RadarConfigGroup) => c instanceof RadarConfigGroup)) return;
-    console.log(configGroup);    
 
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.pipe(skip(1)).subscribe(() => {
-      const param: string | null = this.route.snapshot.paramMap.get('id');    
+      const param: string | null = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
     });
   }
 
   /** Methods */
-  private async _init(id: string): Promise<void> {     
+  private async _init(id: string): Promise<void> {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     this.config = this._initConfig(id);
     if (!this.config) return;
@@ -117,7 +116,7 @@ export class RadarsPageComponent {
 
   public onToggleChanged(id: string) {
     this.currentImgType = (id === 'Image' || id === 'Animation') ? id : this.currentImgType;
-    if (!this.config) return; 
+    if (!this.config) return;
     this._getRadarImg(this._createUrl(this.config.url, id, this.referenceDate));
   }
 
@@ -133,14 +132,15 @@ export class RadarsPageComponent {
     return this.apiService.addSearchParamsToUrl(url, { date: date ? date.toISOString() : new Date().toISOString() });
   }
 
-  private _getRadarImg(url: string) {      
+  private _getRadarImg(url: string) {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento immagine del radar.', 'loader', false);
     this.radarService.getRadarImg(url, this.authService.getAccessToken())
       .then((imgUrl: string) => {
         this.imgUrl = imgUrl;
       })
       .catch((err: unknown) => {
-        this.snackbarsService.createSnackbar(`Errore nel recupero delle immagini del radar.`, 'error', true);
+        if (err instanceof Error && err.cause === 404) this.snackbarsService.createSnackbar(`Immagine non trovata per la data selezionata.`, 'error', true);
+        else this.snackbarsService.createSnackbar(`Errore nel recupero delle immagini del radar.`, 'error', true);
         this.imgUrl = '';
       })
       .finally(() => {
