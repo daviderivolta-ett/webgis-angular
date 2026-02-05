@@ -11,7 +11,7 @@ import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, Table
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent, TabsComponent, TabComponent } from '../../../components'
+import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent } from '../../../components'
 import { MapChartComponent } from '../../data/map-chart/map-chart.component';
 
 /** Pipes */
@@ -32,9 +32,7 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
     /** Directives */
     NgTemplateOutlet, RouterLink, RouterLinkActive, ReactiveFormsModule, ScrollableTableDirective, SortableTableComponent, SortHeaderComponent,
     /** Pipes */
-    KeyValuePipe, MapValuePipe,
-    TabsComponent,
-    TabComponent
+    KeyValuePipe, MapValuePipe
 ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'

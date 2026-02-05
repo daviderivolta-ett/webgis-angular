@@ -473,7 +473,7 @@ export class DataPageComponent {
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.thresholdConfig, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {
+      .then((newChart: MapChart) => {     
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {

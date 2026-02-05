@@ -18,7 +18,7 @@ export class StationsService {
 
   constructor(private apiService: ApiService) { }
 
-  public async getAllStations(url: string, token?: string) {  
+  public async getAllStations(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
       .then((data: any) => {
         if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);
@@ -248,6 +248,8 @@ export class StationsService {
           }
           if (!values) continue;
 
+          console.log(sensor, rangeConfig);
+
           let customRange: [number, number] | undefined;
           if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 
@@ -290,7 +292,14 @@ export class StationsService {
   }
 
   private _getSensorRange(sensorType: SensorType, thresholdConfig: StationThresholdConfig): [number, number] | undefined {
-    return (sensorType && sensorType.thresholdKeys && thresholdConfig.yMin && thresholdConfig.yMax) ? [thresholdConfig.yMin, thresholdConfig.yMax] : undefined;
+    return (
+      sensorType &&
+      'thresholdKeys' in sensorType &&
+      'yMin' in thresholdConfig && typeof thresholdConfig['yMin'] === 'number' &&
+      'yMax' in thresholdConfig && typeof thresholdConfig['yMax'] === 'number'
+    ) ?
+      [thresholdConfig.yMin, thresholdConfig.yMax] :
+      undefined;
   }
 
   public mergeBaseStationsAndPickStations(baseStations: StationBase[], pickStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): StationBase[] {
