@@ -309,7 +309,7 @@ export class PlotlyChartComponent {
         axisShortName = 'y';
       }
 
-      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));
+      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));     
 
       (layout as any)[axisName] = {
         title: {

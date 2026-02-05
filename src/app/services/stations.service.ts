@@ -232,6 +232,9 @@ export class StationsService {
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
+    let sensorThresholds: Record<string, number> | undefined;
+    if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);
+
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
@@ -249,7 +252,7 @@ export class StationsService {
           if (!values) continue;
 
           let customRange: [number, number] | undefined;
-          if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);        
+          if (sensor && sensor.thresholdKeys && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 
           const chartSerie: MapChartData = new MapChartData(
             sensor.id,
@@ -267,12 +270,11 @@ export class StationsService {
           );
 
           chartData.push(chartSerie);
-        }       
-
-        console.log(chartToUpdate);        
+        }
 
         return {
           ...chartToUpdate,
+          thresholds: sensorThresholds ? sensorThresholds : undefined,
           data: chartData,
           currentParameter: param,
           currentParameterLabel: sensorType ? sensorType.label : param

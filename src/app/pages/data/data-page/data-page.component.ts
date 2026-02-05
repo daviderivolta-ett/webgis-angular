@@ -436,7 +436,8 @@ export class DataPageComponent {
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
             if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
-          newCharts.push(this.stationsService.createChart(s, this._sensorTypes, thresholds));
+          const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
+          newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds: {}));      
           break;
 
         case 'webcam':
@@ -479,7 +480,7 @@ export class DataPageComponent {
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.thresholdConfig, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {     
+      .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {
