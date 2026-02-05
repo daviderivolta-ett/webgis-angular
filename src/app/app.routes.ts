@@ -22,7 +22,7 @@ export const routes: Routes = [
             mapConfig: mapConfigResolver,
             settings: settingsConfigResolver,
             apisConfig: apisResolver,
-            stationPopupConfig: stationPopupConfigResolver,
+            // stationPopupConfig: stationPopupConfigResolver,
             colorScales: colorScalesResolver,
             infoLayers: infoLayersResolver,
             baseLayers: baseLayersResolver,
@@ -160,7 +160,7 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/settings-popup/popup-settings-page/popup-settings-page.component').then(c => c.PopupSettingsPageComponent),
                 resolve: {
                     apisConfig: apisResolver,
-                    stationPopupConfig: stationPopupConfigResolver
+                    // stationPopupConfig: stationPopupConfigResolver
                 }
             },
             {

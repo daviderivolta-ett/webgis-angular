@@ -11,10 +11,11 @@ import { PopupService } from '../services';
 export const stationPopupConfigResolver: ResolveFn<StationPopupConfig> = async (route, state) => {
   const popupService: PopupService = inject(PopupService);
 
-  return popupService.getPopupConfig()
-    .then((data: StationPopupConfig) => data)
-    .catch((err: any) => {
-      console.error(err);
-      return createDefaultStationsPopupConfig();
-    });
+  // return popupService.getPopupConfig()
+  //   .then((data: StationPopupConfig) => data)
+  //   .catch((err: any) => {
+  //     console.error(err);
+  //     return createDefaultStationsPopupConfig();
+  //   });
+  return createDefaultStationsPopupConfig();
 };
