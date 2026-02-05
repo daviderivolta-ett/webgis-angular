@@ -12,21 +12,23 @@
         <!-- START CONTENT -->
         <div class="content">
             <h3 class="title">Configurazione popup</h3>
-            <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
-                <div class="configs">
-                    @for (keyvalue of stationPopupConfig | keyvalue; track $index) {
-                        <div class="custom-checkbox">
-                            <input class="custom-checkbox__input" [id]="keyvalue.key" type="checkbox" [formControlName]="keyvalue.key">
-                            <label class="custom-checkbox__label" [for]="keyvalue.key">{{keyvalue.key}}</label>
-                        </div>
-                    }
+            @if (isConfigLoaded) {
+                <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
+                    <div class="configs">
+                        @for (entry of form.controls | keyvalue; track $index) {
+                            <div class="custom-checkbox">
+                                <input class="custom-checkbox__input" [id]="entry.key" type="checkbox" [formControlName]="entry.key">
+                                <label class="custom-checkbox__label" [for]="entry.key">{{entry.key}}</label>
+                            </div>
+                        }
+                    </div>
+                    <div class="save-button" class="save-button">
+                        <app-loading-btn [isLoading]="isLoading">
+                            <button #button class="save-button__btn" type="submit" [disabled]="form.invalid || !form.dirty">Salva modifiche</button>
+                        </app-loading-btn>
                 </div>
-                <div class="save-button" class="save-button">
-                    <app-loading-btn [isLoading]="isLoading">
-                        <button #button class="save-button__btn" type="submit" [disabled]="form.invalid || !form.dirty">Salva modifiche</button>
-                    </app-loading-btn>
-               </div>
-            </form>
+                </form>
+            }
         </div>
         <!-- END CONTENT -->
     </div>

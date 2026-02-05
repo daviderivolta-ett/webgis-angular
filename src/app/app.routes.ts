@@ -159,6 +159,7 @@ export const routes: Routes = [
                 title: 'OMIRL ARPAL - Impostazioni popup',
                 loadComponent: () => import('./pages/settings-popup/popup-settings-page/popup-settings-page.component').then(c => c.PopupSettingsPageComponent),
                 resolve: {
+                    apisConfig: apisResolver,
                     stationPopupConfig: stationPopupConfigResolver
                 }
             },

@@ -248,8 +248,6 @@ export class StationsService {
           }
           if (!values) continue;
 
-          console.log(sensor, rangeConfig);
-
           let customRange: [number, number] | undefined;
           if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
 

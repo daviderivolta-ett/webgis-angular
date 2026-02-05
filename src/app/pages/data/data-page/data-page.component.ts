@@ -5,10 +5,10 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
@@ -89,11 +89,12 @@ export class DataPageComponent {
   public stationsUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
+  public latestPopupConfigUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
   public webcamImgsUrl; // Recovered from route resolver in constructor
 
-  public stationPopupConfig: StationPopupConfig; // Recovered from route resolver in constructor
+  public stationPopupConfig: StationPopupConfig = createStationPopupConfigFromObject({});
   public stations: StationBase[] = [];
 
   public baseColorScales: ColorScaleBase[]; // Recovered from route resolver in constructor
@@ -113,6 +114,7 @@ export class DataPageComponent {
     private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
+    private popupService: PopupService,
     private dateService: DateService,
     private snackbarsService: SnackbarsService,
     private layersService: LayersService,
@@ -132,11 +134,11 @@ export class DataPageComponent {
     this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
     this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.latestPopupConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.webcamImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs'));
 
-    this.stationPopupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
@@ -153,7 +155,7 @@ export class DataPageComponent {
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
       if (!this.user && currentUser) this.setDataFromApi();
-      this.user = currentUser;     
+      this.user = currentUser;
     });
 
     effect(() => {
@@ -179,6 +181,10 @@ export class DataPageComponent {
 
   public ngAfterViewInit(): void {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
+
+    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestPopupConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
+      .then((config: any) => this.stationPopupConfig = config)
+      .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
   }
 
   public ngOnDestroy(): void {
@@ -203,7 +209,7 @@ export class DataPageComponent {
     } catch (error) {
       this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
     } finally {
-      this.isLoading = false;      
+      this.isLoading = false;
     }
   }
 
@@ -365,7 +371,7 @@ export class DataPageComponent {
 
     if (activeWMSLayers.length === 0) return;
 
-    const layer: WMSLayer = activeWMSLayers[0];    
+    const layer: WMSLayer = activeWMSLayers[0];
     this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng)
       .then((info: [string, number][]) => {
         info.forEach(([label, value]: [string, number]) => {
@@ -391,7 +397,7 @@ export class DataPageComponent {
     this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Math.round(properties['mean_value'] * 100) / 100} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
   }
 
-  private _onBaselayersRadioChange(changes: any): void {  
+  private _onBaselayersRadioChange(changes: any): void {
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
     if (!layer) return;
     const { id, label, url, ...rest } = layer;
@@ -410,7 +416,7 @@ export class DataPageComponent {
     const hydroPromises: Promise<string>[] = [];
     const webcamPromises: Promise<string>[] = [];
 
-    stations.forEach(async (s: Station) => {      
+    stations.forEach(async (s: Station) => {
       switch (s.type) {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
@@ -450,7 +456,7 @@ export class DataPageComponent {
       }
     });
 
-    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];  
+    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
   }
@@ -473,7 +479,7 @@ export class DataPageComponent {
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.thresholdConfig, this.authService.getAccessToken())
-      .then((newChart: MapChart) => {     
+      .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
       .catch((err: Error) => {
@@ -587,7 +593,7 @@ export class DataPageComponent {
         showValueOnZoom: layer instanceof GeoJsonLayer ? layer.showValueOnZoom : undefined
       });
 
-    } catch (err: unknown) {     
+    } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
       const isNotFoundTimError: boolean = err instanceof Error && err.message.includes('non disponibile per la data selezionata');
       this.snackbarsService.createSnackbar(err instanceof Error && isNotFoundTimError ? err.message : `Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, isNotFoundTimError ? 'success' : 'error', !isNotFoundTimError);
@@ -610,8 +616,8 @@ export class DataPageComponent {
     this._updateMultipleLayers(date, false);
   }
 
-  public onMapAdditionalDateChanged(date: Date | undefined): void {    
-    this.wmsLayersDate = date; 
+  public onMapAdditionalDateChanged(date: Date | undefined): void {
+    this.wmsLayersDate = date;
   }
 
   public onMapTimedimensionLayerNotFound(layerId: string) {
