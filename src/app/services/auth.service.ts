@@ -41,7 +41,7 @@ export class AuthService {
       })
   }
 
-  public async checkAccessAndRefreshToken() {    
+  public async checkAccessAndRefreshToken() {
     if (!this.oauthService.hasValidAccessToken()) {
       if (this.oauthService.getRefreshToken()) {
         try {
@@ -76,12 +76,30 @@ export class AuthService {
   }
 
   public login(): void {
-    if (!this.isLoggedIn()) this.oauthService.initLoginFlow();
+    if (!this.isLoggedIn()) this.oauthService.initLoginFlow(undefined, { prompt: 'login' });
   }
 
   public logout(): void {
     this.oauthService.logOut(true);
     this.oauthService.revokeTokenAndLogout();
+    this._clearOAuthStorage();
+    this.user.set(null);
+  }
+
+  private _clearOAuthStorage(): void {
+    const keysToRemove = [
+      'access_token',
+      'refresh_token',
+      'id_token',
+      'expires_at',
+      'id_token_claims_obj',
+      'session_state',
+      'nonce',
+      'pkce_verifier',
+      'oauth_nonce'
+    ];
+
+    keysToRemove.forEach(key => localStorage.removeItem(key));
   }
 
   private _parseJsonWebToken(jwt: string) {
