@@ -17,7 +17,7 @@
                 <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
                 @if (item.type !== 'hydro' && item.type !== 'webcam') {
                     <p class="big weight-bold">
-                        @if(config().value) { {{item.value}} }
+                        @if(config().value) { {{ item.value | number: ('1.' + (item.decimals ?? 1) + '-' + (item.decimals ?? 1)) }} }
                         @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
                     </p>
                 }

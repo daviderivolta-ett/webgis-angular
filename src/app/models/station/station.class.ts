@@ -8,6 +8,7 @@ export class Station extends StationBase implements StationData {
     public parameter: string;
     public label?: string;
     public unit?: string;
+    public decimals?: number;
     public date?: Date;
     public commt?: string;
     public subfolder?: string;
@@ -25,6 +26,7 @@ export class Station extends StationBase implements StationData {
         alt?: number,
         label?: string,
         unit?: string,
+        decimals?: number,
         date?: Date,
         commt?: string,
         subfolder?: string,
@@ -37,6 +39,7 @@ export class Station extends StationBase implements StationData {
         this.parameter = parameter;
         this.label = label;
         this.unit = unit;
+        this.decimals = decimals;
         this.date = date;
         this.commt = commt;
         this.subfolder = subfolder;
@@ -48,10 +51,10 @@ export class Station extends StationBase implements StationData {
         return new Station('', 0, 0, [], 0, '');
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData {      
+    static createStationDataFromGeoJSONProps(props: any): StationData {              
         if (
-            (!('value' in props) || typeof props['value'] !== 'number') &&
-            (!('intensity' in props) || typeof props['intensity'] !== 'number')
+            (!('value' in props) || typeof parseFloat(props['value']) !== 'number') &&
+            (!('intensity' in props) || typeof parseFloat(props['intensity']) !== 'number')
         ) {
             throw new Error('Oggetto non valido: \'value\' o \'intensity\' mancanti.');
         }
@@ -59,18 +62,19 @@ export class Station extends StationBase implements StationData {
         const data: StationData = { value: 0, parameter: '' };
 
         if (
-            (props['value'] && typeof props['value'] === 'number') ||
-            (props['intensity'] && typeof props['intensity'] === 'number')
+            (props['value'] && typeof parseFloat(props['value']) === 'number') ||
+            (props['intensity'] && typeof parseFloat(props['intensity']) === 'number')
         ) {
             data.value =
-                typeof props.value === 'number'
-                    ? props.value
-                    : Math.abs(props.intensity);
+                typeof parseFloat(props.value) === 'number'
+                    ? parseFloat(props.value)
+                    : Math.abs(parseFloat(props.intensity));
         }
 
         if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
         if (props['layerLabel'] && typeof props['layerLabel'] === 'string') data.label = props['layerLabel'];
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
+        if ('decimals' in props && typeof props['decimals'] === 'number') data.decimals = props['decimals'];
         if (
             (('refDate' in props) && typeof props['refDate'] === 'string') ||
             (('referenceDate' in props) && typeof props['referenceDate'] == 'string') ||
@@ -90,7 +94,7 @@ export class Station extends StationBase implements StationData {
     }
 
     static fromStationData(stationBase: StationBase, data: StationData): Station {
-        const { value, parameter, label, unit, date, commt, subfolder } = data;
+        const { value, parameter, label, unit, decimals, date, commt, subfolder } = data;
 
         return new Station(
             stationBase.id,
@@ -105,6 +109,7 @@ export class Station extends StationBase implements StationData {
             stationBase.alt,
             label,
             unit,
+            decimals,
             date,
             commt,
             subfolder,

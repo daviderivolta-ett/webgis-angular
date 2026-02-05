@@ -30,7 +30,9 @@ export class PlatformsCommandService implements Command {
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
-            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');         
+
+            if ('decimals' in layer && typeof layer.decimals === 'number') geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { decimals: layer.decimals });
 
             if (layer.multiplier) geoJSON = this._convertGeoJSONData(geoJSON, layer.multiplier);
             geoJSON = this._truncateGeoJSONData(geoJSON, layer.decimals);

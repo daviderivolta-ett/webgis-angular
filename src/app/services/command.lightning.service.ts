@@ -32,6 +32,7 @@ export class LightningCommandService implements Command {
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             if (layer.filter) geoJSON = this._filterFeatures(geoJSON, layer.filter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'lightning');
+            if ('decimals' in layer && typeof layer.decimals === 'number') geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { decimals: layer.decimals });
 
             let arcColorDict: Record<string, string> = {};
 
@@ -109,9 +110,9 @@ export class LightningCommandService implements Command {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
-                const featureProperty: any = properties[markers.featureProperty];            
+                const featureProperty: any = properties[markers.featureProperty];
                 const markerShapeId: number = this._getMarkerShapeFromRule(typeof featureProperty === 'number' ? Math.abs(featureProperty) : featureProperty, markers.rules, 0);
-              
+
                 return {
                     ...feature,
                     properties: {
@@ -123,7 +124,7 @@ export class LightningCommandService implements Command {
         }
     }
 
-    private _getMarkerShapeFromRule(value: string | number, markers: MarkerCondition[], defaultShapeId: number = 0): number {    
+    private _getMarkerShapeFromRule(value: string | number, markers: MarkerCondition[], defaultShapeId: number = 0): number {
         for (const marker of markers) {
             switch (marker.comparisonOperator) {
                 case '<': if (typeof value === 'number' && typeof marker.threshold === 'number' && value < marker.threshold) return marker.shapeId; break;

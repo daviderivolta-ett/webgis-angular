@@ -3,6 +3,7 @@ export interface StationData {
     parameter: string,
     label?: string,
     unit?: string,
+    decimals?: number,
     date?: Date,
     commt?: string,
     subfolder?: string
