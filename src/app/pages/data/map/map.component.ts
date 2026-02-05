@@ -321,8 +321,8 @@ export class MapComponent {
       onEachFeature: (feature, layer) => {
         layer.on('click', (event) => this.featureClicked.emit({ ...feature.properties, coordinates: event.latlng }))
       }
-    }).addTo(this._map);
-    if ((geoJSON as any)['timestamp'] && typeof (geoJSON as any)['timestamp'] === 'string') this.timeDimensionDateChanged.emit(new Date((geoJSON as any)['timestamp']));
+    }).addTo(this._map);     
+    if ((geoJSON as any)['timestamp'] && (typeof (geoJSON as any)['timestamp'] === 'string' || typeof (geoJSON as any)['timestamp'] === 'number')) this.timeDimensionDateChanged.emit(new Date(Number((geoJSON as any)['timestamp'])));
     this._registerLayer(id, geoJSONLayer);
   }
 

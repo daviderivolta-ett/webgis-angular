@@ -617,7 +617,7 @@ export class DataPageComponent {
     this._updateMultipleLayers(date, false);
   }
 
-  public onMapAdditionalDateChanged(date: Date | undefined): void {
+  public onMapAdditionalDateChanged(date: Date | undefined): void {  
     this.wmsLayersDate = date;
   }
 
