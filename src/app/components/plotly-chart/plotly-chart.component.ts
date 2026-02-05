@@ -114,6 +114,8 @@ export class PlotlyChartComponent {
   }
 
   private _drawChart(data: PlotlyChartData[]): void {
+    if (this.plotly) Plotly.purge(this.id());
+    
     const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout(data) as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
@@ -358,7 +360,7 @@ export class PlotlyChartComponent {
     return layout;
   }
 
-  private _drawThresholds(thresholds: Record<string, number>): void {
+  private _drawThresholds(thresholds: Record<string, number>): void { 
     if (!this.plotly) return;
 
     const plotly = this.plotly.nativeElement as any;
@@ -412,7 +414,7 @@ export class PlotlyChartComponent {
           click: (gd) => Plotly.toImage(gd, { format: 'png', height: (gd as any)._fullLayout.height, width: (gd as any)._fullLayout.width }).then((url) => {
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'plot.png';
+            a.download = `plot.png`;
             a.click();
           })
         },

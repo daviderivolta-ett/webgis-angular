@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, effect, input, output } from '@angular/core'
+import { Component, input, output } from '@angular/core'
 import { DatePipe, DecimalPipe } from '@angular/common'
 
 /** Models */
@@ -19,8 +19,4 @@ export class MapPopupComponent {
   public data = input<Station[]>([]);
   public config = input<StationPopupConfig>(createDefaultStationsPopupConfig());
   public btnClicked = output<void>();
-
-  constructor(){
-    effect(() => console.log(this.data()))
-  }
 }

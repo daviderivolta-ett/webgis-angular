@@ -249,7 +249,7 @@ export class StationsService {
           if (!values) continue;
 
           let customRange: [number, number] | undefined;
-          if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
+          if (sensor && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);        
 
           const chartSerie: MapChartData = new MapChartData(
             sensor.id,
@@ -267,7 +267,9 @@ export class StationsService {
           );
 
           chartData.push(chartSerie);
-        }
+        }       
+
+        console.log(chartToUpdate);        
 
         return {
           ...chartToUpdate,

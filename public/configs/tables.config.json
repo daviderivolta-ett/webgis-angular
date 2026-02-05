@@ -848,9 +848,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {

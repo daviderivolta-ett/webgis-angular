@@ -186,7 +186,7 @@ export class Table2 {
     static _isISODate(date: string): boolean {
         if (typeof date !== 'string') return false;
 
-        const ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z?$/;
+        const ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/;
         if (!ISO_REGEX.test(date)) return false;
 
         return !isNaN(new Date(date).valueOf());
