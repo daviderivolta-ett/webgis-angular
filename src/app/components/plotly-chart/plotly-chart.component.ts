@@ -113,7 +113,7 @@ export class PlotlyChartComponent {
     return newData;
   }
 
-  private _drawChart(data: PlotlyChartData[]): void { 
+  private _drawChart(data: PlotlyChartData[]): void {
     const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout(data) as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
@@ -330,7 +330,7 @@ export class PlotlyChartComponent {
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
         side: d.needsAdditionalYAxis ? 'right' : 'left',
         showgrid: axisName === 'yaxis' ? true : false
-      }    
+      }
 
       // if (d.unit !== '°') {
       //   layout.shapes?.push({
@@ -592,8 +592,8 @@ export class PlotlyChartComponent {
       xref: 'x',
       x0: lastXValue,
       x1: this.referenceDate()?.getTime() ?? new Date().getTime(),
-      fillcolor: 'rgba(255, 252, 127, .5)',
-      line: { width: 0 },
+      fillcolor: 'rgba(255, 252, 127, 1)',
+      line: { width: 1, color: 'rgba(255, 252, 127, 1)' },
       layer: 'below'
     }
   }
