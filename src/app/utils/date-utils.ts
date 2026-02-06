@@ -22,4 +22,8 @@ export class DateUtils {
         ]
 
     }
+
+    static toDateTimeLocal(date: Date): string {
+        return `${date.getFullYear()}-${DateUtils.pad(date.getMonth() + 1)}-${DateUtils.pad(date.getDate())}T${DateUtils.pad(date.getHours())}:${DateUtils.pad(date.getMinutes())}`
+    }
 }  

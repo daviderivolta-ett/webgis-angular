@@ -21,7 +21,7 @@ import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-d
 import { WebcamComponent } from '../webcam/webcam.component';
 
 /** Utilities */
-import { CSVUtils, Utils } from '../../../utils';
+import { CSVUtils, DateUtils, Utils } from '../../../utils';
 
 /** Component */
 @Component({
@@ -437,7 +437,7 @@ export class DataPageComponent {
             if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
           const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
-          newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds: {}));      
+          newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {}));
           break;
 
         case 'webcam':
@@ -469,7 +469,8 @@ export class DataPageComponent {
   }
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;    
+    const { param, initialDate, endingDate } = formChange;
+    const currentDate = this.dateService.date() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -479,7 +480,7 @@ export class DataPageComponent {
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
-    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, station?.thresholdConfig, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
@@ -617,7 +618,7 @@ export class DataPageComponent {
     this._updateMultipleLayers(date, false);
   }
 
-  public onMapAdditionalDateChanged(date: Date | undefined): void {  
+  public onMapAdditionalDateChanged(date: Date | undefined): void {
     this.wmsLayersDate = date;
   }
 

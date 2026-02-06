@@ -328,7 +328,8 @@ export class TablesMaxPageComponent {
     this.isChartLoading = true;
 
     const dates: [string, string] = DateUtils.createDateRangeFromDate(this.selectedDate ?? new Date(), 3);
-    this.stationsService.updateChart(tableConfig.parameter ?? '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1])
+    const currentDate = this.dateService.date() ?? new Date();
+    this.stationsService.updateChart(tableConfig.parameter ?? '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1], DateUtils.toDateTimeLocal(currentDate))
       .then((chart: MapChart) => {
         this.chart = chart;
       })

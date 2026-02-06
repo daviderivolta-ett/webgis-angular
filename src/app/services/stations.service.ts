@@ -71,10 +71,10 @@ export class StationsService {
       })
   }
 
-  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
-      promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toApiFormat(initialDate), DateUtils.toApiFormat(endingDate), token));
+      promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toApiFormat(initialDate), DateUtils.toApiFormat(endingDate), limitDate, token));
     });
     const maps = await Promise.all(promises);
     const resultMap = new Map<string, [number, number][]>();
@@ -91,9 +91,9 @@ export class StationsService {
     return resultMap;
   }
 
-  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: endingDate, FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);
@@ -227,7 +227,7 @@ export class StationsService {
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {  
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
@@ -235,7 +235,7 @@ export class StationsService {
     let sensorThresholds: Record<string, number> | undefined;
     if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);
 
-    return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, token)
+    return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, limitDate, token)
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
 
