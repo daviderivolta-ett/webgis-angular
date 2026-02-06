@@ -325,7 +325,7 @@ export class PlotlyChartComponent {
           standoff: 10
         },
         range: (d.unit && d.unit !== '°') ?
-          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0] - 10, maxYValue + 10] : d.yRange) :
+          ((d.yRange && maxYValue > d.yRange[1]) ? [d.yRange[0], maxYValue] : d.yRange) :
           undefined,
         nticks: 20,
         tickformat: undefined,

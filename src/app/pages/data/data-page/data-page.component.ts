@@ -469,11 +469,7 @@ export class DataPageComponent {
   }
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;
-
-    console.log(this.chartReferenceDate);
-    console.log(initialDate);
-    
+    const { param, initialDate, endingDate } = formChange;    
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
