@@ -10,7 +10,7 @@
                     "label": "Reticolo idrografico",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "ReticoloIdrografico_wgs84_epsg4326",
                         "transparent": true,
@@ -25,7 +25,7 @@
                     "label": "Piccoli bacini idrografici modellati",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "PiccoliBaciniIdrografici_wgs84_epsg4326",
                         "transparent": true,
@@ -40,7 +40,7 @@
                     "label": "Bacini idrografici",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "BaciniIdrografici_wgs84_epsg4326",
                         "transparent": true,
@@ -55,7 +55,7 @@
                     "label": "Comuni",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "ComuniLiguria_wgs84_epsg4326",
                         "transparent": true,
@@ -70,7 +70,7 @@
                     "label": "Province",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "ProvinceLiguria_wgs84_epsg4326",
                         "transparent": true,
@@ -85,7 +85,7 @@
                     "label": "Zone di allerta",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "ZoneAllertaLiguria_wgs84_epsg4326",
                         "transparent": true,
@@ -100,7 +100,7 @@
                     "label": "Comprensori idrologici di base",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "ComprensoriIdrologiciDiBase_wgs84_epsg4326",
                         "transparent": true,
@@ -115,7 +115,7 @@
                     "label": "Grandi dighe",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "GrandiDigheInteresseLigure_wgs84_epsg4326",
                         "transparent": true,
@@ -130,7 +130,7 @@
                     "label": "Aree inondabili (30-50 anni)",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "Aree_inondabili_H_-_tr_30-50_anni_wgs84_epsg4326",
                         "transparent": true,
@@ -145,7 +145,7 @@
                     "label": "Aree inondabili (200 anni)",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "Aree_inondabili_M_-_tr_200_anni_wgs84_epsg4326",
                         "transparent": true,
@@ -160,7 +160,7 @@
                     "label": "Aree inondabili (500 anni)",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "Aree_inondabili_L_-_tr_500_anni_wgs84_epsg4326",
                         "transparent": true,
@@ -175,7 +175,7 @@
                     "label": "Rischio inondazione",
                     "layerType": "wms",
                     "layerCategory": "info_wms",
-                    "url": "https://omirl.regione.liguria.it/geoserver/cfmi/wms",
+                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/cfmi/wms",
                     "params": {
                         "layers": "Elementi_esposti_e_relative_classi_di_rischio_areali_wgs84_epsg4326",
                         "transparent": true,
