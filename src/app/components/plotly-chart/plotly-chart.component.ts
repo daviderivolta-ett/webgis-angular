@@ -33,6 +33,7 @@ export class PlotlyChartComponent {
   public xRange = input<any[]>([]);
   public data = input<PlotlyChartData[]>([]);
   public thresholds = input<Record<string, number>>({});
+  public hideZeroXAxis = input<boolean>(false);
   public referenceDate = input<Date | undefined>(new Date());
 
   public onCustomButtonClick = output<any>();
@@ -331,24 +332,9 @@ export class PlotlyChartComponent {
         tickformat: undefined,
         overlaying: d.needsAdditionalYAxis ? 'y' : undefined,
         side: d.needsAdditionalYAxis ? 'right' : 'left',
-        showgrid: axisName === 'yaxis' ? true : false
+        showgrid: axisName === 'yaxis' ? true : false,
+        zerolinecolor: this.hideZeroXAxis() ? '#eeeeee' : undefined,
       }
-
-      // if (d.unit !== '°') {
-      //   layout.shapes?.push({
-      //     type: 'line',
-      //     xref: 'paper',
-      //     x0: 0,
-      //     x1: 1,
-      //     yref: axisShortName as any,
-      //     y0: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-      //     y1: (d.yRange && d.yRange.length >= 2) ? d.yRange[1] : undefined,
-      //     line: {
-      //       color: 'rgba(255, 0, 0, .2)',
-      //       width: 4
-      //     }
-      //   });
-      // }
 
       if (d.type === 'scatter' && d.style && d.style['marker']) {
         const xMin = d.data[0];

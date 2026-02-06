@@ -267,7 +267,8 @@ export class ConfigService {
           compareWith: t['compareWith'] ?? undefined,
           isMainYAxis: t['isMainYAxis'] ?? false,
           baseColor: t['baseColor'] ?? undefined,
-          thresholdKeys: t['thresholdKeys'] ?? undefined
+          thresholdKeys: t['thresholdKeys'] ?? undefined,
+          hideZeroXAxis: t['hideZeroXAxis'] ?? false
         }))
       })
       .catch((err: any) => {

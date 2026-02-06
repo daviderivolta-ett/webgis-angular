@@ -223,7 +223,8 @@ export class StationsService {
       'Data',
       '',
       undefined,
-      sensorThresholds ? sensorThresholds : undefined
+      sensorThresholds ? sensorThresholds : undefined,
+      sensorType ? sensorType.hideZeroXAxis : false
     );
   }
 
@@ -275,6 +276,7 @@ export class StationsService {
         return {
           ...chartToUpdate,
           thresholds: sensorThresholds ? sensorThresholds : undefined,
+          hideZeroXAxis: sensorType ? sensorType.hideZeroXAxis : false,
           data: chartData,
           currentParameter: param,
           currentParameterLabel: sensorType ? sensorType.label : param
