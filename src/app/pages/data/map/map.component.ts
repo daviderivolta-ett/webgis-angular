@@ -213,7 +213,7 @@ export class MapComponent {
     const layer = L.geoJSON(geoJSON, {
       pane: `markers_${shapeKey}`,
       pointToLayer: (feature: Feature<Point, any>, latLng: L.LatLng) => {
-        const color: string = feature.properties.color ?? 'grey';
+        const color: string = feature.properties.color ?? 'white';
         const value: number | undefined = feature.properties.value;
         const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
