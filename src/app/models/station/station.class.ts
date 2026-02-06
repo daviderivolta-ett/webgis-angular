@@ -51,7 +51,7 @@ export class Station extends StationBase implements StationData {
         return new Station('', 0, 0, [], 0, '');
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData {              
+    static createStationDataFromGeoJSONProps(props: any): StationData {                     
         if (
             (!('value' in props) || typeof parseFloat(props['value']) !== 'number') &&
             (!('intensity' in props) || typeof parseFloat(props['intensity']) !== 'number')
@@ -65,10 +65,11 @@ export class Station extends StationBase implements StationData {
             (props['value'] && typeof parseFloat(props['value']) === 'number') ||
             (props['intensity'] && typeof parseFloat(props['intensity']) === 'number')
         ) {
+            
             data.value =
-                typeof parseFloat(props.value) === 'number'
-                    ? parseFloat(props.value)
-                    : Math.abs(parseFloat(props.intensity));
+                typeof props.value === 'number'
+                    ? props.value
+                    : Math.abs(props.intensity);
         }
 
         if (props['parameter'] && typeof props['parameter'] === 'string') data.parameter = props['parameter'];
@@ -90,6 +91,7 @@ export class Station extends StationBase implements StationData {
         }
         if (props['commt'] && typeof props['commt'] === 'string') data.commt = props['commt'];
         if (props['subFolder'] && typeof props['subFolder'] === 'string') data.subfolder = props['subFolder'];
+      
         return data;
     }
 

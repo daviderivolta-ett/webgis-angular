@@ -328,7 +328,7 @@
                     "parameter": "sunshine_duration",
                     "legend": {
                         "colorScaleId": "sunshine_duration",
-                        "unit": "%",
+                        "unit": "min",
                         "steps": [
                             1,
                             10,

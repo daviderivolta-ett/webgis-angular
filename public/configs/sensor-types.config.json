@@ -563,10 +563,10 @@
             "iconUrl": "./images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Eliofanie",
             "chartType": "scatter",
-            "unit": "%",
+            "unit": "min",
             "range": [
                 -5,
-                105
+                35
             ],
             "isFeatured": true,
             "relatedSensors": []
