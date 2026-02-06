@@ -473,7 +473,7 @@
                         "rain_24h"
                     ],
                     "labels": {
-                        "region": "Area",
+                        "region": "Zone",
                         "rain_05m": "5m",
                         "rain_15m": "15m",
                         "rain_30m": "30m",
@@ -607,7 +607,7 @@
                         "rain_24h"
                     ],
                     "labels": {
-                        "region": "Provincia",
+                        "region": "Province",
                         "rain_05m": "5m",
                         "rain_15m": "15m",
                         "rain_30m": "30m",
@@ -751,7 +751,7 @@
                         ]
                     ],
                     "labels": {
-                        "region": "Città",
+                        "region": "Province",
                         "firstValue": "Min (°C)",
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Max (°C)",
@@ -785,7 +785,7 @@
                         ]
                     ],
                     "labels": {
-                        "region": "Area allerta",
+                        "region": "Zone",
                         "firstValue": "Min (°C)",
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Max (°C)",
@@ -819,7 +819,7 @@
                         ]
                     ],
                     "labels": {
-                        "region": "Zona",
+                        "region": "Zone",
                         "firstValue": "Max (km/h)",
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Raffica (km/h)",
@@ -869,9 +869,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -890,9 +890,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -911,9 +911,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -932,9 +932,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -953,9 +953,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -974,9 +974,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 },
                 {
@@ -995,9 +995,9 @@
                         "basin": "Bacino",
                         "river": "Fiume",
                         "maxValue": "Max (m)",
-                        "maxValueReferenceDate": "Nella stazione",
+                        "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
-                        "lastValueReferenceDate": "Nella stazione"
+                        "lastValueReferenceDate": "Ora di riferimento"
                     }
                 }
             ]

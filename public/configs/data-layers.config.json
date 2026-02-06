@@ -3292,167 +3292,711 @@
                     "options": [
                         {
                             "id": "maps_humidity_0000",
-                            "label": "Umidità del suolo - h. 00:00",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "multiplier": 100,
-                            "params": {
-                                "layers": "soilmoisture0000",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "decimals": 0,
-                            "legend": {
-                                "colorScaleId": "humidity_alt",
-                                "unit": "%",
-                                "steps": [
-                                    1,
-                                    2,
-                                    10,
-                                    20,
-                                    30,
-                                    40,
-                                    50,
-                                    60,
-                                    70,
-                                    80,
-                                    90,
-                                    98
-                                ]
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "Umidità del suolo - h00:00",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_humidity_0000_interpolated",
+                                    "label": "Interpolata",
+                                    "longLabel": "Umidità del suolo - Interpolata (h00:00)",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "multiplier": 100,
+                                    "params": {
+                                        "layers": "omirl:soilmoisture0000",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0000_basin",
+                                    "label": "Bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Bacini idrografici (00:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0000_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Umidità del suolo - Compresori idrologici (00:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0000_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Piccoli bacini (00:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0000_warnareas",
+                                    "label": "Zone di allerta",
+                                    "longLabel": "Umidità del suolo - Zone di allerta (00:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_humidity_0600",
-                            "label": "Umidità del suolo - h. 06:00",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "multiplier": 100,
-                            "params": {
-                                "layers": "soilmoisture0600",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "decimals": 0,
-                            "legend": {
-                                "colorScaleId": "humidity_alt",
-                                "unit": "%",
-                                "steps": [
-                                    1,
-                                    2,
-                                    10,
-                                    20,
-                                    30,
-                                    40,
-                                    50,
-                                    60,
-                                    70,
-                                    80,
-                                    90,
-                                    98
-                                ]
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "Umidità del suolo - h06:00",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_humidity_0600_interpolated",
+                                    "label": "Interpolata",
+                                    "longLabel": "Umidità del suolo - Interpolata (h06:00)",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "multiplier": 100,
+                                    "params": {
+                                        "layers": "omirl:soilmoisture0600",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0600_basin",
+                                    "label": "Bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Bacini idrografici (06:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0600_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Umidità del suolo - Compresori idrologici (06:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0600_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Piccoli bacini (06:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_0600_warnareas",
+                                    "label": "Zone di allerta",
+                                    "longLabel": "Umidità del suolo - Zone di allerta (06:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_humidity_1200",
-                            "label": "Umidità del suolo - h. 12:00",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "multiplier": 100,
-                            "params": {
-                                "layers": "soilmoisture1200",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "decimals": 0,
-                            "legend": {
-                                "colorScaleId": "humidity_alt",
-                                "unit": "%",
-                                "steps": [
-                                    1,
-                                    2,
-                                    10,
-                                    20,
-                                    30,
-                                    40,
-                                    50,
-                                    60,
-                                    70,
-                                    80,
-                                    90,
-                                    98
-                                ]
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "Umidità del suolo - h12:00",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_humidity_1200_interpolated",
+                                    "label": "Interpolata",
+                                    "longLabel": "Umidità del suolo - Interpolata (h12:00)",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "multiplier": 100,
+                                    "params": {
+                                        "layers": "omirl:soilmoisture1200",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1200_basin",
+                                    "label": "Bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Bacini idrografici (12:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1200_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Umidità del suolo - Compresori idrologici (12:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1200_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Piccoli bacini (12:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1200_warnareas",
+                                    "label": "Zone di allerta",
+                                    "longLabel": "Umidità del suolo - Zone di allerta (12:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "id": "maps_humidity_1800",
-                            "label": "Umidità del suolo - h. 18:00",
-                            "layerType": "wms",
-                            "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
-                            "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
-                            "multiplier": 100,
-                            "params": {
-                                "layers": "soilmoisture1800",
-                                "transparent": true,
-                                "format": "image/png",
-                                "service": "WMS",
-                                "version": "1.1.1",
-                                "request": "GetMap",
-                                "styles": "",
-                                "srs": "EPSG:4326"
-                            },
-                            "decimals": 0,
-                            "legend": {
-                                "colorScaleId": "humidity_alt",
-                                "unit": "%",
-                                "steps": [
-                                    1,
-                                    2,
-                                    10,
-                                    20,
-                                    30,
-                                    40,
-                                    50,
-                                    60,
-                                    70,
-                                    80,
-                                    90,
-                                    98
-                                ]
-                            },
-                            "action": {
-                                "id": "wms"
-                            }
+                            "label": "Umidità del suolo - h18:00",
+                            "maxNumber": 1,
+                            "options": [
+                                {
+                                    "id": "maps_humidity_1800_interpolated",
+                                    "label": "Interpolata",
+                                    "longLabel": "Umidità del suolo - Interpolata (h18:00)",
+                                    "layerType": "wms",
+                                    "layerCategory": "data_wms--time",
+                                    "opacity": 0.5,
+                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "multiplier": 100,
+                                    "params": {
+                                        "layers": "omirl:soilmoisture1800",
+                                        "transparent": true,
+                                        "format": "image/png",
+                                        "service": "WMS",
+                                        "version": "1.1.1",
+                                        "request": "GetMap",
+                                        "styles": "",
+                                        "srs": "EPSG:4326"
+                                    },
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "wms"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1800_basin",
+                                    "label": "Bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Bacini idrografici (18:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1800_basichydrogeologicalarea",
+                                    "label": "Comprensori idrogeologici di base",
+                                    "longLabel": "Umidità del suolo - Compresori idrologici (18:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1800_smallriverbasins",
+                                    "label": "Piccoli bacini idrografici",
+                                    "longLabel": "Umidità del suolo - Piccoli bacini (18:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                },
+                                {
+                                    "id": "maps_humidity_1800_warnareas",
+                                    "label": "Zone di allerta",
+                                    "longLabel": "Umidità del suolo - Zone di allerta (18:00)",
+                                    "layerType": "geojson",
+                                    "layerCategory": "data_wms",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "multiplier": 100,
+                                    "decimals": 0,
+                                    "legend": {
+                                        "colorScaleId": "humidity_alt",
+                                        "unit": "%",
+                                        "steps": [
+                                            1,
+                                            2,
+                                            10,
+                                            20,
+                                            30,
+                                            40,
+                                            50,
+                                            60,
+                                            70,
+                                            80,
+                                            90,
+                                            98
+                                        ]
+                                    },
+                                    "action": {
+                                        "id": "polygons",
+                                        "api": "polygonmean"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 },

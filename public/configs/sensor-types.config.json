@@ -27,7 +27,7 @@
             "unit": "mm",
             "range": [
                 0,
-                200
+                600
             ],
             "relatedSensors": []
         },
