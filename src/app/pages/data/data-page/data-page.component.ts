@@ -623,7 +623,6 @@ export class DataPageComponent {
   }
 
   public onMapTimedimensionLayerNotFound(layerId: string) {
-    // this.onLayerToggled({ id: $event, isChecked: false })
     this.onLayerToggled({ id: layerId, isChecked: false });
     const layersToRemove = this.dataLayers
       .map((g: LayerGroup) => g.searchLayerById(layerId))
