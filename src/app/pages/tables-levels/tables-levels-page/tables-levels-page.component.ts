@@ -181,7 +181,7 @@ export class TablesLevelsPageComponent {
       if (!config) return undefined;
 
       const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels);
+      const table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels, config.decimals);
 
       return {
         id: config.id,

@@ -83,7 +83,7 @@ export class TablesService {
     })
   }
 
-  public parseNestedTableData(data: any[], fieldToSearch: string, keysToMerge: string[]): any[] {
+  public parseNestedTableData(data: any[], fieldToSearch: string, keysToMerge: string[]): any[] {    
     if (!data.every(r => fieldToSearch in r)) return data;
     return data.map((r: any) => {
       if (fieldToSearch in r) {
@@ -98,7 +98,7 @@ export class TablesService {
 
             let value = ''
             keysToMerge.forEach((key: string) => {
-              const pair: [string, any] | undefined = entries.find(([k, _]: [String, any]) => k === key);
+              const pair: [string, any] | undefined = entries.find(([k, _]: [String, any]) => k === key);        
               if (pair) {
                 const isDate: boolean = this._isISODate(pair[1]);
                 value += isDate ?

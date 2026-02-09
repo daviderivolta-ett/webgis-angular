@@ -11,7 +11,7 @@ export class Table2 {
         return Table2.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string, labels?: Map<string, string>): Table2 {
+    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string, labels?: Map<string, string>, decimals: number = 1): Table2 {
         const table = new Table2();
 
         /** Header */
@@ -27,7 +27,7 @@ export class Table2 {
         header = Table2.orderTableHeader(header, primaryKey);
 
         /** Body */
-        const body: any[][] = Table2.normalizeData(data, header, hiddenKey);
+        const body: any[][] = Table2.normalizeData(data, header, hiddenKey, decimals);
         table.body = Table2.orderTableData(body, primaryKey);
         table.labels = labels ?? new Map<string, string>();
 
@@ -61,14 +61,14 @@ export class Table2 {
         });
     }
 
-    static normalizeData(data: Object[], headerKeys: string[], hiddenKey?: string): any[][] {
+    static normalizeData(data: Object[], headerKeys: string[], hiddenKey?: string, decimals: number = 1): any[][] {
         return data.map((d: Record<string, any>) => {
             const row: any[] = [];
 
-            headerKeys.forEach((k: string) => {
+            headerKeys.forEach((k: string) => {                
                 row.push({
                     dataKey: k,
-                    dataValue: d[k] ?? '-',
+                    dataValue: k in d ? (typeof d[k] === 'number' ? d[k].toFixed(decimals) : d[k]) : '-',
                     hiddenValue: (hiddenKey && d[hiddenKey]) ? d[hiddenKey] : undefined,
                     backgroundColor: undefined
                 })

@@ -182,7 +182,7 @@ export class TablesExtremesPageComponent {
       let table = new Table2();
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
       table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? []);
+      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? [], config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
 
       return {
@@ -203,7 +203,7 @@ export class TablesExtremesPageComponent {
     )
   }
 
-  private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][]): any[] {
+  private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][], decimals: number = 1): any[] {
     return data.map((r: any) => {
 
       const row: any[] = [];
@@ -212,18 +212,17 @@ export class TablesExtremesPageComponent {
         if (!keysToMerge.flat().includes(key)) {
           row.push({
             dataKey: key,
-            dataValue: r[key] ?? '-',
+            dataValue: key in r ? (typeof r[key] === 'number' ? r[key].toFixed(decimals) : r[key]) : '-',
             hiddenValue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
               key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
                 undefined
           })
         } else {
-          const mergeGroup: string[] | undefined = keysToMerge.find((s: string[]) => s.includes(key));
-
+          const mergeGroup: string[] | undefined = keysToMerge.find((s: string[]) => s.includes(key));         
           if (!mergeGroup) {
             row.push({
               dataKey: key,
-              dataValue: r[key] ?? '-',
+              dataValue: key in r ? (typeof r[key] === 'number' ? r[key].toFixed(decimals) : r[key]) : '-',
               hiddenValue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
                 key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
                   undefined
@@ -243,10 +242,10 @@ export class TablesExtremesPageComponent {
 
             hour = `${hh}:${mm}`;
           }
-
+                    
           row.push({
             dataKey: mergeGroup[0],
-            dataValue: `${r[mergeGroup[0]]} [${hour}]`,
+            dataValue: `${typeof r[mergeGroup[0]] === 'number' ? r[mergeGroup[0]].toFixed(decimals) : r[mergeGroup[0]]} [${hour}]`,
             hiddenValue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
               key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
                 undefined

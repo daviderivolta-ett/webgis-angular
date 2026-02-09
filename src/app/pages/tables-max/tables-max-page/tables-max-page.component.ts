@@ -179,7 +179,7 @@ export class TablesMaxPageComponent {
       let table = new Table2();
       let header = this._createTableHeader(tableRows, 'values', 'parameter');
       table.header = Table2.orderTableHeader(header, 'name', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '', config.colors ?? []);
+      table.body = this._parseTableBody(tableRows, 'values', table.header, config.keysToMerge ?? [], config.actionKey ?? '', config.colors ?? [], config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
 
       return {
@@ -213,7 +213,7 @@ export class TablesMaxPageComponent {
     )
   }
 
-  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string, colors: TableColorConfig[]): any[] {
+  private _parseTableBody(data: any[], fieldToSearch: string, headerkeys: string[], keysToMerge: string[], hiddenKey: string, colors: TableColorConfig[], decimals: number = 1): any[] {
     return data.map((r: any) => {
       if (fieldToSearch in r) {
         const values = r[fieldToSearch];
@@ -249,13 +249,13 @@ export class TablesMaxPageComponent {
               let value = '';
               keysToMerge.forEach((k: string, i: number) => {
                 const pair: [string, any] | undefined = entries.find(([kk]) => kk === k);
-                if (pair) {
+                if (pair) {                 
                   const isDate = Table2._isISODate(pair[1]);
                   value += isDate ?
                     ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]<br>` :
                     i === 0 ?
-                      `<strong>${pair[1]}</strong><br>` :
-                      `${pair[1]}`;
+                      `<strong>${typeof pair[1] === 'number' ? pair[1].toFixed(decimals) : pair[1]}</strong><br>` :
+                      `${typeof pair[1] === 'number' ? pair[1].toFixed(decimals) : pair[1]}`;
                 }
               });
 

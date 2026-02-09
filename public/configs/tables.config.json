@@ -41,6 +41,7 @@
                         "maxValue": "Max (mm)",
                         "minValue": "Min (mm)"
                     },
+                    "decimals": 1,
                     "parameter": "rain_01h",
                     "actionKey": "code"
                 },
@@ -81,6 +82,7 @@
                         "maxValue": "Max (°C)",
                         "minValue": "Min (°C)"
                     },
+                    "decimals": 1,
                     "parameter": "mean_air_temp",
                     "actionKey": "code"
                 },
@@ -121,6 +123,7 @@
                         "maxValue": "Max (m)",
                         "minValue": "Min (m)"
                     },
+                    "decimals": 2,
                     "parameter": "mean_creek_level",
                     "actionKey": "code"
                 },
@@ -161,6 +164,7 @@
                         "maxValue": "Max (km/h)",
                         "minValue": "Min (km/h)"
                     },
+                    "decimals": 1,
                     "parameter": "mean_wind_speed",
                     "actionKey": "code"
                 },
@@ -201,6 +205,7 @@
                         "maxValue": "Max (%)",
                         "minValue": "Min (%)"
                     },
+                    "decimals": 0,
                     "parameter": "humidity",
                     "actionKey": "code"
                 },
@@ -241,6 +246,7 @@
                         "maxValue": "Max (%)",
                         "minValue": "Min (%)"
                     },
+                    "decimals": 1,
                     "parameter": "sunshine_duration",
                     "actionKey": "code"
                 },
@@ -281,6 +287,7 @@
                         "maxValue": "Max (W/m²)",
                         "minValue": "Min (W/m²)"
                     },
+                    "decimals": 0,
                     "parameter": "solar_radiation_pwr",
                     "actionKey": "code"
                 },
@@ -321,6 +328,7 @@
                         "maxValue": "Max (%)",
                         "minValue": "Min (%)"
                     },
+                    "decimals": 1,
                     "parameter": "leaf_wetness",
                     "actionKey": "code"
                 },
@@ -361,6 +369,7 @@
                         "maxValue": "Max (hPa)",
                         "minValue": "Min (hPa)"
                     },
+                    "decimals": 1,
                     "parameter": "mean_sea_level_press",
                     "actionKey": "code"
                 },
@@ -401,6 +410,7 @@
                         "maxValue": "Max (V)",
                         "minValue": "Min (V)"
                     },
+                    "decimals": 1,
                     "parameter": "battery_voltage",
                     "actionKey": "code"
                 },
@@ -441,6 +451,7 @@
                         "maxValue": "Max (cm)",
                         "minValue": "Min (cm)"
                     },
+                    "decimals": 0,
                     "parameter": "mean_snow_depth",
                     "actionKey": "code"
                 }
@@ -483,6 +494,7 @@
                         "rain_12h": "12h",
                         "rain_24h": "24h"
                     },
+                    "decimals": 1,
                     "parameter": "rain_01h",
                     "colors": [
                         {
@@ -617,6 +629,7 @@
                         "rain_12h": "12h",
                         "rain_24h": "24h"
                     },
+                    "decimals": 1,
                     "parameter": "rain_01h",
                     "colors": [
                         {
@@ -756,7 +769,8 @@
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Max (°C)",
                         "secondValueStationName": "Nella stazione"
-                    }
+                    },
+                    "decimals": 1
                 },
                 {
                     "id": "estremi-temperatura-vento-warnareas",
@@ -790,7 +804,8 @@
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Max (°C)",
                         "secondValueStationName": "Nella stazione"
-                    }
+                    },
+                    "decimals": 1
                 },
                 {
                     "id": "estremi-temperatura-vento-wind-extremes",
@@ -824,7 +839,8 @@
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Raffica (km/h)",
                         "secondValueStationName": "Nella stazione"
-                    }
+                    },
+                    "decimals": 1
                 }
             ]
         },
@@ -851,7 +867,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-b",
@@ -872,7 +889,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-c",
@@ -893,7 +911,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-d",
@@ -914,7 +933,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-e",
@@ -935,7 +955,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-c+",
@@ -956,7 +977,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-c-",
@@ -977,7 +999,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 },
                 {
                     "id": "hydrometric-levels-m",
@@ -998,7 +1021,8 @@
                         "maxValueReferenceDate": "Ora locale del massimo",
                         "lastValue": "Ultimo (m)",
                         "lastValueReferenceDate": "Ora di riferimento"
-                    }
+                    },
+                    "decimals": 2
                 }
             ]
         },
