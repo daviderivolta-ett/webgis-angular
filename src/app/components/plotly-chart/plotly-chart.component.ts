@@ -29,6 +29,7 @@ type PlotlyChartData = {
 })
 export class PlotlyChartComponent {
   public id = input<string>('plotly-chart');
+  public title = input<string>('');
   public xLabel = input<string>('TEXT');
   public xRange = input<any[]>([]);
   public data = input<PlotlyChartData[]>([]);
@@ -116,7 +117,7 @@ export class PlotlyChartComponent {
 
   private _drawChart(data: PlotlyChartData[]): void {
     if (this.plotly) Plotly.purge(this.id());
-    
+
     const traces: Plotly.Data[] = this._getTraces(data);
     const layout: Plotly.Layout = this._getLayout(data) as Plotly.Layout;
     const config: Plotly.Config = this._getConfig() as Plotly.Config;
@@ -310,7 +311,7 @@ export class PlotlyChartComponent {
         axisShortName = 'y';
       }
 
-      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));     
+      const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));
 
       (layout as any)[axisName] = {
         title: {
@@ -346,7 +347,7 @@ export class PlotlyChartComponent {
     return layout;
   }
 
-  private _drawThresholds(thresholds: Record<string, number>): void { 
+  private _drawThresholds(thresholds: Record<string, number>): void {
     if (!this.plotly) return;
 
     const plotly = this.plotly.nativeElement as any;
@@ -397,12 +398,20 @@ export class PlotlyChartComponent {
             height: 960,
             path: 'M 480 384 h 296 q -22 -66 -70.5 -116.5 T 592 191 L 480 384 Z m -83 48 l 148 -256 q -17 -2 -33 -5 t -32 -3 q -54 0 -103.5 18.5 T 285 237 l 112 195 Z m -225 96 h 225 L 249 271 q -40 43 -60.5 97 T 168 480 q 0 13 1 25 t 3 23 Z m 196 241 l 112 -193 H 184 q 23 66 70 117 t 114 76 Z m 112 23 q 53 0 102.5 -18 t 92.5 -51 L 563 528 L 415 784 q 16 2 32 5 t 33 3 Z m 231 -103 q 38 -43 59.5 -96.5 T 792 480 q 0 -12 -1 -24 t -3 -24 H 563 l 148 257 Z M 480 480 Z m 0 384 q -80 0 -150 -30 t -122 -82 q -52 -52 -82 -122 T 96 480 q 0 -80 30 -149.5 t 82 -122 Q 260 156 330 126 t 150 -30 q 80 0 149.5 30 t 122 82.5 Q 804 261 834 330.5 T 864 480 q 0 80 -30 150 t -82.5 122 q -52.5 52 -122 82 T 480 864 Z'
           },
-          click: (gd) => Plotly.toImage(gd, { format: 'png', height: (gd as any)._fullLayout.height, width: (gd as any)._fullLayout.width }).then((url) => {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `plot.png`;
-            a.click();
-          })
+          click: (gd) => {
+            Plotly.toImage(gd, { format: 'png', height: (gd as any)._fullLayout.height, width: (gd as any)._fullLayout.width }).then((url) => {
+              // this._addTitleToImage(url, (gd as any)._fullLayout.width, (gd as any)._fullLayout.height)
+
+              this._addTitleToImage(url, (gd as any)._fullLayout.width, (gd as any)._fullLayout.height)
+                .then((newUrl: string) => {
+                  const a = document.createElement('a');
+                  a.href = newUrl;
+                  a.download = `plot.png`;
+                  a.click();
+                })
+            })
+          }
+
         },
         {
           title: 'Scarica il grafico come file CSV',
@@ -416,6 +425,27 @@ export class PlotlyChartComponent {
         }
       ]
     }
+  }
+
+  private async _addTitleToImage(url: string, width: number, height: number): Promise<string> {
+    const canvas: HTMLCanvasElement = document.createElement('canvas');
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    return new Promise((resolve, _) => {
+      img.onload = () => {       
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0);
+        ctx.fillText(this.title(), 24, 18);
+        const url = canvas.toDataURL();
+        return resolve(url)
+      }
+      img.src = url;
+    });
   }
 
   private _onChartRelayout(event: Plotly.PlotRelayoutEvent, data: PlotlyChartData[], traces: Plotly.Data[], layout: Plotly.Layout, config: Plotly.Config): void {

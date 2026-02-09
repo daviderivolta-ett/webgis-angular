@@ -39,7 +39,7 @@ export class MapChartDatepickerComponent {
 
   private _getInitialDateFrom(date: Date): Date {
     const initialDate = new Date(date);
-    initialDate.setDate(date.getDate() - 30);
+    initialDate.setDate(date.getDate() - 3);
     return initialDate;
   }
 
