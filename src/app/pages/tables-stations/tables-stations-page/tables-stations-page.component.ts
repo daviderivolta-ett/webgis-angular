@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
@@ -22,6 +22,8 @@ import { ScrollableTableDirective } from '../../../directives/scrollable-table.d
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
+import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-chart-selector.component";
 
 /** Component */
 @Component({
@@ -32,8 +34,10 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
     /** Directives */
     NgTemplateOutlet, RouterLink, RouterLinkActive, ReactiveFormsModule, ScrollableTableDirective, SortableTableComponent, SortHeaderComponent,
     /** Pipes */
-    KeyValuePipe, MapValuePipe
-],
+    KeyValuePipe, MapValuePipe,
+    MapChartDatepickerComponent,
+    MapChartSelectorComponent
+  ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
 })
@@ -62,10 +66,12 @@ export class TablesStationsPageComponent {
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public stationsTableUrl; // Recovered from route resolver in constructor
+  public stationsUrl; // Recovered from route resolver in constructor
+  public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
 
-  private _stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+  public stations: StationBase[] = [];
 
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
@@ -86,6 +92,8 @@ export class TablesStationsPageComponent {
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.stationsTableUrl = this.route.snapshot.data['apisConfig'].get('tableStations');
+    this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
+    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
@@ -106,27 +114,34 @@ export class TablesStationsPageComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
-    this._getStationParameters();
+    await this.setDataFromApi();
   }
 
   /** Methods */
+  public async setDataFromApi() {
+    try {
+      const [stationsPick, allStations, sensorTypes] = await Promise.all([
+        this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      ]);
+
+      this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
+      this.stations = this.stationsService
+        .mergeBaseStationsAndPickStations(allStations, stationsPick)
+        .sort((a, b) => a.id.localeCompare(b.id));
+    } catch (error) {
+      this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
+    }
+  }
+
   private _initNavbar() {
     this.navGroups = this._tableConfigGroups
       .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-  }
-
-  private async _getStationParameters(): Promise<void> {
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this._stations = stations;
-      })
-      .catch((err: unknown) => {
-        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei parametri delle stazioni.`, 'error', true);
-      })
   }
 
   private async _init(id: string): Promise<void> {
@@ -177,7 +192,7 @@ export class TablesStationsPageComponent {
     this._init(select);
   }
 
-  private _reset(): void {  
+  private _reset(): void {
     this.filters = null;
     this.newData = this.newSortedData = new Table2();
   }
@@ -202,12 +217,12 @@ export class TablesStationsPageComponent {
     const table: any = response[0];
 
     const { tableName, tableRows } = table;
-    if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;   
-    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);    
+    if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
+    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
     this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels, config.decimals);
   }
 
-  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {    
+  public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
     this.newSortedData = this.newSortedData.sortTableData(sort.sortBy, sort.direction);
   }
 
@@ -253,19 +268,34 @@ export class TablesStationsPageComponent {
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
 
-    const stationPick = this._stations.find((s) => s.id === hiddenValue);
-    if (!stationPick) return;
-    const station: Station = Station.fromStationPick(stationPick);
+    const stationBase = this.stations.find((s) => s.id === hiddenValue);
+    if (!stationBase) return;
 
-    let chart = this.stationsService.createChart(station, []);
-    this.chart = chart;
+    const station: Station = Station.fromStationData(stationBase, { value: cell['value'], parameter: this.config && this.config.parameter ? this.config.parameter : '' })
+    const thresholds: Record<string, number> = {};
+    if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
+      if (Utils.isValidColor(k) && v) thresholds[k] = v;
+    });
+    const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);   
+    let chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
+    this.chart = chart; 
+  }
+
+  public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
+    const { param, initialDate, endingDate } = formChange;
+    const currentDate = this.dateService.date() ?? new Date();
+
+    if (!this.chart) return;
+
     this.isChartLoading = true;
 
-    const dates: [string, string] = DateUtils.createDateRangeFromDate(this.selectedDate ?? new Date(), 3);
-    const currentDate = this.dateService.date() ?? new Date();
-    this.stationsService.updateChart(this.config && this.config.parameter ? this.config.parameter : '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1], DateUtils.toDateTimeLocal(currentDate))
-      .then((chart: MapChart) => {
-        this.chart = chart;
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);  
+    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+      .then((newChart: MapChart) => {
+        this.chart = newChart;
+      })
+      .catch((err: Error) => {
+        this.snackbarsService.createSnackbar(err.message, 'error', true);
       })
       .finally(() => {
         this.isChartLoading = false;
