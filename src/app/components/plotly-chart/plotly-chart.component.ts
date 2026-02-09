@@ -441,8 +441,7 @@ export class PlotlyChartComponent {
         if (!ctx) return;
         ctx.drawImage(img, 0, 0);
         ctx.fillText(this.title(), 24, 18);
-        const url = canvas.toDataURL();
-        return resolve(url)
+        return resolve(canvas.toDataURL())
       }
       img.src = url;
     });

@@ -262,6 +262,7 @@ export class ConfigService {
           unit: t['unit'] ?? '',
           multiplier: t['multiplier'] ?? undefined,
           range: t['range'] ?? undefined,
+          defaultTimeGap: t['defaultTimeGap'] ?? undefined,
           isFeatured: t['isFeatured'] ?? false,
           relatedSensors: t['relatedSensors'] ?? [],
           compareWith: t['compareWith'] ?? undefined,

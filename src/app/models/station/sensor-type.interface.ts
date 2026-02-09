@@ -7,6 +7,7 @@ export interface SensorType {
     unit: string;
     multiplier?: number;
     range?: any[];
+    defaultTimeGap?: number;
     isFeatured: boolean;
     relatedSensors: string[];
     compareWith: string;

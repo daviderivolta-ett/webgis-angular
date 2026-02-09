@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, effect, model, output } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Component */
@@ -12,6 +12,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './map-chart-datepicker.component.scss'
 })
 export class MapChartDatepickerComponent {
+  public defaultGap = input<number>(30);
   public endingDate = model<Date | undefined>(new Date());
   public initialDate = model<Date>(this._getInitialDateFrom(this.endingDate() || new Date()));
   public form = new FormGroup({
@@ -32,14 +33,14 @@ export class MapChartDatepickerComponent {
   private _onFormChange(changes: any) {
     const initialDate = changes['initialDate'];
     const endingDate = changes['endingDate'];
-    setTimeout(() => {
+    setTimeout(() => {     
       if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);
     });
   }
 
   private _getInitialDateFrom(date: Date): Date {
     const initialDate = new Date(date);
-    initialDate.setDate(date.getDate() - 3);
+    initialDate.setDate(date.getDate() - this.defaultGap());
     return initialDate;
   }
 

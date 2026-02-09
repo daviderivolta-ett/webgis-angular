@@ -12,6 +12,7 @@ export class MapChart {
     public xLabel?: string;
     public xUnit?: string;
     public xRange?: any[];
+    public defaultTimeGap?: number;
     public thresholds?: Record<string, number>;
     public hideZeroXAxis?: boolean;
 
@@ -26,6 +27,7 @@ export class MapChart {
         xLabel?: string,
         xUnit?: string,
         xRange?: any[],
+        defaultTimeGap?: number,
         thresholds?: Record<string, number>,
         hideZeroXAxis?: boolean
     ) {
@@ -39,6 +41,7 @@ export class MapChart {
         this.xLabel = xLabel;
         this.xUnit = xUnit;
         this.xRange = xRange;
+        this.defaultTimeGap = defaultTimeGap;
         this.thresholds = thresholds;
         this.hideZeroXAxis = hideZeroXAxis;
     }
