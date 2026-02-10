@@ -24,6 +24,7 @@
 
         <!-- START LAYERS MENU -->
         <div class="layers-menu">
+            @if (baseLayers.length > 0) {
             <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="images/icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="baseLayersForm">
                     <p class="pop-up-menu-content__title">Mappe base</p>
@@ -37,7 +38,23 @@
                     </div>
                 </div>
             </app-pop-up-menu>
+            }
+            @if (infoLayers.length > 0) {
             <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="images/icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
+                <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="infoLayersForm">
+                    <p class="pop-up-menu-content__title">Livelli informativi</p>
+                    @for (item of infoLayers; track item.id) {
+                        <div class="checkbox">
+                            <label [for]="item.id" class="checkbox__label">
+                                <input type="checkbox" [id]="item.id" class="checkbox__input" [formControlName]="item.id">
+                                {{item.label || item.id}}
+                            </label>
+                        </div>
+                    }
+                </div>
+            </app-pop-up-menu>
+            }
+            <!-- <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="images/icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">
                     <p class="pop-up-menu-content__title">Livelli informativi</p>
                     <div class="pop-up-menu-content__body">
@@ -51,7 +68,7 @@
                         }
                     </div>
                 </div>
-            </app-pop-up-menu>
+            </app-pop-up-menu> -->
         </div>        
         <!-- END LAYERS MENU -->
 

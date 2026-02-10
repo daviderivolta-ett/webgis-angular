@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
 import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
@@ -45,6 +45,7 @@ export class DataPageComponent {
   public isSliderCollapsed: boolean = false;
 
   public baseLayersForm: FormGroup = new FormGroup({ baseLayer: new FormControl() });
+  public infoLayersForm: FormGroup = new FormGroup({});
   public groupedCheckboxes: GroupedCheckboxItem[]; // Recovered from route resolver in constructor
   public chips: Chip[] = [];
 
@@ -146,8 +147,15 @@ export class DataPageComponent {
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
-    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
+
+    /** Forms init */
+    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
+    if (this.infoLayers.length > 0) this.infoLayers.forEach((l: WMSLayer) => this.infoLayersForm.addControl(l.id, new FormControl(false)));
+    Object.keys(this.infoLayersForm.controls).forEach((controlName: string) => {
+      const control = this.infoLayersForm.get(controlName);
+      if (control) control.valueChanges.subscribe((changes: any) => this._onInfoLayersCheckboxesChange(controlName, changes));
+    })
 
     /** Effetcs */
     effect(() => {
@@ -176,7 +184,6 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngAfterViewInit(): void {
@@ -185,6 +192,8 @@ export class DataPageComponent {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestPopupConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
       .then((config: any) => this.stationPopupConfig = config)
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
+
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngOnDestroy(): void {
@@ -215,6 +224,16 @@ export class DataPageComponent {
 
   private _applyLayersFromQueryParams(params: ParamMap): void {
     const layerIds: string[] = params.getAll('layer');
+    const baseLayerIds: string[] = params.getAll('base');
+    const infoLayerIds: string[] = params.getAll('info');
+
+    if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
+      this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
+      this._updateMultipleLayers(undefined, true);
+      this.infoLayersForm.patchValue({ zone_di_allerta: true });
+      return;
+    }
+
     const layers: Layer[] = layerIds.map((id: string) => {
       return this.dataLayers.map((g: LayerGroup) => g.searchLayerById(id))
     }).flat().filter(l => l !== undefined);
@@ -224,13 +243,50 @@ export class DataPageComponent {
     }, new Map(this.currentDataLayers.map));
 
     this._updateMultipleLayers(undefined, true);
+
+    const baseLayers: TileLayer[] = this.baseLayers.filter((l) => baseLayerIds.includes(l.id))
+    if (baseLayers.length > 0) {
+      this.baseLayersForm.patchValue({ baseLayer: baseLayers[0].id }, { emitEvent: false });
+      this._map.removeLayerById('base');
+      this._map.addBaseLayer(baseLayers[0].url, { ...baseLayers[0] });
+      this._updateFirstQueryParamValue('base', baseLayers[0].id);
+    }
+
+    const infoLayers: WMSLayer[] = this.infoLayers.filter((l) => infoLayerIds.includes(l.id));
+    if (infoLayers.length > 0) this.infoLayersForm.patchValue(
+      infoLayers.reduce<{ [key: string]: boolean }>((acc, layer) => {
+        acc[layer.id] = true;
+        return acc;
+      }, {})
+    )
   }
 
+  /** TO DO */
   private _updateLayerQueryParams(activeLayersIds: string[]): void {
-    const base = this.router.url.split('?')[0];
-    const query: string = activeLayersIds.map((id: string) => `layer=${id}`).join('&');
-    this.location.replaceState(base, query);
+    this.router.navigate([], {
+      queryParams: { layer: [...activeLayersIds] },
+      queryParamsHandling: 'merge'
+    })
   }
+
+  private _updateFirstQueryParamValue(param: string, value: string): void {
+    const values: string[] = this.route.snapshot.queryParamMap.getAll(param);
+    const updated: string[] = [value, ...values.slice(1)];
+    this.router.navigate([], {
+      queryParams: { [param]: updated },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  private _changeLayerQueryParams(param: string, idsToAdd: string[], idsToRemove: string[]): void {
+    const layers: string[] = this.route.snapshot.queryParamMap.getAll(param);
+    const result: string[] = Array.from(new Set([...layers.filter((id: string) => !idsToRemove.includes(id)), ...idsToAdd]));
+    this.router.navigate([], {
+      queryParams: { [param]: result.length ? result : null },
+      queryParamsHandling: 'merge'
+    })
+  }
+  /** TO DO */
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
     const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);
@@ -402,13 +458,21 @@ export class DataPageComponent {
     if (!layer) return;
     const { id, label, url, ...rest } = layer;
     this._map.addBaseLayer(url, rest);
+    this._updateFirstQueryParamValue('base', id);
   }
 
-  public onInfoLayerCheckboxChange(event: Event, layer: WMSLayer): void {
-    const value = (event.target as HTMLInputElement).checked;
-    const { id, url, params } = layer;
-    if (value) this._map.addWMSLayer(id, url, params);
-    else this._map.removeLayerById(id);
+  private _onInfoLayersCheckboxesChange(layerId: string, value: boolean): void {
+    if (!value) {
+      this._map.removeLayerById(layerId);
+      this._changeLayerQueryParams('info', [], [layerId]);
+    }
+    else {
+      const infoLayer: WMSLayer | undefined = this.infoLayers.find((l) => l.id === layerId);
+      if (infoLayer) {
+        this._map.addWMSLayer(infoLayer.id, infoLayer.url, infoLayer.params);
+        this._changeLayerQueryParams('info', [layerId], []);
+      }
+    }
   }
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
@@ -656,6 +720,9 @@ export class DataPageComponent {
         const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
         const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
+      })
+      .finally(() => {
+        this._updateLayerQueryParams(this.currentDataLayers.toArray())
       })
   }
 }
