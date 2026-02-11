@@ -47,6 +47,8 @@ export abstract class Layer {
             ...(object.max !== undefined ? { max: object.max } : {}),
             ...(object.labels ? { labels: object.labels } : {}),
             ...(object.steps ? { steps: object.steps } : {}),
+            altUnit: object.altUnit,
+            multiplier: object.multiplier,
             hasRelativeSteps : object.hasRelativeSteps ?? false
         };
 

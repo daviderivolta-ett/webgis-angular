@@ -261,7 +261,6 @@ export class DataPageComponent {
     )
   }
 
-  /** TO DO */
   private _updateLayerQueryParams(activeLayersIds: string[]): void {
     this.router.navigate([], {
       queryParams: { layer: [...activeLayersIds] },
@@ -286,7 +285,6 @@ export class DataPageComponent {
       queryParamsHandling: 'merge'
     })
   }
-  /** TO DO */
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
     const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);
@@ -359,7 +357,7 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.dateService.date() ?? new Date() : undefined });
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.dateService.date() ?? new Date() : undefined });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {

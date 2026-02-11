@@ -106,9 +106,9 @@ export class PlatformsCommandService implements Command {
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
                 const date: Date = new Date(properties['referenceDate']);
-
+           
                 const value: any = properties['value'];
-                let color: string = colorScale.getColor(value);
+                let color: string = colorScale.getColor(colorScale.multiplier ? colorScale.multiplier * value : value);
                 if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor) ?? color;
 
                 if (currentDate && !isNaN(date.getTime()) && timeThreshold) {
