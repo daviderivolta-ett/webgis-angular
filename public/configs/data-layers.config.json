@@ -3345,7 +3345,7 @@
                                     "longLabel": "Umidità del suolo - Bacini idrografici (00:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=BaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3377,7 +3377,7 @@
                                     "longLabel": "Umidità del suolo - Compresori idrologici (00:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3409,7 +3409,7 @@
                                     "longLabel": "Umidità del suolo - Piccoli bacini (00:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3441,7 +3441,7 @@
                                     "longLabel": "Umidità del suolo - Zone di allerta (00:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0000&polygon=ZoneAllertaLiguria_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3522,7 +3522,7 @@
                                     "longLabel": "Umidità del suolo - Bacini idrografici (06:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=BaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3554,7 +3554,7 @@
                                     "longLabel": "Umidità del suolo - Compresori idrologici (06:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3586,7 +3586,7 @@
                                     "longLabel": "Umidità del suolo - Piccoli bacini (06:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3618,7 +3618,7 @@
                                     "longLabel": "Umidità del suolo - Zone di allerta (06:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture0600&polygon=ZoneAllertaLiguria_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3699,7 +3699,7 @@
                                     "longLabel": "Umidità del suolo - Bacini idrografici (12:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=BaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3731,7 +3731,7 @@
                                     "longLabel": "Umidità del suolo - Compresori idrologici (12:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3763,7 +3763,7 @@
                                     "longLabel": "Umidità del suolo - Piccoli bacini (12:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3795,7 +3795,7 @@
                                     "longLabel": "Umidità del suolo - Zone di allerta (12:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1200&polygon=ZoneAllertaLiguria_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3876,7 +3876,7 @@
                                     "longLabel": "Umidità del suolo - Bacini idrografici (18:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=BaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=BaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3908,7 +3908,7 @@
                                     "longLabel": "Umidità del suolo - Compresori idrologici (18:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ComprensoriIdrologiciDiBase_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3940,7 +3940,7 @@
                                     "longLabel": "Umidità del suolo - Piccoli bacini (18:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=PiccoliBaciniIdrografici_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -3972,7 +3972,7 @@
                                     "longLabel": "Umidità del suolo - Zone di allerta (18:00)",
                                     "layerType": "geojson",
                                     "layerCategory": "data_wms",
-                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ZoneAllertaLiguria_wgs84_epsg4326",
+                                    "url": "{{BASE_URL}}/polygon_means?raster=omirl:soilmoisture1800&polygon=ZoneAllertaLiguria_wgs84_epsg4326&maxage=86400000",
                                     "multiplier": 100,
                                     "decimals": 0,
                                     "legend": {
@@ -6057,5 +6057,5 @@
             ]
         }
     ],
-    "lastModified": "2026-02-02"
+    "lastModified": "2026-02-11"
 }
