@@ -327,10 +327,7 @@ export class TablesMaxPageComponent {
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
   }
 
-  public async onCellClick(cell: any, tableId: string): Promise<void> {
-    console.log(this.configGroup);
-    console.log(this.config);
-    
+  public async onCellClick(cell: any, tableId: string): Promise<void> {    
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
 
