@@ -3,7 +3,7 @@ import { Component, effect, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { MapChart, MapChartData, SensorType, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, DateService, SnackbarsService, StationsService } from '../../../services'
@@ -20,6 +20,8 @@ import { MapValuePipe } from '../../../pipes'
 
 /** Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
+import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
+import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-chart-selector.component";
 
 /** Types */
 type PageTable = {
@@ -37,8 +39,10 @@ type PageTable = {
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
-    MapValuePipe
-  ],
+    MapValuePipe,
+    MapChartDatepickerComponent,
+    MapChartSelectorComponent
+],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
 })
@@ -61,10 +65,12 @@ export class TablesMaxPageComponent {
   public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
+  public stationsUrl; // Recovered from route resolver in constructor
+  public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
 
-  private _stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
+  public stations: StationBase[] = [];
 
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
@@ -83,6 +89,8 @@ export class TablesMaxPageComponent {
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
+    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
@@ -104,26 +112,33 @@ export class TablesMaxPageComponent {
   }
 
   /** Component lifecycle */
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this._initNavbar();
-    this._getStationParameters();
+    await this.setDataFromApi();
   }
 
   /** Methods */
+  public async setDataFromApi() {
+    try {
+      const [stationsPick, allStations, sensorTypes] = await Promise.all([
+        this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+      ]);
+
+      this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
+      this.stations = this.stationsService
+        .mergeBaseStationsAndPickStations(allStations, stationsPick)
+        .sort((a, b) => a.id.localeCompare(b.id));
+    } catch (error) {
+      this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
+    }
+  }
+
   private _initNavbar() {
     this.navGroups = this._tableConfigGroups
       .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
-  }
-
-  private async _getStationParameters(): Promise<void> {
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
-      .then((stations) => {
-        this._stations = stations;
-      })
-      .catch((err: unknown) => {
-        this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dei parametri delle stazioni.`, 'error', true);
-      })
   }
 
   private async _init(id: string): Promise<void> {
@@ -249,7 +264,7 @@ export class TablesMaxPageComponent {
               let value = '';
               keysToMerge.forEach((k: string, i: number) => {
                 const pair: [string, any] | undefined = entries.find(([kk]) => kk === k);
-                if (pair) {                 
+                if (pair) {
                   const isDate = Table2._isISODate(pair[1]);
                   value += isDate ?
                     ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]<br>` :
@@ -313,25 +328,43 @@ export class TablesMaxPageComponent {
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {
+    console.log(this.configGroup);
+    console.log(this.config);
+    
     const hiddenValue: string | undefined = cell['hiddenValue'];
     if (!hiddenValue) return;
 
     const tableConfig = TableConfigGroup.findTableConfig(tableId, this._tableConfigGroups);
     if (!tableConfig) return;
 
-    const stationPick = this._stations.find((s) => s.id === hiddenValue);
-    if (!stationPick) return;
-    const station: Station = Station.fromStationPick(stationPick);
+    const stationBase = this.stations.find((s) => s.id === hiddenValue);
+    if (!stationBase) return;
+    const station: Station = Station.fromStationData(stationBase, { value: cell['value'], parameter: tableConfig.parameter ? tableConfig.parameter : '' })
 
-    let chart = this.stationsService.createChart(station, []);
+    const thresholds: Record<string, number> = {};
+    if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
+      if (Utils.isValidColor(k) && v) thresholds[k] = v;
+    });
+    const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);
+    let chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
     this.chart = chart;
+  }
+
+  public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
+    const { param, initialDate, endingDate } = formChange;
+    const currentDate = this.dateService.date() ?? new Date();    
+
+    if (!this.chart) return;
+
     this.isChartLoading = true;
 
-    const dates: [string, string] = DateUtils.createDateRangeFromDate(this.selectedDate ?? new Date(), 3);
-    const currentDate = this.dateService.date() ?? new Date();
-    this.stationsService.updateChart(tableConfig.parameter ?? '', chart, this._sensorTypes, this.timeserieUrl, dates[0], dates[1], DateUtils.toDateTimeLocal(currentDate))
-      .then((chart: MapChart) => {
-        this.chart = chart;
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
+    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+      .then((newChart: MapChart) => {
+        this.chart = newChart;
+      })
+      .catch((err: Error) => {
+        this.snackbarsService.createSnackbar(err.message, 'error', true);
       })
       .finally(() => {
         this.isChartLoading = false;

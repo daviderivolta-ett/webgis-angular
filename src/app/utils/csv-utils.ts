@@ -9,8 +9,8 @@ export class CSVUtils {
         const content = objects.map((obj) => {
             return Object.entries(obj)
                 .filter((entry: [string, any]) => keysToKeep.includes(entry[0]))
-                .flatMap((entry) => entry[1]);
-        });
+                .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(entry[1]));
+        });       
 
         const rows = [keys, ...content];
 
@@ -19,7 +19,7 @@ export class CSVUtils {
                 if (v instanceof Date) return `${String(v.getDate()).padStart(2, '0')}/${String(v.getMonth() + 1).padStart(2, '0')}/${v.getFullYear()}`;
                 else return v;
             })
-        })
+        })   
 
         return formattedRows.map((row) => row.join(';')).join('\n');
     }

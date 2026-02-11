@@ -243,8 +243,8 @@ export class TablesStationsPageComponent {
 
   public onDownloadBtnClick(): void {
     const table = this.newData.convertTableToArray();
-    const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);
-    Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}`, csv);
+    const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);   
+    Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}.csv`, csv);
   }
 
   public onDateChange(event: any): void {
