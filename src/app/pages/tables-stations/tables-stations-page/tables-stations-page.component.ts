@@ -306,6 +306,6 @@ export class TablesStationsPageComponent {
     if (!Array.isArray(event)) return;
     const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
-    Utils.downloadFile('stazioni.csv', csv);
+    Utils.downloadFile('station_chart.csv', csv);
   }
 }

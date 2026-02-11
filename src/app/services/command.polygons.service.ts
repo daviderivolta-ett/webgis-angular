@@ -7,6 +7,9 @@ import { Command, GeoJsonLayer } from '../models'
 /** Services */
 import { ApiService } from './api.service'
 
+/** Utils */
+import { DateUtils } from '../utils'
+
 /** Service */
 @Injectable({
     providedIn: 'root'
@@ -24,17 +27,17 @@ export class PolygonsCommandService implements Command {
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);          
+            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
             map.addGeoJSONLayer(layer.id, geoJSON);
-        } catch (error) {                              
+        } catch (error) {
             if (error instanceof Error) throw new Error(`Layer ${layer.id} non disponibile per la data selezionata.`);
             else throw new Error(`Errore nell'esecuzione del comando.`);
         }
-
     }
 
     private _createUrlWithDate(url: string, date: Date): string {
         const separator = url.includes('?') ? '&' : '?';
-        return `${url}${separator}time=${date.toISOString()}`;
+        const parsedDate: string = `${DateUtils.pad(date.getFullYear())}-${DateUtils.pad(date.getMonth() + 1)}-${DateUtils.pad(date.getDate())}T${DateUtils.pad(date.getHours())}:${DateUtils.pad(date.getMinutes())}:${DateUtils.pad(date.getSeconds())}.${DateUtils.pad(date.getMilliseconds())}Z`;
+        return `${url}${separator}time=${parsedDate}`;
     }
 }

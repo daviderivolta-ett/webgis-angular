@@ -218,12 +218,12 @@ export class TablesLevelsPageComponent {
 
   public onDownloadBtnClick(tableId: string): void {
     const foundTable: PageTable | undefined = this.tables.find((t: PageTable) => t.id === tableId);
-    if (!foundTable) return;
-
+    if (!foundTable) return;    
     const table = foundTable.table.convertTableToArray();
     const csv = CSVUtils.convertArrayToCSV(table, foundTable.table.header);
-    const param: string | null = this.route.snapshot.paramMap.get('id');
-    if (param) Utils.downloadFile(`${param}.csv`, csv);
+    const tableConfig = TableConfigGroup.findTableConfig(tableId, this._tableConfigGroups);
+    if (!tableConfig) return;
+    Utils.downloadFile(`${tableConfig.id}.csv`, csv);
   }
 
   public onDateChange(event: any): void {
@@ -277,6 +277,6 @@ export class TablesLevelsPageComponent {
     if (!Array.isArray(event)) return;
     const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
-    Utils.downloadFile('massimi-precipitazione.csv', csv);
+    Utils.downloadFile('station_chart.csv', csv);
   }
 }
