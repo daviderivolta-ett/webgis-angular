@@ -45,13 +45,19 @@
 }
 
 .content {
-    text-align: center;
+    display: flex;
+    justify-content: center;
     height: 100%;
     padding: 96px 4% 0 4%;
 }
 
-.radar-img {
+.img-wrapper {
     max-width: 1140px;
+}
+
+.radar-img {
+    max-height: 600px;
+    object-fit: contain;
 }
 
 .update-time {
