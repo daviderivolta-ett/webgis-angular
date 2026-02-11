@@ -97,6 +97,15 @@ app-datepicker {
     }
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: color-mix(in srgb, var(--primary-900), transparent 50%);
+}
+
 @media screen and (max-width: 992px) {
     .content {
         width: 92%;
