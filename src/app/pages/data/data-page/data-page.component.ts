@@ -448,7 +448,7 @@ export class DataPageComponent {
     if (activeGeoJSONLayers.length === 0) return;
 
     const layer: GeoJsonLayer = activeGeoJSONLayers[0];
-    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Math.round(properties['mean_value'] * 100) / 100} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
+    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${(Math.round(properties['mean_value'] * 100) / 100) * (layer.multiplier ? layer.multiplier : 1)} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
   }
 
   private _onBaselayersRadioChange(changes: any): void {
