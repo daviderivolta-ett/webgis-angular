@@ -68,6 +68,9 @@ export class TimePlayerComponent {
     if (this._checkDate(new Date(date))) {
       this.form.patchValue({ date }, { emitEvent: false });
       this.onToggle.emit(new Date(date));
+    } else {
+      this.patchValue(new Date);
+      this.onToggle.emit(new Date());
     }
   }
 
