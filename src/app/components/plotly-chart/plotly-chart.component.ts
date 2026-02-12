@@ -562,12 +562,14 @@ export class PlotlyChartComponent {
 
       return {
         x: p[0],
-        y: -5,
+        y: -10,
         text: relatedData && relatedData[1] && chartData.style ? this._getMarkerFromStyle(relatedData[1], chartData.style['markers']) : '',
         textangle: `${p[1] ?? 0}`,
         align: 'center',
+        valign: 'middle',
+        height: 24,
         font: {
-          size: 24
+          size: 24,
         },
         showarrow: false,
         arrowhead: 1,

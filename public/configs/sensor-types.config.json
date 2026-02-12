@@ -531,7 +531,7 @@
                         {
                             "comparisonOperator": "<=",
                             "threshold": 5,
-                            "marker": "○"
+                            "marker": "◦"
                         },
                         {
                             "comparisonOperator": ">",
