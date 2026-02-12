@@ -13,6 +13,9 @@ import { ApiService, AuthService, PopupService, SnackbarsService } from '../../.
 /** Components */
 import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components';
 
+/** Pipes */
+import { MapValuePipe } from '../../../pipes'
+
 /** Component */
 @Component({
   selector: 'app-popup-settings-page',
@@ -23,6 +26,7 @@ import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtn
     SettingsNavMenuComponent,
     /** Pipes */
     KeyValuePipe,
+    MapValuePipe,
     /** Directives */
     ReactiveFormsModule,
     LoadingBtnComponent
@@ -41,6 +45,7 @@ export class PopupSettingsPageComponent {
   public user: User | null = null;
 
   public stationsApiBaseUrl: string; // Recovered from route resolver in constructor
+  public popupConfig: Map<string, string>; // Recovered from route resolver in constructor
   public latestConfigUrl: string; // Recovered from route resolver in constructor
   public createConfigUrl: string; // Recovered from route resolver in constructor
 
@@ -52,6 +57,7 @@ export class PopupSettingsPageComponent {
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.popupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
     this.createConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('createConfig'));
 
@@ -65,7 +71,7 @@ export class PopupSettingsPageComponent {
   public ngAfterViewInit(): void {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
       .then((config: any) => {
-        this.form = this._createStationPopupConfigForm(config);
+        this.form = this._createStationPopupConfigForm(config, this.popupConfig);
         this.isConfigLoaded = true;
       })
       .catch(() => {
@@ -74,12 +80,13 @@ export class PopupSettingsPageComponent {
   }
 
   /** Methods */
-  private _createStationPopupConfigForm(config: StationPopupConfig): FormGroup {
+  private _createStationPopupConfigForm(config: StationPopupConfig, params: Map<string, string>): FormGroup {
     const formGroup = new FormGroup({});
 
-    Object.entries(config).forEach(([k, v]: [string, boolean]) => {
-      formGroup.addControl(k, new FormControl(v))
-    });
+    for (const [id, _] of params.entries()) {
+      const foundConfig: [string, boolean] | undefined = Object.entries(config).find(([k, _]: [string, boolean]) => k === id);
+      if (foundConfig) formGroup.addControl(foundConfig[0], new FormControl(foundConfig[1]));
+    };
 
     return formGroup;
   }

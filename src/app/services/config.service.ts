@@ -228,14 +228,15 @@ export class ConfigService {
       })
   }
 
-  public async getStationsPopupConfig(): Promise<StationPopupConfig> {
+  public async getStationsPopupConfig(): Promise<Map<string, string>> {
     return fetch(this.appConfig.stationsPopupConfigUri)
       .then((res: Response) => {
         if (!res.ok) throw new Error('Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json');
         return res.json();
       })
       .then((data: any) => {
-        return data['config'];
+        if (!('config' in data) || !('visibleParams' in data['config'])) throw new Error(`Formato configurazione non valido.`);
+        return new Map(Object.entries(data['config']['visibleParams'] as Record<string, string>));
       })
       .catch((err: any) => {
         throw new Error(`Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json ${err.message || err}`);

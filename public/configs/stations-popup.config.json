@@ -1,11 +1,15 @@
 {
     "config": {
-        "id": true,
-        "name": true,
-        "city": true,
-        "lat": true,
-        "lng": true,
-        "alt": true
+        "visibleParams": {
+            "value": "Valore",
+            "id": "Codice stazione",
+            "name": "Nome stazione",
+            "date": "Data",
+            "city": "Località",
+            "lat": "Latitudine",
+            "lng": "Longitudine",
+            "alt": "Altitudine"
+        }
     },
-    "lastModified": "2025-07-17"
+    "lastModified": "2026-02-12"
 }

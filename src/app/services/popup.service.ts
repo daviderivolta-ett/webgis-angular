@@ -43,7 +43,6 @@ export class PopupService {
       })
     })
       .then((res: Response) => {
-        console.log(res);
         if (!res.ok) throw new Error(`Errore durante il salvataggio delle configurazioni del popup.`);
       })
       .catch((err: unknown) => {

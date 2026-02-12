@@ -18,7 +18,7 @@
                         @for (entry of form.controls | keyvalue; track $index) {
                             <div class="custom-checkbox">
                                 <input class="custom-checkbox__input" [id]="entry.key" type="checkbox" [formControlName]="entry.key">
-                                <label class="custom-checkbox__label" [for]="entry.key">{{entry.key}}</label>
+                                <label class="custom-checkbox__label" [for]="entry.key">{{entry.key | mapValue: popupConfig}}</label>
                             </div>
                         }
                     </div>

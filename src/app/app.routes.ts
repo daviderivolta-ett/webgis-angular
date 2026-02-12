@@ -22,7 +22,6 @@ export const routes: Routes = [
             mapConfig: mapConfigResolver,
             settings: settingsConfigResolver,
             apisConfig: apisResolver,
-            // stationPopupConfig: stationPopupConfigResolver,
             colorScales: colorScalesResolver,
             infoLayers: infoLayersResolver,
             baseLayers: baseLayersResolver,
@@ -137,7 +136,7 @@ export const routes: Routes = [
     {
         path: 'settings',
         title: 'OMIRL ARPAL - Impostazioni',
-        canMatch: [editorGuard],
+        // canMatch: [editorGuard],
         children: [
             {
                 path: '',
@@ -151,7 +150,6 @@ export const routes: Routes = [
                 resolve: {
                     apisConfig: apisResolver,
                     sensorTypes: sensorTypesResolver
-                    // stations: stationsResolver
                 }
             },
             {
@@ -160,7 +158,7 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/settings-popup/popup-settings-page/popup-settings-page.component').then(c => c.PopupSettingsPageComponent),
                 resolve: {
                     apisConfig: apisResolver,
-                    // stationPopupConfig: stationPopupConfigResolver
+                    stationPopupConfig: stationPopupConfigResolver
                 }
             },
             {
