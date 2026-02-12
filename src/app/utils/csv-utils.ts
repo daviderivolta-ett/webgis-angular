@@ -10,7 +10,7 @@ export class CSVUtils {
             return Object.entries(obj)
                 .filter((entry: [string, any]) => keysToKeep.includes(entry[0]))
                 .map((entry: [string, any]) => CSVUtils._replaceHTML(entry))
-                .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(entry[1]));
+                .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(entry[1]).toLocaleString());
         });       
 
         const rows = [keys, ...content];
@@ -26,7 +26,7 @@ export class CSVUtils {
     }
 
     static _replaceHTML(entry: [string, any]) {             
-        return [entry[0], typeof entry[1] === 'string' ? entry[1].replaceAll(/<[^>]*>/g, '').trim() : entry[1].trim()];
+        return [entry[0], typeof entry[1] === 'string' ? entry[1].replaceAll(/<[^>]*>/g, '') : entry[1]];
     }
 
     static convertTimestampValueArrayToCSV(array: [number, number][][], keys: string[]): string {
