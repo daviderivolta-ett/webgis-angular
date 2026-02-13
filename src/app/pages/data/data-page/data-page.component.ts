@@ -503,7 +503,7 @@ export class DataPageComponent {
           break;
 
         case 'webcam':
-          const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
+          const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
           const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.dateService.date() ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
