@@ -786,7 +786,7 @@
                                     "longLabel": "Precipitazioni 10min interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall10m",
@@ -1037,7 +1037,7 @@
                                     "longLabel": "Precipitazioni 30min interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall30m",
@@ -1288,7 +1288,7 @@
                                     "longLabel": "Precipitazioni 1h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall1h",
@@ -1539,7 +1539,7 @@
                                     "longLabel": "Precipitazioni 3h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall3h",
@@ -1790,7 +1790,7 @@
                                     "longLabel": "Precipitazioni 6h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall6h",
@@ -2041,7 +2041,7 @@
                                     "longLabel": "Precipitazioni 12h interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall12h",
@@ -2292,7 +2292,7 @@
                                     "longLabel": "Precipitazioni 1d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall1d",
@@ -2543,7 +2543,7 @@
                                     "longLabel": "Precipitazioni 7d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall7d",
@@ -2794,7 +2794,7 @@
                                     "longLabel": "Precipitazioni 15d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall15d",
@@ -3045,7 +3045,7 @@
                                     "longLabel": "Precipitazioni 30d interpolata",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall30d",
@@ -3304,7 +3304,7 @@
                                     "longLabel": "Umidità del suolo - Interpolata (h00:00)",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "multiplier": 100,
                                     "params": {
@@ -3481,7 +3481,7 @@
                                     "longLabel": "Umidità del suolo - Interpolata (h06:00)",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "multiplier": 100,
                                     "params": {
@@ -3658,7 +3658,7 @@
                                     "longLabel": "Umidità del suolo - Interpolata (h12:00)",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "multiplier": 100,
                                     "params": {
@@ -3835,7 +3835,7 @@
                                     "longLabel": "Umidità del suolo - Interpolata (h18:00)",
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
-                                    "opacity": 0.5,
+                                    "opacity": 0.6,
                                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                                     "multiplier": 100,
                                     "params": {
@@ -4014,7 +4014,7 @@
                             "label": "Temperatura - Media",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "omirl:tempMean",
@@ -4074,7 +4074,7 @@
                             "label": "Temperatura - Minima",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "omirl:tempMin",
@@ -4135,7 +4135,7 @@
                             "label": "Temperatura - Massima",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "omirl:tempMax",
@@ -4196,7 +4196,7 @@
                             "label": "Temperatura - Theta",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "omirl:tempTheta",
@@ -5129,7 +5129,7 @@
                     "label": "Intensità oraria",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:radarRainInt5m",
@@ -5178,7 +5178,7 @@
                     "label": "Cumulata oraria",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:radarRain1h",
@@ -5226,7 +5226,7 @@
                     "label": "Merging radar pluviometri",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:radarRainStation1h",
@@ -5274,7 +5274,7 @@
                     "label": "Riflettività radar DPCN",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:vmi",
@@ -5321,7 +5321,7 @@
                     "label": "VIL",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:VIL",
@@ -5373,7 +5373,7 @@
                             "label": "Echo Top 35dBZ",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "ETP35DBZ",
@@ -5416,7 +5416,7 @@
                             "label": "Echo Top 45dBZ",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "ETP45DBZ",
@@ -5467,7 +5467,7 @@
                             "label": "Worst Scenario +10 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-10min",
@@ -5513,7 +5513,7 @@
                             "label": "Worst Scenario +20 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-20min",
@@ -5559,7 +5559,7 @@
                             "label": "Worst Scenario +30 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-30min",
@@ -5605,7 +5605,7 @@
                             "label": "Worst Scenario +40 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-40min",
@@ -5651,7 +5651,7 @@
                             "label": "Worst Scenario +50 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-50min",
@@ -5697,7 +5697,7 @@
                             "label": "Worst Scenario +60 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "worstscenario-60min",
@@ -5751,7 +5751,7 @@
                             "label": "Probabilità +10 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-10min",
@@ -5786,7 +5786,7 @@
                             "label": "Probabilità +20 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-20min",
@@ -5821,7 +5821,7 @@
                             "label": "Probabilità +30 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-30min",
@@ -5856,7 +5856,7 @@
                             "label": "Probabilità +40 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-40min",
@@ -5891,7 +5891,7 @@
                             "label": "Probabilità +50 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-50min",
@@ -5926,7 +5926,7 @@
                             "label": "Probabilità +60 minuti",
                             "layerType": "wms",
                             "layerCategory": "data_wms--time",
-                            "opacity": 0.5,
+                            "opacity": 0.6,
                             "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                             "params": {
                                 "layers": "prob2thr-60min",
@@ -5971,7 +5971,7 @@
                     "label": "Infrarosso",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:satelliteir",
@@ -6023,7 +6023,7 @@
                     "label": "Visibile VIS",
                     "layerType": "wms",
                     "layerCategory": "data_wms--time",
-                    "opacity": 0.5,
+                    "opacity": 0.6,
                     "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
                     "params": {
                         "layers": "omirl:satellitevis",

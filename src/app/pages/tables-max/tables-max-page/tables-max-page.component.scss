@@ -19,6 +19,15 @@
     padding: 24px;
 }
 
+.idroaree-img {
+    display: flex;
+    justify-content: center;
+}
+
+.idroaree-img img {
+    max-width: 650px;
+}
+
 .table-link {
     padding: 4px 8px;
     display: block;

@@ -14,18 +14,18 @@
                     "label": "Liguria",
                     "options": [
                         {
-                            "id": "radar_liguria_rain_1h",
-                            "label": "Pioggia 1 ora",
-                            "url": "Rain1h_{imgType}"
-                        },
-                        {
                             "id": "radar_liguria_rain_int_5m",
-                            "label": "Pioggia 5 minuti",
+                            "label": "Intensità oraria",
                             "url": "RainInt5m_{imgType}"
                         },
                         {
+                            "id": "radar_liguria_rain_1h",
+                            "label": "Cumulata oraria",
+                            "url": "Rain1h_{imgType}"
+                        },
+                        {
                             "id": "radar_liguria_rain_station_1h",
-                            "label": "Pioggia 1 ora stazioni",
+                            "label": "Cumulata oraria con pluviometri",
                             "url": "RainStation1h_{imgType}"
                         }
                     ]
@@ -35,19 +35,19 @@
                     "label": "Piemonte",
                     "options": [
                         {
-                            "id": "radar_piemonte_cappi",
-                            "label": "Riflettività",
-                            "url": "PIEMradarCappi_{imgType}"
-                        },
-                        {
-                            "id": "radar_piemonte_rain_10m",
-                            "label": "Pioggia 10 minuti",
+                            "id": "radar_piemonte_rain_5m",
+                            "label": "Intensità oraria",
                             "url": "PIEMradarRain10m_{imgType}"
                         },
                         {
                             "id": "radar_piemonte_rain_1h",
-                            "label": "Pioggia 1 ora",
+                            "label": "Cumulata oraria",
                             "url": "PIEMradarRain1h_{imgType}"
+                        },
+                        {
+                            "id": "radar_piemonte_cappi",
+                            "label": "Riflettività",
+                            "url": "PIEMradarCappi_{imgType}"
                         }
                     ]
                 }
