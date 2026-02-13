@@ -36,7 +36,7 @@
                     "options": [
                         {
                             "id": "radar_piemonte_cappi",
-                            "label": "Cappi",
+                            "label": "Riflettività",
                             "url": "PIEMradarCappi_{imgType}"
                         },
                         {

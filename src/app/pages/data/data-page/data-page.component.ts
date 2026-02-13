@@ -110,7 +110,6 @@ export class DataPageComponent {
   /** Constructor */
   constructor(
     private cdRef: ChangeDetectorRef,
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
@@ -660,7 +659,7 @@ export class DataPageComponent {
     } catch (err: unknown) {
       this._checkLayerAndRedrawGroupedCheckboxes(layer.id, false, !!this.user);
       const isNotFoundTimError: boolean = err instanceof Error && err.message.includes('non disponibile per la data selezionata');
-      this.snackbarsService.createSnackbar(err instanceof Error && isNotFoundTimError ? err.message : `Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, isNotFoundTimError ? 'success' : 'error', !isNotFoundTimError);
+      this.snackbarsService.createSnackbar(err instanceof Error && isNotFoundTimError ? err.message : `Errore nel caricamento del layer ${layer.label ?? layer.id}. Riprovare.`, isNotFoundTimError ? 'success' : 'error', true);
       throw new Error(err instanceof Error ? err.message : 'Errore nel caricamento del layer');
 
     } finally {

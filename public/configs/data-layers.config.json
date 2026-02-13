@@ -326,9 +326,10 @@
                     "iconUrl": "./images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/sunshine_duration",
                     "parameter": "sunshine_duration",
+                    "multiplier": 3.3333333333333333,
                     "legend": {
                         "colorScaleId": "sunshine_duration",
-                        "unit": "min",
+                        "unit": "%",
                         "steps": [
                             1,
                             10,
@@ -342,7 +343,7 @@
                             90
                         ],
                         "altUnit": "%",
-                        "multiplier": 3.3333
+                        "multiplier": 3.3333333333333333
                     },
                     "showValueOnZoom": true,
                     "action": {
@@ -5457,7 +5458,7 @@
                 },
                 {
                     "id": "radar_worst_case",
-                    "label": "Worst case",
+                    "label": "Peggior scenario",
                     "maxNumber": 1,
                     "requiresAuth": true,
                     "options": [
