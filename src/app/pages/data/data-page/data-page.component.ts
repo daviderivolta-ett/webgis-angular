@@ -225,8 +225,8 @@ export class DataPageComponent {
   private _applyLayersFromQueryParams(params: ParamMap): void {
     const layerIds: string[] = params.getAll('layer');
     const baseLayerIds: string[] = params.getAll('base');
-    const infoLayerIds: string[] = params.getAll('info');
-
+    const infoLayerIds: string[] = params.getAll('info'); 
+    
     if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
       this._updateMultipleLayers(this.dateService.date(), true);
@@ -242,7 +242,7 @@ export class DataPageComponent {
       return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
     }, new Map(this.currentDataLayers.map));
 
-    this._updateMultipleLayers(undefined, true);
+    this._updateMultipleLayers(this.dateService.date(), true);
 
     const baseLayers: TileLayer[] = this.baseLayers.filter((l) => baseLayerIds.includes(l.id))
     if (baseLayers.length > 0) {
