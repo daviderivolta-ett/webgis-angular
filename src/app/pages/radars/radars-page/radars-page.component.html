@@ -16,7 +16,7 @@
                 </details>
             }
             @else {
-                <a class="radar-link" [routerLink]="'/radar/' + group.id" routerLinkActive="radar-link--active">{{group.label || group.id}}</a>
+                <a class="radar-link" [routerLink]="'/radar/' + group.id" routerLinkActive="radar-link--active" queryParamsHandling="preserve">{{group.label || group.id}}</a>
             }
         </ng-template>
 

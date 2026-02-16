@@ -2,7 +2,7 @@
     <h3>Configurazioni</h3>
     <div class="settings-links">
         @for (route of menu; track $index) {
-            <a class="setting-link" [routerLink]="'/settings/' + route.path" routerLinkActive="setting-link--active">{{route.label}}</a>
+            <a class="setting-link" [routerLink]="'/settings/' + route.path" routerLinkActive="setting-link--active" queryParamsHandling="preserve">{{route.label}}</a>
         }
     </div>
 </div>

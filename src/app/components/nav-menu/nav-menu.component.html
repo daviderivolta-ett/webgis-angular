@@ -10,7 +10,7 @@
                         </a>
                     }
                     @else {               
-                        <a class="menu__item-link" [routerLink]="'/' + route.path" routerLinkActive="menu__item-link--active">
+                        <a class="menu__item-link" [routerLink]="'/' + route.path" routerLinkActive="menu__item-link--active" queryParamsHandling="preserve">
                             <span class="menu__item-icon" [style.maskImage]="'url(' + route.iconUrl + ')'" [style.webkitMaskImage]="'url(' + route.iconUrl + ')'"></span>
                             <span class="menu__item-text">{{route.label}}</span>
                         </a>

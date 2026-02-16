@@ -8,7 +8,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, DateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, DateService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
@@ -115,6 +115,7 @@ export class DataPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private popupService: PopupService,
+    private globalStateService: GlobalStateService,
     private dateService: DateService,
     private snackbarsService: SnackbarsService,
     private layersService: LayersService,
@@ -158,7 +159,7 @@ export class DataPageComponent {
 
     /** Effetcs */
     effect(() => {
-      const currentUser = this.authService.user();    
+      const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
       if (!this.user && currentUser) this.setDataFromApi();
@@ -201,7 +202,7 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  public async setDataFromApi() {    
+  public async setDataFromApi() {
     this.isLoading = true;
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
@@ -248,7 +249,7 @@ export class DataPageComponent {
       this.baseLayersForm.patchValue({ baseLayer: baseLayers[0].id }, { emitEvent: false });
       this._map.removeLayerById('base');
       this._map.addBaseLayer(baseLayers[0].url, { ...baseLayers[0] });
-      this._updateFirstQueryParamValue('base', baseLayers[0].id);
+      this.globalStateService.updateFirstQueryParamValue('base', baseLayers[0].id);
     }
 
     const infoLayers: WMSLayer[] = this.infoLayers.filter((l) => infoLayerIds.includes(l.id));
@@ -258,31 +259,6 @@ export class DataPageComponent {
         return acc;
       }, {})
     )
-  }
-
-  private _updateLayerQueryParams(activeLayersIds: string[]): void {
-    this.router.navigate([], {
-      queryParams: { layer: [...activeLayersIds] },
-      queryParamsHandling: 'merge'
-    })
-  }
-
-  private _updateFirstQueryParamValue(param: string, value: string): void {
-    const values: string[] = this.route.snapshot.queryParamMap.getAll(param);
-    const updated: string[] = [value, ...values.slice(1)];
-    this.router.navigate([], {
-      queryParams: { [param]: updated },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  private _changeLayerQueryParams(param: string, idsToAdd: string[], idsToRemove: string[]): void {
-    const layers: string[] = this.route.snapshot.queryParamMap.getAll(param);
-    const result: string[] = Array.from(new Set([...layers.filter((id: string) => !idsToRemove.includes(id)), ...idsToAdd]));
-    this.router.navigate([], {
-      queryParams: { [param]: result.length ? result : null },
-      queryParamsHandling: 'merge'
-    })
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean) {
@@ -455,19 +431,19 @@ export class DataPageComponent {
     if (!layer) return;
     const { id, label, url, ...rest } = layer;
     this._map.addBaseLayer(url, rest);
-    this._updateFirstQueryParamValue('base', id);
+    this.globalStateService.updateFirstQueryParamValue('base', id);
   }
 
   private _onInfoLayersCheckboxesChange(layerId: string, value: boolean): void {
     if (!value) {
       this._map.removeLayerById(layerId);
-      this._changeLayerQueryParams('info', [], [layerId]);
+      this.globalStateService.changeLayerQueryParams('info', [], [layerId]);
     }
     else {
       const infoLayer: WMSLayer | undefined = this.infoLayers.find((l) => l.id === layerId);
       if (infoLayer) {
         this._map.addWMSLayer(infoLayer.id, infoLayer.url, infoLayer.params);
-        this._changeLayerQueryParams('info', [layerId], []);
+        this.globalStateService.changeLayerQueryParams('info', [layerId], []);
       }
     }
   }
@@ -540,7 +516,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
-  
+
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
@@ -570,7 +546,7 @@ export class DataPageComponent {
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     if (updateUrl) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
-    if (updateUrl) this._updateLayerQueryParams(this.currentDataLayers.toArray());
+    if (updateUrl) this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
   }
 
@@ -719,7 +695,7 @@ export class DataPageComponent {
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
       .finally(() => {
-        this._updateLayerQueryParams(this.currentDataLayers.toArray())
+        this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
       })
   }
 }

@@ -6,7 +6,7 @@
             <div ngProjectAs="sidebar-content" class="sidebar-content">
                 <h3>Tabelle</h3>
                 @for (group of navGroups; track group.id) {
-                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active">{{group.label ?? group.id}}</a>
+                    <a class="table-link" [routerLink]="'/tabelle/' + group.id" routerLinkActive="table-link--active" queryParamsHandling="preserve">{{group.label ?? group.id}}</a>
                 }
             </div>
          </app-sidebar>
