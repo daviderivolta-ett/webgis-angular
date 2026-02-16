@@ -838,7 +838,9 @@
                         "firstValue": "Max (km/h)",
                         "firstValueStationName": "Nella stazione",
                         "secondValue": "Raffica (km/h)",
-                        "secondValueStationName": "Nella stazione"
+                        "secondValueStationName": "Nella stazione",
+                        "Coast": "Costa",
+                        "Elevation": "Rilievi"
                     },
                     "decimals": 1
                 }

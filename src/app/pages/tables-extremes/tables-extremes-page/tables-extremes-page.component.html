@@ -67,7 +67,7 @@
                                                 <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" (click)="onCellClick(d, t.id)">
                                                     <p>
                                                         @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
-                                                        @else { {{d['dataValue'] ?? '-'}} }
+                                                        @else { {{d['dataValue'] ?? '-' | mapValue: t.table.labels}} }
                                                     </p>
                                                 </div>
                                             }
