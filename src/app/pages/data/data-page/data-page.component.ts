@@ -158,10 +158,10 @@ export class DataPageComponent {
 
     /** Effetcs */
     effect(() => {
-      const currentUser = this.authService.user();
+      const currentUser = this.authService.user();    
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
-      this.setDataFromApi();
+      if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
     });
 
@@ -181,6 +181,10 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
+  public async ngOnInit(): Promise<void> {
+    await this.setDataFromApi();
+  }
+
   public ngAfterViewInit(): void {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
 
@@ -536,7 +540,7 @@ export class DataPageComponent {
     this.areChartsDisabled = true;
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
-
+  
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;

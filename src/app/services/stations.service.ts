@@ -91,7 +91,7 @@ export class StationsService {
     return resultMap;
   }
 
-  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {    
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
@@ -262,6 +262,7 @@ export class StationsService {
             sensor.multiplier ? this.convertData(values, sensor.multiplier) : values,
             sensor.label,
             sensor.unit,
+            sensor.decimals,
             sensor.style,
             sensor.label,
             `(${sensor.unit})`,
@@ -272,10 +273,11 @@ export class StationsService {
           );
 
           chartData.push(chartSerie);
-        }
+        }       
 
         return {
           ...chartToUpdate,
+          xRange: [new Date(endingDate).getTime() - 2 * 24 * 60 * 60 * 1000, new Date(endingDate).getTime()],
           thresholds: sensorThresholds ? sensorThresholds : undefined,
           hideZeroXAxis: sensorType ? sensorType.hideZeroXAxis : false,
           data: chartData,

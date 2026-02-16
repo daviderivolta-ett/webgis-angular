@@ -446,6 +446,7 @@
             "label": "Livelli idrometrici medi",
             "chartType": "scatter",
             "unit": "m",
+            "decimals": 2,
             "isFeatured": true,
             "relatedSensors": [],
             "baseColor": "green",
@@ -462,6 +463,7 @@
             "label": "Livelli idrometrici massimi",
             "chartType": "scatter",
             "unit": "m",
+            "decimals": 2,
             "isFeatured": false,
             "relatedSensors": [],
             "baseColor": "green",
@@ -478,6 +480,7 @@
             "label": "Livelli idrometrici istantanei",
             "chartType": "scatter",
             "unit": "m",
+            "decimals": 2,
             "isFeatured": false,
             "relatedSensors": [],
             "baseColor": "green",
@@ -555,6 +558,7 @@
             "label": "Umidità dell'aria",
             "chartType": "scatter",
             "unit": "%",
+            "decimals": 0,
             "range": [
                 -5,
                 105
@@ -568,6 +572,7 @@
             "label": "Radiazione solare",
             "chartType": "scatter",
             "unit": "Wm⁻²",
+            "decimals": 0,
             "range": [
                 -5,
                 1200
@@ -646,6 +651,7 @@
             "label": "Neve",
             "chartType": "scatter",
             "unit": "cm",
+            "decimals": 0,
             "range": [
                 -5,
                 200

@@ -5,6 +5,7 @@ export interface SensorType {
     chartType: 'line' | 'bar';
     style?: Record<string, any>;
     unit: string;
+    decimals: number;
     multiplier?: number;
     range?: any[];
     defaultTimeGap?: number;

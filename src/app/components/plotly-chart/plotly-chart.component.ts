@@ -11,6 +11,7 @@ type PlotlyChartData = {
   data: [number, number | null][],
   legend?: string,
   unit?: string,
+  decimals?: number,
   style?: Record<string, any>,
   yLabel?: string;
   yUnit?: string;
@@ -69,10 +70,11 @@ export class PlotlyChartComponent {
   }
 
   private _parseData(serie: PlotlyChartData): Partial<Plotly.Data> {
+    const format: string = `%{y:.${serie.decimals ?? 1}f}`;
     return {
       x: serie.data.map((v: [number, number | null]) => v[0]),
       y: serie.data.map((v: [number, number | null]) => v[1]),
-      hovertemplate: `%{y} ${serie.unit}<extra></extra>`
+      hovertemplate: `${format} ${serie.unit}<extra></extra>`
     };
   }
 
@@ -291,7 +293,7 @@ export class PlotlyChartComponent {
     const lastDateShape: Partial<Plotly.Shape> | undefined = this._createShapeForLastDateValue(data);
     if (lastDateShape) layout.shapes?.push(lastDateShape);
 
-    const range: [number, number] | undefined = this._getDateRange(data);
+    const range: [number, number] | undefined = this.xRange().length === 2 ? this.xRange() as [number, number] : this._getDateRange(data);
     if (range && layout.xaxis) layout.xaxis.range = [range[0], range[1] + 3 * 60 * 60 * 1000];
 
     let additionalYAxisCounter: number = 2;
@@ -400,8 +402,6 @@ export class PlotlyChartComponent {
           },
           click: (gd) => {
             Plotly.toImage(gd, { format: 'png', height: (gd as any)._fullLayout.height, width: (gd as any)._fullLayout.width }).then((url) => {
-              // this._addTitleToImage(url, (gd as any)._fullLayout.width, (gd as any)._fullLayout.height)
-
               this._addTitleToImage(url, (gd as any)._fullLayout.width, (gd as any)._fullLayout.height)
                 .then((newUrl: string) => {
                   const a = document.createElement('a');
@@ -437,7 +437,7 @@ export class PlotlyChartComponent {
     const img = new Image();
 
     return new Promise((resolve, _) => {
-      img.onload = () => {       
+      img.onload = () => {
         if (!ctx) return;
         ctx.drawImage(img, 0, 0);
         ctx.fillText(this.title(), 24, 18);

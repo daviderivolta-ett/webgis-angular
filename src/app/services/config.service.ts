@@ -261,6 +261,7 @@ export class ConfigService {
           chartType: t['chartType'] ?? 'line',
           style: t['style'] ?? undefined,
           unit: t['unit'] ?? '',
+          decimals: t['decimals'] ?? 1,
           multiplier: t['multiplier'] ?? undefined,
           range: t['range'] ?? undefined,
           defaultTimeGap: t['defaultTimeGap'] ?? undefined,

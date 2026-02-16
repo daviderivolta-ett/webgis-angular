@@ -4,6 +4,7 @@ export class MapChartData {
     public data: [number, number][];
     public legend?: string;
     public unit?: string;
+    public decimals?: number;
     public style?: Record<string, any>;
     public yLabel?: string;
     public yUnit?: string;
@@ -18,6 +19,7 @@ export class MapChartData {
         data: [number, number][],
         legend?: string,
         unit?: string,
+        decimals?: number,
         style?: Record<string, any>,
         yLabel?: string,
         yUnit?: string,
@@ -31,6 +33,7 @@ export class MapChartData {
         this.data = data;
         this.legend = legend;
         this.unit = unit;
+        this.decimals = decimals;
         this.style = style;
         this.yLabel = yLabel,
         this.yUnit = yUnit,
