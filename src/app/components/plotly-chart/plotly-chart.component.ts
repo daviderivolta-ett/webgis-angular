@@ -464,7 +464,6 @@ export class PlotlyChartComponent {
         const annotations = this._createFakeMarkersAsAnnotations(data, d, new Date(xRange[0]).getTime(), new Date(xRange[1]).getTime());
         Plotly.react(this.id(), newTraces ? [...newTraces] : [...traces], { ...layout, annotations }, config);
       }
-
     });
   }
 

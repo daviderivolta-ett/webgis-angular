@@ -161,7 +161,7 @@ export class DataPageComponent {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth);
-      if (!this.user && currentUser) this.setDataFromApi();
+      this.setDataFromApi();
       this.user = currentUser;
     });
 
@@ -181,10 +181,6 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {
-    await this.setDataFromApi();
-  }
-
   public ngAfterViewInit(): void {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
 
@@ -201,7 +197,7 @@ export class DataPageComponent {
 
   /** Methods  */
   /** Init */
-  public async setDataFromApi() {
+  public async setDataFromApi() {    
     this.isLoading = true;
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
@@ -228,7 +224,7 @@ export class DataPageComponent {
 
     if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
-      this._updateMultipleLayers(undefined, true);
+      this._updateMultipleLayers(this.dateService.date(), true);
       this.infoLayersForm.patchValue({ zone_di_allerta: true });
       return;
     }
