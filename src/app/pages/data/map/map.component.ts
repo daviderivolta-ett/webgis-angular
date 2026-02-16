@@ -308,7 +308,7 @@ export class MapComponent {
       style: (feature) => {
         if (!feature) return {}
         const color: string = feature.properties.color ?? 'grey';
-        const opacity: number = feature.properties.opacity ?? 1;
+        const opacity: number = parseFloat(feature.properties.opacity) ?? 1;
        
         return {
           color: '#000',

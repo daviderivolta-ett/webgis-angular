@@ -27,11 +27,29 @@ export class PolygonsCommandService implements Command {
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            const geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
+            geoJSON = this._setPolygonOpacity(geoJSON);
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {
             if (error instanceof Error) throw new Error(`Layer ${layer.id} non disponibile per la data selezionata.`);
             else throw new Error(`Errore nell'esecuzione del comando.`);
+        }
+    }
+
+    private _setPolygonOpacity(geoJSON: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection {
+        return {
+            ...geoJSON,
+            features: geoJSON.features.map((feature: GeoJSON.Feature) => {
+                const properties: any = feature.properties ?? {};
+                const opacity = 'opacity' in properties ? parseFloat(properties['opacity']) : 1;
+                return {
+                    ...feature,
+                    properties: {
+                        ...properties,
+                        opacity: opacity * .6
+                    }
+                }
+            })
         }
     }
 
