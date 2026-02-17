@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent } from '../../../components'
@@ -85,6 +85,7 @@ export class TablesStationsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private globalStateService: GlobalStateService,
     private stationsService: StationsService,
     private dateService: DateService,
     private tablesService: TablesService,
@@ -105,12 +106,13 @@ export class TablesStationsPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-    effect(() => {
-      const date = this.dateService.date();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._onGlobalDateChange();
-    });
+    // effect(() => {
+      // const date = this.dateService.date();
+    //   const date = this.globalStateService.getDateFromQueryParams();
+    //   this.initialDate = date;
+    //   this.selectedDate = date;
+    //   this._onGlobalDateChange();
+    // });
   }
 
   /** Component lifecycle */
@@ -118,6 +120,13 @@ export class TablesStationsPageComponent {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
     await this.setDataFromApi();
+
+    this.route.queryParams.subscribe(() => {
+      const date = this.globalStateService.getDateFromQueryParams();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._onGlobalDateChange();
+    });
   }
 
   /** Methods */
@@ -243,7 +252,7 @@ export class TablesStationsPageComponent {
 
   public onDownloadBtnClick(): void {
     const table = this.newData.convertTableToArray();
-    const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);   
+    const csv = CSVUtils.convertArrayToCSV(table, this.newData.header);
     Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}.csv`, csv);
   }
 
@@ -251,6 +260,7 @@ export class TablesStationsPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 
   private _onGlobalDateChange(): void {
@@ -276,20 +286,21 @@ export class TablesStationsPageComponent {
     if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
       if (Utils.isValidColor(k) && v) thresholds[k] = v;
     });
-    const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);   
+    const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);
     let chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
-    this.chart = chart; 
+    this.chart = chart;
   }
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    const currentDate = this.dateService.date() ?? new Date();
+    // const currentDate = this.dateService.date() ?? new Date();
+    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     if (!this.chart) return;
 
     this.isChartLoading = true;
 
-    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);  
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
     this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.chart = newChart;

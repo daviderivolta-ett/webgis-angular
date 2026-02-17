@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { ColorScale, ColorScaleBase, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
@@ -84,6 +84,7 @@ export class TablesHydroPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private globalStateService: GlobalStateService,
     private dateService: DateService,
     private stationsService: StationsService,
     private tablesService: TablesService,
@@ -100,18 +101,26 @@ export class TablesHydroPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-    effect(() => {
-      const date = this.dateService.date();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._onGlobalDateChange();
-    });
+    // effect(() => {
+      // const date = this.dateService.date();
+    //   const date = this.globalStateService.getDateFromQueryParams();
+    //   this.initialDate = date;
+    //   this.selectedDate = date;
+    //   this._onGlobalDateChange();
+    // });
   }
 
   /** Component lifecycle */
   public ngOnInit(): void {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
+
+    this.route.queryParams.subscribe(() => {
+      const date = this.globalStateService.getDateFromQueryParams();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._onGlobalDateChange();
+    });
   }
 
   /** Methods */
@@ -277,6 +286,7 @@ export class TablesHydroPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    this.globalStateService.updateFirstQueryParamValue('date', !isNaN(new Date(dateString).getTime()) ? new Date(dateString).toISOString() : '');
   }
 
   public async onCellClick(cell: any) {
@@ -286,7 +296,8 @@ export class TablesHydroPageComponent {
     if (!hiddenValue) return;
 
     const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue);
-    const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), station && station.subfolder ? station.subfolder : '');
+    // const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), station && station.subfolder ? station.subfolder : '');
+    const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())
       .then((img: any) => {

@@ -167,7 +167,8 @@ export class DataPageComponent {
     });
 
     effect(() => {
-      const date = this.dateService.date();
+      // const date = this.dateService.date();
+      const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
       this.selectedDate = date;
     });
@@ -225,11 +226,12 @@ export class DataPageComponent {
   private _applyLayersFromQueryParams(params: ParamMap): void {
     const layerIds: string[] = params.getAll('layer');
     const baseLayerIds: string[] = params.getAll('base');
-    const infoLayerIds: string[] = params.getAll('info'); 
-    
+    const infoLayerIds: string[] = params.getAll('info');
+
     if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
-      this._updateMultipleLayers(this.dateService.date(), true);
+      // this._updateMultipleLayers(this.dateService.date(), true);
+      this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
       this.infoLayersForm.patchValue({ zone_di_allerta: true });
       return;
     }
@@ -242,7 +244,8 @@ export class DataPageComponent {
       return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
     }, new Map(this.currentDataLayers.map));
 
-    this._updateMultipleLayers(this.dateService.date(), true);
+    // this._updateMultipleLayers(this.dateService.date(), true);
+    this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
 
     const baseLayers: TileLayer[] = this.baseLayers.filter((l) => baseLayerIds.includes(l.id))
     if (baseLayers.length > 0) {
@@ -324,7 +327,8 @@ export class DataPageComponent {
 
     // Refresh   
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    if (!this.dateService.date()) {
+    // if (!this.dateService.date()) {
+    if (!this.globalStateService.getDateFromQueryParams()) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
 
@@ -332,7 +336,7 @@ export class DataPageComponent {
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
-    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.dateService.date() ?? new Date() : undefined });
+    this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.globalStateService.getDateFromQueryParams() ?? new Date() : undefined });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -356,7 +360,8 @@ export class DataPageComponent {
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
       this._map.removeLayerById(l.id);
-      this._executeAction(l, this.dateService.date());
+      // this._executeAction(l, this.dateService.date());
+      this._executeAction(l, this.globalStateService.getDateFromQueryParams());
     });
   }
 
@@ -456,7 +461,8 @@ export class DataPageComponent {
     stations.forEach(async (s: Station) => {
       switch (s.type) {
         case 'hydro':
-          const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
+          // const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
+          const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
           const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
           const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
@@ -479,7 +485,8 @@ export class DataPageComponent {
 
         case 'webcam':
           const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
-          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.dateService.date() ?? new Date(), this.authService.getAccessToken())
+          // const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.dateService.date() ?? new Date(), this.authService.getAccessToken())
+          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
               throw err;
@@ -507,7 +514,8 @@ export class DataPageComponent {
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    const currentDate = this.dateService.date() ?? new Date();
+    // const currentDate = this.dateService.date() ?? new Date();
+    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
     if (!chart) return;
@@ -540,12 +548,12 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any, updateUrl: boolean = true): void {
+  public onLayerToggled(data: any, toggleLayer: boolean = true, updateUrl: boolean = true): void {
     const { id, isChecked } = data;
     if (!id || typeof isChecked !== 'boolean') return;
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
-    if (updateUrl) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
+    if (toggleLayer) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
   }
@@ -580,7 +588,8 @@ export class DataPageComponent {
   private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
     const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
+        // if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
+        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.globalStateService.getDateFromQueryParams())
       } else {
         this._map.removeLayerById(l.id);
       }
@@ -651,6 +660,7 @@ export class DataPageComponent {
   public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
     this.dateService.date.set(date);
+    this.globalStateService.setDateToQueryParams(date);
     this.chartReferenceDate = date;
     this._updateMultipleLayers(date, false);
   }
@@ -677,7 +687,7 @@ export class DataPageComponent {
     // Remove every not-timedimension layer (except in case of map reset)
     [...layersToUpdate, ...(isReset ? layersToKeep : [])]
       .reverse()
-      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, !isReset));
+      .forEach((id: string) => this.onLayerToggled({ id, isChecked: false }, !isReset, false));
 
     // Call command for every not-timedimension layer (except in case of map reset)
     const promises: Promise<void>[] = [];
@@ -696,6 +706,7 @@ export class DataPageComponent {
       })
       .finally(() => {
         this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
+        this.globalStateService.setDateToQueryParams(date);
       })
   }
 }

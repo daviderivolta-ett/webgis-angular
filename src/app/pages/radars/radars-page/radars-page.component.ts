@@ -4,7 +4,7 @@ import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Services */
-import { ApiService, AuthService, DateService, RadarService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, DateService, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
 
 /** Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
@@ -53,6 +53,7 @@ export class RadarsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private globalStateService: GlobalStateService,
     private radarService: RadarService,
     private dateService: DateService,
     private snackbarsService: SnackbarsService,
@@ -66,11 +67,6 @@ export class RadarsPageComponent {
 
     /** Effetcs */
     effect(() => this.user = this.authService.user());
-    effect(() => {
-      this.referenceDate = this.dateService.date();
-      const param = this.route.snapshot.paramMap.get('id');
-      if (param) this._init(param);
-    });
   }
 
   /** Component lifecycle */
@@ -81,6 +77,12 @@ export class RadarsPageComponent {
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.pipe(skip(1)).subscribe(() => {
       const param: string | null = this.route.snapshot.paramMap.get('id');
+      if (param) this._init(param);
+    });
+
+    this.route.queryParams.subscribe(() => {     
+      this.referenceDate = this.globalStateService.getDateFromQueryParams();
+      const param = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
     });
   }
@@ -124,6 +126,7 @@ export class RadarsPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 
   private _createUrl(baseUrl: string, imgType: string, date: Date | undefined) {

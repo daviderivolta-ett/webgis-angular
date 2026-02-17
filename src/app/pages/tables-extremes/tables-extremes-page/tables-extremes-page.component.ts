@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, StationsService } from '../../../services'
+import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
@@ -46,7 +46,7 @@ type PageTable = {
     PlotlyChartComponent,
     MapChartDatepickerComponent,
     MapChartSelectorComponent
-],
+  ],
   templateUrl: './tables-extremes-page.component.html',
   styleUrl: './tables-extremes-page.component.scss'
 })
@@ -87,6 +87,7 @@ export class TablesExtremesPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private globalStateService: GlobalStateService,
     private stationsService: StationsService,
     private dateService: DateService,
     private snackbarsService: SnackbarsService
@@ -106,18 +107,26 @@ export class TablesExtremesPageComponent {
       this._initNavbar();
     });
 
-    effect(() => {
-      const date = this.dateService.date();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._init('estremi-temperatura-vento');
-    });
+    // effect(() => {
+    // const date = this.dateService.date();
+    // const date = this.globalStateService.getDateFromQueryParams();
+    // this.initialDate = date;
+    // this.selectedDate = date;
+    // this._init('estremi-temperatura-vento');
+    // });
   }
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     this._initNavbar();
     await this.setDataFromApi();
+
+    this.route.queryParams.subscribe(() => {
+      const date = this.globalStateService.getDateFromQueryParams();
+      this.initialDate = date;
+      this.selectedDate = date;
+      this._init('estremi-temperatura-vento');
+    });
   }
 
   /** Methods */
@@ -284,7 +293,7 @@ export class TablesExtremesPageComponent {
 
   public onDownloadBtnClick(tableId: string): void {
     const foundTable: PageTable | undefined = this.tables.find((t: PageTable) => t.id === tableId);
-    if (!foundTable) return;    
+    if (!foundTable) return;
     const table = foundTable.table.convertTableToArray();
     const csv = CSVUtils.convertArrayToCSV(table, foundTable.table.header);
     const tableConfig = TableConfigGroup.findTableConfig(tableId, this._tableConfigGroups);
@@ -296,6 +305,7 @@ export class TablesExtremesPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {
@@ -320,7 +330,8 @@ export class TablesExtremesPageComponent {
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    const currentDate = this.dateService.date() ?? new Date();
+    // const currentDate = this.dateService.date() ?? new Date();
+    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     if (!this.chart) return;
 

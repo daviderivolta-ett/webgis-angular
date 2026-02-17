@@ -11,7 +11,7 @@ export class GlobalStateService {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   /** Methods */
-  public updateLayerQueryParams(activeLayersIds: string[]): void {
+  public updateLayerQueryParams(activeLayersIds: string[]): void { 
     this.router.navigate([], {
       queryParams: { layer: [...activeLayersIds] },
       queryParamsHandling: 'merge'
@@ -21,6 +21,7 @@ export class GlobalStateService {
   public updateFirstQueryParamValue(param: string, value: string): void {
     const values: string[] = this.route.snapshot.queryParamMap.getAll(param);
     const updated: string[] = [value, ...values.slice(1)];
+
     this.router.navigate([], {
       queryParams: { [param]: updated },
       queryParamsHandling: 'merge'
@@ -34,5 +35,25 @@ export class GlobalStateService {
       queryParams: { [param]: result.length ? result : null },
       queryParamsHandling: 'merge'
     })
+  }
+
+  public setDateToQueryParams(date?: Date): void {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      this.updateFirstQueryParamValue('date', '');
+      return;
+    }
+    const local: string = this._toDatetimelocal(date);
+    this.updateFirstQueryParamValue('date', local);
+  }
+
+  public getDateFromQueryParams(): Date | undefined {
+    const dateStr: string | null = this.route.snapshot.queryParamMap.get('date');
+    if (!dateStr) return undefined;
+    const date: Date = new Date(dateStr);
+    return isNaN(date.getTime()) ? undefined : date;
+  }
+
+  private _toDatetimelocal(date: Date): string {
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   }
 }

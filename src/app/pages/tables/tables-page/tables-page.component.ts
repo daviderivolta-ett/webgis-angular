@@ -15,7 +15,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, DateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -82,6 +82,7 @@ export class TablesPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private globalStateService: GlobalStateService,
     private dateService: DateService,
     private stationsService: StationsService,
     private tablesService: TablesService,
@@ -100,7 +101,8 @@ export class TablesPageComponent {
       this._initNavbar();
     });
     effect(() => {
-      const date = this.dateService.date();
+      // const date = this.dateService.date();
+      const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
       this.selectedDate = date;
       this._onGlobalDateChange();
@@ -244,6 +246,7 @@ export class TablesPageComponent {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
+    this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 
   private _onGlobalDateChange(): void {
