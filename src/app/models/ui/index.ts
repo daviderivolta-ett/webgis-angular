@@ -1,5 +1,6 @@
 export * from './chip.class'
 export * from './grouped-checkbox-item.class'
+export * from './lidar-img.interface'
 export * from './lidar.class'
 export * from './map-chart-data.class'
 export * from './map-chart.class'
