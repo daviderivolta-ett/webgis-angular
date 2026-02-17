@@ -186,6 +186,7 @@ export class DataPageComponent {
       const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
       this.selectedDate = date;
+      this.chartReferenceDate = date;
     });
   }
 
