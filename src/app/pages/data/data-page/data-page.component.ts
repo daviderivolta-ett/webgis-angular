@@ -712,10 +712,8 @@ export class DataPageComponent {
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
       .finally(() => {
-        setTimeout(() => {
-          this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
-          this.globalStateService.setDateToQueryParams(date);          
-        }, 0);        
+        this.globalStateService.setDateToQueryParams(date);
+        this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
       })
   }
 }
