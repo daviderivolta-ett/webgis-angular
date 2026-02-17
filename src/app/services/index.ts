@@ -1,7 +1,6 @@
 export * from './api.service'
 export * from './auth.service'
 export * from './config.service'
-export * from './date.service'
 export * from './global-state.service'
 export * from './layers.service'
 export * from './popup.service'

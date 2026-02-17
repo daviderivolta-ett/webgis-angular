@@ -1,14 +1,14 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { DatePipe, Location } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
 import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, DateService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
@@ -111,12 +111,10 @@ export class DataPageComponent {
   constructor(
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
     private popupService: PopupService,
     private globalStateService: GlobalStateService,
-    private dateService: DateService,
     private snackbarsService: SnackbarsService,
     private layersService: LayersService,
     private stationsService: StationsService,
@@ -165,13 +163,6 @@ export class DataPageComponent {
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
     });
-
-    effect(() => {
-      // const date = this.dateService.date();
-      const date = this.globalStateService.getDateFromQueryParams();
-      this.initialDate = date;
-      this.selectedDate = date;
-    });
   }
 
   /** Getter and setter */
@@ -185,6 +176,12 @@ export class DataPageComponent {
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
     await this.setDataFromApi();
+
+    this.route.queryParams.subscribe(() => {
+      const date = this.globalStateService.getDateFromQueryParams();
+      this.initialDate = date;
+      this.selectedDate = date;
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -230,7 +227,6 @@ export class DataPageComponent {
 
     if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
-      // this._updateMultipleLayers(this.dateService.date(), true);
       this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
       this.infoLayersForm.patchValue({ zone_di_allerta: true });
       return;
@@ -244,7 +240,6 @@ export class DataPageComponent {
       return this.layersService.checkLayerCategories(curr, true, acc, this._layerCategories, !!this.user);
     }, new Map(this.currentDataLayers.map));
 
-    // this._updateMultipleLayers(this.dateService.date(), true);
     this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
 
     const baseLayers: TileLayer[] = this.baseLayers.filter((l) => baseLayerIds.includes(l.id))
@@ -327,7 +322,6 @@ export class DataPageComponent {
 
     // Refresh   
     if (this.refreshLayersId) window.clearInterval(this.refreshLayersId);
-    // if (!this.dateService.date()) {
     if (!this.globalStateService.getDateFromQueryParams()) {
       this.refreshLayersId = window.setInterval(() => this._refreshLayers(), 300000);
     }
@@ -360,7 +354,6 @@ export class DataPageComponent {
     const currentLayers = allLayers.filter((l: Layer) => currentLayerIds.includes(l.id));
     currentLayers.forEach((l: Layer) => {
       this._map.removeLayerById(l.id);
-      // this._executeAction(l, this.dateService.date());
       this._executeAction(l, this.globalStateService.getDateFromQueryParams());
     });
   }
@@ -461,7 +454,6 @@ export class DataPageComponent {
     stations.forEach(async (s: Station) => {
       switch (s.type) {
         case 'hydro':
-          // const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), s['subfolder'] ?? '');
           const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
           const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
           const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
@@ -485,7 +477,6 @@ export class DataPageComponent {
 
         case 'webcam':
           const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
-          // const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.dateService.date() ?? new Date(), this.authService.getAccessToken())
           const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
@@ -514,7 +505,6 @@ export class DataPageComponent {
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    // const currentDate = this.dateService.date() ?? new Date();
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -588,7 +578,6 @@ export class DataPageComponent {
   private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
     const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
       if (currentLayers.includes(l.id)) {
-        // if (!this._map.haslayer(l.id)) await this._executeAction(l, this.dateService.date())
         if (!this._map.haslayer(l.id)) await this._executeAction(l, this.globalStateService.getDateFromQueryParams())
       } else {
         this._map.removeLayerById(l.id);
@@ -659,7 +648,6 @@ export class DataPageComponent {
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
-    this.dateService.date.set(date);
     this.globalStateService.setDateToQueryParams(date);
     this.chartReferenceDate = date;
     this._updateMultipleLayers(date, false);

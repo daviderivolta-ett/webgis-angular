@@ -4,7 +4,7 @@ import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Services */
-import { ApiService, AuthService, DateService, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
 
 /** Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
@@ -55,7 +55,6 @@ export class RadarsPageComponent {
     private apiService: ApiService,
     private globalStateService: GlobalStateService,
     private radarService: RadarService,
-    private dateService: DateService,
     private snackbarsService: SnackbarsService,
   ) {
     /** Recovering data from resolvers */
@@ -125,7 +124,6 @@ export class RadarsPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
     this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 

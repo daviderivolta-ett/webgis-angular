@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { ColorScale, ColorScaleBase, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
@@ -85,7 +85,6 @@ export class TablesHydroPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private globalStateService: GlobalStateService,
-    private dateService: DateService,
     private stationsService: StationsService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
@@ -285,7 +284,6 @@ export class TablesHydroPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
     this.globalStateService.updateFirstQueryParamValue('date', !isNaN(new Date(dateString).getTime()) ? new Date(dateString).toISOString() : '');
   }
 

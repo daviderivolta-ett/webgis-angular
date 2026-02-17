@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { skip } from 'rxjs'
 
 /** Models */
-import { Sensor, SensorType, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Types */
 type PageTable = {
@@ -15,7 +15,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -83,9 +83,7 @@ export class TablesPageComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private globalStateService: GlobalStateService,
-    private dateService: DateService,
     private stationsService: StationsService,
-    private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
@@ -245,7 +243,6 @@ export class TablesPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
     this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 

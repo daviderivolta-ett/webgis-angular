@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, DateService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
@@ -89,7 +89,6 @@ export class TablesLevelsPageComponent {
     private apiService: ApiService,
     private globalStateService: GlobalStateService,
     private stationsService: StationsService,
-    private dateService: DateService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
@@ -238,7 +237,6 @@ export class TablesLevelsPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.dateService.date.set(!isNaN(new Date(dateString).getTime()) ? new Date(dateString) : undefined);
     this.globalStateService.setDateToQueryParams(new Date(dateString));
   }
 
