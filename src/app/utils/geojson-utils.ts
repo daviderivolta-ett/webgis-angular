@@ -47,7 +47,7 @@ export class GeoJsonUtils {
         return undefined;
     }
 
-    static addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {        
+    static addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {                
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {

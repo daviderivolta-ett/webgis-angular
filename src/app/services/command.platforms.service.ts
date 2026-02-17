@@ -29,16 +29,16 @@ export class PlatformsCommandService implements Command {
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
-            geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
-            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');         
-
+            geoJSON = this._filterStations(geoJSON, stations, layer.parameter);        
+            geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
+       
             if ('decimals' in layer && typeof layer.decimals === 'number') geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { decimals: layer.decimals });
 
             if (layer.multiplier) geoJSON = this._convertGeoJSONData(geoJSON, layer.multiplier);
             geoJSON = this._truncateGeoJSONData(geoJSON, layer.decimals);
             if (colorScale instanceof ColorScale && layer.legend) {
                 if (sensorTypes && Array.isArray(sensorTypes)) {
-                    const currentSensorType = sensorTypes.find((s) => s.id === layer.parameter);      
+                    const currentSensorType = sensorTypes.find((s) => s.id === layer.parameter);
                     if (currentSensorType && 'thresholdKeys' in currentSensorType) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold, currentSensorType.thresholdKeys, stations, currentSensorType['baseColor']);
                 } else {
                     geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold);
@@ -47,7 +47,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);         
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1, showValueOnZoom);
         } catch (error) {
             if (error instanceof Error) throw error;
@@ -100,13 +100,13 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[], baseColor?: string): GeoJSON.FeatureCollection {      
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[], baseColor?: string): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
                 const properties: any = feature.properties ?? {};
                 const date: Date = new Date(properties['referenceDate']);
-           
+
                 const value: any = properties['value'];
                 let color: string = colorScale.getColor(colorScale.multiplier ? colorScale.multiplier * value : value);
                 if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor) ?? color;

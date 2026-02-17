@@ -17,7 +17,8 @@
         "hydroImgs": "/platforms/get/hydro/{model}",
         "tableStations": "/tables/get/stations/{parameter}",
         "radarImgs": "/radarsat/get/image/{radarType}",
-        "webcamImgs": "/webcams/get/image/{stationId}"
+        "webcamImgs": "/webcams/get/image/{stationId}",
+        "lidarImgs": "/lidar/get/image/{stationId}"
     },
-    "lastModified": "2026-01-22"
+    "lastModified": "2026-02-17"
 }

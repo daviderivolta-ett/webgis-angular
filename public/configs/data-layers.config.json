@@ -761,6 +761,19 @@
                         "id": "platforms",
                         "type": "webcam"
                     }
+                },
+                {
+                    "id": "station_lidar",
+                    "label": "Lidar",
+                    "layerType": "geojson",
+                    "layerCategory": "data_geojson-point",
+                    "iconUrl": "./images/icons/image_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+                    "url": "{{BASE_URL}}/platforms/get/all/lidar",
+                    "parameter": "lidar",
+                    "action": {
+                        "id": "platforms",
+                        "type": "lidar"
+                    }
                 }
             ]
         },

@@ -91,7 +91,7 @@ export class StationsService {
     return resultMap;
   }
 
-  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {    
+  public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
@@ -181,7 +181,7 @@ export class StationsService {
       });
   }
 
-  public async getWebcamImageAt(url: string, stationId: string, date: Date, token?: string) {
+  public async getWebcamImageAt(url: string, stationId: string, date: Date, token?: string): Promise<string> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
     return this.apiService.getApiData(formattedUrlWithDate, token)
@@ -190,6 +190,19 @@ export class StationsService {
       })
       .catch((err: unknown) => {
         throw new Error(`Errore nel recupero dell'immagine della webcam.`)
+      });
+  }
+
+  public async getLidarImageAt(url: string, stationId: string, date: Date, token?: string): Promise<string[]> {
+    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
+    const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
+    return this.apiService.getApiData(formattedUrlWithDate, token)
+      .then((data: any) => {
+        if (!Array.isArray(data)) return [];
+        return data.map((img: any) => `data:${img['mimeType']};base64,${img['base64Data']}`);
+      })
+      .catch((err: unknown) => {
+        throw new Error(`Errore nel recupero dell'immagine lidar.`)
       });
   }
 
@@ -209,9 +222,9 @@ export class StationsService {
     if (minSensor) stationSensorTypes.unshift(minSensor);
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
 
-    let sensorThresholds: Record<string, number> | undefined;   
+    let sensorThresholds: Record<string, number> | undefined;
     if (sensorType && thresholds) sensorThresholds = this._getSensorThresholds(sensorType, thresholds);
-    
+
     return new MapChart(
       station.id,
       [],
@@ -229,14 +242,14 @@ export class StationsService {
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {  
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
-    let sensorThresholds: Record<string, number> | undefined;  
+    let sensorThresholds: Record<string, number> | undefined;
     if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);
-  
+
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, limitDate, token)
       .then((data: Map<string, [number, number][]>) => {
         const chartData: MapChartData[] = [];
@@ -244,7 +257,7 @@ export class StationsService {
         sensorTypes.forEach(t => {
           if (sensors.some(s => `${s.id}--cumulative` === t.id)) sensors.push(t);
         });
-       
+
         for (const sensor of sensors) {
           let values = data.get(sensor.id);
           if (sensor.id.includes('--cumulative')) {
@@ -273,7 +286,7 @@ export class StationsService {
           );
 
           chartData.push(chartSerie);
-        }       
+        }
 
         return {
           ...chartToUpdate,
@@ -291,10 +304,10 @@ export class StationsService {
       })
   }
 
-  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {    
+  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {
     return sensorType.thresholdKeys?.reduce((acc: Record<string, number>, curr: string) => {
-      const value = (thresholdConfig as any)[curr];    
-      if (typeof parseFloat(value) === 'number') acc[curr] = parseFloat(value);            
+      const value = (thresholdConfig as any)[curr];
+      if (typeof parseFloat(value) === 'number') acc[curr] = parseFloat(value);
       return acc;
     }, {} as Record<string, number>) ?? undefined;
   }

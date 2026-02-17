@@ -5,13 +5,13 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
 import { ApiService, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
@@ -32,7 +32,9 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
     // Directives
     ReactiveFormsModule,
     // Pipes
-    DatePipe
+    DatePipe,
+    TabsComponent,
+    TabComponent
   ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
@@ -56,6 +58,7 @@ export class DataPageComponent {
   public charts: MapChart[] = [];
   public hydroImgs: string[] = [];
   public webcams: Webcam[] = [];
+  public lidars: Lidar[] = [];
   public areChartsDisabled: boolean = false;
   public chartReferenceDate: Date | undefined;
 
@@ -94,6 +97,7 @@ export class DataPageComponent {
   public timeserieUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
   public webcamImgsUrl; // Recovered from route resolver in constructor
+  public lidarImgsUrl; // Recovered from route resolver in constructor
 
   public stationPopupConfig: StationPopupConfig = createStationPopupConfigFromObject({});
   public stations: StationBase[] = [];
@@ -137,6 +141,7 @@ export class DataPageComponent {
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.webcamImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs'));
+    this.lidarImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('lidarImgs'));
 
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
@@ -450,6 +455,7 @@ export class DataPageComponent {
     const newCharts: MapChart[] = [];
     const hydroPromises: Promise<string>[] = [];
     const webcamPromises: Promise<string>[] = [];
+    const lidarPromises: Promise<string[]>[] = [];
 
     stations.forEach(async (s: Station) => {
       switch (s.type) {
@@ -486,6 +492,16 @@ export class DataPageComponent {
           webcamPromises.push(webcamPromise);
           break;
 
+        case 'lidar':
+          const lidarSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagini lidar`, 'loader');
+          const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl, s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
+            .catch((err: unknown) => {
+              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero delle immagini lidar.`, 'error', true);
+              throw err;
+            })
+            .finally(() => this.snackbarsService.removeSnackbar(lidarSnackbarId))
+          lidarPromises.push(lidarPromise);
+          break;
 
         default:
           break;
@@ -495,12 +511,14 @@ export class DataPageComponent {
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
+    this.lidars = [...this.lidars, ...(await Promise.all(lidarPromises)).flatMap((urls, i) => new Lidar(`lidar`, urls.map((u: string, j: number) => ({ id: `lidar-${stations[i].name}-${j}`, imgUrl: u, label: `${j}` })), stations[i].name))]
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
     this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
     this.webcams = this.webcams.filter((webcam: Webcam) => webcam.id !== id);
+    this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
