@@ -553,12 +553,12 @@ export class MapComponent {
 
   }
 
-  private _createTextIcon(value: number, color: string, decimals: number = 1): string {
+  private _createTextIcon(value: number, color: string, decimals: number = 1): string {   
     const factor: number = 10 ** decimals;
-    const truncatedValue: number = Math.trunc(value * factor) / factor;
+    const truncatedValue: number = Math.trunc(value * factor) / factor;   
     return `
       <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;">
-        <span>${truncatedValue}</span>
+        <span>${truncatedValue.toFixed(decimals)}</span>
       </div>
       `
   }
