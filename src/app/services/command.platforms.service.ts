@@ -9,6 +9,7 @@ import { ApiService } from './api.service'
 
 /** Utils */
 import { DateUtils, GeoJsonUtils } from '../utils'
+import { M } from '@angular/cdk/keycodes';
 
 /** Service */
 @Injectable({
@@ -29,9 +30,9 @@ export class PlatformsCommandService implements Command {
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
             let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
             geoJSON = this._filterPlatforms(geoJSON);
-            geoJSON = this._filterStations(geoJSON, stations, layer.parameter);        
+            geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
-       
+
             if ('decimals' in layer && typeof layer.decimals === 'number') geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { decimals: layer.decimals });
 
             if (layer.multiplier) geoJSON = this._convertGeoJSONData(geoJSON, layer.multiplier);
@@ -47,7 +48,7 @@ export class PlatformsCommandService implements Command {
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
 
-            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);         
+            if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
             map.addCustomMarkerPointGeoJSONLayer(layer.id, geoJSON, { ...layer }, token ? undefined : 1, showValueOnZoom);
         } catch (error) {
             if (error instanceof Error) throw error;

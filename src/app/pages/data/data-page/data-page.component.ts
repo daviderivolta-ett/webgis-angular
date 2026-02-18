@@ -512,7 +512,7 @@ export class DataPageComponent {
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
     this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
-    this.lidars = [...this.lidars, ...(await Promise.all(lidarPromises)).flatMap((urls, i) => new Lidar(`lidar`, urls.map((u: string, j: number) => ({ id: `lidar-${stations[i].name}-${j}`, imgUrl: u, label: `${j}` })), stations[i].name))]
+    this.lidars = [...this.lidars, ...(await Promise.all(lidarPromises)).flatMap((urls, i) => new Lidar(`lidar`, urls.map((u: string, j: number) => ({ id: `lidar-${stations[i].name}-${j}`, imgUrl: u, label: `${j + 1}` })), stations[i].name))]
   }
 
   public removeDialog(id: string): void {

@@ -770,6 +770,7 @@
                     "iconUrl": "./images/icons/image_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/lidar",
                     "parameter": "lidar",
+                    "requiresAuth": true,
                     "action": {
                         "id": "platforms",
                         "type": "lidar"
@@ -6071,5 +6072,5 @@
             ]
         }
     ],
-    "lastModified": "2026-02-11"
+    "lastModified": "2026-02-18"
 }

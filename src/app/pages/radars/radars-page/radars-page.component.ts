@@ -91,6 +91,7 @@ export class RadarsPageComponent {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     this.config = this._initConfig(id);
     if (!this.config) return;
+    console.log(this.referenceDate);    
     this._getRadarImg(this._createUrl(this.config.url, this.currentImgType, this.referenceDate));
   }
 
