@@ -38,6 +38,7 @@ export class RadarsPageComponent {
 
   /** Data */
   public user: User | null = null;
+  public refreshId: number | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
 
   public referenceDate: Date | undefined;
@@ -79,20 +80,26 @@ export class RadarsPageComponent {
       if (param) this._init(param);
     });
 
-    this.route.queryParams.subscribe(() => {     
+    this.route.queryParams.subscribe(() => {
       this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const param = this.route.snapshot.paramMap.get('id');
       if (param) this._init(param);
     });
   }
 
+  public ngOnDestroy(): void {
+    this._clearRefreshInterval();
+  }
+
   /** Methods */
   private async _init(id: string): Promise<void> {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
-    this.config = this._initConfig(id);
-    if (!this.config) return;
-    console.log(this.referenceDate);    
+    const config = this._initConfig(id);
+    if (!config) return;
+    this.config = config;
+    this._clearRefreshInterval();
     this._getRadarImg(this._createUrl(this.config.url, this.currentImgType, this.referenceDate));
+    if (!this.referenceDate) this.refreshId = window.setInterval(() => this._getRadarImg(this._createUrl(config.url, this.currentImgType, this.referenceDate)), 300000);
   }
 
   private _initConfigGroup(id: string): RadarConfigGroup | undefined {
@@ -114,6 +121,13 @@ export class RadarsPageComponent {
       return undefined;
     }
     return config;
+  }
+
+  private _clearRefreshInterval(): void {
+    if (this.refreshId !== null) {
+      window.clearInterval(this.refreshId);
+      this.refreshId = null;
+    }
   }
 
   public onToggleChanged(id: string) {
