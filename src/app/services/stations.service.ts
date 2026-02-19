@@ -93,7 +93,7 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });  
     return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);
@@ -242,7 +242,12 @@ export class StationsService {
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {    
+    console.log('UPDATE CHART');
+    console.log('PARAM', param);
+    console.log('INITIAL DATE', initialDate);
+    console.log('ENDING DATE', endingDate);    
+    
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
@@ -290,7 +295,7 @@ export class StationsService {
 
         return {
           ...chartToUpdate,
-          xRange: [new Date(endingDate).getTime() - 2 * 24 * 60 * 60 * 1000, new Date(endingDate).getTime()],
+          // xRange: [new Date(endingDate).getTime() - 2 * 24 * 60 * 60 * 1000, new Date(endingDate).getTime()],
           thresholds: sensorThresholds ? sensorThresholds : undefined,
           hideZeroXAxis: sensorType ? sensorType.hideZeroXAxis : false,
           data: chartData,

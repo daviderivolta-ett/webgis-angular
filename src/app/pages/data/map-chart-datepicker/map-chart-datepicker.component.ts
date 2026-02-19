@@ -20,12 +20,14 @@ export class MapChartDatepickerComponent {
     endingDate: new FormControl(this._formatDate(this.endingDate() || new Date()))
   });
   public datesChanged = output<[string, string]>();
+  public isFirstLoad: boolean = true;
 
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     effect(() => {    
-      this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) });
+      this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) }, { emitEvent: this.isFirstLoad });
+      this.isFirstLoad = false;
     });
   }
 
@@ -33,7 +35,7 @@ export class MapChartDatepickerComponent {
   private _onFormChange(changes: any) {
     const initialDate = changes['initialDate'];
     const endingDate = changes['endingDate'];
-    setTimeout(() => {     
+    setTimeout(() => {
       if (initialDate && endingDate) this.datesChanged.emit([initialDate, endingDate]);
     });
   }

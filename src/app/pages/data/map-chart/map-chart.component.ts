@@ -41,15 +41,17 @@ export class MapChartComponent {
   /** Component lifecycles */
   public ngAfterContentInit(): void {
     if (this.chartSelector) {
-      this.chartSelector.sensorTypeSelected.subscribe((param: string) => {
+      this.chartSelector.sensorTypeSelected.subscribe((param: string) => { 
+        console.log('SUBSCRIBE PARAM');               
         this.param.set(param);
         this.formValue['param'] = param;
         this.formChanged.emit(this.formValue);
       });
     }
-
+    
     if (this.chartDatePicker) {
       this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {
+        console.log('SUBSCRIBE DATE');               
         this.dates.set([dates[0], dates[1]]);       
         this.formValue['initialDate'] = dates[0];
         this.formValue['endingDate'] = dates[1];
