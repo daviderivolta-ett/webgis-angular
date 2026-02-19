@@ -94,7 +94,7 @@ export class StationBase implements Geolocation {
     static createFromGeoJSONFeature(feature: GeoJSON.Feature): StationBase {
         if (!feature.geometry || feature.geometry.type !== 'Point') {
             throw new Error('La geometria non è un Point.');
-        }
+        }        
 
         const lat: number = feature.geometry.coordinates[1];
         const lng: number = feature.geometry.coordinates[0];

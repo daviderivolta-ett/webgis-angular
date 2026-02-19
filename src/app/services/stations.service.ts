@@ -247,8 +247,8 @@ export class StationsService {
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
-    let sensorThresholds: Record<string, number> | undefined;
-    if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);
+    let sensorThresholds: Record<string, number> | undefined;   
+    if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);   
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, limitDate, token)
       .then((data: Map<string, [number, number][]>) => {
@@ -304,10 +304,11 @@ export class StationsService {
       })
   }
 
-  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {
+  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {   
     return sensorType.thresholdKeys?.reduce((acc: Record<string, number>, curr: string) => {
       const value = (thresholdConfig as any)[curr];
-      if (typeof parseFloat(value) === 'number') acc[curr] = parseFloat(value);
+      const num: number = parseFloat(value);
+      if (!isNaN(num)) acc[curr] = parseFloat(value);
       return acc;
     }, {} as Record<string, number>) ?? undefined;
   }

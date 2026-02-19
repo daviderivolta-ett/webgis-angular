@@ -180,8 +180,6 @@ export class DataPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit(): Promise<void> {
-    await this.setDataFromApi();
-
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
@@ -190,13 +188,14 @@ export class DataPageComponent {
     });
   }
 
-  public ngAfterViewInit(): void {
+  public async ngAfterViewInit(): Promise<void> {
     if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
 
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestPopupConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
       .then((config: any) => this.stationPopupConfig = config)
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
 
+    await this.setDataFromApi();
     this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
@@ -265,11 +264,11 @@ export class DataPageComponent {
     )
   }
 
-  private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {   
-    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth, layersToShow);     
+  private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {
+    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth, layersToShow);
     this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
       return group.visibleNestedCheckbox(authLayers);
-    });       
+    });
   }
 
   /** Actions */
@@ -522,7 +521,7 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {       
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
@@ -532,7 +531,7 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
 
-    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);    
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
