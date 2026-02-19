@@ -265,11 +265,11 @@ export class DataPageComponent {
     )
   }
 
-  private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {
+  private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {   
     const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth, layersToShow);     
     this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
       return group.visibleNestedCheckbox(authLayers);
-    });     
+    });       
   }
 
   /** Actions */

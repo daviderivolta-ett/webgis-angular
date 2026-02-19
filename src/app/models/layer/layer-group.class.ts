@@ -154,13 +154,12 @@ export class LayerGroup {
                 for (const option of group.options) {
                     if (option instanceof LayerGroup) {
                         if (!option.requiresAuth || isAuth) result.push(option.id);
-                        result.push(...this.getAuthLayers([option], isAuth));
+                        result.push(...this.getAuthLayers([option], isAuth, layersToShow));
                     } else {
                         // if (!option.requiresAuth || isAuth) result.push(option.id);
-                        
                         if (!option.requiresAuth) {
                             result.push(option.id);
-                        } else {
+                        } else {                       
                             if (isAuth && layersToShow && layersToShow.includes(option.id)) result.push(option.id)
                         }
 
