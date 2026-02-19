@@ -477,7 +477,7 @@ export class DataPageComponent {
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
             if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
-          const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
+          const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);    
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {}));
           break;
 

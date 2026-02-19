@@ -93,7 +93,7 @@ export class StationsService {
 
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });  
+    const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
       .then((data: any) => {
         return this.parseTimeSerie(data, params);
@@ -218,7 +218,7 @@ export class StationsService {
   public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {
     const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
     const stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
-    const minSensor: SensorType | undefined = this.compareSensorTypes(sensorTypes, 'rain', 'Pioggia nativa');
+    const minSensor: SensorType | undefined = this.compareSensorTypes(stationSensorTypes, 'rain', 'Pioggia nativa');
     if (minSensor) stationSensorTypes.unshift(minSensor);
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
 
@@ -229,7 +229,7 @@ export class StationsService {
       station.id,
       [],
       station.parameter,
-      stationSensorTypes,
+      Array.from(new Map(stationSensorTypes.map((item) => [item.id, item])).values()), // like Set, but for complex objects
       undefined,
       station.name ?? station.parameter,
       sensorType ? sensorType.label : station.parameter,
@@ -242,13 +242,13 @@ export class StationsService {
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {      
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
 
-    let sensorThresholds: Record<string, number> | undefined;   
-    if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);   
+    let sensorThresholds: Record<string, number> | undefined;
+    if (sensorType && rangeConfig) sensorThresholds = this._getSensorThresholds(sensorType, rangeConfig);
 
     return this.getTimeSeries(timeserieUrl, chartToUpdate.stationId, param, [param, ...(sensorType?.relatedSensors ?? [])], initialDate, endingDate, limitDate, token)
       .then((data: Map<string, [number, number][]>) => {
@@ -304,7 +304,7 @@ export class StationsService {
       })
   }
 
-  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {   
+  private _getSensorThresholds(sensorType: SensorType, thresholdConfig: StationThresholdConfig): Record<string, number> | undefined {
     return sensorType.thresholdKeys?.reduce((acc: Record<string, number>, curr: string) => {
       const value = (thresholdConfig as any)[curr];
       const num: number = parseFloat(value);
