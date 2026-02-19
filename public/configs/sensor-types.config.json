@@ -114,7 +114,6 @@
             ],
             "isFeatured": true,
             "relatedSensors": [],
-            "compareWith": "rain",
             "defaultTimeGap": 7
         },
         {

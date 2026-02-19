@@ -207,19 +207,19 @@ export class StationsService {
   }
 
   public compareSensorTypes(types: SensorType[], compare: string, newLabel: string): SensorType | undefined {
-    const found: SensorType | undefined = types.find((t: SensorType) => {
-      if (t.compareWith && typeof t.compareWith === 'string' && t.compareWith === compare) return t;
-      else return undefined;
-    });
-
-    return found ? { ...found, label: newLabel } : undefined;
+    const filteredTypes: SensorType[] = types.filter((t) => t.compareWith === compare);   
+    if (filteredTypes.length === 0) return undefined;
+    const found = filteredTypes[0];
+    return { ...found, label: newLabel };
   }
 
-  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {
+  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {   
     const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
-    const stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
-    const minSensor: SensorType | undefined = this.compareSensorTypes(stationSensorTypes, 'rain', 'Pioggia nativa');
-    if (minSensor) stationSensorTypes.unshift(minSensor);
+    let stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
+    const sensorsToCompare: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.compareWith && !t.isFeatured);
+    const minSensor: SensorType | undefined = this.compareSensorTypes(sensorsToCompare, 'rain', 'Pioggia nativa');
+    if (minSensor) stationSensorTypes = [minSensor, ...stationSensorTypes];   
+
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
 
     let sensorThresholds: Record<string, number> | undefined;
@@ -229,7 +229,8 @@ export class StationsService {
       station.id,
       [],
       station.parameter,
-      Array.from(new Map(stationSensorTypes.map((item) => [item.id, item])).values()), // like Set, but for complex objects
+      // Array.from(new Map(stationSensorTypes.map((item) => [item.id, item])).values()),
+      stationSensorTypes,
       undefined,
       station.name ?? station.parameter,
       sensorType ? sensorType.label : station.parameter,
