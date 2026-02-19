@@ -26,7 +26,7 @@ export class MapChartDatepickerComponent {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     effect(() => {    
-      this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) }, { emitEvent: this.isFirstLoad });
+      this.form.patchValue({ initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())), endingDate: this._formatDate(this.endingDate() || new Date()) });
       this.isFirstLoad = false;
     });
   }

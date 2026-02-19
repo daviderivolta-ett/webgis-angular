@@ -522,9 +522,7 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {   
-    console.log('ON CHART PARAMETER CHANGE', formChange);
-    
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {       
     const { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
