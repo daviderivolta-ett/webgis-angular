@@ -109,18 +109,6 @@ export class StationsService {
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
-    // params.map(param => {
-    //   const serie = data
-    //     .filter(d => d['parameter'] === param)
-    //     .map(d => [
-    //       new Date(d['referenceDate']).getTime(),
-    //       parseFloat(d['cumulativeValue'])
-    //     ] as [number, number])
-    //     .filter(d => d[1])
-
-    //   if (serie.length > 0) result.set(`${param}--cumulative`, serie);
-    // });
-
     params.map((param: string) => {
       const serie = data
         .filter(d => d['parameter'] === param)
@@ -207,18 +195,18 @@ export class StationsService {
   }
 
   public compareSensorTypes(types: SensorType[], compare: string, newLabel: string): SensorType | undefined {
-    const filteredTypes: SensorType[] = types.filter((t) => t.compareWith === compare);   
+    const filteredTypes: SensorType[] = types.filter((t) => t.compareWith === compare);
     if (filteredTypes.length === 0) return undefined;
     const found = filteredTypes[0];
     return { ...found, label: newLabel };
   }
 
-  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {   
+  public createChart(station: Station, sensorTypes: SensorType[], thresholds?: Record<string, number>): MapChart {
     const stationSensorTypeIds: string[] = station.sensors.filter((s: Sensor) => s.enabled).map((s: Sensor) => s.type);
     let stationSensorTypes: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.isFeatured);
     const sensorsToCompare: SensorType[] = sensorTypes.filter((t: SensorType) => stationSensorTypeIds.includes(t.id) && t.compareWith && !t.isFeatured);
     const minSensor: SensorType | undefined = this.compareSensorTypes(sensorsToCompare, 'rain', 'Pioggia nativa');
-    if (minSensor) stationSensorTypes = [minSensor, ...stationSensorTypes];   
+    if (minSensor) stationSensorTypes = [minSensor, ...stationSensorTypes];
 
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === station.parameter);
 
@@ -229,7 +217,6 @@ export class StationsService {
       station.id,
       [],
       station.parameter,
-      // Array.from(new Map(stationSensorTypes.map((item) => [item.id, item])).values()),
       stationSensorTypes,
       undefined,
       station.name ?? station.parameter,
@@ -331,6 +318,14 @@ export class StationsService {
       if (!pick) return undefined;
       return s.mergeWithPick(pick);
     }).filter((s) => s !== undefined)
+  }
+
+  public getInitialDateOnSensorGap(endingDate: string, sensorType?: SensorType): Date {
+    let gap: number = 30;
+    if (sensorType && sensorType.defaultTimeGap) gap = sensorType.defaultTimeGap;
+    const initial = new Date(endingDate);
+    initial.setDate(initial.getDate() - gap);
+    return initial;
   }
 
 }

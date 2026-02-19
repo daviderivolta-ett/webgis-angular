@@ -521,8 +521,8 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {    
+    let { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -531,7 +531,12 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
 
-    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);    
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);       
+
+    if (!initialDate) {
+      const sensorType = this._sensorTypes.find((t) => t.id === param);
+      initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
+    }
 
     this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
