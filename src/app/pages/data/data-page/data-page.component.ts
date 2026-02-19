@@ -186,6 +186,9 @@ export class DataPageComponent {
       this.selectedDate = date;
       this.chartReferenceDate = date;
     });
+
+    await this.setDataFromApi();
+    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public async ngAfterViewInit(): Promise<void> {
@@ -194,9 +197,6 @@ export class DataPageComponent {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestPopupConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
       .then((config: any) => this.stationPopupConfig = config)
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
-
-    await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
   }
 
   public ngOnDestroy(): void {
@@ -230,7 +230,7 @@ export class DataPageComponent {
     const baseLayerIds: string[] = params.getAll('base');
     const infoLayerIds: string[] = params.getAll('info');
 
-    if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
+    if ([...layerIds, ...infoLayerIds].length === 0) {
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
       this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
       this.infoLayersForm.patchValue({ zone_di_allerta: true });
@@ -477,7 +477,7 @@ export class DataPageComponent {
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
             if (Utils.isValidColor(k) && v) thresholds[k] = v;
           });
-          const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);    
+          const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {}));
           break;
 
@@ -521,7 +521,7 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {    
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     let { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
@@ -531,7 +531,7 @@ export class DataPageComponent {
     const chartIdx = this.charts.findIndex((c: MapChart) => c.id === chartId);
     this.areChartsDisabled = true;
 
-    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);       
+    const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
 
     if (!initialDate) {
       const sensorType = this._sensorTypes.find((t) => t.id === param);
