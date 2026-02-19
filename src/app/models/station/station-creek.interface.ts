@@ -22,9 +22,9 @@ export class StationThresholdConfig {
 
         // creekThreshold.yMin = -1;
         // creekThreshold.yMax = 6;
-        // creekThreshold.yellow = 0.5;
-        // creekThreshold.orange = 2.5;
-        // creekThreshold.red = 3.5;
+        // creekThreshold.yellow = 0.25;
+        // creekThreshold.orange = 0.5;
+        // creekThreshold.red = 1;
 
         return creekThreshold;
     }
