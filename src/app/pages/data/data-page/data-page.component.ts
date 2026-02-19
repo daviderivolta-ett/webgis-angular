@@ -164,7 +164,7 @@ export class DataPageComponent {
     effect(() => {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
-      this._changeCheckboxesVisibility(isAuth);
+      this._changeCheckboxesVisibility(isAuth, currentUser?.layers);
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
     });
@@ -265,11 +265,11 @@ export class DataPageComponent {
     )
   }
 
-  private _changeCheckboxesVisibility(isAuth: boolean) {
-    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth);
+  private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {
+    const authLayers = LayerGroup.getAuthLayers(this.dataLayers, isAuth, layersToShow);     
     this.groupedCheckboxes = this.groupedCheckboxes.map((group: GroupedCheckboxItem) => {
-      return group.visibleNestedCheckbox(authLayers, group);
-    });
+      return group.visibleNestedCheckbox(authLayers);
+    });     
   }
 
   /** Actions */

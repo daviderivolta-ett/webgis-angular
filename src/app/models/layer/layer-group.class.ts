@@ -144,7 +144,7 @@ export class LayerGroup {
         return result;
     }
 
-    static getAuthLayers(groups: LayerGroup[], isAuth: boolean) {
+    static getAuthLayers(groups: LayerGroup[], isAuth: boolean, layersToShow?: string[]) {
         let result: string[] = [];
 
         for (const group of groups) {
@@ -156,7 +156,14 @@ export class LayerGroup {
                         if (!option.requiresAuth || isAuth) result.push(option.id);
                         result.push(...this.getAuthLayers([option], isAuth));
                     } else {
-                        if (!option.requiresAuth || isAuth) result.push(option.id);
+                        // if (!option.requiresAuth || isAuth) result.push(option.id);
+                        
+                        if (!option.requiresAuth) {
+                            result.push(option.id);
+                        } else {
+                            if (isAuth && layersToShow && layersToShow.includes(option.id)) result.push(option.id)
+                        }
+
                     }
                 }
             }

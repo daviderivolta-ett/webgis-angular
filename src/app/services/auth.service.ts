@@ -18,7 +18,7 @@ export class AuthService {
   constructor(private oauthService: OAuthService) {
     this.configureAuth();
 
-    this.oauthService.events.subscribe((event) => {
+    this.oauthService.events.subscribe((event) => {         
       if (event.type === 'token_received') {
         const payload: any = this._parseJsonWebToken(this.getAccessToken());
         const user: User | undefined = this._createUserFromJsonWebToken(payload);
@@ -36,6 +36,7 @@ export class AuthService {
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(async () => {
         this.oauthService.setupAutomaticSilentRefresh();
+        this.oauthService.timeoutFactor = 0.75;
         await this.checkAccessAndRefreshToken();
         this._checkAccessTokenAndLogin();
       })

@@ -12,7 +12,7 @@ export class GroupedCheckboxItem extends TreeNode {
         super(id);
     }
 
-    static override createFromObject(object: any): GroupedCheckboxItem {        
+    static override createFromObject(object: any): GroupedCheckboxItem {
         if (!object || !object['id']) {
             throw new Error('Oggetto non valido: \'id\' mancante.');
         }
@@ -23,14 +23,14 @@ export class GroupedCheckboxItem extends TreeNode {
         if ('iconUrl' in object && typeof object['iconUrl'] === 'string') item.iconUrl = object['iconUrl'];
         if ('action' in object) item.action = { ...object['action'] };
         if ('maxSelections' in object && typeof object['maxSelections'] === 'number') item.maxSelections = object['maxSelections'];
-        if ('options' in object && Array.isArray(object['options'])) {          
+        if ('options' in object && Array.isArray(object['options'])) {
             item.options = object['options'].map((c: any) => GroupedCheckboxItem.createFromObject(c));
         }
 
         item.isChecked = object['isChecked'] || false;
         item.isDisabled = object['isDisabled'] || false;
         item.isVisible = object['isVisible'] || false;
-        
+
         return item;
     }
 
@@ -54,7 +54,7 @@ export class GroupedCheckboxItem extends TreeNode {
         if (cloned.options) {
             cloned.options = cloned.options.map(child => this.checkNestedCheckbox(ids, child));
         }
-       
+
         return cloned;
     }
 
@@ -70,13 +70,24 @@ export class GroupedCheckboxItem extends TreeNode {
         return cloned;
     }
 
-    public visibleNestedCheckbox(ids: string[], group: GroupedCheckboxItem = this): GroupedCheckboxItem {
-        const cloned: GroupedCheckboxItem = group.clone();
-       
-        cloned.isVisible = ids.includes(cloned.id);
+    public visibleNestedCheckbox(ids: string[]): GroupedCheckboxItem {
+        // const cloned: GroupedCheckboxItem = group.clone();
 
-        if (cloned.options) {
-            cloned.options = cloned.options.map(child => this.visibleNestedCheckbox(ids, child));
+        // cloned.isVisible = ids.includes(cloned.id);
+
+        // if (cloned.options) {
+        //     cloned.options = cloned.options.map(child => this.visibleNestedCheckbox(ids, child));
+        // }
+
+        // return cloned;
+
+        const cloned = this.clone();
+
+        if (cloned.options?.length) {
+            cloned.options = cloned.options.map(child => child.visibleNestedCheckbox(ids));
+            cloned.isVisible = cloned.options.some(child => child.isVisible);
+        } else {
+            cloned.isVisible = ids.includes(cloned.id);
         }
 
         return cloned;
