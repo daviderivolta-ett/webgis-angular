@@ -103,7 +103,7 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
             const numValue = +value;
             const steps = this.colors.length - 1;
             const range = this.max - this.min;
-
+            
             const ratio = this.type === 'logarithmic'
                 ? (Math.log(numValue) - Math.log(this.min)) / (Math.log(this.max) - Math.log(this.min))
                 : (numValue - this.min) / range;

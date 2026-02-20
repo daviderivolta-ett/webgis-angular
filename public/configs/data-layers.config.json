@@ -342,8 +342,7 @@
                             80,
                             90
                         ],
-                        "altUnit": "%",
-                        "multiplier": 3.3333333333333333
+                        "altUnit": "%"
                     },
                     "showValueOnZoom": true,
                     "action": {
