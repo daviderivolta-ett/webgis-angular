@@ -65,7 +65,7 @@ export class Table2 {
         return data.map((d: Record<string, any>) => {
             const row: any[] = [];
 
-            headerKeys.forEach((k: string) => {                
+            headerKeys.forEach((k: string) => {
                 row.push({
                     dataKey: k,
                     dataValue: k in d ? (typeof d[k] === 'number' ? d[k].toFixed(decimals) : d[k]) : '-',
@@ -105,8 +105,13 @@ export class Table2 {
         }
 
         const sortedBody: [string, any][][] = [...this.body].sort((a, b) => {
-            const aValue = a[columnIndex]?.['dataValue'];
-            const bValue = b[columnIndex]?.['dataValue'];
+            const normalize = (v: any) => {
+                const n = Number(v);
+                return !Number.isNaN(n) && v !== '' ? n : v ?? '';
+            };
+
+            let aValue = normalize(a[columnIndex]?.['dataValue']);
+            let bValue = normalize(b[columnIndex]?.['dataValue']);
 
             if (aValue < bValue) return direction === 'asc' ? -1 : 1;
             if (aValue > bValue) return direction === 'asc' ? 1 : -1;
