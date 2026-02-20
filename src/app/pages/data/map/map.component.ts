@@ -28,7 +28,6 @@ export class MapComponent {
   /** Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
   public isLoading = model<boolean>(false);
-  public initialDate = model<Date | undefined>(undefined);
   public selectedDate = model<Date | undefined>(undefined);
   public timeDimensionDateChanged = output<Date | undefined>();
 
