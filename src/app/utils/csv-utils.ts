@@ -11,7 +11,7 @@ export class CSVUtils {
                 .filter((entry: [string, any]) => keysToKeep.includes(entry[0]))
                 .map((entry: [string, any]) => CSVUtils._replaceHTML(entry))
                 .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(entry[1]).toLocaleString());
-        });       
+        });
 
         const rows = [keys, ...content];
 
@@ -20,12 +20,12 @@ export class CSVUtils {
                 if (v instanceof Date) return `${String(v.getDate()).padStart(2, '0')}/${String(v.getMonth() + 1).padStart(2, '0')}/${v.getFullYear()}`;
                 else return v;
             })
-        })   
+        })
 
         return formattedRows.map((row) => row.join(';')).join('\n');
     }
 
-    static _replaceHTML(entry: [string, any]) {             
+    static _replaceHTML(entry: [string, any]) {
         return [entry[0], typeof entry[1] === 'string' ? entry[1].replaceAll(/<[^>]*>/g, '') : entry[1]];
     }
 
@@ -50,10 +50,12 @@ export class CSVUtils {
                 ) :
                 '';
 
-            const values: number[] = array.map((dataset: [number, number][]) => dataset[i]?.[1] ?? '');
+            const values: string[] = array.map((dataset: [number, number][]) => {
+                return !dataset[i] ? '' : dataset[i][1].toLocaleString();
+            });
             rows.push([formattedDate, ...values]);
         }
-       
-        return rows.map((row: any) => row.join(',')).join('\n');
+
+        return rows.map((row: any) => row.join(';')).join('\n');
     }
 }
