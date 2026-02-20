@@ -58,7 +58,7 @@
                                             @for (d of r; track $index) {
                                                 <div class="tdata">
                                                     <p>
-                                                        @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                                        @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - HH:mm'}} }
                                                         @else { {{d['dataValue'] ?? '-'}} }
                                                     </p>
                                                 </div>

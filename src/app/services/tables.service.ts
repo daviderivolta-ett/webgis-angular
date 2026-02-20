@@ -100,7 +100,7 @@ export class TablesService {
             keysToMerge.forEach((key: string) => {
               const pair: [string, any] | undefined = entries.find(([k, _]: [String, any]) => k === key);        
               if (pair) {
-                const isDate: boolean = this._isISODate(pair[1]);
+                const isDate: boolean = this._isISODate(pair[1]);                
                 value += isDate ?
                   ` [${new Date(pair[1]).getHours().toString().padStart(2, '0')}:${new Date(pair[1]).getMinutes().toString().padStart(2, '0')}]` :
                   ` ${pair[1]}`;

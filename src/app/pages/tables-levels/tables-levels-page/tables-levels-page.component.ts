@@ -106,14 +106,6 @@ export class TablesLevelsPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-
-    // effect(() => {
-      // const date = this.dateService.date();
-    //   const date = this.globalStateService.getDateFromQueryParams();
-    //   this.initialDate = date;
-    //   this.selectedDate = date;
-    //   this._init('livelli-idrometrici');
-    // });
   }
 
   /** Component lifecycle */
@@ -162,7 +154,7 @@ export class TablesLevelsPageComponent {
 
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup); 
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -262,7 +254,6 @@ export class TablesLevelsPageComponent {
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
     const { param, initialDate, endingDate } = formChange;
-    // const currentDate = this.dateService.date() ?? new Date();
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     if (!this.chart) return;

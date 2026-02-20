@@ -62,7 +62,7 @@
                                 @for (d of r; track $index) {
                                     <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" [style.backgroundColor]="d['backgroundColor']" [style.color]="d['backgroundColor'] === 'black' ? 'white' : 'inherit'" (click)="onCellClick(d)">
                                         <p>
-                                            @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - hh:mm'}} }
+                                            @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - HH:mm'}} }
                                             @else { {{d['dataValue'] ?? '-'}} }
                                         </p>
                                     </div>
