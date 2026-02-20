@@ -15,6 +15,7 @@ import { DateUtils, Utils } from '../utils';
   providedIn: 'root'
 })
 export class StationsService {
+  private _debounceTimeout: number | null = null;
 
   constructor(private apiService: ApiService) { }
 
@@ -71,7 +72,7 @@ export class StationsService {
       })
   }
 
-  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
+  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {    
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
       promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toApiFormat(initialDate), DateUtils.toApiFormat(endingDate), limitDate, token));

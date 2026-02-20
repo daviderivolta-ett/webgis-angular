@@ -109,4 +109,12 @@ export class Utils {
         const factor: number = 10 ** decimals;
         return Math.trunc(value * factor) / factor;
     }
+
+    static debounce<T extends (...args: any[]) => any>(callback: T, wait: number) {
+        let timeout: number | null = null;
+        return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+            if (timeout) window.clearTimeout(timeout);
+            timeout = window.setTimeout(() => callback.apply(this, args), wait);
+        }
+    }
 }
