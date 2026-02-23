@@ -524,7 +524,7 @@ export class DataPageComponent {
   public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 400)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    
+
     let { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
@@ -692,6 +692,18 @@ export class DataPageComponent {
 
     if (layersToRemove.length > 1) return;
     this.snackbarsService.createSnackbar(`Il layer ${layersToRemove[0].label ?? layersToRemove[0].id} non è disponibile alla data selezionata.`, 'success', false);
+  }
+
+  public onMapTimedimensionEvent(event: Record<string, any>): void {
+    if (!('message' in event) || !('type' in event) && (event['type'] !== 'success' || event['type'] !== 'loader' || event['type'] !== 'error')) return;
+    this.snackbarsService.removeSnackbar(`snackbar_loader`);
+
+    this.snackbarsService.createSnackbar(
+      event['message'],
+      event['type'],
+      event['type'] === 'loader' ? false : true,
+      `snackbar_${event['type']}`
+    );
   }
 
   private _updateMultipleLayers(date: Date | undefined, isReset: boolean = false) {

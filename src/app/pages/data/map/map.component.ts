@@ -30,6 +30,7 @@ export class MapComponent {
   public isLoading = model<boolean>(false);
   public selectedDate = model<Date | undefined>(undefined);
   public timeDimensionDateChanged = output<Date | undefined>();
+  public timeDimensionEvent = output<Record<string, any>>();
 
   /** Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
@@ -108,7 +109,7 @@ export class MapComponent {
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
   }
 
-  private _initTimeDimension() {    
+  private _initTimeDimension() {
     // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension = L.timeDimension({
       currentTime: this.selectedDate() ?? new Date().getTime()
@@ -127,10 +128,12 @@ export class MapComponent {
     this._map.timeDimension.on('availabletimeschanged', (obj) => {
       const selectedDate: Date | undefined = this.selectedDate();
       setTimeout(() => {
-        // this._setCurrentTime(selectedDate ?? obj['availableTimes'][obj['availableTimes'].length - 1]);
-        this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes'])
+        this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes']);
       }, 100);
     });
+
+    // @ts-ignore: time dimension plugin has no type declaration
+    this._map.timeDimension.on('timeload', () => this.timeDimensionEvent.emit({ message: 'Layer sincronizzato correttamente con la data selezionata.', type: 'success' }));
   }
 
   /** Click map event */
@@ -290,6 +293,7 @@ export class MapComponent {
 
   /** Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
+    this.timeDimensionEvent.emit({ message: 'Sincronizzazione dei tempi del layer con la data selezionata.', type: 'loader' });
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
     });
@@ -308,7 +312,7 @@ export class MapComponent {
         if (!feature) return {}
         const color: string = feature.properties.color ?? 'grey';
         const opacity: number = parseFloat(feature.properties.opacity) ?? 1;
-       
+
         return {
           color: '#000',
           weight: 2,
@@ -320,7 +324,7 @@ export class MapComponent {
       onEachFeature: (feature, layer) => {
         layer.on('click', (event) => this.featureClicked.emit({ ...feature.properties, coordinates: event.latlng }))
       }
-    }).addTo(this._map);     
+    }).addTo(this._map);
     if ((geoJSON as any)['timestamp'] && (typeof (geoJSON as any)['timestamp'] === 'string' || typeof (geoJSON as any)['timestamp'] === 'number')) this.timeDimensionDateChanged.emit(new Date(Number((geoJSON as any)['timestamp'])));
     this._registerLayer(id, geoJSONLayer);
   }
@@ -552,9 +556,9 @@ export class MapComponent {
 
   }
 
-  private _createTextIcon(value: number, color: string, decimals: number = 1): string {   
+  private _createTextIcon(value: number, color: string, decimals: number = 1): string {
     const factor: number = 10 ** decimals;
-    const truncatedValue: number = Math.trunc(value * factor) / factor;   
+    const truncatedValue: number = Math.trunc(value * factor) / factor;
     return `
       <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;">
         <span>${truncatedValue.toFixed(decimals)}</span>

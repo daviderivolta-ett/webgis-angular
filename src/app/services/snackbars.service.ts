@@ -11,8 +11,8 @@ import { Snackbar } from '../models';
 export class SnackbarsService {
   public snackbars = signal<Snackbar[]>([]);
 
-  public createSnackbar(text: string, type: 'success' | 'error' | 'loader', isAutoDismissed: boolean = false): string {   
-    const snackbar: Snackbar = new Snackbar(text, type, isAutoDismissed);  
+  public createSnackbar(text: string, type: 'success' | 'error' | 'loader', isAutoDismissed: boolean = false, id?: string): string {   
+    const snackbar: Snackbar = new Snackbar(text, type, isAutoDismissed, id);   
     this.snackbars.update((oldValue: Snackbar[]) => [...oldValue, snackbar]);
     return snackbar.id;
   }
