@@ -521,10 +521,9 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 400)
+  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 600)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-
     let { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 

@@ -18,6 +18,7 @@ export class MapChartComponent {
   public isLoading = input<boolean>(false);
   public param = model<string>('');
   public dates = model<[string, string]>([this._formatDate(this._getInitialDateFrom(new Date)), this._formatDate(new Date)]);
+  private _chartIntervalId: number | null = null;
 
   public formValue: Record<string, any> = {
     param: this.param(),
@@ -35,6 +36,8 @@ export class MapChartComponent {
     effect(() => {
       this.formValue['initialDate'] = this.dates()[0];
       this.formValue['endingDate'] = this.dates()[1];
+      console.log(this.dates()[1]);
+      
     })
   }
 
@@ -57,6 +60,16 @@ export class MapChartComponent {
         this.formChanged.emit(this.formValue);
       });
     }
+
+    // if (this._chartIntervalId) window.clearInterval(this._chartIntervalId);
+    // this._chartIntervalId = window.setInterval(() => {
+    //   console.log('UPDATE CHART');
+    //   this.formChanged.emit(this.formValue);
+    // }, 60000);
+  }
+
+  public ngOnDestroy(): void {
+    if (this._chartIntervalId) window.clearInterval(this._chartIntervalId);
   }
 
   /** Methods */
