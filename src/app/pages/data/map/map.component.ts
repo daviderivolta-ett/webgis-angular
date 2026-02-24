@@ -191,7 +191,7 @@ export class MapComponent {
   }
 
   /** Add base tile layer */
-  public addBaseLayer(url: string, options: Record<string, any>): void {
+  public addBaseLayer(url: string, options: Record<string, any>): void {   
     this.removeLayerById('base');
     const layer = L.tileLayer(url, { zIndex: 0, ...options }).addTo(this._map);
     this._registerLayer('base', layer);

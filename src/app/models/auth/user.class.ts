@@ -1,24 +1,30 @@
 import { GeolocationWithRadius } from '../geographic'
 
 export class User {
+    public id: string;
     public email: string;
     public roles: string[];
     public layers?: string[];
     public geolocation?: GeolocationWithRadius;
 
     constructor(
+        id: string,
         email: string,
         roles: string[] = [],
         layers?: string[],
         geolocation?: GeolocationWithRadius
     ) {
+        this.id = id;
         this.email = email;
         this.roles = roles;
         this.layers = layers;
         this.geolocation = geolocation;
     }
 
-    static createFromObject(obj: any): User | undefined {           
+    static createFromObject(obj: any): User | undefined {  
+        if (!('sub' in obj) || typeof obj['sub'] !== 'string') return undefined;
+
+        const id = obj['sub'];
         const email: string | undefined = obj['email'];
         const roles: string[] = ('realm_access' in obj && 'roles' in obj['realm_access'] && Array.isArray(obj['realm_access']['roles'])) ?
             obj['realm_access']['roles'] :
@@ -36,6 +42,6 @@ export class User {
                 ? { lat, lng, radius }
                 : undefined;
 
-        return new User(email, roles, layers, geolocation);
+        return new User(id, email, roles, layers, geolocation);
     }
 }

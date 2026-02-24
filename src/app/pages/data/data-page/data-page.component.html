@@ -5,6 +5,11 @@
         <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" (toggled)="onSidebarToggle($event)">
             <div ngProjectAs="sidebar-content" class="sidebar-content">
                 <h3>Livelli</h3>
+                @if (user) {
+                <button type="button" class="fab save-btn" (click)="onParameterSaveClick()">
+                    <span class="save-icon"></span>
+                </button>
+                }
                 <div class="sidebar__checkboxes">
                     @for (group of groupedCheckboxes; track $index) {
                         <app-grouped-checkboxes [group]="group" (changed)="onLayerToggled($event)" [style.display]="group.isVisible ? '' : 'none'" #groupedCheckbox></app-grouped-checkboxes>

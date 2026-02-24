@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
       provide: OAuthStorage,
       useFactory: () => localStorage
     },
-    provideAppInitializer(() => {
+    provideAppInitializer(async () => {
       const configService = inject(ConfigService);
       return configService.getAppConfig()
         .catch((err: any) => {

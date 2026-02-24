@@ -93,7 +93,8 @@ export class DataPageComponent {
   public stationsUrl; // Recovered from route resolver in constructor
   public parametersUrl; // Recovered from route resolver in constructor 
   public stationParametersUrl; // Recovered from route resolver in constructor
-  public latestPopupConfigUrl; // Recovered from route resolver in constructor
+  public createConfigUrl; // Recovered from route resolver in constructor
+  public latestConfigUrl; // Recovered from route resolver in constructor
   public timeserieUrl; // Recovered from route resolver in constructor
   public hydroImgsUrl; // Recovered from route resolver in constructor
   public webcamImgsUrl; // Recovered from route resolver in constructor
@@ -137,7 +138,8 @@ export class DataPageComponent {
     this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
     this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
     this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    this.latestPopupConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
+    this.createConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('createConfig'));
+    this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
     this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.webcamImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs'));
@@ -160,13 +162,24 @@ export class DataPageComponent {
       if (control) control.valueChanges.subscribe((changes: any) => this._onInfoLayersCheckboxesChange(controlName, changes));
     })
 
-    /** Effetcs */
+    /** Effects */
     effect(() => {
       const currentUser = this.authService.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth, currentUser?.layers);
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
+
+      // setTimeout(() => {
+      //   if (this.user) {
+      //     this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${this.user.id}_preferences` }), this.authService.getAccessToken())
+      //       .then((params) => {
+      //         console.log('User params', params);
+      //         this.globalStateService.replaceQueryParams(params);
+      //         this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
+      //       });
+      //   }
+      // }, 5000);
     });
   }
 
@@ -179,7 +192,7 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {   
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
@@ -188,13 +201,11 @@ export class DataPageComponent {
     });
 
     await this.setDataFromApi();
-    this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
+    this._applyLayersFromQueryParams(new URLSearchParams(window.location.search));
   }
 
   public async ngAfterViewInit(): Promise<void> {
-    if (this.baseLayers.length > 0) this.baseLayersForm.get('baseLayer')?.setValue(this.baseLayers[0].id);
-
-    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestPopupConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
+    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
       .then((config: any) => this.stationPopupConfig = config)
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
   }
@@ -225,18 +236,27 @@ export class DataPageComponent {
     }
   }
 
-  private _applyLayersFromQueryParams(params: ParamMap): void {
+  private _applyLayersFromQueryParams(params: URLSearchParams): void {
     const layerIds: string[] = params.getAll('layer');
     const baseLayerIds: string[] = params.getAll('base');
     const infoLayerIds: string[] = params.getAll('info');
 
+    /** Default */
     if ([...layerIds, ...infoLayerIds].length === 0) {
-      this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);
+      this.baseLayersForm.patchValue({ baseLayer: this.baseLayers[0].id });                   // Base layers
+      this.infoLayersForm.patchValue({ zone_di_allerta: true });                              // Info layers
+      this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);       // Data layers
       this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
-      this.infoLayersForm.patchValue({ zone_di_allerta: true });
+      this.globalStateService.replaceQueryParams({                                            // Sync query params
+        base: [this.baseLayers[0].id],
+        layer: ['station_precipitations_1h'],
+        info: ['zone_di_allerta'],
+        date: this.globalStateService.getDateFromQueryParams()
+      });
       return;
     }
 
+    /** Data layers */
     const layers: Layer[] = layerIds.map((id: string) => {
       return this.dataLayers.map((g: LayerGroup) => g.searchLayerById(id))
     }).flat().filter(l => l !== undefined);
@@ -247,6 +267,7 @@ export class DataPageComponent {
 
     this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
 
+    /** Base layer */
     const baseLayers: TileLayer[] = this.baseLayers.filter((l) => baseLayerIds.includes(l.id))
     if (baseLayers.length > 0) {
       this.baseLayersForm.patchValue({ baseLayer: baseLayers[0].id }, { emitEvent: false });
@@ -255,13 +276,14 @@ export class DataPageComponent {
       this.globalStateService.updateFirstQueryParamValue('base', baseLayers[0].id);
     }
 
+    /** Info layers */
     const infoLayers: WMSLayer[] = this.infoLayers.filter((l) => infoLayerIds.includes(l.id));
     if (infoLayers.length > 0) this.infoLayersForm.patchValue(
       infoLayers.reduce<{ [key: string]: boolean }>((acc, layer) => {
         acc[layer.id] = true;
         return acc;
       }, {})
-    )
+    );
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {
@@ -559,6 +581,12 @@ export class DataPageComponent {
     Utils.downloadFile('station_chart.csv', csv);
   }
 
+  public onParameterSaveClick(): void {
+    if (!this.user) return;
+    const params: Record<string, string[]> = this.globalStateService.getQueryParam(['base', 'info', 'layer', 'date']);
+    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', params, this.authService.getAccessToken());
+  }
+
   /**
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
@@ -730,8 +758,8 @@ export class DataPageComponent {
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
       })
       .finally(() => {
-        this.globalStateService.setDateToQueryParams(date);
-        this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
+        // this.globalStateService.setDateToQueryParams(date);
+        // this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
       })
   }
 }

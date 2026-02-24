@@ -79,6 +79,16 @@
     gap: 16px;
 }
 
+.save-btn {
+    position: absolute;
+    top: 16px;
+    right: 64px;
+    
+    .save-icon {
+        @include mixins.maskIcon('/images/icons/save_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
+    }
+}
+
 .reset-btn {
     position: fixed;
     bottom: 32px;
