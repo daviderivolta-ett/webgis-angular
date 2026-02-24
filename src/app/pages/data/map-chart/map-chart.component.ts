@@ -18,6 +18,7 @@ export class MapChartComponent {
   public isLoading = input<boolean>(false);
   public param = model<string>('');
   public dates = model<[string, string]>([this._formatDate(this._getInitialDateFrom(new Date)), this._formatDate(new Date)]);
+  public canRefresh = model<boolean>(false);
   private _chartIntervalId: number | null = null;
 
   public formValue: Record<string, any> = {
@@ -36,9 +37,11 @@ export class MapChartComponent {
     effect(() => {
       this.formValue['initialDate'] = this.dates()[0];
       this.formValue['endingDate'] = this.dates()[1];
-      console.log(this.dates()[1]);
-      
-    })
+    });
+    effect(() => {
+      if (!this.chartSelector || !this.chartDatePicker) return;
+      if (this._chartIntervalId && this.canRefresh() === false) window.clearInterval(this._chartIntervalId);
+    });
   }
 
   /** Component lifecycles */
@@ -51,21 +54,21 @@ export class MapChartComponent {
         this.formChanged.emit(this.formValue);
       });
     }
-    
+
     if (this.chartDatePicker) {
       this.chartDatePicker.datesChanged.subscribe((dates: [string, string]) => {
-        this.dates.set([dates[0], dates[1]]);
+        // this.dates.set([dates[0], dates[1]]);      
         this.formValue['initialDate'] = dates[0];
-        this.formValue['endingDate'] = dates[1];
+        if (this.formValue['endingDate'] !== dates[1]) {
+          this.formValue['endingDate'] = dates[1];
+          this.canRefresh.set(false);
+        }
         this.formChanged.emit(this.formValue);
       });
     }
 
-    // if (this._chartIntervalId) window.clearInterval(this._chartIntervalId);
-    // this._chartIntervalId = window.setInterval(() => {
-    //   console.log('UPDATE CHART');
-    //   this.formChanged.emit(this.formValue);
-    // }, 60000);
+    if (this._chartIntervalId) window.clearInterval(this._chartIntervalId);
+    if (this.canRefresh()) this._chartIntervalId = window.setInterval(() => this.formChanged.emit(this.formValue), 10000);
   }
 
   public ngOnDestroy(): void {
