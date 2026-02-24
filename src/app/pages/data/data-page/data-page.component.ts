@@ -59,7 +59,7 @@ export class DataPageComponent {
   public hydroImgs: string[] = [];
   public webcams: Webcam[] = [];
   public lidars: Lidar[] = [];
-  public areChartsDisabled: boolean = false;
+  public areChartsDisabled: boolean = true;
   public chartReferenceDate: Date | undefined;
 
   public initialDate: Date | undefined;
@@ -532,7 +532,7 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 300)
+  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 400)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     let { param, initialDate, endingDate } = formChange;
