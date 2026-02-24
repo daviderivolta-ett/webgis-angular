@@ -68,7 +68,7 @@ export class MapChartComponent {
     }
 
     if (this._chartIntervalId) window.clearInterval(this._chartIntervalId);
-    if (this.canRefresh()) this._chartIntervalId = window.setInterval(() => this.formChanged.emit(this.formValue), 10000);
+    if (this.canRefresh()) this._chartIntervalId = window.setInterval(() => this.formChanged.emit(this.formValue), 300000);
   }
 
   public ngOnDestroy(): void {

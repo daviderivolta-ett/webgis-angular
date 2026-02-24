@@ -49,11 +49,11 @@ export class GlobalStateService {
       })
   }
 
-  public saveQueryParams(url: string, configName: string, configTag: string, configType: string, obj: Record<any, any>, token?: string) {
+  public async saveQueryParams(url: string, configName: string, configTag: string, configType: string, obj: Record<any, any>, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers,
       body: JSON.stringify({

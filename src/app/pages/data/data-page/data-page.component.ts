@@ -584,7 +584,12 @@ export class DataPageComponent {
   public onParameterSaveClick(): void {
     if (!this.user) return;
     const params: Record<string, string[]> = this.globalStateService.getQueryParam(['base', 'info', 'layer', 'date']);
-    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', params, this.authService.getAccessToken());
+    const snackbarId: string = this.snackbarsService.createSnackbar(`Salvataggio preferenze dell'utente in corso...`, 'loader', false, 'snackbar_user_preferences');
+    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', params, this.authService.getAccessToken())
+      .finally(() => {
+        this.snackbarsService.removeSnackbar(snackbarId);
+        this.snackbarsService.createSnackbar(`Preferenze dell'utente salvate con successo.`, 'success', true);
+      })
   }
 
   /**
