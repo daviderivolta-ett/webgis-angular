@@ -1,7 +1,7 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
@@ -169,17 +169,6 @@ export class DataPageComponent {
       this._changeCheckboxesVisibility(isAuth, currentUser?.layers);
       if (!this.user && currentUser) this.setDataFromApi();
       this.user = currentUser;
-
-      // setTimeout(() => {
-      //   if (this.user) {
-      //     this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${this.user.id}_preferences` }), this.authService.getAccessToken())
-      //       .then((params) => {
-      //         console.log('User params', params);
-      //         this.globalStateService.replaceQueryParams(params);
-      //         this._applyLayersFromQueryParams(this.route.snapshot.queryParamMap);
-      //       });
-      //   }
-      // }, 5000);
     });
   }
 

@@ -36,6 +36,7 @@ export class AuthService {
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(async () => {
         this.oauthService.setupAutomaticSilentRefresh({ timeoutFactor: 0.75 });
+        // this.oauthService.setupAutomaticSilentRefresh();
         // this.oauthService.timeoutFactor = 1;
         await this.checkAccessAndRefreshToken();
         this._checkAccessTokenAndLogin();
