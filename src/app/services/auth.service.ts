@@ -34,8 +34,8 @@ export class AuthService {
   public configureAuth(): void {
     this.oauthService.configure(environment.keycloak);
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
-      .then(async () => {      
-        // this.oauthService.setupAutomaticSilentRefresh();
+      .then(async () => {
+        this.oauthService.setupAutomaticSilentRefresh({ timeoutFactor: 0.75 });
         // this.oauthService.timeoutFactor = 1;
         await this.checkAccessAndRefreshToken();
         this._checkAccessTokenAndLogin();
