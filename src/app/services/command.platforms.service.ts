@@ -251,6 +251,6 @@ export class PlatformsCommandService implements Command {
 
         const separator = url.includes('?') ? '&' : '?';
 
-        return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}`;
+        return `${url}${separator}fromDate=${fromDate}&toDate=${toDate}&creationDate=${toDate}`;
     }
 }
