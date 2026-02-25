@@ -1,5 +1,6 @@
 /** Dependencies */
 import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { OAuthStorage, provideOAuthClient } from 'angular-oauth2-oidc';
