@@ -23,7 +23,10 @@ export class GlobalStateService {
     const layerIds: string[] = params.getAll('layer');
     const baseLayerIds: string[] = params.getAll('base');
     const infoLayerIds: string[] = params.getAll('info');
-    return ([...layerIds, ...baseLayerIds, ...infoLayerIds].length > 0) ? true : false;
+    const lat: string[] = params.getAll('lat');
+    const lon: string[] = params.getAll('lon');
+    const zoom: string[] = params.getAll('zoom');
+    return ([...layerIds, ...baseLayerIds, ...infoLayerIds, ...lat, ...lon, ...zoom].length > 0) ? true : false;
   }
 
   public replaceQueryParams(params: Record<string, any>): void {
@@ -95,6 +98,13 @@ export class GlobalStateService {
       queryParams: { [param]: updated },
       queryParamsHandling: 'merge'
     });
+  }
+
+  public updateQueryParams(params: Record<string, any>): void {
+    this.router.navigate([], {
+      queryParams: params,
+      queryParamsHandling: 'merge'
+    })
   }
 
   public changeLayerQueryParams(param: string, idsToAdd: string[], idsToRemove: string[]): void {

@@ -181,7 +181,7 @@ export class DataPageComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {   
+  public async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
       this.initialDate = date;
@@ -191,6 +191,7 @@ export class DataPageComponent {
 
     await this.setDataFromApi();
     this._applyLayersFromQueryParams(new URLSearchParams(window.location.search));
+    this._applyMapStateFromQueryParams(new URLSearchParams(window.location.search));
   }
 
   public async ngAfterViewInit(): Promise<void> {
@@ -229,9 +230,12 @@ export class DataPageComponent {
     const layerIds: string[] = params.getAll('layer');
     const baseLayerIds: string[] = params.getAll('base');
     const infoLayerIds: string[] = params.getAll('info');
+    const lat: string[] = params.getAll('lat');
+    const lon: string[] = params.getAll('lon');
+    const zoom: string[] = params.getAll('zoom');
 
     /** Default */
-    if ([...layerIds, ...infoLayerIds].length === 0) {
+    if ([...layerIds, ...baseLayerIds, ...infoLayerIds].length === 0) {
       this.baseLayersForm.patchValue({ baseLayer: this.baseLayers[0].id });                   // Base layers
       this.infoLayersForm.patchValue({ zone_di_allerta: true });                              // Info layers
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);       // Data layers
@@ -240,7 +244,10 @@ export class DataPageComponent {
         base: [this.baseLayers[0].id],
         layer: ['station_precipitations_1h'],
         info: ['zone_di_allerta'],
-        date: this.globalStateService.getDateFromQueryParams()
+        date: this.globalStateService.getDateFromQueryParams(),
+        lat,
+        lon,
+        zoom
       });
       return;
     }
@@ -273,6 +280,21 @@ export class DataPageComponent {
         return acc;
       }, {})
     );
+  }
+
+  private _applyMapStateFromQueryParams(params: URLSearchParams): void { 
+    const zoom = Number(params.get('zoom') ?? NaN);
+    const lat = Number(params.get('lat') ?? NaN);
+    const lon = Number(params.get('lon') ?? NaN); 
+
+    this.mapConfig = {
+      ...this.mapConfig,
+      position: [
+        !Number.isNaN(lat) ? lat : this.mapConfig.position[0],
+        !Number.isNaN(lon) ? lon : this.mapConfig.position[1]
+      ],
+      zoom: !Number.isNaN(zoom) ? zoom : this.mapConfig.zoom
+    };
   }
 
   private _changeCheckboxesVisibility(isAuth: boolean, layersToShow?: string[]) {
@@ -426,6 +448,11 @@ export class DataPageComponent {
       })
   }
 
+  public onMapZoomAndCenterChanged(state: Record<string, number>): void {   
+    if (!('lat' in state) || !('lon' in state) || !('zoom' in state)) return;
+    this.globalStateService.updateQueryParams(state);
+  }
+
   public onFeatureClicked(event: Record<string, any>): void {
     const { coordinates, ...properties } = event;
 
@@ -572,7 +599,7 @@ export class DataPageComponent {
 
   public onParameterSaveClick(): void {
     if (!this.user) return;
-    const params: Record<string, string[]> = this.globalStateService.getQueryParam(['base', 'info', 'layer', 'date']);
+    const params: Record<string, string[]> = this.globalStateService.getQueryParam(['base', 'info', 'layer', 'date', 'lat', 'lon', 'zoom']);
     const snackbarId: string = this.snackbarsService.createSnackbar(`Salvataggio preferenze dell'utente in corso...`, 'loader', false, 'snackbar_user_preferences');
     this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', params, this.authService.getAccessToken())
       .finally(() => {

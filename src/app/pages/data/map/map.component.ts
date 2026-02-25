@@ -63,6 +63,7 @@ export class MapComponent {
   public featureClicked = output<Record<string, any>[]>();
   public dateChanged = output<Date | undefined>();
   public popupClicked = output<any[]>();
+  public zoomAndCenterChanged = output<Record<string, number>>();
 
   /** User Interface */
   @ContentChild('popup') _popup!: MapPopupComponent;
@@ -107,6 +108,8 @@ export class MapComponent {
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
+    this._map.on('zoomend', (e: L.LeafletEvent) => this._onCenterChanged(e));
+    this._map.on('dragend', (e: L.LeafletEvent) => this._onZoomChanged(e));
   }
 
   private _initTimeDimension() {
@@ -175,6 +178,14 @@ export class MapComponent {
     this.mapClicked.emit({ bbox, point, size, latLng });
   }
 
+  private _onZoomChanged(e: L.LeafletEvent) {
+    this.zoomAndCenterChanged.emit({ lat: this._map.getCenter().lat, lon: this._map.getCenter().lng, zoom: this._map.getZoom() })
+  }
+
+  private _onCenterChanged(e: L.LeafletEvent) {
+    this.zoomAndCenterChanged.emit({ lat: this._map.getCenter().lat, lon: this._map.getCenter().lng, zoom: this._map.getZoom() })
+  }
+
   /** Set layer in internal map and emit event to external */
   private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement, date?: number): void {
     this._layers.set(id, layer);
@@ -191,7 +202,7 @@ export class MapComponent {
   }
 
   /** Add base tile layer */
-  public addBaseLayer(url: string, options: Record<string, any>): void {   
+  public addBaseLayer(url: string, options: Record<string, any>): void {
     this.removeLayerById('base');
     const layer = L.tileLayer(url, { zIndex: 0, ...options }).addTo(this._map);
     this._registerLayer('base', layer);
