@@ -254,11 +254,7 @@ export class PlotlyChartComponent {
               stepmode: 'backward',
               count: 30,
               label: '30gg'
-            },
-            {
-              step: 'all',
-              label: 'Totale'
-            },
+            }
           ]
         },
         type: 'date',
