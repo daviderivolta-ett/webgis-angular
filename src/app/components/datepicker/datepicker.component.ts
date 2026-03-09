@@ -1,6 +1,7 @@
 /** Dependencies */
 import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { distinctUntilChanged } from 'rxjs';
 
 /** Component */
 @Component({
@@ -20,15 +21,23 @@ export class DatepickerComponent {
   constructor() {
     effect(() => this._onDateChanged(this.date()));
     effect(() => this.isLoading() ? this.form.get('date')?.disable() : this.form.get('date')?.enable());
-    this.form.valueChanges.subscribe((changes: any) => this._onFormChange(changes));
+    this.form.valueChanges
+      .pipe(distinctUntilChanged((a, b) => a.date === b.date))
+      .subscribe((changes: any) => this._onFormChange(changes));
   }
 
   /** Methods */
-  private _onDateChanged(date: Date | undefined): void {
-    date ? this.form.patchValue({ date: this._toDatetimeLocal(date) }, { emitEvent: false }) : this.form.reset();
+  private _onDateChanged(date: Date | undefined): void {   
+    const current = this.form.get('date')?.value;
+    const formatted = date ? this._toDatetimeLocal(date) : null;
+    if (current === formatted) return;
+    
+    date ? this.form.patchValue({ date: this._toDatetimeLocal(date) }, { emitEvent: false }) : this.form.reset({}, { emitEvent: false });
   }
 
-  private _onFormChange(changes: any): void {
+  private _onFormChange(changes: any): void {    
+    if (this.form.get('date')?.pristine) return;  
+
     if (!('date' in changes) || typeof changes['date'] !== 'string' || changes['date'] === '') {
       this.dateChanged.emit({ date: null });
       return;
@@ -46,7 +55,7 @@ export class DatepickerComponent {
   }
 
   /** Utils */
-  private _truncateDateToFullHour(date: string): string {
+  private _truncateDateToFullHour(date: string): string {    
     const dateObj = new Date(date);
     const day = dateObj.getFullYear() + '-' + this._pad(dateObj.getMonth() + 1) + '-' + this._pad(dateObj.getDate());
 
@@ -75,7 +84,8 @@ export class DatepickerComponent {
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
     if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
-    const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date();
+
+    const date: Date = this.form.get('date')?.value ? new Date(this._truncateDateToFullHour(this.form.get('date')?.value)) : new Date();
     if (isNaN(date.getTime())) return;
 
     const newDate: Date = this._calculateNewDate(date, direction);

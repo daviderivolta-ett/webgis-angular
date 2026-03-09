@@ -114,10 +114,13 @@ export class TablesStationsPageComponent {
     await this.setDataFromApi();
 
     this.route.queryParams.subscribe(() => {
-      const date = this.globalStateService.getDateFromQueryParams();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._onGlobalDateChange();
+      const tableId: string | undefined = this.globalStateService.hasInteresentingQueryParams2(['table-stations']) ? this.globalStateService.getQueryParam2('table-stations')[0] : this._getSelectedStation();
+      if (!tableId) return;
+      this.form.patchValue({ select: tableId }, { emitEvent: false });
+      const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+      const date: Date = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : new Date();
+      this.selectedDate = this.initialDate = date;
+      this._init(tableId, date);
     });
   }
 
@@ -145,7 +148,7 @@ export class TablesStationsPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string, date: Date): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -156,7 +159,7 @@ export class TablesStationsPageComponent {
     this.config = this._initConfig(id);
     if (!this.config) return;
 
-    await this._getData(this.config)
+    await this._getData(this.config, date)
 
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
     this.filters = this._createFilterForm(this.config.filterKeys ?? []);
@@ -190,7 +193,7 @@ export class TablesStationsPageComponent {
   private _onFormChange(changes: any) {
     const { select } = changes;
     if (!select || typeof select !== 'string') return;
-    this._init(select);
+    this.globalStateService.updateQueryParam2('table-stations', [select]);
   }
 
   private _reset(): void {
@@ -198,22 +201,22 @@ export class TablesStationsPageComponent {
     this.newData = this.newSortedData = new Table2();
   }
 
-  private async _getData(config: TableConfig): Promise<void> {
-    const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
+  private async _getData(config: TableConfig, date: Date): Promise<void> {
+    const url = date ?
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(date.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
     this.isChartLoading = true;
     const response = await this.apiService.getApiData(url)
-    .catch(() => {
-      this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
-    })
-    .finally(() => {
-      this.snackbarsService.removeSnackbar(snackbarId)
-      this.form.get('select')?.enable({ emitEvent: false });
-      this.isChartLoading = false;
+      .catch(() => {
+        this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
+      })
+      .finally(() => {
+        this.snackbarsService.removeSnackbar(snackbarId)
+        this.form.get('select')?.enable({ emitEvent: false });
+        this.isChartLoading = false;
       })
 
     if (!Array.isArray(response) || response.length === 0) return;
@@ -252,19 +255,16 @@ export class TablesStationsPageComponent {
 
   public onDateChange(event: any): void {
     const { date: dateString } = event;
-    if (typeof dateString !== 'string') return;
-    this.globalStateService.setDateToQueryParams(new Date(dateString));
+    const current = this.globalStateService.getQueryParam2('date')[0];
+    if (current === dateString) return;
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
   }
 
-  private _onGlobalDateChange(): void {
-    const selectedStation: any = this.form.get('select')?.value;
-    if (selectedStation && typeof selectedStation === 'string') {
-      this._init(selectedStation);
-      return;
-    }
-
-    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return;
-    this._init(this._tableConfigGroups[0].options[0].id);
+  private _getSelectedStation(): string | undefined {
+    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return undefined;
+    const selectedStation: unknown = this.form.get('select')?.value;
+    if (selectedStation && typeof selectedStation === 'string') return selectedStation;
+    return this._tableConfigGroups[0].options[0].id;
   }
 
   public async onCellClick(cell: any): Promise<void> {
@@ -285,15 +285,21 @@ export class TablesStationsPageComponent {
   }
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;
-    // const currentDate = this.dateService.date() ?? new Date();
-    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
+    let { param, initialDate, endingDate } = formChange;
+    const currentDateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+    const currentDate = !isNaN(new Date(currentDateStr).getTime()) ? new Date(currentDateStr) : new Date();
 
     if (!this.chart) return;
 
     this.isChartLoading = true;
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
+
+    if (!initialDate) {
+      const sensorType = this._sensorTypes.find((t) => t.id === param);
+      initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
+    }
+
     this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.chart = newChart;

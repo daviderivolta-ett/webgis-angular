@@ -1,6 +1,6 @@
 /** Dependencies */
 import { Injectable } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 
 /** Services */
 import { ApiService } from './api.service';
@@ -83,6 +83,71 @@ export class GlobalStateService {
     }, {});
   }
 
+  /** */
+  public hasInteresentingQueryParams2(keys: string[]): boolean {
+    const paramMap = this.route.snapshot.queryParamMap;
+    return keys.some((param: string) => {
+      return paramMap.has(param) && paramMap.getAll(param).length > 0;
+    });
+  }
+
+  public getQueryParam2(key: string): string[] {
+    const paramMap = this.route.snapshot.queryParamMap;
+    return paramMap.getAll(key);
+  }
+
+  public getAllQueryParams2(): Map<string, string[]> {
+    const paramMap = this.route.snapshot.queryParamMap;
+    const map = new Map<string, string[]>();
+
+    paramMap.keys.forEach(key => {
+      map.set(key, paramMap.getAll(key));
+    });
+
+    return map;
+  }
+
+  public updateQueryParam2(key: string, value: string[]): void {
+    this.router.navigate([], {
+      queryParams: { [key]: value },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
+
+  public updateAllQueryParams2(params: Map<string, string[]>): void {
+    const obj = Object.fromEntries(params);
+
+    this.router.navigate([], {
+      queryParams: obj,
+      queryParamsHandling: 'replace',
+      replaceUrl: true
+    });
+  }
+
+  public substituteQueryparams2(key: string, paramsToAdd: string[], paramsToRemove: string[]): void {
+    const paramMap = this.route.snapshot.queryParamMap;
+    const values: string[] = paramMap.getAll(key);
+    const result: string[] = Array.from(new Set([
+      ...values.filter((k: string) => !paramsToRemove.includes(k)),
+      ...paramsToAdd
+    ]));
+    this.router.navigate([], {
+      queryParams: { [key]: result.length ? result : null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
+
+  public removeQueryParam(key: string): void {
+    this.router.navigate([], {
+      queryParams: { [key]: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
+  /** */
+
   public updateLayerQueryParams(activeLayersIds: string[]): void {
     this.router.navigate([], {
       queryParams: { layer: [...activeLayersIds] },
@@ -121,7 +186,7 @@ export class GlobalStateService {
       this.updateFirstQueryParamValue('date', '');
       return;
     }
-    const local: string = this._toDatetimelocal(date);
+    const local: string = this.toDatetimelocal(date);
     this.updateFirstQueryParamValue('date', local);
   }
 
@@ -132,7 +197,7 @@ export class GlobalStateService {
     return isNaN(date.getTime()) ? undefined : date;
   }
 
-  private _toDatetimelocal(date: Date): string {
+  public toDatetimelocal(date: Date): string {
     return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   }
 }

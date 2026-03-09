@@ -25,7 +25,7 @@ export class MapChartDatepickerComponent {
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
-    effect(() => {
+    effect(() => {     
       this.form.patchValue({
         initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())),
         endingDate: this._formatDate(this.endingDate() || new Date())

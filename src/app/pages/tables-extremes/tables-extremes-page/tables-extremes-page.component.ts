@@ -105,14 +105,6 @@ export class TablesExtremesPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-
-    // effect(() => {
-    // const date = this.dateService.date();
-    // const date = this.globalStateService.getDateFromQueryParams();
-    // this.initialDate = date;
-    // this.selectedDate = date;
-    // this._init('estremi-temperatura-vento');
-    // });
   }
 
   /** Component lifecycle */
@@ -121,10 +113,10 @@ export class TablesExtremesPageComponent {
     await this.setDataFromApi();
 
     this.route.queryParams.subscribe(() => {
-      const date = this.globalStateService.getDateFromQueryParams();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._init('estremi-temperatura-vento');
+      const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+      const date: Date = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : new Date();
+      this.selectedDate = this.initialDate = date;
+      this._init('estremi-temperatura-vento', date);
     });
   }
 
@@ -152,14 +144,14 @@ export class TablesExtremesPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string, date: Date): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
 
-    const res: any = await this._getData(this.configGroup.options[0]);
+    const res: any = await this._getData(this.configGroup.options[0], date);
     if (!res) return;
     this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
@@ -178,9 +170,9 @@ export class TablesExtremesPageComponent {
     this.tables = this.sortedTables = [];
   }
 
-  private async _getData(config: TableConfig): Promise<any> {
-    const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
+  private async _getData(config: TableConfig, date: Date): Promise<any> {
+    const url = date ?
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(date.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -304,8 +296,9 @@ export class TablesExtremesPageComponent {
 
   public onDateChange(event: any): void {
     const { date: dateString } = event;
-    if (typeof dateString !== 'string') return;
-    this.globalStateService.setDateToQueryParams(new Date(dateString));
+    const current = this.globalStateService.getQueryParam2('date')[0];
+    if (current === dateString) return;
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {
@@ -329,15 +322,21 @@ export class TablesExtremesPageComponent {
   }
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
-    const { param, initialDate, endingDate } = formChange;
-    // const currentDate = this.dateService.date() ?? new Date();
-    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
+    let { param, initialDate, endingDate } = formChange;
+    const currentDateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+    const currentDate = !isNaN(new Date(currentDateStr).getTime()) ? new Date(currentDateStr) : new Date();
 
     if (!this.chart) return;
 
     this.isChartLoading = true;
 
     const station: StationBase | undefined = this.stations.find((s: StationBase) => s.id === stationCode);
+
+    if (!initialDate) {
+      const sensorType = this._sensorTypes.find((t) => t.id === param);
+      initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
+    }
+
     this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.chart = newChart;

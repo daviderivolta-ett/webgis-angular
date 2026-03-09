@@ -101,13 +101,6 @@ export class TablesHydroPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-    // effect(() => {
-    // const date = this.dateService.date();
-    //   const date = this.globalStateService.getDateFromQueryParams();
-    //   this.initialDate = date;
-    //   this.selectedDate = date;
-    //   this._onGlobalDateChange();
-    // });
   }
 
   /** Component lifecycle */
@@ -116,10 +109,13 @@ export class TablesHydroPageComponent {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     this.route.queryParams.subscribe(() => {
-      const date = this.globalStateService.getDateFromQueryParams();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this._onGlobalDateChange();
+      const tableId: string | undefined = this.globalStateService.hasInteresentingQueryParams2(['table-hydro']) ? this.globalStateService.getQueryParam2('table-hydro')[0] : this._getSelectedModel();
+      if (!tableId) return;
+      this.form.patchValue({ select: tableId }, { emitEvent: false });
+      const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+      const date: Date = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : new Date();
+      this.selectedDate = this.initialDate = date;
+      this._init(tableId, date);
     });
   }
 
@@ -130,7 +126,7 @@ export class TablesHydroPageComponent {
       .map((g: TableConfigGroup) => TableConfigGroupToTreeNodeAdapter.convert(g));
   }
 
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string, date: Date): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 
@@ -141,7 +137,7 @@ export class TablesHydroPageComponent {
     this.config = this._initConfig(id);
     if (!this.config) return;
 
-    await this._getData(this.config)
+    await this._getData(this.config, date)
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -171,16 +167,16 @@ export class TablesHydroPageComponent {
   private _onFormChange(changes: any) {
     const { select } = changes;
     if (!select || typeof select !== 'string') return;
-    this._init(select);
+    this.globalStateService.updateQueryParam2('table-hydro', [select]);
   }
 
   private _reset(): void {
     this.newData = this.newSortedData = new Table2();
   }
 
-  private async _getData(config: TableConfig): Promise<void> {
-    const url = this.selectedDate ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
+  private async _getData(config: TableConfig, date: Date): Promise<void> {
+    const url = date ?
+      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(date.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
@@ -286,8 +282,16 @@ export class TablesHydroPageComponent {
 
   public onDateChange(event: any): void {
     const { date: dateString } = event;
-    if (typeof dateString !== 'string') return;
-    this.globalStateService.updateFirstQueryParamValue('date', !isNaN(new Date(dateString).getTime()) ? new Date(dateString).toISOString() : '');
+    const current = this.globalStateService.getQueryParam2('date')[0];
+    if (current === dateString) return;
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
+  }
+
+  private _getSelectedModel(): string | undefined {
+    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return undefined;
+    const selectedModel: unknown = this.form.get('select')?.value;
+    if (selectedModel && typeof selectedModel === 'string') return selectedModel;
+    return 'modelli-idrologici-nowcasting-hydro';
   }
 
   public async onCellClick(cell: any) {
@@ -297,7 +301,6 @@ export class TablesHydroPageComponent {
     if (!hiddenValue) return;
 
     const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue);
-    // const date = this.stationsService.getHydroDateFromSubfolder(this.dateService.date() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())
@@ -308,16 +311,5 @@ export class TablesHydroPageComponent {
         this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
       })
       .finally(() => this.snackbarsService.removeSnackbar(snackbarId))
-  }
-
-  private _onGlobalDateChange(): void {
-    const selectedStation: any = this.form.get('select')?.value;
-    if (selectedStation && typeof selectedStation === 'string') {
-      this._init(selectedStation);
-      return;
-    }
-
-    if (this._tableConfigGroups.length === 0 || this._tableConfigGroups[0].options.length === 0) return;
-    this._init('modelli-idrologici-nowcasting-hydro');
   }
 }
