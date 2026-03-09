@@ -39,7 +39,7 @@
                 @if (user) {
                     <div class="update-time">
                         <label class="label">Data misurazione</label>
-                        <app-datepicker [date]="initialDate" (dateChanged)="onDateChange($event)"></app-datepicker>
+                        <app-datepicker [date]="initialDate" [isLoading]="isLoading" (dateChanged)="onDateChange($event)"></app-datepicker>
                     </div>
                 }
             </div>

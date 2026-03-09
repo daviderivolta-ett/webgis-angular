@@ -105,13 +105,6 @@ export class TablesStationsPageComponent {
       this.user = this.authService.user();
       this._initNavbar();
     });
-    // effect(() => {
-      // const date = this.dateService.date();
-    //   const date = this.globalStateService.getDateFromQueryParams();
-    //   this.initialDate = date;
-    //   this.selectedDate = date;
-    //   this._onGlobalDateChange();
-    // });
   }
 
   /** Component lifecycle */
@@ -212,13 +205,15 @@ export class TablesStationsPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
+    this.isChartLoading = true;
     const response = await this.apiService.getApiData(url)
-      .catch(() => {
-        this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
-      })
-      .finally(() => {
-        this.snackbarsService.removeSnackbar(snackbarId)
-        this.form.get('select')?.enable({ emitEvent: false });
+    .catch(() => {
+      this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
+    })
+    .finally(() => {
+      this.snackbarsService.removeSnackbar(snackbarId)
+      this.form.get('select')?.enable({ emitEvent: false });
+      this.isChartLoading = false;
       })
 
     if (!Array.isArray(response) || response.length === 0) return;

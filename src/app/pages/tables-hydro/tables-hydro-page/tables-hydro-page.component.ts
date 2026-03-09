@@ -56,6 +56,7 @@ export class TablesHydroPageComponent {
   public selectedDate: Date | undefined;
 
   public hydroImg: string | null = null;
+  public isLoading: boolean = false;
 
   /** Data */
   public user: User | null = null;
@@ -101,7 +102,7 @@ export class TablesHydroPageComponent {
       this._initNavbar();
     });
     // effect(() => {
-      // const date = this.dateService.date();
+    // const date = this.dateService.date();
     //   const date = this.globalStateService.getDateFromQueryParams();
     //   this.initialDate = date;
     //   this.selectedDate = date;
@@ -184,6 +185,7 @@ export class TablesHydroPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
+    this.isLoading = true;
     let response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
@@ -191,6 +193,7 @@ export class TablesHydroPageComponent {
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId)
         this.form.get('select')?.enable({ emitEvent: false });
+        this.isLoading = false;
       })
 
     if (!GeoJsonUtils.isGeoJSON(response)) return;

@@ -154,7 +154,7 @@ export class TablesLevelsPageComponent {
 
     const res: any = await this._getData(this.configGroup.options[0]);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup); 
+    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
@@ -177,12 +177,14 @@ export class TablesLevelsPageComponent {
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
+    this.isChartLoading = true;
     const response = await this.apiService.getApiData(url)
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
+        this.isChartLoading = false;
       })
 
     return (!Array.isArray(response) || response.length === 0) ? undefined : response;
