@@ -18,24 +18,6 @@ export class GlobalStateService {
   ) { }
 
   /** Methods */
-  public hasInterestingQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    const layerIds: string[] = params.getAll('layer');
-    const baseLayerIds: string[] = params.getAll('base');
-    const infoLayerIds: string[] = params.getAll('info');
-    const lat: string[] = params.getAll('lat');
-    const lon: string[] = params.getAll('lon');
-    const zoom: string[] = params.getAll('zoom');
-    return ([...layerIds, ...baseLayerIds, ...infoLayerIds, ...lat, ...lon, ...zoom].length > 0) ? true : false;
-  }
-
-  public replaceQueryParams(params: Record<string, any>): void {
-    this.router.navigate([], {
-      queryParams: { ...params },
-      queryParamsHandling: 'replace'
-    });
-  }
-
   public async getLatestUserPreferences(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
       .then((data: any) => {
@@ -74,16 +56,6 @@ export class GlobalStateService {
       })
   }
 
-  public getQueryParam(paramKeys: string[]): Record<string, string[]> {
-    const paramMap = this.route.snapshot.queryParamMap;
-    return paramKeys.reduce((acc: Record<string, string[]>, key) => {
-      const value: string[] = paramMap.getAll(key);
-      if (value !== null) acc[key] = [...value];
-      return acc;
-    }, {});
-  }
-
-  /** */
   public hasInterestingQueryParams2(keys: string[]): boolean {
     const paramMap = this.route.snapshot.queryParamMap;
     return keys.some((param: string) => {
@@ -94,6 +66,19 @@ export class GlobalStateService {
   public getQueryParam2(key: string): string[] {
     const paramMap = this.route.snapshot.queryParamMap;
     return paramMap.getAll(key);
+  }
+
+  public getQueryParams2(keys: string[]): Map<string, string[]> {
+    const paramMap = this.route.snapshot.queryParamMap;
+    return new Map(
+      Object.entries(
+        keys.reduce((acc: Record<string, string[]>, curr: string) => {
+          acc[curr] = paramMap.getAll(curr);
+          return acc;
+        }, {} as Record<string, string[]>)
+      )
+    )
+
   }
 
   public getAllQueryParams2(): Map<string, string[]> {
@@ -115,10 +100,17 @@ export class GlobalStateService {
     });
   }
 
-  public updateAllQueryParams2(params: Map<string, string[]>): void {
-    console.log(params);    
+  public updateQueryParams2(params: Map<string, string[]>): void {
     const obj = Object.fromEntries(params);
+    this.router.navigate([], {
+      queryParams: obj,
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
 
+  public updateAllQueryParams2(params: Map<string, string[]>): void {
+    const obj = Object.fromEntries(params);
     this.router.navigate([], {
       queryParams: obj,
       queryParamsHandling: 'replace',
@@ -146,49 +138,6 @@ export class GlobalStateService {
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
-  }
-  /** */
-
-  public updateLayerQueryParams(activeLayersIds: string[]): void {
-    this.router.navigate([], {
-      queryParams: { layer: [...activeLayersIds] },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  public updateFirstQueryParamValue(param: string, value: string): void {
-    const values: string[] = this.route.snapshot.queryParamMap.getAll(param);
-    const updated: string[] = [value, ...values.slice(1)];
-
-    this.router.navigate([], {
-      queryParams: { [param]: updated },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  public updateQueryParams(params: Record<string, any>): void {
-    this.router.navigate([], {
-      queryParams: params,
-      queryParamsHandling: 'merge'
-    })
-  }
-
-  public changeLayerQueryParams(param: string, idsToAdd: string[], idsToRemove: string[]): void {
-    const layers: string[] = this.route.snapshot.queryParamMap.getAll(param);
-    const result: string[] = Array.from(new Set([...layers.filter((id: string) => !idsToRemove.includes(id)), ...idsToAdd]));
-    this.router.navigate([], {
-      queryParams: { [param]: result.length ? result : null },
-      queryParamsHandling: 'merge'
-    })
-  }
-
-  public setDateToQueryParams(date?: Date): void {
-    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-      this.updateFirstQueryParamValue('date', '');
-      return;
-    }
-    const local: string = this.toDatetimelocal(date);
-    this.updateFirstQueryParamValue('date', local);
   }
 
   public getDateFromQueryParams(): Date | undefined {

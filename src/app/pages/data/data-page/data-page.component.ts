@@ -240,15 +240,17 @@ export class DataPageComponent {
       this.infoLayersForm.patchValue({ zone_di_allerta: true });                              // Info layers
       this._currentDataLayers.set('data_geojson-point', ['station_precipitations_1h']);       // Data layers
       this._updateMultipleLayers(this.globalStateService.getDateFromQueryParams(), true);
-      this.globalStateService.replaceQueryParams({                                            // Sync query params
-        base: [this.baseLayers[0].id],
-        layer: ['station_precipitations_1h'],
-        info: ['zone_di_allerta'],
-        date: this.globalStateService.getDateFromQueryParams(),
-        lat,
-        lon,
-        zoom
-      });
+      this.globalStateService.updateAllQueryParams2(                                          // Sync query params
+        new Map(Object.entries({
+          base: [this.baseLayers[0].id],
+          layer: ['station_precipitations_1h'],
+          info: ['zone_di_allerta'],
+          date: this.globalStateService.getQueryParam2('date'),
+          lat,
+          lon,
+          zoom
+        }))
+      )
       return;
     }
 
@@ -269,7 +271,7 @@ export class DataPageComponent {
       this.baseLayersForm.patchValue({ baseLayer: baseLayers[0].id }, { emitEvent: false });
       this._map.removeLayerById('base');
       this._map.addBaseLayer(baseLayers[0].url, { ...baseLayers[0] });
-      this.globalStateService.updateFirstQueryParamValue('base', baseLayers[0].id);
+      this.globalStateService.updateQueryParam2('base', [baseLayers[0].id]);
     }
 
     /** Info layers */
@@ -282,10 +284,10 @@ export class DataPageComponent {
     );
   }
 
-  private _applyMapStateFromQueryParams(params: URLSearchParams): void { 
+  private _applyMapStateFromQueryParams(params: URLSearchParams): void {
     const zoom = Number(params.get('zoom') ?? NaN);
     const lat = Number(params.get('lat') ?? NaN);
-    const lon = Number(params.get('lon') ?? NaN); 
+    const lon = Number(params.get('lon') ?? NaN);
 
     this.mapConfig = {
       ...this.mapConfig,
@@ -448,9 +450,11 @@ export class DataPageComponent {
       })
   }
 
-  public onMapZoomAndCenterChanged(state: Record<string, number>): void {   
+  public onMapZoomAndCenterChanged(state: Record<string, number>): void {
     if (!('lat' in state) || !('lon' in state) || !('zoom' in state)) return;
-    this.globalStateService.updateQueryParams(state);
+    const params = this.globalStateService.getAllQueryParams2();
+    Object.entries(state).forEach(([k, v]: [string, number]) => params.set(k, [`${v}`]));
+    this.globalStateService.updateQueryParams2(params);
   }
 
   public onFeatureClicked(event: Record<string, any>): void {
@@ -472,19 +476,19 @@ export class DataPageComponent {
     if (!layer) return;
     const { id, label, url, ...rest } = layer;
     this._map.addBaseLayer(url, rest);
-    this.globalStateService.updateFirstQueryParamValue('base', id);
+    this.globalStateService.updateQueryParam2('base', [id]);
   }
 
   private _onInfoLayersCheckboxesChange(layerId: string, value: boolean): void {
     if (!value) {
       this._map.removeLayerById(layerId);
-      this.globalStateService.changeLayerQueryParams('info', [], [layerId]);
+      this.globalStateService.substituteQueryparams2('info', [], [layerId]);
     }
     else {
       const infoLayer: WMSLayer | undefined = this.infoLayers.find((l) => l.id === layerId);
       if (infoLayer) {
         this._map.addWMSLayer(infoLayer.id, infoLayer.url, infoLayer.params);
-        this.globalStateService.changeLayerQueryParams('info', [layerId], []);
+        this.globalStateService.substituteQueryparams2('info', [layerId], []);
       }
     }
   }
@@ -599,12 +603,17 @@ export class DataPageComponent {
 
   public onParameterSaveClick(): void {
     if (!this.user) return;
-    const params: Record<string, string[]> = this.globalStateService.getQueryParam(['base', 'info', 'layer', 'date', 'lat', 'lon', 'zoom']);
+    const params = this.globalStateService.getQueryParams2(['base', 'info', 'layer', 'date', 'lat', 'lon', 'zoom']);
     const snackbarId: string = this.snackbarsService.createSnackbar(`Salvataggio preferenze dell'utente in corso...`, 'loader', false, 'snackbar_user_preferences');
-    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', params, this.authService.getAccessToken())
+    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', Object.fromEntries(params), this.authService.getAccessToken())
+      .then(() => {
+        this.snackbarsService.createSnackbar(`Preferenze dell'utente salvate con successo.`, 'success', true);
+      })
+      .catch(() => {
+        this.snackbarsService.createSnackbar(`Errore nel salvataggio delle preferenze dell'utente.`, 'error', true);
+      })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
-        this.snackbarsService.createSnackbar(`Preferenze dell'utente salvate con successo.`, 'success', true);
       })
   }
 
@@ -618,7 +627,7 @@ export class DataPageComponent {
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     if (toggleLayer) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
-    if (updateUrl) this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
+    if (updateUrl) this.globalStateService.updateQueryParam2('layer', this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
   }
 
@@ -722,7 +731,7 @@ export class DataPageComponent {
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
-    this.globalStateService.setDateToQueryParams(date);
+    this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
     this.chartReferenceDate = date;
     this._updateMultipleLayers(date, false);
   }
@@ -777,10 +786,6 @@ export class DataPageComponent {
         const fulfilledIndexes: number[] = results.map((r, i) => r.status === 'fulfilled' ? i : undefined).filter((r) => r !== undefined);
         const fulfilledIds = [...layersToUpdate, ...layersToKeep].filter((_, i) => fulfilledIndexes.includes(i));
         fulfilledIds.forEach((id: string) => this._checkLayerAndRedrawGroupedCheckboxes(id, true, !!this.user));
-      })
-      .finally(() => {
-        // this.globalStateService.setDateToQueryParams(date);
-        // this.globalStateService.updateLayerQueryParams(this.currentDataLayers.toArray());
       })
   }
 }

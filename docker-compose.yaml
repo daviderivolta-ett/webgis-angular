@@ -7,4 +7,4 @@ services:
     volumes:
       - C:\Users\rvldvd92h\Progetti\arpal\omirl-angular\public\configs:/usr/share/nginx/html/configs
     ports:
-      - 8080:80
+      - 12080:80

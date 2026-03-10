@@ -243,7 +243,7 @@ export class TablesPageComponent {
   public onDateChange(event: any): void {
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
-    this.globalStateService.setDateToQueryParams(new Date(dateString));
+    this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(new Date(dateString))]);
   }
 
   private _onGlobalDateChange(): void {

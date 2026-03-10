@@ -138,8 +138,9 @@ export class RadarsPageComponent {
 
   public onDateChange(event: any): void {
     const { date: dateString } = event;
-    if (typeof dateString !== 'string') return;
-    this.globalStateService.setDateToQueryParams(new Date(dateString));
+    const current = this.globalStateService.getQueryParam2('date')[0];
+    if (current === dateString) return;
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
   }
 
   private _createUrl(baseUrl: string, imgType: string, date: Date | undefined) {
