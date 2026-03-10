@@ -109,7 +109,7 @@ export class TablesHydroPageComponent {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     this.route.queryParams.subscribe(() => {
-      const tableId: string | undefined = this.globalStateService.hasInteresentingQueryParams2(['table-hydro']) ? this.globalStateService.getQueryParam2('table-hydro')[0] : this._getSelectedModel();
+      const tableId: string | undefined = this.globalStateService.hasInterestingQueryParams2(['table-hydro']) ? this.globalStateService.getQueryParam2('table-hydro')[0] : this._getSelectedModel();
       if (!tableId) return;
       this.form.patchValue({ select: tableId }, { emitEvent: false });
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];

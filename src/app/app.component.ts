@@ -38,11 +38,11 @@ export class AppComponent {
     /** Effects */
     effect(() => {
       /** Get user query params */
-      if (this.globalStateService.hasInterestingQueryParams()) return;
+      if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
       const currentUser: User | null = this.authService.user();
       if (!currentUser) return;
       this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.authService.getAccessToken())
-        .then((params) => this.globalStateService.replaceQueryParams(params))
+        .then((params) => this.globalStateService.updateAllQueryParams2(new Map(Object.entries(params))))
     });
   }
 

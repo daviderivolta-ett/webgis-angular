@@ -114,7 +114,7 @@ export class TablesStationsPageComponent {
     await this.setDataFromApi();
 
     this.route.queryParams.subscribe(() => {
-      const tableId: string | undefined = this.globalStateService.hasInteresentingQueryParams2(['table-stations']) ? this.globalStateService.getQueryParam2('table-stations')[0] : this._getSelectedStation();
+      const tableId: string | undefined = this.globalStateService.hasInterestingQueryParams2(['table-stations']) ? this.globalStateService.getQueryParam2('table-stations')[0] : this._getSelectedStation();
       if (!tableId) return;
       this.form.patchValue({ select: tableId }, { emitEvent: false });
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];

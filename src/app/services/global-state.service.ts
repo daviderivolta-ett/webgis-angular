@@ -84,7 +84,7 @@ export class GlobalStateService {
   }
 
   /** */
-  public hasInteresentingQueryParams2(keys: string[]): boolean {
+  public hasInterestingQueryParams2(keys: string[]): boolean {
     const paramMap = this.route.snapshot.queryParamMap;
     return keys.some((param: string) => {
       return paramMap.has(param) && paramMap.getAll(param).length > 0;
@@ -116,6 +116,7 @@ export class GlobalStateService {
   }
 
   public updateAllQueryParams2(params: Map<string, string[]>): void {
+    console.log(params);    
     const obj = Object.fromEntries(params);
 
     this.router.navigate([], {
