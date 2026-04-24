@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Services */
 import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService } from '../../../services'
@@ -199,7 +199,7 @@ export class TablesExtremesPageComponent {
       let table = new Table2();
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
       table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? [], config.decimals);
+      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? [], config.colors, config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
 
       return {
@@ -220,12 +220,14 @@ export class TablesExtremesPageComponent {
     )
   }
 
-  private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][], decimals: number = 1): any[] {
+  private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][], colors: TableColorConfig[] = [], decimals: number = 1): any[] {
     return data.map((r: any) => {
 
       const row: any[] = [];
 
       for (const key of headerkeys) {
+        const colorConfig: TableColorConfig | undefined = colors.find((c) => c.key === key);
+
         if (!keysToMerge.flat().includes(key)) {
           row.push({
             dataKey: key,
@@ -265,7 +267,8 @@ export class TablesExtremesPageComponent {
             dataValue: `${typeof r[mergeGroup[0]] === 'number' ? r[mergeGroup[0]].toFixed(decimals) : r[mergeGroup[0]]} [${hour}]`,
             hiddenValue: key.includes('first') && r['firstValueStationCode'] ? r['firstValueStationCode'] :
               key.includes('second') && r['secondValueStationCode'] ? r['secondValueStationCode'] :
-                undefined
+                undefined,
+            backgroundColor: colorConfig ? colorConfig.getBackgroundColor(r[mergeGroup[0]]) : undefined
           })
         }
 

@@ -45,4 +45,8 @@ export class ToggleComponent {
     if (options.length === 0) return;
     form.patchValue({ [controlId]: options[0] }, { emitEvent: false });
   }
+
+  public setValue(value: any, controlId?: string) {
+    this.form.patchValue({ [controlId ?? 'toggle']: value }, { emitEvent: false });
+  }
 }

@@ -842,7 +842,33 @@
                         "Coast": "Costa",
                         "Elevation": "Rilievi"
                     },
-                    "decimals": 1
+                    "decimals": 1,
+                    "colors": [
+                        {
+                            "key": "firstValue",
+                            "steps": [
+                                30,
+                                35
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "green"
+                            ]
+                        },
+                        {
+                            "key": "secondValue",
+                            "steps": [
+                                30,
+                                35
+                            ],
+                            "backgroundColors": [
+                                "transparent",
+                                "grey",
+                                "green"
+                            ]
+                        }
+                    ]
                 }
             ]
         },

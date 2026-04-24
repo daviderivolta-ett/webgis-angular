@@ -2,6 +2,7 @@
 import { Component, effect, ViewChild } from '@angular/core'
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
+import { skip } from 'rxjs'
 
 /** Services */
 import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
@@ -11,7 +12,6 @@ import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeN
 
 /** Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent } from '../../../components'
-import { skip } from 'rxjs'
 
 /** Component */
 @Component({
@@ -48,6 +48,7 @@ export class RadarsPageComponent {
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
+  @ViewChild('toggle') _toggle!: ToggleComponent;
 
   constructor(
     private router: Router,
@@ -76,15 +77,23 @@ export class RadarsPageComponent {
 
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.pipe(skip(1)).subscribe(() => {
+      this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const param: string | null = this.route.snapshot.paramMap.get('id');
-      if (param) this._init(param);
+      const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
+      if (param) this._init(param, imagetype && this._isImageType(imagetype) ? imagetype : 'Image');
     });
 
     this.route.queryParams.subscribe(() => {
       this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const param = this.route.snapshot.paramMap.get('id');
-      if (param) this._init(param);
+      const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
+      if (param) this._init(param, imagetype && this._isImageType(imagetype) ? imagetype : 'Image');
     });
+  }
+
+  public ngAfterViewInit(): void {
+    const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
+    if (imagetype) this._toggle.setValue(imagetype);
   }
 
   public ngOnDestroy(): void {
@@ -92,13 +101,13 @@ export class RadarsPageComponent {
   }
 
   /** Methods */
-  private async _init(id: string): Promise<void> {
+  private async _init(id: string, imagetype: typeof this.currentImgType = 'Image'): Promise<void> {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     const config = this._initConfig(id);
     if (!config) return;
     this.config = config;
     this._clearRefreshInterval();
-    this._getRadarImg(this._createUrl(this.config.url, this.currentImgType, this.referenceDate));
+    this._getRadarImg(this._createUrl(this.config.url, imagetype, this.referenceDate));
     if (!this.referenceDate) this.refreshId = window.setInterval(() => this._getRadarImg(this._createUrl(config.url, this.currentImgType, this.referenceDate)), 300000);
   }
 
@@ -132,8 +141,7 @@ export class RadarsPageComponent {
 
   public onToggleChanged(id: string) {
     this.currentImgType = (id === 'Image' || id === 'Animation') ? id : this.currentImgType;
-    if (!this.config) return;
-    this._getRadarImg(this._createUrl(this.config.url, id, this.referenceDate));
+    this.globalStateService.updateQueryParam2('imagetype', [this.currentImgType]);
   }
 
   public onDateChange(event: any): void {
@@ -163,5 +171,9 @@ export class RadarsPageComponent {
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
       });
+  }
+
+  private _isImageType(value: any): value is typeof this.currentImgType {
+    return value === 'Image' || value === 'Animation';
   }
 }
