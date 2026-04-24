@@ -247,6 +247,7 @@
                         "minValue": "Min (%)"
                     },
                     "decimals": 1,
+                    "multiplier": 3.3333333333333333,
                     "parameter": "sunshine_duration",
                     "actionKey": "code"
                 },
@@ -294,7 +295,7 @@
                 {
                     "id": "stations-foliage",
                     "url": "/tables/get/stations/Bagnatura Foliare",
-                    "label": "Copertura foliare",
+                    "label": "Bagnatura foliare",
                     "filterKeys": [
                         "code",
                         "municipality",
@@ -847,25 +848,25 @@
                         {
                             "key": "firstValue",
                             "steps": [
-                                30,
-                                35
+                                60,
+                                75
                             ],
                             "backgroundColors": [
                                 "transparent",
                                 "grey",
-                                "green"
+                                "black"
                             ]
                         },
                         {
                             "key": "secondValue",
                             "steps": [
-                                30,
-                                35
+                                60,
+                                75
                             ],
                             "backgroundColors": [
                                 "transparent",
                                 "grey",
-                                "green"
+                                "black"
                             ]
                         }
                     ]

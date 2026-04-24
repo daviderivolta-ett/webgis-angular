@@ -121,7 +121,7 @@ export const routes: Routes = [
     {
         path: 'radar',
         pathMatch: 'full',
-        redirectTo: 'radar/radar_liguria_rain_1h'
+        redirectTo: 'radar/radar_liguria_rain_int_5m'
     },
     {
         path: 'radar/:id',

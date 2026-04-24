@@ -289,7 +289,7 @@
                 },
                 {
                     "id": "station_foliage",
-                    "label": "Copertura foliare",
+                    "label": "Bagnatura foliare",
                     "layerType": "geojson",
                     "layerCategory": "data_geojson-point",
                     "iconUrl": "./images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",

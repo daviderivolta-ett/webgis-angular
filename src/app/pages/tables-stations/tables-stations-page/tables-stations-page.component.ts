@@ -154,11 +154,11 @@ export class TablesStationsPageComponent {
 
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
-
+   
     this._initForm(id);
     this.config = this._initConfig(id);
     if (!this.config) return;
-
+    
     await this._getData(this.config, date)
 
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
@@ -182,7 +182,7 @@ export class TablesStationsPageComponent {
     if (!config) {
       this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
       return undefined;
-    }
+    } 
     return config;
   }
 
@@ -224,7 +224,8 @@ export class TablesStationsPageComponent {
 
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
-    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
+   
+    const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? [], config.multiplier);
     this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels, config.decimals);
   }
 

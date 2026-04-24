@@ -31,7 +31,7 @@ export class TableConfigGroup {
         return config;
     }
 
-    static findTableConfig(tableId: string, groups: TableConfigGroup[]): TableConfig | undefined {
+    static findTableConfig(tableId: string, groups: TableConfigGroup[]): TableConfig | undefined {        
         return groups
             .map((g: TableConfigGroup) => g.getTableConfig(tableId))
             .find((g) => g !== undefined)

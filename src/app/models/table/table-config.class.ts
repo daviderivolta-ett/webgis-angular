@@ -11,6 +11,7 @@ export class TableConfig {
     public keysToMerge?: string[];
     public keysOrder?: string[];
     public labels?: Map<string, string>;
+    public multiplier?: number;
     public decimals?: number;
     public parameter?: string;
     public colors?: TableColorConfig[];
@@ -40,11 +41,12 @@ export class TableConfig {
         if ('keysToMerge' in object && Array.isArray(object['keysToMerge'])) config.keysToMerge = [...object['keysToMerge']];
         if ('keysOrder' in object && Array.isArray(object['keysOrder']) && object['keysOrder'].every((k: any) => typeof k === 'string')) config.keysOrder = [...object['keysOrder']];
         if ('labels' in object && typeof object['labels'] === 'object') config.labels = new Map(Object.entries(object['labels']));
+        if ('multiplier' in object && typeof object['multiplier'] === 'number') config.multiplier = object['multiplier'];
         if ('decimals' in object && typeof object['decimals'] === 'number') config.decimals = object['decimals'];
         if ('parameter' in object && typeof object['parameter'] === 'string') config.parameter = object['parameter'];
         if ('colors' in object && Array.isArray(object['colors'])) config.colors = object['colors'].map((c) => TableColorConfig.createFromObject(c));
-        if ('actionKey' in object && typeof object['actionKey'] === 'string') config.actionKey = object['actionKey'];
-      
+        if ('actionKey' in object && typeof object['actionKey'] === 'string') config.actionKey = object['actionKey'];        
+
         return config;
     }
 }

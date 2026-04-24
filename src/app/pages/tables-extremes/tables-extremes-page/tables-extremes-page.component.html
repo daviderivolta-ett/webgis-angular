@@ -64,7 +64,7 @@
                                     @for (r of t.table.body; track $index) {
                                         <div class="trow">
                                             @for (d of r; track $index) {
-                                                <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" [style.backgroundColor]="d['backgroundColor']" (click)="onCellClick(d, t.id)">
+                                                <div class="tdata" [style.cursor]="d['hiddenValue'] ? 'pointer' : 'default'" [style.backgroundColor]="d['backgroundColor']" [style.color]="d['backgroundColor'] === 'black' ? 'white' : 'inherit'" (click)="onCellClick(d, t.id)">
                                                     <p>
                                                         @if (d['dataValue'] ?? '-' | isDate) { {{d['dataValue'] | date: 'dd/MM/yyyy - HH:mm'}} }
                                                         @else { {{d['dataValue'] ?? '-' | mapValue: t.table.labels}} }
