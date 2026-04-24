@@ -271,6 +271,7 @@ export class ConfigService {
           isMainYAxis: t['isMainYAxis'] ?? false,
           baseColor: t['baseColor'] ?? undefined,
           thresholdKeys: t['thresholdKeys'] ?? undefined,
+          thresholdColors: t['thresholdColors'] ?? undefined,
           hideZeroXAxis: t['hideZeroXAxis'] ?? false
         }))
       })

@@ -15,5 +15,6 @@ export interface SensorType {
     isMainYAxis?: boolean;
     baseColor?: string;
     thresholdKeys?: string[];
+    thresholdColors?: string[];
     hideZeroXAxis?: boolean;
 }

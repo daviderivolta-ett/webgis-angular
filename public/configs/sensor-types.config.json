@@ -448,11 +448,16 @@
             "decimals": 2,
             "isFeatured": true,
             "relatedSensors": [],
-            "baseColor": "green",
+            "baseColor": "#00DC00",
             "thresholdKeys": [
                 "yellow",
                 "orange",
                 "red"
+            ],
+            "thresholdColors": [
+                "#E6DC32",
+                "#F08228",
+                "#FA3C3C"
             ],
             "hideZeroXAxis": true
         },
@@ -465,11 +470,16 @@
             "decimals": 2,
             "isFeatured": false,
             "relatedSensors": [],
-            "baseColor": "green",
+            "baseColor": "#00DC00",
             "thresholdKeys": [
                 "yellow",
                 "orange",
                 "red"
+            ],
+            "thresholdColors": [
+                "#E6DC32",
+                "#F08228",
+                "#FA3C3C"
             ],
             "hideZeroXAxis": true
         },
@@ -482,11 +492,16 @@
             "decimals": 2,
             "isFeatured": false,
             "relatedSensors": [],
-            "baseColor": "green",
+            "baseColor": "#00DC00",
             "thresholdKeys": [
                 "yellow",
                 "orange",
                 "red"
+            ],
+            "thresholdColors": [
+                "#E6DC32",
+                "#F08228",
+                "#FA3C3C"
             ],
             "hideZeroXAxis": true
         },
@@ -512,6 +527,9 @@
             "iconUrl": "./images/icons/air_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Raffiche di vento",
             "chartType": "scatter",
+            "style": {
+                "color": "red"
+            },
             "unit": "km/h",
             "range": [
                 -10,
@@ -526,7 +544,7 @@
             "label": "Direzione del vento",
             "chartType": "scatter",
             "style": {
-                "marker": "↑",
+                "marker": "↓",
                 "markers": {
                     "relatedSensor": "mean_wind_speed",
                     "rules": [
@@ -584,10 +602,11 @@
             "iconUrl": "./images/icons/sunny_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Eliofanie",
             "chartType": "scatter",
-            "unit": "min",
+            "unit": "%",
+            "multiplier": 3.3333333333333333,
             "range": [
                 -5,
-                35
+                105
             ],
             "isFeatured": true,
             "relatedSensors": []

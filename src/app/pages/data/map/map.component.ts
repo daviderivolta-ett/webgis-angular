@@ -142,7 +142,7 @@ export class MapComponent {
   /** Click map event */
   private _onMarkerClick(event: L.LeafletMouseEvent): void {
     const clickedLatLng: L.LatLng = event.latlng;
-    const bbox = this._getLatLngBoundingBox(clickedLatLng, 100);
+    const bbox = this._getLatLngBoundingBox(clickedLatLng, 25);
     const nearbyMarkers: L.Marker[] = this._getNearbyMarkers(bbox);
 
     if (nearbyMarkers.length === 0) return;

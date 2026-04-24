@@ -39,7 +39,7 @@ export class PlatformsCommandService implements Command {
             if (colorScale instanceof ColorScale && layer.legend) {
                 if (sensorTypes && Array.isArray(sensorTypes)) {
                     const currentSensorType = sensorTypes.find((s) => s.id === layer.parameter);
-                    if (currentSensorType && 'thresholdKeys' in currentSensorType) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold, currentSensorType.thresholdKeys, stations, currentSensorType['baseColor']);
+                    if (currentSensorType && 'thresholdKeys' in currentSensorType) geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold, currentSensorType.thresholdKeys, stations, currentSensorType['baseColor'], currentSensorType.thresholdColors);
                 } else {
                     geoJSON = this._addColorToGeoJSONFeatures(geoJSON, colorScale, layer.legend.unit, layer.label, date ?? new Date(), timeThreshold);
                 }
@@ -100,7 +100,7 @@ export class PlatformsCommandService implements Command {
         }
     }
 
-    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[], baseColor?: string): GeoJSON.FeatureCollection {
+    private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, unit: string | undefined, layerLabel: string | undefined, currentDate?: Date, timeThreshold?: number, thresholdKeys?: string[], stations?: StationBase[], baseColor?: string, thresholdColors?: string[]): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
@@ -109,7 +109,7 @@ export class PlatformsCommandService implements Command {
 
                 const value: any = properties['value'];
                 let color: string = colorScale.getColor(colorScale.multiplier ? colorScale.multiplier * value : value);
-                if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor) ?? color;
+                if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor, thresholdColors ?? []) ?? color;
 
                 if (currentDate && !isNaN(date.getTime()) && timeThreshold) {
                     const isWithin = (currentDate.getTime() - date.getTime()) < timeThreshold * 60 * 1000;
@@ -129,7 +129,7 @@ export class PlatformsCommandService implements Command {
         };
     }
 
-    private _getRelativeColor(value: number, stationCode: string, stations: StationBase[], thresholdKeys: string[], baseColor: string | undefined): string | undefined {
+    private _getRelativeColor(value: number, stationCode: string, stations: StationBase[], thresholdKeys: string[], baseColor: string | undefined, thresholdColors: string[]): string | undefined {
         const station: StationBase | undefined = stations.find((s) => s.id === stationCode);
 
         const thresholds: Record<string, number> = {};
@@ -142,10 +142,12 @@ export class PlatformsCommandService implements Command {
         }
 
         if (Object.keys(thresholds).length > 0) {
-            const colors = baseColor ? [baseColor, ...Object.keys(thresholds)] : Object.keys(thresholds);
+            const colors = baseColor ?
+                [baseColor, ...(thresholdColors.length === Object.keys(thresholds).length ? thresholdColors : Object.keys(thresholds))] :
+                Object.keys(thresholds);
             const values = Object.values(thresholds);
             const index = values.findIndex((step: number) => value <= step);
-            return index === -1 ? colors[colors.length - 1] : colors[index];
+            return index === -1 ? 'grey' : colors[index];
         }
 
         return;

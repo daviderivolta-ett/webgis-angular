@@ -294,7 +294,7 @@
                 {
                     "id": "stations-foliage",
                     "url": "/tables/get/stations/Bagnatura Foliare",
-                    "label": "Bagnatura foliare",
+                    "label": "Copertura foliare",
                     "filterKeys": [
                         "code",
                         "municipality",
