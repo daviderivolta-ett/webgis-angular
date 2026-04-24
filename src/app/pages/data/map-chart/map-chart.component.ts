@@ -17,7 +17,7 @@ export class MapChartComponent {
   public header = input<string>('');
   public isLoading = input<boolean>(false);
   public param = model<string>('');
-  public dates = model<[string, string]>([this._formatDate(this._getInitialDateFrom(new Date)), this._formatDate(new Date)]);
+  public dates = model<[string, string]>([this._formatDate(this._getInitialDateFrom(new Date())), this._formatDate(new Date())]);
   public canRefresh = model<boolean>(false);
   private _chartIntervalId: number | null = null;
 
