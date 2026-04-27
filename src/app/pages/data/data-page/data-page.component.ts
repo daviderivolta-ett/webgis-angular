@@ -758,7 +758,7 @@ export class DataPageComponent {
     this.snackbarsService.createSnackbar(
       event['message'],
       event['type'],
-      event['type'] === 'loader' ? false : true,
+      true,
       `snackbar_${event['type']}`
     );
   }
