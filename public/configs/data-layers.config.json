@@ -295,6 +295,7 @@
                     "iconUrl": "./images/icons/nest_eco_leaf_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
                     "url": "{{BASE_URL}}/platforms/get/all/leaf_wetness",
                     "parameter": "leaf_wetness",
+                    "multiplier": 3.3333333333333333,
                     "legend": {
                         "colorScaleId": "humidity",
                         "unit": "%",
@@ -6071,5 +6072,5 @@
             ]
         }
     ],
-    "lastModified": "2026-02-25"
+    "lastModified": "2026-04-27"
 }
