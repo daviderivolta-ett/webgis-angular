@@ -118,9 +118,9 @@ export class TablesStationsPageComponent {
       if (!tableId) return;
       this.form.patchValue({ select: tableId }, { emitEvent: false });
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
-      const date: Date = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : new Date();
+      const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;   
       this.selectedDate = this.initialDate = date;
-      this._init(tableId, date);
+      this._init(tableId, date ?? new Date());
     });
   }
 
@@ -258,7 +258,7 @@ export class TablesStationsPageComponent {
     const { date: dateString } = event;
     const current = this.globalStateService.getQueryParam2('date')[0];
     if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
   }
 
   private _getSelectedStation(): string | undefined {

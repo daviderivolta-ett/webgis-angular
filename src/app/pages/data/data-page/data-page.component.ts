@@ -729,10 +729,9 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {
+  public onMapDateChanged(date: Date | undefined): void {    
     if (this._map) this._map.closeAllPopups();
     this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
-    this.chartReferenceDate = date;
     this._updateMultipleLayers(date, false);
   }
 

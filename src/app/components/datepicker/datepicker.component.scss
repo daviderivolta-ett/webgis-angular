@@ -33,3 +33,14 @@
         background-color: var(--primary-100, lightblue);
     }
 }
+
+.button--warning {
+    color: var(--primary-900, black);
+    background-color: var(--warning-500, orange);
+    border: 1px solid var(--primary-900, black);
+
+    &:hover {
+        color: var(--primary-900, black);
+        background-color: var(--warning-600, darkorange);
+    }
+}

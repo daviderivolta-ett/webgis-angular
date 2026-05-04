@@ -591,12 +591,12 @@ export class PlotlyChartComponent {
     return '';
   }
 
-  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {
+  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {  
     if (data.length === 0) return undefined;
 
     const lastXValue: number = Math.max(
       ...data.flatMap((v: PlotlyChartData) => v.data.map((d: [number, number | null]) => d[0]).filter(date => !isNaN(date) && date !== null))
-    );
+    );  
 
     return {
       type: 'rect',

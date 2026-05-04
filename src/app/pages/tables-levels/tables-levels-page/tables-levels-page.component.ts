@@ -115,9 +115,9 @@ export class TablesLevelsPageComponent {
 
     this.route.queryParams.subscribe(() => {
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
-      const date: Date = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : new Date();
+      const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
       this.selectedDate = this.initialDate = date;
-      this._init('livelli-idrometrici', date);
+      this._init('livelli-idrometrici', date ?? new Date());
     });
   }
 
@@ -232,7 +232,7 @@ export class TablesLevelsPageComponent {
     const { date: dateString } = event;
     const current = this.globalStateService.getQueryParam2('date')[0];
     if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : this.globalStateService.toDatetimelocal(new Date()));
+    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {
