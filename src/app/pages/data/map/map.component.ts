@@ -24,6 +24,7 @@ export class MapComponent {
   private _map!: L.Map;
   private _layers = new Map<string, L.Layer>();
   private _hoverTimer: number = 0;
+  private _isFine: boolean = window.matchMedia('(pointer:fine)').matches;
 
   /** Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
@@ -251,12 +252,17 @@ export class MapComponent {
         (marker as any)._markerIcon = markerIcon; // Adding custom key in order to know which icon choosed based on map zoom
         if (feature.properties.markerShapeId || feature.properties.markerShapeId !== 6) (marker as any)._textIcon = textIcon; // Adding custom key in order to know which icon choosed based on map zoom
 
-        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
-        marker.on('mouseout', () => {
-          window.clearTimeout(this._hoverTimer);
-          this.closeAllPopups();
-        });
-        marker.on('click', () => this.popupClicked.emit(this._popup.data()));
+        if (this._isFine) {
+          marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
+          marker.on('mouseout', () => {
+            window.clearTimeout(this._hoverTimer);
+            this.closeAllPopups();
+          });
+          marker.on('click', () => this.popupClicked.emit(this._popup.data()));
+        } else {
+          marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+          marker.on('dblclick', () => this.popupClicked.emit(this._popup.data()));
+        }
         (marker as any)._shapeKey = shapeKey; // Adding custom key in order to know which marker release when layer is removed
         return marker;
       },
@@ -380,12 +386,17 @@ export class MapComponent {
         if (f.geometry.type === 'Point') marker.feature = f as Feature<Point>;
         (marker as any)._shapeKey = f.properties?.['markerShapeId'] ?? 1; // Adding custom key in order to know which marker release when layer is removed
 
-        marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
-        marker.on('mouseout', () => {
-          window.clearTimeout(this._hoverTimer);
-          this.closeAllPopups();
-        });
-        marker.on('click', () => this.popupClicked.emit(this._popup.data()));
+        if (this._isFine) {
+          marker.on('mouseover', (event: L.LeafletMouseEvent) => this._hoverTimer = window.setTimeout(() => this._onMarkerClick(event), 100));
+          marker.on('mouseout', () => {
+            window.clearTimeout(this._hoverTimer);
+            this.closeAllPopups();
+          });
+          marker.on('click', () => this.popupClicked.emit(this._popup.data()));
+        } else {
+          marker.on('click', (event: L.LeafletMouseEvent) => this._onMarkerClick(event));
+          marker.on('dblclick', () => this.popupClicked.emit(this._popup.data()));
+        }
         markers.addLayer(marker);
       }
 

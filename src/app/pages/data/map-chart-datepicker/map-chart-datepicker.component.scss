@@ -7,3 +7,13 @@
 .map-chart-datepicker__input {
     height: 32px;
 }
+
+@media screen and (max-width: 768px) {
+    .map-chart-datepicker {
+        justify-content: center;
+    }
+
+    .map-chart-datepicker__input {
+        width: 160px;
+    }
+}
