@@ -73,6 +73,7 @@ export class DataPageComponent {
   @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
   @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
   @ViewChild('legendsMenu') _legendsMenu!: PopUpMenuComponent;
+  @ViewChild('chartDatePicker') _chartDatePicker!: MapChartDatepickerComponent;
 
   /** Listeners */
   @HostListener('window:resize', ['$event'])
@@ -563,7 +564,7 @@ export class DataPageComponent {
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }
 
-  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 400)
+  public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 200)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     let { param, initialDate, endingDate } = formChange;
@@ -729,8 +730,9 @@ export class DataPageComponent {
   // Call command for every not-timedimension layer
   // Call setCurrentTime() for every timedimension layer
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
-  public onMapDateChanged(date: Date | undefined): void {    
+  public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
+    this._chartDatePicker.setisFirstload(true);
     this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
     this._updateMultipleLayers(date, false);
   }

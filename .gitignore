@@ -43,3 +43,6 @@ Thumbs.db
 
 environments
 *.tar
+
+# Docs
+*.md

@@ -279,7 +279,6 @@ export class StationsService {
 
         return {
           ...chartToUpdate,
-          // xRange: [new Date(endingDate).getTime() - 2 * 24 * 60 * 60 * 1000, new Date(endingDate).getTime()],
           thresholds: sensorThresholds ? sensorThresholds : undefined,
           hideZeroXAxis: sensorType ? sensorType.hideZeroXAxis : false,
           data: chartData,
