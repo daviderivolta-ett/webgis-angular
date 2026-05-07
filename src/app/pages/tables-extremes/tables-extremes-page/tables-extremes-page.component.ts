@@ -198,8 +198,8 @@ export class TablesExtremesPageComponent {
 
       let table = new Table2();
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
-      table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'firstValueMunicipality', config.keysOrder);
-      table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? [], config.colors, config.decimals);
+      table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'firstValueMunicipality', config.keysOrder);      
+      table.body = this._parseTableBody(tableRows, table.header, config.keysToMerge as unknown as string[][] ?? [], config.colors, config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
 
       return {

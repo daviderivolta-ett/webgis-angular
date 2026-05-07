@@ -774,11 +774,11 @@
                     ],
                     "labels": {
                         "firstValueMunicipality": "Comune",
-                        "region": "Province",
+                        "region": "Provincia",
                         "firstValue": "Min (°C)",
-                        "firstValueStationName": "Nella stazione",
+                        "firstValueStationName": "Stazione",
                         "secondValue": "Max (°C)",
-                        "secondValueStationName": "Nella stazione"
+                        "secondValueStationName": "Stazione"
                     },
                     "decimals": 1
                 },
