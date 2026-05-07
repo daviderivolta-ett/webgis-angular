@@ -157,20 +157,6 @@
             ]
         },
         {
-            "id": "TESTING",
-            "colors": [
-                "purple",
-                "violet",
-                "blue",
-                "lightblue",
-                "red",
-                "orangered",
-                "orange",
-                "yellow",
-                "aquamarine"
-            ]
-        },
-        {
             "id": "rain",
             "colors": [
                 "#FFFFFF",
