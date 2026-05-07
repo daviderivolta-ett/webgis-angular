@@ -732,7 +732,8 @@ export class DataPageComponent {
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
-    this._chartDatePicker.setisFirstload(true);
+    if (this._chartDatePicker) this._chartDatePicker.setIsFirstload(true);
+
     this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
     this._updateMultipleLayers(date, false);
   }

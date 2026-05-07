@@ -88,19 +88,35 @@ export class LightningCommandService implements Command {
                 const timestamp: number = date.getTime();
                 const elapsedMs: number = now - timestamp;
                 const elapsedHours: number = (elapsedMs / (1000 * 60 * 60));
-                const color: string = colorScale.getColor(elapsedHours);
-                
-                // const color: string = 'white';
-                // colorScale.labels?.forEach((label) => this._parseTimeToMinutes(label));
+                // const color: string = colorScale.getColor(elapsedHours);
+
+                /* TESTING */
+                const color: string = 'white';
+                const scaleTimes = colorScale.labels?.map((label) => this._parseTimeToMinutes(label)).toReversed() ?? [];
+                // colorScale.steps = [...scaleTimes];
+                const elapsedMinutes: number = (elapsedMs / (1000 * 60));
+                const index = scaleTimes?.findIndex((time: number) => elapsedMinutes <= time);
+                console.log(elapsedMinutes);
+                console.log(scaleTimes);
+                console.log(colorScale.colors.toReversed());
+                console.log(index);
+
+                const foundColor = colorScale.colors.toReversed()[index === -1 ? (colorScale.colors.length - 1) : (index - 1)];
+
+                // const foundColor = elapsedMinutes < (colorScale.colors.length - 1) ? colorScale.colors[elapsedMinutes] : colorScale.colors[0];
+                // const foundColor = colorScale.getColor(elapsedMinutes);
+                // console.log(foundColor);                
+                console.log('-----------------------------');
+                /* TESTING */
 
                 return {
                     ...f,
                     properties: {
                         ...properties,
-                        color,
+                        color: foundColor,
                         unit,
                         layerLabel,
-                        clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === color)
+                        clusterLabel: Object.keys(arcColorDict).find((key: string) => arcColorDict[key] === foundColor)
                     }
                 }
             })
@@ -171,6 +187,8 @@ export class LightningCommandService implements Command {
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;
     }
+
+
 
     private _parseTimeToMinutes(label: string): number {
         const regexp: RegExp = /\d+|[a-zA-Z]+|[^a-zA-Z\d]+/g;

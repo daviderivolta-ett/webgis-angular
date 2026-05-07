@@ -35,7 +35,7 @@ export class MapChartDatepickerComponent {
   }
 
   /** Getters and setters */
-  public setisFirstload(value: boolean) {
+  public setIsFirstload(value: boolean) {
     this._isFirstLoad = value;
   }
 

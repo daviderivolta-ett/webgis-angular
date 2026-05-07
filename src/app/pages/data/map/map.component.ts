@@ -363,8 +363,8 @@ export class MapComponent {
       key: 'title',
       arcColorDict,
       style: {
-        size: 40,
-        fill: '#bbb',
+        size: 30,
+        fill: '#dbdbdb',
         opacity: 1,
         weight: 7
       },
