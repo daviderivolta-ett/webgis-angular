@@ -143,6 +143,20 @@
             ]
         },
         {
+            "id": "elapsed-not-linear-time",
+            "colors": [
+                "#0D0887FF",
+                "#4C02A1FF",
+                "#7E03A8FF",
+                "#A92395FF",
+                "#CC4678FF",
+                "#E56B5DFF",
+                "#F89441FF",
+                "#FDC328FF",
+                "#F0F921FF"
+            ]
+        },
+        {
             "id": "rain",
             "colors": [
                 "#FFFFFF",

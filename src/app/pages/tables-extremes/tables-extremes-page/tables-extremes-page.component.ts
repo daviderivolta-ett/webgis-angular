@@ -198,7 +198,7 @@ export class TablesExtremesPageComponent {
 
       let table = new Table2();
       let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
-      table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'region', config.keysOrder);
+      table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'firstValueMunicipality', config.keysOrder);
       table.body = this._parseTableBody(tableRows, header, config.keysToMerge as unknown as string[][] ?? [], config.colors, config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
 
@@ -223,7 +223,7 @@ export class TablesExtremesPageComponent {
   private _parseTableBody(data: any[], headerkeys: string[], keysToMerge: string[][], colors: TableColorConfig[] = [], decimals: number = 1): any[] {
     return data.map((r: any) => {
 
-      const row: any[] = [];
+      const row: any[] = [];    
 
       for (const key of headerkeys) {
         const colorConfig: TableColorConfig | undefined = colors.find((c) => c.key === key);

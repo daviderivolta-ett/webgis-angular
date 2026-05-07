@@ -89,6 +89,9 @@ export class LightningCommandService implements Command {
                 const elapsedMs: number = now - timestamp;
                 const elapsedHours: number = (elapsedMs / (1000 * 60 * 60));
                 const color: string = colorScale.getColor(elapsedHours);
+                
+                // const color: string = 'white';
+                // colorScale.labels?.forEach((label) => this._parseTimeToMinutes(label));
 
                 return {
                     ...f,
@@ -167,5 +170,19 @@ export class LightningCommandService implements Command {
         const time = DateUtils.toApiFormat(date.toISOString());
         const separator = url.includes('?') ? '&' : '?';
         return `${url}${separator}time=${time}`;
+    }
+
+    private _parseTimeToMinutes(label: string): number {
+        const regexp: RegExp = /\d+|[a-zA-Z]+|[^a-zA-Z\d]+/g;
+        const elements: RegExpMatchArray | null = label.match(regexp);
+        if (!elements) return 0;
+        switch (elements[1]) {
+            case 'h':
+                return parseInt(elements[0]) * 60;
+            case '\'':
+                return parseInt(elements[0])
+            default:
+                return 0
+        }
     }
 }

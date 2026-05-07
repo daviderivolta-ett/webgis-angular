@@ -747,13 +747,20 @@
                     "dataPath": "Cities",
                     "parameter": "mean_air_temp",
                     "keysToKeep": [
+                        "firstValueMunicipality",
                         "region",
                         "firstValue",
                         "firstValueReferenceDate",
                         "firstValueStationName",
                         "secondValue",
-                        "secondValueReferenceDate",
-                        "secondValueStationName"
+                        "secondValueReferenceDate"
+                    ],
+                    "keysOrder": [
+                        "firstValueMunicipality",
+                        "region",
+                        "firstValueStationName",
+                        "firstValue",
+                        "secondValue"
                     ],
                     "keysToMerge": [
                         [
@@ -766,6 +773,7 @@
                         ]
                     ],
                     "labels": {
+                        "firstValueMunicipality": "Comune",
                         "region": "Province",
                         "firstValue": "Min (°C)",
                         "firstValueStationName": "Nella stazione",
