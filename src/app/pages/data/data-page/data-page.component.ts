@@ -1,5 +1,5 @@
 /** Libraries */
-import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, viewChildren, ViewChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -73,7 +73,7 @@ export class DataPageComponent {
   @ViewChild('baseLayersMenu') _baseLayersMenu!: PopUpMenuComponent;
   @ViewChild('infoLayersMenu') _infoLayersMenu!: PopUpMenuComponent;
   @ViewChild('legendsMenu') _legendsMenu!: PopUpMenuComponent;
-  @ViewChild('chartDatePicker') _chartDatePicker!: MapChartDatepickerComponent;
+  @ViewChildren('chartDatePicker') _chartDatePickers!: MapChartDatepickerComponent[];
 
   /** Listeners */
   @HostListener('window:resize', ['$event'])
@@ -732,7 +732,7 @@ export class DataPageComponent {
   // Then redraw chips and grouped checkboxes based on fulfilled command promises
   public onMapDateChanged(date: Date | undefined): void {
     if (this._map) this._map.closeAllPopups();
-    if (this._chartDatePicker) this._chartDatePicker.setIsFirstload(true);
+    this._chartDatePickers.forEach((c) => c.setIsFirstload(true));
 
     this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
     this._updateMultipleLayers(date, false);
