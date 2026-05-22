@@ -1,0 +1,13 @@
+<div class="confirm-dialog">
+    <dialog #dialog class="dialog" (submit)="onSubmit($event)">
+        <form class="dialog-form" method="dialog">
+            <div class="dialog__msg">
+                <p>{{msg()}}</p>
+            </div>
+            <div class="dialog__actions">
+                <button type="submit" class="dialog-btn--cancel" value="cancel">{{cancelLabel()}}</button>
+                <button type="submit" class="dialog-btn--confirm" value="confirm">{{confirmLabel()}}</button>
+            </div>
+        </form>
+    </dialog>
+</div>

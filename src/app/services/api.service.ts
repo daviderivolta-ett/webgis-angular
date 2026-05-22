@@ -59,8 +59,8 @@ export class ApiService {
       })
   }
 
-  public buildUrl(baseUrl: string, endpoint: string): string {
-    return baseUrl + endpoint;
+  public buildUrl(...args: string[]): string {
+    return args.join('');
   }
 
   public replaceApiUrlPlaceholder(url: string, param: string): string {

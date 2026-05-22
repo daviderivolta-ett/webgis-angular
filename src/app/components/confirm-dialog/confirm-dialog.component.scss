@@ -1,0 +1,38 @@
+@use 'index' as mixins;
+
+.dialog {
+    width: 500px;
+    border: 1px solid var(--neutral-500);
+    border-radius: 16px;
+    padding: 24px;
+
+    &::backdrop {
+        background-color: color-mix(in srgb, var(--neutral-900) 25%, transparent);
+    }
+}
+
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dialog__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.dialog-btn--cancel {
+    @include mixins.primaryButton(var(--neutral-100), var(--neutral-900), var(--neutral-200), var(--neutral-900));
+}
+
+.dialog-btn--confirm {
+    @include mixins.primaryButton(var(--primary-400), var(--neutral-100), var(--primary-500), var(--primary-100));
+}
+@media screen and (max-width: 768px) {
+    .dialog {
+        width: 92dvw;
+    }
+}

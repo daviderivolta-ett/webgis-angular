@@ -1,0 +1,16 @@
+<div class="notification-icon">
+    <button type="button" class="notification-icon__btn" popovertarget="notification" [disabled]="notifications().length === 0">
+        <span class="notification-icon__icon" [style.maskImage]="'url(' + (iconUrl() ?? defaultIcon) + ')'" [style.webkitMaskImage]="'url(' + (iconUrl() ?? defaultIcon) + ')'"></span>
+    </button>
+    @if (notifications().length > 0) {
+        <span class="notification-icon__alert"></span>
+    }
+    <div id="notification" class="notification-icon__content" popover>
+        @for (item of notifications(); track $index) {
+            <p class="notification-msg">{{item}}</p>
+        }
+        @empty {
+            <p class="notification-msg--empty">{{emptyMsg()}}</p>
+        }
+    </div>
+</div>

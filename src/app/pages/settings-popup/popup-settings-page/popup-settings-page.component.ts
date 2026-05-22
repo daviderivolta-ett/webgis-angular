@@ -8,10 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, PopupService, SnackbarsService } from '../../../services';
+import { ApiService, AuthService, PopupService, SnackbarsService, TenantsService } from '../../../services';
 
 /** Components */
-import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components';
+import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes'
@@ -24,13 +24,14 @@ import { MapValuePipe } from '../../../pipes'
     HeaderComponent,
     SidebarComponent,
     SettingsNavMenuComponent,
+    NotificationIconComponent,
     /** Pipes */
     KeyValuePipe,
     MapValuePipe,
     /** Directives */
     ReactiveFormsModule,
     LoadingBtnComponent
-  ],
+],
   templateUrl: './popup-settings-page.component.html',
   styleUrl: './popup-settings-page.component.scss'
 })
@@ -49,13 +50,18 @@ export class PopupSettingsPageComponent {
   public latestConfigUrl: string; // Recovered from route resolver in constructor
   public createConfigUrl: string; // Recovered from route resolver in constructor
 
+  public selectedTenantMsg;
+
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private popupService: PopupService,
     private snackbarsService: SnackbarsService
   ) {
+    this.selectedTenantMsg = this.tenantsService.message;
+
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.popupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));

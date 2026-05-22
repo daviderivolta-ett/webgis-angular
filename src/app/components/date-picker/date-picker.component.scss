@@ -1,0 +1,52 @@
+.date-picker {
+    display: flex;
+    gap: 4px;
+}
+
+.date-picker input {
+    height: 40px;
+    width: 100%;
+}
+
+.button,
+.input {
+    color: var(--primary-900, black);
+    background-color: var(--neutral-100, white);
+    border: 1px solid var(--neutral-500, lightgrey);
+    border-radius: 8px;
+    height: 40px;
+    margin: 0;
+    padding: 8px;
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--neutral-600, black);
+        background-color: var(--neutral-300, lightgrey);
+    }
+
+    &:disabled:hover {
+        cursor: not-allowed;
+        color: var(--neutral-600, black);
+        background-color: var(--neutral-300, lightgrey);
+    }
+}
+
+.button {
+    width: 40px;
+
+    &:hover {
+        color: var(--primary-500, blue);
+        background-color: var(--primary-100, lightblue);
+    }
+}
+
+.button--warning {
+    color: var(--primary-900, black);
+    background-color: var(--warning-500, orange);
+    border: 1px solid var(--primary-900, black);
+
+    &:hover {
+        color: var(--primary-900, black);
+        background-color: var(--warning-600, darkorange);
+    }
+}

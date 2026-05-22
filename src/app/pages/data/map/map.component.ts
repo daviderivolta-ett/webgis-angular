@@ -29,7 +29,7 @@ export class MapComponent {
   /** Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
   public isLoading = model<boolean>(false);
-  public selectedDate = model<Date | undefined>(undefined);
+  public selectedDate = model<Date>();
   public timeDimensionDateChanged = output<Date | undefined>();
   public timeDimensionEvent = output<Record<string, any>>();
 
@@ -54,6 +54,8 @@ export class MapComponent {
   public maxClusterRadius = input<number>(0);
   public maxMarkerDisplayRadius = input<number>(Infinity);
   public maxTimedimensionGap = input<number>(24 * 60 * 60 * 1000);
+  public referenceDate = input<Date>();
+  public timePlayerRange = input<number>(30);
 
   /** Output properties */
   public layerAdded = output<Record<string, any>>();

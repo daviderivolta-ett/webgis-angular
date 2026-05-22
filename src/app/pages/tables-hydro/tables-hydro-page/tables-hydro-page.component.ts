@@ -1,17 +1,17 @@
 /** Dependencies */
-import { Component, effect, ViewChild } from '@angular/core'
+import { Component, computed, effect, ViewChild } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /** Models */
-import { ColorScale, ColorScaleBase, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { ColorScale, ColorScaleBase, Settings, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -30,6 +30,7 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
     HeaderComponent,
     SidebarComponent,
     SortableTableComponent,
+    NotificationIconComponent,
     /** Directives */
     RouterLink,
     RouterLinkActive,
@@ -60,6 +61,7 @@ export class TablesHydroPageComponent {
 
   /** Data */
   public user: User | null = null;
+  public settings: Settings; // Recovered from route resolver in constructor
 
   public newData: Table2 = new Table2();
   public newSortedData: Table2 = new Table2();
@@ -71,11 +73,21 @@ export class TablesHydroPageComponent {
   private _stations: Station[] = [];
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public hydroImgsUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+
+  public hydroImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs')));
 
   public baseColorScales: ColorScaleBase[];
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
+
+  private _selectedTenant; // Recovered from service in constructor
+  public selectedTenantMsg; // Recovered from service in constructor
+  public timePlayerRange = computed(() => {
+    const selectedTenant: Tenant | null = this._selectedTenant();
+    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
+    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+  });
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -85,13 +97,22 @@ export class TablesHydroPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
     private stationsService: StationsService,
     private tablesService: TablesService,
     private snackbarsService: SnackbarsService
   ) {
+    /** Recovering from services */
+    this._selectedTenant = this.tenantsService.selectedTenant;
+    this.selectedTenantMsg = this.tenantsService.message;
+
+    /** Recovering data from resolvers */
+    this.settings = this.route.snapshot.data['settings'];
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
+
+    // this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
@@ -175,9 +196,10 @@ export class TablesHydroPageComponent {
   }
 
   private async _getData(config: TableConfig, date: Date): Promise<void> {
+    const baseUrl: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, config.url);
     const url = date ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(date.toISOString())}` :
-      `${this.stationsApiBaseUrl}${config.url}`;
+      `${baseUrl}?time=${DateUtils.toApiFormat(date.toISOString())}` :
+      `${baseUrl}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
@@ -303,7 +325,8 @@ export class TablesHydroPageComponent {
     const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue);
     const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
-    this.stationsService.getHydroImageAt(`${this.stationsApiBaseUrl}${this.config.url}`, '', hiddenValue, date, this.authService.getAccessToken())
+    const url: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.config.url);
+    this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.authService.getAccessToken())
       .then((img: any) => {
         this.hydroImg = img;
       })

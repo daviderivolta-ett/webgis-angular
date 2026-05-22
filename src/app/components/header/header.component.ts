@@ -11,7 +11,7 @@ import { AuthComponent } from '../auth/auth.component';
   imports: [
     NavMenuComponent,
     AuthComponent
-  ],
+],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

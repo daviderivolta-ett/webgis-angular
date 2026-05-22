@@ -1,17 +1,17 @@
 /** Libraries */
-import { ChangeDetectorRef, Component, effect, HostListener, QueryList, ViewChild, viewChildren, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, HostListener, QueryList, signal, ViewChild, viewChildren, ViewChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services';
 
 /** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent } from '../../../components';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent, NotificationIconComponent } from '../../../components';
 import { MapComponent } from '../map/map.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
@@ -28,7 +28,7 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
   selector: 'app-data-page',
   imports: [
     // Components
-    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, WebcamComponent,
+    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, WebcamComponent, NotificationIconComponent,
     // Directives
     ReactiveFormsModule,
     // Pipes
@@ -60,10 +60,14 @@ export class DataPageComponent {
   public webcams: Webcam[] = [];
   public lidars: Lidar[] = [];
   public areChartsDisabled: boolean = true;
-  public chartReferenceDate: Date | undefined;
+  public referenceDate: Date | undefined;
 
-  public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
+  public timePlayerRange = computed(() => {
+    const selectedTenant: Tenant | null = this.selectedTenant();
+    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
+    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+  });
   public wmsLayersDate: Date | undefined;
 
   /** References */
@@ -91,15 +95,17 @@ export class DataPageComponent {
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public polygonMeanApiBaseUrl; // Recovered from route resolver in constructor
-  public stationsUrl; // Recovered from route resolver in constructor
-  public parametersUrl; // Recovered from route resolver in constructor 
-  public stationParametersUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+
+  public stationsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stations')));
+  public parametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('parameters')));
+  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
   public createConfigUrl; // Recovered from route resolver in constructor
   public latestConfigUrl; // Recovered from route resolver in constructor
-  public timeserieUrl; // Recovered from route resolver in constructor
-  public hydroImgsUrl; // Recovered from route resolver in constructor
-  public webcamImgsUrl; // Recovered from route resolver in constructor
-  public lidarImgsUrl; // Recovered from route resolver in constructor
+  public timeserieUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
+  public hydroImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs')));
+  public webcamImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs')));
+  public lidarImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('lidarImgs')));
 
   public stationPopupConfig: StationPopupConfig = createStationPopupConfigFromObject({});
   public stations: StationBase[] = [];
@@ -113,12 +119,16 @@ export class DataPageComponent {
 
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
+  public selectedTenant; // Recovered from service in constructor
+  public selectedTenantMsg; // Recovered from service in constructor
+
   /** Constructor */
   constructor(
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private popupService: PopupService,
     private globalStateService: GlobalStateService,
     private snackbarsService: SnackbarsService,
@@ -128,6 +138,10 @@ export class DataPageComponent {
   ) {
     this.windowWidth = window.innerWidth;
 
+    /** Recovering from services */
+    this.selectedTenant = this.tenantsService.selectedTenant;
+    this.selectedTenantMsg = this.tenantsService.message;
+
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.settings = this.route.snapshot.data['settings'];
@@ -135,17 +149,10 @@ export class DataPageComponent {
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.polygonMeanApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('polygonMeanApi'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
-    this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
-    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.createConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('createConfig'));
     this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
-    this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
-    this.hydroImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs'));
-    this.webcamImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs'));
-    this.lidarImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('lidarImgs'));
-
     this.baseColorScales = this.route.snapshot.data['colorScales'];
     this.baseLayers = LayerGroup.getAllLayers(this.route.snapshot.data['baseLayers']).filter((l: Layer) => l instanceof TileLayer);
     this.infoLayers = LayerGroup.getAllLayers(this.route.snapshot.data['infoLayers']).filter((l: Layer) => l instanceof WMSLayer);
@@ -185,9 +192,9 @@ export class DataPageComponent {
   public async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
-      this.initialDate = date;
-      this.selectedDate = date;
-      this.chartReferenceDate = date;
+      const tenantDate = this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : undefined;
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this.referenceDate = !date && tenantDate ? tenantDate : date;
     });
 
     await this.setDataFromApi();
@@ -211,9 +218,9 @@ export class DataPageComponent {
     this.isLoading = true;
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
-        this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken()),
-        this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken()),
-        this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+        this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl(), this.authService.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
       ]);
 
       this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
@@ -505,7 +512,7 @@ export class DataPageComponent {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
           const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
-          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl, s.parameter, s.id, date, this.authService.getAccessToken())
+          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl(), s.parameter, s.id, date, this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
@@ -526,7 +533,7 @@ export class DataPageComponent {
 
         case 'webcam':
           const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
-          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl, s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
+          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
               throw err;
@@ -537,7 +544,7 @@ export class DataPageComponent {
 
         case 'lidar':
           const lidarSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagini lidar`, 'loader');
-          const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl, s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
+          const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero delle immagini lidar.`, 'error', true);
               throw err;
@@ -583,7 +590,7 @@ export class DataPageComponent {
       initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
     }
 
-    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
@@ -704,7 +711,8 @@ export class DataPageComponent {
         date,
         colorScale,
         layer,
-        baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
+        // baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
+        baseUrl: layer.action['api'] !== 'polygonmean' ? this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
         stations: this.stations,
         token: this.authService.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
@@ -734,8 +742,23 @@ export class DataPageComponent {
     if (this._map) this._map.closeAllPopups();
     this._chartDatePickers.forEach((c) => c.setIsFirstload(true));
 
-    this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date ?? new Date())]);
-    this._updateMultipleLayers(date, false);
+    // const newDate = !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date;
+    // this.globalStateService.updateQueryParam2('date', date ? [this.globalStateService.toDatetimelocal(date)] : []);
+    // this.globalStateService.updateQueryParam2('date', newDate ? [this.globalStateService.toDatetimelocal(newDate)] : []);
+
+    // newDate ?
+    //   this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(newDate)]) :
+    //   this.globalStateService.removeQueryParam('date')
+
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date')
+
+    // this._updateMultipleLayers(date, false);
+    this._updateMultipleLayers(
+      !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date,
+      false
+    );
   }
 
   public onMapAdditionalDateChanged(date: Date | undefined): void {

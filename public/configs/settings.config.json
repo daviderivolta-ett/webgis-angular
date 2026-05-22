@@ -1,5 +1,6 @@
 {
     "mapTimeSpan": 120,
     "staleDataThreshold": 240,
-    "layerDataThreshold": 60
+    "layerDataThreshold": 60,
+    "timeRangeDays": 3
 }

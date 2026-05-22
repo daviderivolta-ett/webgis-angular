@@ -3,12 +3,18 @@
         "baseUrl": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal",
         "stationsApi": "/stations-api/v1",
         "polygonMeanApi": "/polygonmean-api/v1",
+        "retentionApi": "/retention-api/v1",
+        "retentionBridge": "/retention/{tenant}",
         "stations": "/platforms/get/all",
         "parameters": "/parameters/get/all",
         "stationParameters": "/platforms/get/parameter/all",
         "stationParametersPatch": "/platforms/update/parameter",
         "timeseries": "/platforms/get/{stationId}/timeserie",
-        "periods": "/",
+        "allTenants": "/tenants",
+        "createTenant": "/tenants/create",
+        "loadTenant": "/tenants/load/{tenantId}",
+        "unloadTenant": "/tenants/unload/{tenantId}",
+        "deleteTenant": "/tenants/{tenantId}",
         "allConfigs": "/configurations/get/all",
         "latestConfig": "/configurations/get/latest",
         "configTypes": "/configurations/get/types",
@@ -20,5 +26,5 @@
         "webcamImgs": "/webcams/get/image/{stationId}",
         "lidarImgs": "/lidar/get/image/{stationId}"
     },
-    "lastModified": "2026-02-25"
+    "lastModified": "2026-05-19"
 }

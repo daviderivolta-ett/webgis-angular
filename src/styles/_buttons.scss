@@ -1,5 +1,6 @@
 @mixin primaryButton($background-color, $color, $background-color--hover, $background-color--disabled) {
     font-family: 'Poppins', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1rem;
     font-weight: 500;
     min-width: 140px;
     height: 36px;

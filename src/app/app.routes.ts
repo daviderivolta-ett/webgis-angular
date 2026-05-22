@@ -40,6 +40,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables-stations/tables-stations-page/tables-stations-page.component').then(c => c.TablesStationsPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,
@@ -51,6 +52,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables-max/tables-max-page/tables-max-page.component').then(c => c.TablesMaxPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,
@@ -62,6 +64,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables-extremes/tables-extremes-page/tables-extremes-page.component').then(c => c.TablesExtremesPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,
@@ -73,6 +76,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Tabelle',
         loadComponent: () => import('./pages/tables-levels/tables-levels-page/tables-levels-page.component').then(c => c.TablesLevelsPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,
@@ -85,6 +89,7 @@ export const routes: Routes = [
         canMatch: [authGuard],
         loadComponent: () => import('./pages/tables-hydro/tables-hydro-page/tables-hydro-page.component').then(c => c.TablesHydroPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             tableConfigGroups: tableConfigGroupsResolver,
             tableLabels: tableLabelsResolver,

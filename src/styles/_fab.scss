@@ -16,7 +16,7 @@ button.fab {
 
 @mixin maskIcon($icon-url) {
     display: flex;
-    mask-image: url(#{$icon-url});
+    mask-image: url($icon-url);
     align-items: center;
     justify-content: center;
     width: 100%;

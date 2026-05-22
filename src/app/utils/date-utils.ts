@@ -26,4 +26,8 @@ export class DateUtils {
     static toDateTimeLocal(date: Date): string {
         return `${date.getFullYear()}-${DateUtils.pad(date.getMonth() + 1)}-${DateUtils.pad(date.getDate())}T${DateUtils.pad(date.getHours())}:${DateUtils.pad(date.getMinutes())}`
     }
+
+    static minutesBetweenTwoDates(firstDate: Date, secondDate: Date): number {
+        return Math.abs(firstDate.getTime() - secondDate.getTime()) / (1000 * 60);
+    }
 }  
