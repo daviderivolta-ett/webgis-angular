@@ -575,7 +575,7 @@ export class DataPageComponent {
   public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 200)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    let { param, initialDate, endingDate } = formChange;
+    let { param, initialDate, endingDate } = formChange;    
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
