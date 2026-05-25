@@ -5,15 +5,15 @@ import { Feature, Point } from 'geojson';
 import * as L from 'leaflet';
 
 /** Components */
-import { TimePlayerComponent } from '../time-player/time-player.component';
 import { MapPopupComponent } from '../map-popup/map-popup.component';
+import { MapTimePlayerComponent } from "../map-time-player/map-time-player.component";
 
 /** Component */
 @Component({
   selector: 'app-map',
   imports: [
-    TimePlayerComponent
-  ],
+    MapTimePlayerComponent
+],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })

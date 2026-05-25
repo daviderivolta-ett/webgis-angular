@@ -45,8 +45,7 @@
                 @if (user) {
                     <div class="update-time">
                         <label class="label">Data misurazione</label>
-                        <app-date-picker [date]="selectedDate" [referenceDate]="initialDate" [timeRange]="timePlayerRange()" [isDisabled]="isChartLoading"></app-date-picker>
-                        <app-datepicker [date]="initialDate" [referenceDate]="initialDate" [timeRange]="timePlayerRange()" [isLoading]="isChartLoading" (dateChanged)="onDateChange($event)"></app-datepicker>
+                        <app-date-picker [date]="selectedDate" [referenceDate]="referenceDate" [timeRange]="timePlayerRange()" [isDisabled]="isChartLoading" (dateChanged)="onDateChange($event)"></app-date-picker>
                     </div>
                 }
             </div>

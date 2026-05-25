@@ -60,8 +60,8 @@ export class DataPageComponent {
   public webcams: Webcam[] = [];
   public lidars: Lidar[] = [];
   public areChartsDisabled: boolean = true;
-  public referenceDate: Date | undefined;
 
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
   public timePlayerRange = computed(() => {
     const selectedTenant: Tenant | null = this.selectedTenant();
@@ -141,6 +141,7 @@ export class DataPageComponent {
     /** Recovering from services */
     this.selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /** Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
@@ -194,7 +195,7 @@ export class DataPageComponent {
       const date = this.globalStateService.getDateFromQueryParams();
       const tenantDate = this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : undefined;
       this.selectedDate = !date && tenantDate ? tenantDate : date;
-      this.referenceDate = !date && tenantDate ? tenantDate : date;
+      // this.referenceDate = !date && tenantDate ? tenantDate : date;
     });
 
     await this.setDataFromApi();

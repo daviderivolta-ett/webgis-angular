@@ -1,0 +1,96 @@
+.map-time-player,
+.controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.map-time-player {
+    gap: 16px;
+}
+
+.controls {
+    gap: 4px;
+}
+
+.button,
+.input {
+    color: var(--primary-900, black);
+    background-color: var(--neutral-100, white);
+    border: 1px solid var(--neutral-500, lightgrey);
+    border-radius: 8px;
+    height: 40px;
+    margin: 0;
+    padding: 8px;
+}
+
+.button {
+    width: 40px;
+
+    &:hover {
+        color: var(--primary-500, blue);
+        background-color: var(--primary-100, lightblue);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--neutral-600, black);
+        background-color: var(--neutral-300, lightgrey);
+    }
+}
+
+.button--warning {
+    color: var(--primary-900, black);
+    background-color: var(--warning-500, orange);
+    border: 1px solid var(--primary-900, black);
+
+    &:hover {
+        color: var(--primary-900, black);
+        background-color: var(--warning-600, darkorange);
+    }
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon--rotating {
+    animation: rotating 1s infinite linear;
+}
+
+@media screen and (max-width: 992px) {
+    .map-time-player {
+        max-width: 200px;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .controls {
+        justify-content: center;
+    }
+
+    .input {
+        flex-basis: 100%;
+    }
+
+    .player-controls {
+        order: 1;
+    }
+
+    .reset-btn {
+        order: 2;
+    }
+
+    .input {
+        order: 3;
+    }
+
+}
+
+@keyframes rotating {
+    to {
+        transform: rotate(360deg);
+    }
+}

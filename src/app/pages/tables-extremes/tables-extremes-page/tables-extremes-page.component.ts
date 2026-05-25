@@ -10,7 +10,7 @@ import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationB
 import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -36,7 +36,7 @@ type PageTable = {
   selector: 'app-tables-extremes-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, NotificationIconComponent,
+    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, NotificationIconComponent, DatePickerComponent,
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
@@ -55,7 +55,7 @@ export class TablesExtremesPageComponent {
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
 
-  public initialDate: Date | undefined;
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   public tables: PageTable[] = [];
@@ -106,17 +106,15 @@ export class TablesExtremesPageComponent {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
+
 
     /** Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
-    
+
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
-    // this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
-    // this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    // this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
@@ -136,8 +134,12 @@ export class TablesExtremesPageComponent {
     this.route.queryParams.subscribe(() => {
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
-      this.selectedDate = this.initialDate = date;
-      this._init('estremi-temperatura-vento', date ?? new Date());
+
+      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
+      const newDate = !date && tenantDate ? tenantDate : date;
+
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this._init('estremi-temperatura-vento', newDate ?? new Date());
     });
   }
 
@@ -199,7 +201,7 @@ export class TablesExtremesPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url)
+    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -319,11 +321,12 @@ export class TablesExtremesPageComponent {
     Utils.downloadFile(`${tableConfig.id}.csv`, csv);
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;
-    const current = this.globalStateService.getQueryParam2('date')[0];
-    if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+  public onDateChange(date: Date | undefined): void {
+    const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
+    if (current?.getTime() === date?.getTime()) return;
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date');
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {

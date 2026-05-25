@@ -32,7 +32,7 @@
                 <div class="controls">
                     <div class="update-time">
                         <label class="label">Data misurazione</label>
-                        <app-datepicker [date]="initialDate" [referenceDate]="initialDate" [timeRange]="timePlayerRange()" [isLoading]="isChartLoading" (dateChanged)="onDateChange($event)"></app-datepicker>
+                        <app-date-picker [date]="selectedDate" [referenceDate]="referenceDate" [timeRange]="timePlayerRange()" [isDisabled]="isChartLoading" (dateChanged)="onDateChange($event)"></app-date-picker>
                     </div>
                 </div>
             }

@@ -9,7 +9,7 @@ import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationB
 import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 import { MapChartComponent } from '../../data/map-chart/map-chart.component'
 
 /** Directives */
@@ -35,13 +35,14 @@ type PageTable = {
   selector: 'app-tables-max-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, MapChartComponent, PlotlyChartComponent, NotificationIconComponent,
+    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, FloatingDialogComponent, MapChartComponent, PlotlyChartComponent, NotificationIconComponent,
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
     MapValuePipe,
     MapChartDatepickerComponent,
-    MapChartSelectorComponent
+    MapChartSelectorComponent,
+    DatePickerComponent
   ],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
@@ -52,7 +53,7 @@ export class TablesMaxPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
-  public initialDate: Date | undefined;
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   public tables: PageTable[] = [];
@@ -103,16 +104,13 @@ export class TablesMaxPageComponent {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /** Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
-    // this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
-    // this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    // this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
@@ -132,8 +130,12 @@ export class TablesMaxPageComponent {
     this.route.queryParams.subscribe(() => {
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
-      this.selectedDate = this.initialDate = date;
-      this._init('massimi-precipitazione', date ?? new Date());
+
+      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
+      const newDate = !date && tenantDate ? tenantDate : date;
+
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this._init('massimi-precipitazione', newDate ?? new Date());
     });
   }
 
@@ -195,7 +197,7 @@ export class TablesMaxPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url)
+    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -344,11 +346,12 @@ export class TablesMaxPageComponent {
     Utils.downloadFile(`${tableConfig.id}.csv`, csv);
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;
-    const current = this.globalStateService.getQueryParam2('date')[0];
-    if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+  public onDateChange(date: Date | undefined): void {
+    const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
+    if (current?.getTime() === date?.getTime()) return;
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date');
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {

@@ -11,7 +11,7 @@ import { ColorScale, ColorScaleBase, Settings, Station, StationBase, Table, Tabl
 import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -35,7 +35,7 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
     RouterLink,
     RouterLinkActive,
     ReactiveFormsModule,
-    DatepickerComponent,
+    DatePickerComponent,
     ScrollableTableDirective,
     /** Pipes */
     IsDatePipe,
@@ -53,7 +53,7 @@ export class TablesHydroPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
-  public initialDate: Date | undefined;
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   public hydroImg: string | null = null;
@@ -106,6 +106,7 @@ export class TablesHydroPageComponent {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /** Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
@@ -135,8 +136,12 @@ export class TablesHydroPageComponent {
       this.form.patchValue({ select: tableId }, { emitEvent: false });
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
-      this.selectedDate = this.initialDate = date;
-      this._init(tableId, date ?? new Date());
+
+      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
+      const newDate = !date && tenantDate ? tenantDate : date;
+
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this._init(tableId, newDate ?? new Date());
     });
   }
 
@@ -302,11 +307,12 @@ export class TablesHydroPageComponent {
     });
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;
-    const current = this.globalStateService.getQueryParam2('date')[0];
-    if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+  public onDateChange(date: Date | undefined): void {
+    const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
+    if (current?.getTime() === date?.getTime()) return;
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date');
   }
 
   private _getSelectedModel(): string | undefined {

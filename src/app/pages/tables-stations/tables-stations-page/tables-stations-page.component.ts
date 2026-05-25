@@ -30,8 +30,7 @@ import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-cha
   selector: 'app-tables-stations-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, MapChartComponent, FloatingDialogComponent,
-    NotificationIconComponent,
+    HeaderComponent, SidebarComponent, InputAutocompleteComponent, PlotlyChartComponent, MapChartComponent, FloatingDialogComponent, NotificationIconComponent,
     /** Directives */
     NgTemplateOutlet, RouterLink, RouterLinkActive, ReactiveFormsModule, ScrollableTableDirective, SortableTableComponent, SortHeaderComponent,
     /** Pipes */
@@ -39,7 +38,7 @@ import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-cha
     MapChartDatepickerComponent,
     MapChartSelectorComponent,
     DatePickerComponent
-],
+  ],
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
 })
@@ -52,7 +51,7 @@ export class TablesStationsPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
-  public initialDate: Date | undefined;
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   public chart: MapChart | null = null;
@@ -107,6 +106,7 @@ export class TablesStationsPageComponent {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /** Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
@@ -141,15 +141,9 @@ export class TablesStationsPageComponent {
       const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
       const newDate = !date && tenantDate ? tenantDate : date;
 
-      // this.selectedDate = this.initialDate = date;
-      // this._init(tableId, date ?? new Date());
-
       this.selectedDate = !date && tenantDate ? tenantDate : date;
-      this.initialDate = !date && tenantDate ? tenantDate : date;
       this._init(tableId, newDate ?? new Date());
     });
-
-    console.log(this.initialDate);    
   }
 
   /** Methods */
@@ -238,7 +232,7 @@ export class TablesStationsPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url)
+    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -283,11 +277,18 @@ export class TablesStationsPageComponent {
     Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}.csv`, csv);
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;
-    const current = this.globalStateService.getQueryParam2('date')[0];
-    if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+  // public onDateChange(event: any): void {
+  public onDateChange(date: Date | undefined): void {
+    // const { date: dateString } = event;
+    // const current = this.globalStateService.getQueryParam2('date')[0];
+    // if (current === dateString) return;
+    // this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+
+    const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
+    if (current?.getTime() === date?.getTime()) return;
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date');
   }
 
   private _getSelectedStation(): string | undefined {
