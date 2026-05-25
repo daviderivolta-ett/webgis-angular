@@ -31,7 +31,7 @@ import { TenantCardComponent } from '../tenant-card/tenant-card.component'
     /** Directives */
     ReactiveFormsModule,
     ClickOutsideDirective
-],
+  ],
   templateUrl: './period-settings-page.component.html',
   styleUrl: './period-settings-page.component.scss'
 })
@@ -104,7 +104,7 @@ export class PeriodSettingsPageComponent {
   /** Init */
   #getAllTenants() {
     this.tenantsService.getAllTenants(this.tenantsUrl, this.authService.getAccessToken())
-      .then((tenants: Tenant[]) => this.tenants.set(tenants))
+      .then((tenants: Tenant[]) => this.tenants.set(tenants.toSorted((a, b) => a.id.localeCompare(b.id))))
       .catch((err: unknown) => this.snackbarService.createSnackbar(err instanceof Error ? err.message : `Errore nel caricamento dei periodi salvati.`, 'error', true))
   }
 
@@ -157,8 +157,8 @@ export class PeriodSettingsPageComponent {
     try {
       const result = await this._confirmDialog.open(`Si sta per rendere non più disponibile il periodo salvato selezionato. L'eventuale processo di ricariamento dei dati può durare anche alcune ore. Continuare?`, 'Sì, continua', 'No, annulla');
       if (!result) return;
-      await this.tenantsService.unloadTenant(this.apiService.replaceApiUrlPlaceholder(this.retentionApiBaseUrl, id), this.authService.getAccessToken());
-      this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false } : t));
+      await this.tenantsService.unloadTenant(this.apiService.replaceApiUrlPlaceholder(this.unloadTenantUrl, id), this.authService.getAccessToken());
+      this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false, isLoaded: false } : t));
       this.snackbarService.createSnackbar(`Periodo salvato scaricato. In attesa dell'elaborazione dei dati.`, 'success', true);
     } catch (error) {
       this.snackbarService.createSnackbar(`Errore durante lo scaricamento del periodo salvato.`, 'error', true);
