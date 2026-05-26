@@ -13,6 +13,7 @@ export class SidebarComponent {
 
   public iconUrl = input<string>('');
   public side = input<'left' | 'right'>('left');
+  public togglePosition = input<'top' | 'bottom'>('top');
   public height = input<string>('100%');
   public width = input<string>('360px');
   public currentWidth: string = this.width();

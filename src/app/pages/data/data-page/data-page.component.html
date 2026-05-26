@@ -6,7 +6,7 @@
     </app-header>
     <div class="main">
         <!-- START SIDEBAR -->
-        <app-sidebar #sidebar side="left" height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" (toggled)="onSidebarToggle($event)">
+        <app-sidebar #sidebar side="left" [togglePosition]="windowWidth <= 768 ? 'bottom' : 'top'" height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" (toggled)="onSidebarToggle($event)">
             <div ngProjectAs="sidebar-content" class="sidebar-content">
                 <h3>Livelli</h3>
                 @if (user) {
@@ -34,7 +34,7 @@
         <!-- START LAYERS MENU -->
         <div class="layers-menu">
             @if (baseLayers.length > 0) {
-            <app-pop-up-menu class="base-layers-menu" #baseLayersMenu position="bottom-left" maxHeight="250px" iconUrl="images/icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
+            <app-pop-up-menu class="base-layers-menu" #baseLayersMenu [position]="windowWidth <= 768 ? 'top-left' : 'bottom-left'" maxHeight="250px" iconUrl="images/icons/language_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onBaseLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="baseLayersForm">
                     <p class="pop-up-menu-content__title">Mappe base</p>
                     <div class="radio-group">
@@ -49,7 +49,7 @@
             </app-pop-up-menu>
             }
             @if (infoLayers.length > 0) {
-            <app-pop-up-menu class="info-layers-menu" #infoLayersMenu position="bottom-left" maxHeight="250px" iconUrl="images/icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
+            <app-pop-up-menu class="info-layers-menu" #infoLayersMenu [position]="windowWidth <= 768 ? 'top-left' : 'bottom-left'" maxHeight="250px" iconUrl="images/icons/stacks_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" (toggled)="onInfoLayersMenuToggle($event)">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content" [formGroup]="infoLayersForm">
                     <p class="pop-up-menu-content__title">Livelli informativi</p>
                     @for (item of infoLayers; track item.id) {

@@ -11,6 +11,8 @@
     <button type="button" class="sidebar__toggle fab"
         [style.right]="side() === 'left' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
         [style.left]="side() === 'right' ? (!isOpen ? ((-56) + 'px') : '16px') : 'unset'"
+        [style.top]="togglePosition() === 'top' ? '16px' : 'unset'"
+        [style.bottom]="togglePosition() === 'bottom' ? '16px' : 'unset'"
         [style.color]="color()"
         (click)="toggleSidebar(!isOpen)"
     >

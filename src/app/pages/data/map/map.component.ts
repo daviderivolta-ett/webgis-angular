@@ -102,7 +102,8 @@ export class MapComponent {
   private _initMap(): void {
     /** Map instance */
     this._map = new L.Map('map', {
-      zoomControl: false
+      zoomControl: false,
+      attributionControl: false
     })
       .addControl(new L.Control.Zoom({ position: 'bottomleft' }))
       .setView(this.position(), this.zoom())
