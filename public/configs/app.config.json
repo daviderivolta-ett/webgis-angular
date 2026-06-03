@@ -1,8 +1,8 @@
 {
-    "baseLayersUri": "./configs/base-layers.config.json",
-    "infoLayersUri": "./configs/info-layers.config.json",
-    "dataLayersUri": "./configs/data-layers.config.json",
-    "layerCategoriesUri": "./configs/layer-categories.config.json",
+    "baseLayersUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=base-layers",
+    "infoLayersUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=info-layers",
+    "dataLayersUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=data-layers",
+    "layerCategoriesUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=layer-categories",
     "mapConfigUri": "./configs/map.config.json",
     "colorScalesUri": "./configs/color-scales.config.json",
     "apiConfigUri": "./configs/api.config.json",

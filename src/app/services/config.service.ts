@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 // Models
 import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, RadarConfigGroup, SensorType, Settings, StationBase, StationPopupConfig, TableConfigGroup } from '../models';
 
+// Services
+import { ApiService } from './api.service';
+
 // Service
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,7 @@ export class ConfigService {
   private APP_CONFIG_URI = '/configs/app.config.json';
   private _appConfig!: AppConfig;
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   // Getter and setter
   public get appConfig(): AppConfig { return this._appConfig }
@@ -85,11 +88,16 @@ export class ConfigService {
       })
   }
 
-  public async getBaseLayers(): Promise<LayerGroup[]> {
-    return fetch(this.appConfig.baseLayersUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
-        return res.json();
+  public async getBaseLayers(url: string, token?: string): Promise<LayerGroup[]> {
+    // return fetch(this.appConfig.baseLayersUri)
+    //   .then((res: Response) => {
+    //     if (!res.ok) throw new Error('Errore nel recupero dei base layers dal file di configurazione /configs/base-layers.config.json');
+    //     return res.json();
+    //   })
+    // return this.apiService.getApiData(this.appConfig.baseLayersUri, token)
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
       })
       .then((data: any) => {
         return data['layers'].map((d: any) => LayerGroup.createFromObject(d))
@@ -99,11 +107,15 @@ export class ConfigService {
       })
   }
 
-  public async getInfoLayers(): Promise<LayerGroup[]> {
-    return fetch(this.appConfig.infoLayersUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
-        return res.json();
+  public async getInfoLayers(url: string, token?: string): Promise<LayerGroup[]> {
+    // return fetch(this.appConfig.infoLayersUri)
+    //   .then((res: Response) => {
+    //     if (!res.ok) throw new Error('rrore nel recupero dei layer informativi dal file di configurazione /configs/info-layers.config.json');
+    //     return res.json();
+    //   })
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
       })
       .then((data: any) => {
         return data['layers'].map((d: any) => LayerGroup.createFromObject(d))
@@ -113,11 +125,15 @@ export class ConfigService {
       })
   }
 
-  public async getDataLayers(): Promise<LayerGroup[]> {
-    return fetch(this.appConfig.dataLayersUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
-        return res.json();
+  public async getDataLayers(url: string, token?: string): Promise<LayerGroup[]> {
+    // return fetch(this.appConfig.dataLayersUri)
+    //   .then((res: Response) => {
+    //     if (!res.ok) throw new Error('Errore nel recupero della configurazione dei layer /configs/map-layers.config.json');
+    //     return res.json();
+    //   })
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
       })
       .then((data: any) => {
         return data['layers'].map((d: any) => {
@@ -134,11 +150,15 @@ export class ConfigService {
       })
   }
 
-  public async getLayersCategories(): Promise<LayerCategory[]> {
-    return fetch(this.appConfig.layerCategoriesUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero delle categorie dei layer dal file di configurazione /configs/layer-categories.config.json');
-        return res.json();
+  public async getLayerCategories(token?: string): Promise<LayerCategory[]> {
+    // return fetch(this.appConfig.layerCategoriesUri)
+    //   .then((res: Response) => {
+    //     if (!res.ok) throw new Error('Errore nel recupero delle categorie dei layer dal file di configurazione /configs/layer-categories.config.json');
+    //     return res.json();
+    //   })
+    return this.apiService.getApiData(this.appConfig.layerCategoriesUri, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
       })
       .then((data: any) => {
         return data['layers'].map((d: any) => LayerCategory.createFromObject(d))
@@ -148,25 +168,32 @@ export class ConfigService {
       })
   }
 
-  public async getApis(): Promise<Map<string, string>> {
-    return fetch(this.appConfig.apiConfigUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json');
-        return res.json();
-      })
-      .then((data: any) => {
-        const rawApis = data['apis'];
+  // public async getApis(): Promise<Map<string, string>> {
+  //   return fetch(this.appConfig.apiConfigUri)
+  //     .then((res: Response) => {
+  //       if (!res.ok) throw new Error('Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json');
+  //       return res.json();
+  //     })
+  //     .then((data: any) => {
+  //       const rawApis = data['apis'];
 
-        if (typeof rawApis !== 'object' || rawApis === null) {
-          throw new Error('Il campo \'apis\' non è un oggetto valido');
-        }
+  //       if (typeof rawApis !== 'object' || rawApis === null) {
+  //         throw new Error('Il campo \'apis\' non è un oggetto valido');
+  //       }
 
-        const entries = Object.entries(rawApis)
-          .filter(([_key, value]) => typeof value === 'string')
-          .map(([key, value]) => [key, value as string] as [string, string]);
+  //       const entries = Object.entries(rawApis)
+  //         .filter(([_key, value]) => typeof value === 'string')
+  //         .map(([key, value]) => [key, value as string] as [string, string]);
 
-        return new Map<string, string>(entries);
-      })
+  //       return new Map<string, string>(entries);
+  //     })
+  //     .catch((err: any) => {
+  //       throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
+  //     })
+  // }
+
+  public getApis(): Promise<Map<string, string>> {
+    return this.apiService.getApis(this.appConfig.apiConfigUri)
       .catch((err: any) => {
         throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
       })
@@ -278,5 +305,14 @@ export class ConfigService {
       .catch((err: any) => {
         throw new Error(`Errore nel recupero dei tipi dei sensori da /configs/sensor-types.config.json ${err.message || err}`);
       })
+  }
+
+  private _getConfigValue(data: any): any {
+    if (!('jsonValue' in data) || typeof data['jsonValue'] !== 'string') throw new Error(`Formato della risposta della configurazione del popup non valido.`);
+    try {
+      return JSON.parse(data['jsonValue']);
+    } catch (error) {
+      throw new Error(`Errore nel parsing delle preferenze dell'utente.`);
+    }
   }
 }

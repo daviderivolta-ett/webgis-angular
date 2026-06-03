@@ -1,13 +1,40 @@
 /** Libraries */
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 /** Service */
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  #apis = signal(new Map<string, string>());
+  public apis = this.#apis.asReadonly();
 
   constructor() { }
+
+  public async getApis(url: string): Promise<Map<string, string>> {
+    return fetch(url)
+      .then((res: Response) => {
+        if (!res.ok) throw new Error('Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json');
+        return res.json();
+      })
+      .then((data: any) => {
+        const rawApis = data['apis'];
+
+        if (typeof rawApis !== 'object' || rawApis === null) {
+          throw new Error('Il campo \'apis\' non è un oggetto valido');
+        }
+
+        const entries = Object.entries(rawApis)
+          .filter(([_key, value]) => typeof value === 'string')
+          .map(([key, value]) => [key, value as string] as [string, string]);
+
+        this.#apis.set(new Map<string, string>(entries))
+        return new Map<string, string>(entries);
+      })
+      .catch((err: any) => {
+        throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
+      })
+  }
 
   public async getApiJSONData(url: string): Promise<any> {
     return fetch(url)
@@ -38,7 +65,7 @@ export class ApiService {
         if (!('content' in data)) throw new Error(`La risposta non contiene il campo 'content'.`);
         return data['content'];
       })
-      .catch((err: unknown) => {       
+      .catch((err: unknown) => {
         if (err instanceof Error) throw err;
         else throw new Error(`Errore nel recupero dei dati da ${url}: ${err}`);
       })
@@ -71,7 +98,7 @@ export class ApiService {
     return url.replace(/\{\{BASE_URL\}\}/, param);
   }
 
-  public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {
+  public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {        
     const url = new URL(baseurl);
     Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));
     return url.toString();

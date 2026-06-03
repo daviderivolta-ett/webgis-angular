@@ -31,7 +31,7 @@ export class AuthService {
     });
   }
 
-  public configureAuth(): void {
+  public async configureAuth(): Promise<void> {
     this.oauthService.configure(environment.keycloak);
     this.oauthService.loadDiscoveryDocumentAndTryLogin()
       .then(async () => {

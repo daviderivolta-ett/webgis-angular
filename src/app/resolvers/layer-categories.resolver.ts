@@ -6,13 +6,21 @@ import { ResolveFn } from '@angular/router';
 import { LayerCategory } from '../models';
 
 // Services
-import { ConfigService } from '../services';
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
 
 // Resolver
 export const layerCategoriesResolver: ResolveFn<LayerCategory[]> = async (route, state) => {
   const configService: ConfigService = inject(ConfigService);
+  const authService: AuthService = inject(AuthService);
+  const tenantsService: TenantsService = inject(TenantsService);
+  const apiService: ApiService = inject(ApiService);
 
-  return configService.getLayersCategories()
+  const bridgeUri: string = apiService.replaceApiUrlPlaceholder(apiService.apis().get('retentionBridge') ?? '', tenantsService.selectedTenant()?.id ?? '');
+  const url = tenantsService.selectedTenant() ?
+    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${bridgeUri}${apiService.apis().get('layerCategories')}` :
+    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('layerCategories')}`;
+
+  return configService.getLayerCategories(authService.getAccessToken())
     .then((data: LayerCategory[]) => data)
     .catch((err: any) => {
       console.error(err);
