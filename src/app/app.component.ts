@@ -47,11 +47,12 @@ export class AppComponent {
   }
 
   /** Component lifecycle */
-  public async ngOnInit(): Promise<void> {
-    /** Set config url */
-    this.configService.getApis()
-      .then((apis: Map<string, string>) => {
-        this.latestConfigUrl = this.apiService.buildUrl(this.apiService.buildUrl(apis.get('baseUrl') ?? '', apis.get('stationsApi') ?? ''), apis.get('latestConfig') ?? '');
-      });
+  public ngOnInit(): void {
+    this.latestConfigUrl = this.apiService.buildUrl(
+      this.apiService.buildUrl(
+        this.apiService.apis().get('baseUrl') ?? '',
+        this.apiService.apis().get('stationsApi') ?? ''
+      ), this.apiService.apis().get('latestConfig') ?? ''
+    );
   }
 }

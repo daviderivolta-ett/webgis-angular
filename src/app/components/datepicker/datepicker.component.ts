@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, effect, input, model, output } from '@angular/core';
+import { Component, computed, effect, input, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs';
 
@@ -13,7 +13,22 @@ import { distinctUntilChanged } from 'rxjs';
   styleUrl: './datepicker.component.scss'
 })
 export class DatepickerComponent {
-  public date = model<Date | undefined>();
+  public date = model<Date>();
+  public referenceDate = input<Date>();
+  public timeRange = input<number>(30);
+  public min = computed(() => {
+    let date = this.referenceDate();
+    if (!date) date = new Date();
+    const minDate = new Date(date);
+    minDate.setMinutes(minDate.getMinutes() - this.timeRange());
+    return this._toDatetimeLocal(minDate);
+  });
+  public max = computed(() => {
+    let date = this.referenceDate();
+    if (!date) date = new Date();
+    return this._toDatetimeLocal(date);
+  });
+
   public form = new FormGroup({ date: new FormControl('', [Validators.required]) });
   public dateChanged = output<Record<string, any>>();
   public isLoading = input<boolean>(false);
@@ -30,8 +45,8 @@ export class DatepickerComponent {
   private _onDateChanged(date: Date | undefined): void {
     const current = this.form.get('date')?.value;
     const formatted = date ? this._toDatetimeLocal(date) : null;
-    
-    if (current === formatted) return;   
+
+    if (current === formatted) return;
 
     date ? this.form.patchValue({ date: this._toDatetimeLocal(date) }, { emitEvent: false }) : this.form.reset({}, { emitEvent: false });
   }
@@ -45,7 +60,6 @@ export class DatepickerComponent {
     }
 
     const date = this._truncateDateToFullHour(changes['date']);
-
     if (this._checkDate(new Date(date))) {
       this.form.patchValue({ date }, { emitEvent: false });
       this.dateChanged.emit({ date: this._toDatetimeLocal(new Date(date)) });
@@ -53,6 +67,17 @@ export class DatepickerComponent {
       this.form.patchValue({ date: this._toDatetimeLocal(new Date()) }, { emitEvent: false });
       this.dateChanged.emit({ date: this._toDatetimeLocal(new Date()) });
     }
+    // const parsed = new Date(this._truncateDateToFullHour(changes['date']));
+    // const clamped = this._clampDate(parsed);
+
+    // this.form.patchValue(
+    //   { date: this._toDatetimeLocal(clamped) },
+    //   { emitEvent: false }
+    // );
+
+    // this.dateChanged.emit({
+    //   date: this._toDatetimeLocal(clamped)
+    // });
   }
 
   public onResetBtnClick(): void {
@@ -89,9 +114,9 @@ export class DatepickerComponent {
   }
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
-    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
+    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(this.max() ?? new Date().toISOString()) }, { emitEvent: false });
 
-    const date: Date = this.form.get('date')?.value ? new Date(this._truncateDateToFullHour(this.form.get('date')?.value ?? '')) : new Date();
+    const date: Date = this.form.get('date')?.value ? new Date(this._truncateDateToFullHour(this.form.get('date')?.value ?? '')) : new Date(this.max());
     if (isNaN(date.getTime())) return;
 
     const newDate: Date = this._calculateNewDate(date, direction);
@@ -100,17 +125,39 @@ export class DatepickerComponent {
       this.form.patchValue({ date: this._toDatetimeLocal(newDate) }, { emitEvent: false });
       this.dateChanged.emit({ date: this._toDatetimeLocal(newDate) });
     }
+
+    // const clamped = this._clampDate(newDate);
+
+    // this.form.patchValue(
+    //   { date: this._toDatetimeLocal(clamped) },
+    //   { emitEvent: false }
+    // );
+
+    // this.dateChanged.emit({
+    //   date: this._toDatetimeLocal(clamped)
+    // });
   }
 
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
     const minutes: number = date.getMinutes();
-    const newDate: Date = date;
+    const newDate: Date = new Date(date);
     const newMinutes = (direction === 'backward') ? (minutes - 5) : (minutes + 5);
     newDate.setMinutes(newMinutes);
     return newDate;
   }
 
   private _checkDate(date: Date): boolean {
-    return date <= new Date();
+    console.log(this.min(), this.max());
+    return date <= (new Date(this.max()) ?? new Date()) && (date >= new Date(this.min()));
+  }
+
+  private _clampDate(date: Date): Date {
+    const min = new Date(this.min());
+    const max = new Date(this.max());
+
+    if (date < min) return min;
+    if (date > max) return max;
+
+    return date;
   }
 }

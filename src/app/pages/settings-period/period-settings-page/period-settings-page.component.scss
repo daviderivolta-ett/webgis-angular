@@ -39,6 +39,26 @@
     width: 100%;
 }
 
+.sidebar__content.tenants-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.tenants-sidebar {
+    padding: 24px;
+}
+
+.tenants-sidebar h3 {
+    padding: 0 0 0 40px;
+}
+
+.tenants-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 @media screen and (max-width: 768px) {
     .content {
         max-width: unset;

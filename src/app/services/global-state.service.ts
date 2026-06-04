@@ -1,6 +1,6 @@
 /** Dependencies */
 import { Injectable } from '@angular/core'
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 
 /** Services */
 import { ApiService } from './api.service';
@@ -25,7 +25,7 @@ export class GlobalStateService {
         try {
           return JSON.parse(data['jsonValue']);
         } catch (error) {
-          throw new Error(`Errore nel parsing delle preference dell'utente.`);
+          throw new Error(`Errore nel parsing delle preferenze dell'utente.`);
         }
       })
       .catch((err: unknown) => {

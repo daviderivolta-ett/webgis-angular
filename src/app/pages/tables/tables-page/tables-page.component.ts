@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, effect, ViewChild } from '@angular/core'
+import { Component, computed, effect, ViewChild } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { skip } from 'rxjs'
@@ -15,7 +15,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -63,8 +63,11 @@ export class TablesPageComponent {
   public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public parametersUrl; // Recovered from route resolver in constructor 
-  public stationParametersUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+
+  public parametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('parameters')));
+  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
+
   private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
@@ -74,6 +77,8 @@ export class TablesPageComponent {
   public tables: PageTable[] = [];
   public sortedTables: PageTable[] = [];
 
+  private _selectedTenant; // Recovered from service in constructor
+
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
@@ -82,13 +87,20 @@ export class TablesPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
     private stationsService: StationsService,
     private snackbarsService: SnackbarsService
   ) {
+    /** Recovering from services */
+    this._selectedTenant = this.tenantsService.selectedTenant;
+
+    /** Recovering data from resolvers */
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
+
+    // this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
+    // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
@@ -127,7 +139,7 @@ export class TablesPageComponent {
 
   public setDataFromApi() {
     // this.isLoading = true;
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
@@ -139,7 +151,7 @@ export class TablesPageComponent {
       })
 
     // this.isLoading = true;
-    this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+    this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
       })
@@ -151,7 +163,7 @@ export class TablesPageComponent {
       })
   }
 
-  private async _init(id: string): Promise<void> {  
+  private async _init(id: string): Promise<void> {
     this._reset();
     if (this._sidebar) this._sidebar.toggleSidebar(false);
 

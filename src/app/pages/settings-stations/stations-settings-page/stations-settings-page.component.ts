@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, effect } from '@angular/core';
+import { Component, computed, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,10 +7,10 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, SensorType, StationBase, User } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, StationsService } from '../../../services';
+import { ApiService, AuthService, SnackbarsService, StationsService, TenantsService } from '../../../services';
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
+import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes';
@@ -30,9 +30,10 @@ import { Utils } from '../../../utils';
     SearchbarComponent,
     SettingsNavMenuComponent,
     LoadingBtnComponent,
+    NotificationIconComponent,
     /** Pipes */
     MapValuePipe
-  ],
+],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
 })
@@ -47,25 +48,38 @@ export class StationsSettingsPageComponent {
 
   public apiBaseUrl; // Recovered from route resolver in constructor
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public stationParametersUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+
+  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
+
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   public filteredStations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
   private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
 
   public sensorTypesMap: Map<string, string> = new Map();
 
+  private _selectedTenant; // Recovered from service in constructor
+  public selectedTenantMsg;
+
   /** Constructor */
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private stationsService: StationsService,
     private snackbarsService: SnackbarsService
   ) {
+    /** Recovering from services */
+    this._selectedTenant = this.tenantsService.selectedTenant;
+    this.selectedTenantMsg = this.tenantsService.message;
+
+    /** Recovering data from resolvers */
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
+    // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this.stationParametersPatchUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
@@ -77,7 +91,7 @@ export class StationsSettingsPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit() {
-    this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken())
       .then((stations) => {
         this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
         this.form = this._createStationsForm(stations);

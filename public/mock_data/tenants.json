@@ -1,0 +1,76 @@
+{
+  "statusCode": 200,
+  "content": [
+    {
+      "connectionString": "Host=omirl-dev-ett.cfmi.arpal.org;Port=5432;Database=DBCLONINGTEST;Username=postgres;Password=testDB1*testxk",
+      "geoServerTarPath": "",
+      "stationFilesTarPath": "",
+      "coverageStoreRequest": "\"\"",
+      "creationDate": "2026-05-04T13:57:49.633013Z",
+      "fromDate": "2026-04-20T02:41:00Z",
+      "toDate": "2026-04-20T12:00:00Z",
+      "enabled": true,
+      "loaded": false,
+      "id": "DBCLONINGTEST",
+      "identifier": "DBCLONINGTEST",
+      "name": "Tenant DBCLONINGTEST"
+    },
+    {
+      "connectionString": "Host=omirl-dev-ett.cfmi.arpal.org;Port=5432;Database=FULLFLOWTEST;Username=postgres;Password=testDB1*testxk",
+      "geoServerTarPath": "",
+      "stationFilesTarPath": "/retention/FULLFLOWTEST",
+      "coverageStoreRequest": "\"\"",
+      "creationDate": "2026-05-06T10:45:47.540173Z",
+      "fromDate": "2026-04-18T02:41:00Z",
+      "toDate": "2026-04-20T12:00:00Z",
+      "enabled": true,
+      "loaded": true,
+      "id": "FULLFLOWTEST",
+      "identifier": "FULLFLOWTEST",
+      "name": "Tenant FULLFLOWTEST"
+    },
+    {
+      "connectionString": "",
+      "geoServerTarPath": "/retention/UPDATEDDATE/UPDATEDDATE_imagemosaic.tar.gz",
+      "stationFilesTarPath": "",
+      "coverageStoreRequest": "\"\"",
+      "creationDate": "2026-04-20T08:57:11.04335Z",
+      "fromDate": "2026-04-10T14:41:00Z",
+      "toDate": "2026-04-20T14:41:00Z",
+      "enabled": true,
+      "loaded": false,
+      "id": "UPDATEDDATE",
+      "identifier": "UPDATEDDATE",
+      "name": "Tenant UPDATEDDATE"
+    },
+    {
+      "connectionString": "Host=omirl-dev-ett.cfmi.arpal.org;Port=5432;Database=IMAGESFULLFLOWTEST;Username=postgres;Password=testDB1*testxk",
+      "geoServerTarPath": "",
+      "stationFilesTarPath": "/retention/IMAGESFULLFLOWTEST",
+      "coverageStoreRequest": "\"\"",
+      "creationDate": "2026-05-06T16:01:50.505397Z",
+      "fromDate": "2026-04-20T02:41:00Z",
+      "toDate": "2026-04-22T12:00:00Z",
+      "enabled": true,
+      "loaded": true,
+      "id": "IMAGESFULLFLOWTEST",
+      "identifier": "IMAGESFULLFLOWTEST",
+      "name": "Tenant IMAGESFULLFLOWTEST"
+    },
+    {
+      "connectionString": "",
+      "geoServerTarPath": "/retention/DEBUGTEST/DEBUGTEST_imagemosaic.tar.gz",
+      "stationFilesTarPath": "/retention/DEBUGTEST",
+      "coverageStoreRequest": "\"\"",
+      "creationDate": "2026-04-20T15:02:44.250885Z",
+      "fromDate": "2026-04-20T02:41:00Z",
+      "toDate": "2026-04-20T12:00:00Z",
+      "enabled": true,
+      "loaded": false,
+      "id": "DEBUGTEST",
+      "identifier": "DEBUGTEST",
+      "name": "Tenant DEBUGTEST"
+    }
+  ],
+  "errorMessage": null
+}

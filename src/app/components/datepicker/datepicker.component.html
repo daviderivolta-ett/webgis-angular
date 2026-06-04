@@ -8,7 +8,7 @@
         </span>
     </button>
 
-    <input type="datetime-local" class="styled-input" formControlName="date">
+    <input type="datetime-local" class="styled-input" step="300" [min]="min()" [max]="max()" formControlName="date">
 
     <button type="button" class="button" [disabled]="isLoading()" (click)="onStepBtnClick('forward')">
         <span class="icon">

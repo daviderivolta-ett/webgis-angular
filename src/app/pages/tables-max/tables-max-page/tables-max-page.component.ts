@@ -1,15 +1,15 @@
 /** Dependencies */
-import { Component, effect, ViewChild } from '@angular/core'
+import { Component, computed, effect, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
 /** Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 import { MapChartComponent } from '../../data/map-chart/map-chart.component'
 
 /** Directives */
@@ -35,13 +35,14 @@ type PageTable = {
   selector: 'app-tables-max-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, MapChartComponent, PlotlyChartComponent,
+    HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, FloatingDialogComponent, MapChartComponent, PlotlyChartComponent, NotificationIconComponent,
     /** Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
     /** Pipes */
     MapValuePipe,
     MapChartDatepickerComponent,
-    MapChartSelectorComponent
+    MapChartSelectorComponent,
+    DatePickerComponent
   ],
   templateUrl: './tables-max-page.component.html',
   styleUrl: './tables-max-page.component.scss'
@@ -52,7 +53,7 @@ export class TablesMaxPageComponent {
   public configGroup: TableConfigGroup | undefined;
   public config: TableConfig | undefined;
 
-  public initialDate: Date | undefined;
+  public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
 
   public tables: PageTable[] = [];
@@ -63,18 +64,29 @@ export class TablesMaxPageComponent {
 
   /** Data */
   public user: User | null = null;
+  public settings: Settings; // Recovered from route resolver in constructor
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public stationsUrl; // Recovered from route resolver in constructor
-  public parametersUrl; // Recovered from route resolver in constructor 
-  public stationParametersUrl; // Recovered from route resolver in constructor
-  public timeserieUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+
+  public stationsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stations')));
+  public parametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('parameters')));
+  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
+  public timeserieUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
 
   public stations: StationBase[] = [];
 
   private _tableConfigGroups: TableConfigGroup[]; // Recovered from route resolver in constructor
   public tableLabels: Map<string, string>; // Recovered from route resolver in constructor
   private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
+
+  private _selectedTenant; // Recovered from service in constructor
+  public selectedTenantMsg; // Recovered from service in constructor
+  public timePlayerRange = computed(() => {
+    const selectedTenant: Tenant | null = this._selectedTenant();
+    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
+    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+  });
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -84,15 +96,21 @@ export class TablesMaxPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
     private stationsService: StationsService,
     private snackbarsService: SnackbarsService
   ) {
+    /** Recovering from services */
+    this._selectedTenant = this.tenantsService.selectedTenant;
+    this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
+
+    /** Recovering data from resolvers */
+    this.settings = this.route.snapshot.data['settings'];
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.stationsUrl = apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations'));
-    this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    this.timeserieUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
+
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
@@ -112,8 +130,12 @@ export class TablesMaxPageComponent {
     this.route.queryParams.subscribe(() => {
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
-      this.selectedDate = this.initialDate = date;
-      this._init('massimi-precipitazione', date ?? new Date());
+
+      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
+      const newDate = !date && tenantDate ? tenantDate : date;
+
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this._init('massimi-precipitazione', newDate ?? new Date());
     });
   }
 
@@ -121,9 +143,9 @@ export class TablesMaxPageComponent {
   public async setDataFromApi() {
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
-        this.stationsService.getStationParameters(this.stationParametersUrl, this.authService.getAccessToken()),
-        this.stationsService.getAllStations(this.stationsUrl, this.authService.getAccessToken()),
-        this.stationsService.getAllParameters(this.parametersUrl, this.authService.getAccessToken())
+        this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl(), this.authService.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
       ]);
 
       this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
@@ -168,13 +190,14 @@ export class TablesMaxPageComponent {
   }
 
   private async _getData(config: TableConfig, date: Date): Promise<any> {
+    const baseUrl: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, config.url);
     const url = date ?
-      `${this.stationsApiBaseUrl}${config.url}?time=${DateUtils.toApiFormat(date.toISOString())}` :
-      `${this.stationsApiBaseUrl}${config.url}`;
+      `${baseUrl}?time=${DateUtils.toApiFormat(date.toISOString())}` :
+      `${baseUrl}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url)
+    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
       .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -323,11 +346,12 @@ export class TablesMaxPageComponent {
     Utils.downloadFile(`${tableConfig.id}.csv`, csv);
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;
-    const current = this.globalStateService.getQueryParam2('date')[0];
-    if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+  public onDateChange(date: Date | undefined): void {
+    const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
+    if (current?.getTime() === date?.getTime()) return;
+    date ?
+      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
+      this.globalStateService.removeQueryParam('date');
   }
 
   public async onCellClick(cell: any, tableId: string): Promise<void> {
@@ -366,7 +390,7 @@ export class TablesMaxPageComponent {
       initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
     }
 
-    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl, initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
       .then((newChart: MapChart) => {
         this.chart = newChart;
       })

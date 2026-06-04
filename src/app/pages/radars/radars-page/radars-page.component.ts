@@ -1,29 +1,29 @@
 /** Libraries */
-import { Component, effect, ViewChild } from '@angular/core'
+import { Component, computed, effect, ViewChild } from '@angular/core'
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { skip } from 'rxjs'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
+import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
 
 /** Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
 /** Components */
-import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent } from '../../../components'
+import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent } from '../../../components'
 
 /** Component */
 @Component({
   selector: 'app-radars-page',
   imports: [
     /** Components */
-    HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent,
+    HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent,
     /**Directives */
     RouterLink, NgTemplateOutlet, RouterLinkActive,
     /** Pipes */
     TitleCasePipe
-  ],
+],
   templateUrl: './radars-page.component.html',
   styleUrl: './radars-page.component.scss'
 })
@@ -44,7 +44,11 @@ export class RadarsPageComponent {
   public referenceDate: Date | undefined;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
-  public radarImgsUrl; // Recovered from route resolver in constructor
+  public retentionBridgeUrl; // Recovered from route resolver in constructor
+  public radarImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('radarImgs')));
+
+  private _selectedTenant; // Recovered from service in constructor
+  public selectedTenantMsg; // Recovered from service in constructor
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -55,16 +59,21 @@ export class RadarsPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private apiService: ApiService,
+    private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
     private radarService: RadarService,
     private snackbarsService: SnackbarsService,
   ) {
+    /** Recovering from services */
+    this._selectedTenant = this.tenantsService.selectedTenant;
+    this.selectedTenantMsg = this.tenantsService.message;
+
     /** Recovering data from resolvers */
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
     this.pageTitle = this.route.snapshot.data['type'];
 
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
-    this.radarImgsUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('radarImgs'));
+    this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
     /** Effetcs */
     effect(() => this.user = this.authService.user());
@@ -153,7 +162,7 @@ export class RadarsPageComponent {
 
   private _createUrl(baseUrl: string, imgType: string, date: Date | undefined) {
     const endpoint = this.apiService.replaceApiUrlPlaceholder(baseUrl, imgType);
-    const url: string = this.apiService.replaceApiUrlPlaceholder(this.radarImgsUrl, endpoint);
+    const url: string = this.apiService.replaceApiUrlPlaceholder(this.radarImgsUrl(), endpoint);
     return this.apiService.addSearchParamsToUrl(url, { date: date ? date.toISOString() : new Date().toISOString() });
   }
 

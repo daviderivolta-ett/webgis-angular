@@ -1,0 +1,19 @@
+<div class="tenant-card" [class.tenant-card--selected]="isSelected()">
+    <div class="tenant__info">
+        <span class="tenant__status" [class.tenant__status--loaded]="tenant().isLoaded" [class.pulse]="!tenant().isEnabled" [style]="{'--shadow-color': tenant().isLoaded ? 'green' : 'red'}"></span>
+        <p>{{tenant().id}}</p>
+    </div>
+    <div class="tenant__actions">
+         <button type="button" class="tenant__action" [disabled]="!tenant().isEnabled || !tenant().isLoaded" (click)="onSelectClick()">
+            <span class="action-icon" [style.mask-image]="'url(' + (isSelected() ? './images/icons/pause_20dp_E3E3E3_FILL1_wght400_GRAD0_opsz20.svg' : './images/icons/play_arrow_20dp_E3E3E3_FILL1_wght400_GRAD0_opsz20.svg') + ')'"></span>
+         </button>
+
+        <button type="button" class="tenant__action" [disabled]="!tenant().isEnabled" (click)="toggleStatusClick()">
+            <span class="action-icon" [style.mask-image]="'url(' + (tenant().isLoaded ? './images/icons/download_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg' : './images/icons/upload_20dp_000000_FILL0_wght400_GRAD0_opsz20.svg') + ')'"></span>
+        </button>
+
+        <button type="button" class="tenant__action tenant__action--alert" [disabled]="!tenant().isEnabled || isSelected()" (click)="onDeleteClick()">
+            <span class="action-icon" [style.mask-image]="'url(' + './images/icons/close_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg' + ')'"></span>
+        </button>
+    </div>
+</div>

@@ -30,7 +30,7 @@
             </span>
         </button>
     </div>
-    <input type="datetime-local" class="input" step="300" formControlName="date">
+    <input type="datetime-local" class="input" step="300" [min]="min()" [max]="max()" formControlName="date">
     <div class="controls reset-btn">
         <button type="button" class="button" [class.button--warning]="form.valid" [disabled]="!form.valid" (click)="onResetBtnClick()">
             <span class="icon">

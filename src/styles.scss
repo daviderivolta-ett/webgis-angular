@@ -142,7 +142,7 @@ app-input-autocomplete::part(option selected) {
     }
 
     .leaflet-left .leaflet-control {
-        margin-left: 24px !important;
+        margin-left: 15px !important;
     }
 
     .leaflet-control.leaflet-bar {
@@ -169,6 +169,12 @@ app-input-autocomplete::part(option selected) {
 }
 
 @media screen and (max-width: 768px) {
+    .leaflet-control-container {
+        .leaflet-bottom .leaflet-control {
+            margin-bottom: 64px !important;
+        }
+    }
+
     .leaflet-bar-timecontrol {
         display: flex;
         flex-wrap: wrap;

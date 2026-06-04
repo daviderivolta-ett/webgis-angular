@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div id="map" class="map"></div>
     @if (isTimeDimensionVisible()) {
-    <app-time-player class="time-player" [isLoading]="isLoading()" [date]="selectedDate()" (onToggle)="onTimePlayerToggle($event)"></app-time-player>
+    <app-map-time-player class="time-player" [isDisabled]="isLoading()" [date]="selectedDate()" [referenceDate]="referenceDate()" [timeRange]="timePlayerRange()" (dateChanged)="onTimePlayerToggle($event)"></app-map-time-player>
     }
 </div>

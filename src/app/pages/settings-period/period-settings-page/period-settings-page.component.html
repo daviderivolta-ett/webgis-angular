@@ -1,8 +1,12 @@
 <div class="page">
-    <app-header [userRoles]="user ? user.roles : []"></app-header>
+    <app-header [userRoles]="user ? user.roles : []">
+        @if (user) {
+            <app-notification-icon ngProjectAs="additional-menu-item" [notifications]="selectedTenantMsg() ? [selectedTenantMsg()!] : []" iconUrl="./images/icons/search_activity_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"></app-notification-icon>
+        }
+    </app-header>
     <div class="main">
         <!--START SIDEBAR  -->
-        <app-sidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg">
+        <app-sidebar #leftSidebar height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" appClickOutside (clickOutside)="onClickOutside(leftSidebar)">
             <div ngProjectAs="sidebar-content">
                 <app-settings-nav-menu></app-settings-nav-menu>
             </div>
@@ -10,10 +14,14 @@
         <!-- END SIDEBAR -->
 
         <!--START SIDEBAR  -->
-        <app-sidebar height="calc(100dvh - 48px)" width="364px" side="right" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc">
-            <div ngProjectAs="sidebar-content" class="sidebar__content">
+        <app-sidebar #rightSidebar height="calc(100dvh - 48px)" width="364px" side="right" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" appClickOutside (clickOutside)="onClickOutside(rightSidebar)">
+            <div ngProjectAs="sidebar-content" class="sidebar__content tenants-sidebar">
                 <h3>Periodi salvati</h3>
-                <p>Elenco periodi salvati</p>
+                <div class="tenants-list">
+                    @for (tenant of tenants(); track tenant.id; let i = $index) {
+                        <app-tenant-card [tenant]="tenant" [isSelected]="tenant.id === selectedTenant()?.id" (select)="selectTenant($event)" (load)="loadTenant($event)" (unload)="unloadTenant($event)" (delete)="deleteTenant($event)"></app-tenant-card>
+                    }
+                </div>
             </div>
         </app-sidebar>
         <!-- END SIDEBAR -->
@@ -22,21 +30,24 @@
         <div class="content">
             <h3 class="title">Periodo interessato</h3>
             <form class="form" [formGroup]="form" (submit)="onFormSubmit()">
+                <input type="text" class="styled-input" placeholder="Nome del periodo salvato" formControlName="name">
                 <div class="dates">
                     <input type="datetime-local" class="styled-input dates__input" formControlName="initialDate">
                     <input type="datetime-local" class="styled-input dates__input" formControlName="endingDate">
                 </div>
-                <div class="custom-checkbox">
+                <!-- <div class="custom-checkbox">
                     <input type="checkbox" id="alwaysAvailable" class="custom-checkbox__input" formControlName="alwaysAvailable">
                     <label for="alwaysAvailable" class="custom-checkbox__label">Sempre disponibile</label>
-                </div>
+                </div> -->
                 <div class="save-button" class="save-button">
                     <app-loading-btn>
-                        <button #button class="save-button__btn" type="submit">Salva modifiche</button>
+                        <button #button class="save-button__btn" type="submit" [disabled]="form.invalid">Salva modifiche</button>
                     </app-loading-btn>
                </div>
             </form>
         </div>
         <!-- END CONTENT -->
+
+        <app-confirm-dialog #confirmDialog></app-confirm-dialog>
     </div>
 </div>
