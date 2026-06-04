@@ -378,7 +378,7 @@ export class DataPageComponent {
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-    if (!colorScale) return;
+    if (!colorScale) return;   
     this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.globalStateService.getDateFromQueryParams() ?? new Date() : undefined });
   }
 
@@ -705,14 +705,13 @@ export class DataPageComponent {
     const snackbarId = this.snackbarsService.createSnackbar(`Caricamento layer ${layer.label}`, 'loader', false);
 
     try {
-      this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
+      this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));     
 
       await command.execute({
         map: this._map,
         date,
         colorScale,
         layer,
-        // baseUrl: layer.action['api'] !== 'polygonmean' ? this.stationsApiBaseUrl : this.polygonMeanApiBaseUrl,
         baseUrl: layer.action['api'] !== 'polygonmean' ? this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
         stations: this.stations,
         token: this.authService.getAccessToken(),
