@@ -1071,7 +1071,7 @@
             "options": [
                 {
                     "id": "modelli-idrologici-nowcasting-hydro",
-                    "url": "/platforms/get/hydro/NowcastingHydro",
+                    "url": "/hydro/get/model/NowcastingHydro",
                     "label": "Nowcasting Hydro",
                     "keysOrder": [
                         "basin",
@@ -1080,7 +1080,7 @@
                 },
                 {
                     "id": "modelli-idrologici-run-observations-10m",
-                    "url": "/platforms/get/hydro/RunObservations_10min",
+                    "url": "/hydro/get/model/RunObservations_10min",
                     "label": "Simulato osservato 10 minuti",
                     "keysOrder": [
                         "basin",
@@ -1089,7 +1089,7 @@
                 },
                 {
                     "id": "modelli-idrologici-rainfarm-subjective",
-                    "url": "/platforms/get/hydro/RainfarmSubjective",
+                    "url": "/hydro/get/model/RainfarmSubjective",
                     "label": "Probabilistica soggettiva",
                     "keysOrder": [
                         "basin",
@@ -1098,7 +1098,7 @@
                 },
                 {
                     "id": "modelli-idrologici-soggettiva-automatica--06",
-                    "url": "/platforms/get/hydro/SoggettivaAutomatica-06",
+                    "url": "/hydro/get/model/SoggettivaAutomatica-06",
                     "label": "Probabilistica soggettiva automatica -06",
                     "keysOrder": [
                         "basin",
@@ -1107,7 +1107,7 @@
                 },
                 {
                     "id": "modelli-idrologici-soggettiva-automatica-00",
-                    "url": "/platforms/get/hydro/SoggettivaAutomatica+00",
+                    "url": "/hydro/get/model/SoggettivaAutomatica+00",
                     "label": "Probabilistica soggettiva automatica 00",
                     "keysOrder": [
                         "basin",
@@ -1116,7 +1116,7 @@
                 },
                 {
                     "id": "modelli-idrologici-soggettiva-automatica-06",
-                    "url": "/platforms/get/hydro/SoggettivaAutomatica+06",
+                    "url": "/hydro/get/model/SoggettivaAutomatica+06",
                     "label": "Probabilistica soggettiva automatica +06",
                     "keysOrder": [
                         "basin",
@@ -1125,7 +1125,7 @@
                 },
                 {
                     "id": "modelli-idrologici-soggettiva-automatica-12",
-                    "url": "/platforms/get/hydro/SoggettivaAutomatica-12",
+                    "url": "/hydro/get/model/SoggettivaAutomatica-12",
                     "label": "Probabilistica soggettiva automatica 12",
                     "keysOrder": [
                         "basin",
@@ -1134,7 +1134,7 @@
                 },
                 {
                     "id": "modelli-idrologici-rainfarmbo--06",
-                    "url": "/platforms/get/hydro/Rainfarmbo08-06",
+                    "url": "/hydro/get/model/Rainfarmbo08-06",
                     "label": "Bolam 8km -06",
                     "keysOrder": [
                         "basin",
@@ -1143,7 +1143,7 @@
                 },
                 {
                     "id": "modelli-idrologici-rainfarmbo-00",
-                    "url": "/platforms/get/hydro/Rainfarmbo08+00",
+                    "url": "/hydro/get/model/Rainfarmbo08+00",
                     "label": "Bolam 8km 00",
                     "keysOrder": [
                         "basin",
@@ -1152,7 +1152,7 @@
                 },
                 {
                     "id": "modelli-idrologici-rainfarmbo-06",
-                    "url": "/platforms/get/hydro/Rainfarmbo08+06",
+                    "url": "/hydro/get/model/Rainfarmbo08+06",
                     "label": "Bolam 8km 06",
                     "keysOrder": [
                         "basin",
@@ -1161,7 +1161,7 @@
                 },
                 {
                     "id": "modelli-idrologici-rainfarmbo-12",
-                    "url": "/platforms/get/hydro/Rainfarmbo08-12",
+                    "url": "/hydro/get/model/Rainfarmbo08-12",
                     "label": "Bolam 8km 12",
                     "keysOrder": [
                         "basin",
@@ -1170,7 +1170,7 @@
                 },
                 {
                     "id": "modelli-idrologici-moloch--06",
-                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                    "url": "/hydro/get/model/Rainfarmmolita15sfc-06",
                     "label": "Moloch 1.5km -06",
                     "keysOrder": [
                         "basin",
@@ -1179,7 +1179,7 @@
                 },
                 {
                     "id": "modelli-idrologici-moloch-00",
-                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                    "url": "/hydro/get/model/Rainfarmmolita15sfc+00",
                     "label": "Moloch 1.5km 00",
                     "keysOrder": [
                         "basin",
@@ -1188,7 +1188,7 @@
                 },
                 {
                     "id": "modelli-idrologici-moloch-06",
-                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                    "url": "/hydro/get/model/Rainfarmmolita15sfc+06",
                     "label": "Moloch 1.5km 06",
                     "keysOrder": [
                         "basin",
@@ -1197,7 +1197,7 @@
                 },
                 {
                     "id": "modelli-idrologici-moloch-12",
-                    "url": "/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                    "url": "/hydro/get/model/Rainfarmmolita15sfc-12",
                     "label": "Moloch 1.5km 12",
                     "keysOrder": [
                         "basin",
@@ -1206,7 +1206,7 @@
                 },
                 {
                     "id": "modelli-idrologici-icon-00",
-                    "url": "/platforms/get/hydro/Rainfarmicon2i+00",
+                    "url": "/hydro/get/model/Rainfarmicon2i+00",
                     "label": "Icon 2km 00",
                     "keysOrder": [
                         "basin",
@@ -1215,7 +1215,7 @@
                 },
                 {
                     "id": "modelli-idrologici-icon--12",
-                    "url": "/platforms/get/hydro/Rainfarmicon2i-12",
+                    "url": "/hydro/get/model/Rainfarmicon2i-12",
                     "label": "Icon 2km 12",
                     "keysOrder": [
                         "basin",
