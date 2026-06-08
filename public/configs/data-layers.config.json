@@ -4272,7 +4272,7 @@
                             "label": "VMC",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservationsUmiditaSuolo",
+                            "url": "{{BASE_URL}}/hydro/get/model/RunObservationsUmiditaSuolo",
                             "parameter": "RunObservationsUmiditaSuolo",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4312,7 +4312,7 @@
                             "label": "Simulato osservato 10 minuti",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_10min",
+                            "url": "{{BASE_URL}}/hydro/get/model/RunObservations_10min",
                             "parameter": "RunObservations_10min",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4345,7 +4345,7 @@
                             "label": "Simulato osservato 1 ora",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60min",
+                            "url": "{{BASE_URL}}/hydro/get/model/RunObservations_60min",
                             "parameter": "RunObservations_60min",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4378,7 +4378,7 @@
                             "label": "Simulato osservato 1 ora - Dighe",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RunObservations_60minDighe",
+                            "url": "{{BASE_URL}}/hydro/get/model/RunObservations_60minDighe",
                             "parameter": "RunObservations_60minDighe",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4411,7 +4411,7 @@
                             "label": "Nowcasting Hydro",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/NowcastingHydro",
+                            "url": "{{BASE_URL}}/hydro/get/model/NowcastingHydro",
                             "parameter": "NowcastingHydro",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4444,7 +4444,7 @@
                             "label": "Nowcasting Hydro - Piccoli Bacini",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadar",
+                            "url": "{{BASE_URL}}/hydro/get/model/SmallBasinsRadar",
                             "parameter": "SmallBasinsRadar",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4484,7 +4484,7 @@
                             "label": "Nowcasting Hydro - Piccoli Bacini Comuni",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/SmallBasinsRadarEsterni",
+                            "url": "{{BASE_URL}}/hydro/get/model/SmallBasinsRadarEsterni",
                             "parameter": "SmallBasinsRadarEsterni",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4517,7 +4517,7 @@
                             "label": "Rete fiduciaria",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/ReteFiduciaria",
+                            "url": "{{BASE_URL}}/hydro/get/model/ReteFiduciaria",
                             "parameter": "ReteFiduciaria",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4557,7 +4557,7 @@
                             "label": "Deterministica",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/EnsembleMultimodel",
+                            "url": "{{BASE_URL}}/hydro/get/model/EnsembleMultimodel",
                             "parameter": "EnsembleMultimodel",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4597,7 +4597,7 @@
                             "label": "Probabilistica soggettiva",
                             "layerType": "geojson",
                             "layerCategory": "data_geojson-point--cluster",
-                            "url": "{{BASE_URL}}/platforms/get/hydro/RainfarmSubjective",
+                            "url": "{{BASE_URL}}/hydro/get/model/RainfarmSubjective",
                             "parameter": "RainfarmSubjective",
                             "legend": {
                                 "colorScaleId": "hydro",
@@ -4635,7 +4635,7 @@
                                     "label": "Probabilistica soggettiva automatica -06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/SoggettivaAutomatica-06",
                                     "parameter": "SoggettivaAutomatica-06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4668,7 +4668,7 @@
                                     "label": "Probabilistica soggettiva automatica 00",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+00",
+                                    "url": "{{BASE_URL}}/hydro/get/model/SoggettivaAutomatica+00",
                                     "parameter": "SoggettivaAutomatica+00",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4701,7 +4701,7 @@
                                     "label": "Probabilistica soggettiva automatica +06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica+06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/SoggettivaAutomatica+06",
                                     "parameter": "SoggettivaAutomatica+06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4734,7 +4734,7 @@
                                     "label": "Probabilistica soggettiva automatica 12",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/SoggettivaAutomatica-12",
+                                    "url": "{{BASE_URL}}/hydro/get/model/SoggettivaAutomatica-12",
                                     "parameter": "SoggettivaAutomatica-12",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4774,7 +4774,7 @@
                                     "label": "Bolam 8km -06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmbo08-06",
                                     "parameter": "Rainfarmbo08-06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4807,7 +4807,7 @@
                                     "label": "Bolam 8km 00",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+00",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmbo08+00",
                                     "parameter": "Rainfarmbo08+00",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4840,7 +4840,7 @@
                                     "label": "Bolam 8km 06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08+06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmbo08+06",
                                     "parameter": "Rainfarmbo08+06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4873,7 +4873,7 @@
                                     "label": "Bolam 8km 12",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmbo08-12",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmbo08-12",
                                     "parameter": "Rainfarmbo08-12",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4913,7 +4913,7 @@
                                     "label": "Moloch 1.5km -06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmmolita15sfc-06",
                                     "parameter": "Rainfarmmolita15sfc-06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4946,7 +4946,7 @@
                                     "label": "Moloch 1.5km 00",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+00",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmmolita15sfc+00",
                                     "parameter": "Rainfarmmolita15sfc+00",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -4979,7 +4979,7 @@
                                     "label": "Moloch 1.5km 06",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc+06",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmmolita15sfc+06",
                                     "parameter": "Rainfarmmolita15sfc+06",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -5012,7 +5012,7 @@
                                     "label": "Moloch 1.5km 12",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmmolita15sfc-12",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmmolita15sfc-12",
                                     "parameter": "Rainfarmmolita15sfc-12",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -5052,7 +5052,7 @@
                                     "label": "Icon 2km 00",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmicon2i+00",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmicon2i+00",
                                     "parameter": "Rainfarmicon2i+00",
                                     "legend": {
                                         "colorScaleId": "hydro",
@@ -5085,7 +5085,7 @@
                                     "label": "Icon 2km 12",
                                     "layerType": "geojson",
                                     "layerCategory": "data_geojson-point--cluster",
-                                    "url": "{{BASE_URL}}/platforms/get/hydro/Rainfarmicon2i-12",
+                                    "url": "{{BASE_URL}}/hydro/get/model/Rainfarmicon2i-12",
                                     "parameter": "Rainfarmicon2i-12",
                                     "legend": {
                                         "colorScaleId": "hydro",
