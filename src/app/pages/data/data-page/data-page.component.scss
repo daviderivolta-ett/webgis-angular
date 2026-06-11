@@ -134,6 +134,11 @@
     z-index: 999;
 }
 
+app-map-chart-datepicker,
+app-map-chart-selector {
+    display: block;
+}
+
 @media screen and (max-width: 992px) {
     .chips-slider {
         top: unset;

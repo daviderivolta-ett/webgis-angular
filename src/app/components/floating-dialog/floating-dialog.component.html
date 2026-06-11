@@ -1,4 +1,4 @@
-<div class="floating-dialog" #floatingDialog cdkDrag cdkDragBoundary="body" (mousemove)="onResize($event)" (mouseup)="onResizeEnd()">
+<div class="floating-dialog" #floatingDialog cdkDrag cdkDragBoundary="body" [class.fullscreen]="isFull()" (mousemove)="onResize($event)" (mouseup)="onResizeEnd()">
     <div class="dragger" cdkDragHandle></div>
 
     <button type="button" class="close-btn" (click)="removeDialog.emit()">
@@ -15,5 +15,18 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
             <path d="M240-240v-240h72v168h168v72H240Zm408-240v-168H480v-72h240v240h-72Z" />
         </svg>
+    </div>
+
+    <div class="full-toggle" (click)="onFullToggle()">
+        @if (isFull()) {
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M264-144v-120H144v-72h192v192h-72Zm360 0v-192h192v72H696v120h-72ZM144-624v-72h120v-120h72v192H144Zm480 0v-192h72v120h120v72H624Z"/>
+            </svg>
+        }
+        @else {
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M144-144v-192h72v120h120v72H144Zm480 0v-72h120v-120h72v192H624ZM144-624v-192h192v72H216v120h-72Zm600 0v-120H624v-72h192v192h-72Z"/>
+            </svg>
+        }
     </div>
 </div>

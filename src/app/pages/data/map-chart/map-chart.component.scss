@@ -32,3 +32,14 @@
     height: 100%;
     background-color: color-mix(in srgb, var(--primary-900), transparent 50%);
 }
+
+.chart--full {
+    height: calc(100% - 32px);
+}
+
+.controls--hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
