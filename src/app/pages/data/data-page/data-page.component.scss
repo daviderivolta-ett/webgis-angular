@@ -104,6 +104,20 @@
     z-index: 9997;
 }
 
+.user-datetime {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9997;
+    text-align: center;
+    background-color: var(--neutral-100, white);
+
+    &:disabled {
+        opacity: 1;
+    }
+}
+
 .wms-date {
     position: fixed;
     bottom: 96px;
@@ -145,6 +159,10 @@ app-map-chart-selector {
         bottom: 64px;
     }
 
+    .user-datetime {
+        bottom: 112px;
+    }
+
     .geojson-legends .pop-up-menu-content {
         width: calc(80dvw);
     }
@@ -159,12 +177,17 @@ app-map-chart-selector {
 
     .layers-menu {
         top: unset;
-        bottom: 112px;
+        bottom: 64px;
+    }
+
+    .legends {
+        bottom: unset;
+        top: 16px;
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 568px) {
     .legends .pop-up-menu-content {
-        width: 300px;
+        width: calc(100dvw - 40px - 16px - 24px);
     }
 }

@@ -4,7 +4,6 @@ p {
 
 .title {
     font-size: 1rem;
-    // margin: 0 0 8px 0;
 }
 
 .weight-regular {
@@ -33,9 +32,6 @@ p {
 
 .map-popup {
     background-color: var(--neutral-100, white);
-    // padding: 24px;
-    // border-radius: 8px;
-    // max-width: 250px;
 }
 
 .values,
@@ -73,7 +69,6 @@ p {
 
     &:hover {
         color: var(--primary-500, blue);
-        // background-color: var(--primary-100, lightgrey);
     }
 }
 

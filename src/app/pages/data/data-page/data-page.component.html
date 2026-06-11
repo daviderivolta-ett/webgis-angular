@@ -68,7 +68,7 @@
 
         <!-- START LEGENDS -->
         @if (geojsonLegends.length > 0 || wmsLegends.length > 0) {
-            <app-pop-up-menu class="legends" position="top-left" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" [hasOverflow]="true" #legendsMenu>
+            <app-pop-up-menu class="legends" [position]="windowWidth <= 992 ? 'bottom-left' : 'top-left'" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" [hasOverflow]="true" #legendsMenu>
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">                   
                     @for (legend of wmsLegends; track $index) {
                         <app-layer-legend [label]="legend.layerLabel ?? legend.layerId"  [unit]="legend.unit" [date]="legend.date" [imgUrl]="legend.imgUrl"></app-layer-legend>
@@ -107,12 +107,18 @@
 
         <!-- START WMS DATE -->
         @if (wmsLayersDate) {
-            <div class="wms-date fab" [style.bottom]="windowWidth < 992 ? (!user ? '112px' : '208px') : (!user ? '40px' : '96px')">
+            <div class="wms-date fab" [style.bottom]="windowWidth < 992 ? (!user ? '156px' : '208px') : (!user ? '64px' : '96px')">
                 <p class="wms-date__text">Ultimo aggiornamento layer raster</p>
                 <p>{{wmsLayersDate | date: 'dd/MM/yyyy - HH:mm'}}</p>
             </div>
         }
         <!-- END WMS DATE -->
+
+        <!-- START DATE -->
+        @if (!user) {
+            <input type="datetime-local" class="user-datetime styled-input" [value]="this.nowStr()" disabled>
+        }
+        <!-- END DATE -->
     </div>
 
     <!-- START FLOATING CHARTS -->

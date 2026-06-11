@@ -61,6 +61,9 @@ export class DataPageComponent {
   public lidars: Lidar[] = [];
   public areChartsDisabled: boolean = true;
 
+  private _now = signal(new Date());
+  public nowStr = computed(() => DateUtils.toDateTimeLocal(this._now()));
+
   public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
   public timePlayerRange = computed(() => {
@@ -638,6 +641,7 @@ export class DataPageComponent {
     if (toggleLayer) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this.globalStateService.updateQueryParam2('layer', this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
+    this._now.set(new Date());
   }
 
   private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean, isAuth: boolean): void {
