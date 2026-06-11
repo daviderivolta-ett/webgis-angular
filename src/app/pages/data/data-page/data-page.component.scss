@@ -67,7 +67,7 @@
 
 .legends {
     position: absolute;
-    bottom: 80px;
+    bottom: 64px;
     right: 16px;
     z-index: 9998;
 }
@@ -91,7 +91,7 @@
 
 .reset-btn {
     position: fixed;
-    bottom: 32px;
+    bottom: 16px;
     right: 16px;
     z-index: 9998;
 }
@@ -137,7 +137,7 @@
 @media screen and (max-width: 992px) {
     .chips-slider {
         top: unset;
-        bottom: 176px;
+        bottom: 64px;
     }
 
     .geojson-legends .pop-up-menu-content {
@@ -145,24 +145,20 @@
     }
 
     .reset-btn {
-        bottom: 80px;
+        bottom: 64px;
     }
 
     .time-player {
-        bottom: 80px;
+        bottom: 64px;
     }
 
-    .wms-date {
-        bottom: 176px;
+    .layers-menu {
+        top: unset;
+        bottom: 112px;
     }
 }
 
 @media screen and (max-width: 768px) {
-    .layers-menu {
-        top: unset;
-        bottom: 128px;
-    }
-
     .legends .pop-up-menu-content {
         width: 300px;
     }
