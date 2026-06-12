@@ -1,10 +1,11 @@
 /** Libraries */
-import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 /** Component */
 @Component({
   selector: 'app-floating-dialog',
+  exportAs: 'floatingDialog',
   imports: [
     CdkDrag,
     CdkDragHandle
@@ -28,6 +29,9 @@ export class FloatingDialogComponent {
   private _startY: number = 0;
 
   public removeDialog = output<void>();
+
+  public isFull = signal<boolean>(false);
+  public onIsFull = output<boolean>();
 
   @ViewChild('floatingDialog') dialog!: ElementRef<HTMLDivElement>;
 
@@ -72,5 +76,10 @@ export class FloatingDialogComponent {
 
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseup', this._onMouseUp);
+  }
+
+  public onFullToggle(): void {
+    this.isFull.set(!this.isFull());
+    this.onIsFull.emit(this.isFull());
   }
 }

@@ -2,9 +2,9 @@
     <div class="map-chart__header">
         <p>{{header()}}</p>
     </div>
-    <div class="chart-datepicker"><ng-content select="app-map-chart-datepicker"></ng-content></div>
-    <div class="chart"><ng-content select="plotly-chart"></ng-content></div>
-    <div class="chart-selector"><ng-content select="app-map-chart-selector"></ng-content></div>
+    <div class="chart-datepicker" [class.controls--hidden]="hideControls()"><ng-content select="app-map-chart-datepicker"></ng-content></div>
+    <div class="chart" [class.chart--full]="hideControls()"><ng-content select="plotly-chart"></ng-content></div>
+    <div class="chart-selector" [class.controls--hidden]="hideControls()"><ng-content select="app-map-chart-selector"></ng-content></div>
     @if (isLoading()) {
         <div class="loader"><span class="spinner"></span></div>
     }

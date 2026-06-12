@@ -16,6 +16,7 @@ import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selec
 export class MapChartComponent {
   public header = input<string>('');
   public isLoading = input<boolean>(false);
+  public hideControls = input<boolean>(false);
   public param = model<string>('');
   public dates = model<[string, string]>([this._formatDate(this._getInitialDateFrom(new Date())), this._formatDate(new Date())]);
   public canRefresh = model<boolean>(false);

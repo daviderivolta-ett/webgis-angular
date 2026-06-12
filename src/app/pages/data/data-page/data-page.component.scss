@@ -67,7 +67,7 @@
 
 .legends {
     position: absolute;
-    bottom: 80px;
+    bottom: 64px;
     right: 16px;
     z-index: 9998;
 }
@@ -91,7 +91,7 @@
 
 .reset-btn {
     position: fixed;
-    bottom: 32px;
+    bottom: 16px;
     right: 16px;
     z-index: 9998;
 }
@@ -102,6 +102,20 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 9997;
+}
+
+.user-datetime {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9997;
+    text-align: center;
+    background-color: var(--neutral-100, white);
+
+    &:disabled {
+        opacity: 1;
+    }
 }
 
 .wms-date {
@@ -134,10 +148,19 @@
     z-index: 999;
 }
 
+app-map-chart-datepicker,
+app-map-chart-selector {
+    display: block;
+}
+
 @media screen and (max-width: 992px) {
     .chips-slider {
         top: unset;
-        bottom: 176px;
+        bottom: 64px;
+    }
+
+    .user-datetime {
+        bottom: 112px;
     }
 
     .geojson-legends .pop-up-menu-content {
@@ -145,25 +168,26 @@
     }
 
     .reset-btn {
-        bottom: 80px;
+        bottom: 64px;
     }
 
     .time-player {
-        bottom: 80px;
+        bottom: 64px;
     }
 
-    .wms-date {
-        bottom: 176px;
+    .layers-menu {
+        top: unset;
+        bottom: 64px;
+    }
+
+    .legends {
+        bottom: unset;
+        top: 16px;
     }
 }
 
-@media screen and (max-width: 768px) {
-    .layers-menu {
-        top: unset;
-        bottom: 128px;
-    }
-
+@media screen and (max-width: 568px) {
     .legends .pop-up-menu-content {
-        width: 300px;
+        width: calc(100dvw - 40px - 16px - 24px);
     }
 }

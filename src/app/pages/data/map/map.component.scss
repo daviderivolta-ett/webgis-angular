@@ -15,3 +15,9 @@
     transform: translateX(-50%);
     z-index: 9997;
 }
+
+@media screen and (max-width: 992px) {
+    .time-player {
+        bottom: 64px;
+    }
+}
