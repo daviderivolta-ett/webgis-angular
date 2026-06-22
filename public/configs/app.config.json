@@ -6,10 +6,10 @@
     "mapConfigUri": "./configs/map.config.json",
     "colorScalesUri": "./configs/color-scales.config.json",
     "apiConfigUri": "./configs/api.config.json",
-    "tablesConfigUri": "./configs/tables.config.json",
-    "radarConfigUri": "./configs/radar.config.json",
+    "tablesConfigUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=tables",
+    "radarConfigUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=radar",
     "stationsConfigUri": "./configs/stations.config.json",
-    "stationsPopupConfigUri": "./configs/stations-popup.config.json",
-    "sensorTypesConfigUri": "./configs/sensor-types.config.json",
-    "settingsConfigUri": "./configs/settings.config.json"
+    "stationsPopupConfigUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=stations-popup",
+    "sensorTypesConfigUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=sensor-types",
+    "settingsConfigUri": "https://omirl-dev-gtw-api-gw-ett.cfmi.arpal.org/govway/arpal/stations-api/v1/configurations/get/latest?Tag=settings"
 }
