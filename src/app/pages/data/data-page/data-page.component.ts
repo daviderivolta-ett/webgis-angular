@@ -1,7 +1,7 @@
 /** Libraries */
 import { ChangeDetectorRef, Component, computed, effect, HostListener, QueryList, signal, ViewChild, viewChildren, ViewChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /** Models */
@@ -34,8 +34,9 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
     // Pipes
     DatePipe,
     TabsComponent,
-    TabComponent
-  ],
+    TabComponent,
+    RouterLink
+],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -198,7 +199,6 @@ export class DataPageComponent {
       const date = this.globalStateService.getDateFromQueryParams();
       const tenantDate = this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : undefined;
       this.selectedDate = !date && tenantDate ? tenantDate : date;
-      // this.referenceDate = !date && tenantDate ? tenantDate : date;
     });
 
     await this.setDataFromApi();
@@ -710,10 +710,10 @@ export class DataPageComponent {
 
     try {
       this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));     
-
+   
       await command.execute({
         map: this._map,
-        date,
+        date: this.authService.isLoggedIn() ? date : undefined,
         colorScale,
         layer,
         baseUrl: layer.action['api'] !== 'polygonmean' ? this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
@@ -746,19 +746,10 @@ export class DataPageComponent {
     if (this._map) this._map.closeAllPopups();
     this._chartDatePickers.forEach((c) => c.setIsFirstload(true));
 
-    // const newDate = !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date;
-    // this.globalStateService.updateQueryParam2('date', date ? [this.globalStateService.toDatetimelocal(date)] : []);
-    // this.globalStateService.updateQueryParam2('date', newDate ? [this.globalStateService.toDatetimelocal(newDate)] : []);
-
-    // newDate ?
-    //   this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(newDate)]) :
-    //   this.globalStateService.removeQueryParam('date')
-
     date ?
       this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
       this.globalStateService.removeQueryParam('date')
-
-    // this._updateMultipleLayers(date, false);
+;
     this._updateMultipleLayers(
       !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date,
       false

@@ -111,7 +111,7 @@
             <!-- START FLOATING CHARTS -->
             @if (chart) {
                 <app-floating-dialog #dialog="floatingDialog" (removeDialog)="chart=null">
-                    <app-map-chart ngProjectAs="floating-dialog-content" [hideControls]="!dialog.isFull()" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="isChartLoading" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.stationId, $event)">
+                    <app-map-chart ngProjectAs="floating-dialog-content" [hideControls]="false" [header]="chart.stationName + ' | ' + chart.currentParameterLabel" [isLoading]="isChartLoading" [param]="chart.currentParameter" (formChanged)="onChartParameterChange(chart.stationId, $event)">
                         <app-map-chart-datepicker [defaultGap]="chart.defaultTimeGap ?? 30" [endingDate]="selectedDate"></app-map-chart-datepicker>
                         <app-plotly-chart ngProjectAs="plotly-chart" [id]="chart.id" [title]="chart.stationName + ' | ' + chart.currentParameterLabel" [xLabel]="chart.xLabel + ' ' + chart.xUnit" [data]="chart.data" [thresholds]="chart.thresholds ?? {}" [hideZeroXAxis]="chart.hideZeroXAxis ?? false" [referenceDate]="selectedDate" (onCustomButtonClick)="onChartCustomButtonClick($event)"></app-plotly-chart>
                         <app-map-chart-selector [id]="chart.id" [selectedSensorType]="chart.currentParameter" [sensorTypes]="chart.sensors" [isDisabled]="isChartLoading"></app-map-chart-selector>

@@ -6,12 +6,17 @@
     flex-direction: column;
     gap: 24px;
     padding: 24px;
+    height: 100%;
 }
 
 .sidebar__checkboxes {
     display: flex;
     flex-direction: column;
     gap: 24px;
+}
+
+.sidebar__credits {
+    margin-top: auto;
 }
 
 .summary {
