@@ -39,7 +39,7 @@ export class AppConfig {
         config.stationsPopupConfigUri = _get<string>(object['stationsPopupConfigUri'], '');
         config.sensorTypesUri = _get<string>(object['sensorTypesConfigUri'], '');
         config.settingsConfigUri = _get<string>(object['settingsConfigUri'], '');
-        
+     
         return config;
     }
 }

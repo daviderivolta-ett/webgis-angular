@@ -270,11 +270,10 @@ export class ConfigService {
       })
   }
 
-  public async getSensorTypesConfig(): Promise<SensorType[]> {
-    return fetch(this.appConfig.sensorTypesUri)
-      .then((res: Response) => {
-        if (!res.ok) throw new Error('Errore nel recupero dei tipi dei sensori da /configs/sensor-types.config.json');
-        return res.json();
+  public async getSensorTypesConfig(token?: string): Promise<SensorType[]> {
+    return this.apiService.getApiData(this.appConfig.sensorTypesUri, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
       })
       .then((data: any) => {
         const rawTypes = data['types'];
