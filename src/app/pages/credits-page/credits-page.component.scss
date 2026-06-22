@@ -1,0 +1,50 @@
+@use 'index' as mixins;
+@include mixins.header-position;
+
+.main {
+    max-width: 768px;
+    padding: 4%;
+    margin: auto;
+}
+
+.credits-title {
+    text-align: center;
+    margin: 0 0 40px 0;
+}
+
+.credits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.credits-logo {
+    height: auto;
+}
+
+.arpal {
+    width: 220px;
+}
+
+.eu-funded {
+    width: 256px;
+}
+
+.dipartimento-trasformazione-digitale {
+    width: 400px;
+}
+
+.agenzia-cybersicurezza-nazionale {
+    width: 88px;
+}
+
+.ett {
+    width: 140px;
+}
+
+@media screen and (max-width: 768px) {
+    .credits-logo {
+        max-width: 100%;
+    }
+}

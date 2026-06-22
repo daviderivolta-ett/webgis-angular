@@ -141,7 +141,6 @@ export const routes: Routes = [
     {
         path: 'settings',
         title: 'OMIRL ARPAL - Impostazioni',
-        // canMatch: [editorGuard],
         children: [
             {
                 path: '',
@@ -176,5 +175,10 @@ export const routes: Routes = [
             }
         ],
         data: { requiredRole: 'editor' }
+    },
+    {
+        path: 'credits',
+        title: 'OMIRL ARPAL - Credits',
+        loadComponent: () => import('./pages/credits-page/credits-page.component').then(m => m.CreditsPageComponent)
     }
 ];
