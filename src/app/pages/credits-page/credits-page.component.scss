@@ -5,6 +5,17 @@
     max-width: 768px;
     padding: 4%;
     margin: auto;
+    height: calc(100dvh - 48px);
+}
+
+.content {
+    overflow-y: auto;
+    height: 100%;
+    scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
 }
 
 .credits-title {
@@ -27,6 +38,22 @@
     width: 220px;
 }
 
+.regione {
+    width: 88px;
+}
+
+.alcotra {
+    width: 256px;
+}
+
+.riskact {
+    width: 180px;
+}
+
+.cima {
+    width: 88px;
+}
+
 .eu-funded {
     width: 256px;
 }
@@ -37,6 +64,14 @@
 
 .agenzia-cybersicurezza-nazionale {
     width: 88px;
+}
+
+.marittimo {
+    width: 400px;
+}
+
+.proterina {
+    width: 256px;
 }
 
 .ett {
