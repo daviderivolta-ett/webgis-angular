@@ -15,5 +15,6 @@
         ]
     ],
     "minZoom": 6,
-    "maxClusterRadius": 5
+    "maxClusterRadius": 5,
+    "markerSize": 1
 }

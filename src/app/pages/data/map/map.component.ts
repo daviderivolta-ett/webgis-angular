@@ -52,6 +52,7 @@ export class MapComponent {
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
   public minZoom = input<number>(0);
   public maxClusterRadius = input<number>(0);
+  public markerSize = input<number>(1);
   public maxMarkerDisplayRadius = input<number>(Infinity);
   public maxTimedimensionGap = input<number>(24 * 60 * 60 * 1000);
   public referenceDate = input<Date>();
@@ -219,7 +220,7 @@ export class MapComponent {
   }
 
   /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean): void {
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean, markerSize?: number): void {
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
     const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
 
@@ -236,7 +237,7 @@ export class MapComponent {
         const shape: SVGSVGElement = feature.properties.markerShapeId ?
           this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', { value, extraValue }) :
           shapeFactory(color, '#000', { value, extraValue });
-        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2));
+        const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, (1 - shapeKey * 0.2) * (markerSize ?? 1));
         const markerIcon = L.divIcon({
           html: iconElement.outerHTML, // Converting HTMLElement to string in order to avoid conflict with donut cluster plugin
           className: 'custom-marker',

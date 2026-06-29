@@ -723,7 +723,8 @@ export class DataPageComponent {
         timeThreshold: this.settings.staleDataThreshold,
         multiplier: layer instanceof GeoJsonLayer && layer.multiplier,
         sensorTypes: this._sensorTypes,
-        showValueOnZoom: layer instanceof GeoJsonLayer ? layer.showValueOnZoom : undefined
+        showValueOnZoom: layer instanceof GeoJsonLayer ? layer.showValueOnZoom : undefined,
+        markerSize: this.mapConfig.markerSize
       });
 
     } catch (err: unknown) {

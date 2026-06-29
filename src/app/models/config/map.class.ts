@@ -4,6 +4,7 @@ export class MapConfig {
     public maxBounds: [number, number][] = [[0, 0], [0, 0]];
     public minZoom: number = 0;
     public maxClusterRadius: number = 0;
+    public markerSize: number = 1;
 
     constructor() { }
 
@@ -16,7 +17,8 @@ export class MapConfig {
         config.zoom = ('zoom' in object && typeof object['zoom'] === 'number') ? object['zoom'] : 0;
         config.maxBounds = (object['maxBounds'] && Array.isArray(object['maxBounds']) && object['maxBounds'].every((v: any) => Array.isArray(v) && v.length === 2)) ? [...object['maxBounds']] : [[0, 0], [0, 0]];
         config.minZoom = ('minZoom' in object && typeof object['minZoom'] === 'number') ? object['minZoom'] : 0;
-        config.maxClusterRadius = ('maxClusterRadius' in object && typeof object['maxClusterRadius']) ? object['maxClusterRadius'] : 0;
+        config.maxClusterRadius = ('maxClusterRadius' in object && typeof object['maxClusterRadius'] === 'number') ? object['maxClusterRadius'] : 0;
+        config.markerSize = ('markerSize' in object && typeof object['markerSize'] === 'number') ? object['markerSize'] : 1;
 
         return config;
     }
