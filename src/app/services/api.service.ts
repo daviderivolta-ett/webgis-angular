@@ -100,7 +100,7 @@ export class ApiService {
 
   public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {        
     const url = new URL(baseurl);
-    Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));
+    Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));    
     return url.toString();
   }
 

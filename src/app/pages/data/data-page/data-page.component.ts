@@ -208,7 +208,9 @@ export class DataPageComponent {
 
   public async ngAfterViewInit(): Promise<void> {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
-      .then((config: any) => this.stationPopupConfig = config)
+      .then((config: any) => {       
+        this.stationPopupConfig = config
+      })
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
   }
 

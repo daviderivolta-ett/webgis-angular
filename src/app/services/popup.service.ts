@@ -14,7 +14,7 @@ export class PopupService {
 
   public async getLatestPopupConfig(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: any) => {        
         if (!('jsonValue' in data) || typeof data['jsonValue'] !== 'string') throw new Error(`Formato della risposta della configurazione del popup non valido.`);
         try {
           return JSON.parse(data['jsonValue']);

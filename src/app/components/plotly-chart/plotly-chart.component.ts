@@ -242,18 +242,6 @@ export class PlotlyChartComponent {
               stepmode: 'backward',
               count: 7,
               label: '7gg'
-            },
-            {
-              step: 'day',
-              stepmode: 'backward',
-              count: 15,
-              label: '15gg'
-            },
-            {
-              step: 'day',
-              stepmode: 'backward',
-              count: 30,
-              label: '30gg'
             }
           ]
         },

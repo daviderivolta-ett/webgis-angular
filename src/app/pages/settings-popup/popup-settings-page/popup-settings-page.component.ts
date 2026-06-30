@@ -76,7 +76,7 @@ export class PopupSettingsPageComponent {
   /** Component lifecycle */
   public ngAfterViewInit(): void {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
-      .then((config: any) => {
+      .then((config: any) => {                     
         this.form = this._createStationPopupConfigForm(config, this.popupConfig);
         this.isConfigLoaded = true;
       })
@@ -89,6 +89,10 @@ export class PopupSettingsPageComponent {
   private _createStationPopupConfigForm(config: StationPopupConfig, params: Map<string, string>): FormGroup {
     const formGroup = new FormGroup({});
 
+    console.log('API', config);
+    console.log('RESOLVER', params);
+    
+
     for (const [id, _] of params.entries()) {
       const foundConfig: [string, boolean] | undefined = Object.entries(config).find(([k, _]: [string, boolean]) => k === id);
       if (foundConfig) formGroup.addControl(foundConfig[0], new FormControl(foundConfig[1]));
@@ -99,7 +103,7 @@ export class PopupSettingsPageComponent {
 
   public async onFormSubmit(): Promise<void> {
     this.isLoading = true;
-    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'dev', createStationPopupConfigFromObject(this.form.value), this.authService.getAccessToken())
+    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'prod', createStationPopupConfigFromObject(this.form.value), this.authService.getAccessToken())
       .then(() => {
         this.snackbarsService.createSnackbar('Configurazione del popup salvata con successo', 'success', true);
       })

@@ -198,7 +198,7 @@ export class ConfigService {
         if (!res.ok) throw new Error('Errore nel recupero dei dati delle stazioni dal file di configurazione /configs/stations.config.json');
         return res.json();
       })
-      .then((data: any) => {
+      .then((data: any) => {       
         return data['stations'].map((d: any) => StationBase.createFromObject(d));
       })
       .catch((err: any) => {
@@ -208,7 +208,7 @@ export class ConfigService {
 
   public async getStationsPopupConfig(url: string, token: string): Promise<Map<string, string>> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: any) => {        
         return this._getConfigValue(data);
       })
       .then((data: any) => {

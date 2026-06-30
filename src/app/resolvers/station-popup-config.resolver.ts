@@ -13,8 +13,8 @@ export const stationPopupConfigResolver: ResolveFn<Map<string, string>> = async 
 
   const bridgeUri: string = apiService.replaceApiUrlPlaceholder(apiService.apis().get('retentionBridge') ?? '', tenantsService.selectedTenant()?.id ?? '');
   const url = tenantsService.selectedTenant() ?
-    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${bridgeUri}${apiService.apis().get('stationsPopup')}` :
-    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('stationsPopup')}`;
+    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${bridgeUri}${apiService.apis().get('popupLabels')}` :
+    `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('popupLabels')}`;
 
 
   return configService.getStationsPopupConfig(url, authService.getAccessToken())

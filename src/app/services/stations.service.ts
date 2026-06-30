@@ -225,7 +225,7 @@ export class StationsService {
       'Data',
       '',
       undefined,
-      (sensorType && sensorType.defaultTimeGap) ? sensorType.defaultTimeGap : 30,
+      (sensorType && sensorType.defaultTimeGap) ? sensorType.defaultTimeGap : 7,
       sensorThresholds ? sensorThresholds : undefined,
       sensorType ? sensorType.hideZeroXAxis : false
     );
@@ -284,7 +284,7 @@ export class StationsService {
           data: chartData,
           currentParameter: param,
           currentParameterLabel: sensorType ? sensorType.label : param,
-          defaultTimeGap: sensorType && sensorType.defaultTimeGap ? sensorType.defaultTimeGap : 30
+          defaultTimeGap: sensorType && sensorType.defaultTimeGap ? sensorType.defaultTimeGap : 7
         }
       })
       .catch((err: unknown) => {
