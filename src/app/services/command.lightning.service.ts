@@ -18,7 +18,7 @@ export class LightningCommandService implements Command {
     constructor(private apiService: ApiService) { }
 
     /** Command */
-    public async execute(args: any): Promise<void> {
+    public async execute(args: any): Promise<void> {        
         const { map, date, colorScale, layer, baseUrl, token } = args;
 
         try {
@@ -43,7 +43,7 @@ export class LightningCommandService implements Command {
                     return acc;
                 }, {});
                 geoJSON = this._addColorToGeoJSONFeaturesByDate(geoJSON, date ?? new Date(), colorScale, arcColorDict, layer.legend.unit, layer.label);
-            }
+            }           
 
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
             if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
@@ -79,7 +79,7 @@ export class LightningCommandService implements Command {
 
     private _addColorToGeoJSONFeaturesByDate(geoJSON: GeoJSON.FeatureCollection, date: Date, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
         const now: number = date.getTime();
-
+        
         return {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {

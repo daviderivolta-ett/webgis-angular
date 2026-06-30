@@ -49,7 +49,7 @@ export class AppComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
-    this.snackbarsService.createSnackbar(`Questo sito è attualmente in fase di test. I contenuti potrebbero essere incompleti e/o non aggiornati. Vi invitiamo a verificarne l'accuratezza prima dell'uso. Si declina ogni responsabilità per l'uso delle informazioni qui riportate.`, 'error', false);
+    this.snackbarsService.createSnackbar(`Questo sito è attualmente in fase di test. I contenuti potrebbero essere incompleti e/o non aggiornati. Si declina ogni responsabilità per l'uso delle informazioni qui riportate.`, 'error', false);
     this.latestConfigUrl = this.apiService.buildUrl(
       this.apiService.buildUrl(
         this.apiService.apis().get('baseUrl') ?? '',

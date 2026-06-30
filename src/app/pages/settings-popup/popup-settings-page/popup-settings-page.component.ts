@@ -87,11 +87,7 @@ export class PopupSettingsPageComponent {
 
   /** Methods */
   private _createStationPopupConfigForm(config: StationPopupConfig, params: Map<string, string>): FormGroup {
-    const formGroup = new FormGroup({});
-
-    console.log('API', config);
-    console.log('RESOLVER', params);
-    
+    const formGroup = new FormGroup({});    
 
     for (const [id, _] of params.entries()) {
       const foundConfig: [string, boolean] | undefined = Object.entries(config).find(([k, _]: [string, boolean]) => k === id);

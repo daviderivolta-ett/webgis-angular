@@ -267,12 +267,12 @@ export class TablesPageComponent {
     const config: TableConfig | undefined = this.configGroup?.options.find((c: TableConfig) => c.id === tableId);
     if (!config || !config.parameter) return;
 
-    console.log(row);
+    // console.log(row);
     const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
     if (!code) return;
-    console.log('CODE', code);
+    // console.log('CODE', code);
     const station = new Station(code, 0, 0, [], 0, config.parameter);
     station.addSensorsFromStationLists(this.stations);
-    console.log('STATION', station);
+    // console.log('STATION', station);
   }
 }
