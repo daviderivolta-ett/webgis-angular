@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router'
 import { User } from './models'
 
 /** Services */
-import { ApiService, AuthService, ConfigService, GlobalStateService } from './services'
+import { ApiService, AuthService, ConfigService, GlobalStateService, SnackbarsService } from './services'
 
 /** Components */
 import { SnackbarContainerComponent } from './components'
@@ -33,7 +33,8 @@ export class AppComponent {
     private configService: ConfigService,
     private globalStateService: GlobalStateService,
     private authService: AuthService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private snackbarsService: SnackbarsService
   ) {
     /** Effects */
     effect(() => {
@@ -48,6 +49,7 @@ export class AppComponent {
 
   /** Component lifecycle */
   public ngOnInit(): void {
+    this.snackbarsService.createSnackbar(`Questo sito è attualmente in fase di test. I contenuti potrebbero essere incompleti e/o non aggiornati. Vi invitiamo a verificarne l'accuratezza prima dell'uso. Si declina ogni responsabilità per l'uso delle informazioni qui riportate.`, 'error', false);
     this.latestConfigUrl = this.apiService.buildUrl(
       this.apiService.buildUrl(
         this.apiService.apis().get('baseUrl') ?? '',
