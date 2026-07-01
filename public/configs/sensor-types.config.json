@@ -559,7 +559,8 @@
                             "marker": "↑"
                         }
                     ]
-                }
+                },
+                "angleCorrection": 180
             },
             "unit": "°",
             "range": [

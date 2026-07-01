@@ -543,12 +543,12 @@ export class PlotlyChartComponent {
 
     return data.map((p: [number, number | null]) => {
       const relatedData: [number, number | null] | undefined = otherData.data.find(([t, _]) => t === p[0]);
-
+      
       return {
         x: p[0],
         y: -10,
         text: relatedData && relatedData[1] && chartData.style ? this._getMarkerFromStyle(relatedData[1], chartData.style['markers']) : '',
-        textangle: `${p[1] ?? 0}`,
+        textangle: `${(p[1] ?? 0) + Number(chartData.style?.['angleCorrection'] || 0)}`,
         align: 'center',
         valign: 'middle',
         height: 24,
