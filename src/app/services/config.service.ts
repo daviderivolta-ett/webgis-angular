@@ -133,8 +133,8 @@ export class ConfigService {
       })
   }
 
-  public async getLayerCategories(token?: string): Promise<LayerCategory[]> {
-    return this.apiService.getApiData(this.appConfig.layerCategoriesUri, token)
+  public async getLayerCategories(url: string, token?: string): Promise<LayerCategory[]> {
+    return this.apiService.getApiData(url, token)
       .then((data: any) => {
         return this._getConfigValue(data);
       })
@@ -154,7 +154,7 @@ export class ConfigService {
   }
 
   public async getTableConfigGroups(url: string, token?: string): Promise<TableConfigGroup[]> {
-    return this.apiService.getApiData(this.appConfig.tablesConfigUri, token)
+    return this.apiService.getApiData(url, token)
       .then((data: any) => {
         return this._getConfigValue(data);
       })

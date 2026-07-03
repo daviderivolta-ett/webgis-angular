@@ -397,7 +397,7 @@
             },
             "unit": "°C",
             "range": [
-                -20,
+                0,
                 40
             ],
             "isFeatured": false,
@@ -413,7 +413,7 @@
             },
             "unit": "°C",
             "range": [
-                -20,
+                0,
                 40
             ],
             "isFeatured": true,
@@ -433,7 +433,7 @@
             },
             "unit": "°C",
             "range": [
-                -20,
+                0,
                 40
             ],
             "isFeatured": false,

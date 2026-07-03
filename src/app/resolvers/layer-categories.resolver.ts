@@ -20,7 +20,7 @@ export const layerCategoriesResolver: ResolveFn<LayerCategory[]> = async (route,
     `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${bridgeUri}${apiService.apis().get('layerCategories')}` :
     `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('layerCategories')}`;
 
-  return configService.getLayerCategories(authService.getAccessToken())
+  return configService.getLayerCategories(url, authService.getAccessToken())
     .then((data: LayerCategory[]) => data)
     .catch((err: any) => {
       console.error(err);
