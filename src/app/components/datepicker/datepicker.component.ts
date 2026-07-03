@@ -147,7 +147,6 @@ export class DatepickerComponent {
   }
 
   private _checkDate(date: Date): boolean {
-    console.log(this.min(), this.max());
     return date <= (new Date(this.max()) ?? new Date()) && (date >= new Date(this.min()));
   }
 

@@ -55,10 +55,12 @@ export class ConfigService {
   }
 
   public async getSettings(url: string, token?: string): Promise<Settings> {
-    return this.apiService.getApiData(url, token)
-      .then((data: any) => {
-        return this._getConfigValue(data);
-      })
+    return fetch('./configs/settings.config.json')
+      .then((d) => d.json())
+      // return this.apiService.getApiData(url, token)
+      //   .then((data: any) => {
+      //     return this._getConfigValue(data);
+      //   })
       .then((config: any) => {
         return Settings.createFromObject(config);
       })
@@ -114,10 +116,12 @@ export class ConfigService {
   }
 
   public async getDataLayers(url: string, token?: string): Promise<LayerGroup[]> {
-    return this.apiService.getApiData(url, token)
-      .then((data: any) => {
-        return this._getConfigValue(data);
-      })
+    return fetch('./configs/data-layers.config.json')
+      .then((d) => d.json())
+      // return this.apiService.getApiData(url, token)
+      // .then((data: any) => {
+      //   return this._getConfigValue(data);
+      // })
       .then((data: any) => {
         return data['layers'].map((d: any) => {
           try {
@@ -198,7 +202,7 @@ export class ConfigService {
         if (!res.ok) throw new Error('Errore nel recupero dei dati delle stazioni dal file di configurazione /configs/stations.config.json');
         return res.json();
       })
-      .then((data: any) => {       
+      .then((data: any) => {
         return data['stations'].map((d: any) => StationBase.createFromObject(d));
       })
       .catch((err: any) => {
@@ -208,7 +212,7 @@ export class ConfigService {
 
   public async getStationsPopupConfig(url: string, token: string): Promise<Map<string, string>> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {        
+      .then((data: any) => {
         return this._getConfigValue(data);
       })
       .then((data: any) => {

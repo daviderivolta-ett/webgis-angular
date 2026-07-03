@@ -13,7 +13,7 @@ import { MapTimePlayerComponent } from "../map-time-player/map-time-player.compo
   selector: 'app-map',
   imports: [
     MapTimePlayerComponent
-],
+  ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
@@ -133,7 +133,24 @@ export class MapComponent {
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
     // @ts-ignore: time dimension plugin has no type declaration
+    // this._map.timeDimension.on('availabletimeschanged', (obj) => {
+    //   console.log('available times changed', obj);
+
+    //   const selectedDate: Date | undefined = this.selectedDate();
+    //   setTimeout(() => {
+    //     this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes']);
+    //   }, 100);
+    // });
+
+    // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', (obj) => {
+      // Ignora eventi emessi durante un caricamento/transizione ancora in corso
+      // (es. layer appena registrato che non ha ancora ricevuto le sue GetCapabilities):
+      // processarli con uno stato incompleto è ciò che scatena falsi layerTimeNotFound.
+      if (!obj['availableTimes'] || obj['availableTimes'].length === 0) {
+        return;
+      }
+
       const selectedDate: Date | undefined = this.selectedDate();
       setTimeout(() => {
         this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes']);
@@ -415,14 +432,32 @@ export class MapComponent {
   }
 
   /** Remove layer using id */
+  // public removeLayerById(id: string): void {    
+  //   const layer: L.Layer | undefined = this._layers.get(id);
+  //   if (layer) {
+  //     console.log('remove layer by id', id);
+  //     this._map.removeLayer(layer);
+  //     this._unregisterLayer(id, layer);
+  //     // @ts-ignore: time dimension plugin has no type declaration
+  //     if (layer._timeDimension) this._resetTimeDimension();
+  //   }
+  // }
   public removeLayerById(id: string): void {
     const layer: L.Layer | undefined = this._layers.get(id);
     if (layer) {
       this._map.removeLayer(layer);
       this._unregisterLayer(id, layer);
       // @ts-ignore: time dimension plugin has no type declaration
-      if (layer._timeDimension) this._resetTimeDimension();
+      if (layer._timeDimension) this._resetTimeDimensionIfNoLayersLeft();
     }
+  }
+
+  /** Resetta il timeDimension solo se non ci sono più layer timedimension attivi in mappa */
+  private _resetTimeDimensionIfNoLayersLeft(): void {
+    const hasOtherTimeDimensionLayers = Array.from(this._layers.values())
+      .some((l: any) => '_availableTimes' in l || '_timeDimension' in l);
+    if (hasOtherTimeDimensionLayers) return;
+    this._resetTimeDimension();
   }
 
   /** Reset position and zoom to default values */
@@ -872,9 +907,14 @@ export class MapComponent {
     }
   }
 
+  // private _getTimeLayer(): [string, L.Layer] | undefined {
+  //   return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
+  //     return '_availableTimes' in layer;
+  //   })
+  // }
+
   private _getTimeLayer(): [string, L.Layer] | undefined {
-    return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
-      return '_availableTimes' in layer;
-    })
+    const timeLayers = this.getLayersArray().filter(([_, layer]: [string, L.Layer]) => '_availableTimes' in layer);
+    return timeLayers[timeLayers.length - 1]; // il più recente, non il primo trovato
   }
 }

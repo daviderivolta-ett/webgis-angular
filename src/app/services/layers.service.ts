@@ -82,7 +82,7 @@ export class LayersService {
 
   /** Get WMS feature info */
   // public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: { ne: [number, number], sw: [number, number] }, point: { x: number, y: number }, size: { width: number, height: number }) {
-  public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, latLng: { lat: number, lng: number }) {
+  public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, time?: string) {   
     const params: Record<string, any> = {
       service: 'WMS',
       request: 'GetFeatureInfo',
@@ -98,7 +98,8 @@ export class LayersService {
       width: size.width,
       height: size.height,
       x: point.x,
-      y: point.y
+      y: point.y,
+      time
     };
 
     let baseUrl = layer.url;

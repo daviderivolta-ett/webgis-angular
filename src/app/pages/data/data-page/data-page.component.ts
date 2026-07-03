@@ -36,7 +36,7 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
     TabsComponent,
     TabComponent,
     RouterLink
-],
+  ],
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
@@ -208,7 +208,7 @@ export class DataPageComponent {
 
   public async ngAfterViewInit(): Promise<void> {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
-      .then((config: any) => {       
+      .then((config: any) => {
         this.stationPopupConfig = config
       })
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
@@ -367,7 +367,6 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
-
     // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
@@ -383,7 +382,7 @@ export class DataPageComponent {
     // Legends
     if (!foundLayer || !foundLayer.legend) return;
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
-    if (!colorScale) return;   
+    if (!colorScale) return;
     this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.globalStateService.getDateFromQueryParams() ?? new Date() : undefined });
   }
 
@@ -453,7 +452,7 @@ export class DataPageComponent {
     if (activeWMSLayers.length === 0) return;
 
     const layer: WMSLayer = activeWMSLayers[0];
-    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, latLng)
+    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, this.wmsLayersDate?.toISOString())
       .then((info: [string, number][]) => {
         info.forEach(([label, value]: [string, number]) => {
           this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? Utils.truncateValueByDecimals(value * layer.multiplier, layer.decimals ?? 1) : Utils.truncateValueByDecimals(value, layer.decimals ?? 1)} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
@@ -580,7 +579,7 @@ export class DataPageComponent {
   public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 200)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    let { param, initialDate, endingDate } = formChange;    
+    let { param, initialDate, endingDate } = formChange;
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -673,16 +672,29 @@ export class DataPageComponent {
     return newCheckboxes;
   }
 
-  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
-    const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
-      if (currentLayers.includes(l.id)) {
-        if (!this._map.haslayer(l.id)) await this._executeAction(l, this.globalStateService.getDateFromQueryParams())
-      } else {
-        this._map.removeLayerById(l.id);
-      }
-    });
+  // private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
+  //   const promises = LayerGroup.getAllLayers(dataLayers).map(async (l: Layer) => {
+  //     if (currentLayers.includes(l.id)) {
+  //       if (!this._map.haslayer(l.id)) await this._executeAction(l, this.globalStateService.getDateFromQueryParams())
+  //     } else {
+  //       this._map.removeLayerById(l.id);
+  //     }
+  //   });
 
-    await Promise.all(promises)
+  //   await Promise.all(promises)
+  // }
+
+  private async _toggleLayersOnMap(dataLayers: LayerGroup[], currentLayers: string[]): Promise<void> {
+    const allLayers = LayerGroup.getAllLayers(dataLayers);
+
+    const toRemove = allLayers.filter((l: Layer) => !currentLayers.includes(l.id) && this._map.haslayer(l.id));
+    const toAdd = allLayers.filter((l: Layer) => currentLayers.includes(l.id) && !this._map.haslayer(l.id));
+
+    // Rimozione sincrona, completata prima di iniziare qualsiasi aggiunta:
+    // evita che due layer timedimension coesistano sul timeDimension condiviso.
+    toRemove.forEach((l: Layer) => this._map.removeLayerById(l.id));
+
+    await Promise.all(toAdd.map((l: Layer) => this._executeAction(l, this.globalStateService.getDateFromQueryParams())));
   }
 
   /** Generate color scale */
@@ -711,8 +723,8 @@ export class DataPageComponent {
     const snackbarId = this.snackbarsService.createSnackbar(`Caricamento layer ${layer.label}`, 'loader', false);
 
     try {
-      this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));     
-   
+      this.groupedCheckboxes = this._toggleGroupedCheckboxes(true, this._groupedCheckboxes.map((g) => GroupedCheckboxItem.createFromObject(g.group())));
+
       await command.execute({
         map: this._map,
         date: this.authService.isLoggedIn() ? date : undefined,
@@ -752,7 +764,7 @@ export class DataPageComponent {
     date ?
       this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
       this.globalStateService.removeQueryParam('date')
-;
+      ;
     this._updateMultipleLayers(
       !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date,
       false

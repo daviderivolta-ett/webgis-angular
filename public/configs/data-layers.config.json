@@ -2809,7 +2809,7 @@
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.6,
-                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "url": "https://omirl-preview.regione.liguria.it/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall15d",
                                         "transparent": true,
@@ -3060,7 +3060,7 @@
                                     "layerType": "wms",
                                     "layerCategory": "data_wms--time",
                                     "opacity": 0.6,
-                                    "url": "https://omirl-dev-ett.cfmi.arpal.org/geoserver/ows",
+                                    "url": "https://omirl-preview.regione.liguria.it/geoserver/ows",
                                     "params": {
                                         "layers": "omirl:rainfall30d",
                                         "transparent": true,
