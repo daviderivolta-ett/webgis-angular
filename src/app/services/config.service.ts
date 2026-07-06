@@ -55,12 +55,10 @@ export class ConfigService {
   }
 
   public async getSettings(url: string, token?: string): Promise<Settings> {
-    return fetch('./configs/settings.config.json')
-      .then((d) => d.json())
-      // return this.apiService.getApiData(url, token)
-      //   .then((data: any) => {
-      //     return this._getConfigValue(data);
-      //   })
+    return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
+      })
       .then((config: any) => {
         return Settings.createFromObject(config);
       })
@@ -116,12 +114,10 @@ export class ConfigService {
   }
 
   public async getDataLayers(url: string, token?: string): Promise<LayerGroup[]> {
-    return fetch('./configs/data-layers.config.json')
-      .then((d) => d.json())
-      // return this.apiService.getApiData(url, token)
-      // .then((data: any) => {
-      //   return this._getConfigValue(data);
-      // })
+      return this.apiService.getApiData(url, token)
+      .then((data: any) => {
+        return this._getConfigValue(data);
+      })
       .then((data: any) => {
         return data['layers'].map((d: any) => {
           try {
