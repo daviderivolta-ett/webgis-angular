@@ -108,7 +108,6 @@ export class TablesExtremesPageComponent {
     this.selectedTenantMsg = this.tenantsService.message;
     this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
-
     /** Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
 

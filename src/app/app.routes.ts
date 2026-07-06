@@ -133,6 +133,7 @@ export const routes: Routes = [
         title: 'OMIRL ARPAL - Radar',
         loadComponent: () => import('./pages/radars/radars-page/radars-page.component').then(c => c.RadarsPageComponent),
         resolve: {
+            settings: settingsConfigResolver,
             apisConfig: apisResolver,
             radarConfigGroups: radarConfigGroupsResolver
         },

@@ -8,10 +8,13 @@ import { skip } from 'rxjs'
 import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
 
 /** Models */
-import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
+import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, Settings, Tenant, TreeNode, User } from '../../../models'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent } from '../../../components'
+
+/** Utils */
+import { DateUtils } from '../../../utils'
 
 /** Component */
 @Component({
@@ -23,7 +26,7 @@ import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent
     RouterLink, NgTemplateOutlet, RouterLinkActive,
     /** Pipes */
     TitleCasePipe
-],
+  ],
   templateUrl: './radars-page.component.html',
   styleUrl: './radars-page.component.scss'
 })
@@ -38,10 +41,13 @@ export class RadarsPageComponent {
 
   /** Data */
   public user: User | null = null;
+  public settings: Settings; // Recovered from route resolver in constructor
+
   public refreshId: number | null = null;
   private _radarConfigGroups: RadarConfigGroup[] = [];
 
   public referenceDate: Date | undefined;
+  public selectedDate: Date | undefined;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public retentionBridgeUrl; // Recovered from route resolver in constructor
@@ -49,6 +55,11 @@ export class RadarsPageComponent {
 
   private _selectedTenant; // Recovered from service in constructor
   public selectedTenantMsg; // Recovered from service in constructor
+  public timePlayerRange = computed(() => {
+    const selectedTenant: Tenant | null = this._selectedTenant();
+    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
+    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+  });
 
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
@@ -67,8 +78,11 @@ export class RadarsPageComponent {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
+    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /** Recovering data from resolvers */
+    this.settings = this.route.snapshot.data['settings'];
+
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
     this.pageTitle = this.route.snapshot.data['type'];
 
@@ -93,7 +107,15 @@ export class RadarsPageComponent {
     });
 
     this.route.queryParams.subscribe(() => {
-      this.referenceDate = this.globalStateService.getDateFromQueryParams();
+      // this.referenceDate = this.globalStateService.getDateFromQueryParams();
+      const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
+      const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
+
+      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
+      const newDate = !date && tenantDate ? tenantDate : date;
+      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this.referenceDate = newDate ? new Date(newDate) : undefined;
+
       const param = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
       if (param) this._init(param, imagetype && this._isImageType(imagetype) ? imagetype : 'Image');
