@@ -94,8 +94,9 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
         // Steps mode
         if (this.steps && this.steps.length >= 1) {
             const numValue: number = +value;
-            const index = this.steps.findIndex((step: number) => numValue <= step);
-            return this.colors[index === -1 ? (this.colors.length - 1) : index];
+            const index = this.steps.findLastIndex(step => step <= numValue);
+            const safeIndex = index === -1 ? 0 : Math.min(index + 1, this.colors.length - 1);
+            return this.colors[safeIndex];
         }
 
         // Numeric mode (min/max defined)
@@ -103,7 +104,7 @@ export class ColorScale implements ColorScaleBase, Omit<LayerLegend, 'layerId' |
             const numValue = +value;
             const steps = this.colors.length - 1;
             const range = this.max - this.min;
-            
+
             const ratio = this.type === 'logarithmic'
                 ? (Math.log(numValue) - Math.log(this.min)) / (Math.log(this.max) - Math.log(this.min))
                 : (numValue - this.min) / range;

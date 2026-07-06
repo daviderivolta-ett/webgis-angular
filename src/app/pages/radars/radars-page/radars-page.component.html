@@ -51,7 +51,7 @@
         <!-- START CONTROLS -->
         @if (user) {
             <div class="update-time">
-                <app-datepicker [date]="referenceDate" [timeRange]="timePlayerRange()" (dateChanged)="onDateChange($event)"></app-datepicker>
+                <app-datepicker [date]="selectedDate" [referenceDate]="referenceDate" [timeRange]="timePlayerRange()" (dateChanged)="onDateChange($event)"></app-datepicker>
             </div>
         }
         <!-- END CONTROLS -->

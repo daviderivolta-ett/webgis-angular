@@ -133,16 +133,6 @@ export class MapComponent {
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
     // @ts-ignore: time dimension plugin has no type declaration
-    // this._map.timeDimension.on('availabletimeschanged', (obj) => {
-    //   console.log('available times changed', obj);
-
-    //   const selectedDate: Date | undefined = this.selectedDate();
-    //   setTimeout(() => {
-    //     this._checkAvailableTimesAndSetCurrentTime(selectedDate, obj['availableTimes']);
-    //   }, 100);
-    // });
-
-    // @ts-ignore: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', (obj) => {
       // Ignora eventi emessi durante un caricamento/transizione ancora in corso
       // (es. layer appena registrato che non ha ancora ricevuto le sue GetCapabilities):
@@ -432,16 +422,6 @@ export class MapComponent {
   }
 
   /** Remove layer using id */
-  // public removeLayerById(id: string): void {    
-  //   const layer: L.Layer | undefined = this._layers.get(id);
-  //   if (layer) {
-  //     console.log('remove layer by id', id);
-  //     this._map.removeLayer(layer);
-  //     this._unregisterLayer(id, layer);
-  //     // @ts-ignore: time dimension plugin has no type declaration
-  //     if (layer._timeDimension) this._resetTimeDimension();
-  //   }
-  // }
   public removeLayerById(id: string): void {
     const layer: L.Layer | undefined = this._layers.get(id);
     if (layer) {

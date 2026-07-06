@@ -51,7 +51,7 @@ export class Station extends StationBase implements StationData {
         return new Station('', 0, 0, [], 0, '');
     }
 
-    static createStationDataFromGeoJSONProps(props: any): StationData {                     
+    static createStationDataFromGeoJSONProps(props: any): StationData {
         if (
             (!('value' in props) || typeof parseFloat(props['value']) !== 'number') &&
             (!('intensity' in props) || typeof parseFloat(props['intensity']) !== 'number')
@@ -65,7 +65,7 @@ export class Station extends StationBase implements StationData {
             (props['value'] && typeof parseFloat(props['value']) === 'number') ||
             (props['intensity'] && typeof parseFloat(props['intensity']) === 'number')
         ) {
-            
+
             data.value =
                 typeof props.value === 'number'
                     ? props.value
@@ -77,21 +77,23 @@ export class Station extends StationBase implements StationData {
         if (props['unit'] && typeof props['unit'] === 'string') data.unit = props['unit'];
         if ('decimals' in props && typeof props['decimals'] === 'number') data.decimals = props['decimals'];
         if (
+            (('fileDate' in props) && typeof props['fileDate'] === 'string') ||
             (('refDate' in props) && typeof props['refDate'] === 'string') ||
             (('referenceDate' in props) && typeof props['referenceDate'] == 'string') ||
             (('creationDate' in props) && typeof props['creationDate'] == 'string')
         ) {
             const rawDate =
-                typeof props.refDate === 'string' ? props.refDate :
-                    typeof props.referenceDate === 'string' ? props.referenceDate :
-                        props.creationDate;
+                typeof props.fileDate === 'string' ? props.fileDate :
+                    typeof props.refDate === 'string' ? props.refDate :
+                        typeof props.referenceDate === 'string' ? props.referenceDate :
+                            props.creationDate;
 
             const date = new Date(rawDate);
             if (!isNaN(date.getTime())) data.date = date;
         }
         if (props['commt'] && typeof props['commt'] === 'string') data.commt = props['commt'];
         if (props['subFolder'] && typeof props['subFolder'] === 'string') data.subfolder = props['subFolder'];
-      
+
         return data;
     }
 

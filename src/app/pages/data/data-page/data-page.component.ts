@@ -1,5 +1,5 @@
 /** Libraries */
-import { ChangeDetectorRef, Component, computed, effect, HostListener, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
+import { afterNextRender, ChangeDetectorRef, Component, computed, effect, HostListener, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -384,6 +384,9 @@ export class DataPageComponent {
     const colorScale: ColorScale | undefined = this._generateLayerColorScale(foundLayer, this.baseColorScales);
     if (!colorScale) return;
     this.geojsonLegends.push({ layerId: foundLayer.id, layerLabel: foundLayer.longLabel ?? foundLayer.label, unit: foundLayer.legend.altUnit || foundLayer.legend.unit, colors: colorScale.colors, labels: foundLayer.legend.labels ?? colorScale.calculateTicks(), date: !foundLayer.layerType.includes('wms') ? this.globalStateService.getDateFromQueryParams() ?? new Date() : undefined });
+    queueMicrotask(() => {
+      if (this.windowWidth > 992) this._legendsMenu.togglePopUpMenu(true);
+    });
   }
 
   public onMapLayerRemoved(event: Record<string, any>): void {
@@ -481,8 +484,7 @@ export class DataPageComponent {
     if (activeGeoJSONLayers.length === 0) return;
 
     const layer: GeoJsonLayer = activeGeoJSONLayers[0];
-    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${(Math.round(properties['mean_value'] * 100) / 100) * (layer.multiplier ? layer.multiplier : 1)} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
-  }
+    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Utils.truncateValueByDecimals(properties['mean_value'] * (layer.multiplier ? layer.multiplier : 1), layer.decimals ?? 1)} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);  }
 
   private _onBaselayersRadioChange(changes: any): void {
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);

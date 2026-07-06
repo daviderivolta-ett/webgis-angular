@@ -54,8 +54,6 @@ export class HydroCommandService implements Command {
 
     /** Methods */
     private _addColorToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, colorScale: ColorScale, arcColorDict: Record<string, string>, unit: string | undefined, layerLabel: string | undefined): GeoJSON.FeatureCollection {
-        const now: number = new Date().getTime();
-
         return {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {

@@ -110,8 +110,17 @@ export class Table2 {
                 return !Number.isNaN(n) && v !== '' ? n : v ?? '';
             };
 
-            let aValue = normalize(a[columnIndex]?.['dataValue']);
-            let bValue = normalize(b[columnIndex]?.['dataValue']);
+
+            let aValue = normalize(
+                a[columnIndex]?.['dataValue']
+                    .replace(/<[^>]*>/g, '')
+                    .split('[')[0].trim()
+            );
+            let bValue = normalize(
+                b[columnIndex]?.['dataValue']
+                    .replace(/<[^>]*>/g, '')
+                    .split('[')[0].trim()
+            );
 
             if (aValue < bValue) return direction === 'asc' ? -1 : 1;
             if (aValue > bValue) return direction === 'asc' ? 1 : -1;

@@ -68,8 +68,7 @@
         <!-- END LAYERS MENU -->
 
         <!-- START LEGENDS -->
-        @if (geojsonLegends.length > 0 || wmsLegends.length > 0) {
-            <app-pop-up-menu class="legends" [position]="windowWidth <= 992 ? 'bottom-left' : 'top-left'" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" [hasOverflow]="true" #legendsMenu>
+            <app-pop-up-menu class="legends" #legendsMenu [hidden]="geojsonLegends.length === 0 && wmsLegends.length === 0" [position]="windowWidth <= 992 ? 'bottom-left' : 'top-left'" iconUrl="images/icons/list_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" [hasOverflow]="true">
                 <div ngProjectAs="pop-up-menu-content" class="pop-up-menu-content">                   
                     @for (legend of wmsLegends; track $index) {
                         <app-layer-legend [label]="legend.layerLabel ?? legend.layerId"  [unit]="legend.unit" [date]="legend.date" [imgUrl]="legend.imgUrl"></app-layer-legend>
@@ -79,7 +78,6 @@
                     }
                 </div>
             </app-pop-up-menu>
-        }
         <!-- STOP LEGENDS -->
 
         <!-- START RESET BUTTON -->

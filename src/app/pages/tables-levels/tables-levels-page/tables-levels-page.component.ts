@@ -177,7 +177,9 @@ export class TablesLevelsPageComponent {
 
     const res: any = await this._getData(this.configGroup.options[0], date);
     if (!res) return;
-    this.tables = this.sortedTables = this._createTables(res, this.configGroup);
+    
+    const tables = this._createTables(res, this.configGroup);   
+    this.tables = this.sortedTables = tables.map((t) => ({ ...t, table: t.table.sortTableData('stationName', 'asc') }));
   }
 
   private _initConfigGroup(id: string): TableConfigGroup | undefined {

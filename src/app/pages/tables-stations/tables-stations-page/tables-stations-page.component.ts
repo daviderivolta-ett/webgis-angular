@@ -249,7 +249,8 @@ export class TablesStationsPageComponent {
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
 
     const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? [], config.multiplier);
-    this.newData = this.newSortedData = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels, config.decimals);
+    const tableStruct = Table2.generateTableStructure(rawData, 'name', config.keysOrder, config.actionKey, config.labels, config.decimals);
+    this.newData = this.newSortedData = tableStruct.sortTableData('name', 'asc');
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }): void {
@@ -277,13 +278,7 @@ export class TablesStationsPageComponent {
     Utils.downloadFile(`${this.config ? this.config.id : 'stazioni'}.csv`, csv);
   }
 
-  // public onDateChange(event: any): void {
   public onDateChange(date: Date | undefined): void {
-    // const { date: dateString } = event;
-    // const current = this.globalStateService.getQueryParam2('date')[0];
-    // if (current === dateString) return;
-    // this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
-
     const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
     if (current?.getTime() === date?.getTime()) return;
     date ?
