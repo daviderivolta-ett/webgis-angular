@@ -16,8 +16,6 @@ export class AuthService {
   public user = signal<User | null>(null);
 
   constructor(private oauthService: OAuthService) {
-    this.configureAuth();
-
     this.oauthService.events.subscribe((event) => {
       if (event.type === 'token_received') {
         const payload: any = this._parseJsonWebToken(this.getAccessToken());
@@ -33,12 +31,10 @@ export class AuthService {
 
   public async configureAuth(): Promise<void> {
     this.oauthService.configure(environment.keycloak);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin()
-      .then(async () => {
-        this.oauthService.setupAutomaticSilentRefresh({ timeoutFactor: 0.75, useRefreshToken: true });
-        await this.checkAccessAndRefreshToken();
-        this._checkAccessTokenAndLogin();
-      })
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.setupAutomaticSilentRefresh({ timeoutFactor: 0.75, useRefreshToken: true });
+    await this.checkAccessAndRefreshToken();
+    this._checkAccessTokenAndLogin();
   }
 
   public async checkAccessAndRefreshToken() {
