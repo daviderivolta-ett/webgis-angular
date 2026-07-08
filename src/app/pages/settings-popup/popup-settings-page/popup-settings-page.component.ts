@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, PopupService, SnackbarsService, TenantsService } from '../../../services';
+import { ApiService, Auth2Service, AuthService, PopupService, SnackbarsService, TenantsService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
@@ -55,6 +55,7 @@ export class PopupSettingsPageComponent {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private popupService: PopupService,
@@ -69,13 +70,13 @@ export class PopupSettingsPageComponent {
 
     /** Effects */
     effect(() => {
-      this.user = this.authService.user();
+      this.user = this.auth2Service.user();
     });
   }
 
   /** Component lifecycle */
   public ngAfterViewInit(): void {
-    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
+    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.getAccessToken())
       .then((config: any) => {                     
         this.form = this._createStationPopupConfigForm(config, this.popupConfig);
         this.isConfigLoaded = true;
@@ -99,7 +100,7 @@ export class PopupSettingsPageComponent {
 
   public async onFormSubmit(): Promise<void> {
     this.isLoading = true;
-    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'prod', createStationPopupConfigFromObject(this.form.value), this.authService.getAccessToken())
+    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'prod', createStationPopupConfigFromObject(this.form.value), this.auth2Service.getAccessToken())
       .then(() => {
         this.snackbarsService.createSnackbar('Configurazione del popup salvata con successo', 'success', true);
       })

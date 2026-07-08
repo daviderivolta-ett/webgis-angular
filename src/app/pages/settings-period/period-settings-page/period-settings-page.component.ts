@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, TenantsService } from '../../../services'
 
 /** Models */
 import { Tenant, User } from '../../../models'
@@ -63,6 +63,7 @@ export class PeriodSettingsPageComponent {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private globalStateService: GlobalStateService,
     private tenantsService: TenantsService,
@@ -82,7 +83,7 @@ export class PeriodSettingsPageComponent {
     this.deleteTenantUrl = this.apiService.buildUrl(this.retentionApiBaseUrl, this.route.snapshot.data['apisConfig'].get('deleteTenant'));
 
     /** Effetcs */
-    effect(() => this.user = this.authService.user());
+    effect(() => this.user = this.auth2Service.user());
     effect(() => {
       const selectedTenant = this.selectedTenant();
       if (!selectedTenant) this.globalStateService.removeQueryParam('date');
@@ -103,7 +104,7 @@ export class PeriodSettingsPageComponent {
   /** Methods */
   /** Init */
   #getAllTenants() {
-    this.tenantsService.getAllTenants(this.tenantsUrl, this.authService.getAccessToken())
+    this.tenantsService.getAllTenants(this.tenantsUrl, this.auth2Service.getAccessToken())
       .then((tenants: Tenant[]) => this.tenants.set(tenants.toSorted((a, b) => a.id.localeCompare(b.id))))
       .catch((err: unknown) => this.snackbarService.createSnackbar(err instanceof Error ? err.message : `Errore nel caricamento dei periodi salvati.`, 'error', true))
   }
@@ -133,7 +134,7 @@ export class PeriodSettingsPageComponent {
     if (!result) return;
 
     try {
-      await this.tenantsService.createTenant(this.createTenantUrl, tenant, this.authService.getAccessToken());
+      await this.tenantsService.createTenant(this.createTenantUrl, tenant, this.auth2Service.getAccessToken());
       this.snackbarService.createSnackbar(`Periodo salvato creato; in attesa dell'elaborazione dei dati.`, 'success', true);
       this.#getAllTenants();
     } catch (error) {
@@ -145,7 +146,7 @@ export class PeriodSettingsPageComponent {
     try {
       const result = await this._confirmDialog.open('Si sta per rendere disponibile il periodo salvato selezionato. Il processo di raccolta dei dati può durare anche alcune ore. Continuare?', 'Sì, continua', 'No, annulla');
       if (!result) return;
-      await this.tenantsService.loadTenant(this.apiService.replaceApiUrlPlaceholder(this.loadTenantUrl, id), this.authService.getAccessToken());
+      await this.tenantsService.loadTenant(this.apiService.replaceApiUrlPlaceholder(this.loadTenantUrl, id), this.auth2Service.getAccessToken());
       this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false } : t));
       this.snackbarService.createSnackbar(`Periodo salvato caricato. In attesa dell'elaborazione dei dati.`, 'success', true);
     } catch (error) {
@@ -157,7 +158,7 @@ export class PeriodSettingsPageComponent {
     try {
       const result = await this._confirmDialog.open(`Si sta per rendere non più disponibile il periodo salvato selezionato. L'eventuale processo di ricariamento dei dati può durare anche alcune ore. Continuare?`, 'Sì, continua', 'No, annulla');
       if (!result) return;
-      await this.tenantsService.unloadTenant(this.apiService.replaceApiUrlPlaceholder(this.unloadTenantUrl, id), this.authService.getAccessToken());
+      await this.tenantsService.unloadTenant(this.apiService.replaceApiUrlPlaceholder(this.unloadTenantUrl, id), this.auth2Service.getAccessToken());
       this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false, isLoaded: false } : t));
       this.snackbarService.createSnackbar(`Periodo salvato scaricato. In attesa dell'elaborazione dei dati.`, 'success', true);
     } catch (error) {
@@ -169,7 +170,7 @@ export class PeriodSettingsPageComponent {
     try {
       const result = await this._confirmDialog.open('Si è sicuri di voler eliminare il periodo salvato? Questa operazione non è reversibile.', 'Sì, elimina', 'No, annulla');
       if (!result) return;
-      await this.tenantsService.deleteTenant(this.apiService.replaceApiUrlPlaceholder(this.deleteTenantUrl, id), this.authService.getAccessToken());
+      await this.tenantsService.deleteTenant(this.apiService.replaceApiUrlPlaceholder(this.deleteTenantUrl, id), this.auth2Service.getAccessToken());
       this.tenants.update((oldValue: Tenant[]) => oldValue.filter((t: Tenant) => t.id !== id));
       this.snackbarService.createSnackbar(`Periodo salvato eliminato con successo.`, 'success', true);
     } catch (error: unknown) {

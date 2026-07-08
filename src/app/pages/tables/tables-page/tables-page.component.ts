@@ -15,7 +15,7 @@ type PageTable = {
 }
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
@@ -86,6 +86,7 @@ export class TablesPageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
@@ -107,7 +108,7 @@ export class TablesPageComponent {
 
     /** Effetcs */
     effect(() => {
-      this.user = this.authService.user();
+      this.user = this.auth2Service.user();
       this._initNavbar();
     });
     effect(() => {
@@ -139,7 +140,7 @@ export class TablesPageComponent {
 
   public setDataFromApi() {
     // this.isLoading = true;
-    this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
@@ -151,7 +152,7 @@ export class TablesPageComponent {
       })
 
     // this.isLoading = true;
-    this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
+    this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.getAccessToken())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
       })

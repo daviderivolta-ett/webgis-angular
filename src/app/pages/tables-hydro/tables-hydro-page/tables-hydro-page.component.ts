@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { ColorScale, ColorScaleBase, Settings, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
@@ -96,6 +96,7 @@ export class TablesHydroPageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
@@ -120,7 +121,7 @@ export class TablesHydroPageComponent {
 
     /** Effects */
     effect(() => {
-      this.user = this.authService.user();
+      this.user = this.auth2Service.user();
       this._initNavbar();
     });
   }
@@ -209,7 +210,7 @@ export class TablesHydroPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
     this.isLoading = true;
-    let response = await this.apiService.getApiData(url, this.authService.getAccessToken())
+    let response = await this.apiService.getApiData(url, this.auth2Service.getAccessToken())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -332,7 +333,7 @@ export class TablesHydroPageComponent {
     const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     const url: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.config.url);
-    this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.authService.getAccessToken())
+    this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.auth2Service.getAccessToken())
       .then((img: any) => {
         this.hydroImg = img;
       })

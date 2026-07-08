@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 
 /** Services */
 import { ConfigService } from './services/config.service';
-import { AuthService } from './services';
+import { Auth2Service, AuthService } from './services';
 
 /** Config */
 export const appConfig: ApplicationConfig = {
@@ -24,9 +24,11 @@ export const appConfig: ApplicationConfig = {
     },
     provideAppInitializer(async () => {
       const configService = inject(ConfigService);
-      const authService = inject(AuthService);
+      // const authService = inject(AuthService);
+      const authService = inject(Auth2Service);
 
-      await authService.configureAuth();
+      // await authService.configureAuth();
+      await authService.init();
       await configService.getAppConfig();
       await configService.getApis();
     })

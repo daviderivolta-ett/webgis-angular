@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { skip } from 'rxjs'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, AuthService, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
 
 /** Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, Settings, Tenant, TreeNode, User } from '../../../models'
@@ -69,6 +69,7 @@ export class RadarsPageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
@@ -90,7 +91,7 @@ export class RadarsPageComponent {
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
     /** Effetcs */
-    effect(() => this.user = this.authService.user());
+    effect(() => this.user = this.auth2Service.user());
   }
 
   /** Component lifecycle */
@@ -190,7 +191,7 @@ export class RadarsPageComponent {
 
   private _getRadarImg(url: string) {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento immagine del radar.', 'loader', false);
-    this.radarService.getRadarImg(url, this.authService.getAccessToken())
+    this.radarService.getRadarImg(url, this.auth2Service.getAccessToken())
       .then((imgUrl: string) => {
         this.imgUrl = imgUrl;
       })

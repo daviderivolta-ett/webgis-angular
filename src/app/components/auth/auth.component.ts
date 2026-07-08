@@ -2,7 +2,7 @@
 import { Component, effect, input } from '@angular/core';
 
 /** Services */
-import { AuthService } from '../../services';
+import { Auth2Service, AuthService } from '../../services';
 
 /** Models */
 import { User } from '../../models';
@@ -22,21 +22,21 @@ export class AuthComponent {
 
   public user: User | null = null;
 
-  constructor(private authService: AuthService) {
-    effect(() => this.user = this.authService.user());
+  constructor(private auth2Service: Auth2Service) {
+    effect(() => this.user = this.auth2Service.user());
   }
 
   public initAuthFlow(): void {
     this.user ?
-      this.authService.logout() :
-      this.authService.login();
+      this.auth2Service.logout() :
+      this.auth2Service.login();
   }
 
   public login() {
-    this.authService.login();
+    this.auth2Service.login();
   }
 
   public logout() {
-    this.authService.logout();
+    this.auth2Service.logout();
   }
 }

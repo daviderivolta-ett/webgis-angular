@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, SensorType, StationBase, User } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, SnackbarsService, StationsService, TenantsService } from '../../../services';
+import { ApiService, Auth2Service, AuthService, SnackbarsService, StationsService, TenantsService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
@@ -66,6 +66,7 @@ export class StationsSettingsPageComponent {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private stationsService: StationsService,
@@ -85,13 +86,13 @@ export class StationsSettingsPageComponent {
 
     /** Effetcs */
     effect(() => {
-      this.user = this.authService.user();
+      this.user = this.auth2Service.user();
     });
   }
 
   /** Component lifecycle */
   public async ngOnInit() {
-    this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken())
       .then((stations) => {
         this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
         this.form = this._createStationsForm(stations);
@@ -144,7 +145,7 @@ export class StationsSettingsPageComponent {
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
 
     this.isLoading = true;
-    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.authService.getAccessToken())
+    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.auth2Service.getAccessToken())
       .then(() => {
         this.snackbarsService.createSnackbar('Stato della stazione aggiornato con successo.', 'success', true)
       })

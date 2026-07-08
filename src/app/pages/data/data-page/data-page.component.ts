@@ -8,7 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
 
 /** Services */
-import { ApiService, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services';
+import { ApiService, Auth2Service, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services';
 
 /** Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent, NotificationIconComponent } from '../../../components';
@@ -131,6 +131,7 @@ export class DataPageComponent {
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private popupService: PopupService,
@@ -177,7 +178,7 @@ export class DataPageComponent {
 
     /** Effects */
     effect(() => {
-      const currentUser = this.authService.user();
+      const currentUser = this.auth2Service.user();      
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth, currentUser?.layers);
       if (!this.user && currentUser) this.setDataFromApi();
@@ -207,7 +208,7 @@ export class DataPageComponent {
   }
 
   public async ngAfterViewInit(): Promise<void> {
-    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.authService.getAccessToken())
+    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.getAccessToken())
       .then((config: any) => {
         this.stationPopupConfig = config
       })
@@ -224,9 +225,9 @@ export class DataPageComponent {
     this.isLoading = true;
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
-        this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken()),
-        this.stationsService.getAllStations(this.stationsUrl(), this.authService.getAccessToken()),
-        this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
+        this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl(), this.auth2Service.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.getAccessToken())
       ]);
 
       this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
@@ -519,7 +520,7 @@ export class DataPageComponent {
         case 'hydro':
           const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
           const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
-          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl(), s.parameter, s.id, date, this.authService.getAccessToken())
+          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl(), s.parameter, s.id, date, this.auth2Service.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
               throw err;
@@ -540,7 +541,7 @@ export class DataPageComponent {
 
         case 'webcam':
           const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
-          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
+          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.auth2Service.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
               throw err;
@@ -551,7 +552,7 @@ export class DataPageComponent {
 
         case 'lidar':
           const lidarSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagini lidar`, 'loader');
-          const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.authService.getAccessToken())
+          const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.auth2Service.getAccessToken())
             .catch((err: unknown) => {
               this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero delle immagini lidar.`, 'error', true);
               throw err;
@@ -597,7 +598,7 @@ export class DataPageComponent {
       initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
     }
 
-    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.auth2Service.getAccessToken())
       .then((newChart: MapChart) => {
         this.charts[chartIdx] = newChart;
       })
@@ -620,7 +621,7 @@ export class DataPageComponent {
     if (!this.user) return;
     const params = this.globalStateService.getQueryParams2(['base', 'info', 'layer', 'date', 'lat', 'lon', 'zoom']);
     const snackbarId: string = this.snackbarsService.createSnackbar(`Salvataggio preferenze dell'utente in corso...`, 'loader', false, 'snackbar_user_preferences');
-    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', Object.fromEntries(params), this.authService.getAccessToken())
+    this.globalStateService.saveQueryParams(this.createConfigUrl, `${this.user.id}_${new Date().getTime()}`, `${this.user.id}_preferences`, 'prod', Object.fromEntries(params), this.auth2Service.getAccessToken())
       .then(() => {
         this.snackbarsService.createSnackbar(`Preferenze dell'utente salvate con successo.`, 'success', true);
       })
@@ -729,12 +730,12 @@ export class DataPageComponent {
 
       await command.execute({
         map: this._map,
-        date: this.authService.isLoggedIn() ? date : undefined,
+        date: this.auth2Service.hasValidAccessToken() ? date : undefined,
         colorScale,
         layer,
         baseUrl: layer.action['api'] !== 'polygonmean' ? this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
         stations: this.stations,
-        token: this.authService.getAccessToken(),
+        token: this.auth2Service.getAccessToken(),
         timeSpan: this.settings.mapTimeSpan,
         timeThreshold: this.settings.staleDataThreshold,
         multiplier: layer instanceof GeoJsonLayer && layer.multiplier,

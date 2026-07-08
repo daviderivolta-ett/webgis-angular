@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router'
 import { User } from './models'
 
 /** Services */
-import { ApiService, AuthService, ConfigService, GlobalStateService, SnackbarsService } from './services'
+import { ApiService, Auth2Service, AuthService, ConfigService, GlobalStateService, SnackbarsService } from './services'
 
 /** Components */
 import { SnackbarContainerComponent } from './components'
@@ -33,6 +33,7 @@ export class AppComponent {
     private configService: ConfigService,
     private globalStateService: GlobalStateService,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private snackbarsService: SnackbarsService
   ) {
@@ -40,9 +41,9 @@ export class AppComponent {
     effect(() => {
       /** Get user query params */
       if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
-      const currentUser: User | null = this.authService.user();
+      const currentUser: User | null = this.auth2Service.user();
       if (!currentUser) return;
-      this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.authService.getAccessToken())
+      this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.auth2Service.getAccessToken())
         .then((params) => this.globalStateService.updateAllQueryParams2(new Map(Object.entries(params))))
     });
   }

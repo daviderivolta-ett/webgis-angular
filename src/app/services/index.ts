@@ -1,5 +1,6 @@
 export * from './api.service'
 export * from './auth.service'
+export * from './auth2.service'
 export * from './config.service'
 export * from './global-state.service'
 export * from './layers.service'

@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
 import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
@@ -98,6 +98,7 @@ export class TablesLevelsPageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private auth2Service: Auth2Service,
     private apiService: ApiService,
     private tenantsService: TenantsService,
     private globalStateService: GlobalStateService,
@@ -122,7 +123,7 @@ export class TablesLevelsPageComponent {
 
     /** Effects */
     effect(() => {
-      this.user = this.authService.user();
+      this.user = this.auth2Service.user();
       this._initNavbar();
     });
   }
@@ -148,9 +149,9 @@ export class TablesLevelsPageComponent {
   public async setDataFromApi() {
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
-        this.stationsService.getStationParameters(this.stationParametersUrl(), this.authService.getAccessToken()),
-        this.stationsService.getAllStations(this.stationsUrl(), this.authService.getAccessToken()),
-        this.stationsService.getAllParameters(this.parametersUrl(), this.authService.getAccessToken())
+        this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken()),
+        this.stationsService.getAllStations(this.stationsUrl(), this.auth2Service.getAccessToken()),
+        this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.getAccessToken())
       ]);
 
       this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
@@ -204,7 +205,7 @@ export class TablesLevelsPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url, this.authService.getAccessToken())
+    const response = await this.apiService.getApiData(url, this.auth2Service.getAccessToken())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -298,7 +299,7 @@ export class TablesLevelsPageComponent {
       initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
     }
 
-    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.authService.getAccessToken())
+    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.auth2Service.getAccessToken())
       .then((newChart: MapChart) => {
         this.chart = newChart;
       })
