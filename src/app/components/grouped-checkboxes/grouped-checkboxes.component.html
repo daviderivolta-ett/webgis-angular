@@ -25,7 +25,7 @@
                     @if (group.iconUrl) {
                         <span class="checkbox__icon" [style.maskImage]="'url(' + group.iconUrl + ')'" [style.webkitMaskImage]="'url(' + group.iconUrl + ')'"></span>
                     }
-                    {{group.label || group.id}}
+                    {{group.label ?? group.id}}
                 </label>
             </div>
         }

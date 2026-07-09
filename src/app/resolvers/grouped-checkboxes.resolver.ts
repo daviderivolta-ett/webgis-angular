@@ -25,5 +25,5 @@ export const groupedCheckboxesResolver: ResolveFn<LayerGroup[]> = async (route, 
     .catch((err: any) => {
       console.error(err);
       return []
-    });
+    })
 };
