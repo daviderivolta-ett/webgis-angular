@@ -144,9 +144,9 @@ export class TablesMaxPageComponent {
   public async setDataFromApi() {
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
-        this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken()),
-        this.stationsService.getAllStations(this.stationsUrl(), this.auth2Service.getAccessToken()),
-        this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.getAccessToken())
+        this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.token()),
+        this.stationsService.getAllStations(this.stationsUrl(), this.auth2Service.token()),
+        this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.token())
       ]);
 
       this._sensorTypes = this._sensorTypes.filter((s: SensorType) => sensorTypes.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
@@ -198,7 +198,7 @@ export class TablesMaxPageComponent {
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
-    const response = await this.apiService.getApiData(url, this.auth2Service.getAccessToken())
+    const response = await this.apiService.getApiData(url, this.auth2Service.token())
       .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -391,7 +391,7 @@ export class TablesMaxPageComponent {
       initialDate = DateUtils.toDateTimeLocal(this.stationsService.getInitialDateOnSensorGap(endingDate, sensorType));
     }
 
-    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.auth2Service.getAccessToken())
+    this.stationsService.updateChart(param, this.chart, this._sensorTypes, this.timeserieUrl(), initialDate, endingDate, DateUtils.toDateTimeLocal(currentDate), station?.thresholdConfig, this.auth2Service.token())
       .then((newChart: MapChart) => {
         this.chart = newChart;
       })

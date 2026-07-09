@@ -43,7 +43,7 @@ export class AppComponent {
       if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
       const currentUser: User | null = this.auth2Service.user();
       if (!currentUser) return;
-      this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.auth2Service.getAccessToken())
+      this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.auth2Service.token())
         .then((params) => this.globalStateService.updateAllQueryParams2(new Map(Object.entries(params))))
     });
   }

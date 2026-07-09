@@ -140,7 +140,7 @@ export class TablesPageComponent {
 
   public setDataFromApi() {
     // this.isLoading = true;
-    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.token())
       .then((stations) => {
         this.stations = stations.sort((a, b) => a.id.localeCompare(b.id));
       })
@@ -152,7 +152,7 @@ export class TablesPageComponent {
       })
 
     // this.isLoading = true;
-    this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.getAccessToken())
+    this.stationsService.getAllParameters(this.parametersUrl(), this.auth2Service.token())
       .then((data) => {
         this._sensorTypes = this._sensorTypes.filter((s: SensorType) => data.some((sensor: Sensor) => s.id === sensor.type || s.id === `${sensor.type}--cumulative`));
       })

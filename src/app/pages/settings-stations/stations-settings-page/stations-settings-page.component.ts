@@ -92,7 +92,7 @@ export class StationsSettingsPageComponent {
 
   /** Component lifecycle */
   public async ngOnInit() {
-    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.getAccessToken())
+    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.token())
       .then((stations) => {
         this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
         this.form = this._createStationsForm(stations);
@@ -145,7 +145,7 @@ export class StationsSettingsPageComponent {
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
 
     this.isLoading = true;
-    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.auth2Service.getAccessToken())
+    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.auth2Service.token())
       .then(() => {
         this.snackbarsService.createSnackbar('Stato della stazione aggiornato con successo.', 'success', true)
       })

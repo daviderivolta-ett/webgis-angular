@@ -76,7 +76,7 @@ export class PopupSettingsPageComponent {
 
   /** Component lifecycle */
   public ngAfterViewInit(): void {
-    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.getAccessToken())
+    this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.token())
       .then((config: any) => {                     
         this.form = this._createStationPopupConfigForm(config, this.popupConfig);
         this.isConfigLoaded = true;
@@ -100,7 +100,7 @@ export class PopupSettingsPageComponent {
 
   public async onFormSubmit(): Promise<void> {
     this.isLoading = true;
-    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'prod', createStationPopupConfigFromObject(this.form.value), this.auth2Service.getAccessToken())
+    this.popupService.postPopupConfig(this.createConfigUrl, `popupConfig_${new Date().getTime()}`, 'popupConfig', 'prod', createStationPopupConfigFromObject(this.form.value), this.auth2Service.token())
       .then(() => {
         this.snackbarsService.createSnackbar('Configurazione del popup salvata con successo', 'success', true);
       })

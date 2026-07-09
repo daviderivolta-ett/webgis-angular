@@ -15,7 +15,7 @@ import { User } from '../models'
 export class Auth2Service {
   #oauthService = inject(OAuthService);
   public user = signal<User | null>(null);
-  public readonly token = signal<string | null>(null);
+  public readonly token = signal<string | undefined>(undefined);
 
   constructor() {
     effect(() => console.log(this.token()));
@@ -40,12 +40,10 @@ export class Auth2Service {
         case 'token_received':
           console.log('token receveid');
 
-          this.token.set(this.#oauthService.getAccessToken());
+          this.token.set(this.#oauthService.getAccessToken() ?? undefined);
           const profile = await this.#oauthService.loadUserProfile();
           // this.user.set((profile as any).info ?? null);
           this.user.set(User.createFromObject(this.#parseJsonWebToken(this.token() ?? '')) ?? null);
-          console.log(this.user());
-
           break;
 
         case 'token_expires':
@@ -70,7 +68,7 @@ export class Auth2Service {
 
         case 'token_refreshed':
           console.log('token refreshed');
-          this.token.set(this.#oauthService.getAccessToken());
+          this.token.set(this.#oauthService.getAccessToken() ?? undefined);
           break;
       }
     });
@@ -78,7 +76,7 @@ export class Auth2Service {
 
   async #loadUser(): Promise<void> {
     const profile = await this.#oauthService.loadUserProfile();
-    this.token.set(this.#oauthService.getAccessToken());
+    this.token.set(this.#oauthService.getAccessToken() ?? undefined);
     // this.user.set((profile as any).info ?? null);
     this.user.set(User.createFromObject(this.#parseJsonWebToken(this.token() ?? '')) ?? null);
   }

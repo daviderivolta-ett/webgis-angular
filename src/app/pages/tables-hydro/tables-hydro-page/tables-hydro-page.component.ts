@@ -210,7 +210,7 @@ export class TablesHydroPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.form.get('select')?.disable({ emitEvent: false });
     this.isLoading = true;
-    let response = await this.apiService.getApiData(url, this.auth2Service.getAccessToken())
+    let response = await this.apiService.getApiData(url, this.auth2Service.token())
       .catch((err: any) => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
@@ -333,7 +333,7 @@ export class TablesHydroPageComponent {
     const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), station && station.subfolder ? station.subfolder : '');
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     const url: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.config.url);
-    this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.auth2Service.getAccessToken())
+    this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.auth2Service.token())
       .then((img: any) => {
         this.hydroImg = img;
       })

@@ -101,21 +101,20 @@ export class RadarsPageComponent {
 
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.pipe(skip(1)).subscribe(() => {
-      this.referenceDate = this.globalStateService.getDateFromQueryParams();
+      // this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const param: string | null = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
       if (param) this._init(param, imagetype && this._isImageType(imagetype) ? imagetype : 'Image');
     });
 
     this.route.queryParams.subscribe(() => {
-      // this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
 
       const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
-      const newDate = !date && tenantDate ? tenantDate : date;
+      // const newDate = !date && tenantDate ? tenantDate : date;
       this.selectedDate = !date && tenantDate ? tenantDate : date;
-      this.referenceDate = newDate ? new Date(newDate) : undefined;
+      // this.referenceDate = newDate ? new Date(newDate) : undefined;
 
       const param = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
@@ -139,8 +138,8 @@ export class RadarsPageComponent {
     if (!config) return;
     this.config = config;
     this._clearRefreshInterval();
-    this._getRadarImg(this._createUrl(this.config.url, imagetype, this.referenceDate));
-    if (!this.referenceDate) this.refreshId = window.setInterval(() => this._getRadarImg(this._createUrl(config.url, this.currentImgType, this.referenceDate)), 300000);
+    this._getRadarImg(this._createUrl(this.config.url, imagetype, this.selectedDate));
+    if (!this.selectedDate) this.refreshId = window.setInterval(() => this._getRadarImg(this._createUrl(config.url, this.currentImgType, this.selectedDate)), 300000);
   }
 
   private _initConfigGroup(id: string): RadarConfigGroup | undefined {
@@ -177,7 +176,7 @@ export class RadarsPageComponent {
   }
 
   public onDateChange(event: any): void {
-    const { date: dateString } = event;
+    const { date: dateString } = event;    
     const current = this.globalStateService.getQueryParam2('date')[0];
     if (current === dateString) return;
     this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
@@ -191,7 +190,7 @@ export class RadarsPageComponent {
 
   private _getRadarImg(url: string) {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento immagine del radar.', 'loader', false);
-    this.radarService.getRadarImg(url, this.auth2Service.getAccessToken())
+    this.radarService.getRadarImg(url, this.auth2Service.token())
       .then((imgUrl: string) => {
         this.imgUrl = imgUrl;
       })
