@@ -1,7 +1,7 @@
 export class MapChartData {
     public sensor: string;
     public type: string;
-    public data: [number, number][];
+    public data: [number, number | null][];
     public legend?: string;
     public unit?: string;
     public decimals?: number;
@@ -16,7 +16,7 @@ export class MapChartData {
     constructor(
         sensor: string,
         type: string,
-        data: [number, number][],
+        data: [number, number | null][],
         legend?: string,
         unit?: string,
         decimals?: number,

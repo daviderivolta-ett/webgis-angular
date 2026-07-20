@@ -29,10 +29,16 @@ export class CSVUtils {
         return [entry[0], typeof entry[1] === 'string' ? entry[1].replaceAll(/<[^>]*>/g, '') : entry[1]];
     }
 
-    static convertTimestampValueArrayToCSV(array: [number, number][][], keys: string[]): string {
+    static convertTimestampValueArrayToCSV(array: [number, number | null][][], keys: string[]): string {
         const rows: any[] = [keys];
 
-        const length: number = array.reduce((acc: number, curr: [number, number][]) => {
+        const filteredArray: [number, number][][] = array.map(dataset =>
+            dataset.filter(
+                (point): point is [number, number] => point[1] !== null
+            )
+        );
+
+        const length: number = filteredArray.reduce((acc: number, curr: [number, number][]) => {
             acc = (curr.length > acc) ? curr.length : acc;
             return acc;
         }, 0);
@@ -50,7 +56,7 @@ export class CSVUtils {
                 ) :
                 '';
 
-            const values: string[] = array.map((dataset: [number, number][]) => {
+            const values: string[] = filteredArray.map((dataset: [number, number][]) => {
                 return !dataset[i] ? '' : dataset[i][1].toLocaleString();
             });
             rows.push([formattedDate, ...values]);

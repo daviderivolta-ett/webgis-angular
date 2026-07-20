@@ -92,6 +92,10 @@ export class PlotlyChartComponent {
 
     let minGap = data[1][0] - data[0][0];
 
+    if (minGap <= 0) {
+      return data;
+    }
+
     for (let i = 1; i < data.length - 2; i++) {
       const gap = data[i + 1][0] - data[i][0];
       if (gap < minGap) minGap = gap;
@@ -543,7 +547,7 @@ export class PlotlyChartComponent {
 
     return data.map((p: [number, number | null]) => {
       const relatedData: [number, number | null] | undefined = otherData.data.find(([t, _]) => t === p[0]);
-      
+
       return {
         x: p[0],
         y: -10,
@@ -579,12 +583,12 @@ export class PlotlyChartComponent {
     return '';
   }
 
-  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {  
+  private _createShapeForLastDateValue(data: PlotlyChartData[]): Partial<Plotly.Shape> | undefined {
     if (data.length === 0) return undefined;
 
     const lastXValue: number = Math.max(
       ...data.flatMap((v: PlotlyChartData) => v.data.map((d: [number, number | null]) => d[0]).filter(date => !isNaN(date) && date !== null))
-    );  
+    );
 
     return {
       type: 'rect',

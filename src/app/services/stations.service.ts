@@ -72,7 +72,7 @@ export class StationsService {
       })
   }
 
-  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {    
+  public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
       promises.push(this.getTimeSerie(url, stationId, p, params, DateUtils.toApiFormat(initialDate), DateUtils.toApiFormat(endingDate), limitDate, token));
@@ -136,8 +136,10 @@ export class StationsService {
     return result;
   }
 
-  public convertData(input: [number, number][], multiplier: number): [number, number][] {
-    return input.map(([x, y]) => [x, y * multiplier]);
+  public convertData(input: [number, number | null][], multiplier: number): [number, number][] {
+    return input
+      .filter((point): point is [number, number] => point[1] !== null)
+      .map(([x, y]) => [x, y * multiplier]);
   }
 
   public getHydroDateFromSubfolder(originalDate: Date, subfolder: string): Date {
@@ -231,7 +233,7 @@ export class StationsService {
     );
   }
 
-  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {     
+  public async updateChart(param: string, chartToUpdate: MapChart, sensorTypes: SensorType[], timeserieUrl: string, initialDate: string, endingDate: string, limitDate: string, rangeConfig?: StationThresholdConfig, token?: string): Promise<MapChart> {
     const sensorType: SensorType | undefined = sensorTypes.find((t: SensorType) => t.id === param);
     const relatedSensors: SensorType[] = sensorTypes.filter((t: SensorType) => sensorType?.relatedSensors.includes(t.id));
     const sensors: SensorType[] = [sensorType, ...relatedSensors].filter(s => s !== undefined);
@@ -248,12 +250,13 @@ export class StationsService {
         });
 
         for (const sensor of sensors) {
-          let values = data.get(sensor.id);
+          let values: [number, number | null][] | undefined = data.get(sensor.id);
           if (sensor.id.includes('--cumulative')) {
             const localValues: [number, number][] | undefined = data.get(sensor.id.split('--cumulative')[0]);
             if (localValues) values = [...this.calculateCumulatedValue(localValues)];
           }
           if (!values) continue;
+          if (values.length === 0) values = [[new Date(initialDate).getTime(), null], [new Date(endingDate).getTime(), null]];
 
           let customRange: [number, number] | undefined;
           if (sensor && sensor.thresholdKeys && rangeConfig) customRange = this._getSensorRange(sensor, rangeConfig);
