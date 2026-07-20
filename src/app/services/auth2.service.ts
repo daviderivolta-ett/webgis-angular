@@ -17,9 +17,9 @@ export class Auth2Service {
   public user = signal<User | null>(null);
   public readonly token = signal<string | undefined>(undefined);
 
-  constructor() {
-    effect(() => console.log(this.token()));
-  }
+  // constructor() {
+  //   effect(() => console.log(this.token()));
+  // }
 
   public async init(): Promise<void> {
     this.#setupEvents();
@@ -47,27 +47,27 @@ export class Auth2Service {
           break;
 
         case 'token_expires':
-          console.log('token expiring soon');
+          // console.log('token expiring soon');
           break;
 
         case 'session_terminated':
           this.user.set(null);
-          console.log('session ended');
+          // console.log('session ended');
           break;
 
         case 'session_error':
           this.user.set(null);
-          console.error('session error');
+          // console.error('session error');
           break;
 
         case 'token_refresh_error':
           this.user.set(null);
-          console.error('token refresh error');
+          // console.error('token refresh error');
           this.login();
           break;
 
         case 'token_refreshed':
-          console.log('token refreshed');
+          // console.log('token refreshed');
           this.token.set(this.#oauthService.getAccessToken() ?? undefined);
           break;
       }
