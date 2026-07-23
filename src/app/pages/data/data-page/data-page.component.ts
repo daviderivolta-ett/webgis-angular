@@ -368,6 +368,9 @@ export class DataPageComponent {
     const foundLayer: Layer | undefined = LayerGroup.getAllLayers(this.dataLayers).find((l: Layer) => l.id === id);
     if (!foundLayer) return;
 
+    // UI Date
+    this._now.set(new Date());
+
     // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
@@ -645,7 +648,6 @@ export class DataPageComponent {
     if (toggleLayer) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
     if (updateUrl) this.globalStateService.updateQueryParam2('layer', this.currentDataLayers.toArray());
     if (this.layersService.getLayerCountByCategory(this.currentDataLayers.map, 'data_wms--time') <= 0) this.wmsLayersDate = undefined;
-    this._now.set(new Date());
   }
 
   private _checkLayerAndRedrawGroupedCheckboxes(id: string, isChecked: boolean, isAuth: boolean): void {
