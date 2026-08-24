@@ -111,15 +111,23 @@ export class StationsService {
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
 
     params.map((param: string) => {
+      const seen = new Set<string>();
+
       const serie = data
         .filter(d => d['parameter'] === param)
+        .filter(d => {
+          const referenceDate = d['referenceDate'];
+          if (seen.has(referenceDate)) return false;
+          seen.add(referenceDate);
+          return true;
+        })
         .map(d => [
           new Date(d['referenceDate']).getTime(),
           parseFloat(d['value'])
-        ] as [number, number])
+        ] as [number, number]);
 
       result.set(param, serie);
-    })
+    });
 
     return result;
   }
