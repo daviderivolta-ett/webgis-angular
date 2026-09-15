@@ -138,16 +138,6 @@
             <app-webcam ngProjectAs="floating-dialog-content" [header]="webcam.stationName ?? webcam.id" [imgUrl]="webcam.imgUrl"></app-webcam>
         </app-floating-dialog>
     }
-
-    @for (lidar of lidars; track lidar.id) {
-        <app-floating-dialog height="auto" minHeight="50dvh" (removeDialog)="removeDialog(lidar.id)">
-            <app-tabs ngProjectAs="floating-dialog-content" [tabs]="lidar.imgUrls">
-                @for (img of lidar.imgUrls; track $index) {
-                    <app-tab [tabId]="img.id"><img [src]="img.imgUrl"></app-tab>
-                }
-            </app-tabs>
-        </app-floating-dialog>
-    }
     <!-- END FLOATING IMAGES -->
 
     <!-- START LOADER -->

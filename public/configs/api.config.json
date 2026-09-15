@@ -32,8 +32,7 @@
         "createConfigType": "/configurations/create/type",
         "tableStations": "/tables/get/stations/{parameter}",
         "radarImgs": "/radarsat/get/image/{radarType}",
-        "webcamImgs": "/webcams/get/image/{stationId}",
-        "lidarImgs": "/lidar/get/image/{stationId}"
+        "webcamImgs": "/webcams/get/image/{stationId}"
     },
     "lastModified": "2026-05-19"
 }

@@ -164,19 +164,6 @@ export class StationsService {
       });
   }
 
-  public async getLidarImageAt(url: string, stationId: string, date: Date, token?: string): Promise<string[]> {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
-    return this.apiService.getApiData(formattedUrlWithDate, token)
-      .then((data: unknown) => {
-        if (!Array.isArray(data)) return [];
-        return data.map((img) => `data:${img['mimeType']};base64,${img['base64Data']}`);
-      })
-      .catch(() => {
-        throw new Error(`Errore nel recupero dell'immagine lidar.`)
-      });
-  }
-
   public compareSensorTypes(types: SensorType[], compare: string, newLabel: string): SensorType | undefined {
     const filteredTypes: SensorType[] = types.filter((t) => t.compareWith === compare);
     if (filteredTypes.length === 0) return undefined;
