@@ -15,12 +15,10 @@
         @for (item of data(); track `${item.id}_${item.label}`) {
             <div class="station-value">
                 <p class="small">@if(config().label) { {{item.label}} } @if(config().commt && item.commt) { ({{item.commt}}) }</p>
-                @if (item.type !== 'webcam') {
-                    <p class="regular weight-bold">
-                        @if(config().value) { {{ item.value | number: ('1.' + (item.decimals ?? 1) + '-' + (item.decimals ?? 1)) }} }
-                        @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
-                    </p>
-                }
+                <p class="regular weight-bold">
+                    @if(config().value) { {{ item.value | number: ('1.' + (item.decimals ?? 1) + '-' + (item.decimals ?? 1)) }} }
+                    @if(config().unit) { <span class="regular weight-regular greyed">{{item.unit}}</span> }
+                </p>
                 <p class="small greyed">@if(config().date) { {{item.date | date: 'dd/MM/yyyy - HH:mm'}} }</p>
             </div>
         }
@@ -33,17 +31,4 @@
             @if(config().lng) { lon: {{data()[0].lng}} }
         </p>
     }
-
-    <!-- @if (data().length > 0 && data()[0].type !== 'lightning' && data()[0].type !== 'wms') {
-    <div class="popup-footer">
-        <button type="button" class="chart-btn" id="map-popup-btn" (click)="btnClicked.emit()">
-            <span>Grafici</span>
-            <span class="chart-btn__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-                    <path d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" />
-                </svg>
-            </span>
-        </button>
-    </div>
-    } -->
 </div>

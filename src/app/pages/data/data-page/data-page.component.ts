@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /* Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models'
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
 
 /* Services */
 import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services'
@@ -18,7 +18,6 @@ import { LayerLegendComponent } from '../layer-legend/layer-legend.component'
 import { MapChartComponent } from '../map-chart/map-chart.component'
 import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component'
 import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component'
-import { WebcamComponent } from '../webcam/webcam.component'
 
 /* Utilities */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
@@ -28,7 +27,7 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
   selector: 'app-data-page',
   imports: [
     // Components
-    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, WebcamComponent, NotificationIconComponent,
+    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, NotificationIconComponent,
     // Directives
     ReactiveFormsModule,
     // Pipes
@@ -71,7 +70,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
-  public webcams: Webcam[] = [];
   public areChartsDisabled: boolean = true;
 
   private _now = signal(new Date());
@@ -119,7 +117,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public createConfigUrl; // Recovered from route resolver in constructor
   public latestConfigUrl; // Recovered from route resolver in constructor
   public timeserieUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
-  public webcamImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs')));
 
   public stationPopupConfig: StationPopupConfig = createStationPopupConfigFromObject({});
   public stations: StationBase[] = [];
@@ -513,7 +510,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const newCharts: MapChart[] = [];
-    const webcamPromises: Promise<string>[] = [];
 
     stations.forEach(async (s: Station) => {
       switch (s.type) {
@@ -528,30 +524,16 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
           break;
         }
 
-        case 'webcam': {
-          const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
-          const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.auth2Service.token())
-            .catch((err: unknown) => {
-              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine della webcam.`, 'error', true);
-              throw err;
-            })
-            .finally(() => this.snackbarsService.removeSnackbar(webcamSnackbarId))
-          webcamPromises.push(webcamPromise);
-          break;
-        }
-
         default:
           break;
       }
     });
 
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
-    this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
-    this.webcams = this.webcams.filter((webcam: Webcam) => webcam.id !== id);
   }
 
   public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 200)

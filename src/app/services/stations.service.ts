@@ -150,20 +150,6 @@ export class StationsService {
       .map(([x, y]) => [x, y * multiplier]);
   }
 
-  public async getWebcamImageAt(url: string, stationId: string, date: Date, token?: string): Promise<string> {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
-    const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
-    return this.apiService.getApiData(formattedUrlWithDate, token)
-      .then((data: unknown) => {
-        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
-        if (!('mimeType' in data) || !('base64Data' in data)) throw new Error('Invalid object.');
-        return `data:${data['mimeType']};base64,${data['base64Data']}`;
-      })
-      .catch(() => {
-        throw new Error(`Errore nel recupero dell'immagine della webcam.`)
-      });
-  }
-
   public compareSensorTypes(types: SensorType[], compare: string, newLabel: string): SensorType | undefined {
     const filteredTypes: SensorType[] = types.filter((t) => t.compareWith === compare);
     if (filteredTypes.length === 0) return undefined;
