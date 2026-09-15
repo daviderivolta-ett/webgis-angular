@@ -1,8 +1,8 @@
-// Libraries
+/* Dependencies */ 
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChild, input, TemplateRef } from '@angular/core';
 
-// Type
+/* Type */
 type Tree = {
   id: string;
   label?: string;
@@ -10,7 +10,7 @@ type Tree = {
   options?: Tree[]
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-tree',
   imports: [

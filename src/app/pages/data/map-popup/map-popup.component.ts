@@ -1,11 +1,11 @@
-/** Libraries */
+/* Dependencies */
 import { Component, input, output } from '@angular/core'
 import { DatePipe, DecimalPipe } from '@angular/common'
 
-/** Models */
+/* Models */
 import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-map-popup',
   imports: [

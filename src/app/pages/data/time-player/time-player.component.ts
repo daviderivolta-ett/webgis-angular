@@ -1,20 +1,19 @@
-/** Libraries */
+/* Dependencies */
 import { Component, computed, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-time-player',
   imports: [
-    /** Directives */
     ReactiveFormsModule
   ],
   templateUrl: './time-player.component.html',
   styleUrl: './time-player.component.scss'
 })
 export class TimePlayerComponent {
-  /** Properties */
-  /** Date */
+  /* Properties */
+  /* Date */
   public date = input<Date>();
   public referenceDate = input<Date>();
   public timeRange = input<number>(30);
@@ -31,14 +30,14 @@ export class TimePlayerComponent {
     return this._toDatetimeLocal(date);
   });
 
-  /** UI */
+  /* UI */
   public form: FormGroup = new FormGroup({ date: new FormControl('', [Validators.required]) }, { updateOn: 'blur' });
   private _isPlaying: boolean = false;
   private _intervalId: number | undefined;
   public isLoading = input<boolean>(false);
 
-  /** Output */
-  public onToggle = output<Date | undefined>();
+  /* Output */
+  public toggled = output<Date | undefined>();
 
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
@@ -49,7 +48,7 @@ export class TimePlayerComponent {
     });
   }
 
-  /** Getter and setter */
+  /* Getter and setter */
   public get isPlaying() { return this._isPlaying }
   private set isPlaying(value: boolean) {
     this._isPlaying = value;
@@ -57,11 +56,12 @@ export class TimePlayerComponent {
 
   public setIsPlaying(value: boolean): void {
     this.isPlaying = value;
-    value ? this._play() : this._stop();
+    if (value) this._play();
+    else this._stop();
   }
 
-  /** Methods */
-  /** Form */
+  /* Methods */
+  /* Form */
   public patchValue(value: Date, emitEvent: boolean = false): void {
     this.form.patchValue({ date: this._toDatetimeLocal(value) }, { emitEvent });
   }
@@ -70,36 +70,26 @@ export class TimePlayerComponent {
     this.setIsPlaying(false);
 
     if (!('date' in changes) || typeof changes['date'] !== 'string' || changes['date'] === '') {
-      this.onToggle.emit(undefined);
+      this.toggled.emit(undefined);
       return;
     }
 
     const date = this._truncateDateToFullHour(changes['date']);
     if (this._checkDate(new Date(date))) {
       this.form.patchValue({ date }, { emitEvent: false });
-      this.onToggle.emit(new Date(date));
+      this.toggled.emit(new Date(date));
     } else {
       this.patchValue(new Date);
-      this.onToggle.emit(new Date());
+      this.toggled.emit(new Date());
     }
-
-    // const parsed = new Date(this._truncateDateToFullHour(changes['date']));
-    // const clamped = this._clampDate(parsed);
-
-    // this.form.patchValue(
-    //   { date: this._toDatetimeLocal(clamped) },
-    //   { emitEvent: false }
-    // );
-
-    // this.onToggle.emit(clamped);
   }
 
-  /** Actions */
-  public onToggleBtnClick(isPlaying: boolean): void {
+  /* Actions */
+  public toggledBtnClick(isPlaying: boolean): void {
     if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
     this.setIsPlaying(isPlaying);
     const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date();
-    this.onToggle.emit(!isNaN(date.getTime()) ? date : undefined)
+    this.toggled.emit(!isNaN(date.getTime()) ? date : undefined)
   }
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
@@ -113,23 +103,14 @@ export class TimePlayerComponent {
 
     if (this._checkDate(newDate)) {
       this.form.patchValue({ date: this._toDatetimeLocal(newDate) }, { emitEvent: false });
-      this.onToggle.emit(newDate);
+      this.toggled.emit(newDate);
     }
-
-    // const clamped = this._clampDate(newDate);
-
-    // this.form.patchValue(
-    //   { date: this._toDatetimeLocal(clamped) },
-    //   { emitEvent: false }
-    // );
-
-    // this.onToggle.emit(date);
   }
 
   public onResetBtnClick(): void {
     this.form.patchValue({ date: '' }, { emitEvent: false });
     this.setIsPlaying(false);
-    this.onToggle.emit(undefined);
+    this.toggled.emit(undefined);
   }
 
   private _play() {
@@ -140,7 +121,7 @@ export class TimePlayerComponent {
       const newDate: Date = this._calculateNewDate(date, 'forward')
       if (this._checkDate(newDate)) {
         this.patchValue(newDate);
-        this.onToggle.emit(newDate);
+        this.toggled.emit(newDate);
       } else {
         this.setIsPlaying(false);
       }
@@ -156,7 +137,7 @@ export class TimePlayerComponent {
     if (!isLoading && this.isPlaying) this._play();
   }
 
-  /** Utils */
+  /* Utils */
   private _truncateDateToFullHour(date: string): string {
     const dateObj = new Date(date);
     const day = dateObj.getFullYear() + '-' + this._pad(dateObj.getMonth() + 1) + '-' + this._pad(dateObj.getDate());
@@ -193,7 +174,7 @@ export class TimePlayerComponent {
   }
 
   private _checkDate(date: Date): boolean {
-    return date <= (new Date(this.max()) ?? new Date()) && date >= new Date(this.min());
+    return date <= new Date(this.max()) && date >= new Date(this.min());
   }
 
   private _clampDate(date: Date): Date {

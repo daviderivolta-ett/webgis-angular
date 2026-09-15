@@ -1,7 +1,7 @@
-/** Libraries */
-import { Component, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
+/* Dependencies */
+import { Component, ContentChild, ElementRef, ViewEncapsulation, AfterContentInit } from '@angular/core'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-searchbar',
   imports: [],
@@ -9,17 +9,15 @@ import { Component, ContentChild, ElementRef, ViewEncapsulation } from '@angular
   styleUrl: './searchbar.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class SearchbarComponent {
+export class SearchbarComponent implements AfterContentInit {
   @ContentChild('input') _inputRef?: ElementRef<HTMLInputElement>;
 
-  constructor() { }
-
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngAfterContentInit(): void {
     if (!this._inputRef) console.warn('Elemento input non presente all\'interno del componente \'app-searchbar\'. Inserire un input con reference #input, ngProjectAs="searchbar-input".');
   }
 
-  /** Methods */  
+  /* Methods */  
   public onEmptyBtnClick(): void {
     if (this._inputRef?.nativeElement) {
       const input: HTMLInputElement = this._inputRef.nativeElement;

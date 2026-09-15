@@ -1,7 +1,7 @@
-// Libraries
+/* Dependencies */
 import { Component, effect, HostListener, input, output } from '@angular/core';
 
-// Component
+/* Component */
 @Component({
   selector: 'app-sidebar',
   imports: [],
@@ -27,7 +27,7 @@ export class SidebarComponent {
     effect(() => this.currentWidth = this.width());
   }
 
-  // Methods
+  /* Methods */
   @HostListener('window:resize', ['$event'])
   public onResize(event: UIEvent) {
     const windowWidth: number = (event.target as Window).innerWidth;

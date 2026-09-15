@@ -1,31 +1,32 @@
-/** Dependencies */
+/* Dependencies */
 import { Injectable } from '@angular/core';
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class TablesService {
 
-  /** Methods */
-  public filterNestedTableData(data: any[], fieldsToKeep: string[]): any[] {
-    if (fieldsToKeep.length === 0 || !data.every(r => typeof r === 'object')) return data;
-    return data.map((d: any) => {
-      const result: Record<string, any> = {};
-      Object.entries(d).forEach(([k, v]: [string, any]) => {
-        if (fieldsToKeep.includes(k)) result[k] = v;
-      })
-      return result;
-    });
+  /* Methods */
+  public filterNestedTableData(data: object[], fieldsToKeep: string[]): object[] {
+    if (fieldsToKeep.length === 0 || !data.every(r => r !== null && typeof r === 'object')) return data;
+
+    return data.map(d =>
+      Object.fromEntries(
+        Object.entries(d as Record<string, unknown>)
+          .filter(([key]) => fieldsToKeep.includes(key))
+      )
+    );
   }
 
-  public mergeTableDataRowsByParam(data: any[], groupBy: string, fieldsToMerge: string[]): any[] {
+  public mergeTableDataRowsByParam(data: unknown[], groupBy: string, fieldsToMerge: string[]): object[] {
+    return data.reduce((acc: Record<string, unknown>[], curr: unknown) => {
+      const current = curr as Record<string, unknown>;
 
-    return data.reduce((acc: any[], curr: any) => {
-      let found = acc.find(item => item[groupBy] === curr[groupBy]);
+      let found = acc.find(item => item[groupBy] === current[groupBy]);
 
       if (!found) {
-        found = { [groupBy]: curr[groupBy] };
+        found = { [groupBy]: current[groupBy] };
         acc.push(found);
       }
 
@@ -35,12 +36,13 @@ export class TablesService {
           .length / fieldsToMerge.length + 1;
 
       fieldsToMerge.forEach(field => {
-        found[`${field}${index}`] = curr[field];
+        found[`${field}${index}`] = current[field];
       });
 
       return acc;
     }, []);
   }
+
 
   public parseNestedTableData2(data: any[], fieldToSearch: string, keysToMerge: string[], hiddenKey: string) {
     if (!data.every(r => fieldToSearch in r)) return data;
@@ -58,12 +60,12 @@ export class TablesService {
             hiddenValue: undefined
           })),
           ...values.map((d: any) => {
-            const { parameter, ...r } = d;
+            const { ...r } = d;
             const entries: [string, any][] = Object.entries(r);
 
             let value: string = '';
             keysToMerge.forEach((key: string) => {
-              const pair: [string, any] | undefined = entries.find(([k, _]: [string, any]) => k === key);
+              const pair: [string, any] | undefined = entries.find(([k,]: [string, any]) => k === key);
               if (pair) {
                 const isDate: boolean = this._isISODate(pair[1]);
                 value += isDate ?
@@ -109,7 +111,7 @@ export class TablesService {
 
             let value = ''
             keysToMerge.forEach((key: string) => {
-              const pair: [string, any] | undefined = entries.find(([k, _]: [String, any]) => k === key);
+              const pair: [string, any] | undefined = entries.find(([k,]: [string, any]) => k === key);
               if (pair) {
                 const isDate: boolean = this._isISODate(pair[1]);
                 value += isDate ?

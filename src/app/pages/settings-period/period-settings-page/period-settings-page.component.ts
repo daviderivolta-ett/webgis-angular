@@ -1,26 +1,26 @@
-/** Libraries */
-import { Component, effect, Signal, signal, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, effect, inject, signal, ViewChild, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, TenantsService } from '../../../services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService, TenantsService } from '../../../services'
 
-/** Models */
+/* Models */
 import { Tenant, User } from '../../../models'
 
-/** Directives */
+/* Directives */
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive'
 
-/** Components */
+/* Components */
 import { HeaderComponent, SidebarComponent, SettingsNavMenuComponent, LoadingBtnComponent, ConfirmDialogComponent, NotificationIconComponent } from '../../../components'
 import { TenantCardComponent } from '../tenant-card/tenant-card.component'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-period-settings-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent,
     SidebarComponent,
     SettingsNavMenuComponent,
@@ -28,15 +28,23 @@ import { TenantCardComponent } from '../tenant-card/tenant-card.component'
     TenantCardComponent,
     ConfirmDialogComponent,
     NotificationIconComponent,
-    /** Directives */
+    /* Directives */
     ReactiveFormsModule,
     ClickOutsideDirective
   ],
   templateUrl: './period-settings-page.component.html',
   styleUrl: './period-settings-page.component.scss'
 })
-export class PeriodSettingsPageComponent {
-  /** UI */
+export class PeriodSettingsPageComponent implements OnInit {
+  /* Dependency injection */
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private snackbarService: SnackbarsService = inject(SnackbarsService)
+
+  /* UI */
   public form = new FormGroup({
     name: new FormControl('', [Validators.required]),
     initialDate: new FormControl(this._fromDateToDatetimelocal(new Date()), [Validators.required]),
@@ -44,7 +52,7 @@ export class PeriodSettingsPageComponent {
     // alwaysAvailable: new FormControl(false)
   });
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
 
   public apiBaseUrl; // Recovered from route resolver in constructor
@@ -60,20 +68,12 @@ export class PeriodSettingsPageComponent {
   public selectedTenant; // Recovered from service in constructor
   public selectedTenantMsg; // Recovered from service in constructor
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private globalStateService: GlobalStateService,
-    private tenantsService: TenantsService,
-    private snackbarService: SnackbarsService
-  ) {
-    /** Recovering from services */
+  constructor() {
+    /* Recovering from services */
     this.selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.retentionApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('retentionApi'));
     this.tenantsUrl = this.apiService.buildUrl(this.retentionApiBaseUrl, this.route.snapshot.data['apisConfig'].get('allTenants'));
@@ -82,7 +82,7 @@ export class PeriodSettingsPageComponent {
     this.unloadTenantUrl = this.apiService.buildUrl(this.retentionApiBaseUrl, this.route.snapshot.data['apisConfig'].get('unloadTenant'));
     this.deleteTenantUrl = this.apiService.buildUrl(this.retentionApiBaseUrl, this.route.snapshot.data['apisConfig'].get('deleteTenant'));
 
-    /** Effetcs */
+    /* Effetcs */
     effect(() => this.user = this.auth2Service.user());
     effect(() => {
       const selectedTenant = this.selectedTenant();
@@ -91,18 +91,18 @@ export class PeriodSettingsPageComponent {
     })
   }
 
-  /** References */
+  /* References */
   @ViewChild('leftSidebar') _leftSidebar!: SidebarComponent;
   @ViewChild('rightSidebar') _rightSidebar!: SidebarComponent;
   @ViewChild('confirmDialog') _confirmDialog!: ConfirmDialogComponent;
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngOnInit(): void {
     this.#getAllTenants();
   }
 
-  /** Methods */
-  /** Init */
+  /* Methods */
+  /* Init */
   #getAllTenants() {
     this.tenantsService.getAllTenants(this.tenantsUrl, this.auth2Service.token())
       .then((tenants: Tenant[]) => this.tenants.set(tenants.toSorted((a, b) => a.id.localeCompare(b.id))))
@@ -137,7 +137,7 @@ export class PeriodSettingsPageComponent {
       await this.tenantsService.createTenant(this.createTenantUrl, tenant, this.auth2Service.token());
       this.snackbarService.createSnackbar(`Periodo salvato creato; in attesa dell'elaborazione dei dati.`, 'success', true);
       this.#getAllTenants();
-    } catch (error) {
+    } catch {
       this.snackbarService.createSnackbar(`Errore nella creazione del periodo salvato.`, 'error', true);
     }
   }
@@ -149,7 +149,7 @@ export class PeriodSettingsPageComponent {
       await this.tenantsService.loadTenant(this.apiService.replaceApiUrlPlaceholder(this.loadTenantUrl, id), this.auth2Service.token());
       this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false } : t));
       this.snackbarService.createSnackbar(`Periodo salvato caricato. In attesa dell'elaborazione dei dati.`, 'success', true);
-    } catch (error) {
+    } catch {
       this.snackbarService.createSnackbar(`Errore durante il caricamento del periodo salvato.`, 'error', true);
     }
   }
@@ -161,7 +161,7 @@ export class PeriodSettingsPageComponent {
       await this.tenantsService.unloadTenant(this.apiService.replaceApiUrlPlaceholder(this.unloadTenantUrl, id), this.auth2Service.token());
       this.tenants.update((oldValue: Tenant[]) => oldValue.map((t) => t.id === id ? { ...t, isEnabled: false, isLoaded: false } : t));
       this.snackbarService.createSnackbar(`Periodo salvato scaricato. In attesa dell'elaborazione dei dati.`, 'success', true);
-    } catch (error) {
+    } catch {
       this.snackbarService.createSnackbar(`Errore durante lo scaricamento del periodo salvato.`, 'error', true);
     }
   }
@@ -173,7 +173,7 @@ export class PeriodSettingsPageComponent {
       await this.tenantsService.deleteTenant(this.apiService.replaceApiUrlPlaceholder(this.deleteTenantUrl, id), this.auth2Service.token());
       this.tenants.update((oldValue: Tenant[]) => oldValue.filter((t: Tenant) => t.id !== id));
       this.snackbarService.createSnackbar(`Periodo salvato eliminato con successo.`, 'success', true);
-    } catch (error: unknown) {
+    } catch {
       this.snackbarService.createSnackbar(`Errore durante la cancellazione del periodo salvato.`, 'error', true);
     }
   }

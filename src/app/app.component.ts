@@ -1,17 +1,17 @@
-/** Dependencies */
-import { Component, effect } from '@angular/core'
+/* Dependencies */
+import { Component, effect, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
-/** Models */
+/* Models */
 import { User } from './models'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, ConfigService, GlobalStateService, SnackbarsService } from './services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService } from './services'
 
-/** Components */
+/* Components */
 import { SnackbarContainerComponent } from './components'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-root',
   imports: [
@@ -21,25 +21,24 @@ import { SnackbarContainerComponent } from './components'
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  /** User Interface */
+export class AppComponent implements OnInit {
+  /* Dependency injection */
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
+  /* User Interface */
   public title: string = 'omirl';
 
-  /** Data */
+  /* Data */
   public latestConfigUrl: string = '';
 
-  /** Constructor */
-  constructor(
-    private configService: ConfigService,
-    private globalStateService: GlobalStateService,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private snackbarsService: SnackbarsService
-  ) {
+  /* Constructor */
+  constructor() {
     /** Effects */
     effect(() => {
-      /** Get user query params */
+      /* Get user query params */
       if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
       const currentUser: User | null = this.auth2Service.user();
       if (!currentUser) return;
@@ -48,7 +47,7 @@ export class AppComponent {
     });
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngOnInit(): void {
     this.snackbarsService.createSnackbar(`Questo sito è attualmente in fase di test. I contenuti potrebbero essere incompleti e/o non aggiornati. Si declina ogni responsabilità per l'uso delle informazioni qui riportate.`, 'error', false);
     this.latestConfigUrl = this.apiService.buildUrl(

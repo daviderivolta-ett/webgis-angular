@@ -1,24 +1,24 @@
-/** Libraries */
-import { Injectable } from '@angular/core';
+/* Libraries */
+import { inject, Injectable } from '@angular/core';
 
-/** Services */
+/* Services */
 import { ApiService } from './api.service'
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class PopupService {
-
-  constructor(private apiService: ApiService) { }
+  private apiService = inject(ApiService);
 
   public async getLatestPopupConfig(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {        
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
         if (!('jsonValue' in data) || typeof data['jsonValue'] !== 'string') throw new Error(`Formato della risposta della configurazione del popup non valido.`);
         try {
           return JSON.parse(data['jsonValue']);
-        } catch (error) {
+        } catch {
           throw new Error(`Errore nel parsing della configurazione del popup.`);
         }
       })
@@ -28,7 +28,7 @@ export class PopupService {
       })
   }
 
-  public async postPopupConfig(url: string, configName: string, configTag: string, configType: string, obj: Record<any, any>, token?: string): Promise<void> {
+  public async postPopupConfig(url: string, configName: string, configTag: string, configType: string, obj: Record<string, unknown>, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 

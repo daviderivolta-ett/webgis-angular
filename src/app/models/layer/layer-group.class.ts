@@ -105,7 +105,7 @@ export class LayerGroup {
     }
 
     static getAllLayerGroups(groups: LayerGroup[]): LayerGroup[] {
-        let result: LayerGroup[] = [];
+        const result: LayerGroup[] = [];
 
         for (const group of groups) {
             result.push(group);
@@ -124,7 +124,7 @@ export class LayerGroup {
     }
 
     static getAuthLayerGroups(groups: LayerGroup[], isAuth: boolean) {
-        let result: string[] = [];
+        const result: string[] = [];
 
         for (const group of groups) {
             if (!group.requiresAuth || isAuth) result.push(group.id);
@@ -145,7 +145,7 @@ export class LayerGroup {
     }
 
     static getAuthLayers(groups: LayerGroup[], isAuth: boolean, layersToShow?: string[]) {
-        let result: string[] = [];
+        const result: string[] = [];
 
         for (const group of groups) {
             if (!group.requiresAuth || isAuth) result.push(group.id);

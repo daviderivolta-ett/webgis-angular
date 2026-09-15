@@ -1,17 +1,15 @@
-/** Libraries */
+/* Libraries */
 import { Injectable } from '@angular/core';
 
-/** Models */
+/* Models */
 import { Layer, LayerCategory, WMSLayer } from '../models';
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class LayersService {
-  /**
-  * Methods
-  */
+  /* Methods */
 
   /** Return current layers Map based on layer categories, their maxNumber and incompatibilities */
   public checkLayerCategories(layer: Layer, isChecked: boolean, currentLayers: Map<string, string[]>, layerCategories: Map<string, LayerCategory>, isAuth: boolean): Map<string, string[]> {
@@ -81,9 +79,8 @@ export class LayersService {
   }
 
   /** Get WMS feature info */
-  // public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: { ne: [number, number], sw: [number, number] }, point: { x: number, y: number }, size: { width: number, height: number }) {
-  public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, time?: string) {   
-    const params: Record<string, any> = {
+  public async getFeatureInfoWMSLayer(layer: WMSLayer, bbox: string, point: { x: number, y: number }, size: { width: number, height: number }, time?: string) {
+    const params: Record<string, unknown> = {
       service: 'WMS',
       request: 'GetFeatureInfo',
       version: layer.params.version ?? '1.1.1',
@@ -105,14 +102,17 @@ export class LayersService {
     let baseUrl = layer.url;
     if (baseUrl.endsWith('ows')) baseUrl = baseUrl.replace('ows', 'wms');
     const url: URL = new URL(baseUrl);
-    Object.entries(params).forEach(([key, value]: [string, any]) => url.searchParams.set(key, value));
+    Object.entries(params).forEach(([key, value]: [string, unknown]) => {
+      if (typeof value !== 'string') return;
+      url.searchParams.set(key, value);
+    });
 
     return fetch(url)
       .then((res: Response) => {
         if (!res.ok) throw new Error(`Errore nella richiesta delle info del layer WMS.`);
         return res.json()
       })
-      .then((data: any) => {
+      .then((data: GeoJSON.FeatureCollection) => {
         return this._parseGetFeatureInfo(data, layer.label ?? layer.id);
       })
       .catch((err: unknown) => {
@@ -132,7 +132,7 @@ export class LayersService {
       const result: [string, number][] = [] as [string, number][];
 
       if (propMap.size === 1) {
-        for (const [_, v] of propMap.entries()) {
+        for (const [, v] of propMap.entries()) {
           if (v !== -1000) result.push([label, Math.round(v * 100) / 100]);
         }
       }

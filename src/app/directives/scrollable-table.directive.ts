@@ -1,19 +1,17 @@
-// Libraries
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+/* Dependencies */
+import { Directive, ElementRef, Renderer2, AfterViewChecked, OnDestroy, inject } from '@angular/core'
 
-// Directive
+/* Directive */
 @Directive({
   selector: '[scrollableTable]'
 })
-export class ScrollableTableDirective {
+export class ScrollableTableDirective implements AfterViewChecked, OnDestroy {
+  private elementRef: ElementRef<HTMLDivElement> = inject(ElementRef);
+  private renderer: Renderer2 = inject(Renderer2);
+
   private _unlisteners: (() => void)[] = [];
 
-  constructor(
-    private elementRef: ElementRef<HTMLDivElement>,
-    private renderer: Renderer2
-  ) { }
-
-  // Directive lifecycle
+  /* Directive lifecycle */
   public ngAfterViewChecked(): void {
     const table: HTMLDivElement | null = this.elementRef.nativeElement.querySelector('.table');
     if (table) {
@@ -32,7 +30,7 @@ export class ScrollableTableDirective {
     this._unlisteners = [];
   }
 
-  // Methods
+  /* Methods */
   private _setTableHeadProperties(thead: HTMLDivElement): void {
     this.renderer.setStyle(thead, 'position', 'sticky');
     this.renderer.setStyle(thead, 'top', '0');
@@ -49,23 +47,23 @@ export class ScrollableTableDirective {
   private _searchHeaderCell(table: HTMLDivElement): void {
     const firstTh: Element | null = table.querySelector('.thead .trow .tdata');
     if (firstTh && firstTh instanceof HTMLDivElement) {
-      this._makeSticky(firstTh, '0px');
+      // this._makeSticky(firstTh, '0px');
     }
 
     const bodyRows: NodeListOf<Element> = table.querySelectorAll('.tbody .trow');
-    bodyRows.forEach((row: Element, index: number) => {
+    bodyRows.forEach((row: Element) => {
       const firstTd: HTMLDivElement | null = row.querySelector('.tdata');
       if (firstTd && firstTd instanceof HTMLDivElement) {
-        this._makeSticky(firstTd, '0px');
+        // this._makeSticky(firstTd, '0px');
       }
     });
   }
 
-  private _makeSticky(cell: HTMLDivElement, left: string): void {
-    // this.renderer.setStyle(cell, 'position', 'sticky');
-    // this.renderer.setStyle(cell, 'left', left);
-    // this.renderer.setStyle(cell, 'z-index', '1');
-  }
+  // private _makeSticky(cell: HTMLDivElement, left: string): void {
+  // this.renderer.setStyle(cell, 'position', 'sticky');
+  // this.renderer.setStyle(cell, 'left', left);
+  // this.renderer.setStyle(cell, 'z-index', '1');
+  // }
 
   private _syncScroll(thead: HTMLDivElement, tbody: HTMLDivElement) {
     const unlistenThead = this.renderer.listen(thead, 'scroll', () => {

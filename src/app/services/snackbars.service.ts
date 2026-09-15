@@ -1,10 +1,10 @@
-/** Dependencies */
+/* Dependencies */
 import { Injectable, signal } from '@angular/core';
 
-/** Models */
+/* Models */
 import { Snackbar } from '../models';
 
-/** Services */
+/* Services */
 @Injectable({
   providedIn: 'root'
 })

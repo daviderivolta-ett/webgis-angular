@@ -1,8 +1,8 @@
 export class Utils {
-    static getValuesByNestedKey(array: Record<string, any>[], keyToReturn: string, keyToFind: string, nestedKey: string, result: string[] = []): string[] {
+    static getValuesByNestedKey(array: Record<string, unknown>[], keyToReturn: string, keyToFind: string, nestedKey: string, result: string[] = []): string[] {
 
         for (const item of array) {
-            if (keyToReturn in item && keyToFind in item && item[keyToFind]) {
+            if (item[keyToFind] && typeof item[keyToReturn] === 'string') {
                 result.push(item[keyToReturn]);
             }
 
@@ -24,10 +24,10 @@ export class Utils {
         return { added, removed };
     }
 
-    static findObjectsByIds(ids: string[], objects: any[]): any[] {
-        let result: any[] = [];
-        objects.forEach((object: any) => {
-            if (ids.includes(object.id)) result.push(object);
+    static findObjectsByIds(ids: string[], objects: unknown[]): unknown[] {
+        const result: unknown[] = [];
+        objects.forEach((object: unknown) => {
+            if (typeof object === 'object' && object !== null && 'id' in object && typeof object.id === 'string' && ids.includes(object.id)) result.push(object);
         });
         return result;
     }
@@ -47,22 +47,24 @@ export class Utils {
         const withoutKey: string[] = [];
 
         map.forEach((value, key) => {
-            key === excludedKey ?
-                withKey.push(...value) :
-                withoutKey.push(...value)
+            if (key === excludedKey) withKey.push(...value);
+            else withoutKey.push(...value);
         });
 
         return { withKey, withoutKey };
     }
 
-    static diffRecordArrays(current: Record<string, any[]>, initial: Record<string, any[]>) {
-        return Object.entries(current).reduce((acc: Record<string, any>, curr: [string, any[]]) => {
+    static diffRecordArrays(current: Record<string, unknown[]>, initial: Record<string, unknown[]>) {
+        return Object.entries(current).reduce((acc: Record<string, unknown>, curr: [string, unknown[]]) => {
             const key: string = curr[0];
-            const currentKeyValues: any[] = curr[1];
-            const initialKeyValues: any[] = initial[key];
-            if (!this.areBooleanArraysEqual(currentKeyValues, initialKeyValues)) acc[key] = currentKeyValues;
+            const currentKeyValues: unknown[] = curr[1];
+            const initialKeyValues: unknown[] = initial[key];
+            if (!this.areBooleanArraysEqual(
+                currentKeyValues.every((v) => typeof v === 'boolean') ? currentKeyValues : [],
+                initialKeyValues.every((v) => typeof v === 'boolean') ? initialKeyValues : []
+            )) acc[key] = currentKeyValues;
             return acc;
-        }, {} as Record<string, any[]>);
+        }, {} as Record<string, unknown[]>);
     }
 
     static areBooleanArraysEqual(arr1: boolean[], arr2: boolean[]): boolean {
@@ -115,6 +117,7 @@ export class Utils {
         return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
             if (timeout) window.clearTimeout(timeout);
             timeout = window.setTimeout(() => callback.apply(this, args), wait);
-        }
+        };
     }
+
 }

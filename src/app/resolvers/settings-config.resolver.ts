@@ -1,15 +1,15 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Models
-import { Settings } from '../models';
+/* Models */
+import { Settings } from '../models'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-// Resolver
-export const settingsConfigResolver: ResolveFn<Settings> = async (route, state) => {
+/* Resolver */
+export const settingsConfigResolver: ResolveFn<Settings> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -22,7 +22,7 @@ export const settingsConfigResolver: ResolveFn<Settings> = async (route, state) 
 
   return configService.getSettings(url, authService.getAccessToken())
     .then((settings: Settings) => settings)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return new Settings()
     });

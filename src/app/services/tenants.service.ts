@@ -1,5 +1,5 @@
 /* Dependencies */
-import { computed, Injectable, signal } from '@angular/core'
+import { computed, inject, Injectable, signal } from '@angular/core'
 
 /* Models */
 import { Tenant } from '../models'
@@ -12,11 +12,15 @@ import { ApiService } from './api.service'
   providedIn: 'root'
 })
 export class TenantsService {
+  /* Dependency injection */
+  private apiService: ApiService = inject(ApiService);
+  
+  /* State */
   #tenants = signal<Tenant[]>([])
-
+  
   #selectedTenant = signal<Tenant | null>(null);
   selectedTenant = this.#selectedTenant.asReadonly();
-
+  
   public message = computed<string | null>(() => {
     const selectedTenant = this.selectedTenant();
     if (!selectedTenant) return null;
@@ -24,17 +28,16 @@ export class TenantsService {
     if (!tenant) return null;
     return `Periodo salvato selezionato:\n${tenant.id}\n${new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(tenant.fromDate))} - ${new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(tenant.toDate))}`
   });
-
-  constructor(private apiService: ApiService) { }
-
+  
+  /* Methods */
   public getAllTenants(url: string, token?: string): Promise<Tenant[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
         if (!Array.isArray(data)) throw new Error(`Formato non valido.`);
         return data;
       })
-      .then((data: any[]) => {
-        const tenants = data.map((d: any) => Tenant.createFromObject(d));
+      .then((data: unknown[]) => {
+        const tenants = data.map((d: unknown) => Tenant.createFromObject(d));
         this.#tenants.set(tenants);
         return tenants;
       });

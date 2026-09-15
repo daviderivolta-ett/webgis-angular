@@ -1,5 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+/* Dependencies */
+import { Pipe, PipeTransform } from '@angular/core'
 
+/* Pipe */
 @Pipe({
   name: 'isArray'
 })

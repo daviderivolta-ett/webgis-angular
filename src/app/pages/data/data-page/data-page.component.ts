@@ -1,29 +1,29 @@
-/** Libraries */
-import { afterNextRender, ChangeDetectorRef, Component, computed, effect, HostListener, QueryList, signal, ViewChild, ViewChildren } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+/* Dependencies */
+import { ChangeDetectorRef, Component, computed, effect, HostListener, inject, QueryList, signal, ViewChild, ViewChildren, OnInit, AfterViewInit, OnDestroy } from '@angular/core'
+import { DatePipe } from '@angular/common'
+import { ActivatedRoute, RouterLink } from '@angular/router'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-/** Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models';
+/* Models */
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, Lidar, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, Webcam, WMSLayer, WMSLegend } from '../../../models'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services';
+/* Services */
+import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
-/** Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent, NotificationIconComponent } from '../../../components';
-import { MapComponent } from '../map/map.component';
-import { MapPopupComponent } from '../map-popup/map-popup.component';
-import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
-import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
-import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
-import { WebcamComponent } from '../webcam/webcam.component';
+/* Components */
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent, NotificationIconComponent } from '../../../components'
+import { MapComponent } from '../map/map.component'
+import { MapPopupComponent } from '../map-popup/map-popup.component'
+import { LayerLegendComponent } from '../layer-legend/layer-legend.component'
+import { MapChartComponent } from '../map-chart/map-chart.component'
+import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component'
+import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component'
+import { WebcamComponent } from '../webcam/webcam.component'
 
-/** Utilities */
-import { CSVUtils, DateUtils, Utils } from '../../../utils';
+/* Utilities */
+import { CSVUtils, DateUtils, Utils } from '../../../utils'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-data-page',
   imports: [
@@ -40,9 +40,23 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
   templateUrl: './data-page.component.html',
   styleUrl: './data-page.component.scss'
 })
-export class DataPageComponent {
-  /** Class properties */
-  /** User Interface */
+export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  /* Class properties */
+
+  /* Dependency injections */
+  private cdRef: ChangeDetectorRef = inject(ChangeDetectorRef)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private popupService: PopupService = inject(PopupService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+  private layersService: LayersService = inject(LayersService)
+  private stationsService: StationsService = inject(StationsService)
+  private commandsRegistry: CommandsRegistryService = inject(CommandsRegistryService)
+
+  /* User Interface */
   public isLoading: boolean = false;
   public windowWidth: number;
   public isSliderCollapsed: boolean = false;
@@ -74,7 +88,7 @@ export class DataPageComponent {
   });
   public wmsLayersDate: Date | undefined;
 
-  /** References */
+  /* References */
   @ViewChild('map') _map!: MapComponent;
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
   @ViewChildren('groupedCheckbox') _groupedCheckboxes!: QueryList<GroupedCheckboxesComponent>;
@@ -83,13 +97,13 @@ export class DataPageComponent {
   @ViewChild('legendsMenu') _legendsMenu!: PopUpMenuComponent;
   @ViewChildren('chartDatePicker') _chartDatePickers!: MapChartDatepickerComponent[];
 
-  /** Listeners */
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
+  /* Listeners */
+  @HostListener('window:resize')
+  onResize() {
     this.windowWidth = window.innerWidth;
   }
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
   public refreshLayersId: number | null = null;
 
@@ -126,29 +140,17 @@ export class DataPageComponent {
   public selectedTenant; // Recovered from service in constructor
   public selectedTenantMsg; // Recovered from service in constructor
 
-  /** Constructor */
+  /* Constructor */
   constructor(
-    private cdRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private popupService: PopupService,
-    private globalStateService: GlobalStateService,
-    private snackbarsService: SnackbarsService,
-    private layersService: LayersService,
-    private stationsService: StationsService,
-    private commandsRegistry: CommandsRegistryService
   ) {
     this.windowWidth = window.innerWidth;
 
-    /** Recovering from services */
+    /* Recovering from services */
     this.selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
     this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
     this.settings = this.route.snapshot.data['settings'];
 
@@ -168,17 +170,17 @@ export class DataPageComponent {
 
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
 
-    /** Forms init */
-    this.baseLayersForm.valueChanges.subscribe((changes: any) => this._onBaselayersRadioChange(changes));
+    /* Forms init */
+    this.baseLayersForm.valueChanges.subscribe((changes: unknown) => this._onBaselayersRadioChange(changes));
     if (this.infoLayers.length > 0) this.infoLayers.forEach((l: WMSLayer) => this.infoLayersForm.addControl(l.id, new FormControl(false)));
     Object.keys(this.infoLayersForm.controls).forEach((controlName: string) => {
       const control = this.infoLayersForm.get(controlName);
-      if (control) control.valueChanges.subscribe((changes: any) => this._onInfoLayersCheckboxesChange(controlName, changes));
+      if (control) control.valueChanges.subscribe((changes: boolean) => this._onInfoLayersCheckboxesChange(controlName, changes));
     })
 
-    /** Effects */
+    /* Effects */
     effect(() => {
-      const currentUser = this.auth2Service.user();      
+      const currentUser = this.auth2Service.user();
       const isAuth: boolean = currentUser ? true : false;
       this._changeCheckboxesVisibility(isAuth, currentUser?.layers);
       if (!this.user && currentUser) this.setDataFromApi();
@@ -186,7 +188,7 @@ export class DataPageComponent {
     });
   }
 
-  /** Getter and setter */
+  /* Getter and setter */
   public get currentDataLayers() {
     return {
       map: this._currentDataLayers,
@@ -194,7 +196,7 @@ export class DataPageComponent {
     }
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
@@ -209,7 +211,7 @@ export class DataPageComponent {
 
   public async ngAfterViewInit(): Promise<void> {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.token())
-      .then((config: any) => {
+      .then((config: StationPopupConfig) => {
         this.stationPopupConfig = config
       })
       .catch(() => this.stationPopupConfig = createDefaultStationsPopupConfig())
@@ -234,7 +236,7 @@ export class DataPageComponent {
       this.stations = this.stationsService
         .mergeBaseStationsAndPickStations(allStations, stationsPick)
         .sort((a, b) => a.id.localeCompare(b.id));
-    } catch (error) {
+    } catch {
       this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
     } finally {
       this.isLoading = false;
@@ -361,7 +363,7 @@ export class DataPageComponent {
     this._map.resetMap();
   }
 
-  public onMapLayerAdded(event: Record<string, any>): void {
+  public onMapLayerAdded(event: Record<string, unknown>): void {
     const { id } = event;
     if (!id) return;
 
@@ -374,7 +376,9 @@ export class DataPageComponent {
     // Chips
     let iconUrl: string = '';
     if (event['icon'] && event['icon'] instanceof SVGSVGElement) iconUrl = Utils.svgElementToImgSrc(event['icon']);
-    const chip = new Chip(event['id'], foundLayer.longLabel ?? foundLayer.label ?? event['id'], iconUrl);
+    let chipId: string = '';
+    if (event['id'] && typeof event['id'] === 'string') chipId = event['id'];
+    const chip = new Chip(chipId, foundLayer.longLabel ?? foundLayer.label ?? chipId, iconUrl);
     this.chips.push(chip);
 
     // Refresh   
@@ -393,7 +397,7 @@ export class DataPageComponent {
     });
   }
 
-  public onMapLayerRemoved(event: Record<string, any>): void {
+  public onMapLayerRemoved(event: Record<string, unknown>): void {
     const id = event['id'];
     if (!id) return;
     this.chips = this.chips.filter((c: Chip) => c.id !== id);
@@ -418,8 +422,8 @@ export class DataPageComponent {
     });
   }
 
-  public onMapMarkerClicked(data: Record<string, any>[]): void {
-    const stations = data.map((d: any) => {
+  public onMapMarkerClicked(data: Record<string, unknown>[]): void {
+    const stations = data.map((d) => {
       if ('type' in d && typeof d['type'] === 'string') {
         switch (d['type']) {
           case 'lightning':
@@ -444,13 +448,14 @@ export class DataPageComponent {
     this.popupData = [...stations];
   }
 
-  public onMapClicked(event: Record<string, any>) {
+  public onMapClicked(event: Record<string, unknown>) {
     const { bbox, point, size, latLng } = event;
 
     if (!bbox || typeof bbox !== 'string') return;
-    if (!('x' in point) || typeof point['x'] !== 'number' || !('y' in point) || typeof point['y'] !== 'number') return;
-    if (!('width' in size) || typeof size['width'] !== 'number' || !('height' in size) || typeof size['height'] !== 'number') return;
-    if (!('lat' in latLng) || typeof latLng['lat'] !== 'number' || (!('lng' in latLng) || typeof latLng['lng'] !== 'number')) return;
+
+    if (typeof point !== 'object' || point === null || !('x' in point) || typeof point['x'] !== 'number' || !('y' in point) || typeof point['y'] !== 'number') return;
+    if (typeof size !== 'object' || size === null || !('width' in size) || typeof size['width'] !== 'number' || !('height' in size) || typeof size['height'] !== 'number') return;
+    if (typeof latLng !== 'object' || latLng === null || !('lat' in latLng) || typeof latLng['lat'] !== 'number' || (!('lng' in latLng) || typeof latLng['lng'] !== 'number')) return;
 
     const activeWMSLayers: WMSLayer[] = LayerGroup.getAllLayers(this.dataLayers)
       .filter((l: Layer) => this.currentDataLayers.toArray().includes(l.id))
@@ -459,10 +464,10 @@ export class DataPageComponent {
     if (activeWMSLayers.length === 0) return;
 
     const layer: WMSLayer = activeWMSLayers[0];
-    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point, size, this.wmsLayersDate?.toISOString())
+    this.layersService.getFeatureInfoWMSLayer(layer, bbox, point as { x: number, y: number }, size as { width: number, height: number }, this.wmsLayersDate?.toISOString())
       .then((info: [string, number][]) => {
         info.forEach(([label, value]: [string, number]) => {
-          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? Utils.truncateValueByDecimals(value * layer.multiplier, layer.decimals ?? 1) : Utils.truncateValueByDecimals(value, layer.decimals ?? 1)} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng);
+          this._map.openCustomPopup(`<p><strong>${label}:</strong> ${layer.multiplier ? Utils.truncateValueByDecimals(value * layer.multiplier, layer.decimals ?? 1) : Utils.truncateValueByDecimals(value, layer.decimals ?? 1)} ${(layer.legend && layer.legend.unit) ? layer.legend.unit : ''}</p>`, latLng as { lat: number, lng: number });
         });
       })
       .catch((err: unknown) => {
@@ -488,12 +493,14 @@ export class DataPageComponent {
     if (activeGeoJSONLayers.length === 0) return;
 
     const layer: GeoJsonLayer = activeGeoJSONLayers[0];
-    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Utils.truncateValueByDecimals(properties['mean_value'] * (layer.multiplier ? layer.multiplier : 1), layer.decimals ?? 1)} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);  }
+    this._map.openCustomPopup(`<p><strong>${layer.label}:</strong> ${Utils.truncateValueByDecimals(properties['mean_value'] * (layer.multiplier ? layer.multiplier : 1), layer.decimals ?? 1)} ${layer.legend && layer.legend.unit ? layer.legend.unit : ''}</p>`, coordinates);
+  }
 
-  private _onBaselayersRadioChange(changes: any): void {
+  private _onBaselayersRadioChange(changes: unknown): void {
+    if (typeof changes !== 'object' || changes === null || !('baseLayer' in changes)) return;
     const layer: TileLayer | undefined = this.baseLayers.find((l: TileLayer) => l.id === changes['baseLayer']);
     if (!layer) return;
-    const { id, label, url, ...rest } = layer;
+    const { id, url, ...rest } = layer;
     this._map.addBaseLayer(url, rest);
     this.globalStateService.updateQueryParam2('base', [id]);
   }
@@ -520,7 +527,7 @@ export class DataPageComponent {
 
     stations.forEach(async (s: Station) => {
       switch (s.type) {
-        case 'hydro':
+        case 'hydro': {
           const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
           const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
           const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl(), s.parameter, s.id, date, this.auth2Service.token())
@@ -531,8 +538,9 @@ export class DataPageComponent {
             .finally(() => this.snackbarsService.removeSnackbar(hydroSnackbarId))
           hydroPromises.push(hydroPromise);
           break;
+        }
 
-        case 'platform':
+        case 'platform': {
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
           if (station?.thresholdConfig) Object.entries(station.thresholdConfig).forEach(([k, v]: [string, number]) => {
@@ -541,8 +549,9 @@ export class DataPageComponent {
           const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {}));
           break;
+        }
 
-        case 'webcam':
+        case 'webcam': {
           const webcamSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagine della webcam`, 'loader');
           const webcamPromise = this.stationsService.getWebcamImageAt(this.webcamImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.auth2Service.token())
             .catch((err: unknown) => {
@@ -552,8 +561,9 @@ export class DataPageComponent {
             .finally(() => this.snackbarsService.removeSnackbar(webcamSnackbarId))
           webcamPromises.push(webcamPromise);
           break;
+        }
 
-        case 'lidar':
+        case 'lidar': {
           const lidarSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero immagini lidar`, 'loader');
           const lidarPromise = this.stationsService.getLidarImageAt(this.lidarImgsUrl(), s.id, this.globalStateService.getDateFromQueryParams() ?? new Date(), this.auth2Service.token())
             .catch((err: unknown) => {
@@ -563,6 +573,7 @@ export class DataPageComponent {
             .finally(() => this.snackbarsService.removeSnackbar(lidarSnackbarId))
           lidarPromises.push(lidarPromise);
           break;
+        }
 
         default:
           break;
@@ -585,7 +596,9 @@ export class DataPageComponent {
   public debounceOnChartParameterChange = Utils.debounce((stationCode: string, chartId: string, formChange: Record<string, string>) => this.onChartParameterChange(stationCode, chartId, formChange), 200)
 
   public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
-    let { param, initialDate, endingDate } = formChange;
+    const { param, endingDate } = formChange;
+    let { initialDate } = formChange;
+
     const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
     const chart = this.charts.find((c: MapChart) => c.id === chartId);
@@ -613,9 +626,9 @@ export class DataPageComponent {
       })
   }
 
-  public onChartCustomButtonClick(event: any[]): void {
+  public onChartCustomButtonClick(event: unknown[]): void {
     if (!Array.isArray(event)) return;
-    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const charts: MapChartData[] = event.filter((v: unknown) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
     Utils.downloadFile('station_chart.csv', csv);
   }
@@ -640,9 +653,10 @@ export class DataPageComponent {
   * Check layers number in each categories in order to avoid it overpassing category number limit
   * Then redraw grouped checkboxes and reassign them
   */
-  public onLayerToggled(data: any, toggleLayer: boolean = true, updateUrl: boolean = true): void {
+  public onLayerToggled(data: unknown, toggleLayer: boolean = true, updateUrl: boolean = true): void {
+    if (typeof data !== 'object' || data === null || !('id' in data) || !('isChecked' in data)) return;
     const { id, isChecked } = data;
-    if (!id || typeof isChecked !== 'boolean') return;
+    if (typeof id !== 'string' || typeof isChecked !== 'boolean') return;
 
     this._checkLayerAndRedrawGroupedCheckboxes(id, isChecked, !!this.user);
     if (toggleLayer) this._toggleLayersOnMap(this.dataLayers, this.currentDataLayers.toArray());
@@ -766,10 +780,9 @@ export class DataPageComponent {
     if (this._map) this._map.closeAllPopups();
     this._chartDatePickers.forEach((c) => c.setIsFirstload(true));
 
-    date ?
-      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
-      this.globalStateService.removeQueryParam('date')
-      ;
+    if (date) this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]);
+    else this.globalStateService.removeQueryParam('date');
+
     this._updateMultipleLayers(
       !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date,
       false

@@ -1,15 +1,15 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Models
-import { SensorType } from '../models';
+/* Models */
+import { SensorType } from '../models'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-// Resolver
-export const sensorTypesResolver: ResolveFn<SensorType[]> = async (route, state) => {
+/* Resolver */
+export const sensorTypesResolver: ResolveFn<SensorType[]> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -22,7 +22,7 @@ export const sensorTypesResolver: ResolveFn<SensorType[]> = async (route, state)
 
   return configService.getSensorTypesConfig(url, authService.getAccessToken())
     .then((data: SensorType[]) => data)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return []
     });

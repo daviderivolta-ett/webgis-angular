@@ -1,11 +1,11 @@
-// Libraries
+/* Dependencies */
 import { Component, input } from '@angular/core';
 
-// Components
+/* Components */
 import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 import { AuthComponent } from '../auth/auth.component';
 
-// Component
+/* Component */
 @Component({
   selector: 'app-header',
   imports: [

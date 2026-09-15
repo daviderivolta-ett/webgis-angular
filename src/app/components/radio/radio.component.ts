@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+/* Dependencies */
+import { Component, input } from '@angular/core'
 
+/* Component */
 @Component({
   selector: 'app-radio',
   imports: [],

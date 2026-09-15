@@ -1,24 +1,29 @@
-/** Dependencies */
-import { Injectable, signal } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
+/* Dependencies */
+import { inject, Injectable, signal } from '@angular/core'
+import { OAuthService } from 'angular-oauth2-oidc'
 
-/** Environment */
-import { environment } from '../../environments/environment';
+/* Environment */
+import { environment } from '../../environments/environment'
 
-/** Models */
-import { User } from '../models';
+/* Models */
+import { User } from '../models'
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  /* Dependency injection */
+  private oauthService: OAuthService = inject(OAuthService);
+  
+  /* State */
   public user = signal<User | null>(null);
 
-  constructor(private oauthService: OAuthService) {
+  constructor() {
+
     this.oauthService.events.subscribe((event) => {
       if (event.type === 'token_received') {
-        const payload: any = this._parseJsonWebToken(this.getAccessToken());
+        const payload: unknown = this._parseJsonWebToken(this.getAccessToken());
         const user: User | undefined = this._createUserFromJsonWebToken(payload);
         this.user.set(user ?? null);
       }
@@ -27,8 +32,10 @@ export class AuthService {
         this.user.set(null);
       }
     });
+
   }
 
+  /* Methods */
   public async configureAuth(): Promise<void> {
     this.oauthService.configure(environment.keycloak);
     await this.oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -55,7 +62,7 @@ export class AuthService {
 
   private _checkAccessTokenAndLogin() {
     if (this.oauthService.hasValidAccessToken()) {
-      const payload: any = this._parseJsonWebToken(this.getAccessToken());
+      const payload: unknown = this._parseJsonWebToken(this.getAccessToken());
       const user = this._createUserFromJsonWebToken(payload);
       this.user.set(user ?? null);
     } else {
@@ -107,7 +114,7 @@ export class AuthService {
     return JSON.parse(jsonPayload);
   }
 
-  private _createUserFromJsonWebToken(payload: any): User | undefined {
+  private _createUserFromJsonWebToken(payload: unknown): User | undefined {
     if (!payload) return;
     return User.createFromObject(payload);
   }

@@ -15,21 +15,22 @@ export class TenantCardComponent {
   public tenant = input.required<Tenant>();
   public isSelected = input<boolean>(false);
 
-  public select = output<string>();
-  public delete = output<string>();
-  public load = output<string>();
-  public unload = output<string>();
+  public selected = output<string>();
+  public deleted = output<string>();
+  public loaded = output<string>();
+  public unloaded = output<string>();
 
   /* Methods */
   public onSelectClick(): void {
-    this.select.emit(this.tenant().id);
+    this.selected.emit(this.tenant().id);
   }
 
   public onDeleteClick(): void {
-    this.delete.emit(this.tenant().id);
+    this.deleted.emit(this.tenant().id);
   }
 
   public toggleStatusClick(): void {
-    this.tenant().isLoaded ? this.unload.emit(this.tenant().id) : this.load.emit(this.tenant().id);
+    if (this.tenant().isLoaded) this.unloaded.emit(this.tenant().id);
+    else this.loaded.emit(this.tenant().id);
   }
 }

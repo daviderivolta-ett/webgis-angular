@@ -1,20 +1,20 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Models
-import { MapConfig } from '../models';
+/* Models */
+import { MapConfig } from '../models'
 
-// Services
-import { ConfigService } from '../services';
+/* Services */
+import { ConfigService } from '../services'
 
-// Resolver
-export const mapConfigResolver: ResolveFn<MapConfig> = async (route, state) => {
+/* Resolver */
+export const mapConfigResolver: ResolveFn<MapConfig> = async () => {
   const configService: ConfigService = inject(ConfigService);
 
   return configService.getMapConfig()
     .then((config: MapConfig) => config)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return new MapConfig()
     });

@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Component, computed, effect, ViewChild } from '@angular/core'
+import { Component, computed, effect, inject, ViewChild, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
@@ -8,10 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { ColorScale, ColorScaleBase, Settings, Station, StationBase, Table, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
 /** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
 /** Components */
-import { SidebarComponent, HeaderComponent, DatepickerComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
+import { SidebarComponent, HeaderComponent, SortableTableComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 
 /** Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
@@ -45,7 +45,18 @@ import { DateUtils, GeoJsonUtils } from '../../../utils'
   templateUrl: './tables-hydro-page.component.html',
   styleUrl: './tables-hydro-page.component.scss'
 })
-export class TablesHydroPageComponent {
+export class TablesHydroPageComponent implements OnInit {
+  /** Dependency injection */
+  private router: Router = inject(Router)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private stationsService: StationsService = inject(StationsService)
+  private tablesService: TablesService = inject(TablesService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
   /** User Interface */
   public form: FormGroup = new FormGroup({ select: new FormControl('') });
 
@@ -92,18 +103,7 @@ export class TablesHydroPageComponent {
   /** References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private globalStateService: GlobalStateService,
-    private stationsService: StationsService,
-    private tablesService: TablesService,
-    private snackbarsService: SnackbarsService
-  ) {
+  constructor() {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
@@ -170,7 +170,7 @@ export class TablesHydroPageComponent {
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
     const config: TableConfigGroup | undefined = this._tableConfigGroups.find(g => g.options.some(c => c.id === id));
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`)
       return undefined;
     }
     return config;
@@ -181,7 +181,7 @@ export class TablesHydroPageComponent {
       .map((g: TableConfigGroup) => g.getTableConfig(id))
       .find((g) => g !== undefined);
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`)
       return undefined;
     }
     return config;
@@ -211,14 +211,14 @@ export class TablesHydroPageComponent {
     this.form.get('select')?.disable({ emitEvent: false });
     this.isLoading = true;
     let response = await this.apiService.getApiData(url, this.auth2Service.token())
-      .catch((err: any) => {
+      .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId)
         this.form.get('select')?.enable({ emitEvent: false });
         this.isLoading = false;
-      })
+      }) as GeoJSON.FeatureCollection;
 
     if (!GeoJsonUtils.isGeoJSON(response)) return;
 
@@ -234,8 +234,8 @@ export class TablesHydroPageComponent {
 
     const tableRows = GeoJsonUtils.fromGeoJSONToArray(response);
     if (!tableRows || !Array.isArray(tableRows)) return;
-    const filteredRows: any[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
-    const mergedRows: any[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
+    const filteredRows: unknown[] = this.tablesService.filterNestedTableData(tableRows, config.keysToKeep ?? []);
+    const mergedRows: object[] = this.tablesService.mergeTableDataRowsByParam(filteredRows, 'basin', ['name', 'code']);
     const table = Table2.generateTableStructure(mergedRows, 'basin', config.keysOrder);
     table.body = this._parseTableBody(table.body, 'name', 'code');
     if (colorScale) table.body = this._addBackgroundColorToTableData(table.body, response);
@@ -253,8 +253,8 @@ export class TablesHydroPageComponent {
     return {
       ...geoJSON,
       features: geoJSON.features.map((f: GeoJSON.Feature) => {
-        const properties: any = f.properties ?? {};
-        const colorCode = properties['alert'];
+        const properties: object = f.properties ?? {};
+        const colorCode = 'alert' in properties && typeof properties['alert'] === 'number' ? properties['alert'] : 0;
         const color: string = colorScale.getColor(colorCode ?? 0);
 
         return {
@@ -269,10 +269,12 @@ export class TablesHydroPageComponent {
     };
   }
 
-  private _parseTableBody(data: any[][], dataPrefix: string, hiddenPrefix: string): any[] {
-    return data.map((row: any[]) => {
-      return row.reduce((acc: any[], curr: any) => {
-        const key: string = curr.dataKey;
+  private _parseTableBody(data: Record<string, unknown>[][], dataPrefix: string, hiddenPrefix: string): Record<string, unknown>[][] {
+    return data.map((row: Record<string, unknown>[]) => {
+      return row.reduce((acc: Record<string, unknown>[], curr: Record<string, unknown>) => {
+        const key = curr['dataKey'];
+
+        if (typeof key !== 'string') return acc;
 
         // niente numero → lo teniamo
         if (!key.includes(dataPrefix) && !key.includes(hiddenPrefix)) {
@@ -285,11 +287,13 @@ export class TablesHydroPageComponent {
 
         // è un name → cerchiamo il code
         const index = key.replace(dataPrefix, '');
-        const hidden = row.find(el => el.dataKey === `${hiddenPrefix}${index}`);
+        const hidden = row.find(
+          el => el['dataKey'] === `${hiddenPrefix}${index}`,
+        );
 
         acc.push({
           ...curr,
-          hiddenValue: hidden?.dataValue
+          hiddenValue: hidden?.['dataValue'],
         });
 
         return acc;
@@ -297,9 +301,9 @@ export class TablesHydroPageComponent {
     });
   }
 
-  private _addBackgroundColorToTableData(body: any[][], geojson: GeoJSON.FeatureCollection): any[][] {
-    return body.map((row: any[]) => {
-      return row.map((el: any) => {
+  private _addBackgroundColorToTableData(body: object[][], geojson: GeoJSON.FeatureCollection): object[][] {
+    return body.map((row: object[]) => {
+      return row.map((el: object) => {
         if (!('hiddenValue' in el) || typeof el['hiddenValue'] !== 'string') return { ...el, backgroundColor: 'white' };
         const feature: GeoJSON.Feature | undefined = geojson.features.find((f) => f.properties && f.properties['code'] === el['hiddenValue']);
         if (!feature || !feature.properties || !('color' in feature.properties)) return { ...el, backgroundColor: 'white' };
@@ -311,9 +315,9 @@ export class TablesHydroPageComponent {
   public onDateChange(date: Date | undefined): void {
     const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
     if (current?.getTime() === date?.getTime()) return;
-    date ?
-      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
-      this.globalStateService.removeQueryParam('date');
+
+    if (date) this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]);
+    else this.globalStateService.removeQueryParam('date');
   }
 
   private _getSelectedModel(): string | undefined {
@@ -323,10 +327,12 @@ export class TablesHydroPageComponent {
     return 'modelli-idrologici-nowcasting-hydro';
   }
 
-  public async onCellClick(cell: any) {
+  public async onCellClick(cell: unknown) {
     if (!this.config) return;
 
-    const hiddenValue: string | undefined = cell['hiddenValue'];
+    if (typeof cell !== 'object' || cell === null || !('hiddenValue' in cell) || typeof cell.hiddenValue !== 'string') return;
+
+    const hiddenValue = cell['hiddenValue'];
     if (!hiddenValue) return;
 
     const station: Station | undefined = this._stations.find((s) => s.id === hiddenValue);
@@ -334,7 +340,7 @@ export class TablesHydroPageComponent {
     const snackbarId = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
     const url: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.config.url);
     this.stationsService.getHydroImageAt(url, '', hiddenValue, date, this.auth2Service.token())
-      .then((img: any) => {
+      .then((img: string | null) => {
         this.hydroImg = img;
       })
       .catch((err: unknown) => {

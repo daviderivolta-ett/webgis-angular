@@ -1,26 +1,26 @@
-/** Dependencies */
-import { Component, input, output } from '@angular/core';
+/* Dependencies */
+import { Component, input, output, AfterViewInit } from '@angular/core'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-snackbar',
   imports: [],
   templateUrl: './snackbar.component.html',
   styleUrl: './snackbar.component.scss'
 })
-export class SnackbarComponent {
+export class SnackbarComponent implements AfterViewInit {
   public text = input<string>('');
   public type = input<'success' | 'error' | 'loader'>('success');
   public isAutoDismissed = input<boolean>(false);
-  public onBtnClicked = output();
+  public btnClick = output();
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngAfterViewInit(): void {
     this.autoDismiss();
   }
 
-  /** Methods */
+  /* Methods */
   public autoDismiss(): void {
-    if (this.isAutoDismissed()) setTimeout(() => this.onBtnClicked.emit(), 2000);
+    if (this.isAutoDismissed()) setTimeout(() => this.btnClick.emit(), 2000);
   }
 }

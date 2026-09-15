@@ -1,30 +1,29 @@
-/** Dependencies */
-import { Injectable } from '@angular/core'
+/* Dependencies */
+import { inject, Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 
-/** Services */
+/* Services */
 import { ApiService } from './api.service';
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalStateService {
-  /** Constructor */
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private apiService: ApiService
-  ) { }
+  /* Dependency injection */
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private apiService = inject(ApiService);
 
-  /** Methods */
+  /* Methods */
   public async getLatestUserPreferences(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
         if (!('jsonValue' in data) || typeof data['jsonValue'] !== 'string') throw new Error(`Formato della risposta della configurazione del popup non valido.`);
         try {
           return JSON.parse(data['jsonValue']);
-        } catch (error) {
+        } catch {
           throw new Error(`Errore nel parsing delle preferenze dell'utente.`);
         }
       })
@@ -34,7 +33,7 @@ export class GlobalStateService {
       })
   }
 
-  public async saveQueryParams(url: string, configName: string, configTag: string, configType: string, obj: Record<any, any>, token?: string): Promise<void> {
+  public async saveQueryParams(url: string, configName: string, configTag: string, configType: string, obj: Record<string, unknown>, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 

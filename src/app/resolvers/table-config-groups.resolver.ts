@@ -1,15 +1,15 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Models
-import { TableConfigGroup } from '../models';
+/* Models */
+import { TableConfigGroup } from '../models'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-// Resolver
-export const tableConfigGroupsResolver: ResolveFn<TableConfigGroup[]> = async (route, state) => {
+/* Resolver */
+export const tableConfigGroupsResolver: ResolveFn<TableConfigGroup[]> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -22,7 +22,7 @@ export const tableConfigGroupsResolver: ResolveFn<TableConfigGroup[]> = async (r
 
   return configService.getTableConfigGroups(url, authService.getAccessToken())
     .then((groups: TableConfigGroup[]) => groups)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return [];
     })

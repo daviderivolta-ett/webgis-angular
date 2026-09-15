@@ -1,14 +1,14 @@
 /* Dependencies */
-import { Directive, ElementRef, HostListener, output } from '@angular/core'
+import { Directive, ElementRef, HostListener, inject, output } from '@angular/core'
 
 /* Directive */
 @Directive({
   selector: '[appClickOutside]'
 })
 export class ClickOutsideDirective {
-  public clickOutside = output<void>();
+  private elementRef: ElementRef = inject(ElementRef);
 
-  constructor(private elementRef: ElementRef) { }
+  public clickOutside = output<void>();
 
   @HostListener('document:click', ['$event'])
   public onClick(event: Event): void {

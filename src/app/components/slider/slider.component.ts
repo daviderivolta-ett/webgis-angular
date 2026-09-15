@@ -1,37 +1,29 @@
-/**
-* Libraries
-*/
-import { Component, ContentChildren, ElementRef, HostListener, QueryList, ViewChild } from '@angular/core';
+/* Dependencies */
+import { Component, ContentChildren, ElementRef, HostListener, QueryList, ViewChild, AfterContentInit } from '@angular/core';
 
-/**
-* Component
-*/
+/* Component */
 @Component({
   selector: 'app-slider',
   imports: [],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss'
 })
-export class SliderComponent {
-  /**
-  * Class properties
-  */
+export class SliderComponent implements AfterContentInit {
+  /* Class properties */
   public hasHorizontalScroll: boolean = false;
 
-  /** User Interface */
+  /* User Interface */
   @ViewChild('slider') _slider!: ElementRef<HTMLElement>;
   @ContentChildren('sliderItem', { read: ElementRef, descendants: true }) _elements!: QueryList<ElementRef<HTMLElement>>;
 
-  @HostListener('window:resize', ['$event'])
-  public onResize(event: UIEvent) {
+  @HostListener('window:resize')
+  public onResize() {
     this._checkHorizontalScroll();
   }
 
   constructor() { }
 
-  /**
-  * Component lifecycles
-  */
+  /* Component lifecycles */
   public ngAfterContentInit(): void {
     this._checkHorizontalScroll();
     this._elements.changes.subscribe(() => {
@@ -40,9 +32,7 @@ export class SliderComponent {
     });
   }
 
-  /**
-  * Methods
-  */
+  /* Methods */
   private _checkHorizontalScroll(): void {
     if (this._elements.length === 0) {
       this.hasHorizontalScroll = false;

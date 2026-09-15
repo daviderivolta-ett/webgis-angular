@@ -1,13 +1,13 @@
-// Libraries
-import { Component, input, output } from '@angular/core';
+/* Dependencies */
+import { Component, input, output } from '@angular/core'
 
-// Types
+/* Types */
 type Sort = {
   sortBy: string,
   direction: 'asc' | 'desc' | 'none'
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-sort-header',
   imports: [],
@@ -20,7 +20,7 @@ export class SortHeaderComponent {
 
   public sortData = output<Sort>();
 
-  // Methods
+  /* Methods */
   public sort(value: 'asc' | 'desc' | 'none'): void {
     switch (value) {
       case 'asc':

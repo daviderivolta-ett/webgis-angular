@@ -1,10 +1,10 @@
-/** Dependencies */
-import { Component, effect, ElementRef, input, output, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, effect, ElementRef, input, output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core'
 import Plotly from 'plotly.js-dist-min'
-// @ts-ignore
+// @ts-expect-error: itLocale plugin of Plotly chart has not type declaration
 import itLocale from 'plotly.js-locales/it'
 
-/** Types */
+/* Types */
 type PlotlyChartData = {
   sensor: string,
   type: string,
@@ -21,14 +21,14 @@ type PlotlyChartData = {
   isCumulated?: boolean;
 }
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-plotly-chart',
   imports: [],
   templateUrl: './plotly-chart.component.html',
   styleUrl: './plotly-chart.component.scss'
 })
-export class PlotlyChartComponent {
+export class PlotlyChartComponent implements AfterViewInit, OnDestroy {
   public id = input<string>('plotly-chart');
   public title = input<string>('');
   public xLabel = input<string>('TEXT');
@@ -38,7 +38,7 @@ export class PlotlyChartComponent {
   public hideZeroXAxis = input<boolean>(false);
   public referenceDate = input<Date | undefined>(new Date());
 
-  public onCustomButtonClick = output<any>();
+  public customButtonClick = output<any>();
 
   @ViewChild('plotly') plotly!: ElementRef<HTMLDivElement>;
 
@@ -195,7 +195,7 @@ export class PlotlyChartComponent {
   }
 
   private _getLayout(data: PlotlyChartData[]): Partial<Plotly.Layout> {
-    let layout: Partial<Plotly.Layout> = {
+    const layout: Partial<Plotly.Layout> = {
       showlegend: true,
       bargap: 4,
       hovermode: 'x unified',
@@ -288,17 +288,17 @@ export class PlotlyChartComponent {
 
     const mainYAxis: PlotlyChartData | undefined = data.find((d: PlotlyChartData) => d.isMainYAxis);
 
-    data.forEach((d: PlotlyChartData, i: number) => {
+    data.forEach((d: PlotlyChartData) => {
       let axisName: string;
-      let axisShortName: string;
+      // let axisShortName: string;
 
       if (d.needsAdditionalYAxis) {
         axisName = `yaxis${additionalYAxisCounter}`;
-        axisShortName = `y${additionalYAxisCounter}`
+        // axisShortName = `y${additionalYAxisCounter}`
         additionalYAxisCounter++;
       } else {
         axisName = 'yaxis';
-        axisShortName = 'y';
+        // axisShortName = 'y';
       }
 
       const maxYValue: number = Math.max(...d.data.map((v: any) => v[1]));
@@ -343,7 +343,7 @@ export class PlotlyChartComponent {
     const plotly = this.plotly.nativeElement as any;
 
     const shapes: Partial<Plotly.Shape>[] = Object.entries(thresholds)
-      .filter(([_, v]) => !isNaN(v))
+      .filter(([, v]) => !isNaN(v))
       .filter((_, i) => i !== 0)
       .map(([color, value]: [string, number]) => {
         return {
@@ -362,7 +362,7 @@ export class PlotlyChartComponent {
       })
 
     Plotly.relayout(this.plotly.nativeElement, {
-      shapes: [...plotly._fullLayout?.shapes, ...shapes]
+      shapes: [...(plotly._fullLayout?.shapes ?? []), ...shapes]
     });
   }
 
@@ -410,7 +410,7 @@ export class PlotlyChartComponent {
             height: 960,
             path: 'm480 624-192-192 51-51 105 105v-342h72v342l105-105 51 51-192 192zm-216.28 144q-29.72 0-50.72-21.15t-21-50.85v-72h72v72h432v-72h72v72q0 29.7-21.16 50.85-21.16 21.15-50.88 21.15h-432.24z'
           },
-          click: () => this.onCustomButtonClick.emit(this.data())
+          click: () => this.customButtonClick.emit(this.data())
         }
       ]
     }
@@ -425,7 +425,7 @@ export class PlotlyChartComponent {
     const ctx = canvas.getContext('2d');
     const img = new Image();
 
-    return new Promise((resolve, _) => {
+    return new Promise((resolve) => {
       img.onload = () => {
         if (!ctx) return;
         ctx.drawImage(img, 0, 0);
@@ -546,7 +546,7 @@ export class PlotlyChartComponent {
     const data = this._decimateData(visibleData, target);
 
     return data.map((p: [number, number | null]) => {
-      const relatedData: [number, number | null] | undefined = otherData.data.find(([t, _]) => t === p[0]);
+      const relatedData: [number, number | null] | undefined = otherData.data.find(([t]) => t === p[0]);
 
       return {
         x: p[0],

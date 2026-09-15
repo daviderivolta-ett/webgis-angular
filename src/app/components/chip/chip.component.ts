@@ -1,7 +1,7 @@
-// Libraries
-import { Component, input, output } from '@angular/core';
+/* Dependencies */
+import { Component, input, output } from '@angular/core'
 
-// Component
+/* Component */
 @Component({
   selector: 'app-chip',
   imports: [],
@@ -22,7 +22,7 @@ export class ChipComponent {
 
   constructor() {}
 
-  // Methods
+  /* Methods */
   public onButtonClick(): void {
     this.dismiss.emit(this.id());
   }

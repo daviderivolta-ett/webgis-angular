@@ -1,12 +1,12 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-// Resolver
-export const tableLabelsResolver: ResolveFn<Map<string, string>> = async (route, state) => {
+/* Resolver */
+export const tableLabelsResolver: ResolveFn<Map<string, string>> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -19,7 +19,7 @@ export const tableLabelsResolver: ResolveFn<Map<string, string>> = async (route,
 
   return configService.getTableLabels(url, authService.getAccessToken())
     .then((map: Map<string, string>) => map)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return new Map();
     })

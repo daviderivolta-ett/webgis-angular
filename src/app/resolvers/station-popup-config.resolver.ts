@@ -1,11 +1,11 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-export const stationPopupConfigResolver: ResolveFn<Map<string, string>> = async (route, state) => {
+export const stationPopupConfigResolver: ResolveFn<Map<string, string>> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -19,7 +19,7 @@ export const stationPopupConfigResolver: ResolveFn<Map<string, string>> = async 
 
   return configService.getStationsPopupConfig(url, authService.getAccessToken())
     .then((data) => data)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return new Map();
     });

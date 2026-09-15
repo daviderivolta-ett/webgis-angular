@@ -1,21 +1,23 @@
-/** Dependencies */
-import { Injectable, Injector, Type } from '@angular/core'
+/* Dependencies */
+import { inject, Injectable, Injector, Type } from '@angular/core'
 
-/** Models */
+/* Models */
 import { Command } from '../models'
 
-/** Services */
+/* Services */
 import { HydroCommandService } from './command.hydro.service'
 import { LightningCommandService } from './command.lightning.service'
 import { PlatformsCommandService } from './command.platforms.service'
 import { WMSCommandService } from './command.wms.service'
 import { PolygonsCommandService } from './command.polygons.service'
 
-// Service
+/* Service */ 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandsRegistryService {
+  private injector = inject(Injector);
+
   static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([    
     ['hydro', HydroCommandService],
     ['lightning', LightningCommandService],
@@ -23,8 +25,6 @@ export class CommandsRegistryService {
     ['wms', WMSCommandService],
     ['polygons', PolygonsCommandService]
   ]);
-
-  constructor(private injector: Injector) { }
 
   public getCommand(key: string): Command | null {
     const command: Type<Command> | undefined = CommandsRegistryService.commands.get(key);

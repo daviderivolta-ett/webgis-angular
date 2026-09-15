@@ -1,5 +1,5 @@
 export class CSVUtils {
-    static convertArrayToCSV(objects: Record<string, any>[], keysToKeep: string[]): string {
+    static convertArrayToCSV(objects: Record<string, unknown>[], keysToKeep: string[]): string {
         if (!objects.length) return '';
 
         const keys = Array.from(
@@ -8,15 +8,15 @@ export class CSVUtils {
 
         const content = objects.map((obj) => {
             return Object.entries(obj)
-                .filter((entry: [string, any]) => keysToKeep.includes(entry[0]))
-                .map((entry: [string, any]) => CSVUtils._replaceHTML(entry))
-                .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(entry[1]).toLocaleString());
+                .filter((entry: [string, unknown]) => keysToKeep.includes(entry[0]))
+                .map((entry: [string, unknown]) => CSVUtils._replaceHTML(entry))
+                .flatMap((entry) => entry[1] === null || isNaN(Number(entry[1])) ? entry[1] : parseFloat(String(entry[1])).toLocaleString());
         });
 
         const rows = [keys, ...content];
 
-        const formattedRows = rows.map((r: any[]) => {
-            return r.map((v: any) => {
+        const formattedRows = rows.map((r: unknown[]) => {
+            return r.map((v: unknown) => {
                 if (v instanceof Date) return `${String(v.getDate()).padStart(2, '0')}/${String(v.getMonth() + 1).padStart(2, '0')}/${v.getFullYear()}`;
                 else return v;
             })
@@ -25,12 +25,12 @@ export class CSVUtils {
         return formattedRows.map((row) => row.join(';')).join('\n');
     }
 
-    static _replaceHTML(entry: [string, any]) {
+    static _replaceHTML(entry: [string, unknown]) {
         return [entry[0], typeof entry[1] === 'string' ? entry[1].replaceAll(/<[^>]*>/g, '') : entry[1]];
     }
 
     static convertTimestampValueArrayToCSV(array: [number, number | null][][], keys: string[]): string {
-        const rows: any[] = [keys];
+        const rows: string[][] = [keys];
 
         const filteredArray: [number, number][][] = array.map(dataset =>
             dataset.filter(
@@ -62,6 +62,6 @@ export class CSVUtils {
             rows.push([formattedDate, ...values]);
         }
 
-        return rows.map((row: any) => row.join(';')).join('\n');
+        return rows.map((row: string[]) => row.join(';')).join('\n');
     }
 }

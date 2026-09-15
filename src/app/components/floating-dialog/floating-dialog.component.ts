@@ -1,8 +1,8 @@
-/** Libraries */
-import { Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
-import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+/* Dependencies */
+import { Component, ElementRef, input, output, signal, ViewChild, OnDestroy } from '@angular/core'
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-floating-dialog',
   exportAs: 'floatingDialog',
@@ -13,7 +13,7 @@ import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
   templateUrl: './floating-dialog.component.html',
   styleUrl: './floating-dialog.component.scss'
 })
-export class FloatingDialogComponent {
+export class FloatingDialogComponent implements OnDestroy {
   public width = input<string>('80dvh');
   public height = input<string>('70dvh');
   public minWidth = input<string>('70dvh');
@@ -31,7 +31,7 @@ export class FloatingDialogComponent {
   public removeDialog = output<void>();
 
   public isFull = signal<boolean>(false);
-  public onIsFull = output<boolean>();
+  public isFullChange = output<boolean>();
 
   @ViewChild('floatingDialog') dialog!: ElementRef<HTMLDivElement>;
 
@@ -80,6 +80,6 @@ export class FloatingDialogComponent {
 
   public onFullToggle(): void {
     this.isFull.set(!this.isFull());
-    this.onIsFull.emit(this.isFull());
+    this.isFullChange.emit(this.isFull());
   }
 }

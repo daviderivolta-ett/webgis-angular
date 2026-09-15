@@ -1,48 +1,56 @@
-/** Libraries */
-import { Component, effect } from '@angular/core';
-import { KeyValuePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+/* Dependencies */
+import { Component, effect, inject, AfterViewInit } from '@angular/core'
+import { KeyValuePipe } from '@angular/common'
+import { ActivatedRoute } from '@angular/router'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-/** Models */
-import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models';
+/* Models */
+import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, PopupService, SnackbarsService, TenantsService } from '../../../services';
+/* Services */
+import { ApiService, Auth2Service, PopupService, SnackbarsService, TenantsService } from '../../../services'
 
-/** Components */
-import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
+/* Components */
+import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components'
 
-/** Pipes */
+/* Pipes */
 import { MapValuePipe } from '../../../pipes'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-popup-settings-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent,
     SidebarComponent,
     SettingsNavMenuComponent,
     NotificationIconComponent,
-    /** Pipes */
+    /* Pipes */
     KeyValuePipe,
     MapValuePipe,
-    /** Directives */
+    /* Directives */
     ReactiveFormsModule,
     LoadingBtnComponent
-],
+  ],
   templateUrl: './popup-settings-page.component.html',
   styleUrl: './popup-settings-page.component.scss'
 })
-export class PopupSettingsPageComponent {
-  /** UI */
+export class PopupSettingsPageComponent implements AfterViewInit {
+  /* Dependency injection */
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private popupService: PopupService = inject(PopupService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
+  /* UI */
   public form: FormGroup = new FormGroup({});
 
   public isLoading: boolean = false;
   public isConfigLoaded: boolean = false;
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
 
   public stationsApiBaseUrl: string; // Recovered from route resolver in constructor
@@ -52,15 +60,7 @@ export class PopupSettingsPageComponent {
 
   public selectedTenantMsg;
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private popupService: PopupService,
-    private snackbarsService: SnackbarsService
-  ) {
+  constructor() {
     this.selectedTenantMsg = this.tenantsService.message;
 
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
@@ -68,16 +68,16 @@ export class PopupSettingsPageComponent {
     this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));
     this.createConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('createConfig'));
 
-    /** Effects */
+    /* Effects */
     effect(() => {
       this.user = this.auth2Service.user();
     });
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngAfterViewInit(): void {
     this.popupService.getLatestPopupConfig(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: 'popupConfig' }), this.auth2Service.token())
-      .then((config: any) => {                     
+      .then((config: StationPopupConfig) => {
         this.form = this._createStationPopupConfigForm(config, this.popupConfig);
         this.isConfigLoaded = true;
       })
@@ -86,12 +86,12 @@ export class PopupSettingsPageComponent {
       })
   }
 
-  /** Methods */
+  /* Methods */
   private _createStationPopupConfigForm(config: StationPopupConfig, params: Map<string, string>): FormGroup {
-    const formGroup = new FormGroup({});    
+    const formGroup = new FormGroup({});
 
-    for (const [id, _] of params.entries()) {
-      const foundConfig: [string, boolean] | undefined = Object.entries(config).find(([k, _]: [string, boolean]) => k === id);
+    for (const [id] of params.entries()) {
+      const foundConfig: [string, boolean] | undefined = Object.entries(config).find(([k]: [string, boolean]) => k === id);
       if (foundConfig) formGroup.addControl(foundConfig[0], new FormControl(foundConfig[1]));
     };
 

@@ -1,7 +1,7 @@
-/** Dependencies */
+/* Dependencies */
 import { Component, input } from '@angular/core'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-tab',
   imports: [],

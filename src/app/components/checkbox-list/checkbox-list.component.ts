@@ -1,8 +1,8 @@
-// Libraries
-import { Component, effect, input, output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+/* Dependencies */
+import { Component, effect, inject, input, output } from '@angular/core'
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-// Types
+/* Types */
 type CheckboxSingle = {
   id: string;
   label?: string,
@@ -11,7 +11,7 @@ type CheckboxSingle = {
   options?: CheckboxSingle[]
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-checkbox-list',
   imports: [
@@ -21,6 +21,8 @@ type CheckboxSingle = {
   styleUrl: './checkbox-list.component.scss'
 })
 export class CheckboxListComponent {
+  private fb: FormBuilder = inject(FormBuilder);
+  
   public form: FormGroup;
 
   public parentGroup = input<FormGroup | null>(null);
@@ -30,7 +32,7 @@ export class CheckboxListComponent {
 
   public changed = output<any>();
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.form = this.fb.group({});
 
     effect(() => {

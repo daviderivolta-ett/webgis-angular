@@ -1,16 +1,16 @@
-/** Dependencies */
-import { Component, effect } from '@angular/core';
+/* Dependencies */
+import { Component, effect, inject } from '@angular/core'
 
-/** Models */
-import { Snackbar } from '../../models';
+/* Models */
+import { Snackbar } from '../../models'
 
-/** Services */
-import { SnackbarsService } from '../../services';
+/* Services */
+import { SnackbarsService } from '../../services'
 
-/** Components */
-import { SnackbarComponent } from '../snackbar/snackbar.component';
+/* Components */
+import { SnackbarComponent } from '../snackbar/snackbar.component'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-snackbar-container',
   imports: [SnackbarComponent],
@@ -18,9 +18,11 @@ import { SnackbarComponent } from '../snackbar/snackbar.component';
   styleUrl: './snackbar-container.component.scss'
 })
 export class SnackbarContainerComponent {
+  private snackbarsServices: SnackbarsService = inject(SnackbarsService);
+  
   public snackbars: Snackbar[] = [];
 
-  constructor(private snackbarsServices: SnackbarsService) {
+  constructor() {
     effect(() => this.snackbars = this.snackbarsServices.snackbars());
   }
 

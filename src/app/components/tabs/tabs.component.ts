@@ -1,17 +1,17 @@
-/** Dependencies */
-import { Component, ContentChildren, effect, input, QueryList } from '@angular/core'
+/* Dependencies */
+import { Component, ContentChildren, effect, input, QueryList, AfterViewInit } from '@angular/core'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-/** Types */
+/* Types */
 interface Tab {
   id: string,
   label: string
 }
 
-/** Components */
+/* Components */
 import { TabComponent } from '../tab/tab.component'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-tabs',
   imports: [
@@ -20,15 +20,15 @@ import { TabComponent } from '../tab/tab.component'
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss'
 })
-export class TabsComponent {
-  /** Properties */
+export class TabsComponent implements AfterViewInit {
+  /* Properties */
   public tabs = input<Tab[]>([]);
   public form = new FormGroup({});
 
-  /** View */
+  /* View */
   @ContentChildren(TabComponent) _tabs!: QueryList<TabComponent>;
 
-  /** Constructor */
+  /* Constructor */
   constructor() {
     effect(() => this._createFormGroup(this.tabs()))
     this.form.valueChanges.subscribe(() => {
@@ -38,19 +38,19 @@ export class TabsComponent {
     });
   }
 
-  /** Getters and setters */
+  /* Getters and setters */
   public getTabs(): TabComponent[] {
     return this._tabs.toArray();
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngAfterViewInit(): void {
     this.getTabs().forEach((tab: TabComponent, i: number) => {
       if (i === 0) tab.isVisible = true;
     });
   }
 
-  /** Methods */
+  /* Methods */
   private _createFormGroup(labels: Tab[]): void {
     if (labels.length === 0) return;
     if (!this.form.contains('tab')) this.form.addControl('tab', new FormControl(labels[0].id));

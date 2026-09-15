@@ -1,48 +1,48 @@
-/** Dependencies */
-import { Component, computed, effect, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, computed, effect, inject, ViewChild, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { skip } from 'rxjs'
 
-/** Models */
+/* Models */
 import { Sensor, SensorType, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, TreeNode, User } from '../../../models'
 
-/** Types */
+/* Types */
 type PageTable = {
   id: string,
   label: string,
   table: Table2
 }
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
-/** Components */
+/* Components */
 import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent } from '../../../components'
 
-/** Pipes */
+/* Pipes */
 import { IsDatePipe, MapValuePipe } from '../../../pipes'
 
-/** Directives */
+/* Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
-/** Utils */
+/* Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-tables-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent,
     SidebarComponent,
-    /** Directives */
+    /* Directives */
     RouterLink,
     RouterLinkActive,
     SortableTableComponent,
     ScrollableTableDirective,
     SortHeaderComponent,
-    /** Pipes */
+    /* Pipes */
     DatePipe,
     MapValuePipe,
     IsDatePipe,
@@ -51,15 +51,25 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
   templateUrl: './tables-page.component.html',
   styleUrl: './tables-page.component.scss'
 })
-export class TablesPageComponent {
-  /** User Interface */
+export class TablesPageComponent implements OnInit {
+  /* Dependency injection */
+  private router: Router = inject(Router)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private stationsService: StationsService = inject(StationsService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
+  /* User Interface */
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
 
   public initialDate: Date | undefined;
   public selectedDate: Date | undefined;
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
@@ -79,34 +89,21 @@ export class TablesPageComponent {
 
   private _selectedTenant; // Recovered from service in constructor
 
-  /** References */
+  /* References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private globalStateService: GlobalStateService,
-    private stationsService: StationsService,
-    private snackbarsService: SnackbarsService
-  ) {
-    /** Recovering from services */
+  constructor() {
+    /* Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
-
-    // this.parametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters'));
-    // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
     this._tableConfigGroups = this.route.snapshot.data['tableConfigGroups'];
     this.tableLabels = this.route.snapshot.data['tableLabels'];
 
-    /** Effetcs */
+    /* Effetcs */
     effect(() => {
       this.user = this.auth2Service.user();
       this._initNavbar();
@@ -120,7 +117,7 @@ export class TablesPageComponent {
     });
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngOnInit(): void {
     this._initNavbar();
     this.route.paramMap
@@ -131,7 +128,7 @@ export class TablesPageComponent {
       });
   }
 
-  /** Methods */
+  /* Methods */
   private _initNavbar() {
     this.navGroups = this._tableConfigGroups
       .filter((g: TableConfigGroup) => !g.requiresAuth || this.user)
@@ -171,7 +168,7 @@ export class TablesPageComponent {
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
 
-    const res: any = await this._getData(this.configGroup.options[0]);
+    const res: unknown = await this._getData(this.configGroup.options[0]);
     if (!res) return;
     this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
@@ -180,7 +177,7 @@ export class TablesPageComponent {
     const config: TableConfigGroup | undefined = this._tableConfigGroups.find(g => g.id === id);
 
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`)
       return undefined;
     }
     return config;
@@ -190,47 +187,39 @@ export class TablesPageComponent {
     this.tables = this.sortedTables = [];
   }
 
-  private async _getData(config: TableConfig): Promise<any> {
+  private async _getData(config: TableConfig): Promise<unknown> {
     const url = this.selectedDate ?
       `${this.stationsApiBaseUrl}${config.url}?date=${DateUtils.toApiFormat(this.selectedDate.toISOString())}` :
       `${this.stationsApiBaseUrl}${config.url}`;
 
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     const response = await this.apiService.getApiData(url)
-      .catch((err: any) => {
-        throw new Error('Errore nel recupero dei dati', err);
+      .catch(() => {
+        throw new Error('Errore nel recupero dei dati');
       })
       .finally(() => {
         this.snackbarsService.removeSnackbar(snackbarId);
       })
 
-    // if (!Array.isArray(response) || response.length === 0) return;
-
     return (!Array.isArray(response) || response.length === 0) ? undefined : response;
   }
 
-  private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
-    return data.map((t: any, i: number) => {
+  private _createTables(data: unknown, configGroup: TableConfigGroup): PageTable[] {
+    if (!Array.isArray(data)) return [];
+    return data.map((t: unknown) => {
+      if (typeof t !== 'object' || t === null || !('tableName' in t) || !('tableRows' in t)) return undefined;
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
 
-
-      let table = new Table2();
-      // if (tableRows.every((r) => 'values' in r)) {
-      //   table = Table2.generateTableStructure2(tableRows, 'values', config.keysToMerge ?? [], 'stationCode', 'region', config.keysOrder ?? []);
-      // } else {
-      //   const rawData = this.tablesService.parseNestedTableData(tableRows, 'values', config.keysToMerge ?? []);
-      //   table = Table2.generateTableStructure(rawData, 'name', config.keysOrder, 'stationCode');
-      // }
-
+      const table = new Table2();
       return {
         id: config.id,
         label: config.label ?? config.id,
         table
       }
-    }).filter((d: unknown) => d !== undefined)
+    }).filter((d: unknown): d is PageTable => d !== undefined)
   }
 
   public sortData(sort: { sortBy: string, direction: 'asc' | 'desc' | 'none' }, tableId: string): void {
@@ -253,7 +242,8 @@ export class TablesPageComponent {
     if (param) Utils.downloadFile(`${param}.csv`, csv);
   }
 
-  public onDateChange(event: any): void {
+  public onDateChange(event: unknown): void {
+    if (typeof event !== 'object' || event === null || !('date' in event)) return;
     const { date: dateString } = event;
     if (typeof dateString !== 'string') return;
     this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(new Date(dateString))]);
@@ -264,16 +254,13 @@ export class TablesPageComponent {
     if (param) this._init(param);
   }
 
-  public onTableRowClick(tableId: string, row: [string, any][]): void {
+  public onTableRowClick(tableId: string, row: [string, unknown][]): void {
     const config: TableConfig | undefined = this.configGroup?.options.find((c: TableConfig) => c.id === tableId);
     if (!config || !config.parameter) return;
 
-    // console.log(row);
-    const code: any = row.find(([k, _]: [string, any]) => k === 'code')?.[1];
-    if (!code) return;
-    // console.log('CODE', code);
+    const code = row.find(([k,]: [string, unknown]) => k === 'code')?.[1];
+    if (typeof code !== 'string') return;
     const station = new Station(code, 0, 0, [], 0, config.parameter);
     station.addSensorsFromStationLists(this.stations);
-    // console.log('STATION', station);
   }
 }

@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 
 /** Models */
 import { Command, GeoJsonLayer } from '../models'
@@ -15,7 +15,7 @@ import { DateUtils } from '../utils'
     providedIn: 'root'
 })
 export class PolygonsCommandService implements Command {
-    constructor(private apiService: ApiService) { }
+    private apiService: ApiService = inject(ApiService)
 
     public async execute(args?: any): Promise<void> {
         const { map, date, layer, baseUrl, token } = args;
@@ -27,7 +27,7 @@ export class PolygonsCommandService implements Command {
             const { url: layerUrl } = layer;
             const url = baseUrl ? this.apiService.replaceApiBaseUrl(layerUrl, baseUrl) : layerUrl;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getPolygonApiData(urlWithDates, token) as GeoJSON.FeatureCollection;
             geoJSON = this._setPolygonOpacity(geoJSON);
             map.addGeoJSONLayer(layer.id, geoJSON);
         } catch (error) {
@@ -40,8 +40,8 @@ export class PolygonsCommandService implements Command {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-                const properties: any = feature.properties ?? {};
-                const opacity = 'opacity' in properties ? parseFloat(properties['opacity']) : 1;
+                const properties: Record<string, unknown> = feature.properties ?? {};
+                const opacity = 'opacity' in properties && typeof properties['opacity'] === 'string' ? parseFloat(properties['opacity']) : 1;
                 return {
                     ...feature,
                     properties: {

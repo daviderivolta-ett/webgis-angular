@@ -1,29 +1,29 @@
-/** Dependencies */
-import { Injectable } from '@angular/core';
+/* Dependencies */
+import { inject, Injectable } from '@angular/core';
 
-/** Models */
+/* Models */
 import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationThresholdConfig } from '../models';
 
-/** Services */
-import { ApiService } from './api.service';
+/* Services */
+import { ApiService } from './api.service'
 
-/** Utils */
-import { DateUtils, Utils } from '../utils';
+/* Utils */
+import { DateUtils } from '../utils'
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
 export class StationsService {
+  private apiService = inject(ApiService);
   private _debounceTimeout: number | null = null;
-
-  constructor(private apiService: ApiService) { }
 
   public async getAllStations(url: string, token?: string) {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
         if (!('features' in data) || !Array.isArray(data['features'])) throw new Error(`Formato della risposta delle stazioni non valido.`);
-        return data['features'].map((s: any) => StationBase.createFromGeoJSONFeature(s));
+        return data['features'].map((s: GeoJSON.Feature) => StationBase.createFromGeoJSONFeature(s));
       })
       .catch((err: unknown) => {
         if (err instanceof Error) throw err;
@@ -33,9 +33,9 @@ export class StationsService {
 
   public async getAllParameters(url: string, token?: string): Promise<Sensor[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
-        return data.map((s: any) => Sensor.createFromObject(s));
+        return data.map((s: unknown) => Sensor.createFromObject(s));
       })
       .catch((err) => {
         if (err instanceof Error) throw err;
@@ -45,9 +45,9 @@ export class StationsService {
 
   public async getStationParameters(url: string, token?: string): Promise<Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]> {
     return this.apiService.getApiData(url, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
         if (!Array.isArray(data)) throw new Error(`Formato dei parametri non valido.`);
-        return data.map((s: any) => StationBase.createPartialFromObject(s));
+        return data.map((s: unknown) => StationBase.createPartialFromObject(s));
       })
       .catch((err) => {
         if (err instanceof Error) throw err;
@@ -55,7 +55,7 @@ export class StationsService {
       })
   }
 
-  public async patchStationParameters(url: string, obj: any, token?: string): Promise<void> {
+  public async patchStationParameters(url: string, obj: unknown, token?: string): Promise<void> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
@@ -96,7 +96,7 @@ export class StationsService {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
     return this.apiService.getApiData(formattedUrlWithParams, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
         return this.parseTimeSerie(data, params);
       })
       .catch((err) => {
@@ -105,7 +105,7 @@ export class StationsService {
       })
   }
 
-  public parseTimeSerie(data: any, params: string[]): Map<string, [number, number][]> {
+  public parseTimeSerie(data: unknown, params: string[]): Map<string, [number, number][]> {
     if (!Array.isArray(data)) return new Map();
 
     const result: Map<string, [number, number][]> = new Map<string, [number, number][]>();
@@ -172,10 +172,12 @@ export class StationsService {
     const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
 
     return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
+        if (!('mimeType' in data) || !('base64Data' in data)) throw new Error('Invalid object.');
         return `data:${data['mimeType']};base64,${data['base64Data']}`;
       })
-      .catch((err: unknown) => {
+      .catch(() => {
         throw new Error(`Errore nel recupero dell'immagine dell'hydro.`);
       });
   }
@@ -184,10 +186,12 @@ export class StationsService {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
     return this.apiService.getApiData(formattedUrlWithDate, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
+        if (!('mimeType' in data) || !('base64Data' in data)) throw new Error('Invalid object.');
         return `data:${data['mimeType']};base64,${data['base64Data']}`;
       })
-      .catch((err: unknown) => {
+      .catch(() => {
         throw new Error(`Errore nel recupero dell'immagine della webcam.`)
       });
   }
@@ -196,11 +200,11 @@ export class StationsService {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
     return this.apiService.getApiData(formattedUrlWithDate, token)
-      .then((data: any) => {
+      .then((data: unknown) => {
         if (!Array.isArray(data)) return [];
-        return data.map((img: any) => `data:${img['mimeType']};base64,${img['base64Data']}`);
+        return data.map((img) => `data:${img['mimeType']};base64,${img['base64Data']}`);
       })
-      .catch((err: unknown) => {
+      .catch(() => {
         throw new Error(`Errore nel recupero dell'immagine lidar.`)
       });
   }

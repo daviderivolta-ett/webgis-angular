@@ -1,15 +1,15 @@
-// Libraries
-import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+/* Dependencies */
+import { inject } from '@angular/core'
+import { ResolveFn } from '@angular/router'
 
-// Models
-import { RadarConfigGroup } from '../models/radar';
+/* Models */
+import { RadarConfigGroup } from '../models/radar'
 
-// Services
-import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
+/* Services */
+import { ApiService, AuthService, ConfigService, TenantsService } from '../services'
 
-// Resolver
-export const radarConfigGroupsResolver: ResolveFn<RadarConfigGroup[]> = async (route, state) => {
+/* Resolver */
+export const radarConfigGroupsResolver: ResolveFn<RadarConfigGroup[]> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -22,7 +22,7 @@ export const radarConfigGroupsResolver: ResolveFn<RadarConfigGroup[]> = async (r
 
   return configService.getRadarConfigGroups(url, authService.getAccessToken())
     .then((groups: RadarConfigGroup[]) => groups)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return [];
     })

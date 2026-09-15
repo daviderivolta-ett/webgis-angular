@@ -1,11 +1,11 @@
-// Libraries
-import { Component, input } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+/* Dependencies */
+import { Component, input } from '@angular/core'
+import { RouterLink, RouterLinkActive } from '@angular/router'
 
-/** Pipes */
-import { ArrayIncludesPipe } from '../../pipes';
+/* Pipes */
+import { ArrayIncludesPipe } from '../../pipes'
 
-// Types
+/* Types */
 type AppRoute = {
   path: string,
   label: string,
@@ -15,7 +15,7 @@ type AppRoute = {
   requiredRole?: string
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-nav-menu',
   imports: [

@@ -1,15 +1,15 @@
-// Libraries
+/* Dependencies */
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 
-// Models
+/* Models */
 import { LayerGroup } from '../models';
 
-// Services
+/* Services */
 import { ApiService, AuthService, ConfigService, TenantsService } from '../services';
 
-// Resolver
-export const baseLayersResolver: ResolveFn<LayerGroup[]> = async (route, state) => {
+/* Resolver */
+export const baseLayersResolver: ResolveFn<LayerGroup[]> = async () => {
   const configService: ConfigService = inject(ConfigService);
   const authService: AuthService = inject(AuthService);
   const tenantsService: TenantsService = inject(TenantsService);
@@ -22,7 +22,7 @@ export const baseLayersResolver: ResolveFn<LayerGroup[]> = async (route, state) 
 
   return configService.getBaseLayers(url, authService.getAccessToken())
     .then((data: LayerGroup[]) => data)
-    .catch((err: any) => {
+    .catch((err: unknown) => {
       console.error(err);
       return []
     });

@@ -1,5 +1,5 @@
 export class GeoJsonUtils {
-    static isGeoJSON(json: any): boolean {
+    static isGeoJSON(json: unknown): boolean {
         if (!json || typeof json !== 'object') return false;
 
         const validTypes = [
@@ -14,11 +14,11 @@ export class GeoJsonUtils {
             'GeometryCollection',
         ];
 
-        if (typeof json.type === 'string' && validTypes.includes(json.type)) {
+        if ('type' in json && typeof json.type === 'string' && validTypes.includes(json.type)) {
             if (json.type === 'Feature') {
                 return 'geometry' in json;
             }
-            if (json.type === 'FeatureCollection') {
+            if (json.type === 'FeatureCollection' && 'features' in json) {
                 return Array.isArray(json.features);
             }
             return true;
@@ -27,8 +27,8 @@ export class GeoJsonUtils {
         return false;
     }
 
-    static searchForGeoJSON(json: any): GeoJSON.FeatureCollection | undefined {
-        if (!json || typeof json !== 'object') return;
+    static searchForGeoJSON(json: unknown): GeoJSON.FeatureCollection | undefined {
+        if (!json || typeof json !== 'object' || json !== null) return;
 
         for (const key of Object.keys(json)) {
             const value = json[key];
@@ -47,7 +47,7 @@ export class GeoJsonUtils {
         return undefined;
     }
 
-    static addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {                
+    static addTypeToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, type: string): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
@@ -63,11 +63,11 @@ export class GeoJsonUtils {
         }
     }
 
-    static addPropertiesToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, props: Record<string, any>): GeoJSON.FeatureCollection {
+    static addPropertiesToGeoJSONFeatures(geoJSON: GeoJSON.FeatureCollection, props: Record<string, unknown>): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-                const properties: any = feature.properties ?? {};
+                const properties: Record<string, unknown> = feature.properties ?? {};
                 return {
                     ...feature,
                     properties: {
@@ -79,9 +79,9 @@ export class GeoJsonUtils {
         }
     }
 
-    static fromGeoJSONToArray(geoJSON: GeoJSON.FeatureCollection): any[] {
+    static fromGeoJSONToArray(geoJSON: GeoJSON.FeatureCollection): object[] {
         return geoJSON.features.map((f: GeoJSON.Feature) => {
             return f.properties
-        });
+        }).filter((v) => v !== null)
     }
 }

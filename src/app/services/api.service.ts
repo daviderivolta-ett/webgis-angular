@@ -1,7 +1,7 @@
-/** Libraries */
-import { Injectable, signal } from '@angular/core';
+/* Dependencies */
+import { Injectable, signal } from '@angular/core'
 
-/** Service */
+/* Service */
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,9 @@ export class ApiService {
         if (!res.ok) throw new Error('Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json');
         return res.json();
       })
-      .then((data: any) => {
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null || !('apis' in data)) throw new Error('Invalid object.');
+
         const rawApis = data['apis'];
 
         if (typeof rawApis !== 'object' || rawApis === null) {
@@ -25,32 +27,32 @@ export class ApiService {
         }
 
         const entries = Object.entries(rawApis)
-          .filter(([_key, value]) => typeof value === 'string')
+          .filter(([, value]) => typeof value === 'string')
           .map(([key, value]) => [key, value as string] as [string, string]);
 
         this.#apis.set(new Map<string, string>(entries))
         return new Map<string, string>(entries);
       })
-      .catch((err: any) => {
-        throw new Error(`'Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json ${err.message || err}`);
+      .catch(() => {
+        throw new Error(`Errore nel recupero degli endpoint delle api dal file di configurazione /configs/api.config.json.`);
       })
   }
 
-  public async getApiJSONData(url: string): Promise<any> {
+  public async getApiJSONData(url: string): Promise<unknown> {
     return fetch(url)
       .then((res: Response) => {
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`);
         return res.json();
       })
-      .then((data: any) => {
+      .then((data: unknown) => {
         return data;
       })
-      .catch((err: any) => {
-        throw new Error(`Errore nel recupero dei dati da ${url}: ${err.message || err}`);
+      .catch((err: unknown) => {
+        throw new Error(`Errore nel recupero dei dati da ${url}: ${err instanceof Error ? err.message : err}`);
       })
   }
 
-  public async getApiData(url: string, token?: string): Promise<any> {
+  public async getApiData(url: string, token?: string): Promise<unknown> {
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
@@ -60,8 +62,9 @@ export class ApiService {
         if (!res.ok) throw new Error(`Errore nel recupero dei dati da ${url}`)
         return res.json();
       })
-      .then((data: any) => {
-        if (!('statusCode' in data) || data['statusCode'] !== 200) throw new Error(`Errore nel recupero dei dati da ${url}: ${data['statusCode'] ?? 'Errore sconosciuto'}`);
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
+        if (!('statusCode' in data) || data['statusCode'] !== 200) throw new Error(`Errore nel recupero dei dati da ${url}: ${'Errore sconosciuto'}`);
         if (!('content' in data)) throw new Error(`La risposta non contiene il campo 'content'.`);
         return data['content'];
       })
@@ -71,7 +74,7 @@ export class ApiService {
       })
   }
 
-  public async getPolygonApiData(url: string, token?: string): Promise<any> {
+  public async getPolygonApiData(url: string, token?: string): Promise<unknown> {
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
@@ -98,17 +101,20 @@ export class ApiService {
     return url.replace(/\{\{BASE_URL\}\}/, param);
   }
 
-  public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {        
+  public addSearchParamsToUrl(baseurl: string, params: Record<string, string>): string {
     const url = new URL(baseurl);
-    Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));    
+    Object.entries(params).forEach((value: [string, string]) => url.searchParams.set(value[0], value[1]));
     return url.toString();
   }
 
-  public getByPath(obj: any, path: string) {
+  public getByPath(obj: unknown, path: string): unknown {
     return path
       .replace(/\[(\d+)\]/g, '.$1')
       .split('.')
       .filter(Boolean)
-      .reduce((acc, key) => acc?.[key], obj)
+      .reduce((acc, key) => {
+        if (acc !== null && typeof acc === 'object') return key in acc ? (acc as Record<string, unknown>)[key] : undefined;
+        return undefined
+      }, obj);
   }
 }

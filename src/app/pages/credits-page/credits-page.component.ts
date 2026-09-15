@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 
 /* Types */
 import { User } from '../../models'
@@ -18,6 +18,9 @@ import { HeaderComponent, NotificationIconComponent } from '../../components'
   styleUrl: './credits-page.component.scss'
 })
 export class CreditsPageComponent {
+  /* Dependency injection */
+  private tenantsService = inject(TenantsService);
+
   /* Data */
   public user: User | null = null;
 
@@ -25,7 +28,7 @@ export class CreditsPageComponent {
   public selectedTenantMsg; // Recovered from service in constructor
 
   /* Constructor */
-  constructor(private tenantsService: TenantsService) {
+  constructor() {
     /** Recovering from services */
     this.selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;

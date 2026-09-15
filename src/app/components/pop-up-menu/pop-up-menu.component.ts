@@ -1,7 +1,7 @@
-// Libraries
-import { Component, effect, input, output } from '@angular/core';
+/* Dependencies */
+import { Component, effect, input, output } from '@angular/core'
 
-// Component
+/* Component */
 @Component({
   selector: 'app-pop-up-menu',
   imports: [],
@@ -26,10 +26,10 @@ export class PopUpMenuComponent {
     effect(() => this.finalPosition = this._parsePosition(this.position()));
   }
 
-  // Methods
+  /* Methods */
   private _parsePosition(input: string): ['top' | 'bottom', 'left' | 'right'] {
     const arr: string[] = input.split('-');
-    let output: ['top' | 'bottom', 'left' | 'right'] = ['top', 'right'];
+    const output: ['top' | 'bottom', 'left' | 'right'] = ['top', 'right'];
 
     switch (arr.length) {
       case 1:

@@ -1,8 +1,8 @@
-/** Libraries */
-import { Component, effect, input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+/* Dependencies */
+import { Component, effect, input } from '@angular/core'
+import { DatePipe } from '@angular/common'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-layer-legend',
   imports: [
@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './layer-legend.component.scss'
 })
 export class LayerLegendComponent {
-  /** Data */
+  /* Data */
   public label = input<string>('');
   public unit = input<string | undefined>(undefined);
   public colors = input<string[]>([]);
@@ -20,7 +20,7 @@ export class LayerLegendComponent {
   public imgUrl = input<string>('');
   public date = input<Date | undefined>(new Date());
 
-  /** User Interface */
+  /* User Interface */
   public colorWidth: number = 0;
   public tickStep: number = 0;
   public hoveredLabel: string | null = null;
@@ -31,7 +31,7 @@ export class LayerLegendComponent {
     effect(() => this.tickStep = 100 / this.colors().length);
   }
 
-  /** Methods */
+  /* Methods */
   public onColorMouseEnter(index: number): void {
     this.hoveredLabel = this.labels()[index];
     const stepWidth: number = 100 / this.labels().length;

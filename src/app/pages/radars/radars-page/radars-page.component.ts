@@ -1,37 +1,47 @@
-/** Libraries */
-import { Component, computed, effect, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, computed, effect, inject, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core'
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { skip } from 'rxjs'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
 
-/** Models */
+/* Models */
 import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, Settings, Tenant, TreeNode, User } from '../../../models'
 
-/** Components */
+/* Components */
 import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent } from '../../../components'
 
-/** Utils */
+/* Utils */
 import { DateUtils } from '../../../utils'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-radars-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent,
-    /**Directives */
+    /* Directives */
     RouterLink, NgTemplateOutlet, RouterLinkActive,
-    /** Pipes */
+    /* Pipes */
     TitleCasePipe
   ],
   templateUrl: './radars-page.component.html',
   styleUrl: './radars-page.component.scss'
 })
-export class RadarsPageComponent {
-  /** User Interface */
+export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  /* Dependency injection */
+  private router: Router = inject(Router)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private radarService: RadarService = inject(RadarService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
+  /* User Interface */
   public navGroups: TreeNode[] = [];
   public config: RadarConfig | undefined;
   public currentImgType: 'Image' | 'Animation' = 'Image';
@@ -39,7 +49,7 @@ export class RadarsPageComponent {
   public pageTitle: string = '';
   public imgUrl: string = '';
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
   public settings: Settings; // Recovered from route resolver in constructor
 
@@ -61,27 +71,17 @@ export class RadarsPageComponent {
     return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
   });
 
-  /** References */
+  /* References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
   @ViewChild('toggle') _toggle!: ToggleComponent;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private globalStateService: GlobalStateService,
-    private radarService: RadarService,
-    private snackbarsService: SnackbarsService,
-  ) {
-    /** Recovering from services */
+  constructor() {
+    /* Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
     this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
 
     this._radarConfigGroups = this.route.snapshot.data['radarConfigGroups'];
@@ -90,18 +90,17 @@ export class RadarsPageComponent {
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
 
-    /** Effetcs */
+    /* Effetcs */
     effect(() => this.user = this.auth2Service.user());
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public ngOnInit(): void {
     const configGroup: RadarConfigGroup | undefined = this._initConfigGroup(this.pageTitle ?? 'radar');
     if (!configGroup || !configGroup.options.every((c: RadarConfig | RadarConfigGroup) => c instanceof RadarConfigGroup)) return;
 
     this.navGroups = configGroup.options.map((g: RadarConfigGroup) => RadarConfigGroupToTreeNodeAdapter.convert(g));
     this.route.paramMap.pipe(skip(1)).subscribe(() => {
-      // this.referenceDate = this.globalStateService.getDateFromQueryParams();
       const param: string | null = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
       if (param) this._init(param, imagetype && this._isImageType(imagetype) ? imagetype : 'Image');
@@ -112,9 +111,7 @@ export class RadarsPageComponent {
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
 
       const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
-      // const newDate = !date && tenantDate ? tenantDate : date;
       this.selectedDate = !date && tenantDate ? tenantDate : date;
-      // this.referenceDate = newDate ? new Date(newDate) : undefined;
 
       const param = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
@@ -131,7 +128,7 @@ export class RadarsPageComponent {
     this._clearRefreshInterval();
   }
 
-  /** Methods */
+  /* Methods */
   private async _init(id: string, imagetype: typeof this.currentImgType = 'Image'): Promise<void> {
     if (this._sidebar) this._sidebar.toggleSidebar(false);
     const config = this._initConfig(id);
@@ -146,7 +143,7 @@ export class RadarsPageComponent {
     const config: RadarConfigGroup | undefined = this._radarConfigGroups.find(g => g.id === id);
 
     if (!config) {
-      this._radarConfigGroups.length > 0 ? this.router.navigateByUrl(`/${id}/${this._radarConfigGroups[0].options[0].id}`) : '';
+      if (this._radarConfigGroups.length > 0) this.router.navigateByUrl(`/${id}/${this._radarConfigGroups[0].options[0].id}`);
       return undefined;
     }
     return config;
@@ -157,7 +154,7 @@ export class RadarsPageComponent {
       .map((g: RadarConfigGroup) => g.getRadarConfig(id))
       .find((g) => g !== undefined);
     if (!config) {
-      this._radarConfigGroups.length > 0 ? this.router.navigateByUrl(`/radar/${this._radarConfigGroups[0].options[0].id}`) : '';
+      if (this._radarConfigGroups.length > 0) this.router.navigateByUrl(`/radar/${this._radarConfigGroups[0].options[0].id}`);
       return undefined;
     }
     return config;
@@ -175,11 +172,12 @@ export class RadarsPageComponent {
     this.globalStateService.updateQueryParam2('imagetype', [this.currentImgType]);
   }
 
-  public onDateChange(event: any): void {
-    const { date: dateString } = event;    
+  public onDateChange(event: unknown): void {
+    if (typeof event !== 'object' || event === null || !('date' in event) || typeof event['date'] !== 'string') return;
+    const { date: dateString } = event;
     const current = this.globalStateService.getQueryParam2('date')[0];
     if (current === dateString) return;
-    this.globalStateService.updateQueryParam2('date', dateString ? dateString : '');
+    this.globalStateService.updateQueryParam2('date', dateString ? [dateString] : ['']);
   }
 
   private _createUrl(baseUrl: string, imgType: string, date: Date | undefined) {
@@ -204,7 +202,7 @@ export class RadarsPageComponent {
       });
   }
 
-  private _isImageType(value: any): value is typeof this.currentImgType {
+  private _isImageType(value: unknown): value is typeof this.currentImgType {
     return value === 'Image' || value === 'Animation';
   }
 }

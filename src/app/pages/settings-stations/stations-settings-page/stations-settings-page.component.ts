@@ -1,5 +1,5 @@
 /** Libraries */
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, SensorType, StationBase, User } from '../../../models';
 
 /** Services */
-import { ApiService, Auth2Service, AuthService, SnackbarsService, StationsService, TenantsService } from '../../../services';
+import { ApiService, Auth2Service, SnackbarsService, StationsService, TenantsService } from '../../../services';
 
 /** Components */
 import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
@@ -33,11 +33,19 @@ import { Utils } from '../../../utils';
     NotificationIconComponent,
     /** Pipes */
     MapValuePipe
-],
+  ],
   templateUrl: './stations-settings-page.component.html',
   styleUrl: './stations-settings-page.component.scss'
 })
-export class StationsSettingsPageComponent {
+export class StationsSettingsPageComponent implements OnInit {
+  /** Dependency injection */
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private stationsService: StationsService = inject(StationsService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
   /** UI */
   public form = new FormGroup<any>({});
   public initialFormValue: Record<string, any[]> = {};
@@ -63,15 +71,7 @@ export class StationsSettingsPageComponent {
   public selectedTenantMsg;
 
   /** Constructor */
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private stationsService: StationsService,
-    private snackbarsService: SnackbarsService
-  ) {
+  constructor() {
     /** Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
@@ -140,7 +140,7 @@ export class StationsSettingsPageComponent {
   }
 
   public async onFormSubmit(): Promise<void> {
-    const changes: Record<string, any[]> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
+    const changes: Record<string, unknown> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
     const result = this._createStationsOnFormChanges(changes);
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
 

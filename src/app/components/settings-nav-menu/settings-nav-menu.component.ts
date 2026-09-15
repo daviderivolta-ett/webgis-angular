@@ -1,14 +1,14 @@
-/** Libraries */
+/* Dependencies */
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
-// Types
+/* Types */
 type AppRoute = {
   path: string,
   label: string
 }
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-settings-nav-menu',
   imports: [

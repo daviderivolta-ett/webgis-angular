@@ -1,14 +1,16 @@
-/** Libraries */
-import { Component, ContentChild, ElementRef, input, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+/* Dependencies */
+import { Component, ContentChild, ElementRef, input, Renderer2, ViewChild, AfterViewInit, inject } from '@angular/core'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-loading-btn',
   imports: [],
   templateUrl: './loading-btn.component.html',
   styleUrl: './loading-btn.component.scss'
 })
-export class LoadingBtnComponent {
+export class LoadingBtnComponent implements AfterViewInit {
+  private renderer: Renderer2 = inject(Renderer2);
+
   public isLoading = input<boolean>(false);
 
   public cssProps = input<string[]>([]);
@@ -16,9 +18,9 @@ export class LoadingBtnComponent {
   @ContentChild('button', { read: ElementRef }) _projectedBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('fakeBtn', { static: true }) _fakeBtn!: ElementRef<HTMLButtonElement>;
 
-  constructor(private renderer: Renderer2) { }
+  constructor() { }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   ngAfterViewInit(): void {
     const style: CSSStyleDeclaration = getComputedStyle(this._projectedBtn.nativeElement);
     for (let i = 0; i < style.length; i++) {

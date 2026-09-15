@@ -1,39 +1,39 @@
-/** Dependencies */
-import { Component, computed, effect, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, computed, effect, inject, ViewChild, OnInit } from '@angular/core'
 import { KeyValuePipe, NgTemplateOutlet } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-/** Models */
+/* Models */
 import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationBase, Table2, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService, StationsService, TablesService, TenantsService } from '../../../services'
 
-/** Components */
-import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, DatepickerComponent, PlotlyChartComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
-import { MapChartComponent } from '../../data/map-chart/map-chart.component';
+/* Components */
+import { HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, InputAutocompleteComponent, PlotlyChartComponent, FloatingDialogComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
+import { MapChartComponent } from '../../data/map-chart/map-chart.component'
 
-/** Pipes */
+/* Pipes */
 import { MapValuePipe } from '../../../pipes'
 
-/** Directives */
+/* Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
-/** Utils */
+/* Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
 import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
 import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-chart-selector.component";
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-tables-stations-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent, SidebarComponent, InputAutocompleteComponent, PlotlyChartComponent, MapChartComponent, FloatingDialogComponent, NotificationIconComponent,
-    /** Directives */
+    /* Directives */
     NgTemplateOutlet, RouterLink, RouterLinkActive, ReactiveFormsModule, ScrollableTableDirective, SortableTableComponent, SortHeaderComponent,
-    /** Pipes */
+    /* Pipes */
     KeyValuePipe, MapValuePipe,
     MapChartDatepickerComponent,
     MapChartSelectorComponent,
@@ -42,8 +42,19 @@ import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-cha
   templateUrl: './tables-stations-page.component.html',
   styleUrl: './tables-stations-page.component.scss'
 })
-export class TablesStationsPageComponent {
-  /** User Interface */
+export class TablesStationsPageComponent implements OnInit {
+  /* Dependency injection */
+  private router: Router = inject(Router)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private stationsService: StationsService = inject(StationsService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+  private tablesService: TablesService = inject(TablesService);
+
+  /* User Interface */
   public form: FormGroup = new FormGroup({ select: new FormControl('') });
   public filters: FormGroup | null = null;
 
@@ -57,7 +68,7 @@ export class TablesStationsPageComponent {
   public chart: MapChart | null = null;
   public isChartLoading: boolean = false;
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
   public settings: Settings; // Recovered from route resolver in constructor
 
@@ -89,27 +100,16 @@ export class TablesStationsPageComponent {
     return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
   });
 
-  /** References */
+  /* References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private globalStateService: GlobalStateService,
-    private stationsService: StationsService,
-    private tablesService: TablesService,
-    private snackbarsService: SnackbarsService
-  ) {
-    /** Recovering from services */
+  constructor() {
+    /* Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
     this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
 
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
@@ -119,14 +119,14 @@ export class TablesStationsPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
-    /** Effetcs */
+    /* Effetcs */
     effect(() => {
       this.user = this.auth2Service.user();
       this._initNavbar();
     });
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public async ngOnInit(): Promise<void> {
     this._initNavbar();
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
@@ -147,7 +147,7 @@ export class TablesStationsPageComponent {
     });
   }
 
-  /** Methods */
+  /* Methods */
   public async setDataFromApi() {
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
@@ -160,7 +160,7 @@ export class TablesStationsPageComponent {
       this.stations = this.stationsService
         .mergeBaseStationsAndPickStations(allStations, stationsPick)
         .sort((a, b) => a.id.localeCompare(b.id));
-    } catch (error) {
+    } catch {
       this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
     }
   }
@@ -186,7 +186,7 @@ export class TablesStationsPageComponent {
 
     this.filterKeys = this._createFilterKeys(this.config.filterKeys ?? []);
     this.filters = this._createFilterForm(this.config.filterKeys ?? []);
-    this.filters.valueChanges.subscribe((changes: any) => {
+    this.filters.valueChanges.subscribe((changes) => {
       this.newSortedData = this.newData.filterTableData(changes);
     });
   }
@@ -194,7 +194,7 @@ export class TablesStationsPageComponent {
   private _initConfigGroup(id: string): TableConfigGroup | undefined {
     const config: TableConfigGroup | undefined = this._tableConfigGroups.find(g => g.options.some(c => c.id === id));
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`);
       return undefined;
     }
     return config;
@@ -203,7 +203,7 @@ export class TablesStationsPageComponent {
   private _initConfig(id: string): TableConfig | undefined {
     const config = TableConfigGroup.findTableConfig(id, this._tableConfigGroups);
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`);
       return undefined;
     }
     return config;
@@ -213,7 +213,8 @@ export class TablesStationsPageComponent {
     this.form.get('select')?.setValue(initialSelectValue, { emitEvent: false });
   }
 
-  private _onFormChange(changes: any) {
+  private _onFormChange(changes: unknown) {
+    if (typeof changes !== 'object' || changes === null || !('select' in changes)) return;
     const { select } = changes;
     if (!select || typeof select !== 'string') return;
     this.globalStateService.updateQueryParam2('table-stations', [select]);
@@ -244,7 +245,7 @@ export class TablesStationsPageComponent {
       })
 
     if (!Array.isArray(response) || response.length === 0) return;
-    const table: any = response[0];
+    const table = response[0];
 
     const { tableName, tableRows } = table;
     if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return;
@@ -282,9 +283,9 @@ export class TablesStationsPageComponent {
   public onDateChange(date: Date | undefined): void {
     const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
     if (current?.getTime() === date?.getTime()) return;
-    date ?
-      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
-      this.globalStateService.removeQueryParam('date');
+
+    if (date) this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]);
+    else this.globalStateService.removeQueryParam('date');
   }
 
   private _getSelectedStation(): string | undefined {
@@ -294,8 +295,10 @@ export class TablesStationsPageComponent {
     return this._tableConfigGroups[0].options[0].id;
   }
 
-  public async onCellClick(cell: any): Promise<void> {
-    const hiddenValue: string | undefined = cell['hiddenValue'];
+  public async onCellClick(cell: unknown): Promise<void> {
+    if (typeof cell !== 'object' || cell === null || !('hiddenValue' in cell) || !('value' in cell) || typeof cell.value !== 'number') return;
+
+    const hiddenValue = cell['hiddenValue'];
     if (!hiddenValue) return;
 
     const stationBase = this.stations.find((s) => s.id === hiddenValue);
@@ -307,12 +310,13 @@ export class TablesStationsPageComponent {
       if (Utils.isValidColor(k) && v) thresholds[k] = v;
     });
     const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);
-    let chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
+    const chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
     this.chart = chart;
   }
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
-    let { param, initialDate, endingDate } = formChange;
+    let { initialDate } = formChange;
+    const { param, endingDate } = formChange;
     const currentDateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
     const currentDate = !isNaN(new Date(currentDateStr).getTime()) ? new Date(currentDateStr) : new Date();
 
@@ -339,9 +343,9 @@ export class TablesStationsPageComponent {
       })
   }
 
-  public onChartCustomButtonClick(event: any[]): void {
+  public onChartCustomButtonClick(event: unknown[]): void {
     if (!Array.isArray(event)) return;
-    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const charts: MapChartData[] = event.filter((v: unknown) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
     Utils.downloadFile('station_chart.csv', csv);
   }

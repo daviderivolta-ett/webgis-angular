@@ -1,45 +1,45 @@
-/** Dependencies */
-import { Component, computed, effect, ViewChild } from '@angular/core'
+/* Dependencies */
+import { Component, computed, effect, inject, ViewChild, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router'
 
-/** Models */
+/* Models */
 import { MapChart, MapChartData, Sensor, SensorType, Settings, Station, StationBase, Table2, TableColorConfig, TableConfig, TableConfigGroup, TableConfigGroupToTreeNodeAdapter, Tenant, TreeNode, User } from '../../../models'
 
-/** Services */
-import { ApiService, Auth2Service, AuthService, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
+/* Services */
+import { ApiService, Auth2Service, GlobalStateService, SnackbarsService, StationsService, TenantsService } from '../../../services'
 
-/** Components */
-import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, DatepickerComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
+/* Components */
+import { SidebarComponent, HeaderComponent, SortableTableComponent, SortHeaderComponent, FloatingDialogComponent, PlotlyChartComponent, NotificationIconComponent, DatePickerComponent } from '../../../components'
 
-/** Directives */
+/* Directives */
 import { ScrollableTableDirective } from '../../../directives/scrollable-table.directive'
 
-/** Pipes */
+/* Pipes */
 import { IsDatePipe, MapValuePipe } from '../../../pipes'
 
-/** Utils */
+/* Utils */
 import { CSVUtils, DateUtils, Utils } from '../../../utils'
-import { MapChartComponent } from "../../data/map-chart/map-chart.component";
-import { MapChartDatepickerComponent } from "../../data/map-chart-datepicker/map-chart-datepicker.component";
-import { MapChartSelectorComponent } from "../../data/map-chart-selector/map-chart-selector.component";
+import { MapChartComponent } from '../../data/map-chart/map-chart.component'
+import { MapChartDatepickerComponent } from '../../data/map-chart-datepicker/map-chart-datepicker.component'
+import { MapChartSelectorComponent } from '../../data/map-chart-selector/map-chart-selector.component'
 
-/** Types */
+/* Types */
 type PageTable = {
   id: string,
   label: string,
   table: Table2
 }
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-tables-extremes-page',
   imports: [
-    /** Components */
+    /* Components */
     HeaderComponent, SidebarComponent, SortableTableComponent, SortHeaderComponent, NotificationIconComponent, DatePickerComponent,
-    /** Directives */
+    /* Directives */
     RouterLink, ScrollableTableDirective, RouterLinkActive,
-    /** Pipes */
+    /* Pipes */
     MapValuePipe, IsDatePipe, DatePipe,
     FloatingDialogComponent,
     MapChartComponent,
@@ -50,8 +50,18 @@ type PageTable = {
   templateUrl: './tables-extremes-page.component.html',
   styleUrl: './tables-extremes-page.component.scss'
 })
-export class TablesExtremesPageComponent {
-  /** User interface */
+export class TablesExtremesPageComponent implements OnInit {
+  /* Dependency injection */
+  private router: Router = inject(Router)
+  private route: ActivatedRoute = inject(ActivatedRoute)
+  private auth2Service: Auth2Service = inject(Auth2Service)
+  private apiService: ApiService = inject(ApiService)
+  private tenantsService: TenantsService = inject(TenantsService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService)
+  private stationsService: StationsService = inject(StationsService)
+  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+
+  /* User interface */
   public navGroups: TreeNode[] = [];
   public configGroup: TableConfigGroup | undefined;
 
@@ -64,7 +74,7 @@ export class TablesExtremesPageComponent {
   public chart: MapChart | null = null;
   public isChartLoading: boolean = false;
 
-  /** Data */
+  /* Data */
   public user: User | null = null;
   public settings: Settings; // Recovered from route resolver in constructor
 
@@ -90,26 +100,16 @@ export class TablesExtremesPageComponent {
     return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
   });
 
-  /** References */
+  /* References */
   @ViewChild('sidebar') _sidebar!: SidebarComponent;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private auth2Service: Auth2Service,
-    private apiService: ApiService,
-    private tenantsService: TenantsService,
-    private globalStateService: GlobalStateService,
-    private stationsService: StationsService,
-    private snackbarsService: SnackbarsService
-  ) {
-    /** Recovering from services */
+  constructor() {
+    /* Recovering from services */
     this._selectedTenant = this.tenantsService.selectedTenant;
     this.selectedTenantMsg = this.tenantsService.message;
     this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
-    /** Recovering data from resolvers */
+    /* Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
 
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
@@ -119,14 +119,14 @@ export class TablesExtremesPageComponent {
     this.tableLabels = this.route.snapshot.data['tableLabels'];
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
-    /** Effects */
+    /* Effects */
     effect(() => {
       this.user = this.auth2Service.user();
       this._initNavbar();
     });
   }
 
-  /** Component lifecycle */
+  /* Component lifecycle */
   public async ngOnInit(): Promise<void> {
     this._initNavbar();
     await this.setDataFromApi();
@@ -143,7 +143,7 @@ export class TablesExtremesPageComponent {
     });
   }
 
-  /** Methods */
+  /* Methods */
   public async setDataFromApi() {
     try {
       const [stationsPick, allStations, sensorTypes] = await Promise.all([
@@ -156,7 +156,7 @@ export class TablesExtremesPageComponent {
       this.stations = this.stationsService
         .mergeBaseStationsAndPickStations(allStations, stationsPick)
         .sort((a, b) => a.id.localeCompare(b.id));
-    } catch (error) {
+    } catch {
       this.snackbarsService.createSnackbar('Errore nel recupero dei dati', 'error', true);
     }
   }
@@ -174,7 +174,7 @@ export class TablesExtremesPageComponent {
     this.configGroup = this._initConfigGroup(id);
     if (!this.configGroup) return;
 
-    const res: any = await this._getData(this.configGroup.options[0], date);
+    const res: unknown = await this._getData(this.configGroup.options[0], date);
     if (!res) return;
     this.tables = this.sortedTables = this._createTables(res, this.configGroup);
   }
@@ -183,7 +183,7 @@ export class TablesExtremesPageComponent {
     const config: TableConfigGroup | undefined = this._tableConfigGroups.find(g => g.id === id);
 
     if (!config) {
-      this._tableConfigGroups.length > 0 ? this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`) : '';
+      if (this._tableConfigGroups.length > 0) this.router.navigateByUrl(`/tabelle/${this._tableConfigGroups[0].options[0].id}`)
       return undefined;
     }
     return config;
@@ -193,7 +193,7 @@ export class TablesExtremesPageComponent {
     this.tables = this.sortedTables = [];
   }
 
-  private async _getData(config: TableConfig, date: Date): Promise<any> {
+  private async _getData(config: TableConfig, date: Date): Promise<unknown> {
     const baseUrl: string = this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, config.url);
     const url = date ?
       `${baseUrl}?time=${DateUtils.toApiFormat(date.toISOString())}` :
@@ -202,7 +202,7 @@ export class TablesExtremesPageComponent {
     const snackbarId: string = this.snackbarsService.createSnackbar('Caricamento dati tabella...', 'loader');
     this.isChartLoading = true;
     const response = await this.apiService.getApiData(url, this.auth2Service.token())
-      .catch((err: any) => {
+      .catch(() => {
         this.snackbarsService.createSnackbar(`Errore nel recupero dei dati delle tabelle.`, 'error', true);
       })
       .finally(() => {
@@ -213,15 +213,17 @@ export class TablesExtremesPageComponent {
     return (!Array.isArray(response) || response.length === 0) ? undefined : response;
   }
 
-  private _createTables(data: any, configGroup: TableConfigGroup): PageTable[] {
-    return data.map((t: any, i: number) => {
+  private _createTables(data: unknown, configGroup: TableConfigGroup): PageTable[] {
+    if (!Array.isArray(data)) return [];
+    return data.map((t: unknown) => {
+      if (typeof t !== 'object' || t === null || !('tableName' in t) || !('tableRows' in t)) return undefined;
       const { tableName, tableRows } = t;
       if (!tableName || typeof tableName !== 'string' || !tableRows || !Array.isArray(tableRows)) return undefined;
       const config: TableConfig | undefined = configGroup.options.find((c: TableConfig) => c.dataPath === tableName);
       if (!config) return undefined;
 
-      let table = new Table2();
-      let header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
+      const table = new Table2();
+      const header = this._createTableHeader(tableRows, config.keysToKeep ?? []);
       table.header = Table2.orderTableHeader(header.filter(k => k !== 'firstValueReferenceDate' && k !== 'secondValueReferenceDate'), 'firstValueMunicipality', config.keysOrder);
       table.body = this._parseTableBody(tableRows, table.header, config.keysToMerge as unknown as string[][] ?? [], config.colors, config.decimals);
       table.labels = config.labels ?? new Map<string, string>();
@@ -231,13 +233,14 @@ export class TablesExtremesPageComponent {
         label: config.label ?? config.id,
         table
       }
-    }).filter((d: unknown) => d !== undefined)
+    }).filter((d: unknown): d is PageTable => d !== undefined)
   }
 
-  private _createTableHeader(data: any[], keysToKeep: string[]): string[] {
+  private _createTableHeader(data: unknown[], keysToKeep: string[]): string[] {
     return Array.from(
       new Set(
-        data.flatMap((r: any) => {
+        data.flatMap((r: unknown) => {
+          if (typeof r !== 'object' || r === null) return [];
           return Object.keys(r).filter(k => keysToKeep.includes(k))
         })
       )
@@ -324,13 +327,15 @@ export class TablesExtremesPageComponent {
   public onDateChange(date: Date | undefined): void {
     const current: Date | undefined = this.globalStateService.getDateFromQueryParams();
     if (current?.getTime() === date?.getTime()) return;
-    date ?
-      this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]) :
-      this.globalStateService.removeQueryParam('date');
+
+    if (date) this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)])
+    else this.globalStateService.removeQueryParam('date')
   }
 
-  public async onCellClick(cell: any, tableId: string): Promise<void> {
-    const hiddenValue: string | undefined = cell['hiddenValue'];
+  public async onCellClick(cell: unknown, tableId: string): Promise<void> {
+    if (typeof cell !== 'object' || cell === null || !('hiddenValue' in cell) || !('value' in cell) || typeof cell.value !== 'number') return;
+
+    const hiddenValue = cell['hiddenValue'];
     if (!hiddenValue) return;
 
     const tableConfig = TableConfigGroup.findTableConfig(tableId, this._tableConfigGroups);
@@ -345,12 +350,13 @@ export class TablesExtremesPageComponent {
       if (Utils.isValidColor(k) && v) thresholds[k] = v;
     });
     const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === station.parameter);
-    let chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
+    const chart = this.stationsService.createChart(station, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {});
     this.chart = chart;
   }
 
   public async onChartParameterChange(stationCode: string, formChange: Record<string, string>): Promise<void> {
-    let { param, initialDate, endingDate } = formChange;
+    let { initialDate, } = formChange;
+    const { param, endingDate } = formChange;
     const currentDateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
     const currentDate = !isNaN(new Date(currentDateStr).getTime()) ? new Date(currentDateStr) : new Date();
 
@@ -377,9 +383,9 @@ export class TablesExtremesPageComponent {
       })
   }
 
-  public onChartCustomButtonClick(event: any[]): void {
+  public onChartCustomButtonClick(event: unknown[]): void {
     if (!Array.isArray(event)) return;
-    const charts: MapChartData[] = event.filter((v: any) => v instanceof MapChartData);
+    const charts: MapChartData[] = event.filter((v: unknown) => v instanceof MapChartData);
     const csv = CSVUtils.convertTimestampValueArrayToCSV(charts.map((v) => v.data), ['Data', ...charts.map((v) => v.legend ?? '')]);
     Utils.downloadFile('station_chart.csv', csv);
   }

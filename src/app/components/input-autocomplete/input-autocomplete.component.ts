@@ -1,15 +1,15 @@
-// Libraries
-import { Component, ElementRef, forwardRef, HostListener, input, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+/* Dependencies */
+import { Component, ElementRef, forwardRef, HostListener, input, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
-// Types
+/* Types */
 type InputType = 'text' | 'email';
 type InputOption = {
   id: string;
   label?: string
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-input-autocomplete',
   imports: [],
@@ -47,16 +47,16 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
     if (!isClickInside) this.filteredOptions = [];
   }
 
-  // Value accessors
-  public writeValue(value: any): void {
-    if (value && typeof value === 'string') { }
+  /* Value accessors */
+  public writeValue(value: string): void {
+    this._input.nativeElement.value = value ?? '';
   }
 
-  public registerOnChange(fn: any): void {
+  public registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

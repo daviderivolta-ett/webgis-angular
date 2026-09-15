@@ -3,7 +3,7 @@ export class Sensor {
     public type: string;
     public enabled: boolean;
 
-    constructor(id: string, type: string, enabled: boolean, label?: string) {
+    constructor(id: string, type: string, enabled: boolean) {
         this.id = id;
         this.type = type;
         this.enabled = enabled;

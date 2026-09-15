@@ -1,19 +1,19 @@
-/** Dependencies */
-import { Component, ContentChild, effect, input, model, output } from '@angular/core';
+/* Dependencies */
+import { Component, ContentChild, effect, input, model, output, AfterContentInit, OnDestroy } from '@angular/core';
 
-/** Components */
+/* Components */
 import { PlotlyChartComponent } from '../../../components';
 import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
 import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-map-chart',
   imports: [],
   templateUrl: './map-chart.component.html',
   styleUrl: './map-chart.component.scss'
 })
-export class MapChartComponent {
+export class MapChartComponent implements AfterContentInit, OnDestroy {
   public header = input<string>('');
   public isLoading = input<boolean>(false);
   public hideControls = input<boolean>(false);
@@ -22,7 +22,7 @@ export class MapChartComponent {
   public canRefresh = model<boolean>(false);
   private _chartIntervalId: number | null = null;
 
-  public formValue: Record<string, any> = {
+  public formValue: Record<string, string> = {
     param: this.param(),
     initialDate: this.dates()[0],
     endingDate: this.dates()[1]

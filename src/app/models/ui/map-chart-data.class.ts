@@ -35,9 +35,9 @@ export class MapChartData {
         this.unit = unit;
         this.decimals = decimals;
         this.style = style;
-        this.yLabel = yLabel,
-        this.yUnit = yUnit,
-        this.yRange = yRange
+        this.yLabel = yLabel;
+        this.yUnit = yUnit;
+        this.yRange = yRange;
         this.needsAdditionalYAxis = needsAdditionalYAxis;
         this.isMainYAxis = isMainYAxis;
         this.isCumulated = isCumulated;

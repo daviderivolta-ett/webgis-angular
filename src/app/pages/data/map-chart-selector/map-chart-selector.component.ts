@@ -1,15 +1,15 @@
-/** Dependencies */
-import { Component, effect, ElementRef, input, model, output, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+/* Dependencies */
+import { Component, ElementRef, input, model, output, ViewChild } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 
-/** Types */
+/* Types */
 interface SensorType {
   id: string,
   label: string,
   iconUrl: string
 }
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-map-chart-selector',
   imports: [
@@ -29,7 +29,7 @@ export class MapChartSelectorComponent {
 
   @ViewChild('list') _list!: ElementRef<HTMLDivElement>;
 
-  /** Methods */
+  /* Methods */
   public onIconMouseEnter(index: number): void {
     const icons: HTMLElement[] = Array.from(this._list.nativeElement.children) as HTMLElement[];
     const listRect: DOMRect = this._list.nativeElement.getBoundingClientRect();

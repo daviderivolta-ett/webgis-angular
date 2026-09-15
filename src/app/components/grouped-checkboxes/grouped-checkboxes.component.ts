@@ -1,9 +1,9 @@
-// Libraries
-import { Component, effect, model, output } from '@angular/core';
+/* Dependencies */
+import { Component, model, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// Types
+/* Types */
 type GroupedCheckbox = {
   id: string;
   label?: string;
@@ -15,7 +15,7 @@ type GroupedCheckbox = {
   isVisible?: boolean;
 }
 
-// Component
+/* Component */
 @Component({
   selector: 'app-grouped-checkboxes',
   imports: [
@@ -29,7 +29,7 @@ export class GroupedCheckboxesComponent {
   public group = model<GroupedCheckbox>({ id: '' });
   public changed = output<{ id: string, isChecked: boolean }>();
 
-  // Methods
+  /* Methods */
   public onCheckboxChange(group: GroupedCheckbox, event: Event): void {
     const value: boolean = (event.target as HTMLInputElement).checked;
     const parent: GroupedCheckbox | null = this._getParentGroup(this.group(), group);

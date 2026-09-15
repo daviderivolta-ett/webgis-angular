@@ -65,7 +65,7 @@ export class MapTimePlayerComponent {
     });
 
     effect(() => {
-      const r = this.referenceDate();    
+      const r = this.referenceDate();
       if (r) {
         const date = new Date(r);
         date.setSeconds(0, 0);
@@ -78,11 +78,8 @@ export class MapTimePlayerComponent {
       const isDisabled = this.isDisabled();
       const isPlaying = this.isPlaying();
 
-      isDisabled ?
-        this.#stop() :
-        isPlaying ?
-          this.#play() :
-          this.#stop();
+      if (isDisabled || !isPlaying) this.#stop();
+      else this.#play();
     });
   }
 
@@ -104,7 +101,9 @@ export class MapTimePlayerComponent {
 
   public onToggleClick(): void {
     this.isPlaying.set(!this.isPlaying());
-    this.isPlaying() ? this.#play() : this.#stop();
+
+    if (this.isPlaying()) this.#play();
+    else this.#stop();
   }
 
   #play(): void {

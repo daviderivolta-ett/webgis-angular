@@ -1,9 +1,9 @@
-/** Dependencies */
-import { Component, computed, effect, input, model, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+/* Dependencies */
+import { Component, computed, effect, input, model, output } from '@angular/core'
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { distinctUntilChanged } from 'rxjs';
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-datepicker',
   imports: [
@@ -30,7 +30,7 @@ export class DatepickerComponent {
   });
 
   public form = new FormGroup({ date: new FormControl('', [Validators.required]) });
-  public dateChanged = output<Record<string, any>>();
+  public dateChanged = output<Record<string, unknown>>();
   public isLoading = input<boolean>(false);
 
   constructor() {
@@ -38,20 +38,21 @@ export class DatepickerComponent {
     effect(() => this.isLoading() ? this.form.get('date')?.disable() : this.form.get('date')?.enable());
     this.form.valueChanges
       .pipe(distinctUntilChanged((a, b) => a.date === b.date))
-      .subscribe((changes: any) => this._onFormChange(changes));
+      .subscribe((changes) => this._onFormChange(changes));
   }
 
-  /** Methods */
+  /* Methods */
   private _onDateChanged(date: Date | undefined): void {
     const current = this.form.get('date')?.value;
     const formatted = date ? this._toDatetimeLocal(date) : null;
 
     if (current === formatted) return;
 
-    date ? this.form.patchValue({ date: this._toDatetimeLocal(date) }, { emitEvent: false }) : this.form.reset({}, { emitEvent: false });
+    if (date) this.form.patchValue({ date: this._toDatetimeLocal(date) }, { emitEvent: false });
+    else this.form.reset({}, { emitEvent: false });
   }
 
-  private _onFormChange(changes: any): void {
+  private _onFormChange(changes: Partial<{ date: string | null }>): void {
     if (this.form.get('date')?.pristine) return;
 
     if (!('date' in changes) || typeof changes['date'] !== 'string' || changes['date'] === '') {
@@ -147,7 +148,7 @@ export class DatepickerComponent {
   }
 
   private _checkDate(date: Date): boolean {
-    return date <= (new Date(this.max()) ?? new Date()) && (date >= new Date(this.min()));
+    return date <= new Date(this.max()) && (date >= new Date(this.min()));
   }
 
   private _clampDate(date: Date): Date {

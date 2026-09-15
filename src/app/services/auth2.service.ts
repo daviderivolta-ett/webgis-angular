@@ -1,5 +1,5 @@
 /* Dependencies */
-import { effect, inject, Injectable, signal } from '@angular/core'
+import { inject, Injectable, signal } from '@angular/core'
 import { OAuthService } from 'angular-oauth2-oidc'
 
 /* Config */
@@ -13,14 +13,14 @@ import { User } from '../models'
   providedIn: 'root'
 })
 export class Auth2Service {
+  /* Dependency injection */
   #oauthService = inject(OAuthService);
+
+  /* State */
   public user = signal<User | null>(null);
   public readonly token = signal<string | undefined>(undefined);
-
-  // constructor() {
-  //   effect(() => console.log(this.token()));
-  // }
-
+  
+  /* Methods */
   public async init(): Promise<void> {
     this.#setupEvents();
     await this.#configure();
@@ -41,7 +41,7 @@ export class Auth2Service {
           console.log('token receveid');
 
           this.token.set(this.#oauthService.getAccessToken() ?? undefined);
-          const profile = await this.#oauthService.loadUserProfile();
+          // const profile = await this.#oauthService.loadUserProfile();
           // this.user.set((profile as any).info ?? null);
           this.user.set(User.createFromObject(this.#parseJsonWebToken(this.token() ?? '')) ?? null);
           break;
@@ -75,7 +75,7 @@ export class Auth2Service {
   }
 
   async #loadUser(): Promise<void> {
-    const profile = await this.#oauthService.loadUserProfile();
+    // const profile = await this.#oauthService.loadUserProfile();
     this.token.set(this.#oauthService.getAccessToken() ?? undefined);
     // this.user.set((profile as any).info ?? null);
     this.user.set(User.createFromObject(this.#parseJsonWebToken(this.token() ?? '')) ?? null);
@@ -94,11 +94,11 @@ export class Auth2Service {
     return this.#oauthService.getAccessToken();
   }
 
-  public getIdentityClaims(): Record<string, any> {
+  public getIdentityClaims(): Record<string, unknown> {
     return this.#oauthService.getIdentityClaims();
   }
 
-  public async getUserProfile(): Promise<Object> {
+  public async getUserProfile(): Promise<object> {
     return this.#oauthService.loadUserProfile();
   }
 

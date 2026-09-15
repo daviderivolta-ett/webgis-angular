@@ -1,5 +1,5 @@
 /** Dependencies */
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 
 /** Models */
 import { Command, WMSLayer } from '../models'
@@ -10,7 +10,7 @@ import { ApiService } from './api.service';
     providedIn: 'root'
 })
 export class WMSCommandService implements Command {
-    constructor(private apiService: ApiService) { }
+    private apiService: ApiService = inject(ApiService);
 
     public async execute(args?: any): Promise<void> {
         const { map, layer, baseUrl } = args;

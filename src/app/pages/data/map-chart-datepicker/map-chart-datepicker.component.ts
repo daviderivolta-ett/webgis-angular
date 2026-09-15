@@ -1,8 +1,8 @@
-/** Dependencies */
-import { Component, effect, input, model, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+/* Dependencies */
+import { Component, effect, input, model, output } from '@angular/core'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-map-chart-datepicker',
   imports: [
@@ -34,13 +34,14 @@ export class MapChartDatepickerComponent {
     });
   }
 
-  /** Getters and setters */
+  /* Getters and setters */
   public setIsFirstload(value: boolean) {
     this._isFirstLoad = value;
   }
 
-  /** Methods */
-  private _onFormChange(changes: any) {
+  /* Methods */
+  private _onFormChange(changes: Partial<{ initialDate: string | null; endingDate: string | null; }>) {
+
     const initialDate = changes['initialDate'];
     const endingDate = changes['endingDate'];
     setTimeout(() => {

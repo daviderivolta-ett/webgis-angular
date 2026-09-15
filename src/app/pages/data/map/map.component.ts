@@ -1,14 +1,14 @@
-/** Libraries */
-import { Component, ContentChild, effect, ElementRef, input, model, NgZone, output } from '@angular/core';
-import { Feature, Point } from 'geojson';
+/* Dependencies */
+import { Component, ContentChild, effect, ElementRef, inject, input, model, NgZone, output, AfterViewInit } from '@angular/core'
+import { Feature, Point } from 'geojson'
 
-import * as L from 'leaflet';
+import * as L from 'leaflet'
 
-/** Components */
-import { MapPopupComponent } from '../map-popup/map-popup.component';
-import { MapTimePlayerComponent } from "../map-time-player/map-time-player.component";
+/* Components */
+import { MapPopupComponent } from '../map-popup/map-popup.component'
+import { MapTimePlayerComponent } from '../map-time-player/map-time-player.component'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-map',
   imports: [
@@ -17,23 +17,26 @@ import { MapTimePlayerComponent } from "../map-time-player/map-time-player.compo
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
-export class MapComponent {
-  /** Class properties */
+export class MapComponent implements AfterViewInit {
+  /* Class properties */
 
-  /** Internal properties */
+  /* Dependency injection */
+  private ngZone: NgZone = inject(NgZone);
+
+  /* Internal properties */
   private _map!: L.Map;
   private _layers = new Map<string, L.Layer>();
   private _hoverTimer: number = 0;
   private _isFine: boolean = window.matchMedia('(pointer:fine)').matches;
 
-  /** Time dimension properties */
+  /* Time dimension properties */
   public isTimeDimensionVisible = input<boolean>(false);
   public isLoading = model<boolean>(false);
   public selectedDate = model<Date>();
   public timeDimensionDateChanged = output<Date | undefined>();
-  public timeDimensionEvent = output<Record<string, any>>();
+  public timeDimensionEvent = output<Record<string, unknown>>();
 
-  /** Marker specific properties */
+  /* Marker specific properties */
   private _markerShapes: Map<number, (...args: any[]) => SVGSVGElement> = new Map([
     [0, this._createSquareShape.bind(this)],
     [1, this._createCircleShape.bind(this)],
@@ -46,7 +49,7 @@ export class MapComponent {
 
   private _usedMarkerShapes: Set<number> = new Set();
 
-  /** Inputs properties */
+  /* Inputs properties */
   public position = input<[number, number]>([0, 0]);
   public zoom = input<number>(0);
   public maxBounds = input<[number, number][]>([[0, 0], [0, 0]]);
@@ -58,50 +61,43 @@ export class MapComponent {
   public referenceDate = input<Date>();
   public timePlayerRange = input<number>(30);
 
-  /** Output properties */
-  public layerAdded = output<Record<string, any>>();
-  public layerRemoved = output<Record<string, any>>();
+  /* Output properties */
+  public layerAdded = output<Record<string, unknown>>();
+  public layerRemoved = output<Record<string, unknown>>();
   public layerTimeNotFound = output<string>();
-  public mapClicked = output<Record<string, any>>();
-  public markerClicked = output<Record<string, any>[]>();
-  public featureClicked = output<Record<string, any>[]>();
+  public mapClicked = output<Record<string, unknown>>();
+  public markerClicked = output<Record<string, unknown>[]>();
+  public featureClicked = output<Record<string, unknown>>();
   public dateChanged = output<Date | undefined>();
   public popupClicked = output<any[]>();
   public zoomAndCenterChanged = output<Record<string, number>>();
 
-  /** User Interface */
+  /* User Interface */
   @ContentChild('popup') _popup!: MapPopupComponent;
   @ContentChild('popup', { read: ElementRef }) _popupElement!: ElementRef;
 
-  constructor(private ngZone: NgZone) {
+  constructor() {
     effect(() => {
-      const position = this.position();
       if (this._map) this.resetMap();
     });
   }
 
-  /*
-  * Getters and setters
-  */
+  /* Getters and setters  */
   public getMap(): L.Map { return this._map }
   public getLayers(): Map<string, L.Layer> { return this._layers }
   public getLayersArray(): [string, L.Layer][] {
     return Array.from(this._layers);
   }
 
-  /*
-  * Component lifecycle
-  */
+  /* Component lifecycle  */
   public ngAfterViewInit(): void {
     this._initMap();
     this._initTimeDimension();
   }
 
-  /*
-  * Methods
-  */
+  /* Methods */
   private _initMap(): void {
-    /** Map instance */
+    /* Map instance */
     this._map = new L.Map('map', {
       zoomControl: false,
       attributionControl: true
@@ -113,26 +109,27 @@ export class MapComponent {
 
     // Map event to trigger WMS layers GetFeatureInfo
     this._map.on('click', (e: L.LeafletMouseEvent) => this._onMapClick(e));
-    this._map.on('zoomend', (e: L.LeafletEvent) => this._onCenterChanged(e));
-    this._map.on('dragend', (e: L.LeafletEvent) => this._onZoomChanged(e));
+    this._map.on('zoomend', () => this._onCenterChanged());
+    this._map.on('dragend', () => this._onZoomChanged());
   }
 
   private _initTimeDimension() {
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension = L.timeDimension({
       currentTime: this.selectedDate() ?? new Date().getTime()
     });
 
-    // @ts-ignore: time dimension plugin has no type declaration
-    this._map.timeDimension.on('timeload', (event: any) => {
+    // @ts-expect-error: time dimension plugin has no type declaration
+    this._map.timeDimension.on('timeload', (event: unknown) => {
       this.isLoading.set(false);
+      if (typeof event !== 'object' || event === null || !('time' in event) || (typeof event.time !== 'string' && typeof event.time !== 'number')) return;
       this.timeDimensionDateChanged.emit(event['time'] ? new Date(event['time']) : undefined);
     });
 
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeloading', () => this.isLoading.set(true));
 
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension.on('availabletimeschanged', (obj) => {
       // Ignora eventi emessi durante un caricamento/transizione ancora in corso
       // (es. layer appena registrato che non ha ancora ricevuto le sue GetCapabilities):
@@ -147,11 +144,11 @@ export class MapComponent {
       }, 100);
     });
 
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension.on('timeload', () => this.timeDimensionEvent.emit({ message: 'Layer sincronizzato correttamente con la data selezionata.', type: 'success' }));
   }
 
-  /** Click map event */
+  /* Click map event */
   private _onMarkerClick(event: L.LeafletMouseEvent): void {
     const clickedLatLng: L.LatLng = event.latlng;
     const bbox = this._getLatLngBoundingBox(clickedLatLng, 25);
@@ -160,8 +157,7 @@ export class MapComponent {
     if (nearbyMarkers.length === 0) return;
 
     const result = this._getMultiMarkersData(nearbyMarkers, 'group');
-    let data: Record<string, any>[];
-    data = Array.isArray(result) ? result : [result];
+    const data = Array.isArray(result) ? result : [result];
 
     this.markerClicked.emit(data);
 
@@ -190,16 +186,16 @@ export class MapComponent {
     this.mapClicked.emit({ bbox, point, size, latLng });
   }
 
-  private _onZoomChanged(e: L.LeafletEvent) {
+  private _onZoomChanged() {
     this.zoomAndCenterChanged.emit({ lat: this._map.getCenter().lat, lon: this._map.getCenter().lng, zoom: this._map.getZoom() })
   }
 
-  private _onCenterChanged(e: L.LeafletEvent) {
+  private _onCenterChanged() {
     this.zoomAndCenterChanged.emit({ lat: this._map.getCenter().lat, lon: this._map.getCenter().lng, zoom: this._map.getZoom() })
   }
 
-  /** Set layer in internal map and emit event to external */
-  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement, date?: number): void {
+  /* Set layer in internal map and emit event to external */
+  private _registerLayer(id: string, layer: L.Layer, icon?: SVGSVGElement): void {
     this._layers.set(id, layer);
     this.layerAdded.emit({ id, layer, ...(icon ? { icon } : {}) });
   }
@@ -213,23 +209,23 @@ export class MapComponent {
     return this._layers.has(id);
   }
 
-  /** Add base tile layer */
-  public addBaseLayer(url: string, options: Record<string, any>): void {
+  /* Add base tile layer */
+  public addBaseLayer(url: string, options: Record<string, unknown>): void {
     this.removeLayerById('base');
     const layer = L.tileLayer(url, { zIndex: 0, ...options }).addTo(this._map);
     this._registerLayer('base', layer);
   }
 
-  /** Add layer  */
-  public addLayer(id: string, url: string, options: Record<string, any>): void {
+  /* Add layer  */
+  public addLayer(id: string, url: string, options: Record<string, unknown>): void {
     const layer = L.tileLayer(url, options).addTo(this._map);
     this._registerLayer(id, layer);
   }
 
-  /** Add GeoJSON layer */
-  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, any>, preferredShape?: number, showValueOnZoom?: boolean, markerSize?: number): void {
+  /* Add GeoJSON layer */
+  public addCustomMarkerPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, options?: Record<string, unknown>, preferredShape?: number, showValueOnZoom?: boolean, markerSize?: number): void {
     const shapeKey: number = preferredShape ?? this._getNextAvailableMarkerShape();
-    const shapeFactory: (...args: any[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
+    const shapeFactory: (...args: unknown[]) => SVGSVGElement = this._markerShapes.get(shapeKey)!;
 
     if (this._map.getPane(`markers_${shapeKey}`)) {
       this._map.createPane(`markers_${shapeKey}`).style.zIndex = `6${shapeKey}0`;
@@ -253,7 +249,7 @@ export class MapComponent {
         });
 
         const textIcon = L.divIcon({
-          html: this._createTextIcon(value ?? 0, color, options ? options['decimals'] : undefined),
+          html: this._createTextIcon(value ?? 0, color, (options && 'decimals' in options && typeof options['decimals'] === 'number') ? options['decimals'] : undefined),
           className: 'text-marker',
           iconSize: [32, 32],
           iconAnchor: [16, 16]
@@ -309,23 +305,23 @@ export class MapComponent {
     });
   }
 
-  /** Add WMS layer */
+  /* Add WMS layer */
   public addWMSLayer(id: string, url: string, options: Record<string, any>): void {
     const layer: L.TileLayer = L.tileLayer.wms(url, {
-      opacity: options['opacity'] ?? 1,
+      opacity: 'opacity' in options && typeof options['opacity'] === 'number' ? options['opacity'] : 1,
       ...options
 
     }).addTo(this._map);
     this._registerLayer(id, layer);
   }
 
-  /** Add a time dimension layer */
+  /* Add a time dimension layer */
   public addTimeDimensionWMSLayer(id: string, url: string, options: Record<string, any>): void {
     this.timeDimensionEvent.emit({ message: 'Sincronizzazione dei tempi del layer con la data selezionata.', type: 'loader' });
     const layer: L.TileLayer = L.tileLayer.wms(url, {
       ...options,
     });
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     const timeDimensionLayer = L.timeDimension.layer.wms(layer, {
       setDefaultTime: true
     });
@@ -357,15 +353,15 @@ export class MapComponent {
     this._registerLayer(id, geoJSONLayer);
   }
 
-  /** Add GeoJSON layer with donut cluster */
-  public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>, options?: Record<string, any>): void {
+  /* Add GeoJSON layer with donut cluster */
+  public addClusterPointGeoJSONLayer(id: string, geoJSON: GeoJSON.FeatureCollection, arcColorDict: Record<string, string>): void {
     // Create pane for cluster
     // Useful to handle zIndex fight between cluster and custom markers
     if (!this._map.getPane('cluster')) {
       this._map.createPane('cluster').style.zIndex = '699'; // 700 is the popup default zIndex
     }
 
-    // @ts-ignore: donut cluster plugin has no type declaration
+    // @ts-expect-error: donut cluster plugin has no type declaration
     const markers = L.DonutCluster({
       chunkedLoading: true,
       clusterPane: 'cluster',
@@ -384,7 +380,6 @@ export class MapComponent {
     geoJSON.features.forEach((f: GeoJSON.Feature) => {
 
       if (f.geometry.type === 'Point') {
-        const color: string = f.properties?.['color'] ?? 'grey';
         const shape: SVGSVGElement = f.properties?.['markerShapeId'] ?
           this._markerShapes.get(f.properties['markerShapeId'])!((f.properties && f.properties['color']) ?? '#B0B0B0', '#000') :
           this._markerShapes.get(1)!((f.properties && f.properties['color']) ?? '#B0B0B0', '#000')
@@ -421,36 +416,36 @@ export class MapComponent {
     )
   }
 
-  /** Remove layer using id */
+  /* Remove layer using id */
   public removeLayerById(id: string): void {
     const layer: L.Layer | undefined = this._layers.get(id);
     if (layer) {
       this._map.removeLayer(layer);
       this._unregisterLayer(id, layer);
-      // @ts-ignore: time dimension plugin has no type declaration
+      // @ts-expect-error: time dimension plugin has no type declaration
       if (layer._timeDimension) this._resetTimeDimensionIfNoLayersLeft();
     }
   }
 
-  /** Resetta il timeDimension solo se non ci sono più layer timedimension attivi in mappa */
+  /* Resetta il timeDimension solo se non ci sono più layer timedimension attivi in mappa */
   private _resetTimeDimensionIfNoLayersLeft(): void {
     const hasOtherTimeDimensionLayers = Array.from(this._layers.values())
-      .some((l: any) => '_availableTimes' in l || '_timeDimension' in l);
+      .some((l: L.Layer) => '_availableTimes' in l || '_timeDimension' in l);
     if (hasOtherTimeDimensionLayers) return;
     this._resetTimeDimension();
   }
 
-  /** Reset position and zoom to default values */
+  /* Reset position and zoom to default values */
   public resetMap(): void {
     this._map.setView(this.position(), this.zoom());
   }
 
-  /** Time dimension methods */
+  /* Time dimension methods */
   public onTimePlayerToggle(date: Date | undefined): void {
     this.selectedDate.set(date);
     this.dateChanged.emit(date);
 
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
     this._checkAvailableTimesAndSetCurrentTime(date, availableTimes);
   }
@@ -468,13 +463,12 @@ export class MapComponent {
       }
 
     } else {
-      // @ts-ignore: time dimension plugin has no type declaration
       if (availableTimes.length > 0) this._setCurrentTime(availableTimes[availableTimes.length - 1]);
     }
   }
 
   private _getNearestAvailableTime(date: Date, maxGap: number = 24 * 60 * 60 * 1000): number | undefined {
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     const availableTimes: number[] = this._map.timeDimension.getAvailableTimes();
     if (!availableTimes.length) return;
 
@@ -500,18 +494,18 @@ export class MapComponent {
   }
 
   private _resetTimeDimension(): void {
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension.setAvailableTimes([], 'replace');
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     this._map.timeDimension.setCurrentTime(0);
   }
 
   private _setCurrentTime(date: Date | number): void {
-    // @ts-ignore: time dimension plugin has no type declaration
+    // @ts-expect-error: time dimension plugin has no type declaration
     if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
-  /** Popup methods */
+  /* Popup methods */
   public openCustomPopup(element: string | HTMLElement, coordinates: L.LatLngExpression): L.Popup {
     return L.popup({
       className: 'custom-leaflet-popup',
@@ -526,7 +520,7 @@ export class MapComponent {
     this._map.closePopup();
   }
 
-  /** Util function to create a bounding box around a specific point at a certain distance */
+  /* Util function to create a bounding box around a specific point at a certain distance */
   private _getLatLngBoundingBox(center: L.LatLng, tolerance: number = 50): L.LatLngBounds {
     const latAccuracy = tolerance / 111320; // Lat degrees per N meters (~constant)
     const lngAccuracy = tolerance / (40075000 * Math.cos(center.lat * Math.PI / 180) / 360); // Fix lat cos
@@ -543,7 +537,7 @@ export class MapComponent {
     return nearbyMarkers;
   }
 
-  /** Custom marker shapes related methods */
+  /* Custom marker shapes related methods */
   private _getNextAvailableMarkerShape(): number {
     if (!this._usedMarkerShapes.has(1)) {
       this._usedMarkerShapes.add(1);
@@ -601,13 +595,13 @@ export class MapComponent {
     const factor: number = 10 ** decimals;
     const truncatedValue: number = Math.trunc(value * factor) / factor;
     return `
-      <div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;">
+      <div style='background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; border-radius: 100%; color: black !important;'>
         <span>${truncatedValue.toFixed(decimals)}</span>
       </div>
       `
   }
 
-  private _createCircleShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+  private _createCircleShape(color: string, borderColor: string, options: Record<string, unknown> = {}): SVGSVGElement {
     const { opacity } = options;
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -628,7 +622,7 @@ export class MapComponent {
     return svg;
   }
 
-  private _createSquareShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+  private _createSquareShape(color: string, borderColor: string, options: Record<string, unknown> = {}): SVGSVGElement {
     const { opacity } = options;
 
     const svgNS = 'http://www.w3.org/2000/svg';
@@ -652,7 +646,7 @@ export class MapComponent {
     return svg;
   }
 
-  private _createDiamondShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+  private _createDiamondShape(color: string, borderColor: string, options: Record<string, unknown> = {}): SVGSVGElement {
     const { opacity } = options;
 
     const svgNS = 'http://www.w3.org/2000/svg';
@@ -673,7 +667,7 @@ export class MapComponent {
     return svg;
   }
 
-  private _createHexagonShape(color: string, borderColor: string, options: Record<string, any> = {}): SVGSVGElement {
+  private _createHexagonShape(color: string, borderColor: string, options: Record<string, unknown> = {}): SVGSVGElement {
     const { opacity } = options;
 
     const svgNS = 'http://www.w3.org/2000/svg';
@@ -694,7 +688,7 @@ export class MapComponent {
     return svg;
   }
 
-  private _createDownTriangleShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+  private _createDownTriangleShape(color: string, borderColor: string, options: Record<string, unknown> = {}) {
     const { opacity } = options;
 
     const svgNS = 'http://www.w3.org/2000/svg';
@@ -715,7 +709,7 @@ export class MapComponent {
     return svg;
   }
 
-  private _createUpTriangleShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+  private _createUpTriangleShape(color: string, borderColor: string, options: Record<string, unknown> = {}) {
     const { opacity } = options;
 
     const svgNS = 'http://www.w3.org/2000/svg';
@@ -736,13 +730,15 @@ export class MapComponent {
     return svg;
   }
 
-  private _createWindBarbShape(color: string, borderColor: string, options: Record<string, any> = {}) {
+  private _createWindBarbShape(color: string, borderColor: string, options: Record<string, unknown> = {}) {
     const { opacity, value: speed, extraValue: angle } = options;
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 64 64');
     svg.setAttribute('width', '64');
     svg.setAttribute('height', '64');
+
+    if (typeof speed !== 'number') return svg;
 
     if (speed > 0) {
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -836,8 +832,8 @@ export class MapComponent {
     return svg;
   }
 
-  /** Clean markers data in case of multi markers click */
-  private _getMultiMarkersData(markers: L.Marker[], mode: 'merge' | 'group' = 'merge'): Record<string, any> | Record<string, any>[] {
+  /* Clean markers data in case of multi markers click */
+  private _getMultiMarkersData(markers: L.Marker[], mode: 'merge' | 'group' = 'merge'): Record<string, unknown> | Record<string, unknown>[] {
     if (mode === 'group') {
       // Group mode: return and object array, an object per marker
       return markers.map(marker => {
@@ -872,29 +868,35 @@ export class MapComponent {
     }, {});
   }
 
-  private _findAndSetCoordinates(object: Record<string, any>, geom: GeoJSON.Point) {
+  private _findAndSetCoordinates(object: Record<string, unknown>, geom: GeoJSON.Point,) {
     const [lng, lat] = geom.coordinates;
-    if (!('lat' in object)) object['lat'] = lat;
-    else if (object['lat'] !== lat) {
-      object['lat'] = Array.isArray(object['lat']) ? object['lat'] : [object['lat']];
-      if (!object['lat'].includes(lat)) object['lat'].push(lat);
+
+    if (!('lat' in object)) {
+      object['lat'] = lat;
+    } else if (object['lat'] !== lat) {
+      const currentLat = object['lat'];
+      if (Array.isArray(currentLat)) {
+        if (!currentLat.includes(lat)) currentLat.push(lat);
+      } else if (typeof currentLat === 'number') {
+        object['lat'] = [currentLat, lat];
+      }
     }
 
-    if (!('lng' in object)) object['lng'] = lng;
-    else if (object['lng'] !== lng) {
-      object['lng'] = Array.isArray(object['lng']) ? object['lng'] : [object['lng']];
-      if (!object['lng'].includes(lng)) object['lng'].push(lng);
+    if (!('lng' in object)) {
+      object['lng'] = lng;
+    } else if (object['lng'] !== lng) {
+      const currentLng = object['lng'];
+      if (Array.isArray(currentLng)) {
+        if (!currentLng.includes(lng)) currentLng.push(lng);
+      } else if (typeof currentLng === 'number') {
+        object['lng'] = [currentLng, lng];
+      }
     }
   }
 
-  // private _getTimeLayer(): [string, L.Layer] | undefined {
-  //   return this.getLayersArray().find(([_, layer]: [string, L.Layer]) => {
-  //     return '_availableTimes' in layer;
-  //   })
-  // }
 
   private _getTimeLayer(): [string, L.Layer] | undefined {
-    const timeLayers = this.getLayersArray().filter(([_, layer]: [string, L.Layer]) => '_availableTimes' in layer);
+    const timeLayers = this.getLayersArray().filter(([, layer]: [string, L.Layer]) => '_availableTimes' in layer);
     return timeLayers[timeLayers.length - 1]; // il più recente, non il primo trovato
   }
 }

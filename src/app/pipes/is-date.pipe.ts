@@ -1,7 +1,7 @@
-/** Libraries */
+/* Dependencies */
 import { Pipe, PipeTransform } from '@angular/core';
 
-/** Pipe */
+/* Pipe */
 @Pipe({
   name: 'isDate'
 })

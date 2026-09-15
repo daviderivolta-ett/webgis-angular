@@ -27,7 +27,7 @@ export class PlatformsCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date, timeSpan) : this._createUrlWithDate(url, new Date(), timeSpan);
-            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection = await this.apiService.getApiData(urlWithDates, token) as GeoJSON.FeatureCollection;
             geoJSON = this._filterPlatforms(geoJSON);
             geoJSON = this._filterStations(geoJSON, stations, layer.parameter);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, layer.action['type'] ?? 'platform');
@@ -107,7 +107,7 @@ export class PlatformsCommandService implements Command {
                 const properties: any = feature.properties ?? {};
                 const date: Date = new Date(properties['referenceDate']);
 
-                const value: any = properties['value'];
+                const value: number = properties['value'];
                 let color: string = colorScale.getColor(colorScale.multiplier ? colorScale.multiplier * value : value);
                 if (stations && thresholdKeys) color = this._getRelativeColor(value, properties['stationCode'], stations, thresholdKeys, baseColor, thresholdColors ?? []) ?? color;
 

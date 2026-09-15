@@ -1,7 +1,7 @@
-/** Libraries */
-import { Component, input, model, output, ViewEncapsulation } from '@angular/core';
+/* Dependencies */
+import { Component, input, ViewEncapsulation } from '@angular/core'
 
-/** Component */
+/* Component */
 @Component({
   selector: 'app-loading-button',
   imports: [],

@@ -1,8 +1,8 @@
-// Libraries
-import { Component, forwardRef, input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+/* Dependencies */
+import { Component, forwardRef, input } from '@angular/core'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
-// Component
+/* Component */
 @Component({
   selector: 'app-checkbox',
   imports: [],
@@ -22,18 +22,18 @@ export class CheckboxComponent implements ControlValueAccessor {
   public value: boolean = false;
   public disabled: boolean = false;
 
-  private onChange = (value: boolean) => { };
+  private onChange: (value: boolean) => void = () => { };
   private onTouched = () => { };
 
   public writeValue(value: boolean): void {
     this.value = value;
   }
 
-  public registerOnChange(fn: any): void {
+  public registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

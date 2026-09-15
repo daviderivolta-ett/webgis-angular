@@ -19,7 +19,7 @@
                 <h3>Periodi salvati</h3>
                 <div class="tenants-list">
                     @for (tenant of tenants(); track tenant.id; let i = $index) {
-                        <app-tenant-card [tenant]="tenant" [isSelected]="tenant.id === selectedTenant()?.id" (select)="selectTenant($event)" (load)="loadTenant($event)" (unload)="unloadTenant($event)" (delete)="deleteTenant($event)"></app-tenant-card>
+                        <app-tenant-card [tenant]="tenant" [isSelected]="tenant.id === selectedTenant()?.id" (selected)="selectTenant($event)" (loaded)="loadTenant($event)" (unloaded)="unloadTenant($event)" (deleted)="deleteTenant($event)"></app-tenant-card>
                     }
                 </div>
             </div>

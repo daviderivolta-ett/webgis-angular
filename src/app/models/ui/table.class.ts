@@ -1,5 +1,3 @@
-import { TableColorConfig } from "../table";
-
 export class Table2 {
     public header: string[] = [];
     public body: any[][] = [];
@@ -7,11 +5,11 @@ export class Table2 {
 
     constructor() { }
 
-    static createTableFromArray(data: Object[]): Table2 {
+    static createTableFromArray(data: object[]): Table2 {
         return Table2.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string, labels?: Map<string, string>, decimals: number = 1): Table2 {
+    static generateTableStructure(data: object[], primaryKey?: string, keysOrder?: string[], hiddenKey?: string, labels?: Map<string, string>, decimals: number = 1): Table2 {
         const table = new Table2();
 
         /** Header */
@@ -45,11 +43,11 @@ export class Table2 {
         return orderedHeader;
     }
 
-    static extractHeaderKeys(data: Object[]): string[] {
-        return [...new Set(data.flatMap((d: Object) => Object.keys(d)))];
+    static extractHeaderKeys(data: object[]): string[] {
+        return [...new Set(data.flatMap((d: object) => Object.keys(d)))];
     }
 
-    static normalizeDataToMap(data: Object[], headerKeys: string[]): Map<string, any>[] {
+    static normalizeDataToMap(data: object[], headerKeys: string[]): Map<string, any>[] {
         return data.map((d: Record<string, any>) => {
             const row: Map<string, any> = new Map<string, any>();
 
@@ -61,7 +59,7 @@ export class Table2 {
         });
     }
 
-    static normalizeData(data: Object[], headerKeys: string[], hiddenKey?: string, decimals: number = 1): any[][] {
+    static normalizeData(data: object[], headerKeys: string[], hiddenKey?: string, decimals: number = 1): any[][] {
         return data.map((d: Record<string, any>) => {
             const row: any[] = [];
 
@@ -111,12 +109,12 @@ export class Table2 {
             };
 
 
-            let aValue = normalize(
+            const aValue = normalize(
                 a[columnIndex]?.['dataValue']
                     .replace(/<[^>]*>/g, '')
                     .split('[')[0].trim()
             );
-            let bValue = normalize(
+            const bValue = normalize(
                 b[columnIndex]?.['dataValue']
                     .replace(/<[^>]*>/g, '')
                     .split('[')[0].trim()
@@ -178,7 +176,7 @@ export class Table2 {
     public convertTableToArray(): Record<string, any>[] {
         const table: any[][] = [...this.body];
 
-        return table.reduce((acc: Record<string, any>[], curr: any[], i: number) => {
+        return table.reduce((acc: Record<string, any>[], curr: any[]) => {
             const r = curr.reduce((r: Record<string, any>, d: any) => {
                 r[d['dataKey']] = d['dataValue'];
                 return r;
@@ -218,11 +216,11 @@ export class Table {
 
     constructor() { }
 
-    static createTableFromArray(data: Object[]): Table {
+    static createTableFromArray(data: object[]): Table {
         return Table.generateTableStructure(data);
     }
 
-    static generateTableStructure(data: Object[], primaryKey?: string, keysOrder?: string[]): Table {
+    static generateTableStructure(data: object[], primaryKey?: string, keysOrder?: string[]): Table {
         const table = new Table();
 
         /** Header */
@@ -251,11 +249,11 @@ export class Table {
         return table;
     }
 
-    static extractHeaderKeys(data: Object[]): string[] {
-        return [...new Set(data.flatMap((d: Object) => Object.keys(d)))];
+    static extractHeaderKeys(data: object[]): string[] {
+        return [...new Set(data.flatMap((d: object) => Object.keys(d)))];
     }
 
-    static normalizeDataToMap(data: Object[], headerKeys: string[]): Map<string, any>[] {
+    static normalizeDataToMap(data: object[], headerKeys: string[]): Map<string, any>[] {
         return data.map((d: Record<string, any>) => {
             const row: Map<string, any> = new Map<string, any>();
 
@@ -339,7 +337,7 @@ export class Table {
     public convertTableToArray(): Record<string, any>[] {
         const table: [string, any][][] = [...this.body];
 
-        return table.reduce((acc: Record<string, any>[], row: [string, any][], i: number) => {
+        return table.reduce((acc: Record<string, any>[], row: [string, any][]) => {
             const r = row.reduce((r: Record<string, any>, d: [string, any]) => {
                 r[d[0]] = d[1];
                 return r;
@@ -352,7 +350,7 @@ export class Table {
 
     public getLatestDate(): number {
         return this.body.reduce((acc: number, curr: [string, any][]) => {
-            const values: any[] = curr.map(([_, v]: [string, any]) => v);
+            const values: any[] = curr.map(([, v]: [string, any]) => v);
             const rowMax = Math.max(...values);
             if (rowMax > acc) acc = rowMax;
             return acc;

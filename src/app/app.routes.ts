@@ -1,13 +1,13 @@
-// Libraries
-import { Routes } from '@angular/router';
+/* Libraries */
+import { Routes } from '@angular/router'
 
-// Resolvers
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver, radarConfigGroupsResolver } from './resolvers';
+/* Resolvers */
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, tableConfigGroupsResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, tableLabelsResolver, radarConfigGroupsResolver } from './resolvers'
 
-/** Guards */
-import { authGuard, editorGuard } from './guards';
+/* Guards */
+import { authGuard } from './guards'
 
-// Routes
+/* Routes */
 export const routes: Routes = [
     {
         path: '',

@@ -1,23 +1,26 @@
-/** Dependencies */
-import { Injectable } from '@angular/core'
+/* Dependencies */
+import { inject, Injectable } from '@angular/core'
 
-/** Models */
+/* Models */
 import { ColorScale, Command, GeoJsonLayer } from '../models'
 
-/** Services */
+/* Services */
 import { ApiService } from './api.service'
 
-/** Utils */
+/* Utils */
 import { DateUtils, GeoJsonUtils } from '../utils'
 
-/** Service */
+/* Service */
 @Injectable({
     providedIn: 'root'
 })
 export class HydroCommandService implements Command {
-    constructor(private apiService: ApiService) { }
+    /* Dependency injection */
+    private apiService: ApiService = inject(ApiService);
 
-    /** Command */
+    constructor() { }
+
+    /* Command */
     public async execute(args?: any): Promise<void> {
         const { map, date, colorScale, layer, baseUrl, token } = args;
 
@@ -27,7 +30,7 @@ export class HydroCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : url;
-            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token) as (GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[]);
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             geoJSON = GeoJsonUtils.addTypeToGeoJSONFeatures(geoJSON, 'hydro');
             if (layer.parameter) geoJSON = GeoJsonUtils.addPropertiesToGeoJSONFeatures(geoJSON, { parameter: layer.parameter });
@@ -45,7 +48,7 @@ export class HydroCommandService implements Command {
 
             if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
-            map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
+            map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict);
         } catch (error: unknown) {
             if (error instanceof Error) throw error;
             else throw new Error(`Errore nell'esecuzione del comando.`);
@@ -57,8 +60,8 @@ export class HydroCommandService implements Command {
         return {
             ...geoJSON,
             features: geoJSON.features.map((f: GeoJSON.Feature) => {
-                const properties: any = f.properties ?? {};
-                const colorCode = properties['alert'];
+                const properties: Record<string, unknown> = f.properties ?? {};
+                const colorCode = 'alert' in properties && typeof properties['alert'] === 'number' ? properties['alert'] : undefined;
                 const color: string = colorScale.getColor(colorCode ?? 0);
 
                 return {

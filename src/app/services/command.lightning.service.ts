@@ -1,23 +1,24 @@
-/** Dependencies */
-import { Injectable } from '@angular/core'
+/* Dependencies */
+import { inject, Injectable } from '@angular/core'
 
-/** Models */
+/* Models */
 import { ColorScale, Command, FeatureFilter, GeoJsonLayer, MarkerCondition, MarkerMapping } from '../models'
 
-/** Services */
+/* Services */
 import { ApiService } from './api.service'
 
-/** Utils */
+/* Utils */
 import { DateUtils, GeoJsonUtils } from '../utils'
 
-/** Service */
+/* Service */
 @Injectable({
     providedIn: 'root'
 })
 export class LightningCommandService implements Command {
-    constructor(private apiService: ApiService) { }
+    /* Dependency injection */
+    private apiService: ApiService = inject(ApiService);
 
-    /** Command */
+    /* Command */
     public async execute(args: any): Promise<void> {        
         const { map, date, colorScale, layer, baseUrl, token } = args;
 
@@ -27,7 +28,7 @@ export class LightningCommandService implements Command {
 
             const url: string = baseUrl ? this.apiService.replaceApiBaseUrl(layer.url, baseUrl) : layer.url;
             const urlWithDates: string = date ? this._createUrlWithDate(url, date) : this._createUrlWithDate(url, new Date());
-            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token);
+            let geoJSON: GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[] = await this.apiService.getApiData(urlWithDates, token) as (GeoJSON.FeatureCollection | GeoJSON.FeatureCollection[]);
 
             if (Array.isArray(geoJSON)) geoJSON = this._mergeFeatureCollections(geoJSON);
             if (layer.filter) geoJSON = this._filterFeatures(geoJSON, layer.filter);
@@ -48,19 +49,19 @@ export class LightningCommandService implements Command {
             if (layer.markers) geoJSON = this._addMarkerShapeIdToGeoJSONFeatures(geoJSON, layer.markers);
             if (geoJSON.features.length === 0) geoJSON = this._fillEmptyGeoJSON(geoJSON);
 
-            map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict, { ...layer });
+            map.addClusterPointGeoJSONLayer(layer.id, geoJSON, arcColorDict);
         } catch (error: unknown) {
             if (error instanceof Error) throw error;
             else throw new Error(`Errore nell'esecuzione del comando.`);
         }
     }
 
-    /** Methods */
+    /* Methods */
     private _filterFeatures(geoJSON: GeoJSON.FeatureCollection, filter: FeatureFilter): GeoJSON.FeatureCollection {
         return {
             ...geoJSON,
             features: geoJSON.features.filter((feature: GeoJSON.Feature) => {
-                const properties: any = feature.properties ?? {};
+                const properties: Record<string, unknown> = feature.properties ?? {};
                 const featureProperty: any = properties[filter.featureProperty];
 
                 switch (filter.rule.comparisonOperator) {
@@ -116,7 +117,7 @@ export class LightningCommandService implements Command {
         return {
             ...geoJSON,
             features: geoJSON.features.map((feature: GeoJSON.Feature) => {
-                const properties: any = feature.properties ?? {};
+                const properties: Record<string, unknown> = feature.properties ?? {};
                 const featureProperty: any = properties[markers.featureProperty];
                 const markerShapeId: number = this._getMarkerShapeFromRule(typeof featureProperty === 'number' ? Math.abs(featureProperty) : featureProperty, markers.rules, 0);
 
