@@ -4,7 +4,7 @@ import { StationThresholdConfig } from './station-creek.interface';
 
 export class StationBase implements Geolocation {
     public id: string;
-    public type: 'platform' | 'lightning' | 'hydro' | 'webcam' | 'lidar' | 'wms';
+    public type: 'platform' | 'lightning' | 'webcam' | 'lidar' | 'wms';
     public lat: number;
     public lng: number;
     public sensors: Sensor[];
@@ -23,7 +23,7 @@ export class StationBase implements Geolocation {
         name?: string,
         city?: string,
         alt?: number,
-        type: 'platform' | 'lightning' | 'hydro' | 'webcam' | 'lidar' | 'wms' = 'platform',
+        type: 'platform' | 'lightning' | 'webcam' | 'lidar' | 'wms' = 'platform',
         thresholdConfig?: StationThresholdConfig
     ) {
         this.id = id;
@@ -126,7 +126,7 @@ export class StationBase implements Geolocation {
         if (props['name'] && typeof props['name'] === 'string') station.name = props['name'];
         if (props['municipality'] && typeof props['municipality'] === 'string') station.city = props['municipality'];
         if ('alt' in props && typeof props['alt'] === 'number') station.alt = props['alt'];
-        if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'platform' || props['type'] === 'lightning' || props['type'] === 'hydro' || props['type'] === 'webcam' || props['type'] === 'lidar')) station.type = props['type'];
+        if ('type' in props && typeof props['type'] === 'string' && (props['type'] === 'platform' || props['type'] === 'lightning' || props['type'] === 'webcam' || props['type'] === 'lidar')) station.type = props['type'];
 
         const creekThreshold = StationThresholdConfig.createFromObject(props);
         if (Object.keys(creekThreshold).length > 0) station.thresholdConfig = creekThreshold;

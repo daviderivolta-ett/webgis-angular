@@ -30,7 +30,6 @@
         "configTypes": "/configurations/get/types",
         "createConfig": "/configurations/create",
         "createConfigType": "/configurations/create/type",
-        "hydroImgs": "/hydro/get/model/{model}",
         "tableStations": "/tables/get/stations/{parameter}",
         "radarImgs": "/radarsat/get/image/{radarType}",
         "webcamImgs": "/webcams/get/image/{stationId}",

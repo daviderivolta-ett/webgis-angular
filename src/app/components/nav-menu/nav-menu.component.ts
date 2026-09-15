@@ -37,29 +37,10 @@ export class NavMenuComponent {
       requiresAuth: false
     },
     {
-      path: 'tabelle',
-      label: 'Tabelle',
-      iconUrl: 'images/icons/table_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg',
-      requiresAuth: false
-    },
-    // {
-    //   path: 'satellite',
-    //   label: 'Satellite',
-    //   iconUrl: 'images/icons/satellite_alt_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
-    //   requiresAuth: false
-    // },
-    {
       path: 'radar',
       label: 'Radar',
       iconUrl: 'images/icons/radar_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
       requiresAuth: false
-    },
-    {
-      path: 'https://omirl-preview.regione.liguria.it/dashboard',
-      label: 'Dashboard',
-      iconUrl: 'images/icons/open_in_new_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg',
-      requiresAuth: true,
-      isExternal: true
     },
     {
       path: 'settings',

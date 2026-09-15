@@ -71,7 +71,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
-  public hydroImgs: string[] = [];
   public webcams: Webcam[] = [];
   public lidars: Lidar[] = [];
   public areChartsDisabled: boolean = true;
@@ -121,7 +120,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public createConfigUrl; // Recovered from route resolver in constructor
   public latestConfigUrl; // Recovered from route resolver in constructor
   public timeserieUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
-  public hydroImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('hydroImgs')));
   public webcamImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('webcamImgs')));
   public lidarImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('lidarImgs')));
 
@@ -431,10 +429,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
             d['unit'] = 'A';
             break;
 
-          case 'hydro':
-            d['value'] = 0;
-            break;
-
           default:
             break;
         }
@@ -521,25 +515,11 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const newCharts: MapChart[] = [];
-    const hydroPromises: Promise<string>[] = [];
     const webcamPromises: Promise<string>[] = [];
     const lidarPromises: Promise<string[]>[] = [];
 
     stations.forEach(async (s: Station) => {
       switch (s.type) {
-        case 'hydro': {
-          const date = this.stationsService.getHydroDateFromSubfolder(this.globalStateService.getDateFromQueryParams() ?? new Date(), s['subfolder'] ?? '');
-          const hydroSnackbarId: string = this.snackbarsService.createSnackbar(`Recupero grafici idro`, 'loader');
-          const hydroPromise = this.stationsService.getHydroImageAt(this.hydroImgsUrl(), s.parameter, s.id, date, this.auth2Service.token())
-            .catch((err: unknown) => {
-              this.snackbarsService.createSnackbar(err instanceof Error ? err.message : `Errore nel recupero dell'immagine dell'hydro.`, 'error', true);
-              throw err;
-            })
-            .finally(() => this.snackbarsService.removeSnackbar(hydroSnackbarId))
-          hydroPromises.push(hydroPromise);
-          break;
-        }
-
         case 'platform': {
           const station: StationBase | undefined = this.stations.find((station: StationBase) => station.id === s.id);
           const thresholds: Record<string, number> = {};
@@ -581,14 +561,12 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
-    this.hydroImgs = [...this.hydroImgs, ...await Promise.all(hydroPromises)];
     this.webcams = [...this.webcams, ...(await Promise.all(webcamPromises)).map((url, i) => new Webcam(`webcam-${stations[i].id}`, url, stations[i].name ?? stations[i].id))];
     this.lidars = [...this.lidars, ...(await Promise.all(lidarPromises)).flatMap((urls, i) => new Lidar(`lidar`, urls.map((u: string, j: number) => ({ id: `lidar-${stations[i].name}-${j}`, imgUrl: u, label: `${j + 1}` })), stations[i].name))]
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
-    this.hydroImgs = this.hydroImgs.filter((img: string) => img !== id);
     this.webcams = this.webcams.filter((webcam: Webcam) => webcam.id !== id);
     this.lidars = this.lidars.filter((lidar: Lidar) => lidar.id !== id);
   }

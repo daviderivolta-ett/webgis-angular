@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router'
 import { User } from './models'
 
 /* Services */
-import { ApiService, Auth2Service, GlobalStateService, SnackbarsService } from './services'
+import { ApiService, Auth2Service, GlobalStateService } from './services'
 
 /* Components */
 import { SnackbarContainerComponent } from './components'
@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   private globalStateService: GlobalStateService = inject(GlobalStateService)
   private auth2Service: Auth2Service = inject(Auth2Service)
   private apiService: ApiService = inject(ApiService)
-  private snackbarsService: SnackbarsService = inject(SnackbarsService)
 
   /* User Interface */
   public title: string = 'omirl';
@@ -36,7 +35,7 @@ export class AppComponent implements OnInit {
 
   /* Constructor */
   constructor() {
-    /** Effects */
+    /* Effects */
     effect(() => {
       /* Get user query params */
       if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
@@ -49,7 +48,6 @@ export class AppComponent implements OnInit {
 
   /* Component lifecycle */
   public ngOnInit(): void {
-    this.snackbarsService.createSnackbar(`Questo sito è attualmente in fase di test. I contenuti potrebbero essere incompleti e/o non aggiornati. Si declina ogni responsabilità per l'uso delle informazioni qui riportate.`, 'error', false);
     this.latestConfigUrl = this.apiService.buildUrl(
       this.apiService.buildUrl(
         this.apiService.apis().get('baseUrl') ?? '',

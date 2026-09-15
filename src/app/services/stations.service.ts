@@ -150,38 +150,6 @@ export class StationsService {
       .map(([x, y]) => [x, y * multiplier]);
   }
 
-  public getHydroDateFromSubfolder(originalDate: Date, subfolder: string): Date {
-    if (subfolder.length !== 4) return originalDate;
-
-    const mid: number = Math.ceil(subfolder.length / 2);
-    const splittedSubfolder: [string, string] = [subfolder.slice(0, mid), subfolder.slice(mid)];
-    const splittedHoursAndMinutes: [number, number] = splittedSubfolder.map((v: string) => parseFloat(v)) as [number, number];
-
-    const date = originalDate;
-    date.setHours(splittedHoursAndMinutes[0]);
-    date.setMinutes(splittedHoursAndMinutes[1]);
-    date.setSeconds(0);
-
-    return date;
-  }
-
-  public async getHydroImageAt(url: string, model: string, stationId: string, date: Date, token?: string) {
-    const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, model);
-    const formattedUrlWithStationId: string = `${formattedUrl}/${stationId}`;
-    const formattedDate: string = DateUtils.toApiFormat(date.toISOString());
-    const formattedUrlWithDates: string = this.apiService.addSearchParamsToUrl(formattedUrlWithStationId, { time: formattedDate });
-
-    return this.apiService.getApiData(formattedUrlWithDates, token)
-      .then((data: unknown) => {
-        if (typeof data !== 'object' || data === null) throw new Error('Invalid object.');
-        if (!('mimeType' in data) || !('base64Data' in data)) throw new Error('Invalid object.');
-        return `data:${data['mimeType']};base64,${data['base64Data']}`;
-      })
-      .catch(() => {
-        throw new Error(`Errore nel recupero dell'immagine dell'hydro.`);
-      });
-  }
-
   public async getWebcamImageAt(url: string, stationId: string, date: Date, token?: string): Promise<string> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithDate: string = this.apiService.addSearchParamsToUrl(formattedUrl, { date: date.toISOString() });
