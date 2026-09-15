@@ -5,8 +5,6 @@ import { inject, Injectable, Injector, Type } from '@angular/core'
 import { Command } from '../models'
 
 /* Services */
-import { HydroCommandService } from './command.hydro.service'
-import { LightningCommandService } from './command.lightning.service'
 import { PlatformsCommandService } from './command.platforms.service'
 import { WMSCommandService } from './command.wms.service'
 import { PolygonsCommandService } from './command.polygons.service'
@@ -18,9 +16,7 @@ import { PolygonsCommandService } from './command.polygons.service'
 export class CommandsRegistryService {
   private injector = inject(Injector);
 
-  static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([    
-    ['hydro', HydroCommandService],
-    ['lightning', LightningCommandService],
+  static commands: Map<string, Type<Command>> = new Map<string, Type<Command>>([
     ['platforms', PlatformsCommandService],
     ['wms', WMSCommandService],
     ['polygons', PolygonsCommandService]
