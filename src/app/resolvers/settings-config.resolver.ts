@@ -6,12 +6,12 @@ import { ResolveFn } from '@angular/router'
 import { Settings } from '../models'
 
 /* Services */
-import { ApiService, AuthService, ConfigService } from '../services'
+import { ApiService, Auth2Service, ConfigService } from '../services'
 
 /* Resolver */
 export const settingsConfigResolver: ResolveFn<Settings> = async () => {
   const configService: ConfigService = inject(ConfigService);
-  const authService: AuthService = inject(AuthService);
+  const authService: Auth2Service = inject(Auth2Service);
   const apiService: ApiService = inject(ApiService);
 
   const url = `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('settings')}`;

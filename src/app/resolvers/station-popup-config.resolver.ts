@@ -3,11 +3,11 @@ import { inject } from '@angular/core'
 import { ResolveFn } from '@angular/router'
 
 /* Services */
-import { ApiService, AuthService, ConfigService } from '../services'
+import { ApiService, Auth2Service, ConfigService } from '../services'
 
 export const stationPopupConfigResolver: ResolveFn<Map<string, string>> = async () => {
   const configService: ConfigService = inject(ConfigService);
-  const authService: AuthService = inject(AuthService);
+  const authService: Auth2Service = inject(Auth2Service);
   const apiService: ApiService = inject(ApiService);
 
   const url = `${apiService.apis().get('baseUrl')}${apiService.apis().get('stationsApi')}${apiService.apis().get('popupLabels')}`;
