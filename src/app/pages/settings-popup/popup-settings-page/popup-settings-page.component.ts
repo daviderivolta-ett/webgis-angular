@@ -8,10 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { createStationPopupConfigFromObject, StationPopupConfig, User } from '../../../models'
 
 /* Services */
-import { ApiService, Auth2Service, PopupService, SnackbarsService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, PopupService, SnackbarsService } from '../../../services'
 
 /* Components */
-import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components'
+import { HeaderComponent, SettingsNavMenuComponent, SidebarComponent, LoadingBtnComponent } from '../../../components'
 
 /* Pipes */
 import { MapValuePipe } from '../../../pipes'
@@ -24,7 +24,6 @@ import { MapValuePipe } from '../../../pipes'
     HeaderComponent,
     SidebarComponent,
     SettingsNavMenuComponent,
-    NotificationIconComponent,
     /* Pipes */
     KeyValuePipe,
     MapValuePipe,
@@ -40,7 +39,6 @@ export class PopupSettingsPageComponent implements AfterViewInit {
   private route: ActivatedRoute = inject(ActivatedRoute)
   private auth2Service: Auth2Service = inject(Auth2Service)
   private apiService: ApiService = inject(ApiService)
-  private tenantsService: TenantsService = inject(TenantsService)
   private popupService: PopupService = inject(PopupService)
   private snackbarsService: SnackbarsService = inject(SnackbarsService)
 
@@ -58,11 +56,7 @@ export class PopupSettingsPageComponent implements AfterViewInit {
   public latestConfigUrl: string; // Recovered from route resolver in constructor
   public createConfigUrl: string; // Recovered from route resolver in constructor
 
-  public selectedTenantMsg;
-
   constructor() {
-    this.selectedTenantMsg = this.tenantsService.message;
-
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
     this.popupConfig = this.route.snapshot.data['stationPopupConfig'];
     this.latestConfigUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('latestConfig'));

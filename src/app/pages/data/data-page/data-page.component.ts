@@ -5,13 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /* Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, Tenant, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
 
 /* Services */
-import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services'
 
 /* Components */
-import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent, TabsComponent, TabComponent, NotificationIconComponent } from '../../../components'
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
 import { MapComponent } from '../map/map.component'
 import { MapPopupComponent } from '../map-popup/map-popup.component'
 import { LayerLegendComponent } from '../layer-legend/layer-legend.component'
@@ -27,13 +27,11 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils'
   selector: 'app-data-page',
   imports: [
     // Components
-    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent, NotificationIconComponent,
+    HeaderComponent, SidebarComponent, MapComponent, LayerLegendComponent, PopUpMenuComponent, GroupedCheckboxesComponent, ChipComponent, MapPopupComponent, SliderComponent, FloatingDialogComponent, MapChartSelectorComponent, MapChartComponent, MapChartDatepickerComponent, PlotlyChartComponent,
     // Directives
     ReactiveFormsModule,
     // Pipes
     DatePipe,
-    TabsComponent,
-    TabComponent,
     RouterLink
   ],
   templateUrl: './data-page.component.html',
@@ -47,7 +45,6 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private route: ActivatedRoute = inject(ActivatedRoute)
   private auth2Service: Auth2Service = inject(Auth2Service)
   private apiService: ApiService = inject(ApiService)
-  private tenantsService: TenantsService = inject(TenantsService)
   private popupService: PopupService = inject(PopupService)
   private globalStateService: GlobalStateService = inject(GlobalStateService)
   private snackbarsService: SnackbarsService = inject(SnackbarsService)
@@ -78,9 +75,8 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public referenceDate: Date | undefined;
   public selectedDate: Date | undefined;
   public timePlayerRange = computed(() => {
-    const selectedTenant: Tenant | null = this.selectedTenant();
-    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
-    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+
+    return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
   });
   public wmsLayersDate: Date | undefined;
 
@@ -111,12 +107,12 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public polygonMeanApiBaseUrl; // Recovered from route resolver in constructor
   public retentionBridgeUrl; // Recovered from route resolver in constructor
 
-  public stationsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stations')));
-  public parametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('parameters')));
-  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
+  public stationsUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stations')));
+  public parametersUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('parameters')));
+  public stationParametersUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
   public createConfigUrl; // Recovered from route resolver in constructor
   public latestConfigUrl; // Recovered from route resolver in constructor
-  public timeserieUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
+  public timeserieUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('timeseries')));
 
   public stationPopupConfig: StationPopupConfig = createStationPopupConfigFromObject({});
   public stations: StationBase[] = [];
@@ -130,18 +126,10 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
-  public selectedTenant; // Recovered from service in constructor
-  public selectedTenantMsg; // Recovered from service in constructor
-
   /* Constructor */
   constructor(
   ) {
     this.windowWidth = window.innerWidth;
-
-    /* Recovering from services */
-    this.selectedTenant = this.tenantsService.selectedTenant;
-    this.selectedTenantMsg = this.tenantsService.message;
-    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
 
     /* Recovering data from resolvers */
     this.mapConfig = this.route.snapshot.data['mapConfig'];
@@ -193,8 +181,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
-      const tenantDate = this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : undefined;
-      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this.selectedDate = date;
     });
 
     await this.setDataFromApi();
@@ -692,7 +679,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
         date: this.auth2Service.hasValidAccessToken() ? date : undefined,
         colorScale,
         layer,
-        baseUrl: layer.action['api'] !== 'polygonmean' ? this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
+        baseUrl: layer.action['api'] !== 'polygonmean' ? this.apiService.buildUrl(this.stationsApiBaseUrl, this.retentionBridgeUrl, '') : this.polygonMeanApiBaseUrl,
         stations: this.stations,
         token: this.auth2Service.token(),
         timeSpan: this.settings.mapTimeSpan,
@@ -725,11 +712,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (date) this.globalStateService.updateQueryParam2('date', [this.globalStateService.toDatetimelocal(date)]);
     else this.globalStateService.removeQueryParam('date');
-
-    this._updateMultipleLayers(
-      !date && this.selectedTenant() ? new Date(this.selectedTenant()!.toDate) : date,
-      false
-    );
+    this._updateMultipleLayers(date, false);
   }
 
   public onMapAdditionalDateChanged(date: Date | undefined): void {

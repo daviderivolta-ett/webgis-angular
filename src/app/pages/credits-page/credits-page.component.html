@@ -1,9 +1,5 @@
 <div class="page">
-    <app-header [userRoles]="user ? user.roles : []">
-        @if (user) {
-            <app-notification-icon ngProjectAs="additional-menu-item" [notifications]="selectedTenantMsg() ? [selectedTenantMsg()!] : []" iconUrl="./images/icons/search_activity_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"></app-notification-icon>
-        }
-    </app-header>
+    <app-header [userRoles]="user ? user.roles : []" />
     <div class="main">
         <div class="content">
             <p class="credits-title">I partner che hanno collaborato al progetto</p>

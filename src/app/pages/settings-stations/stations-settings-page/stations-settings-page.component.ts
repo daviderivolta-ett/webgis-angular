@@ -7,10 +7,10 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { Sensor, SensorType, StationBase, User } from '../../../models';
 
 /** Services */
-import { ApiService, Auth2Service, SnackbarsService, StationsService, TenantsService } from '../../../services';
+import { ApiService, Auth2Service, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent, NotificationIconComponent } from '../../../components';
+import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes';
@@ -30,7 +30,6 @@ import { Utils } from '../../../utils';
     SearchbarComponent,
     SettingsNavMenuComponent,
     LoadingBtnComponent,
-    NotificationIconComponent,
     /** Pipes */
     MapValuePipe
   ],
@@ -42,7 +41,6 @@ export class StationsSettingsPageComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute)
   private auth2Service: Auth2Service = inject(Auth2Service)
   private apiService: ApiService = inject(ApiService)
-  private tenantsService: TenantsService = inject(TenantsService)
   private stationsService: StationsService = inject(StationsService)
   private snackbarsService: SnackbarsService = inject(SnackbarsService)
 
@@ -58,7 +56,7 @@ export class StationsSettingsPageComponent implements OnInit {
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public retentionBridgeUrl; // Recovered from route resolver in constructor
 
-  public stationParametersUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
+  public stationParametersUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
 
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
@@ -67,15 +65,8 @@ export class StationsSettingsPageComponent implements OnInit {
 
   public sensorTypesMap: Map<string, string> = new Map();
 
-  private _selectedTenant; // Recovered from service in constructor
-  public selectedTenantMsg;
-
   /** Constructor */
   constructor() {
-    /** Recovering from services */
-    this._selectedTenant = this.tenantsService.selectedTenant;
-    this.selectedTenantMsg = this.tenantsService.message;
-
     /** Recovering data from resolvers */
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
     this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));

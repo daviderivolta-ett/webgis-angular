@@ -1,9 +1,5 @@
 <div class="page">
-    <app-header [userRoles]="user ? user.roles : []">
-        @if (user) {
-            <app-notification-icon ngProjectAs="additional-menu-item" [notifications]="selectedTenantMsg() ? [selectedTenantMsg()!] : []" iconUrl="./images/icons/search_activity_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg"></app-notification-icon>
-        }
-    </app-header>
+    <app-header [userRoles]="user ? user.roles : []" />
     <div class="main">
         <!-- START SIDEBAR -->
         <app-sidebar #sidebar side="left" [togglePosition]="windowWidth <= 768 ? 'bottom' : 'top'" height="calc(100dvh - 48px)" width="364px" iconUrl="images/icons/menu_open_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" backgroundColor="#ffffffcc" (toggled)="onSidebarToggle($event)">

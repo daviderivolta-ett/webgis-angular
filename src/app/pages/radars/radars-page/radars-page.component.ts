@@ -5,23 +5,20 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { skip } from 'rxjs'
 
 /* Services */
-import { ApiService, Auth2Service, GlobalStateService, RadarService, SnackbarsService, TenantsService } from '../../../services'
+import { ApiService, Auth2Service, GlobalStateService, RadarService, SnackbarsService } from '../../../services'
 
 /* Models */
-import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, Settings, Tenant, TreeNode, User } from '../../../models'
+import { RadarConfig, RadarConfigGroup, RadarConfigGroupToTreeNodeAdapter, Settings, TreeNode, User } from '../../../models'
 
 /* Components */
-import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent } from '../../../components'
-
-/* Utils */
-import { DateUtils } from '../../../utils'
+import { HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent } from '../../../components'
 
 /* Component */
 @Component({
   selector: 'app-radars-page',
   imports: [
     /* Components */
-    HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent, NotificationIconComponent,
+    HeaderComponent, SidebarComponent, ToggleComponent, DatepickerComponent,
     /* Directives */
     RouterLink, NgTemplateOutlet, RouterLinkActive,
     /* Pipes */
@@ -36,7 +33,6 @@ export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private route: ActivatedRoute = inject(ActivatedRoute)
   private auth2Service: Auth2Service = inject(Auth2Service)
   private apiService: ApiService = inject(ApiService)
-  private tenantsService: TenantsService = inject(TenantsService)
   private globalStateService: GlobalStateService = inject(GlobalStateService)
   private radarService: RadarService = inject(RadarService)
   private snackbarsService: SnackbarsService = inject(SnackbarsService)
@@ -61,14 +57,10 @@ export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public retentionBridgeUrl; // Recovered from route resolver in constructor
-  public radarImgsUrl = computed(() => this.tenantsService.buildUrlWithTenant(this.stationsApiBaseUrl, this.retentionBridgeUrl, this.route.snapshot.data['apisConfig'].get('radarImgs')));
+  public radarImgsUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('radarImgs')));
 
-  private _selectedTenant; // Recovered from service in constructor
-  public selectedTenantMsg; // Recovered from service in constructor
   public timePlayerRange = computed(() => {
-    const selectedTenant: Tenant | null = this._selectedTenant();
-    if (!selectedTenant) return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
-    return DateUtils.minutesBetweenTwoDates(new Date(selectedTenant.toDate), new Date(selectedTenant.fromDate));
+    return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
   });
 
   /* References */
@@ -76,11 +68,6 @@ export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toggle') _toggle!: ToggleComponent;
 
   constructor() {
-    /* Recovering from services */
-    this._selectedTenant = this.tenantsService.selectedTenant;
-    this.selectedTenantMsg = this.tenantsService.message;
-    this.referenceDate = this.tenantsService.selectedTenant() ? new Date(this.tenantsService.selectedTenant()!.toDate) : undefined;
-
     /* Recovering data from resolvers */
     this.settings = this.route.snapshot.data['settings'];
 
@@ -109,9 +96,7 @@ export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.queryParams.subscribe(() => {
       const dateStr: string | undefined = this.globalStateService.getQueryParam2('date')[0];
       const date: Date | undefined = !isNaN(new Date(dateStr).getTime()) ? new Date(dateStr) : undefined;
-
-      const tenantDate = this._selectedTenant() ? new Date(this._selectedTenant()!.toDate) : undefined;
-      this.selectedDate = !date && tenantDate ? tenantDate : date;
+      this.selectedDate = date;
 
       const param = this.route.snapshot.paramMap.get('id');
       const imagetype: string | null = this.route.snapshot.queryParamMap.get('imagetype');
