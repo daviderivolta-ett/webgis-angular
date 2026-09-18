@@ -130,6 +130,10 @@ export class PlotlyChartComponent implements AfterViewInit, OnDestroy {
 
     if (!this.plotly) return;
 
+    // console.log(traces);
+    // console.log(layout);
+    // console.log(config);
+
     Plotly.newPlot(
       this.id(),
       traces,

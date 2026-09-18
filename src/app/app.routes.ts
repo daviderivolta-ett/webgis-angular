@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router'
 
 /* Resolvers */
-import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver } from './resolvers'
+import { baseLayersResolver, infoLayersResolver, groupedCheckboxesResolver, mapConfigResolver, layerCategoriesResolver, colorScalesResolver, stationPopupConfigResolver, sensorTypesResolver, apisResolver, settingsConfigResolver, sensorTypes2Resolver } from './resolvers'
 
 /* Routes */
 export const routes: Routes = [
@@ -24,7 +24,8 @@ export const routes: Routes = [
             baseLayers: baseLayersResolver,
             layerCategories: layerCategoriesResolver,
             groupedCheckboxes: groupedCheckboxesResolver,
-            sensorTypes: sensorTypesResolver
+            sensorTypes: sensorTypesResolver,
+            sensorTypes2: sensorTypes2Resolver
         }
     },
     {

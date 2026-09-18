@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 
 /* Models */
-import { MapChart, MapChartData, Sensor, SensorType, Station, StationBase, StationThresholdConfig } from '../models';
+import { MapChart, MapChartData, Sensor, SensorType, SensorType2, Station, StationBase, StationThresholdConfig } from '../models';
 
 /* Services */
 import { ApiService } from './api.service'
@@ -72,6 +72,18 @@ export class StationsService {
       })
   }
 
+  public async fetchTimeSeries(baseUrl: string, params: string[], urlParams: Record<string, string>, token?: string): Promise<Map<string, [number, number][]>> {    
+    const results = await Promise.all(
+      params.map(async (p) => {
+        const url = this.apiService.addSearchParamsToUrl(baseUrl, { Parameter: p, ...urlParams });        
+        const result = await this.fetchTimeSerie(url, p, token);
+        return [p, result] as [string, [number, number][]];
+      })
+    );
+
+    return new Map(results);
+  }
+
   public async getTimeSeries(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const promises: Promise<Map<string, [number, number][]>>[] = [];
     params.forEach((p: string) => {
@@ -92,6 +104,18 @@ export class StationsService {
     return resultMap;
   }
 
+  public async fetchTimeSerie(url: string, param: string, token?: string): Promise<[number, number][]> {
+    return this.apiService.getApiData(url, token)
+      .then((data: unknown) => {
+        if (!Array.isArray(data)) throw new Error(`Invalid object.`)
+        return this.parseTimeSerie2(data, param);
+      })
+      .catch((err) => {
+        console.log(err);
+        return [];
+      })
+  }
+
   public async getTimeSerie(url: string, stationId: string, param: string, params: string[], initialDate: string, endingDate: string, limitDate: string, token?: string): Promise<Map<string, [number, number][]>> {
     const formattedUrl: string = this.apiService.replaceApiUrlPlaceholder(url, stationId);
     const formattedUrlWithParams: string = this.apiService.addSearchParamsToUrl(formattedUrl, { Parameter: param, CreationDate: limitDate, FromDate: initialDate, ToDate: endingDate });
@@ -103,6 +127,26 @@ export class StationsService {
         console.log(err);
         return new Map<string, [number, number][]>();
       })
+  }
+
+  public parseTimeSerie2(data: object[], param: string): [number, number][] {
+    const seen = new Set<string>();
+
+    return data
+      .filter((d): d is object & { parameter: string, referenceDate: string, value: number } => {
+        if (!('parameter' in d) || d.parameter !== param) return false;
+        if (!('referenceDate' in d) || typeof d.referenceDate !== 'string') return false;
+        if (!('value' in d)) return false;
+
+        if (seen.has(d.referenceDate)) return false;
+
+        seen.add(d.referenceDate);
+        return true;
+      })
+      .map(d => [
+        new Date(d.referenceDate).getTime(),
+        Number(d.value)
+      ]);
   }
 
   public parseTimeSerie(data: unknown, params: string[]): Map<string, [number, number][]> {
@@ -282,6 +326,12 @@ export class StationsService {
     const initial = new Date(endingDate);
     initial.setDate(initial.getDate() - gap);
     return initial;
+  }
+
+  public getInitialDateGap(endingDate: Date, sensorType: SensorType2): Date {
+    const initialDate = new Date(endingDate);
+    initialDate.setDate(initialDate.getDate() - sensorType.defaultTimeGap);
+    return initialDate;
   }
 
 }

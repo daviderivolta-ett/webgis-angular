@@ -2,10 +2,11 @@
 import { inject, Injectable } from '@angular/core'
 
 /* Models */
-import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, RadarConfigGroup, SensorType, Settings, StationBase, TableConfigGroup } from '../models'
+import { AppConfig, ColorScaleBase, LayerCategory, LayerGroup, MapConfig, RadarConfigGroup, SensorType, SensorType2, Settings, StationBase, TableConfigGroup } from '../models'
 
 /* Services */
 import { ApiService } from './api.service'
+import { parseSensorType } from './sensor-type.parser'
 
 /* Service */
 @Injectable({
@@ -237,6 +238,18 @@ export class ConfigService {
       })
       .catch((err: unknown) => {
         throw new Error(`Errore nel recupero della configurazione del popup delle stazioni dal file di configurazione /configs/stations-popup.config.json ${err instanceof Error ? err.message : err}`);
+      })
+  }
+
+  public async getSensorTypes2Config(url: string): Promise<SensorType2[]> {
+    return this.apiService.getApiJSONData(url)
+      .then((data: unknown) => {
+        if (typeof data !== 'object' || data === null || !('types' in data)) throw new Error('Invalid object.');
+        const rawTypes = data['types'];
+
+        if (!rawTypes || !Array.isArray(rawTypes)) throw new Error('Il campo \'types\' non è un oggetto valido');
+
+        return rawTypes.map((t: unknown) => parseSensorType(t));
       })
   }
 

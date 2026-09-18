@@ -5,10 +5,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /* Models */
-import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, PlotlySettings, Sensor, SensorType, SensorType2, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
 
 /* Services */
 import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService } from '../../../services'
+import { SENSOR_TYPE_PARSERS, TimeserieService } from '../../../_features'
 
 /* Components */
 import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components'
@@ -51,6 +52,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private layersService: LayersService = inject(LayersService)
   private stationsService: StationsService = inject(StationsService)
   private commandsRegistry: CommandsRegistryService = inject(CommandsRegistryService)
+  private timeserieService: TimeserieService = inject(TimeserieService)
 
   /* User Interface */
   public isLoading: boolean = false;
@@ -123,6 +125,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataLayers: LayerGroup[]; // Recovered from route resolver in constructor
   private _layerCategories: Map<string, LayerCategory>; // Recovered from route resolver in constructor
   private _sensorTypes: SensorType[]; // Recovered from route resolver in constructor
+  private _sensorTypes2: SensorType2[]; // Recovered from route resolver in constructor
 
   private _currentDataLayers: Map<string, string[]> = new Map<string, string[]>();
 
@@ -148,6 +151,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataLayers = this.route.snapshot.data['groupedCheckboxes'];
     this._layerCategories = new Map(this.route.snapshot.data['layerCategories'].map((c: LayerCategory) => [c.id, c]));
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
+    this._sensorTypes2 = this.route.snapshot.data['sensorTypes2'];
 
     this.groupedCheckboxes = this.dataLayers.map((v: LayerGroup) => LayerGroupToCheckboxAdapter.convert(v));
 
@@ -179,6 +183,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /* Component lifecycle */
   public async ngOnInit(): Promise<void> {
+
     this.route.queryParams.subscribe(() => {
       const date = this.globalStateService.getDateFromQueryParams();
       this.selectedDate = date;
@@ -498,6 +503,8 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public async onMapPopupOpenChartBtnClick(stations: Station[]): Promise<void> {
     const newCharts: MapChart[] = [];
 
+    const currentDate: Date = this.globalStateService.getDateFromQueryParams() ?? new Date();
+
     stations.forEach(async (s: Station) => {
       switch (s.type) {
         case 'platform': {
@@ -508,6 +515,30 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
           });
           const foundSensor: SensorType | undefined = this._sensorTypes.find((sensor) => sensor.id === s.parameter);
           newCharts.push(this.stationsService.createChart(s, this._sensorTypes, foundSensor && foundSensor.thresholdKeys ? thresholds : {}));
+
+          /* START TESTING */
+          const foundSensor2: SensorType2 | undefined = this._sensorTypes2.find((sensor) => sensor.id === s.parameter);
+          if (!foundSensor2) break;
+          const sensors = [foundSensor2, ...this._sensorTypes2.filter(sensor => foundSensor2.relatedSensors.includes(sensor.id))];
+
+          const timeseries = await this.timeserieService.fetchTimeSeries(
+            this.apiService.replaceApiUrlPlaceholder(this.timeserieUrl(), s.id),
+            sensors.map((s) => s.param),
+            {
+              CreationDate: DateUtils.toDateTimeLocal(currentDate),
+              FromDate: DateUtils.toDateTimeLocal(this.stationsService.getInitialDateGap(currentDate, foundSensor2)),
+              ToDate: DateUtils.toDateTimeLocal(currentDate),
+            }
+          )
+
+          const plotlySettings: PlotlySettings = {
+            ...foundSensor2.plotly,
+            traces: [...sensors.flatMap((s) => s.plotly.traces)],
+          }
+        
+          const data = SENSOR_TYPE_PARSERS.get(foundSensor2.parser)?.(timeseries, plotlySettings, { date: currentDate, thresholds: station?.thresholdConfig })
+          console.log(data);
+          /* END TESTING */
           break;
         }
 

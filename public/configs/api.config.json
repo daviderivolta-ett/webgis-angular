@@ -19,6 +19,7 @@
         "stationsPopup": "/configurations/get/latest?Tag=popupConfig",
         "popupLabels": "/configurations/get/latest?Tag=stations-popup",
         "sensorTypes": "/configurations/get/latest?Tag=sensor-types",
+        "sensorTypes2": "/configs/sensor-types2.config.json",
         "settings": "/configurations/get/latest?Tag=settings",
         "latestConfig": "/configurations/get/latest",
         "configTypes": "/configurations/get/types",

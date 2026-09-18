@@ -1,5 +1,6 @@
-export * from './sensor.class'
 export * from './sensor-type.interface'
+export * from './sensor-type.type'
+export * from './sensor.class'
 export * from './station-base.class'
 export * from './station-creek.interface'
 export * from './station-data.interface'
