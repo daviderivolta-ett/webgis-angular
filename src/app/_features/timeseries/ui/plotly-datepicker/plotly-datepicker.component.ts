@@ -1,11 +1,12 @@
 /* Dependencies */
-import { Component, computed, input, signal } from '@angular/core'
+import { Component, computed, input, signal, ChangeDetectionStrategy } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-plotly-datepicker',
   imports: [],
   templateUrl: './plotly-datepicker.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './plotly-datepicker.component.scss',
 })
 export class PlotlyDatepickerComponent {
@@ -17,9 +18,9 @@ export class PlotlyDatepickerComponent {
   /* State */
   readonly formModel = signal({
     initialDate: '',
-    endingDate: ''
+    endingDate: '',
   });
-  
+
   /* Methods */
   #calcInitialDateFrom(date: Date): Date {
     const initialDate = new Date(date);

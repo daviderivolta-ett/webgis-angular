@@ -1,12 +1,20 @@
 /* Dependencies */
-import { Component, effect, HostListener, input, output } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-sidebar',
   imports: [],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
   public isOpen: boolean = false;
@@ -24,14 +32,14 @@ export class SidebarComponent {
   public toggled = output<boolean>();
 
   constructor() {
-    effect(() => this.currentWidth = this.width());
+    effect(() => (this.currentWidth = this.width()));
   }
 
   /* Methods */
   @HostListener('window:resize', ['$event'])
   public onResize(event: UIEvent) {
     const windowWidth: number = (event.target as Window).innerWidth;
-    this.currentWidth = (windowWidth < 768) ? '100%' : this.width();
+    this.currentWidth = windowWidth < 768 ? '100%' : this.width();
   }
 
   public toggleSidebar(value: boolean): void {

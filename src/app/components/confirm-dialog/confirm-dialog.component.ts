@@ -1,12 +1,13 @@
 /* Dependencies */
-import { Component, ElementRef, signal, ViewChild } from '@angular/core'
+import { Component, ElementRef, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-confirm-dialog',
   imports: [],
   templateUrl: './confirm-dialog.component.html',
-  styleUrl: './confirm-dialog.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent {
   public msg = signal<string>('');
@@ -25,7 +26,7 @@ export class ConfirmDialogComponent {
 
     return new Promise<boolean>((resolve) => {
       this.#resolve = resolve;
-    })
+    });
   }
 
   public close(): void {

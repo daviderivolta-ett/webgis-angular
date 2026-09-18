@@ -1,12 +1,25 @@
 /* Dependencies */
-import { Component, computed, DestroyRef, effect, ElementRef, inject, input, output, signal, ViewChild } from '@angular/core'
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  output,
+  signal,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-map-time-player',
   imports: [],
   templateUrl: './map-time-player.component.html',
-  styleUrl: './map-time-player.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './map-time-player.component.scss',
 })
 export class MapTimePlayerComponent {
   /* State */
@@ -47,9 +60,7 @@ export class MapTimePlayerComponent {
     return this.#toDatetimeLocal(d);
   });
 
-  public max = computed(() =>
-    this.#toDatetimeLocal(this.#internalReference())
-  );
+  public max = computed(() => this.#toDatetimeLocal(this.#internalReference()));
 
   /* References */
   @ViewChild('input') inputRef!: ElementRef<HTMLInputElement>;
@@ -96,7 +107,7 @@ export class MapTimePlayerComponent {
     this.internalDate.set(clamped);
     this.dateChanged.emit(clamped);
 
-    queueMicrotask(() => el.value = this.value());
+    queueMicrotask(() => (el.value = this.value()));
   }
 
   public onToggleClick(): void {
@@ -117,7 +128,7 @@ export class MapTimePlayerComponent {
         this.internalDate.set(clamped);
         this.dateChanged.emit(clamped);
         if (clamped.getTime() === this.#internalReference().getTime()) this.isPlaying.set(false);
-      }, 1000)
+      }, 1000),
     );
   }
 

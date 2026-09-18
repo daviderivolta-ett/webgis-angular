@@ -1,5 +1,12 @@
 /** Libraries */
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -10,7 +17,13 @@ import { Sensor, SensorType, StationBase, User } from '../../../models';
 import { ApiService, Auth2Service, SnackbarsService, StationsService } from '../../../services';
 
 /** Components */
-import { HeaderComponent, SidebarComponent, SearchbarComponent, SettingsNavMenuComponent, LoadingBtnComponent } from '../../../components';
+import {
+  HeaderComponent,
+  SidebarComponent,
+  SearchbarComponent,
+  SettingsNavMenuComponent,
+  LoadingBtnComponent,
+} from '../../../components';
 
 /** Pipes */
 import { MapValuePipe } from '../../../pipes';
@@ -31,18 +44,19 @@ import { Utils } from '../../../utils';
     SettingsNavMenuComponent,
     LoadingBtnComponent,
     /** Pipes */
-    MapValuePipe
+    MapValuePipe,
   ],
   templateUrl: './stations-settings-page.component.html',
-  styleUrl: './stations-settings-page.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './stations-settings-page.component.scss',
 })
 export class StationsSettingsPageComponent implements OnInit {
   /** Dependency injection */
-  private route: ActivatedRoute = inject(ActivatedRoute)
-  private auth2Service: Auth2Service = inject(Auth2Service)
-  private apiService: ApiService = inject(ApiService)
-  private stationsService: StationsService = inject(StationsService)
-  private snackbarsService: SnackbarsService = inject(SnackbarsService)
+  private route: ActivatedRoute = inject(ActivatedRoute);
+  private auth2Service: Auth2Service = inject(Auth2Service);
+  private apiService: ApiService = inject(ApiService);
+  private stationsService: StationsService = inject(StationsService);
+  private snackbarsService: SnackbarsService = inject(SnackbarsService);
 
   /** UI */
   public form = new FormGroup<any>({});
@@ -56,7 +70,12 @@ export class StationsSettingsPageComponent implements OnInit {
   public stationsApiBaseUrl; // Recovered from route resolver in constructor
   public retentionBridgeUrl; // Recovered from route resolver in constructor
 
-  public stationParametersUrl = computed(() => this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters')));
+  public stationParametersUrl = computed(() =>
+    this.apiService.buildUrl(
+      this.stationsApiBaseUrl,
+      this.route.snapshot.data['apisConfig'].get('stationParameters'),
+    ),
+  );
   public stationParametersPatchUrl; // Recovered from route resolver in constructor
 
   public stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] = [];
@@ -69,10 +88,16 @@ export class StationsSettingsPageComponent implements OnInit {
   constructor() {
     /** Recovering data from resolvers */
     this.apiBaseUrl = this.route.snapshot.data['apisConfig'].get('baseUrl');
-    this.stationsApiBaseUrl = this.apiService.buildUrl(this.route.snapshot.data['apisConfig'].get('baseUrl'), this.route.snapshot.data['apisConfig'].get('stationsApi'));
+    this.stationsApiBaseUrl = this.apiService.buildUrl(
+      this.route.snapshot.data['apisConfig'].get('baseUrl'),
+      this.route.snapshot.data['apisConfig'].get('stationsApi'),
+    );
     this.retentionBridgeUrl = this.route.snapshot.data['apisConfig'].get('retentionBridge');
     // this.stationParametersUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParameters'));
-    this.stationParametersPatchUrl = this.apiService.buildUrl(this.stationsApiBaseUrl, this.route.snapshot.data['apisConfig'].get('stationParametersPatch'));
+    this.stationParametersPatchUrl = this.apiService.buildUrl(
+      this.stationsApiBaseUrl,
+      this.route.snapshot.data['apisConfig'].get('stationParametersPatch'),
+    );
     this._sensorTypes = this.route.snapshot.data['sensorTypes'];
 
     /** Effetcs */
@@ -83,69 +108,93 @@ export class StationsSettingsPageComponent implements OnInit {
 
   /** Component lifecycle */
   public async ngOnInit() {
-    this.stationsService.getStationParameters(this.stationParametersUrl(), this.auth2Service.token())
+    this.stationsService
+      .getStationParameters(this.stationParametersUrl(), this.auth2Service.token())
       .then((stations) => {
         this.stations = this.filteredStations = stations.sort((a, b) => a.id.localeCompare(b.id));
         this.form = this._createStationsForm(stations);
         this.initialFormValue = { ...this.form.value };
-      })
+      });
 
     this.sensorTypesMap = new Map(this._sensorTypes.map((t: SensorType) => [t.id, t.label]));
   }
 
   /** Methods */
   /** Init */
-  private _createStationsForm(stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[]): FormGroup {
-    const controls = stations.reduce((acc, station) => {
-      const array = new FormArray(
-        station.sensors.map(sensor => new FormControl(sensor.enabled)),
-        { updateOn: 'change' }
-      );
-      acc[station.id] = array;
-      return acc;
-    }, {} as { [key: string]: FormArray<FormControl> });
+  private _createStationsForm(
+    stations: Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[],
+  ): FormGroup {
+    const controls = stations.reduce(
+      (acc, station) => {
+        const array = new FormArray(
+          station.sensors.map((sensor) => new FormControl(sensor.enabled)),
+          { updateOn: 'change' },
+        );
+        acc[station.id] = array;
+        return acc;
+      },
+      {} as { [key: string]: FormArray<FormControl> },
+    );
 
     return new FormGroup(controls);
   }
 
-  private _createStationsOnFormChanges(changes: any): Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] {
+  private _createStationsOnFormChanges(
+    changes: any,
+  ): Pick<StationBase, 'id' | 'uuid' | 'name' | 'sensors'>[] {
     return this.stations
-      .filter(station => changes[station.id] !== undefined)
-      .map(station => {
+      .filter((station) => changes[station.id] !== undefined)
+      .map((station) => {
         const stationFormData: boolean[] = changes[station.id];
         return {
           ...station,
           sensors: station.sensors.map((sensor: Sensor, index: number) => {
             return {
               ...sensor,
-              enabled: stationFormData[index] ?? false
-            }
-          })
-        }
-      })
+              enabled: stationFormData[index] ?? false,
+            };
+          }),
+        };
+      });
   }
 
   public onSearchInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.filteredStations = this.stations.filter((s) => s.id.toLowerCase().includes(value.toLowerCase()));
+    this.filteredStations = this.stations.filter((s) =>
+      s.id.toLowerCase().includes(value.toLowerCase()),
+    );
   }
 
   public async onFormSubmit(): Promise<void> {
-    const changes: Record<string, unknown> = Utils.diffRecordArrays(this.form.value, this.initialFormValue);
+    const changes: Record<string, unknown> = Utils.diffRecordArrays(
+      this.form.value,
+      this.initialFormValue,
+    );
     const result = this._createStationsOnFormChanges(changes);
     const post = result.map((v) => StationBase.fromPartialToDatabaseStationParameter(v));
 
     this.isLoading = true;
-    this.stationsService.patchStationParameters(this.stationParametersPatchUrl, post, this.auth2Service.token())
+    this.stationsService
+      .patchStationParameters(this.stationParametersPatchUrl, post, this.auth2Service.token())
       .then(() => {
-        this.snackbarsService.createSnackbar('Stato della stazione aggiornato con successo.', 'success', true)
+        this.snackbarsService.createSnackbar(
+          'Stato della stazione aggiornato con successo.',
+          'success',
+          true,
+        );
       })
       .catch((error: unknown) => {
-        this.snackbarsService.createSnackbar(error instanceof Error ? error.message : 'Errore nel recupero dei parametri delle stazioni', 'error', true)
+        this.snackbarsService.createSnackbar(
+          error instanceof Error
+            ? error.message
+            : 'Errore nel recupero dei parametri delle stazioni',
+          'error',
+          true,
+        );
       })
       .finally(() => {
         this.isLoading = false;
         this.form.markAsPristine();
-      })
+      });
   }
 }

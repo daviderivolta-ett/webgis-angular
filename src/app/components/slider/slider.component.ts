@@ -1,12 +1,22 @@
 /* Dependencies */
-import { Component, ContentChildren, ElementRef, HostListener, QueryList, ViewChild, AfterContentInit } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  ElementRef,
+  HostListener,
+  QueryList,
+  ViewChild,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-slider',
   imports: [],
   templateUrl: './slider.component.html',
-  styleUrl: './slider.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './slider.component.scss',
 })
 export class SliderComponent implements AfterContentInit {
   /* Class properties */
@@ -14,21 +24,25 @@ export class SliderComponent implements AfterContentInit {
 
   /* User Interface */
   @ViewChild('slider') _slider!: ElementRef<HTMLElement>;
-  @ContentChildren('sliderItem', { read: ElementRef, descendants: true }) _elements!: QueryList<ElementRef<HTMLElement>>;
+  @ContentChildren('sliderItem', { read: ElementRef, descendants: true }) _elements!: QueryList<
+    ElementRef<HTMLElement>
+  >;
 
   @HostListener('window:resize')
   public onResize() {
     this._checkHorizontalScroll();
   }
 
-  constructor() { }
+  constructor() {}
 
   /* Component lifecycles */
   public ngAfterContentInit(): void {
     this._checkHorizontalScroll();
     this._elements.changes.subscribe(() => {
       this._checkHorizontalScroll();
-      this._elements.forEach((el: ElementRef<HTMLElement>) => el.nativeElement.style.scrollSnapAlign = 'center');
+      this._elements.forEach(
+        (el: ElementRef<HTMLElement>) => (el.nativeElement.style.scrollSnapAlign = 'center'),
+      );
     });
   }
 
@@ -43,7 +57,10 @@ export class SliderComponent implements AfterContentInit {
     if (windowWidth < 768) {
       this.hasHorizontalScroll = false;
     } else {
-      this.hasHorizontalScroll = (this._slider.nativeElement.scrollWidth > this._slider.nativeElement.clientWidth) ? true : false;
+      this.hasHorizontalScroll =
+        this._slider.nativeElement.scrollWidth > this._slider.nativeElement.clientWidth
+          ? true
+          : false;
     }
   }
 
@@ -52,13 +69,15 @@ export class SliderComponent implements AfterContentInit {
     const totalWidth: number = this._slider.nativeElement.scrollWidth;
     const visibleWidth: number = this._slider.nativeElement.clientWidth;
 
-    let newScrollPosition = this._slider.nativeElement.scrollLeft + (direction === 'left' ? -elementWidth : elementWidth);
+    let newScrollPosition =
+      this._slider.nativeElement.scrollLeft + (direction === 'left' ? -elementWidth : elementWidth);
     if (newScrollPosition < 0) newScrollPosition = 0;
-    if (newScrollPosition > (totalWidth - visibleWidth)) newScrollPosition = totalWidth - visibleWidth;
+    if (newScrollPosition > totalWidth - visibleWidth)
+      newScrollPosition = totalWidth - visibleWidth;
 
     this._slider.nativeElement.scrollTo({
       left: newScrollPosition,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   }
 }

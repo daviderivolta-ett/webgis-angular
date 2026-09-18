@@ -1,15 +1,14 @@
 /* Dependencies */
-import { Component, computed, effect, input, output } from '@angular/core';
+import { Component, computed, effect, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /* Component */
 @Component({
   selector: 'app-time-player',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './time-player.component.html',
-  styleUrl: './time-player.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './time-player.component.scss',
 })
 export class TimePlayerComponent {
   /* Properties */
@@ -31,7 +30,10 @@ export class TimePlayerComponent {
   });
 
   /* UI */
-  public form: FormGroup = new FormGroup({ date: new FormControl('', [Validators.required]) }, { updateOn: 'blur' });
+  public form: FormGroup = new FormGroup(
+    { date: new FormControl('', [Validators.required]) },
+    { updateOn: 'blur' },
+  );
   private _isPlaying: boolean = false;
   private _intervalId: number | undefined;
   public isLoading = input<boolean>(false);
@@ -49,7 +51,9 @@ export class TimePlayerComponent {
   }
 
   /* Getter and setter */
-  public get isPlaying() { return this._isPlaying }
+  public get isPlaying() {
+    return this._isPlaying;
+  }
   private set isPlaying(value: boolean) {
     this._isPlaying = value;
   }
@@ -79,24 +83,36 @@ export class TimePlayerComponent {
       this.form.patchValue({ date }, { emitEvent: false });
       this.toggled.emit(new Date(date));
     } else {
-      this.patchValue(new Date);
+      this.patchValue(new Date());
       this.toggled.emit(new Date());
     }
   }
 
   /* Actions */
   public toggledBtnClick(isPlaying: boolean): void {
-    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(new Date().toISOString()) }, { emitEvent: false });
+    if (!this.form.get('date')?.value)
+      this.form.patchValue(
+        { date: this._truncateDateToFullHour(new Date().toISOString()) },
+        { emitEvent: false },
+      );
     this.setIsPlaying(isPlaying);
-    const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date();
-    this.toggled.emit(!isNaN(date.getTime()) ? date : undefined)
+    const date: Date = this.form.get('date')?.value
+      ? new Date(this.form.get('date')?.value)
+      : new Date();
+    this.toggled.emit(!isNaN(date.getTime()) ? date : undefined);
   }
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
     this.setIsPlaying(false);
-    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(this.max() ?? new Date().toISOString()) }, { emitEvent: false });
+    if (!this.form.get('date')?.value)
+      this.form.patchValue(
+        { date: this._truncateDateToFullHour(this.max() ?? new Date().toISOString()) },
+        { emitEvent: false },
+      );
 
-    const date: Date = this.form.get('date')?.value ? new Date(this.form.get('date')?.value) : new Date(this.max());
+    const date: Date = this.form.get('date')?.value
+      ? new Date(this.form.get('date')?.value)
+      : new Date(this.max());
     if (isNaN(date.getTime())) return;
 
     const newDate: Date = this._calculateNewDate(date, direction);
@@ -118,7 +134,7 @@ export class TimePlayerComponent {
     if (isNaN(date.getTime())) return;
 
     this._intervalId = window.setInterval(() => {
-      const newDate: Date = this._calculateNewDate(date, 'forward')
+      const newDate: Date = this._calculateNewDate(date, 'forward');
       if (this._checkDate(newDate)) {
         this.patchValue(newDate);
         this.toggled.emit(newDate);
@@ -140,11 +156,16 @@ export class TimePlayerComponent {
   /* Utils */
   private _truncateDateToFullHour(date: string): string {
     const dateObj = new Date(date);
-    const day = dateObj.getFullYear() + '-' + this._pad(dateObj.getMonth() + 1) + '-' + this._pad(dateObj.getDate());
+    const day =
+      dateObj.getFullYear() +
+      '-' +
+      this._pad(dateObj.getMonth() + 1) +
+      '-' +
+      this._pad(dateObj.getDate());
 
     const hour = this._pad(dateObj.getHours());
     const minutes = dateObj.getMinutes();
-    const truncatedMinutes = (minutes % 5 === 0) ? minutes : minutes - (minutes % 5);
+    const truncatedMinutes = minutes % 5 === 0 ? minutes : minutes - (minutes % 5);
 
     return `${day}T${hour}:${this._pad(truncatedMinutes)}`;
   }
@@ -156,7 +177,7 @@ export class TimePlayerComponent {
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
     const minutes: number = date.getMinutes();
     const newDate: Date = date;
-    const newMinutes = (direction === 'backward') ? (minutes - 5) : (minutes + 5);
+    const newMinutes = direction === 'backward' ? minutes - 5 : minutes + 5;
     newDate.setMinutes(newMinutes);
     return newDate;
   }

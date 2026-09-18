@@ -1,11 +1,22 @@
 /* Dependencies */
-import { Component, computed, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core'
+import {
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  input,
+  output,
+  signal,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrl: './date-picker.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {
   /* State */
@@ -35,9 +46,7 @@ export class DatePickerComponent {
     return this.#toDatetimeLocal(d);
   });
 
-  public max = computed(() =>
-    this.#toDatetimeLocal(this.#internalReference())
-  );
+  public max = computed(() => this.#toDatetimeLocal(this.#internalReference()));
 
   /* References */
   @ViewChild('input') inputRef!: ElementRef<HTMLInputElement>;
@@ -69,7 +78,7 @@ export class DatePickerComponent {
     this.internalDate.set(clamped);
     this.dateChanged.emit(clamped);
 
-    queueMicrotask(() => el.value = this.value());
+    queueMicrotask(() => (el.value = this.value()));
   }
 
   public onBackClick(): void {

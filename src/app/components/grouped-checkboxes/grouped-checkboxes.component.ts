@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, model, output } from '@angular/core';
+import { Component, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,21 +13,19 @@ type GroupedCheckbox = {
   isChecked?: boolean;
   isDisabled?: boolean;
   isVisible?: boolean;
-}
+};
 
 /* Component */
 @Component({
   selector: 'app-grouped-checkboxes',
-  imports: [
-    NgTemplateOutlet,
-    FormsModule
-  ],
+  imports: [NgTemplateOutlet, FormsModule],
   templateUrl: './grouped-checkboxes.component.html',
-  styleUrl: './grouped-checkboxes.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './grouped-checkboxes.component.scss',
 })
 export class GroupedCheckboxesComponent {
   public group = model<GroupedCheckbox>({ id: '' });
-  public changed = output<{ id: string, isChecked: boolean }>();
+  public changed = output<{ id: string; isChecked: boolean }>();
 
   /* Methods */
   public onCheckboxChange(group: GroupedCheckbox, event: Event): void {
@@ -53,11 +51,16 @@ export class GroupedCheckboxesComponent {
 
     return {
       ...oldValue,
-      options: oldValue.options?.map((group: GroupedCheckbox) => this._updateRootGroup(group, newGroup))
-    }
+      options: oldValue.options?.map((group: GroupedCheckbox) =>
+        this._updateRootGroup(group, newGroup),
+      ),
+    };
   }
 
-  private _getParentGroup(current: GroupedCheckbox, target: GroupedCheckbox): GroupedCheckbox | null {
+  private _getParentGroup(
+    current: GroupedCheckbox,
+    target: GroupedCheckbox,
+  ): GroupedCheckbox | null {
     if (!current.options) return null;
     for (const child of current.options) {
       if (child === target) return current;
@@ -85,18 +88,17 @@ export class GroupedCheckboxesComponent {
     return {
       ...group,
       options: group.options?.map((child: GroupedCheckbox) => {
-        return this._cloneGroupWithDisabledControls(child)
+        return this._cloneGroupWithDisabledControls(child);
       }),
-      isDisabled
-    }
+      isDisabled,
+    };
   }
 
   private _cloneGroupWithAllEnabled(group: GroupedCheckbox): GroupedCheckbox {
     return {
       ...group,
       isDisabled: false,
-      options: group.options?.map(child => this._cloneGroupWithAllEnabled(child))
+      options: group.options?.map((child) => this._cloneGroupWithAllEnabled(child)),
     };
   }
-
 }

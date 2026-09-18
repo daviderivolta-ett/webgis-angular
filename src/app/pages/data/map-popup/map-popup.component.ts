@@ -1,19 +1,17 @@
 /* Dependencies */
-import { Component, input, output } from '@angular/core'
-import { DatePipe, DecimalPipe } from '@angular/common'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 /* Models */
-import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models'
+import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '../../../models';
 
 /* Component */
 @Component({
   selector: 'app-map-popup',
-  imports: [
-    DatePipe,
-    DecimalPipe
-  ],
+  imports: [DatePipe, DecimalPipe],
   templateUrl: './map-popup.component.html',
-  styleUrl: './map-popup.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './map-popup.component.scss',
 })
 export class MapPopupComponent {
   public data = input<Station[]>([]);

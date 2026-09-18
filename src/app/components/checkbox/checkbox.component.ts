@@ -1,6 +1,6 @@
 /* Dependencies */
-import { Component, forwardRef, input } from '@angular/core'
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { Component, forwardRef, input, ChangeDetectionStrategy } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /* Component */
 @Component({
@@ -8,13 +8,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
   imports: [],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CheckboxComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CheckboxComponent implements ControlValueAccessor {
   public id = input<string>('checkbox');
@@ -22,8 +23,8 @@ export class CheckboxComponent implements ControlValueAccessor {
   public value: boolean = false;
   public disabled: boolean = false;
 
-  private onChange: (value: boolean) => void = () => { };
-  private onTouched = () => { };
+  private onChange: (value: boolean) => void = () => {};
+  private onTouched = () => {};
 
   public writeValue(value: boolean): void {
     this.value = value;

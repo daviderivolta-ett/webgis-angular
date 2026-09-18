@@ -1,31 +1,29 @@
 /* Dependencies */
-import { Component, effect, inject, OnInit } from '@angular/core'
-import { RouterOutlet } from '@angular/router'
+import { Component, effect, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 /* Models */
-import { User } from './models'
+import { User } from './models';
 
 /* Services */
-import { ApiService, Auth2Service, GlobalStateService } from './services'
+import { ApiService, Auth2Service, GlobalStateService } from './services';
 
 /* Components */
-import { SnackbarContainerComponent } from './components'
+import { SnackbarContainerComponent } from './components';
 
 /* Component */
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    SnackbarContainerComponent
-  ],
+  imports: [RouterOutlet, SnackbarContainerComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   /* Dependency injection */
-  private globalStateService: GlobalStateService = inject(GlobalStateService)
-  private auth2Service: Auth2Service = inject(Auth2Service)
-  private apiService: ApiService = inject(ApiService)
+  private globalStateService: GlobalStateService = inject(GlobalStateService);
+  private auth2Service: Auth2Service = inject(Auth2Service);
+  private apiService: ApiService = inject(ApiService);
 
   /* User Interface */
   public title: string = 'omirl';
@@ -38,11 +36,29 @@ export class AppComponent implements OnInit {
     /* Effects */
     effect(() => {
       /* Get user query params */
-      if (this.globalStateService.hasInterestingQueryParams2(['layer', 'base', 'info', 'lat', 'lon', 'zoom'])) return;
+      if (
+        this.globalStateService.hasInterestingQueryParams2([
+          'layer',
+          'base',
+          'info',
+          'lat',
+          'lon',
+          'zoom',
+        ])
+      )
+        return;
       const currentUser: User | null = this.auth2Service.user();
       if (!currentUser) return;
-      this.globalStateService.getLatestUserPreferences(this.apiService.addSearchParamsToUrl(this.latestConfigUrl, { Tag: `${currentUser.id}_preferences` }), this.auth2Service.token())
-        .then((params) => this.globalStateService.updateAllQueryParams2(new Map(Object.entries(params))))
+      this.globalStateService
+        .getLatestUserPreferences(
+          this.apiService.addSearchParamsToUrl(this.latestConfigUrl, {
+            Tag: `${currentUser.id}_preferences`,
+          }),
+          this.auth2Service.token(),
+        )
+        .then((params) =>
+          this.globalStateService.updateAllQueryParams2(new Map(Object.entries(params))),
+        );
     });
   }
 
@@ -51,8 +67,9 @@ export class AppComponent implements OnInit {
     this.latestConfigUrl = this.apiService.buildUrl(
       this.apiService.buildUrl(
         this.apiService.apis().get('baseUrl') ?? '',
-        this.apiService.apis().get('stationsApi') ?? ''
-      ), this.apiService.apis().get('latestConfig') ?? ''
+        this.apiService.apis().get('stationsApi') ?? '',
+      ),
+      this.apiService.apis().get('latestConfig') ?? '',
     );
   }
 }

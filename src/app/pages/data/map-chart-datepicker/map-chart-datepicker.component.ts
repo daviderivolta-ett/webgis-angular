@@ -1,15 +1,14 @@
 /* Dependencies */
-import { Component, effect, input, model, output } from '@angular/core'
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { Component, effect, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /* Component */
 @Component({
   selector: 'app-map-chart-datepicker',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './map-chart-datepicker.component.html',
-  styleUrl: './map-chart-datepicker.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './map-chart-datepicker.component.scss',
 })
 export class MapChartDatepickerComponent {
   public defaultGap = input<number>(30);
@@ -17,19 +16,22 @@ export class MapChartDatepickerComponent {
   public initialDate = model<Date>(this._getInitialDateFrom(this.endingDate() || new Date()));
   public form = new FormGroup({
     initialDate: new FormControl(this._formatDate(this.initialDate())),
-    endingDate: new FormControl(this._formatDate(this.endingDate() || new Date()))
+    endingDate: new FormControl(this._formatDate(this.endingDate() || new Date())),
   });
   public datesChanged = output<[string, string]>();
-  private _isFirstLoad: boolean = true
+  private _isFirstLoad: boolean = true;
 
   constructor() {
     this.form.valueChanges.subscribe((changes) => this._onFormChange(changes));
 
     effect(() => {
-      this.form.patchValue({
-        initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())),
-        endingDate: this._formatDate(this.endingDate() || new Date())
-      }, { emitEvent: this._isFirstLoad });
+      this.form.patchValue(
+        {
+          initialDate: this._formatDate(this._getInitialDateFrom(this.endingDate() || new Date())),
+          endingDate: this._formatDate(this.endingDate() || new Date()),
+        },
+        { emitEvent: this._isFirstLoad },
+      );
       this._isFirstLoad = false;
     });
   }
@@ -40,8 +42,9 @@ export class MapChartDatepickerComponent {
   }
 
   /* Methods */
-  private _onFormChange(changes: Partial<{ initialDate: string | null; endingDate: string | null; }>) {
-
+  private _onFormChange(
+    changes: Partial<{ initialDate: string | null; endingDate: string | null }>,
+  ) {
     const initialDate = changes['initialDate'];
     const endingDate = changes['endingDate'];
     setTimeout(() => {
@@ -57,10 +60,16 @@ export class MapChartDatepickerComponent {
 
   private _formatDate(date: Date): string {
     const pad = (n: number) => String(n).padStart(2, '0');
-    return date.getFullYear() + '-' +
-      pad(date.getMonth() + 1) + '-' +
-      pad(date.getDate()) + 'T' +
-      pad(date.getHours()) + ':' +
-      pad(date.getMinutes());
+    return (
+      date.getFullYear() +
+      '-' +
+      pad(date.getMonth() + 1) +
+      '-' +
+      pad(date.getDate()) +
+      'T' +
+      pad(date.getHours()) +
+      ':' +
+      pad(date.getMinutes())
+    );
   }
 }

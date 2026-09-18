@@ -1,18 +1,26 @@
 /* Dependencies */
-import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core'
+import {
+  Component,
+  ContentChildren,
+  QueryList,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Component */
-import { SortHeaderComponent } from '../sort-header/sort-header.component'
+import { SortHeaderComponent } from '../sort-header/sort-header.component';
 
 /* Component */
 @Component({
   selector: 'app-sortable-table',
   imports: [],
   templateUrl: './sortable-table.component.html',
-  styleUrl: './sortable-table.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './sortable-table.component.scss',
 })
 export class SortableTableComponent implements AfterContentInit {
-  @ContentChildren(SortHeaderComponent, { descendants: true }) _sortheaders!: QueryList<SortHeaderComponent>;
+  @ContentChildren(SortHeaderComponent, { descendants: true })
+  _sortheaders!: QueryList<SortHeaderComponent>;
 
   /* Component lifecycles */
   public ngAfterContentInit(): void {

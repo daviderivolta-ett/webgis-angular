@@ -1,11 +1,12 @@
 /* Dependencies */
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-plotly-container',
   imports: [],
   templateUrl: './plotly-container.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './plotly-container.component.scss',
 })
 export class PlotlyContainerComponent {

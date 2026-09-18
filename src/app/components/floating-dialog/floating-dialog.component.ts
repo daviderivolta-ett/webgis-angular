@@ -1,17 +1,24 @@
 /* Dependencies */
-import { Component, ElementRef, input, output, signal, ViewChild, OnDestroy } from '@angular/core'
-import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop'
+import {
+  Component,
+  ElementRef,
+  input,
+  output,
+  signal,
+  ViewChild,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 /* Component */
 @Component({
   selector: 'app-floating-dialog',
   exportAs: 'floatingDialog',
-  imports: [
-    CdkDrag,
-    CdkDragHandle
-  ],
+  imports: [CdkDrag, CdkDragHandle],
   templateUrl: './floating-dialog.component.html',
-  styleUrl: './floating-dialog.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './floating-dialog.component.scss',
 })
 export class FloatingDialogComponent implements OnDestroy {
   public width = input<string>('80dvh');

@@ -1,22 +1,29 @@
 /* Dependencies */
-import { Component, ElementRef, input, model, output, ViewChild } from '@angular/core'
-import { FormsModule } from '@angular/forms'
+import {
+  Component,
+  ElementRef,
+  input,
+  model,
+  output,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 /* Types */
 interface SensorType {
-  id: string,
-  label: string,
-  iconUrl: string
+  id: string;
+  label: string;
+  iconUrl: string;
 }
 
 /* Component */
 @Component({
   selector: 'app-map-chart-selector',
-  imports: [
-    FormsModule
-  ],
+  imports: [FormsModule],
   templateUrl: './map-chart-selector.component.html',
-  styleUrl: './map-chart-selector.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './map-chart-selector.component.scss',
 })
 export class MapChartSelectorComponent {
   public id = input<string>('');

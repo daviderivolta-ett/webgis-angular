@@ -1,12 +1,13 @@
 /* Dependencies */
-import { Component, effect, input, output } from '@angular/core'
+import { Component, effect, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-pop-up-menu',
   imports: [],
   templateUrl: './pop-up-menu.component.html',
-  styleUrl: './pop-up-menu.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './pop-up-menu.component.scss',
 })
 export class PopUpMenuComponent {
   public isOpen: boolean = false;
@@ -23,7 +24,7 @@ export class PopUpMenuComponent {
   public toggled = output<boolean>();
 
   constructor() {
-    effect(() => this.finalPosition = this._parsePosition(this.position()));
+    effect(() => (this.finalPosition = this._parsePosition(this.position())));
   }
 
   /* Methods */

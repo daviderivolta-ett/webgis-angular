@@ -1,23 +1,28 @@
-/* Dependencies */ 
+/* Dependencies */
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ContentChild, input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  input,
+  TemplateRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /* Type */
 type Tree = {
   id: string;
   label?: string;
-  maxSelections?: number,
-  options?: Tree[]
-}
+  maxSelections?: number;
+  options?: Tree[];
+};
 
 /* Component */
 @Component({
   selector: 'app-tree',
-  imports: [
-    NgTemplateOutlet
-  ],
+  imports: [NgTemplateOutlet],
   templateUrl: './tree.component.html',
-  styleUrl: './tree.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './tree.component.scss',
 })
 export class TreeComponent {
   @ContentChild(TemplateRef) leafTemplate?: TemplateRef<any>;

@@ -1,18 +1,19 @@
 /* Dependencies */
-import { Component, effect, inject, input } from '@angular/core'
+import { Component, effect, inject, input, ChangeDetectionStrategy } from '@angular/core';
 
 /* Services */
-import { Auth2Service } from '../../services'
+import { Auth2Service } from '../../services';
 
 /* Models */
-import { User } from '../../models'
+import { User } from '../../models';
 
 /* Component */
 @Component({
   selector: 'app-auth',
   imports: [],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
   private auth2Service: Auth2Service = inject(Auth2Service);
@@ -25,7 +26,7 @@ export class AuthComponent {
   public user: User | null = null;
 
   constructor() {
-    effect(() => this.user = this.auth2Service.user());
+    effect(() => (this.user = this.auth2Service.user()));
   }
 
   public initAuthFlow(): void {

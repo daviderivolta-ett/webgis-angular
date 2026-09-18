@@ -1,32 +1,30 @@
 /* Dependencies */
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 /* Types */
 type AppRoute = {
-  path: string,
-  label: string
-}
+  path: string;
+  label: string;
+};
 
 /* Component */
 @Component({
   selector: 'app-settings-nav-menu',
-  imports: [
-    RouterLink,
-    RouterLinkActive
-  ],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './settings-nav-menu.component.html',
-  styleUrl: './settings-nav-menu.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './settings-nav-menu.component.scss',
 })
 export class SettingsNavMenuComponent {
   public menu: AppRoute[] = [
     {
       path: 'stazioni',
-      label: 'Stazioni'
+      label: 'Stazioni',
     },
     {
       path: 'popup',
-      label: 'Popup'
-    }
+      label: 'Popup',
+    },
   ];
 }

@@ -1,24 +1,31 @@
 /* Dependencies */
-import { Component, ContentChildren, effect, input, QueryList, AfterViewInit } from '@angular/core'
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import {
+  Component,
+  ContentChildren,
+  effect,
+  input,
+  QueryList,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /* Types */
 interface Tab {
-  id: string,
-  label: string
+  id: string;
+  label: string;
 }
 
 /* Components */
-import { TabComponent } from '../tab/tab.component'
+import { TabComponent } from '../tab/tab.component';
 
 /* Component */
 @Component({
   selector: 'app-tabs',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './tabs.component.html',
-  styleUrl: './tabs.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './tabs.component.scss',
 })
 export class TabsComponent implements AfterViewInit {
   /* Properties */
@@ -30,10 +37,10 @@ export class TabsComponent implements AfterViewInit {
 
   /* Constructor */
   constructor() {
-    effect(() => this._createFormGroup(this.tabs()))
+    effect(() => this._createFormGroup(this.tabs()));
     this.form.valueChanges.subscribe(() => {
       if (!this._tabs) return;
-      const value = this.form.get('tab')?.value ?? '';     
+      const value = this.form.get('tab')?.value ?? '';
       this._onTabChange(value);
     });
   }
@@ -59,6 +66,6 @@ export class TabsComponent implements AfterViewInit {
   private _onTabChange(id: string): void {
     this.getTabs().forEach((tab: TabComponent) => {
       tab.isVisible = tab.tabId() === id ? true : false;
-    })
+    });
   }
 }

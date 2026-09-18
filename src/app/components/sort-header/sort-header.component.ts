@@ -1,18 +1,19 @@
 /* Dependencies */
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 /* Types */
 type Sort = {
-  sortBy: string,
-  direction: 'asc' | 'desc' | 'none'
-}
+  sortBy: string;
+  direction: 'asc' | 'desc' | 'none';
+};
 
 /* Component */
 @Component({
   selector: 'app-sort-header',
   imports: [],
   templateUrl: './sort-header.component.html',
-  styleUrl: './sort-header.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './sort-header.component.scss',
 })
 export class SortHeaderComponent {
   public direction: 'asc' | 'desc' | 'none' = 'none';

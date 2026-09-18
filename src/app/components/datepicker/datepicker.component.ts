@@ -1,16 +1,23 @@
 /* Dependencies */
-import { Component, computed, effect, input, model, output } from '@angular/core'
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  model,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs';
 
 /* Component */
 @Component({
   selector: 'app-datepicker',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './datepicker.component.html',
-  styleUrl: './datepicker.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './datepicker.component.scss',
 })
 export class DatepickerComponent {
   public date = model<Date>();
@@ -35,7 +42,9 @@ export class DatepickerComponent {
 
   constructor() {
     effect(() => this._onDateChanged(this.date()));
-    effect(() => this.isLoading() ? this.form.get('date')?.disable() : this.form.get('date')?.enable());
+    effect(() =>
+      this.isLoading() ? this.form.get('date')?.disable() : this.form.get('date')?.enable(),
+    );
     this.form.valueChanges
       .pipe(distinctUntilChanged((a, b) => a.date === b.date))
       .subscribe((changes) => this._onFormChange(changes));
@@ -89,11 +98,16 @@ export class DatepickerComponent {
   /** Utils */
   private _truncateDateToFullHour(date: string): string {
     const dateObj = new Date(date);
-    const day = dateObj.getFullYear() + '-' + this._pad(dateObj.getMonth() + 1) + '-' + this._pad(dateObj.getDate());
+    const day =
+      dateObj.getFullYear() +
+      '-' +
+      this._pad(dateObj.getMonth() + 1) +
+      '-' +
+      this._pad(dateObj.getDate());
 
     const hour = this._pad(dateObj.getHours());
     const minutes = dateObj.getMinutes();
-    const truncatedMinutes = (minutes % 5 === 0) ? minutes : minutes - (minutes % 5);
+    const truncatedMinutes = minutes % 5 === 0 ? minutes : minutes - (minutes % 5);
 
     return `${day}T${hour}:${this._pad(truncatedMinutes)}`;
   }
@@ -115,9 +129,15 @@ export class DatepickerComponent {
   }
 
   public onStepBtnClick(direction: 'backward' | 'forward'): void {
-    if (!this.form.get('date')?.value) this.form.patchValue({ date: this._truncateDateToFullHour(this.max() ?? new Date().toISOString()) }, { emitEvent: false });
+    if (!this.form.get('date')?.value)
+      this.form.patchValue(
+        { date: this._truncateDateToFullHour(this.max() ?? new Date().toISOString()) },
+        { emitEvent: false },
+      );
 
-    const date: Date = this.form.get('date')?.value ? new Date(this._truncateDateToFullHour(this.form.get('date')?.value ?? '')) : new Date(this.max());
+    const date: Date = this.form.get('date')?.value
+      ? new Date(this._truncateDateToFullHour(this.form.get('date')?.value ?? ''))
+      : new Date(this.max());
     if (isNaN(date.getTime())) return;
 
     const newDate: Date = this._calculateNewDate(date, direction);
@@ -142,13 +162,13 @@ export class DatepickerComponent {
   private _calculateNewDate(date: Date, direction: 'backward' | 'forward'): Date {
     const minutes: number = date.getMinutes();
     const newDate: Date = new Date(date);
-    const newMinutes = (direction === 'backward') ? (minutes - 5) : (minutes + 5);
+    const newMinutes = direction === 'backward' ? minutes - 5 : minutes + 5;
     newDate.setMinutes(newMinutes);
     return newDate;
   }
 
   private _checkDate(date: Date): boolean {
-    return date <= new Date(this.max()) && (date >= new Date(this.min()));
+    return date <= new Date(this.max()) && date >= new Date(this.min());
   }
 
   private _clampDate(date: Date): Date {

@@ -1,13 +1,24 @@
 /* Dependencies */
-import { Component, ElementRef, forwardRef, HostListener, input, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core'
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
+import {
+  Component,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  input,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /* Types */
 type InputType = 'text' | 'email';
 type InputOption = {
   id: string;
-  label?: string
-}
+  label?: string;
+};
 
 /* Component */
 @Component({
@@ -19,17 +30,18 @@ type InputOption = {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputAutocompleteComponent),
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  encapsulation: ViewEncapsulation.ShadowDom
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class InputAutocompleteComponent implements ControlValueAccessor {
   public type = input<InputType>('text');
   public placeholder = input<string>('');
 
-  private onChange: (value: string) => void = () => { };
-  private onTouched: () => void = () => { };
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
   public options = input<InputOption[]>([]);
   public filteredOptions: InputOption[] = [];
@@ -63,7 +75,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
   // Methods
   public onInputFocus = (): void => {
     this._filterOptions(this._input.nativeElement.value);
-  }
+  };
 
   public onInputKeydown = (event: KeyboardEvent): void => {
     if (this.filteredOptions.length === 0) return;
@@ -92,7 +104,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
         this._reset();
       }
     }
-  }
+  };
 
   public onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -115,7 +127,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
     this._input.nativeElement.value = value;
 
     this._input.nativeElement.dispatchEvent(
-      new InputEvent('input', { bubbles: true, composed: true })
+      new InputEvent('input', { bubbles: true, composed: true }),
     );
 
     this._reset();
@@ -123,7 +135,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
 
   private _scrollOptionIntoView(index: number): void {
     const option = this._options.find((_, i: number) => i === index);
-    option?.nativeElement.scrollIntoView({behavior: 'smooth', block: 'center'})
+    option?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   private _reset(): void {

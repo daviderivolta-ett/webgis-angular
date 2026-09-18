@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, input, ViewEncapsulation } from '@angular/core'
+import { Component, input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
 /* Component */
 @Component({
@@ -7,7 +7,8 @@ import { Component, input, ViewEncapsulation } from '@angular/core'
   imports: [],
   templateUrl: './loading-button.component.html',
   styleUrl: './loading-button.component.scss',
-  encapsulation: ViewEncapsulation.ShadowDom
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class LoadingButtonComponent {
   public isLoading = input<boolean>(false);

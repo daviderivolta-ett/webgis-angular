@@ -1,28 +1,33 @@
 /* Dependencies */
-import { Component, effect, inject, input, output } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 /* Types */
 type CheckboxSingle = {
   id: string;
-  label?: string,
+  label?: string;
   iconUrl?: string;
-  maxSelections?: number,
-  options?: CheckboxSingle[]
-}
+  maxSelections?: number;
+  options?: CheckboxSingle[];
+};
 
 /* Component */
 @Component({
   selector: 'app-checkbox-list',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './checkbox-list.component.html',
-  styleUrl: './checkbox-list.component.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './checkbox-list.component.scss',
 })
 export class CheckboxListComponent {
   private fb: FormBuilder = inject(FormBuilder);
-  
+
   public form: FormGroup;
 
   public parentGroup = input<FormGroup | null>(null);
@@ -44,9 +49,7 @@ export class CheckboxListComponent {
       this.form.valueChanges.subscribe((changes: any) => {
         if ('options' in changes) this._enforceMaxSelection(changes.options);
         if (!this.parentGroup()) this.changed.emit(changes);
-
       });
-
     });
   }
 
@@ -62,13 +65,13 @@ export class CheckboxListComponent {
     options.forEach((option) => {
       if (option.options && option.options.length > 0) {
         const group: FormGroup = this.fb.group({
-          options: this._createControls(option.options)
+          options: this._createControls(option.options),
         });
         formArray.push(group, { emitEvent: false });
       } else {
         const group: FormGroup = this.fb.group({
           id: option.id,
-          isChecked: false
+          isChecked: false,
         });
         formArray.push(group, { emitEvent: false });
       }
@@ -98,7 +101,7 @@ export class CheckboxListComponent {
       if (typeof value === 'object' && 'options' in value) {
         count = this._countSelected(value.options, count);
       }
-    })
+    });
     return count;
   }
 
@@ -108,8 +111,7 @@ export class CheckboxListComponent {
 
       // Disable checkbox if single
       const isChecked: AbstractControl | null = group.get('isChecked');
-      if (isChecked && !isChecked.value)
-        isChecked.disable({ emitEvent: false });
+      if (isChecked && !isChecked.value) isChecked.disable({ emitEvent: false });
 
       // Disable group
       const nestedArray: AbstractControl | null = group.get('options');
@@ -121,7 +123,6 @@ export class CheckboxListComponent {
           if (ic && !ic.value) ic.disable({ emitEvent: false });
         }
       });
-
     });
   }
 
