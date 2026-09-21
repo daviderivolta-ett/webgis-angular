@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, inject, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, AfterViewInit } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -37,7 +37,7 @@ import { MapValuePipe } from '../../../pipes';
     LoadingBtnComponent,
   ],
   templateUrl: './popup-settings-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './popup-settings-page.component.scss',
 })
 export class PopupSettingsPageComponent implements AfterViewInit {

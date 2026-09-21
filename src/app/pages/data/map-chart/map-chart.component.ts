@@ -7,8 +7,7 @@ import {
   model,
   output,
   AfterContentInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 
 /* Components */
@@ -21,7 +20,7 @@ import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selec
   selector: 'app-map-chart',
   imports: [],
   templateUrl: './map-chart.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './map-chart.component.scss',
 })
 export class MapChartComponent implements AfterContentInit, OnDestroy {

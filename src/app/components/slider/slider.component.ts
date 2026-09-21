@@ -6,8 +6,7 @@ import {
   HostListener,
   QueryList,
   ViewChild,
-  AfterContentInit,
-  ChangeDetectionStrategy,
+  AfterContentInit
 } from '@angular/core';
 
 /* Component */
@@ -15,7 +14,7 @@ import {
   selector: 'app-slider',
   imports: [],
   templateUrl: './slider.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './slider.component.scss',
 })
 export class SliderComponent implements AfterContentInit {

@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /* Component */
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-map-chart-datepicker',
   imports: [ReactiveFormsModule],
   templateUrl: './map-chart-datepicker.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './map-chart-datepicker.component.scss',
 })
 export class MapChartDatepickerComponent {

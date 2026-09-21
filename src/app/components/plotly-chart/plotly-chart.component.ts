@@ -7,8 +7,7 @@ import {
   output,
   ViewChild,
   AfterViewInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import Plotly from 'plotly.js-dist-min';
 // @ts-expect-error: itLocale plugin of Plotly chart has not type declaration
@@ -36,7 +35,7 @@ type PlotlyChartData = {
   selector: 'app-plotly-chart',
   imports: [],
   templateUrl: './plotly-chart.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './plotly-chart.component.scss',
 })
 export class PlotlyChartComponent implements AfterViewInit, OnDestroy {

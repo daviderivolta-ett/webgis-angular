@@ -1,87 +1,24 @@
 /* Dependencies */
-import {
-  ChangeDetectorRef,
-  Component,
-  computed,
-  effect,
-  HostListener,
-  inject,
-  QueryList,
-  signal,
-  ViewChild,
-  ViewChildren,
-  OnInit,
-  AfterViewInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-} from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, computed, effect, HostListener, inject, QueryList, signal, ViewChild, ViewChildren, OnInit, AfterViewInit, OnDestroy } from '@angular/core'
+import { DatePipe } from '@angular/common'
+import { ActivatedRoute, RouterLink } from '@angular/router'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 
 /* Models */
-import {
-  Chip,
-  ColorScale,
-  ColorScaleBase,
-  Command,
-  createDefaultStationsPopupConfig,
-  createStationPopupConfigFromObject,
-  GeoJsonLayer,
-  GeojsonLegend,
-  GroupedCheckboxItem,
-  Layer,
-  LayerCategory,
-  LayerGroup,
-  LayerGroupToCheckboxAdapter,
-  Legend,
-  MapChart,
-  MapChartData,
-  MapConfig,
-  PlotlySettings,
-  Sensor,
-  SensorType,
-  SensorType2,
-  Settings,
-  Station,
-  StationBase,
-  StationPopupConfig,
-  TileLayer,
-  User,
-  WMSLayer,
-  WMSLegend,
-} from '../../../models';
+import { Chip, ColorScale, ColorScaleBase, Command, createDefaultStationsPopupConfig, createStationPopupConfigFromObject, GeoJsonLayer, GeojsonLegend, GroupedCheckboxItem, Layer, LayerCategory, LayerGroup, LayerGroupToCheckboxAdapter, Legend, MapChart, MapChartData, MapConfig, Sensor, SensorType, SensorType2, Settings, Station, StationBase, StationPopupConfig, TileLayer, User, WMSLayer, WMSLegend } from '../../../models'
 
 /* Services */
-import {
-  ApiService,
-  Auth2Service,
-  CommandsRegistryService,
-  GlobalStateService,
-  LayersService,
-  PopupService,
-  SnackbarsService,
-  StationsService,
-} from '../../../services';
-import { SENSOR_TYPE_PARSERS, TimeserieService } from '../../../_features';
+import { ApiService, Auth2Service, CommandsRegistryService, GlobalStateService, LayersService, PopupService, SnackbarsService, StationsService, } from '../../../services'
+import { TimeserieService, PlotlyDatepickerComponent, PlotlyContainerComponent, Chart, PlotlySelectorComponent } from '../../../_features'
 
 /* Components */
-import {
-  ChipComponent,
-  GroupedCheckboxesComponent,
-  HeaderComponent,
-  PopUpMenuComponent,
-  SidebarComponent,
-  SliderComponent,
-  FloatingDialogComponent,
-  PlotlyChartComponent,
-} from '../../../components';
-import { MapComponent } from '../map/map.component';
-import { MapPopupComponent } from '../map-popup/map-popup.component';
-import { LayerLegendComponent } from '../layer-legend/layer-legend.component';
-import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component';
-import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component';
+import { ChipComponent, GroupedCheckboxesComponent, HeaderComponent, PopUpMenuComponent, SidebarComponent, SliderComponent, FloatingDialogComponent, PlotlyChartComponent } from '../../../components';
+import { MapComponent } from '../map/map.component'
+import { MapPopupComponent } from '../map-popup/map-popup.component'
+import { LayerLegendComponent } from '../layer-legend/layer-legend.component'
+import { MapChartComponent } from '../map-chart/map-chart.component'
+import { MapChartSelectorComponent } from '../map-chart-selector/map-chart-selector.component'
+import { MapChartDatepickerComponent } from '../map-chart-datepicker/map-chart-datepicker.component'
 
 /* Utilities */
 import { CSVUtils, DateUtils, Utils } from '../../../utils';
@@ -110,9 +47,12 @@ import { CSVUtils, DateUtils, Utils } from '../../../utils';
     // Pipes
     DatePipe,
     RouterLink,
+    PlotlyDatepickerComponent,
+    PlotlyContainerComponent,
+    PlotlySelectorComponent
   ],
   templateUrl: './data-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './data-page.component.scss',
 })
 export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -146,12 +86,14 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public popupData: Station[] = [];
   public charts: MapChart[] = [];
+  public charts2: Chart[] = [];
   public areChartsDisabled: boolean = true;
 
   private _now = signal(new Date());
   public nowStr = computed(() => DateUtils.toDateTimeLocal(this._now()));
 
   public referenceDate: Date | undefined;
+  public testDate = signal(new Date())
   public selectedDate: Date | undefined;
   public timePlayerRange = computed(() => {
     return this.settings.timeRangeDays ? this.settings.timeRangeDays * 1440 : 30 * 1440;
@@ -708,7 +650,7 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const currentDate: Date = this.globalStateService.getDateFromQueryParams() ?? new Date();
 
-    stations.forEach(async (s: Station) => {
+    for (const s of stations) {
       switch (s.type) {
         case 'platform': {
           const station: StationBase | undefined = this.stations.find(
@@ -731,39 +673,10 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
           );
 
           /* START TESTING */
-          const foundSensor2: SensorType2 | undefined = this._sensorTypes2.find(
-            (sensor) => sensor.id === s.parameter,
-          );
-          if (!foundSensor2) break;
-          const sensors = [
-            foundSensor2,
-            ...this._sensorTypes2.filter((sensor) =>
-              foundSensor2.relatedSensors.includes(sensor.id),
-            ),
-          ];
-
-          const timeseries = await this.timeserieService.fetchTimeSeries(
-            this.apiService.replaceApiUrlPlaceholder(this.timeserieUrl(), s.id),
-            sensors.map((s) => s.param),
-            {
-              CreationDate: DateUtils.toDateTimeLocal(currentDate),
-              FromDate: DateUtils.toDateTimeLocal(
-                this.stationsService.getInitialDateGap(currentDate, foundSensor2),
-              ),
-              ToDate: DateUtils.toDateTimeLocal(currentDate),
-            },
-          );
-
-          const plotlySettings: PlotlySettings = {
-            ...foundSensor2.plotly,
-            traces: [...sensors.flatMap((s) => s.plotly.traces)],
-          };
-
-          const data = SENSOR_TYPE_PARSERS.get(foundSensor2.parser)?.(timeseries, plotlySettings, {
-            date: currentDate,
-            thresholds: station?.thresholdConfig,
-          });
-          console.log(data);
+          if (!station) break;
+          const chart = await this.timeserieService.createChart(this.apiService.replaceApiUrlPlaceholder(this.timeserieUrl(), s.id), s, this._sensorTypes2, currentDate);
+          if (chart) this.charts2 = [...this.charts2, chart];
+          this.cdRef.detectChanges();
           /* END TESTING */
           break;
         }
@@ -771,13 +684,14 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
         default:
           break;
       }
-    });
 
-    this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
+    }
+    // this.charts = newCharts.length > 0 ? [...this.charts, newCharts[0]] : [...this.charts];
   }
 
   public removeDialog(id: string): void {
     this.charts = this.charts.filter((c: MapChart) => c.id !== id);
+    this.charts2 = this.charts2.filter((c: Chart) => c.id !== id);
   }
 
   public debounceOnChartParameterChange = Utils.debounce(
@@ -786,11 +700,34 @@ export class DataPageComponent implements OnInit, AfterViewInit, OnDestroy {
     200,
   );
 
-  public async onChartParameterChange(
-    stationCode: string,
-    chartId: string,
-    formChange: Record<string, string>,
-  ): Promise<void> {
+  public onChartChange(chartId: string, stationId: string, { param, initialDate, endingDate }: { param: string, initialDate: string, endingDate: string }) {
+    console.log(param, initialDate, endingDate);
+
+    const currentDate = this.globalStateService.getDateFromQueryParams() ?? new Date();
+
+    const chart = this.charts2.find((c: Chart) => c.id === chartId);
+    if (!chart) return;
+
+    const station = this.stations.find((s) => s.id === stationId);
+    if (!station) return;
+
+    console.log(chart);
+
+    this.timeserieService.updateChart(this.apiService.replaceApiUrlPlaceholder(this.timeserieUrl(), stationId), chart, param, new Date(endingDate ?? new Date()), new Date(initialDate), currentDate);
+
+    // const newChart = this.timeserieService.createChart(
+    //   this.timeserieUrl(),
+    //   station,
+    //   this._sensorTypes2,
+    //   endingDate,
+    //   initialDate,
+    //   currentDate
+    // );
+
+    // console.log(newChart);    
+  }
+
+  public async onChartParameterChange(stationCode: string, chartId: string, formChange: Record<string, string>): Promise<void> {
     const { param, endingDate } = formChange;
     let { initialDate } = formChange;
 

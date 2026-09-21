@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, input, output, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, output, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /* Types */
@@ -14,7 +14,7 @@ type Toggle = {
   selector: 'app-toggle',
   imports: [ReactiveFormsModule],
   templateUrl: './toggle.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './toggle.component.scss',
 })
 export class ToggleComponent implements OnInit {

@@ -4,8 +4,7 @@ import {
   effect,
   HostListener,
   input,
-  output,
-  ChangeDetectionStrategy,
+  output
 } from '@angular/core';
 
 /* Component */
@@ -13,7 +12,7 @@ import {
   selector: 'app-sidebar',
   imports: [],
   templateUrl: './sidebar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {

@@ -9,8 +9,7 @@ import {
   input,
   output,
   signal,
-  ViewChild,
-  ChangeDetectionStrategy,
+  ViewChild
 } from '@angular/core';
 
 /* Component */
@@ -18,7 +17,7 @@ import {
   selector: 'app-map-time-player',
   imports: [],
   templateUrl: './map-time-player.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './map-time-player.component.scss',
 })
 export class MapTimePlayerComponent {

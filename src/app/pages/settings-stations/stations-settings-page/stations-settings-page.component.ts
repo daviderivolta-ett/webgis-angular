@@ -4,8 +4,7 @@ import {
   computed,
   effect,
   inject,
-  OnInit,
-  ChangeDetectionStrategy,
+  OnInit
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +46,7 @@ import { Utils } from '../../../utils';
     MapValuePipe,
   ],
   templateUrl: './stations-settings-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './stations-settings-page.component.scss',
 })
 export class StationsSettingsPageComponent implements OnInit {

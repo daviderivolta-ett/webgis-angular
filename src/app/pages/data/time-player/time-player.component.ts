@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, computed, effect, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /* Component */
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   selector: 'app-time-player',
   imports: [ReactiveFormsModule],
   templateUrl: './time-player.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './time-player.component.scss',
 })
 export class TimePlayerComponent {

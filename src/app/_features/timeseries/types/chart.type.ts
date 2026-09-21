@@ -8,5 +8,6 @@ export type Chart = {
     stationId: string;
     stationName?: string;
     sensors: SensorType2[];
+    currentParameter: string;
     plotly: PlotlySettings;
 }

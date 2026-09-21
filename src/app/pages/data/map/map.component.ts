@@ -9,8 +9,7 @@ import {
   model,
   NgZone,
   output,
-  AfterViewInit,
-  ChangeDetectionStrategy,
+  AfterViewInit
 } from '@angular/core';
 import { Feature, Point } from 'geojson';
 
@@ -25,7 +24,7 @@ import { MapTimePlayerComponent } from '../map-time-player/map-time-player.compo
   selector: 'app-map',
   imports: [MapTimePlayerComponent],
   templateUrl: './map.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './map.component.scss',
 })
 export class MapComponent implements AfterViewInit {
@@ -288,9 +287,9 @@ export class MapComponent implements AfterViewInit {
         const extraValue: number | undefined = feature.properties.extraValue;
         const shape: SVGSVGElement = feature.properties.markerShapeId
           ? this._markerShapes.get(feature.properties.markerShapeId)!(color, '#000', {
-              value,
-              extraValue,
-            })
+            value,
+            extraValue,
+          })
           : shapeFactory(color, '#000', { value, extraValue });
         const iconElement = this._scaleMarkerIcon(
           shape.cloneNode(true) as HTMLElement,
@@ -475,13 +474,13 @@ export class MapComponent implements AfterViewInit {
       if (f.geometry.type === 'Point') {
         const shape: SVGSVGElement = f.properties?.['markerShapeId']
           ? this._markerShapes.get(f.properties['markerShapeId'])!(
-              (f.properties && f.properties['color']) ?? '#B0B0B0',
-              '#000',
-            )
+            (f.properties && f.properties['color']) ?? '#B0B0B0',
+            '#000',
+          )
           : this._markerShapes.get(1)!(
-              (f.properties && f.properties['color']) ?? '#B0B0B0',
-              '#000',
-            );
+            (f.properties && f.properties['color']) ?? '#B0B0B0',
+            '#000',
+          );
 
         const iconElement = this._scaleMarkerIcon(shape.cloneNode(true) as HTMLElement, 0.9);
         const marker = L.marker(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]), {
@@ -517,9 +516,9 @@ export class MapComponent implements AfterViewInit {
       geoJSON.features.length > 0
         ? geoJSON.features[0].properties?.['markerShapeId']
           ? this._markerShapes.get(geoJSON.features[0].properties?.['markerShapeId'])!(
-              'grey',
-              'grey',
-            )
+            'grey',
+            'grey',
+          )
           : this._markerShapes.get(1)!('grey', 'grey')
         : this._markerShapes.get(1)!('grey', 'grey'),
     );
@@ -615,8 +614,7 @@ export class MapComponent implements AfterViewInit {
 
   private _setCurrentTime(date: Date | number): void {
     // @ts-expect-error: time dimension plugin has no type declaration
-    if (this._map)
-      this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
+    if (this._map) this._map.timeDimension.setCurrentTime(date instanceof Date ? date.getTime() : date);
   }
 
   /* Popup methods */

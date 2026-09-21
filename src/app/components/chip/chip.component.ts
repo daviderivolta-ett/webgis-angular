@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-chip',
   imports: [],
   templateUrl: './chip.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './chip.component.scss',
 })
 export class ChipComponent {

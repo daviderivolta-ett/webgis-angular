@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /* Components */
 import { NavMenuComponent } from '../nav-menu/nav-menu.component';
@@ -10,7 +10,7 @@ import { AuthComponent } from '../auth/auth.component';
   selector: 'app-header',
   imports: [NavMenuComponent, AuthComponent],
   templateUrl: './header.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {

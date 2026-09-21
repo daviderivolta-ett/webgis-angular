@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 
 /* Models */
@@ -10,7 +10,7 @@ import { createDefaultStationsPopupConfig, Station, StationPopupConfig } from '.
   selector: 'app-map-popup',
   imports: [DatePipe, DecimalPipe],
   templateUrl: './map-popup.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './map-popup.component.scss',
 })
 export class MapPopupComponent {

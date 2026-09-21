@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 
 /* Models */
 import { Snackbar } from '../../models';
@@ -15,7 +15,7 @@ import { SnackbarComponent } from '../snackbar/snackbar.component';
   selector: 'app-snackbar-container',
   imports: [SnackbarComponent],
   templateUrl: './snackbar-container.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './snackbar-container.component.scss',
 })
 export class SnackbarContainerComponent {

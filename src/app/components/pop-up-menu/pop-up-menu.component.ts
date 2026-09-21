@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, effect, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-pop-up-menu',
   imports: [],
   templateUrl: './pop-up-menu.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './pop-up-menu.component.scss',
 })
 export class PopUpMenuComponent {

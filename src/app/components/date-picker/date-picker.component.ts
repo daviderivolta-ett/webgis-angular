@@ -7,15 +7,14 @@ import {
   input,
   output,
   signal,
-  ViewChild,
-  ChangeDetectionStrategy,
+  ViewChild
 } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {

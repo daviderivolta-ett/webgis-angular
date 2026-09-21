@@ -3,7 +3,7 @@
         {
             "id": "mean_air_temp",
             "param": "mean_air_temp",
-            "iconUrl": "./images/icons/rain_05m_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
+            "iconUrl": "./images/icons/thermometer_20dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg",
             "label": "Temperatura media",
             "chartId": "line--date",
             "parser": "mean_air_temp",
@@ -761,7 +761,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "isFeatured": true
         }
     ],
     "lastModified": "2026-09-16"

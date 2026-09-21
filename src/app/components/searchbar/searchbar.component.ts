@@ -4,8 +4,7 @@ import {
   ContentChild,
   ElementRef,
   ViewEncapsulation,
-  AfterContentInit,
-  ChangeDetectionStrategy,
+  AfterContentInit
 } from '@angular/core';
 
 /* Component */
@@ -14,7 +13,7 @@ import {
   imports: [],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   encapsulation: ViewEncapsulation.None,
 })
 export class SearchbarComponent implements AfterContentInit {

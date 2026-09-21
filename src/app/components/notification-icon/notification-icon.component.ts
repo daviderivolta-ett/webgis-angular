@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-notification-icon',
   imports: [],
   templateUrl: './notification-icon.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './notification-icon.component.scss',
 })
 export class NotificationIconComponent {

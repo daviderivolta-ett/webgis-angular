@@ -1,0 +1,37 @@
+.plotly-selector {
+    position: relative;
+}
+
+.radio-list {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.radio {
+    background-color: var(--neutral-100, #fff);
+}
+
+.radio:has(.radio__icon) {
+    padding: 0;
+}
+
+.radio__label {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%);
+    top: -32px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
+    font-size: .75rem;
+}

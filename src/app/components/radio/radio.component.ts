@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-radio',
   imports: [],
   templateUrl: './radio.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './radio.component.scss',
 })
 export class RadioComponent {

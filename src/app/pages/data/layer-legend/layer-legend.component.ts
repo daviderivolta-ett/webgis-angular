@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 /* Component */
@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-layer-legend',
   imports: [DatePipe],
   templateUrl: './layer-legend.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './layer-legend.component.scss',
 })
 export class LayerLegendComponent {

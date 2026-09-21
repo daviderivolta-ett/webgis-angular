@@ -1,0 +1,17 @@
+<div class="plotly-selector">
+    <div class="radio-list" #list>
+        @for (type of sensorTypes(); track type.id) {
+            <div class="radio" (mouseenter)="onIconMouseEnter($index)" (mouseleave)="hoveredSensor.set(null)">
+                <input type="radio" class="radio__input" [id]="id() + '_' + type.id" [value]="type.id" [formField]="f.selected">
+                <label [for]="id() + '_' + type.id" class="radio__label">
+                    <span class="radio__icon" [style.maskImage]="'url(' + type.iconUrl + ')'"></span>
+                </label>
+            </div>
+        }
+    </div>
+    @if (hoveredSensor()) {
+        <div class="tooltip" [style.left]="tooltipPosition() + 'px'">
+            <p class="tooltip__label">{{hoveredSensor()}}</p>
+        </div>
+    }
+</div>

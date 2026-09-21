@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 /* Types */
 import { User } from '../../models';
@@ -12,7 +12,7 @@ import { HeaderComponent } from '../../components';
   selector: 'app-credits-page',
   imports: [HeaderComponent],
   templateUrl: './credits-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './credits-page.component.scss',
 })
 export class CreditsPageComponent {

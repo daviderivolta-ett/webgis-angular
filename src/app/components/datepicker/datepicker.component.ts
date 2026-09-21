@@ -5,8 +5,7 @@ import {
   effect,
   input,
   model,
-  output,
-  ChangeDetectionStrategy,
+  output
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs';
@@ -16,7 +15,7 @@ import { distinctUntilChanged } from 'rxjs';
   selector: 'app-datepicker',
   imports: [ReactiveFormsModule],
   templateUrl: './datepicker.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './datepicker.component.scss',
 })
 export class DatepickerComponent {

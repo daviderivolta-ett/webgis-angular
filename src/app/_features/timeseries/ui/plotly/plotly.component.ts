@@ -1,24 +1,15 @@
 /* Dependencies */
-import {
-  Component,
-  effect,
-  ElementRef,
-  input,
-  output,
-  viewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
-import Plotly from 'plotly.js-dist-min';
+import { Component, effect, ElementRef, input, output, viewChild } from '@angular/core'
+import Plotly from 'plotly.js-dist-min'
 
 /* Types */
-import { PlotlySettings } from '../../types';
+import { PlotlySettings } from '../../types'
 
 /* Component */
 @Component({
   selector: 'app-plotly',
   imports: [],
   templateUrl: './plotly.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './plotly.component.scss',
 })
 export class PlotlyComponent {

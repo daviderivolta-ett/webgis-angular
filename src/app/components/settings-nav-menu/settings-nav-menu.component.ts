@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 /* Types */
@@ -13,7 +13,7 @@ type AppRoute = {
   selector: 'app-settings-nav-menu',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './settings-nav-menu.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './settings-nav-menu.component.scss',
 })
 export class SettingsNavMenuComponent {

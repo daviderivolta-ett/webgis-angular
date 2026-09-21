@@ -3,8 +3,7 @@ import {
   Component,
   ContentChildren,
   QueryList,
-  AfterContentInit,
-  ChangeDetectionStrategy,
+  AfterContentInit
 } from '@angular/core';
 
 /* Component */
@@ -15,7 +14,7 @@ import { SortHeaderComponent } from '../sort-header/sort-header.component';
   selector: 'app-sortable-table',
   imports: [],
   templateUrl: './sortable-table.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './sortable-table.component.scss',
 })
 export class SortableTableComponent implements AfterContentInit {

@@ -7,8 +7,7 @@ import {
   Renderer2,
   ViewChild,
   AfterViewInit,
-  inject,
-  ChangeDetectionStrategy,
+  inject
 } from '@angular/core';
 
 /* Component */
@@ -16,7 +15,7 @@ import {
   selector: 'app-loading-btn',
   imports: [],
   templateUrl: './loading-btn.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './loading-btn.component.scss',
 })
 export class LoadingBtnComponent implements AfterViewInit {

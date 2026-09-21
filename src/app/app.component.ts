@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 /* Models */
@@ -16,7 +16,7 @@ import { SnackbarContainerComponent } from './components';
   selector: 'app-root',
   imports: [RouterOutlet, SnackbarContainerComponent],
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {

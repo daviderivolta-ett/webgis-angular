@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, ElementRef, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-confirm-dialog',
   imports: [],
   templateUrl: './confirm-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent {

@@ -4,8 +4,7 @@ import {
   Component,
   ContentChild,
   input,
-  TemplateRef,
-  ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 
 /* Type */
@@ -21,7 +20,7 @@ type Tree = {
   selector: 'app-tree',
   imports: [NgTemplateOutlet],
   templateUrl: './tree.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './tree.component.scss',
 })
 export class TreeComponent {

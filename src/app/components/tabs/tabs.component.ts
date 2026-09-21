@@ -5,8 +5,7 @@ import {
   effect,
   input,
   QueryList,
-  AfterViewInit,
-  ChangeDetectionStrategy,
+  AfterViewInit
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -24,7 +23,7 @@ import { TabComponent } from '../tab/tab.component';
   selector: 'app-tabs',
   imports: [ReactiveFormsModule],
   templateUrl: './tabs.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './tabs.component.scss',
 })
 export class TabsComponent implements AfterViewInit {

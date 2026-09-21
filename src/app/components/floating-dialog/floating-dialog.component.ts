@@ -6,8 +6,7 @@ import {
   output,
   signal,
   ViewChild,
-  OnDestroy,
-  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
@@ -17,7 +16,7 @@ import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
   exportAs: 'floatingDialog',
   imports: [CdkDrag, CdkDragHandle],
   templateUrl: './floating-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './floating-dialog.component.scss',
 })
 export class FloatingDialogComponent implements OnDestroy {

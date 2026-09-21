@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +20,7 @@ type GroupedCheckbox = {
   selector: 'app-grouped-checkboxes',
   imports: [NgTemplateOutlet, FormsModule],
   templateUrl: './grouped-checkboxes.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './grouped-checkboxes.component.scss',
 })
 export class GroupedCheckboxesComponent {

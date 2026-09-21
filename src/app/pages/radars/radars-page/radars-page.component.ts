@@ -7,8 +7,7 @@ import {
   ViewChild,
   OnInit,
   AfterViewInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -58,7 +57,7 @@ import {
     TitleCasePipe,
   ],
   templateUrl: './radars-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './radars-page.component.scss',
 })
 export class RadarsPageComponent implements OnInit, AfterViewInit, OnDestroy {

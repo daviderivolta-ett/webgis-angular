@@ -1,1 +1,5 @@
-<p>plotly-datepicker works!</p>
+<form class="plotly-datepicker" (submit)="onFormSubmit($event)">
+    <input type="datetime-local" [formField]="f.initialDate">
+    <input type="datetime-local" [formField]="f.endingDate">
+    <button type="submit">Seleziona date</button>
+</form>

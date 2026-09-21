@@ -8,8 +8,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -33,7 +32,7 @@ type InputOption = {
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class InputAutocompleteComponent implements ControlValueAccessor {

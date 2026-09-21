@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, inject, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 
 /* Services */
 import { Auth2Service } from '../../services';
@@ -12,7 +12,7 @@ import { User } from '../../models';
   selector: 'app-auth',
   imports: [],
   templateUrl: './auth.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {

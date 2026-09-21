@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-tab',
   imports: [],
   templateUrl: './tab.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './tab.component.scss',
 })
 export class TabComponent {

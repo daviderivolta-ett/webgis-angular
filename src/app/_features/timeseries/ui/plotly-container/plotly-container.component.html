@@ -2,7 +2,7 @@
     <div class="plotly-container__header">
         <p>{{header()}}</p>
     </div>
-    <div class="plotly-container__datepicker" [class.controls--hidden]="hideControls()"><ng-content select="app-map-chart-datepicker"></ng-content></div>
+    <div class="plotly-container__datepicker" [class.controls--hidden]="hideControls()"><ng-content select="app-plotly-datepicker"></ng-content></div>
     <div class="plotly-container__chart" [class.chart--full]="hideControls()"><ng-content select="plotly-chart"></ng-content></div>
-    <div class="plotly-container__chart-selector" [class.controls--hidden]="hideControls()"><ng-content select="app-map-chart-selector"></ng-content></div>
+    <div class="plotly-container__chart-selector" [class.controls--hidden]="hideControls()"><ng-content select="app-plotly-selector"></ng-content></div>
 </div>

@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -22,7 +22,7 @@ type CheckboxSingle = {
   selector: 'app-checkbox-list',
   imports: [ReactiveFormsModule],
   templateUrl: './checkbox-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './checkbox-list.component.scss',
 })
 export class CheckboxListComponent {

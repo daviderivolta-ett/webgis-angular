@@ -1,12 +1,12 @@
 /* Dependencies */
-import { Component, input, output, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, AfterViewInit } from '@angular/core';
 
 /* Component */
 @Component({
   selector: 'app-snackbar',
   imports: [],
   templateUrl: './snackbar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './snackbar.component.scss',
 })
 export class SnackbarComponent implements AfterViewInit {

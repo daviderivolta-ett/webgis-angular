@@ -1,5 +1,5 @@
 /* Dependencies */
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 /* Types */
 type Sort = {
@@ -12,7 +12,7 @@ type Sort = {
   selector: 'app-sort-header',
   imports: [],
   templateUrl: './sort-header.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+
   styleUrl: './sort-header.component.scss',
 })
 export class SortHeaderComponent {
